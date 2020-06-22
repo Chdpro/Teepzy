@@ -1,0 +1,61 @@
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-icon style="font-size: 30px;" name="arrow-back-outline"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <img src="../../assets/img/Illustration 5-05.png" alt="">
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <mat-label>Cercle Amical</mat-label>
+            <input matInput  type="text" name="pAmical" #pAmical="ngModel" required [(ngModel)]="user.pseudoIntime"  placeholder="Entrer un Pseudo">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Cercle Professionnel</mat-label>
+            <input matInput  type="text" name="pProfessionnel" #pProfessionnel="ngModel" required [(ngModel)]="user.pseudoPro"   placeholder="Entrer un Pseudo">
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-label>Mot de passe</mat-label>
+            <input matInput type="password" name="passwordId" #passwordId="ngModel" minlength="8" required [(ngModel)]="user.password" placeholder="">
+            
+          </mat-form-field>
+          <div style="font-size: 11px;margin-left: 34px;" *ngIf="passwordId.errors?.minlength">
+            Le mot de passe doit contenir au moins 8 caractères
+          </div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Confirmer mot de passe</mat-label>
+            <input matInput name="conf" #conf="ngModel" required [(ngModel)]="user.conf"  placeholder="" type="password">
+          </mat-form-field>
+
+
+        </form>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>
+  <!-- Footer without a border -->
+  <ion-footer class="ion-no-border">
+      <ion-toolbar>
+        <button  style="float: right;" 
+        [disabled]="pAmical.errors?.required 
+        || pProfessionnel.errors?.required 
+        || passwordId.errors?.required
+        || conf.errors?.required"
+
+        (click)="signup()"  mat-button>Suivant</button>
+      </ion-toolbar>
+    </ion-footer>
+  
+  

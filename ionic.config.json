@@ -1,0 +1,7 @@
+{
+  "name": "teepZy",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

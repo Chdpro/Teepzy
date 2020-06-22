@@ -1,0 +1,183 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Contact</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <mat-tab-group>
+          <mat-tab label="TeepZr (20)">
+            <form class="example-form">
+              <mat-form-field class="example-full-width">
+                <mat-label>Rechercher</mat-label>
+                <input [(ngModel)]="contact" name="contact" placeholder="Taper pour filtrer" matInput>
+              </mat-form-field>
+            </form>
+
+            <mat-paginator [length]="listTeepzrsToInvite?.length" [pageSize]="pageSizeT"
+              (page)="pageEvent = getPaginatorDataTeepzr($event)">
+            </mat-paginator>
+            <ion-spinner *ngIf="loading && listTeepzrsToInvite.length ==  0 " color="primary" name="dots"></ion-spinner>
+
+            <ion-item *ngFor="let c of listTeepzrsToInvite |filter:contact | slice: lowValueT : highValueT  ;trackBy: trackByFn ">
+              <img alt="" src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg">
+              <ion-label> {{ c?.prenom }} <b> {{c?.nom}} </b>
+                <p>
+                  {{ c?.phone }}
+                </p>
+              </ion-label>
+              <ion-button *ngIf="!loading && c?.invited == false" (click)="sendInvitationToJoinCircle(c?._id)" size="small">
+                <span >
+                    Inviter
+                </span>
+                <ion-spinner *ngIf="loading" color="primary" name="dots"></ion-spinner>
+
+              </ion-button>
+
+              <button *ngIf="!loading  && c?.invited" mat-stroked-button>Invité</button>
+
+
+            </ion-item>
+          </mat-tab>
+
+          <mat-tab [label]=" 'Inviter  (' + listContacts.length + ')'">
+            <form class="example-form">
+              <mat-form-field class="example-full-width">
+                <mat-label>Rechercher</mat-label>
+                <input [(ngModel)]="term" name="term" placeholder="Taper pour filtrer" matInput>
+              </mat-form-field>
+
+            </form>
+
+
+            <ion-list>
+              <mat-paginator [length]="listContacts?.length" [pageSize]="pageSize"
+                (page)="pageEvent = getPaginatorData($event)">
+              </mat-paginator>
+              <ion-spinner *ngIf="loading && listContacts.length ==  0 " color="primary" name="dots"></ion-spinner>
+
+              <ion-item *ngFor="let c of listContacts|filter:term | slice: lowValue : highValue ;trackBy: trackByFn ">
+
+
+                <div class="round-bg">
+                  {{c?.familyName | slice:0:1}}
+                </div>
+                <ion-label> {{ c?.givenName }} <b> {{c?.familyName}} </b>
+                  <p>
+                    {{ c?.phone }}
+                  </p>
+                </ion-label>
+                <div *ngIf="c?.invited  == false" (click)="sendSms(c?.phone)" class="example-button-container">
+                  <button mat-mini-fab disabled color="warn" aria-label="Example icon button with a home icon">
+                    <span style="    margin-left: 6px;
+                        margin-bottom: 14px;" class="material-icons">
+                      send
+                    </span>
+                  </button>
+                </div>
+                <div *ngIf="c?.invited" class="example-button-container">
+                  <button mat-mini-fab disabled aria-label="Example icon button with a home icon">
+                    <span class="material-icons">
+                      check
+                    </span>
+
+                  </button>
+                </div>
+
+              </ion-item>
+
+            </ion-list>
+
+            <!--ion-list>
+              <ion-item-sliding *ngFor="let c of listContacts">
+                <ion-item>
+                    <img alt=""
+                    src="../../assets/img/Illustration 5-05.png">
+
+                  <ion-label> {{ c?.givenName }} <b> {{c?.familyName}} </b>
+                    <p>
+                      {{ c?.phone }}
+                    </p>
+                  </ion-label>
+                  <div id="arrowAnim">
+                
+                    <div class="arrowSliding delay1">
+                      <div class="arrow"></div>
+                    </div>
+                    <div class="arrowSliding delay2">
+                      <div class="arrow"></div>
+                    </div>
+                
+                  </div>
+                </ion-item>
+                <ion-item-options side="end">
+                  <ion-item-option *ngIf="c?.invited == false"  (click)="sendSms(c?.phone)" color="primary">
+                      <ion-icon name="send-outline" slot="icon-only"></ion-icon>
+                  </ion-item-option>
+                  <ion-item-option *ngIf="c?.invited" color="primary">
+                    <ion-icon  name="checkmark-outline" slot="icon-only"></ion-icon>
+                </ion-item-option>
+                </ion-item-options>
+              </ion-item-sliding>
+            </ion-list-->
+
+            <!--ion-list>
+              <ion-item-sliding (ionDrag)="drag()" *ngFor="let c of myContacts">
+                <ion-item>
+                    <img alt=""
+                    src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg">
+
+                  <ion-label> {{ c?.name.givenName }} <b> {{c?.name.familyName}} </b>
+                    <p>
+                      {{ c?.phoneNumbers[0].value }}
+                    </p>
+                  </ion-label>
+                  <div id="arrowAnim">
+                
+                    <div class="arrowSliding delay1">
+                      <div class="arrow"></div>
+                    </div>
+                    <div class="arrowSliding delay2">
+                      <div class="arrow"></div>
+                    </div>
+                    <div class="arrowSliding delay3">
+                      <div class="arrow"></div>
+                    </div>
+                  </div>
+                </ion-item>
+                <ion-item-options side="end">
+                  <ion-item-option (click)="sendSms(c)" color="primary">
+                      <ion-icon name="checkmark-outline" slot="icon-only"></ion-icon>
+                  </ion-item-option>
+                </ion-item-options>
+              </ion-item-sliding>
+            </ion-list-->
+
+
+            <ion-row>
+              <ion-col>
+
+              </ion-col>
+              <!--ion-col>
+                <ion-button routerLink="/outcircle" size="small" shape="round">Valider</ion-button>
+
+              </ion-col-->
+              <ion-col>
+
+              </ion-col>
+            </ion-row>
+
+          </mat-tab>
+        </mat-tab-group>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

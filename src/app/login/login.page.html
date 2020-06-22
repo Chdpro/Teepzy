@@ -1,0 +1,60 @@
+<ion-content>
+  <ion-grid>
+
+      <ion-row>
+          <ion-col>
+              <img class="illustration" src="../../assets/img/Illustration 8 _Plan de travail 1-08.png" alt="">
+          </ion-col>
+      </ion-row>
+  
+      <ion-row>
+          <ion-col style="margin-top: 21px;" size="12">
+              <h3>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit
+              </h3>
+          </ion-col>
+      
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" name="email" #email="ngModel" required [(ngModel)]="user.email" placeholder="Entrer votre email">
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>Mot de passe</mat-label>
+              <input matInput type="password" name="password" #password="ngModel" required [(ngModel)]="user.password" placeholder="">
+            </mat-form-field>
+
+  
+  
+          </form>
+  
+        </ion-col>
+        <ion-col size="2">
+
+        </ion-col>
+        <ion-col size="8">
+            <ion-button style="margin-top: 31px;" (click)="auth()" expand="block" shape="round">Valider</ion-button>
+
+        </ion-col>
+        <ion-col size="2">
+
+        </ion-col>
+      </ion-row>
+
+  </ion-grid>
+</ion-content>
+<!-- Footer without a border -->
+<ion-footer class="ion-no-border">
+    <ion-toolbar>
+      <span>
+          <ion-title>
+              Envie de devenir un teepZr?
+            </ion-title>
+            <button  style="display: block; margin-left: auto; margin-right: auto;" routerLink="/signup" mat-button>Inscrivez-vous</button>
+         
+      </span>
+  </ion-toolbar>
+  </ion-footer>

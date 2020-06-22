@@ -1,0 +1,60 @@
+<ion-content>
+
+  <ion-grid>
+
+    <ion-row>
+      <ion-col>
+        <h3>
+          Vous les connaissez peut-être:
+        </h3>
+      </ion-col>
+    </ion-row>
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <mat-label>Rechercher</mat-label>
+        <input [(ngModel)]="term" name="term" placeholder="Taper pour filtrer" matInput>
+      </mat-form-field>
+
+    </form>
+
+    <mat-paginator [length]="listTeepzrsToInvite?.length" [pageSize]="pageSize" (page)="pageEvent = getPaginatorData($event)">
+    </mat-paginator>
+    <ion-spinner *ngIf="loading && listTeepzrsToInvite.length ==  0 " color="primary" name="dots"></ion-spinner>
+
+    <ion-row>
+      <ion-col size="6" *ngFor="let c of listTeepzrsToInvite |filter:term | slice: lowValue : highValue ;trackBy: trackByFn ">
+        <mat-card style="margin-top: 20px;">
+          <img class="img-cl"
+            src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+
+          <div class="cl-content">
+
+            <strong>
+              {{ c?.nom }}
+              {{ c?.prenom }}
+            </strong><br>
+            <span>
+              {{ c?.circleMembersCount || '0' }} contact(s)
+            </span>
+            <div style="font-size: 12px;">
+              12 amis en commun
+            </div>
+            <ion-button (click)="sendInvitationToJoinCircle(c?._id)" *ngIf="!loading && c?.invited == false"  size="small" shape="round">Ajouter</ion-button>
+            <ion-button *ngIf="!loading && c?.invited == true"  size="small" color="light" shape="round">Ajouté</ion-button>
+
+          </div>
+        </mat-card>
+      </ion-col>
+
+    </ion-row>
+
+  </ion-grid>
+
+
+</ion-content>
+<!-- Footer without a border -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <button style="float: right;" mat-button>Suivant</button>
+  </ion-toolbar>
+</ion-footer>

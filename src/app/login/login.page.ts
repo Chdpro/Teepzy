@@ -1,0 +1,93 @@
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../providers/auth.service';
+import { Router } from '@angular/router';
+import { ToastController, LoadingController } from '@ionic/angular';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
+})
+export class LoginPage implements OnInit {
+
+  user = {
+    email: '',
+    password: '',
+  }
+  retoutUsr: any;
+
+  loading = false;
+  retourUsr: any
+  profileInfo: any
+  constructor(
+    private authService: AuthService,
+    public router: Router,
+    public toastController: ToastController,
+    private loadingCtrl: LoadingController,
+  ) { }
+
+  ngOnInit() {
+  }
+
+
+  auth() {
+    this.presentLoading()
+    this.authService.login(this.user).subscribe(res => {
+      console.log(res)
+      this.retourUsr = res;
+      this.profileInfo = res['data']
+      this.dismissLoading()
+      if (this.retourUsr['status'] == 200) {
+        this.presentToast('Connexion réussie')
+        localStorage.setItem('teepzyUserId', this.profileInfo['userI']['_id'])
+        localStorage.setItem('teepzyToken', this.profileInfo['token'])
+        localStorage.setItem('teepzyEmail', this.profileInfo['userI']['email'])
+        this.router.navigate(['/contacts'], {
+          replaceUrl: true
+        })
+      }
+    }, error => {
+      console.log(error['status'])
+      if (error['status'] === 404) {
+        this.presentToast('Mot de passe Incorrects')
+        this.dismissLoading()
+
+      } else {
+        this.presentToast('Oops! une erreur est survenue sur le serveur')
+        this.dismissLoading()
+      }
+
+    })
+  }
+
+
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 4000
+    });
+    toast.present();
+  }
+
+
+  async presentLoading() {
+    this.loading = true;
+    return await this.loadingCtrl.create({
+      duration: 5000,
+    }).then(a => {
+      a.present().then(() => {
+        console.log('presented');
+        if (!this.loading) {
+          a.dismiss().then(() => console.log('abort presenting'));
+        }
+      });
+    });
+  }
+
+  async dismissLoading() {
+    this.loading = false;
+    return await this.loadingCtrl.dismiss().then(() => console.log('dismissed'));
+  }
+
+
+}
