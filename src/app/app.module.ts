@@ -16,6 +16,8 @@ import { WindowService } from './providers/window.service';
 import { SMS } from '@ionic-native/sms/ngx';
 import { Contacts } from '@ionic-native/contacts/ngx';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 
 @NgModule({
@@ -31,6 +33,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     HttpClient,
     AuthService,
     WindowService,
+    AndroidPermissions,
+    SocialSharing,
     SMS,
     Contacts,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

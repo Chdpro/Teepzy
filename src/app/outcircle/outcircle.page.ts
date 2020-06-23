@@ -82,14 +82,9 @@ export class OutcirclePage implements OnInit {
 
   getTeepzr() {
     this.loading = true
-    this.contactService.teepZrs(this.userId).subscribe(res => {
+    this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
       console.log(res)
       this.listTeepZrs = this.listSorter(res['data'])
-      this.contactsTest.forEach(um => {
-        this.listTeepZrs.filter((x, index) => {
-          x['phone'] == um.phone ? this.listTeepZrs.splice(index, 1) : null
-        })
-      });
       this.loading = false
       this.listTeepZrs.forEach(e => {
         let invitation = {
@@ -117,6 +112,7 @@ export class OutcirclePage implements OnInit {
             nom: e['nom'],
             prenom: e['prenom'],
             phone: e['phone'],
+            photo: e['photo'],
             invited: true
           },
         )
@@ -128,6 +124,7 @@ export class OutcirclePage implements OnInit {
             nom: e['nom'],
             prenom: e['prenom'],
             phone: e['phone'],
+            photo: e['photo'],
             invited: false
           },
         )

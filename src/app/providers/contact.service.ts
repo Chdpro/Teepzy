@@ -47,5 +47,11 @@ export class ContactService {
     return this.http.get(test_url + url, httpOptionsJson);
   }
 
+  eventualKnownTeepZrs(userId): Observable<any> {
+    let url = 'users/teepzr/eventualsTeepzrs/' + userId;
+    return this.http.get(test_url + url, httpOptionsJson);
+  }
+  
+
 
 }

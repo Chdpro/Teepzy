@@ -53,12 +53,14 @@ export class SignupPage implements OnInit {
     //console.log(this.win.windowRef)
     this.windowRef.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container')
     this.windowRef.recaptchaVerifier.render()
+    this.listCountriesCodes()
   }
 
 
   listCountriesCodes() {
     this.authService.listCodes().subscribe(res => {
       this.codes = res
+      console.log(this.codes)
     })
   }
 

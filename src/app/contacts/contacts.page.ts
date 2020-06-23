@@ -3,6 +3,8 @@ import { Contacts } from '@ionic-native/contacts/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
 import { ContactService } from '../providers/contact.service';
 import { ToastController } from '@ionic/angular';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 
 @Component({
@@ -23,6 +25,20 @@ export class ContactsPage implements OnInit {
       familyName: 'Hounsounou',
       phone: '+22998090908',
       invited: false
+    },
+    {
+      familyName
+        :
+        "Hounsounou",
+      givenName
+        :
+        "christian",
+      phone
+        :
+        "+229 66 77 23 27",
+      invited: false,
+      photo: "http://localhost:5000/1.png"
+
     },
     {
       givenName: 'Elvire',
@@ -65,13 +81,17 @@ export class ContactsPage implements OnInit {
 
   constructor(private contacts: Contacts, private sms: SMS,
     public toastController: ToastController,
+    private androidPermissions: AndroidPermissions,
+    private socialSharing: SocialSharing,
     private contactService: ContactService) { }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
-    //  this.contactsTests = this.listSorter(this.contactsTest) 
-    // this.loadContacts()
-    this.getTeepzr()
+    this.loadContacts()
+    let a =  '+229 66 77 23 27'
+    let b = '+22966772327'
+    console.log(a.replace(/\s/g, '') == b.replace(/\s/g, '') ? true: false)
+    //this.getTeepzr()
   }
 
 
@@ -118,7 +138,8 @@ export class ContactsPage implements OnInit {
       hasPhoneNumber: true
     }
     this.contacts.find(['*'], options).then((contacts) => {
-      this.myContacts = this.listSorter(contacts)
+      this.myContacts = contacts
+      alert('Contacts succesfully loaded')
       for (const mC of this.myContacts) {
         let inviteViaSms = {
           phone: mC.phoneNumbers[0].value,
@@ -148,55 +169,68 @@ export class ContactsPage implements OnInit {
         }, error => {
           alert(JSON.stringify(error))
           this.loading = false
-
         })
       }
+      this.getTeepzr()
+
+      alert('Contacts succesfully checked')
+
+    }, error => {
+      alert('Contacts is not loaded')
     })
   }
 
   getTeepzr() {
     let list = []
-    this.loading = true
     this.contactService.teepZrs(this.userId).subscribe(res => {
       console.log(res)
       this.listTeepZrs = res['data']
-      this.contactsTest.forEach(um => {
-        this.listTeepZrs.filter((x, index) => { x['phone'] == um.phone ? list.push(x) : null})
+      this.listContacts.forEach(um => {
+        this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '') == um.phone.replace(/\s/g, '') ? list.push(x) : null })
       });
-      this.loading = false
       this.listTeepZrs = list
-      console.log(list)
       this.listTeepZrs.forEach(e => {
-        let invitation = {idSender: this.userId, idReceiver: e['_id']}
+        let invitation = { idSender: this.userId, idReceiver: e['_id'] }
         this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
-          console.log(res)
           if (res['status'] == 201) {
-            this.listTeepzrsToInvite.push({_id: e['_id'],nom: e['nom'],prenom: e['prenom'],phone: e['phone'],invited: true},)
-
+            this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], invited: true })
+            console.log(this.listTeepzrsToInvite)
           } else {
-            this.listTeepzrsToInvite.push({_id: e['_id'],nom: e['nom'],prenom: e['prenom'],phone: e['phone'],invited: false},)
+            this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], invited: false })
+            console.log(this.listTeepzrsToInvite)
           }
         })
       });
-      console.log(this.listTeepZrs)
     }, error => {
       console.log(error)
-      this.loading = false
 
     })
   }
 
-
-  sendSms(contact) {
-    this.sms.send(contact, "This is my predefined to you").then((res) => {
-      if (res) {
-        this.sendInvitationSmsToServer(contact)
-      }
-    }, error => {
-      console.log(error)
-      alert(JSON.stringify(error))
-    })
+  checkSMSPermission() {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(
+      result => console.log('Has permission?', result.hasPermission),
+      err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS)
+    );
   }
+  
+  requestSMSPermission() {
+    // tslint:disable-next-line: max-line-length
+    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.SEND_SMS, this.androidPermissions.PERMISSION.BROADCAST_SMS]);
+  }
+
+
+
+  sendShare(c) {
+    this.socialSharing.share('Teepzy', 'Bonjour,  ' + '<br>' + "Je vous invite à rejoindre Teepzy ", null,
+      ' https://play.google.com/store/apps/details?id=com.teepzy.com').then(() => {
+        this.sendInvitationSmsToServer(c)
+      }).catch((err) => {
+        alert(JSON.stringify(err))
+      });
+  }
+
+
 
   sendInvitationSmsToServer(phone) {
     let inviteViaSms = {
@@ -206,7 +240,7 @@ export class ContactsPage implements OnInit {
     this.contactService.inviteViaSms(inviteViaSms).subscribe(res => {
       console.log(res)
       this.presentToast('Invitation envoyée')
-      this.listContacts.find((c, index) => c['phone'] == phone ? c['invited'] = true : null)
+      this.listContacts.find((c, index) => c['phone'].replace(/\s/g, '') == phone.replace(/\s/g, '') ? c['invited'] = true : null)
     }, error => {
       this.presentToast('Invitation non envoyée')
       alert(JSON.stringify(error))
@@ -237,7 +271,7 @@ export class ContactsPage implements OnInit {
   }
 
   listSorter(array: any) {
-    array.sort((a, b) => a.name.familyName.localeCompare(b.name.familyName, 'fr', { sensitivity: 'base' }));
+    array.sort((a, b) => a.name.givenName.localeCompare(b.name.givenName, 'fr', { sensitivity: 'base' }));
     return array;
   }
 

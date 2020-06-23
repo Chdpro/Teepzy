@@ -5,19 +5,28 @@
     <ion-row>
       <ion-col>
         <h3>
-          Vous les connaissez peut-être:
+          Vous les connaissez peut-être :
         </h3>
       </ion-col>
     </ion-row>
     <form class="example-form">
-      <mat-form-field class="example-full-width">
+
+        <div  *ngIf="listTeepzrsToInvite?.length ==  0" style="text-align: center;
+        font-size: 20px;">
+          <img class="msg" src="../../assets/img/msg.jpg" alt="">
+          <span>
+            Aucune personne à Ajouter
+          </span>
+        </div>
+
+      <mat-form-field *ngIf="listTeepzrsToInvite?.length > 0" class="example-full-width">
         <mat-label>Rechercher</mat-label>
         <input [(ngModel)]="term" name="term" placeholder="Taper pour filtrer" matInput>
       </mat-form-field>
 
     </form>
 
-    <mat-paginator [length]="listTeepzrsToInvite?.length" [pageSize]="pageSize" (page)="pageEvent = getPaginatorData($event)">
+    <mat-paginator *ngIf="listTeepzrsToInvite?.length > 0" [length]="listTeepzrsToInvite?.length" [pageSize]="pageSize" (page)="pageEvent = getPaginatorData($event)">
     </mat-paginator>
     <ion-spinner *ngIf="loading && listTeepzrsToInvite.length ==  0 " color="primary" name="dots"></ion-spinner>
 
@@ -25,7 +34,7 @@
       <ion-col size="6" *ngFor="let c of listTeepzrsToInvite |filter:term | slice: lowValue : highValue ;trackBy: trackByFn ">
         <mat-card style="margin-top: 20px;">
           <img class="img-cl"
-            src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+            [src]="c?.photo" alt="">
 
           <div class="cl-content">
 
@@ -37,7 +46,7 @@
               {{ c?.circleMembersCount || '0' }} contact(s)
             </span>
             <div style="font-size: 12px;">
-              12 amis en commun
+              ({{c?.commonFriends || 0 }}) amis en commun
             </div>
             <ion-button (click)="sendInvitationToJoinCircle(c?._id)" *ngIf="!loading && c?.invited == false"  size="small" shape="round">Ajouter</ion-button>
             <ion-button *ngIf="!loading && c?.invited == true"  size="small" color="light" shape="round">Ajouté</ion-button>
