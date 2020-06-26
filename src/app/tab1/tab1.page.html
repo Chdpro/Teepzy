@@ -1,17 +1,83 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <ion-header class="ion-no-border">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title>Bonjour Christian</ion-title>
+      <div class="example-button-container">
+        <button class="btn-icon" mat-mini-fab disabled aria-label="Example icon button with a home icon">
+          <mat-icon>search</mat-icon>
+        </button>
+        <button mat-mini-fab disabled aria-label="Example icon button with a home icon">
+          <mat-icon>settings</mat-icon>
+        </button>
+      </div>
+
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-slides pager="true" [options]="slideOpts">
+    <ion-slide>
+
+      <div class="post-txt">
+        <div style="line-height: 21px;margin-top: 103px;">
+          <img class="img-poster"
+            src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+          <strong>
+            Chrismal
+          </strong><br>
+          <small>
+            Chrismal
+          </small>
+          <span class="time">
+            25 Min
+          </span>
+        </div><br>
+        <p>
+          RECHERCHE DES INFOGRAPHISTES ET DES DÉVELOPPEURS EN QUÊTE DE VISIBILITÉS ! CONTACTEZ MOI AU PLUS VITE I
+        </p>
+
+      
+
+      </div>
+  
+      <!-- fab placed to the bottom end -->
+      <ion-fab style="margin-bottom: 150px;" vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="light">
+            <label class="btn" for="modal-2">
+             <ion-icon name="chatbubble-outline"></ion-icon>
+             
+            </label>
+        </ion-fab-button>
+      </ion-fab>
+      <!-- fab placed to the bottom end -->
+      <ion-fab style="margin-bottom: 100px;" vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="light">
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+
+      <!-- fab placed to the bottom end -->
+      <ion-fab style="margin-bottom: 50px;" vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="light">
+          <ion-icon name="return-up-forward"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+
+      <!-- fab placed to the bottom end -->
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="light">
+          <ion-icon name="people"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+
+   
+    </ion-slide>
+    <ion-slide>
+      <h1>Slide 2</h1>
+    </ion-slide>
+    <ion-slide>
+      <h1>Slide 3</h1>
+    </ion-slide>
+  </ion-slides>
+
+
 </ion-content>

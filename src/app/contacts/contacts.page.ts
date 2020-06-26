@@ -222,7 +222,7 @@ export class ContactsPage implements OnInit {
 
 
   sendShare(c) {
-    this.socialSharing.share('Teepzy', 'Bonjour,  ' + '<br>' + "Je vous invite à rejoindre Teepzy ", null,
+    this.socialSharing.share('Bonjour,  ' + '<br>' + "Je vous invite à rejoindre Teepzy. Téléchargez à ce lien", 'TeepZy' , null,
       ' https://play.google.com/store/apps/details?id=com.teepzy.com').then(() => {
         this.sendInvitationSmsToServer(c)
       }).catch((err) => {

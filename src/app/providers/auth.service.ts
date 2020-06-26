@@ -45,7 +45,7 @@ export class AuthService {
 
   myInfos(id) {
     let url = 'users/user/' + id
-    return this.http.get(test_url + url, httpOptionsJson)
+    return this.http.get(local_url + url, httpOptionsJson)
   }
 
 

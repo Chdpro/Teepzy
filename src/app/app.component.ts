@@ -45,7 +45,7 @@ export class AppComponent {
 
   let token = localStorage.getItem('teepzyToken')
 
-if (token) {
+/*if (token) {
    this.router.navigate(['/contacts'], {
      replaceUrl: true
    }
@@ -55,7 +55,7 @@ if (token) {
      replaceUrl: true
    }
    )
-  }
+  }*/
 }
 
   initializeApp() {

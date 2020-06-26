@@ -8,7 +8,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <div>
+        <div (click)="shwModal()">
           <label class="btn" for="modal-2">
             <img src="../../assets/img/Illustration 5-05.png" alt="">
           </label>
@@ -38,7 +38,7 @@
           </mat-form-field>
           <span>
             <mat-form-field class="code">
-         
+
               <mat-select [(ngModel)]="selected" name="code" required>
                 <mat-option *ngFor="let c of codes" [value]="c.dial_code">
                   {{c.dial_code}} - ({{ c?.name }})
@@ -61,66 +61,75 @@
     </ion-row>
   </ion-grid>
 
-
-
-
   <input class="modal-state" id="modal-2" type="checkbox" />
   <div class="modal">
     <label class="modal__bg" for="modal-2"></label>
     <div class="modal__inner">
       <label class="modal__close" for="modal-2"></label>
-
-      <h2 style="font-size: 20px;
-      font-weight: 200;">Choisir un avatar</h2>
+      <h2 style="font-size: 20px;font-weight: 200;">Choisir un avatar</h2>
       <mat-grid-list cols="2" rowHeight="2:1">
         <mat-grid-tile>
-                <button (click)="choseAvatr('http://localhost:5000/1.png')" mat-raised-button>
-                  <img src="http://localhost:5000/1.png" alt="" />
-                  </button>
+          <button (click)="choseAvatr('http://localhost:5000/1.png')" mat-raised-button>
+            <img src="http://localhost:5000/1.png" alt="" />
+          </button>
         </mat-grid-tile>
         <mat-grid-tile>
-            <button (click)="choseAvatr('http://localhost:5000/2.png')" mat-raised-button>
-                <img src="http://localhost:5000/2.png" alt="" />
-          
-            </button>
-     
+          <button (click)="choseAvatr('http://localhost:5000/2.png')" mat-raised-button>
+            <img src="http://localhost:5000/2.png" alt="" />
+          </button>
+
         </mat-grid-tile>
         <mat-grid-tile>
-            <button (click)="choseAvatr('http://localhost:5000/3.png')" mat-raised-button>
-                <img src="http://localhost:5000/3.png" alt="" />
-          
-              </button>
+          <button (click)="choseAvatr('http://localhost:5000/3.png')" mat-raised-button>
+            <img src="http://localhost:5000/3.png" alt="" />
+
+          </button>
         </mat-grid-tile>
         <mat-grid-tile>
-            <button (click)="choseAvatr('http://localhost:5000/4.png')" mat-raised-button>
-                <img src="http://localhost:5000/4.png" alt="" />
-          
-              </button>
-   
+          <button (click)="choseAvatr('http://localhost:5000/4.png')" mat-raised-button>
+            <img src="http://localhost:5000/4.png" alt="" />
+
+          </button>
+
         </mat-grid-tile>
         <mat-grid-tile>
-            <button (click)="choseAvatr('http://localhost:5000/5.png')" mat-raised-button>
-                <img src="http://localhost:5000/5.png" alt="" />
-          
-              </button>
- 
+          <button (click)="choseAvatr('http://localhost:5000/5.png')" mat-raised-button>
+            <img src="http://localhost:5000/5.png" alt="" />
+
+          </button>
+
         </mat-grid-tile>
         <mat-grid-tile>
-            <button (click)="choseAvatr('http://localhost:5000/6.png')" mat-raised-button>
-                <img src="http://localhost:5000/6.png" alt="" />
-          
-              </button>
-    
+          <button (click)="choseAvatr('http://localhost:5000/6.png')" mat-raised-button>
+            <img src="http://localhost:5000/6.png" alt="" />
+
+          </button>
+
         </mat-grid-tile>
       </mat-grid-list>
 
-  
+
       <div>
-          <button class="mat-raised-btn" mat-raised-button>Choisir dans la galérie</button>
-          <button class="mat-raised-btn" mat-raised-button>Prendre une photo</button>
+        <button (click)="selectImage()" class="mat-raised-btn" mat-raised-button>Choisir une photo</button>
       </div>
 
-  
+      <ion-row>
+
+        <ion-col size="2">
+
+        </ion-col>
+        <ion-col size="8">
+          <ion-button style="margin-top: 71px;" (click)="shwModal()" expand="block" shape="round">
+            <label class="" for="modal-2">
+              Valider
+            </label>
+          </ion-button>
+
+        </ion-col>
+        <ion-col size="2">
+
+        </ion-col>
+      </ion-row>
 
     </div>
   </div>
