@@ -100,6 +100,7 @@ export class ContactsPage implements OnInit {
   }
 
 
+  
   getPaginatorData(event) {
     console.log(event);
     if (event.pageIndex === this.pageIndex + 1) {

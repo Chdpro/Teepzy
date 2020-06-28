@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
+import { ContactService } from '../providers/contact.service';
+import { ToastController } from '@ionic/angular';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-tab1',
@@ -15,11 +20,46 @@ export class Tab1Page implements OnInit {
 
   user: any
 
-  constructor(private authService: AuthService) { }
+  listPosts = []
+  posts = []
+
+  userId = ''
+
+  commentT = {
+    userId: '',
+    postId: '',
+    comment: '',
+}
+
+listComments = []
+
+postId = ''
+
+_MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+
+  constructor(private authService: AuthService,
+    private toasterController: ToastController,
+    private socialSharing: SocialSharing,
+    private contactService: ContactService) { }
 
   ngOnInit() {
-    let userId = localStorage.getItem('teepzyUserId');
-    this.getUserInfo(userId)
+    this.userId = localStorage.getItem('teepzyUserId');
+    this.getUserInfo(this.userId)
+    this.getPosts(this.userId)
+  }
+
+
+  ionViewWillEnter() {
+    this.userId = localStorage.getItem('teepzyUserId');
+    this.getUserInfo(this.userId)
+    this.getPosts(this.userId)
+
+  }
+
+
+  trackByFn(index, item) {
+    return index; // or item.id
   }
 
   getUserInfo(userId) {
@@ -31,4 +71,135 @@ export class Tab1Page implements OnInit {
     })
   }
 
+
+  sendShare(c) {
+    this.socialSharing.share('Bonjour,  ' + '<br>' + c.content, 'TeepZy' , null,
+      ' https://play.google.com/store/apps/details?id=com.teepzy.com').then(() => {
+      }).catch((err) => {
+        alert(JSON.stringify(err))
+      });
+  }
+
+  addFavorite(postId) {
+    let favoris = {
+      userId: this.userId,
+      postId: postId
+    }
+    this.contactService.addFavorite(favoris).subscribe(res => {
+      console.log(res)
+      this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = true : null)
+      this.presentToast('Ajouté aux favoris')
+    }, error => {
+      this.presentToast('Oops! une erreur est survenue')
+      console.log(error)
+
+    })
+  }
+
+  getCommentsOfPost(postId){
+    this.postId = postId
+    this.contactService.getCommentsOfPost(postId).subscribe(res =>{
+      console.log(res);
+      this.listComments = res['data']
+    }, error =>{
+      console.log(error)
+    })
+  }
+
+  addCommentToPost(){
+    this.commentT.userId = this.userId
+    this.commentT.postId = this.postId
+    this.contactService.addCommentToPost(this.commentT).subscribe(res =>{
+      console.log(res)
+      if (res['status'] == 200) {
+        //this.presentToast('')
+        this.commentT.comment = ''
+        this.getCommentsOfPost(this.postId)
+      }
+    })
+    
+  }
+
+  getPosts(userId) {
+    this.contactService.getPosts(userId).subscribe(res => {
+      console.log(res)
+      this.listPosts = []
+
+      if ( res['data'] != null) {
+        this.posts = res['data']
+        this.posts.forEach(e => {
+          let favorite = {
+            userId: this.userId,
+            postId: e['_id'],
+          }
+          this.checkFavorite(favorite, e)
+        });
+      }
+  
+    }, error =>{
+      console.log(error)
+    })
+  }
+
+  time(date) {
+    moment.locale('fr');
+    return moment(date).fromNow()
+  }
+
+
+
+  checkFavorite(favorite, e){
+    this.contactService.checkFavorite(favorite).subscribe(res => {
+      console.log(res)
+
+      if (res['status'] == 201) {
+        console.log('favoris')
+
+        this.listPosts.push(
+          {
+            _id: e['_id'],
+            userId: e['userId'],
+            userPhoto_url:  e['userPhoto_url'],
+            userPseudo:  e['userPseudo'],
+            content:  e['content'],
+            image_url:  e['image_url'],
+            backgroundColor:  e['backgroundColor'],
+            includedCircles:  e['includedCircles'],
+            createdAt:  e['createdAt'],
+            favorite: true
+          },
+        )
+
+      } else {
+        console.log('pas favoris')
+
+        this.listPosts.push(
+          {
+            _id: e['_id'],
+            userId: e['userId'],
+            userPhoto_url:  e['userPhoto_url'],
+            userPseudo:  e['userPseudo'],
+            content:  e['content'],
+            image_url:  e['image_url'],
+            backgroundColor:  e['backgroundColor'],
+            includedCircles:  e['includedCircles'],
+            createdAt:  e['createdAt'],
+            favorite: false
+          },
+        )
+      }
+
+      console.log(this.listPosts)
+    })
+  }
+
+
+
+  async presentToast(msg) {
+    const toast = await this.toasterController.create({
+      message: msg,
+      duration: 4000
+    });
+    toast.present();
+  }
 }

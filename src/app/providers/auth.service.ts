@@ -28,7 +28,7 @@ export class AuthService {
 
   login(user): Observable<any> {
     let url = 'users/authenticate';
-    return this.http.post(test_url + url, user, httpOptionsJson);
+    return this.http.post(base_url + url, user, httpOptionsJson);
   }
 
 

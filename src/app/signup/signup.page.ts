@@ -56,7 +56,6 @@ export class SignupPage implements OnInit {
     public toastController: ToastController,
     private win: WindowService,
     private alertCtrl:AlertController,
-    private statusBar: StatusBar,
     private loadingCtrl: LoadingController,
     private camera: Camera,
     private filePath: FilePath,

@@ -1,11 +1,17 @@
 <ion-content>
   <ion-header class="ion-no-border">
     <ion-toolbar>
-      <button mat-raised-button>
+      <button (click)="dismiss()" mat-raised-button>
         <ion-icon name="arrow-back-outline"></ion-icon>
       </button>
       <div class="example-button-container">
-        <ion-button color="secondary" style="margin-top: 1px;" expand="block" shape="round">Publier
+        <ion-button color="secondary" style="margin-top: 1px;" (click)="addPost()"  [disabled]="contentMsg.errors?.required"  expand="block" shape="round">
+          <span *ngIf="!loading">
+            Publier
+          </span>
+          <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+
+          
         </ion-button>
       </div>
 
@@ -16,7 +22,7 @@
   <div class="post-txt">
     <div style="line-height: 21px;margin-top: 1px;">
       <img class="img-poster"
-        src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+        [src]="user?.photo" alt="">
     </div>
   </div>
   <ion-grid>
@@ -25,7 +31,7 @@
         <form class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Tapez ce que vous voulez</mat-label>
-            <textarea matInput rows="15" cols="60" placeholder="Ex. Je recherche un graphiste..."></textarea>
+            <textarea matInput [(ngModel)]="post.content" name="contentMsg" required #contentMsg="ngModel" rows="15" cols="60" placeholder="Ex. Je recherche un graphiste..."></textarea>
           </mat-form-field>
         </form>
 
@@ -42,19 +48,19 @@
           </span>
         </span>
         <div class="example-button-container color-btns">
-          <button class="btn-icon white-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
+          <button (click)="setBackgroundColor('#fff')" class="btn-icon white-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
 
           </button>
-          <button class="btn-icon black-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
+          <button (click)="setBackgroundColor('#000000')" class="btn-icon black-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
 
           </button>
-          <button class="btn-icon brown-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
+          <button (click)="setBackgroundColor('#E5858B')" class="btn-icon brown-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
 
           </button>
-          <button class="btn-icon blue-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
+          <button (click)="setBackgroundColor('#6C9FF0')" class="btn-icon blue-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
 
           </button>
-          <button class="btn-icon grey-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
+          <button (click)="setBackgroundColor('#73D896')" class="btn-icon grey-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
 
           </button>
         </div>

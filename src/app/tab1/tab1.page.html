@@ -15,48 +15,54 @@
   </ion-header>
 
   <ion-slides pager="true" [options]="slideOpts">
-    <ion-slide>
+    <ion-slide *ngFor="let p of listPosts?.reverse();trackBy: trackByFn " [style.background-color]="p?.backgroundColor"
+      [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
 
       <div class="post-txt">
-        <div style="line-height: 21px;margin-top: 103px;">
-          <img class="img-poster"
-            src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+        <div style="line-height: 21px;
+        margin-top: -10px;
+        width: 223px;">
+          <img class="img-poster" [src]="p?.userPhoto_url" alt="">
           <strong>
-            Chrismal
+            {{p?.userPseudo}}
           </strong><br>
           <small>
-            Chrismal
+            {{p?.circle || '' }}
           </small>
           <span class="time">
-            25 Min
+            {{time(p?.createdAt) }}
           </span>
         </div><br>
         <p>
-          RECHERCHE DES INFOGRAPHISTES ET DES DÉVELOPPEURS EN QUÊTE DE VISIBILITÉS ! CONTACTEZ MOI AU PLUS VITE I
+          {{ p?.content }}
         </p>
 
-      
+
 
       </div>
-  
+
+
       <!-- fab placed to the bottom end -->
-      <ion-fab style="margin-bottom: 150px;" vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button color="light">
-            <label class="btn" for="modal-2">
-             <ion-icon name="chatbubble-outline"></ion-icon>
-             
-            </label>
-        </ion-fab-button>
+      <ion-fab (click)="getCommentsOfPost(p?._id)" style="margin-bottom: 150px;" vertical="bottom" horizontal="end"
+        slot="fixed">
+        <label class="modal-open modal-label" for="modal-open">
+
+          <ion-fab-button color="light">
+
+            <ion-icon name="chatbubble-outline"></ion-icon>
+          </ion-fab-button>
+        </label>
+
       </ion-fab>
       <!-- fab placed to the bottom end -->
-      <ion-fab style="margin-bottom: 100px;" vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab (click)="addFavorite()" style="margin-bottom: 100px;" vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button color="light">
           <ion-icon name="star-outline"></ion-icon>
         </ion-fab-button>
       </ion-fab>
 
       <!-- fab placed to the bottom end -->
-      <ion-fab style="margin-bottom: 50px;" vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab (click)="sendShare()" style="margin-bottom: 50px;" vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button color="light">
           <ion-icon name="return-up-forward"></ion-icon>
         </ion-fab-button>
@@ -69,15 +75,57 @@
         </ion-fab-button>
       </ion-fab>
 
-   
     </ion-slide>
-    <ion-slide>
-      <h1>Slide 2</h1>
-    </ion-slide>
-    <ion-slide>
-      <h1>Slide 3</h1>
-    </ion-slide>
+
   </ion-slides>
 
 
+  <div class="content">
+    <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
+    <div class="modal">
+      <label class="modal-label overlay">
+        <input type="radio" name="modal" value="close" class="modal-radio" />
+      </label>
+      <div class="content" style="overflow: auto;">
+        <div class="top">
+          <h3 style="text-align: center;"> {{listComments?.length}} Commentaire(s) </h3>
+          <label class="modal-label close-btn">
+            <input type="radio" name="modal" value="close" class="modal-radio" />
+          </label>
+        </div>
+        <div>
+          <ion-item *ngFor="let c of listComments;trackBy: trackByFn ">
+            <ion-avatar slot="start">
+              <img class="comment-profile" alt="" [src]="c?.userPhoto">
+            </ion-avatar>
+            <ion-label>
+              <h2>{{c?.userPseudo}}</h2>
+              <h3> </h3>
+              <p>{{c?.comment}} </p>
+            </ion-label>
+          </ion-item>
+
+        </div>
+
+        <div *ngIf="listComments?.length == 0" style="margin-top: 112px;text-align: center;">
+          Aucun Commentaire pour ce post
+        </div>
+
+
+
+        <div class="form-wrapper">
+          <!-- Textarea in an item with a placeholder -->
+          <ion-item class="ion-textarea">
+            <ion-textarea matInput name="comment" required #comment="ngModel" [(ngModel)]="commentT.comment"
+              placeholder="Commenter..."></ion-textarea>
+          </ion-item>
+
+          <ion-button (click)="addCommentToPost()" size="small" [disabled]="comment.errors?.required" expand="block"
+            shape="round">Envoyer</ion-button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
 </ion-content>
