@@ -24,64 +24,64 @@ export class ContactService {
 
   inviteViaSms(invitation): Observable<any> {
     let url = 'users/SmsInvited';
-    return this.http.post(test_url + url, invitation, httpOptionsJson);
+    return this.http.post(base_url + url, invitation, httpOptionsJson);
   }
 
 
   inviteToJoinCircle(invitation): Observable<any> {
     let url = 'users/inviteToJoinCircle';
-    return this.http.post(test_url + url, invitation, httpOptionsJson);
+    return this.http.post(base_url + url, invitation, httpOptionsJson);
   }
 
   checkInviteViaSms(check): Observable<any> {
     let url = 'users/checkSmsInvitation';
-    return this.http.post(test_url + url, check, httpOptionsJson);
+    return this.http.post(base_url + url, check, httpOptionsJson);
   }
   checkInvitationTeepzr(check): Observable<any> {
     let url = 'users/checkInvitation';
-    return this.http.post(test_url + url, check, httpOptionsJson);
+    return this.http.post(base_url + url, check, httpOptionsJson);
   }
 
   teepZrs(userId): Observable<any> {
     let url = 'users/teepzr/' + userId;
-    return this.http.get(test_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   eventualKnownTeepZrs(userId): Observable<any> {
     let url = 'users/teepzr/eventualsTeepzrs/' + userId;
-    return this.http.get(test_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
   
 
   addPost(post): Observable<any> {
     let url = 'users/posts';
-    return this.http.post(local_url + url, JSON.stringify(post), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
 
   addCommentToPost(comment): Observable<any> {
     let url = 'users/comments/all';
-    return this.http.post(local_url + url, JSON.stringify(comment), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(comment), httpOptionsJson);
   }
 
   getCommentsOfPost(postId): Observable<any> {
     let url = 'users/comments/all/' + postId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   checkFavorite(check): Observable<any> {
     let url = 'users/checkFavorite';
-    return this.http.post(local_url + url, check, httpOptionsJson);
+    return this.http.post(base_url + url, check, httpOptionsJson);
   }
 
   addFavorite(favorite): Observable<any> {
     let url = 'users/addFavorite';
-    return this.http.post(local_url + url, favorite, httpOptionsJson);
+    return this.http.post(base_url + url, favorite, httpOptionsJson);
   }
 
 }

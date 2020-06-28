@@ -39,13 +39,13 @@ export class AuthService {
 
   signup(user) {
     let url = 'users/register';
-    return this.http.post(test_url + url, user, httpOptionsJson);
+    return this.http.post(base_url + url, user, httpOptionsJson);
   }
 
 
   myInfos(id) {
     let url = 'users/user/' + id
-    return this.http.get(local_url + url, httpOptionsJson)
+    return this.http.get(base_url + url, httpOptionsJson)
   }
 
 
