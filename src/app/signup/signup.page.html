@@ -6,7 +6,7 @@
       <ion-col>
         <div (click)="shwModal()">
           <label for="modal-2">
-            <img src="../../assets/img/Illustration 5-05.png" alt="">
+            <img class="img-user" src="../../assets/img/Illustration 5-05.png" alt="">
           </label>
 
         </div>
@@ -108,6 +108,9 @@
       <div>
         <button (click)="selectImage()" class="mat-raised-btn" mat-raised-button>Choisir une photo</button>
       </div>
+      <div>
+        <img style="width: 42%;" *ngIf="dispImags.length != 0" alt="" class="user-profile" [src]="dispImags[0]">
+      </div>
 
       <ion-row>
 
@@ -115,7 +118,7 @@
 
         </ion-col>
         <ion-col size="8">
-          <ion-button style="margin-top: 71px;" (click)="shwModal()" expand="block" shape="round">
+          <ion-button (click)="shwModal()" expand="block" shape="round">
             <label class="" for="modal-2">
               Valider
             </label>
