@@ -28,7 +28,19 @@ export class AuthService {
 
   login(user): Observable<any> {
     let url = 'users/authenticate';
-    return this.http.post(base_url + url, user, httpOptionsJson);
+    return this.http.post(local_url + url, user, httpOptionsJson);
+  }
+
+
+  check(user): Observable<any> {
+    let url = 'users/check';
+    return this.http.post(local_url + url, user, httpOptionsJson);
+  }
+
+
+  update(user): Observable<any> {
+    let url = 'users/update';
+    return this.http.post(local_url + url, user, httpOptionsJson);
   }
 
 
@@ -39,7 +51,7 @@ export class AuthService {
 
   signup(user) {
     let url = 'users/register';
-    return this.http.post(base_url + url, user, httpOptionsJson);
+    return this.http.post(local_url + url, user, httpOptionsJson);
   }
 
 

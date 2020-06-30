@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterOutlet } from '@angular/router';
 import { ToastController, LoadingController } from '@ionic/angular';
 
 @Component({
@@ -10,24 +10,22 @@ import { ToastController, LoadingController } from '@ionic/angular';
 })
 export class SignupFinalPage implements OnInit {
   user = {
-    email: '',
-    phone:'',
-    nom:'',
-    prenom:'',
-    photo:'',
-
     pseudoIntime:'',
     pseudoPro:'',
-    conf:'',
-    password: '',
-
-    role:''
+    userId: '',
+    role:'',
+    photo:''
   }
 
   retourUsr: any
+  retourUsrP = 0
   profileInfo:any
   captchaR:any
   loading = false;
+
+  loadingA = false
+  loadingP = false
+
   constructor(private authService: AuthService,
     public router: Router,
     public toastController: ToastController,
@@ -38,59 +36,63 @@ export class SignupFinalPage implements OnInit {
 
   ngOnInit() {
    let usr = this.route.snapshot.queryParamMap
-   this.user.email = usr['params']['email']
-   this.user.phone = usr['params']['phone']
-   this.user.nom = usr['params']['nom']
-   this.user.prenom = usr['params']['prenom']
-   this.user.photo = usr['params']['photo']
-
-   console.log(usr['params'])
+  // console.log(usr['params'])
+  this.user.photo = usr['params']['photo']
+  this.user.userId = localStorage.getItem('teepzyUserId')
   }
 
 
-  signup() {
-    console.log(JSON.stringify(this.user));
-    this.presentLoading()
-    if (this.user.password == this.user.conf) {
-        this.authService.signup(JSON.stringify(this.user)).subscribe(res => {
-          console.log(res)
-          this.retourUsr = res;
-            this.profileInfo = res['data']
-            this.dismissLoading()
-          if (this.retourUsr['status'] == 200) {
-            this.presentToast('Inscription réussie')
-            this.loading = false
-            localStorage.setItem('teepzyUserId', this.profileInfo['userI']['_id'])
-            localStorage.setItem('teepzyToken',this.profileInfo['token'])
-            localStorage.setItem('teepzyEmail', this.profileInfo['userI']['email'])
-              this.router.navigate(['/link'], {
-                replaceUrl: true
-              })
-          }
-        }, error => {
-          console.log(error)
-          this.loading = false;
-           if (error['status'] == 403){
-            this.presentToast('Ce compte existe déjà. Vérifier email ou vos pseudo')
-            this.dismissLoading()
-          } else {
-            this.presentToast('Oops! une erreur est survenue sur le serveur')
-            this.dismissLoading()
+  updateUser() {
+    this.authService.update(this.user).subscribe(res =>{
+      console.log(res)
+      if (res['status'] == 200) {
+        this.retourUsr = true
+        this.presentToast('Vous êtes bien connectés')
+      } 
+    }, error =>{
+      console.log(error)
+      this.presentToast('Oops! une erreur est survenue')
 
-          }
-  
-        })
-
-    } else {
-      this.loading = false;
-      this.presentToast('le mot de passe et la confirmation ne correspondent pas')
-      this.dismissLoading()
-
-    }
-
-
+    })
   }
 
+  check(){
+    this.loadingA = true
+    this.authService.check(this.user).subscribe(res =>{
+      console.log(res)
+      this.loadingA = false
+
+      if (res['status'] == 201) {
+        this.retourUsr = 201
+      } else if (res['status'] == 404){
+        this.retourUsr = 404
+      }
+    }, error =>{
+      console.log(error)
+      this.loadingA = false
+
+      this.presentToast('Oops! une erreur est survenue')
+
+    })
+  }
+
+  checkP(){
+    this.loadingP = true
+    this.authService.check(this.user).subscribe(res =>{
+      console.log(res)
+      this.loadingP = false
+      if (res['status'] == 201) {
+        this.retourUsrP = 201
+      } else if (res['status'] == 404){
+        this.retourUsrP = 404
+      }
+    }, error =>{
+      console.log(error)
+      this.loadingP = false
+      this.presentToast('Oops! une erreur est survenue')
+
+    })
+  }
 
   async presentToast(msg) {
     const toast = await this.toastController.create({

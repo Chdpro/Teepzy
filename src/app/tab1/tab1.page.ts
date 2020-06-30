@@ -31,12 +31,26 @@ export class Tab1Page implements OnInit {
     comment: '',
 }
 
+commentC = {
+  userId: '',
+  commentId: '',
+  comment: '',
+}
+
 listComments = []
+listCommentsOfComment = []
+
 
 postId = ''
+commentId = ''
+
 
 _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
+showSearch = false
+showResponsePanel = false
+
+search = ''
 
   constructor(private authService: AuthService,
     private toasterController: ToastController,
@@ -49,13 +63,14 @@ _MS_PER_DAY = 1000 * 60 * 60 * 24;
     this.getPosts(this.userId)
   }
 
-
+/*
   ionViewWillEnter() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.userId)
     this.getPosts(this.userId)
 
-  }
+  }*/
+
 
 
   trackByFn(index, item) {
@@ -71,6 +86,9 @@ _MS_PER_DAY = 1000 * 60 * 60 * 24;
     })
   }
 
+  showResPanel(){
+    this.showResponsePanel ? this.showResponsePanel = false: this.showResponsePanel= true
+  }
 
   sendShare(c) {
     this.socialSharing.share('Bonjour,  ' + '<br>' + c.content, 'TeepZy' , null,
@@ -92,11 +110,11 @@ _MS_PER_DAY = 1000 * 60 * 60 * 24;
     }, error => {
       this.presentToast('Oops! une erreur est survenue')
       console.log(error)
-
     })
   }
 
   getCommentsOfPost(postId){
+    this.showResPanel()
     this.postId = postId
     this.contactService.getCommentsOfPost(postId).subscribe(res =>{
       console.log(res);
@@ -120,11 +138,37 @@ _MS_PER_DAY = 1000 * 60 * 60 * 24;
     
   }
 
+
+
+  addCommentToComment(){
+    this.commentC.userId = this.userId
+    this.commentC.commentId = this.commentId
+    this.contactService.addCommentToComment(this.commentC).subscribe(res =>{
+      console.log(res)
+      if (res['status'] == 200) {
+        //this.presentToast('')
+        this.commentC.comment = ''
+        this.getCommentsOfComment(this.commentId)
+      }
+    })
+    
+  }
+
+  getCommentsOfComment(commentId){
+    this.commentId = commentId
+    this.contactService.getCommentsOfPost(commentId).subscribe(res =>{
+      console.log(res);
+      this.listCommentsOfComment = res['data']
+    }, error =>{
+      console.log(error)
+    })
+  }
+
+
   getPosts(userId) {
     this.contactService.getPosts(userId).subscribe(res => {
       console.log(res)
       this.listPosts = []
-
       if ( res['data'] != null) {
         this.posts = res['data']
         this.posts.forEach(e => {
@@ -150,11 +194,7 @@ _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
   checkFavorite(favorite, e){
     this.contactService.checkFavorite(favorite).subscribe(res => {
-      console.log(res)
-
       if (res['status'] == 201) {
-        console.log('favoris')
-
         this.listPosts.push(
           {
             _id: e['_id'],

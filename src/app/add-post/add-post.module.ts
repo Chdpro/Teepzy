@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { AddPostPageRoutingModule } from './add-post-routing.module';
 import { MaterialModule } from '../material.module';
+import { EmojiPickerModule } from 'ng-emoji-picker';
 
 import { AddPostPage } from './add-post.page';
 
@@ -15,7 +16,8 @@ import { AddPostPage } from './add-post.page';
     FormsModule,
     IonicModule,
     MaterialModule,
-    AddPostPageRoutingModule
+    AddPostPageRoutingModule,
+    EmojiPickerModule
   ],
   entryComponents: [AddPostPage],
   declarations: [AddPostPage]

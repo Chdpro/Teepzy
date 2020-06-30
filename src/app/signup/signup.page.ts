@@ -23,7 +23,11 @@ export class SignupPage implements OnInit {
     phone:'',
     nom:'',
     prenom:'',
-    photo:''
+    photo:'',
+    birthday:'',
+
+    conf:'',
+    password: '',
   }
 
   retourUsr: any
@@ -50,6 +54,9 @@ export class SignupPage implements OnInit {
   captcha = false;
 
   verificationCode: string;
+
+  profileInfo:any
+
 
   constructor(private authService: AuthService,
     public router: Router,
@@ -89,6 +96,15 @@ export class SignupPage implements OnInit {
     }
   }
   
+  updateDOBDateDeNaissance(dateObject) {
+    // convert object to string then trim it to dd-mm-yyyy
+    var offsetMs = dateObject.value.getTimezoneOffset() * 60000;
+    let dte = new Date(dateObject.value.getTime() - offsetMs);
+    this.user.birthday = dte.toISOString()
+    console.log(this.user.birthday)
+
+  }
+
 
 
   signIn() {  
@@ -138,12 +154,8 @@ export class SignupPage implements OnInit {
     this.windowRef.confirmationResult
       .confirm(this.verificationCode)
       .then(result => {
-        this.presentToast('1ere étape passée ! ')
-        this.router.navigate(['/signup-final'],{
-          replaceUrl: true,
-          queryParams: this.user, 
-        })
-       // this.obj.user = result.user;
+     
+        this.signup()
 
       })
       .catch(error =>{
@@ -152,7 +164,52 @@ export class SignupPage implements OnInit {
       } );
 
   }
+  
 
+  signup(){
+    console.log(JSON.stringify(this.user));
+    this.presentLoading()
+    if (this.user.password == this.user.conf) {
+        this.authService.signup(JSON.stringify(this.user)).subscribe(res => {
+          console.log(res)
+          this.retourUsr = res;
+            this.profileInfo = res['data']
+            this.dismissLoading()
+          if (this.retourUsr['status'] == 200) {
+            this.presentToast('1ere étape passée ! Vous êtes inscrit ')
+            this.loading = false
+            localStorage.setItem('teepzyUserId', this.profileInfo['userI']['_id'])
+            localStorage.setItem('teepzyToken',this.profileInfo['token'])
+            localStorage.setItem('teepzyEmail', this.profileInfo['userI']['email'])
+            this.router.navigate(['/signup-final'],{
+              replaceUrl: true,
+              queryParams: this.user, 
+            })
+           // this.obj.user = result.user;
+          }
+        }, error => {
+          console.log(error)
+          this.loading = false;
+           if (error['status'] == 403){
+            this.presentToast('Ce compte existe déjà. Vérifier email ou vos pseudos')
+            this.dismissLoading()
+          } else {
+            this.presentToast('Oops! une erreur est survenue sur le serveur')
+            this.dismissLoading()
+
+          }
+  
+        })
+
+    } else {
+      this.loading = false;
+      this.presentToast('le mot de passe et la confirmation ne correspondent pas')
+      this.dismissLoading()
+
+    }
+
+
+  }
 
 
 

@@ -24,7 +24,8 @@ import { File } from '@ionic-native/file/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { AddPostPageModule } from './add-post/add-post.module';
-
+import { EmojiPickerModule } from 'ng-emoji-picker';
+import { MAT_DATE_LOCALE } from '@angular/material';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +33,8 @@ import { AddPostPageModule } from './add-post/add-post.module';
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, BrowserAnimationsModule,
     HttpClientModule,
     AddPostPageModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    EmojiPickerModule
   ],
   providers: [
     StatusBar,
@@ -49,7 +51,8 @@ import { AddPostPageModule } from './add-post/add-post.module';
     FilePath,
     SMS,
     Contacts,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
   ],
   bootstrap: [AppComponent]
 })

@@ -1,9 +1,11 @@
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollY]="false">
   <ion-header class="ion-no-border">
     <ion-toolbar>
-      <ion-title>Bonjour Christian</ion-title>
-      <div class="example-button-container">
-        <button class="btn-icon" mat-mini-fab disabled aria-label="Example icon button with a home icon">
+
+      <ion-title *ngIf="!showSearch">Bonjour Christian</ion-title>
+      <div *ngIf="!showSearch" class="example-button-container">
+        <button (click)="showSearch = true" class="btn-icon" mat-mini-fab
+          aria-label="Example icon button with a home icon">
           <mat-icon>search</mat-icon>
         </button>
         <button mat-mini-fab disabled aria-label="Example icon button with a home icon">
@@ -11,11 +13,24 @@
         </button>
       </div>
 
+      <span *ngIf="showSearch" style="display: flex;">
+        <button (click)="showSearch = false" style="font-size: 29px;" (click)="dismiss()" mat-button>
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </button>
+        <form style="margin-top: 85px; margin-bottom: -21px;" class="example-form">
+          <mat-form-field appearance="outline" class="example-full-width search-input">
+            <mat-label>Rechercher</mat-label>
+            <input [(ngModel)]="search" name="search" matInput placeholder="Taper pour filtrer">
+          </mat-form-field>
+        </form>
+      </span>
+
     </ion-toolbar>
   </ion-header>
 
   <ion-slides pager="true" [options]="slideOpts">
-    <ion-slide *ngFor="let p of listPosts?.reverse();trackBy: trackByFn " [style.background-color]="p?.backgroundColor"
+    <ion-slide *ngFor="let p of listPosts?.reverse() | filter:search ;trackBy: trackByFn "
+      [style.background-color]="p?.backgroundColor"
       [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
 
       <div class="post-txt">
@@ -55,9 +70,11 @@
 
       </ion-fab>
       <!-- fab placed to the bottom end -->
-      <ion-fab (click)="addFavorite()" style="margin-bottom: 100px;" vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab (click)="addFavorite(p?._id)" style="margin-bottom: 100px;" vertical="bottom" horizontal="end"
+        slot="fixed">
         <ion-fab-button color="light">
-          <ion-icon name="star-outline"></ion-icon>
+          <ion-icon *ngIf="p?.favorite != true" name="star-outline"></ion-icon>
+          <ion-icon *ngIf="p?.favorite == true" name="star"></ion-icon>
         </ion-fab-button>
       </ion-fab>
 
@@ -94,16 +111,50 @@
           </label>
         </div>
         <div>
-          <ion-item *ngFor="let c of listComments;trackBy: trackByFn ">
-            <ion-avatar slot="start">
-              <img class="comment-profile" alt="" [src]="c?.userPhoto">
-            </ion-avatar>
-            <ion-label>
-              <h2>{{c?.userPseudo}}</h2>
-              <h3> </h3>
-              <p>{{c?.comment}} </p>
-            </ion-label>
-          </ion-item>
+  
+          <mat-card *ngFor="let c of listComments;trackBy: trackByFn " class="example-card cmt">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <img mat-card-image class="mat-img" [src]="c?.userPhoto" alt="">
+
+              <mat-card-title>{{c?.userPseudo}}</mat-card-title>
+              <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>
+                  {{c?.comment}} 
+              </p>
+
+         
+            </mat-card-content>
+            <mat-card-actions>
+              <button class="btn-icon" mat-button aria-label="Example icon button with a home icon">
+                <ion-icon name="star-outline"></ion-icon>
+              </button>
+              <button (click)="getCommentsOfComment(c?._id)" class="btn-icon" mat-button aria-label="Example icon button with a home icon">
+                (3) réponse(s)
+              </button>
+            </mat-card-actions>
+            <div *ngIf="showResponsePanel" *ngFor="let cc of listCommentsOfComment;trackBy: trackByFn " class="mat-res">
+                <img mat-card-image class="mat-img-res" [src]="c?.userPhoto"  alt="">
+
+              <mat-card-title>{{cc?.userPseudo}}</mat-card-title>
+              <mat-card-subtitle></mat-card-subtitle>
+                {{cc?.comment}} 
+              </div>
+
+              <span  *ngIf="showResponsePanel" style="display: flex;" >
+                  <!-- Textarea in an item with a placeholder -->
+                  <ion-item class="ion-textarea">
+                    <ion-textarea matInput name="commentC" required #commentC="ngModel" [(ngModel)]="commentC.comment"
+                      placeholder="Répondre..."></ion-textarea>
+                  </ion-item>
+                  <button (click)="" [disabled]="commentC.errors?.required" style="font-size: 30px;margin-right: -5px;" mat-button>
+                      <ion-icon name="send-outline"></ion-icon>
+                  </button>
+              </span>
+          </mat-card>
+
 
         </div>
 
@@ -113,18 +164,21 @@
 
 
 
-        <div class="form-wrapper">
-          <!-- Textarea in an item with a placeholder -->
-          <ion-item class="ion-textarea">
-            <ion-textarea matInput name="comment" required #comment="ngModel" [(ngModel)]="commentT.comment"
-              placeholder="Commenter..."></ion-textarea>
-          </ion-item>
-
-          <ion-button (click)="addCommentToPost()" size="small" [disabled]="comment.errors?.required" expand="block"
-            shape="round">Envoyer</ion-button>
-
-        </div>
-
+        <mat-card class="comment-form">
+            <div class="form-wrapper">
+                <!-- Textarea in an item with a placeholder -->
+                <ion-item class="ion-textarea">
+                  <ion-textarea matInput name="comment" required #comment="ngModel" [(ngModel)]="commentT.comment"
+                    placeholder="Commenter..."></ion-textarea>
+                </ion-item>
+      
+                <ion-button (click)="addCommentToPost()" size="small" [disabled]="comment.errors?.required" expand="block"
+                  shape="round">Envoyer</ion-button>
+      
+              </div>
+      
+        </mat-card>
+     
       </div>
     </div>
   </div>

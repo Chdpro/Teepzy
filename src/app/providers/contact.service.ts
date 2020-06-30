@@ -69,6 +69,16 @@ export class ContactService {
     return this.http.post(base_url + url, JSON.stringify(comment), httpOptionsJson);
   }
 
+  getCommentsOfComment(postId): Observable<any> {
+    let url = 'users/comments/comment/all/' + postId;
+    return this.http.get(local_url + url, httpOptionsJson);
+  }
+
+  addCommentToComment(comment): Observable<any> {
+    let url = 'users/comments/comment/all';
+    return this.http.post(local_url + url, JSON.stringify(comment), httpOptionsJson);
+  }
+
   getCommentsOfPost(postId): Observable<any> {
     let url = 'users/comments/all/' + postId;
     return this.http.get(base_url + url, httpOptionsJson);
@@ -81,7 +91,7 @@ export class ContactService {
 
   addFavorite(favorite): Observable<any> {
     let url = 'users/addFavorite';
-    return this.http.post(base_url + url, favorite, httpOptionsJson);
+    return this.http.post(local_url + url, favorite, httpOptionsJson);
   }
 
 }

@@ -21,6 +21,8 @@ export class AddPostPage implements OnInit {
   loading =  false
   user:any
 
+  
+
   constructor(public modalController: ModalController, 
     private toastController : ToastController,
     private authService: AuthService,

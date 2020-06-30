@@ -25,6 +25,7 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+@import '~pretty-checkbox/src/pretty-checkbox.scss';
 
 
 .example-full-width{
@@ -37,4 +38,8 @@
     height: 517px;
     border-radius: 40px 40px 1px 0px;
     margin-top: 9px;
+}
+
+.mat-mini-fab.mat-accent{
+    background-color: #cfcfcf;;
 }

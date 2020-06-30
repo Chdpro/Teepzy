@@ -12,6 +12,41 @@ ion-slide{
     margin-right: 12px;
 }
 
+.mat-img{
+    float: left;
+    margin-left: -159px;
+    width: 18%;
+    border-radius: 40px;
+    height: 52px;
+}
+.mat-res{
+    background: aliceblue;
+    border-radius: 13px;
+    padding: 19px;
+
+}
+mat-card-title, mat-card-subtitle{
+    margin-top: -7px;
+
+}
+.comment-form{
+    border-radius: 34px;
+    margin-top: 22px;
+    width: 355px;
+    margin-left: -17px;
+}
+.mat-img-res{
+    float: left;
+    margin-left: -1px;
+    width: 18%;
+    border-radius: 40px;
+    height: 35px;
+    margin-right: 12px;
+}
+.search-input{
+    width: 76%;
+    display: block;
+}
 .btn-icon{
     margin-right: 13px;
 }
@@ -73,9 +108,13 @@ mat-form-field{
 }
 
 .ion-textarea{
-    width: 75%;
+    width: 67%;
+    margin-left: 16px;
 }
-
+.cmt{
+    width: 352px;
+    margin-left: -16px;
+}
 ion-button{
     width: 28%;
     float: right;
