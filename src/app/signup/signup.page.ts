@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { Router } from '@angular/router';
-import { ToastController, AlertController, Platform, LoadingController, ActionSheetController } from '@ionic/angular';
+import { ToastController, AlertController, Platform, LoadingController, ActionSheetController, MenuController } from '@ionic/angular';
 import { WindowService } from '../providers/window.service';
 import * as firebase from 'firebase/app';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -20,19 +20,19 @@ export class SignupPage implements OnInit {
 
   user = {
     email: '',
-    phone:'',
-    nom:'',
-    prenom:'',
-    photo:'',
-    birthday:'',
+    phone: '',
+    nom: '',
+    prenom: '',
+    photo: '',
+    birthday: '',
 
-    conf:'',
+    conf: '',
     password: '',
   }
 
   retourUsr: any
   typeProfile = ''
-  captchaR:any
+  captchaR: any
   loading = false;
   telephone = ''
   codes = []
@@ -43,7 +43,7 @@ export class SignupPage implements OnInit {
   dispImags = []
 
 
-  showModal =  'hidden'
+  showModal = 'hidden'
 
   public recaptchaVerifier: firebase.auth.RecaptchaVerifier;
 
@@ -55,23 +55,28 @@ export class SignupPage implements OnInit {
 
   verificationCode: string;
 
-  profileInfo:any
+  profileInfo: any
 
 
   constructor(private authService: AuthService,
     public router: Router,
     public toastController: ToastController,
     private win: WindowService,
-    private alertCtrl:AlertController,
+    private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private camera: Camera,
     private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
+    private menuCtrl: MenuController
 
-    ) { }
+  ) { }
 
   ngOnInit() {
+
+    this.menuCtrl.enable(false);
+    this.menuCtrl.swipeGesture(false);
+
     this.windowRef = this.win.windowRef
     //console.log(this.win.windowRef)
     this.windowRef.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container')
@@ -87,7 +92,7 @@ export class SignupPage implements OnInit {
     })
   }
 
-  shwModal(){
+  shwModal() {
     console.log(this.showModal)
     if (this.showModal === 'hidden') {
       this.showModal = 'visible'
@@ -95,7 +100,7 @@ export class SignupPage implements OnInit {
       this.showModal = 'hidden'
     }
   }
-  
+
   updateDOBDateDeNaissance(dateObject) {
     // convert object to string then trim it to dd-mm-yyyy
     var offsetMs = dateObject.value.getTimezoneOffset() * 60000;
@@ -107,11 +112,11 @@ export class SignupPage implements OnInit {
 
 
 
-  signIn() {  
+  signIn() {
     const appVerifier = this.windowRef.recaptchaVerifier;
     const phoneNumberString = this.selected + this.telephone;
-     this.user.phone = this.selected + this.telephone;
-     console.log(phoneNumberString)
+    this.user.phone = this.selected + this.telephone;
+    console.log(phoneNumberString)
     firebase.auth().signInWithPhoneNumber(phoneNumberString, appVerifier)
       .then(async result => {
         this.windowRef.confirmationResult = result;
@@ -142,10 +147,10 @@ export class SignupPage implements OnInit {
   }
 
 
-  choseAvatr(url){
+  choseAvatr(url) {
     console.log(url)
-      this.user.photo = url;
-      this.presentToast("Avatar choisi ")
+    this.user.photo = url;
+    this.presentToast("Avatar choisi ")
 
   }
 
@@ -154,52 +159,52 @@ export class SignupPage implements OnInit {
     this.windowRef.confirmationResult
       .confirm(this.verificationCode)
       .then(result => {
-     
+
         this.signup()
 
       })
-      .catch(error =>{
-        console.log(error, "Incorrect code entered?"); 
+      .catch(error => {
+        console.log(error, "Incorrect code entered?");
         this.presentToast("Incorrect code ")
-      } );
+      });
 
   }
-  
 
-  signup(){
+
+  signup() {
     console.log(JSON.stringify(this.user));
     this.presentLoading()
     if (this.user.password == this.user.conf) {
-        this.authService.signup(JSON.stringify(this.user)).subscribe(res => {
-          console.log(res)
-          this.retourUsr = res;
-            this.profileInfo = res['data']
-            this.dismissLoading()
-          if (this.retourUsr['status'] == 200) {
-            this.presentToast('1ere étape passée ! Vous êtes inscrit ')
-            this.loading = false
-            localStorage.setItem('teepzyUserId', this.profileInfo['userI']['_id'])
-            localStorage.setItem('teepzyToken',this.profileInfo['token'])
-            localStorage.setItem('teepzyEmail', this.profileInfo['userI']['email'])
-            this.router.navigate(['/signup-final'],{
-              replaceUrl: true,
-              queryParams: this.user, 
-            })
-           // this.obj.user = result.user;
-          }
-        }, error => {
-          console.log(error)
-          this.loading = false;
-           if (error['status'] == 403){
-            this.presentToast('Ce compte existe déjà. Vérifier email ou vos pseudos')
-            this.dismissLoading()
-          } else {
-            this.presentToast('Oops! une erreur est survenue sur le serveur')
-            this.dismissLoading()
+      this.authService.signup(JSON.stringify(this.user)).subscribe(res => {
+        console.log(res)
+        this.retourUsr = res;
+        this.profileInfo = res['data']
+        this.dismissLoading()
+        if (this.retourUsr['status'] == 200) {
+          this.presentToast('1ere étape passée ! Vous êtes inscrit ')
+          this.loading = false
+          localStorage.setItem('teepzyUserId', this.profileInfo['userI']['_id'])
+          localStorage.setItem('teepzyToken', this.profileInfo['token'])
+          localStorage.setItem('teepzyEmail', this.profileInfo['userI']['email'])
+          this.router.navigateByUrl('/signup-final', {
+            replaceUrl: true,
+            queryParams: this.user,
+          })
+          // this.obj.user = result.user;
+        }
+      }, error => {
+        console.log(error)
+        this.loading = false;
+        if (error['status'] == 403) {
+          this.presentToast('Ce compte existe déjà. Vérifier email ou vos pseudos')
+          this.dismissLoading()
+        } else {
+          this.presentToast('Oops! une erreur est survenue sur le serveur')
+          this.dismissLoading()
 
-          }
-  
-        })
+        }
+
+      })
 
     } else {
       this.loading = false;

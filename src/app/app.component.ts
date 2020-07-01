@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform, NavController } from '@ionic/angular';
+import { Platform, NavController, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as firebase from 'firebase';
@@ -14,14 +14,19 @@ import { fromEvent } from 'rxjs';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  navigate : any;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private router: Router,
-    private navCtrl:NavController
+    private navCtrl:NavController,
+    public toastController: ToastController,
+
 
   ) {
+    this.sideMenu();
+
     this.initializeApp();
 
     const event = fromEvent(document, 'backbutton');
@@ -44,9 +49,9 @@ export class AppComponent {
   firebase.initializeApp(firebaseConfig);
 
   let token = localStorage.getItem('teepzyToken')
-/*
+
 if (token) {
-   this.router.navigate(['/contacts'], {
+   this.router.navigate(['/tabs/tab1'], {
      replaceUrl: true
    }
    )
@@ -55,7 +60,7 @@ if (token) {
      replaceUrl: true
    }
    )
-  }*/
+  }
 }
 
   initializeApp() {
@@ -63,5 +68,47 @@ if (token) {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+
+  sideMenu()
+  {
+    this.navigate =
+    [
+      {
+        title : "Home",
+        url   : "/home",
+        icon  : "home"
+      },
+      {
+        title : "Chat",
+        url   : "/chat",
+        icon  : "chatboxes"
+      },
+      {
+        title : "Contacts",
+        url   : "/contacts",
+        icon  : "contacts"
+      },
+    ]
+  }
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 4000
+    });
+    toast.present();
+  }
+
+
+  logout(){
+    localStorage.removeItem('teepzyUserId')
+    localStorage.removeItem('teepzyToken')
+    localStorage.removeItem('teepzyEmail')
+    this.presentToast('Vous êtes bien déconnectés')
+    this.router.navigateByUrl('/login', {
+      replaceUrl: true
+    })
+
   }
 }

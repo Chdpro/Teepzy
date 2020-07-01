@@ -12,6 +12,11 @@
   <ion-grid>
     <ion-row>
       <ion-col>
+ 
+        <div>
+            <ion-progress-bar *ngIf="loading" type="indeterminate" reversed="true"></ion-progress-bar>
+        </div>
+
         <mat-tab-group>
           <mat-tab [label]=" 'Inviter  (' + listTeepzrsToInvite?.length + ')'">
 
@@ -105,7 +110,7 @@
                     </span>
                   </button>
                 </div>
-                <div *ngIf="c?.invited" class="example-button-container">
+                <div *ngIf="c?.invited" (click)="dleteInvitationSmsFromServer(c?.phone)" class="example-button-container">
                   <button mat-mini-fab disabled aria-label="Example icon button with a home icon">
                     <span class="material-icons">
                       check

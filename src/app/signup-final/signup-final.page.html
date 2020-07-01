@@ -24,7 +24,6 @@
             <span class="material-icons">
               check
             </span>
-            <label style="font-size: 14px;">Pseudo Amical validé</label>
           </span>
           <ion-spinner *ngIf="loadingA" style="margin-left: 35px;" name="lines-small"></ion-spinner>
 
@@ -32,7 +31,6 @@
             <span style="color: red;" class="material-icons">
               close
             </span>
-            <label style="color: red;">Pseudo Amical existe déjà</label>
 
           </div>
 
@@ -41,19 +39,17 @@
             <input matInput type="text" name="pProfessionnel" #pProfessionnel="ngModel" [(ngModel)]="user.pseudoPro"
               (ngModelChange)="checkP()" placeholder="Entrer un Pseudo">
           </mat-form-field>
-          <ion-spinner *ngIf="loadingP" style="margin-left: 35px;" name="lines-small"></ion-spinner>
+          <ion-spinner *ngIf="loadingP" style="margin-left: 16px;" name="lines-small"></ion-spinner>
 
           <div *ngIf="retourUsrP == 404 && loadingP == false  && user?.pseudoPro != ''">
             <span class="material-icons">
               check
             </span>
-            <label>Pseudo Professionnel valide</label>
           </div>
           <div *ngIf="retourUsrP == 201 && loadingP == false  && user?.pseudoPro != ''">
             <span style="color: red;" class="material-icons">
               close
             </span>
-            <label style="color: red;">Pseudo Professionnel existe déjà</label>
 
           </div>
         </form>
@@ -67,7 +63,7 @@
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <button style="float: right;" [disabled]="user?.pseudoIntime  == '' " (click)="updateUser()"
+    <button style="float: right;" (click)="updateUser()"
       mat-button>Suivant</button>
   </ion-toolbar>
 </ion-footer>

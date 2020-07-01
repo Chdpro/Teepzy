@@ -4,6 +4,8 @@ import { ContactService } from '../providers/contact.service';
 import { ToastController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import * as moment from 'moment';
+import { DatapasseService } from '../providers/datapasse.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -29,47 +31,54 @@ export class Tab1Page implements OnInit {
     userId: '',
     postId: '',
     comment: '',
-}
+  }
 
-commentC = {
-  userId: '',
-  commentId: '',
-  comment: '',
-}
+  commentC = {
+    userId: '',
+    commentId: '',
+    comment: '',
+  }
 
-listComments = []
-listCommentsOfComment = []
-
-
-postId = ''
-commentId = ''
+  listComments = []
+  listCommentsOfComment = []
 
 
-_MS_PER_DAY = 1000 * 60 * 60 * 24;
+  postId = ''
+  commentId = ''
 
-showSearch = false
-showResponsePanel = false
 
-search = ''
+  _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+  showSearch = false
+  showResponsePanel = false
+
+  search = ''
+  subscription: Subscription;  
+
+  timeCall = 0
 
   constructor(private authService: AuthService,
     private toasterController: ToastController,
     private socialSharing: SocialSharing,
-    private contactService: ContactService) { }
+    private dataPass: DatapasseService,
+    private contactService: ContactService) { 
+
+      this.subscription = this.dataPass.getPosts().subscribe(list => {  
+        console.log( list) 
+        if (list.length > 0) {    
+          this.listPosts = list     
+        }  
+      });  
+    }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.userId)
     this.getPosts(this.userId)
+
+
   }
 
-/*
-  ionViewWillEnter() {
-    this.userId = localStorage.getItem('teepzyUserId');
-    this.getUserInfo(this.userId)
-    this.getPosts(this.userId)
-
-  }*/
 
 
 
@@ -81,17 +90,18 @@ search = ''
     this.authService.myInfos(userId).subscribe(res => {
       console.log(res)
       this.user = res['data'];
-    }, error =>{
+    }, error => {
       console.log(error)
     })
   }
 
-  showResPanel(){
-    this.showResponsePanel ? this.showResponsePanel = false: this.showResponsePanel= true
+  showResPanel() {
+    console.log('show panel')
+    this.showResponsePanel ? this.showResponsePanel = false : this.showResponsePanel = true
   }
 
   sendShare(c) {
-    this.socialSharing.share('Bonjour,  ' + '<br>' + c.content, 'TeepZy' , null,
+    this.socialSharing.share('Bonjour,  ' + '<br>' + c.content, 'TeepZy', null,
       ' https://play.google.com/store/apps/details?id=com.teepzy.com').then(() => {
       }).catch((err) => {
         alert(JSON.stringify(err))
@@ -113,21 +123,20 @@ search = ''
     })
   }
 
-  getCommentsOfPost(postId){
-    this.showResPanel()
+  getCommentsOfPost(postId) {
     this.postId = postId
-    this.contactService.getCommentsOfPost(postId).subscribe(res =>{
+    this.contactService.getCommentsOfPost(postId).subscribe(res => {
       console.log(res);
       this.listComments = res['data']
-    }, error =>{
+    }, error => {
       console.log(error)
     })
   }
 
-  addCommentToPost(){
+  addCommentToPost() {
     this.commentT.userId = this.userId
     this.commentT.postId = this.postId
-    this.contactService.addCommentToPost(this.commentT).subscribe(res =>{
+    this.contactService.addCommentToPost(this.commentT).subscribe(res => {
       console.log(res)
       if (res['status'] == 200) {
         //this.presentToast('')
@@ -135,41 +144,48 @@ search = ''
         this.getCommentsOfPost(this.postId)
       }
     })
-    
+
   }
 
 
 
-  addCommentToComment(){
+  addCommentToComment() {
     this.commentC.userId = this.userId
     this.commentC.commentId = this.commentId
-    this.contactService.addCommentToComment(this.commentC).subscribe(res =>{
+    this.contactService.addCommentToComment(this.commentC).subscribe(res => {
       console.log(res)
       if (res['status'] == 200) {
         //this.presentToast('')
         this.commentC.comment = ''
+        this.presentToast('Vous avez répondu')
         this.getCommentsOfComment(this.commentId)
       }
+    }, error =>{
+      console.log(error)
+      this.presentToast('Oops! une erreur est survenue')
+
     })
-    
+
   }
 
-  getCommentsOfComment(commentId){
+  getCommentsOfComment(commentId) {
+    this.showResPanel()
     this.commentId = commentId
-    this.contactService.getCommentsOfPost(commentId).subscribe(res =>{
+    this.contactService.getCommentsOfComment(commentId).subscribe(res => {
       console.log(res);
       this.listCommentsOfComment = res['data']
-    }, error =>{
+    }, error => {
       console.log(error)
     })
   }
 
 
   getPosts(userId) {
+      this.timeCall = 1
+
     this.contactService.getPosts(userId).subscribe(res => {
       console.log(res)
-      this.listPosts = []
-      if ( res['data'] != null) {
+      if (res['data'] != null) {
         this.posts = res['data']
         this.posts.forEach(e => {
           let favorite = {
@@ -179,8 +195,10 @@ search = ''
           this.checkFavorite(favorite, e)
         });
       }
-  
-    }, error =>{
+
+      this.timeCall = 0
+
+    }, error => {
       console.log(error)
     })
   }
@@ -192,20 +210,20 @@ search = ''
 
 
 
-  checkFavorite(favorite, e){
+  checkFavorite(favorite, e) {
     this.contactService.checkFavorite(favorite).subscribe(res => {
       if (res['status'] == 201) {
         this.listPosts.push(
           {
             _id: e['_id'],
             userId: e['userId'],
-            userPhoto_url:  e['userPhoto_url'],
-            userPseudo:  e['userPseudo'],
-            content:  e['content'],
-            image_url:  e['image_url'],
-            backgroundColor:  e['backgroundColor'],
-            includedCircles:  e['includedCircles'],
-            createdAt:  e['createdAt'],
+            userPhoto_url: e['userPhoto_url'],
+            userPseudo: e['userPseudo'],
+            content: e['content'],
+            image_url: e['image_url'],
+            backgroundColor: e['backgroundColor'],
+            includedCircles: e['includedCircles'],
+            createdAt: e['createdAt'],
             favorite: true
           },
         )
@@ -217,13 +235,13 @@ search = ''
           {
             _id: e['_id'],
             userId: e['userId'],
-            userPhoto_url:  e['userPhoto_url'],
-            userPseudo:  e['userPseudo'],
-            content:  e['content'],
-            image_url:  e['image_url'],
-            backgroundColor:  e['backgroundColor'],
-            includedCircles:  e['includedCircles'],
-            createdAt:  e['createdAt'],
+            userPhoto_url: e['userPhoto_url'],
+            userPseudo: e['userPseudo'],
+            content: e['content'],
+            image_url: e['image_url'],
+            backgroundColor: e['backgroundColor'],
+            includedCircles: e['includedCircles'],
+            createdAt: e['createdAt'],
             favorite: false
           },
         )

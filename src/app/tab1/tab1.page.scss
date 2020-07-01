@@ -10,6 +10,7 @@ ion-slide{
     float: right;
     margin-top: -27px;
     margin-right: 12px;
+    display: flex;
 }
 
 .mat-img{
@@ -21,13 +22,17 @@ ion-slide{
 }
 .mat-res{
     background: aliceblue;
-    border-radius: 13px;
+    border-radius: 8px;
     padding: 19px;
 
 }
 mat-card-title, mat-card-subtitle{
     margin-top: -7px;
 
+}
+mat-card-title{
+    font-size: 19px;
+    font-weight: 300;
 }
 .comment-form{
     border-radius: 34px;

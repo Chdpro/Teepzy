@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient,} from '@angular/common/http';
-import { base_url, local_url, test_url } from 'src/config';
+import { base_url, test_url } from 'src/config';
 import { Observable } from 'rxjs';
 
 
@@ -37,6 +37,13 @@ export class ContactService {
     let url = 'users/checkSmsInvitation';
     return this.http.post(base_url + url, check, httpOptionsJson);
   }
+
+
+  deleteInviteViaSms(check): Observable<any> {
+    let url = 'users/deleteSmsInvitation';
+    return this.http.post(base_url + url, check, httpOptionsJson);
+  }
+
   checkInvitationTeepzr(check): Observable<any> {
     let url = 'users/checkInvitation';
     return this.http.post(base_url + url, check, httpOptionsJson);
@@ -71,12 +78,12 @@ export class ContactService {
 
   getCommentsOfComment(postId): Observable<any> {
     let url = 'users/comments/comment/all/' + postId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   addCommentToComment(comment): Observable<any> {
     let url = 'users/comments/comment/all';
-    return this.http.post(local_url + url, JSON.stringify(comment), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(comment), httpOptionsJson);
   }
 
   getCommentsOfPost(postId): Observable<any> {
@@ -91,7 +98,7 @@ export class ContactService {
 
   addFavorite(favorite): Observable<any> {
     let url = 'users/addFavorite';
-    return this.http.post(local_url + url, favorite, httpOptionsJson);
+    return this.http.post(base_url + url, favorite, httpOptionsJson);
   }
 
 }

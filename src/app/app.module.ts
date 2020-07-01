@@ -26,6 +26,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { AddPostPageModule } from './add-post/add-post.module';
 import { EmojiPickerModule } from 'ng-emoji-picker';
 import { MAT_DATE_LOCALE } from '@angular/material';
+import { DatapasseService } from './providers/datapasse.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,6 +43,7 @@ import { MAT_DATE_LOCALE } from '@angular/material';
     HttpClient,
     AuthService,
     WindowService,
+    DatapasseService,
     AndroidPermissions,
     SocialSharing,
     ImagePicker,

@@ -2,19 +2,24 @@
   <ion-header class="ion-no-border">
     <ion-toolbar>
 
-      <ion-title *ngIf="!showSearch">Bonjour Christian</ion-title>
+      <ion-title *ngIf="!showSearch">Bonjour {{user?.prenom}}</ion-title>
       <div *ngIf="!showSearch" class="example-button-container">
         <button (click)="showSearch = true" class="btn-icon" mat-mini-fab
           aria-label="Example icon button with a home icon">
           <mat-icon>search</mat-icon>
         </button>
-        <button mat-mini-fab disabled aria-label="Example icon button with a home icon">
+        <button class="btn-icon" mat-mini-fab
+        aria-label="Example icon button with a home icon">
+        <ion-menu-button>
           <mat-icon>settings</mat-icon>
-        </button>
+        </ion-menu-button>
+      </button>
+  
+
       </div>
 
       <span *ngIf="showSearch" style="display: flex;">
-        <button (click)="showSearch = false" style="font-size: 29px;" (click)="dismiss()" mat-button>
+        <button (click)="showSearch = false" style="font-size: 29px;" mat-button>
           <ion-icon name="arrow-back-outline"></ion-icon>
         </button>
         <form style="margin-top: 85px; margin-bottom: -21px;" class="example-form">
@@ -132,24 +137,32 @@
                 <ion-icon name="star-outline"></ion-icon>
               </button>
               <button (click)="getCommentsOfComment(c?._id)" class="btn-icon" mat-button aria-label="Example icon button with a home icon">
-                (3) réponse(s)
+                Réponse(s)
               </button>
             </mat-card-actions>
-            <div *ngIf="showResponsePanel" *ngFor="let cc of listCommentsOfComment;trackBy: trackByFn " class="mat-res">
-                <img mat-card-image class="mat-img-res" [src]="c?.userPhoto"  alt="">
-
-              <mat-card-title>{{cc?.userPseudo}}</mat-card-title>
-              <mat-card-subtitle></mat-card-subtitle>
-                {{cc?.comment}} 
+            <div *ngIf="showResponsePanel">
+              <div  *ngFor="let cc of listCommentsOfComment?.reverse();trackBy: trackByFn " >
+               <div *ngIf="cc?.commentId == c?._id" class="mat-res">
+                  <img mat-card-image class="mat-img-res" [src]="cc?.userPhoto"  alt="">
+                  <mat-card-title>{{cc?.userPseudo}}</mat-card-title>
+                  <mat-card-subtitle></mat-card-subtitle>
+                    {{cc?.comment}} 
+                  </div>
+               </div>
+            
+              <div *ngIf="listCommentsOfComment?.length == 0" style="text-align: center;">
+                Aucune réponse
               </div>
+            </div>
+        
 
               <span  *ngIf="showResponsePanel" style="display: flex;" >
                   <!-- Textarea in an item with a placeholder -->
                   <ion-item class="ion-textarea">
-                    <ion-textarea matInput name="commentC" required #commentC="ngModel" [(ngModel)]="commentC.comment"
+                    <ion-textarea matInput name="commentCc" required #commentCc="ngModel" [(ngModel)]="commentC.comment"
                       placeholder="Répondre..."></ion-textarea>
                   </ion-item>
-                  <button (click)="" [disabled]="commentC.errors?.required" style="font-size: 30px;margin-right: -5px;" mat-button>
+                  <button (click)="addCommentToComment()"  [disabled]="commentCc.errors?.required" style="font-size: 30px;margin-right: -5px;" mat-button>
                       <ion-icon name="send-outline"></ion-icon>
                   </button>
               </span>

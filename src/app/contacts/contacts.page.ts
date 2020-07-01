@@ -87,7 +87,7 @@ export class ContactsPage implements OnInit {
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
-    this.loadContacts()
+   // this.loadContacts()
     let a =  '+229 66 77 23 27'
     let b = '+22966772327'
     console.log(a.replace(/\s/g, '') == b.replace(/\s/g, '') ? true: false)
@@ -140,13 +140,14 @@ export class ContactsPage implements OnInit {
     }
     this.contacts.find(['*'], options).then((contacts) => {
       this.myContacts = contacts
-      alert('Contacts succesfully loaded')
+  //    alert('Contacts succesfully loaded')
+
       for (const mC of this.myContacts) {
+        this.loading = true
         let inviteViaSms = {
           phone: mC.phoneNumbers[0].value,
         }
         this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
-          console.log(res)
           if (res['status'] == 201) {
             this.listContacts.push(
               {
@@ -168,16 +169,14 @@ export class ContactsPage implements OnInit {
           }
           this.loading = false
         }, error => {
-          alert(JSON.stringify(error))
           this.loading = false
         })
       }
       this.getTeepzr()
+      this.loading = false
 
-      alert('Contacts succesfully checked')
 
     }, error => {
-      alert('Contacts is not loaded')
     })
   }
 
@@ -227,7 +226,6 @@ export class ContactsPage implements OnInit {
       ' https://play.google.com/store/apps/details?id=com.teepzy.com').then(() => {
         this.sendInvitationSmsToServer(c)
       }).catch((err) => {
-        alert(JSON.stringify(err))
       });
   }
 
@@ -245,6 +243,21 @@ export class ContactsPage implements OnInit {
     }, error => {
       this.presentToast('Invitation non envoyée')
       alert(JSON.stringify(error))
+    })
+  }
+
+
+  dleteInvitationSmsFromServer(phone) {
+    let inviteViaSms = {
+      senderId: this.userId,
+      phone: phone
+    }
+    this.contactService.deleteInviteViaSms(inviteViaSms).subscribe(res => {
+      console.log(res)
+      this.presentToast('Invitation annulée')
+      this.listContacts.find((c, index) => c['phone'].replace(/\s/g, '') == phone.replace(/\s/g, '') ? c['invited'] = false : null)
+    }, error => {
+      this.presentToast('Invitation non annulée')
     })
   }
 

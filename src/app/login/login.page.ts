@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { Router } from '@angular/router';
-import { ToastController, LoadingController } from '@ionic/angular';
+import { ToastController, LoadingController, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -24,9 +24,15 @@ export class LoginPage implements OnInit {
     public router: Router,
     public toastController: ToastController,
     private loadingCtrl: LoadingController,
+    private menuCtrl: MenuController
+
   ) { }
 
   ngOnInit() {
+
+    this.menuCtrl.enable(false);
+    this.menuCtrl.swipeGesture(false);
+
   }
 
 
@@ -42,7 +48,7 @@ export class LoginPage implements OnInit {
         localStorage.setItem('teepzyUserId', this.profileInfo['userI']['_id'])
         localStorage.setItem('teepzyToken', this.profileInfo['token'])
         localStorage.setItem('teepzyEmail', this.profileInfo['userI']['email'])
-        this.router.navigate(['/contacts'], {
+        this.router.navigateByUrl('/contacts', {
           replaceUrl: true
         })
       }
@@ -88,6 +94,4 @@ export class LoginPage implements OnInit {
     this.loading = false;
     return await this.loadingCtrl.dismiss().then(() => console.log('dismissed'));
   }
-
-
 }

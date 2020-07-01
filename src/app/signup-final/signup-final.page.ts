@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { Router, ActivatedRoute, RouterOutlet } from '@angular/router';
-import { ToastController, LoadingController } from '@ionic/angular';
+import { ToastController, LoadingController, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-signup-final',
@@ -10,17 +10,17 @@ import { ToastController, LoadingController } from '@ionic/angular';
 })
 export class SignupFinalPage implements OnInit {
   user = {
-    pseudoIntime:'',
-    pseudoPro:'',
+    pseudoIntime: '',
+    pseudoPro: '',
     userId: '',
-    role:'',
-    photo:''
+    role: '',
+    photo: ''
   }
 
   retourUsr: any
   retourUsrP = 0
-  profileInfo:any
-  captchaR:any
+  profileInfo: any
+  captchaR: any
   loading = false;
 
   loadingA = false
@@ -31,43 +31,53 @@ export class SignupFinalPage implements OnInit {
     public toastController: ToastController,
     private route: ActivatedRoute,
     private loadingCtrl: LoadingController,
-    
-    ) { }
+    private menuCtrl: MenuController
+  ) { }
 
   ngOnInit() {
-   let usr = this.route.snapshot.queryParamMap
-  // console.log(usr['params'])
-  this.user.photo = usr['params']['photo']
-  this.user.userId = localStorage.getItem('teepzyUserId')
+    let usr = this.route.snapshot.queryParamMap
+    // console.log(usr['params'])
+    this.user.photo = usr['params']['photo']
+    this.user.userId = localStorage.getItem('teepzyUserId')
+
+    this.menuCtrl.enable(false);
+    this.menuCtrl.swipeGesture(false);
+
   }
 
 
   updateUser() {
-    this.authService.update(this.user).subscribe(res =>{
-      console.log(res)
-      if (res['status'] == 200) {
-        this.retourUsr = true
-        this.presentToast('Vous êtes bien connectés')
-      } 
-    }, error =>{
-      console.log(error)
-      this.presentToast('Oops! une erreur est survenue')
-
-    })
+    if ((this.user.pseudoIntime == '' && this.user.pseudoPro != '') || (this.user.pseudoIntime != '' && this.user.pseudoPro == '')) {
+      this.authService.update(this.user).subscribe(res => {
+        console.log(res)
+        if (res['status'] == 200) {
+          this.retourUsr = true
+          this.presentToast('Vous êtes bien connectés')
+          this.router.navigateByUrl('/contacts', {
+            replaceUrl: true
+          })
+        }
+      }, error => {
+        console.log(error)
+        this.presentToast('Oops! une erreur est survenue')
+      })
+    } else {
+      this.presentToast('Veuillez renseigner au moins un pseudo')
+    }
   }
 
-  check(){
+  check() {
     this.loadingA = true
-    this.authService.check(this.user).subscribe(res =>{
+    this.authService.check(this.user).subscribe(res => {
       console.log(res)
       this.loadingA = false
 
       if (res['status'] == 201) {
         this.retourUsr = 201
-      } else if (res['status'] == 404){
+      } else if (res['status'] == 404) {
         this.retourUsr = 404
       }
-    }, error =>{
+    }, error => {
       console.log(error)
       this.loadingA = false
 
@@ -76,17 +86,17 @@ export class SignupFinalPage implements OnInit {
     })
   }
 
-  checkP(){
+  checkP() {
     this.loadingP = true
-    this.authService.check(this.user).subscribe(res =>{
+    this.authService.check(this.user).subscribe(res => {
       console.log(res)
       this.loadingP = false
       if (res['status'] == 201) {
         this.retourUsrP = 201
-      } else if (res['status'] == 404){
+      } else if (res['status'] == 404) {
         this.retourUsrP = 404
       }
-    }, error =>{
+    }, error => {
       console.log(error)
       this.loadingP = false
       this.presentToast('Oops! une erreur est survenue')

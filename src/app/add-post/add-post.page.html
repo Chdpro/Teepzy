@@ -1,72 +1,75 @@
-<ion-content>
-  <ion-header class="ion-no-border">
-    <ion-toolbar>
-      <button (click)="dismiss()" mat-raised-button>
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </button>
-      <div class="example-button-container">
-        <ion-button color="secondary" style="margin-top: 1px;" (click)="addPost()"  [disabled]="contentMsg.errors?.required"  expand="block" shape="round">
-          <span *ngIf="!loading">
-            Publier
-          </span>
-          <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-
-          
-        </ion-button>
-      </div>
-
-    </ion-toolbar>
-  </ion-header>
-
-
-  <div class="post-txt">
-    <div style="line-height: 21px;margin-top: 1px;">
-      <img class="img-poster"
-        [src]="user?.photo" alt="">
-    </div>
-  </div>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <form class="example-form">
-          <mat-form-field class="example-full-width">
-            <mat-label>Tapez ce que vous voulez</mat-label>
-            <textarea matInput [(ngModel)]="post.content" name="contentMsg" required #contentMsg="ngModel" rows="15" cols="60" placeholder="Ex. Je recherche un graphiste..."></textarea>
-          </mat-form-field>
-        </form>
-
-
-      </ion-col>
-      <ion-col size="12">
-
-        <span>
-          <span class="material-icons img-mat-icon">
-            collections
-          </span>
-          <span class="material-icons">
-            mood
-          </span>
-        </span>
-        <div class="example-button-container color-btns">
-          <button (click)="setBackgroundColor('#fff')" class="btn-icon white-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
-
-          </button>
-          <button (click)="setBackgroundColor('#000000')" class="btn-icon black-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
-
-          </button>
-          <button (click)="setBackgroundColor('#E5858B')" class="btn-icon brown-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
-
-          </button>
-          <button (click)="setBackgroundColor('#6C9FF0')" class="btn-icon blue-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
-
-          </button>
-          <button (click)="setBackgroundColor('#73D896')" class="btn-icon grey-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
-
-          </button>
+<ion-content >
+  <div [style.background-color]="post?.backgroundColor" style="    height: -webkit-fill-available;">
+      <ion-header class="ion-no-border" >
+          <ion-toolbar  [style.background-color]="post?.backgroundColor">
+            <button (click)="dismiss()" mat-raised-button>
+              <ion-icon name="arrow-back-outline"></ion-icon>
+            </button>
+            <div class="example-button-container">
+              <ion-button color="secondary" style="margin-top: 1px;" (click)="addPost()"  [disabled]="contentMsg.errors?.required"  expand="block" shape="round">
+                <span *ngIf="!loading">
+                  Publier
+                </span>
+                <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+      
+                
+              </ion-button>
+            </div>
+      
+          </ion-toolbar>
+        </ion-header>
+      
+      
+        <div class="post-txt">
+          <div style="line-height: 21px;margin-top: 1px;">
+            <img class="img-poster"
+              [src]="user?.photo" alt="">
+          </div>
         </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <form class="example-form">
+                <mat-form-field class="example-full-width">
+                  <mat-label  [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">Tapez ce que vous voulez</mat-label>
+                  <textarea [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }" matInput [(ngModel)]="post.content" name="contentMsg" required #contentMsg="ngModel" rows="15" cols="60" placeholder="Ex. Je recherche un graphiste..."></textarea>
+                </mat-form-field>
+              </form>
+      
+      
+            </ion-col>
+            <ion-col size="12">
+      
+              <span>
+                <span class="material-icons img-mat-icon">
+                  collections
+                </span>
+                <span class="material-icons">
+                  mood
+                </span>
+              </span>
+              <div class="example-button-container color-btns">
+                <button (click)="setBackgroundColor('#fff')" class="btn-icon white-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
+      
+                </button>
+                <button (click)="setBackgroundColor('#000000')" class="btn-icon black-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
+      
+                </button>
+                <button (click)="setBackgroundColor('#E5858B')" class="btn-icon brown-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
+      
+                </button>
+                <button (click)="setBackgroundColor('#6C9FF0')" class="btn-icon blue-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
+      
+                </button>
+                <button (click)="setBackgroundColor('#73D896')" class="btn-icon grey-btn" mat-mini-fab  aria-label="Example icon button with a home icon">
+      
+                </button>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      
+  </div>
 
 
 </ion-content>
