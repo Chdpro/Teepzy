@@ -20,12 +20,18 @@
               (ngModelChange)="check()" placeholder="Entrer un Pseudo">
 
           </mat-form-field>
-          <span *ngIf="retourUsr == 404 && loadingA == false && user?.pseudoIntime != ''">
+          <div *ngIf="retourUsr == 404 && loadingA == false && user?.pseudoIntime != ''">
             <span class="material-icons">
               check
             </span>
+          </div>
+          <span>
+
           </span>
-          <ion-spinner *ngIf="loadingA" style="margin-left: 35px;" name="lines-small"></ion-spinner>
+          <span>
+            <ion-spinner *ngIf="loadingA" style="margin-left: 35px;" name="lines-small"></ion-spinner>
+
+          </span>
 
           <div *ngIf="retourUsr == 201 && loadingA == false && user?.pseudoIntime != ''">
             <span style="color: red;" class="material-icons">
@@ -39,7 +45,9 @@
             <input matInput type="text" name="pProfessionnel" #pProfessionnel="ngModel" [(ngModel)]="user.pseudoPro"
               (ngModelChange)="checkP()" placeholder="Entrer un Pseudo">
           </mat-form-field>
-          <ion-spinner *ngIf="loadingP" style="margin-left: 16px;" name="lines-small"></ion-spinner>
+          <span>
+            <ion-spinner *ngIf="loadingP" style="margin-left: 16px;" name="lines-small"></ion-spinner>
+          </span>
 
           <div *ngIf="retourUsrP == 404 && loadingP == false  && user?.pseudoPro != ''">
             <span class="material-icons">
@@ -52,6 +60,23 @@
             </span>
 
           </div>
+
+          <mat-form-field class="example-full-width">
+            <mat-label>Date de naissance</mat-label>
+            <input matInput [matDatepicker]="pickerEx" (click)="pickerEx.open()" (keydown)="false"
+              (dateChange)="updateDOBDateDeNaissance($event)">
+            <mat-datepicker-toggle matSuffix [for]="pickerEx"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEx></mat-datepicker>
+            <mat-hint>
+              <ion-datetime style="    margin-top: -5px;" [value]="user?.birthday" [dayShortNames]="customDayShortNames"
+                displayFormat="DD MMM YYYY"
+                monthShortNames="janvier, fevrier, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, decemebre">
+              </ion-datetime>
+
+            </mat-hint>
+
+          </mat-form-field>
+
         </form>
 
       </ion-col>
@@ -63,7 +88,6 @@
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <button style="float: right;" (click)="updateUser()"
-      mat-button>Suivant</button>
+    <button style="float: right;" (click)="updateUser()" mat-button>Suivant</button>
   </ion-toolbar>
 </ion-footer>

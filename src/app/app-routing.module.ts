@@ -37,6 +37,10 @@ const routes: Routes = [
   {
     path: 'add-post',
     loadChildren: () => import('./add-post/add-post.module').then( m => m.AddPostPageModule)
+  },
+  {
+    path: 'bottom-sheet-overview-example-sheet',
+    loadChildren: () => import('./bottom-sheet-overview-example-sheet/bottom-sheet-overview-example-sheet.module').then( m => m.BottomSheetOverviewExampleSheetPageModule)
   }
 ];
 @NgModule({

@@ -14,7 +14,9 @@ export class SignupFinalPage implements OnInit {
     pseudoPro: '',
     userId: '',
     role: '',
-    photo: ''
+    photo: '',
+    birthday: '',
+
   }
 
   retourUsr: any
@@ -32,11 +34,14 @@ export class SignupFinalPage implements OnInit {
     private route: ActivatedRoute,
     private loadingCtrl: LoadingController,
     private menuCtrl: MenuController
-  ) { }
+  ) { 
+
+    
+  }
 
   ngOnInit() {
     let usr = this.route.snapshot.queryParamMap
-    // console.log(usr['params'])
+     console.log(usr['params'])
     this.user.photo = usr['params']['photo']
     this.user.userId = localStorage.getItem('teepzyUserId')
 
@@ -47,7 +52,10 @@ export class SignupFinalPage implements OnInit {
 
 
   updateUser() {
+
     if ((this.user.pseudoIntime == '' && this.user.pseudoPro != '') || (this.user.pseudoIntime != '' && this.user.pseudoPro == '')) {
+      this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
+      this.user.pseudoPro = this.user.pseudoPro.toLowerCase() 
       this.authService.update(this.user).subscribe(res => {
         console.log(res)
         if (res['status'] == 200) {
@@ -61,13 +69,45 @@ export class SignupFinalPage implements OnInit {
         console.log(error)
         this.presentToast('Oops! une erreur est survenue')
       })
-    } else {
+    }  else  if ((this.user.pseudoIntime != '' && this.user.pseudoPro != '') ) {
+      this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
+      this.user.pseudoPro = this.user.pseudoPro.toLowerCase() 
+        console.log(this.user.pseudoIntime)
+      this.authService.update(this.user).subscribe(res => {
+        console.log(res)
+        if (res['status'] == 200) {
+          this.retourUsr = true
+          this.presentToast('Vous êtes bien connectés')
+          this.router.navigateByUrl('/contacts', {
+            replaceUrl: true
+          })
+        }
+      }, error => {
+        console.log(error)
+        this.presentToast('Oops! une erreur est survenue')
+      })
+    }
+    
+    else {
       this.presentToast('Veuillez renseigner au moins un pseudo')
     }
   }
 
+  updateDOBDateDeNaissance(dateObject) {
+    // convert object to string then trim it to dd-mm-yyyy
+    var offsetMs = dateObject.value.getTimezoneOffset() * 60000;
+    let dte = new Date(dateObject.value.getTime() - offsetMs);
+    this.user.birthday = dte.toISOString()
+    console.log(this.user.birthday)
+
+  }
+
+
   check() {
     this.loadingA = true
+    this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
+    this.user.pseudoPro = this.user.pseudoPro.toLowerCase() 
+    console.log(this.user.pseudoIntime)
     this.authService.check(this.user).subscribe(res => {
       console.log(res)
       this.loadingA = false

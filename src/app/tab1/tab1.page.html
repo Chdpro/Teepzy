@@ -8,13 +8,12 @@
           aria-label="Example icon button with a home icon">
           <mat-icon>search</mat-icon>
         </button>
-        <button class="btn-icon" mat-mini-fab
-        aria-label="Example icon button with a home icon">
-        <ion-menu-button>
-          <mat-icon>settings</mat-icon>
-        </ion-menu-button>
-      </button>
-  
+        <button class="btn-icon" mat-mini-fab aria-label="Example icon button with a home icon">
+          <ion-menu-button>
+            <mat-icon>settings</mat-icon>
+          </ion-menu-button>
+        </button>
+
 
       </div>
 
@@ -84,10 +83,14 @@
       </ion-fab>
 
       <!-- fab placed to the bottom end -->
-      <ion-fab (click)="sendShare()" style="margin-bottom: 50px;" vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button color="light">
-          <ion-icon name="return-up-forward"></ion-icon>
-        </ion-fab-button>
+      <ion-fab style="margin-bottom: 50px;" vertical="bottom" horizontal="end" slot="fixed">
+
+        <label class="modal-open modal-label" for="modal-open2">
+          <ion-fab-button color="light">
+            <ion-icon name="return-up-forward"></ion-icon>
+          </ion-fab-button>
+        </label>
+
       </ion-fab>
 
       <!-- fab placed to the bottom end -->
@@ -97,10 +100,76 @@
         </ion-fab-button>
       </ion-fab>
 
+
+
     </ion-slide>
 
   </ion-slides>
 
+
+  <input type="radio" name="modal" value="open" id="modal-open2" class="modal-radio" />
+  <div class="modal2">
+    <label class="modal-label overlay">
+      <input type="radio" name="modal" value="close" class="modal-radio" />
+    </label>
+    <div class="content">
+      <div class="top">
+        <h2>Partager </h2>
+        <label class="modal-label close-btn">
+          <input type="radio" name="modal" value="close" class="modal-radio" />
+        </label>
+      </div>
+      <span>
+
+        <!-- fab placed to the bottom end -->
+        <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
+            <ion-icon style="color:white" name="flag-outline"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+        <!-- fab placed to the bottom end -->
+        <ion-fab vertical="bottom" style="    margin-left: 48px;" horizontal="start" slot="fixed">
+          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
+            <ion-icon style="color:white" name="copy-outline"></ion-icon>
+
+          </ion-fab-button>
+        </ion-fab>
+        <!-- fab placed to the bottom end -->
+        <ion-fab vertical="bottom" style="    margin-left: 95px;" horizontal="start" slot="fixed">
+          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
+            <ion-icon style="color:white" name="send-outline"></ion-icon>
+
+          </ion-fab-button>
+        </ion-fab>
+
+        <!-- fab placed to the bottom end -->
+        <ion-fab vertical="bottom" style="margin-left: -26px;" horizontal="center" slot="fixed">
+          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
+            <ion-icon style="color:white" name="logo-snapchat"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+        <!-- fab placed to the bottom end -->
+        <ion-fab vertical="bottom" style="margin-right: 100px;" horizontal="end" slot="fixed">
+          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
+            <ion-icon  style="color:white"  name="logo-facebook"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+        <!-- fab placed to the bottom end -->
+        <ion-fab vertical="bottom" style="margin-right: 49px;" horizontal="end" slot="fixed">
+          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
+            <ion-icon style="color:white" name="messenger-outline"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+   
+        <!-- fab placed to the bottom end -->
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
+            <ion-icon style="color:white" name="logo-instagram"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+      </span>
+    </div>
+  </div>
 
   <div class="content">
     <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
@@ -116,7 +185,7 @@
           </label>
         </div>
         <div>
-  
+
           <mat-card *ngFor="let c of listComments;trackBy: trackByFn " class="example-card cmt">
             <mat-card-header>
               <div mat-card-avatar class="example-header-image"></div>
@@ -127,45 +196,47 @@
             </mat-card-header>
             <mat-card-content>
               <p>
-                  {{c?.comment}} 
+                {{c?.comment}}
               </p>
 
-         
+
             </mat-card-content>
             <mat-card-actions>
               <button class="btn-icon" mat-button aria-label="Example icon button with a home icon">
                 <ion-icon name="star-outline"></ion-icon>
               </button>
-              <button (click)="getCommentsOfComment(c?._id)" class="btn-icon" mat-button aria-label="Example icon button with a home icon">
+              <button (click)="getCommentsOfComment(c?._id)" class="btn-icon" mat-button
+                aria-label="Example icon button with a home icon">
                 Réponse(s)
               </button>
             </mat-card-actions>
             <div *ngIf="showResponsePanel">
-              <div  *ngFor="let cc of listCommentsOfComment?.reverse();trackBy: trackByFn " >
-               <div *ngIf="cc?.commentId == c?._id" class="mat-res">
-                  <img mat-card-image class="mat-img-res" [src]="cc?.userPhoto"  alt="">
+              <div *ngFor="let cc of listCommentsOfComment?.reverse();trackBy: trackByFn ">
+                <div *ngIf="cc?.commentId == c?._id" class="mat-res">
+                  <img mat-card-image class="mat-img-res" [src]="cc?.userPhoto" alt="">
                   <mat-card-title>{{cc?.userPseudo}}</mat-card-title>
                   <mat-card-subtitle></mat-card-subtitle>
-                    {{cc?.comment}} 
-                  </div>
-               </div>
-            
+                  {{cc?.comment}}
+                </div>
+              </div>
+
               <div *ngIf="listCommentsOfComment?.length == 0" style="text-align: center;">
                 Aucune réponse
               </div>
             </div>
-        
 
-              <span  *ngIf="showResponsePanel" style="display: flex;" >
-                  <!-- Textarea in an item with a placeholder -->
-                  <ion-item class="ion-textarea">
-                    <ion-textarea matInput name="commentCc" required #commentCc="ngModel" [(ngModel)]="commentC.comment"
-                      placeholder="Répondre..."></ion-textarea>
-                  </ion-item>
-                  <button (click)="addCommentToComment()"  [disabled]="commentCc.errors?.required" style="font-size: 30px;margin-right: -5px;" mat-button>
-                      <ion-icon name="send-outline"></ion-icon>
-                  </button>
-              </span>
+
+            <span *ngIf="showResponsePanel" style="display: flex;">
+              <!-- Textarea in an item with a placeholder -->
+              <ion-item class="ion-textarea">
+                <ion-textarea matInput name="commentCc" required #commentCc="ngModel" [(ngModel)]="commentC.comment"
+                  placeholder="Répondre..."></ion-textarea>
+              </ion-item>
+              <button (click)="addCommentToComment()" [disabled]="commentCc.errors?.required"
+                style="font-size: 30px;margin-right: -5px;" mat-button>
+                <ion-icon name="send-outline"></ion-icon>
+              </button>
+            </span>
           </mat-card>
 
 
@@ -178,20 +249,20 @@
 
 
         <mat-card class="comment-form">
-            <div class="form-wrapper">
-                <!-- Textarea in an item with a placeholder -->
-                <ion-item class="ion-textarea">
-                  <ion-textarea matInput name="comment" required #comment="ngModel" [(ngModel)]="commentT.comment"
-                    placeholder="Commenter..."></ion-textarea>
-                </ion-item>
-      
-                <ion-button (click)="addCommentToPost()" size="small" [disabled]="comment.errors?.required" expand="block"
-                  shape="round">Envoyer</ion-button>
-      
-              </div>
-      
+          <div class="form-wrapper">
+            <!-- Textarea in an item with a placeholder -->
+            <ion-item class="ion-textarea">
+              <ion-textarea matInput name="comment" required #comment="ngModel" [(ngModel)]="commentT.comment"
+                placeholder="Commenter..."></ion-textarea>
+            </ion-item>
+
+            <ion-button (click)="addCommentToPost()" size="small" [disabled]="comment.errors?.required" expand="block"
+              shape="round">Envoyer</ion-button>
+
+          </div>
+
         </mat-card>
-     
+
       </div>
     </div>
   </div>

@@ -24,7 +24,6 @@ export class SignupPage implements OnInit {
     nom: '',
     prenom: '',
     photo: '',
-    birthday: '',
 
     conf: '',
     password: '',
@@ -101,15 +100,7 @@ export class SignupPage implements OnInit {
     }
   }
 
-  updateDOBDateDeNaissance(dateObject) {
-    // convert object to string then trim it to dd-mm-yyyy
-    var offsetMs = dateObject.value.getTimezoneOffset() * 60000;
-    let dte = new Date(dateObject.value.getTime() - offsetMs);
-    this.user.birthday = dte.toISOString()
-    console.log(this.user.birthday)
-
-  }
-
+ 
 
 
   signIn() {
@@ -186,7 +177,7 @@ export class SignupPage implements OnInit {
           localStorage.setItem('teepzyUserId', this.profileInfo['userI']['_id'])
           localStorage.setItem('teepzyToken', this.profileInfo['token'])
           localStorage.setItem('teepzyEmail', this.profileInfo['userI']['email'])
-          this.router.navigateByUrl('/signup-final', {
+          this.router.navigate(['/signup-final'], {
             replaceUrl: true,
             queryParams: this.user,
           })

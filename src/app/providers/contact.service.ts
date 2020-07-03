@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient,} from '@angular/common/http';
-import { base_url, test_url } from 'src/config';
+import { base_url, test_url, local_url } from 'src/config';
 import { Observable } from 'rxjs';
 
 
@@ -62,12 +62,12 @@ export class ContactService {
 
   addPost(post): Observable<any> {
     let url = 'users/posts';
-    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
+    return this.http.post(local_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
 
 

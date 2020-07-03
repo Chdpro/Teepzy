@@ -12,11 +12,8 @@
   <ion-grid>
     <ion-row>
       <ion-col>
- 
-        <div>
-            <ion-progress-bar *ngIf="loading" type="indeterminate" reversed="true"></ion-progress-bar>
-        </div>
 
+        <!-- tabs here-->
         <mat-tab-group>
           <mat-tab [label]=" 'Inviter  (' + listTeepzrsToInvite?.length + ')'">
 
@@ -111,7 +108,7 @@
                   </button>
                 </div>
                 <div *ngIf="c?.invited" (click)="dleteInvitationSmsFromServer(c?.phone)" class="example-button-container">
-                  <button mat-mini-fab disabled aria-label="Example icon button with a home icon">
+                  <button mat-mini-fab style="background: green; color: white;" aria-label="Example icon button with a home icon">
                     <span class="material-icons">
                       check
                     </span>
@@ -143,4 +140,25 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
+  <div *ngIf="loading" class="modal">
+    <label class="modal-label overlay">
+      <input type="radio" name="modal" value="close" class="modal-radio" />
+    </label>
+    <div class="content">
+      <div class="top">
+        <h2 style=" text-align: center;"> Patientez... </h2>
+      
+      </div>
+      <span>
+
+          <div>
+              <ion-progress-bar  type="indeterminate" reversed="true"></ion-progress-bar>
+          </div>
+  
+      </span>
+    </div>
+  </div>
+
 </ion-content>

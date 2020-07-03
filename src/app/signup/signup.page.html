@@ -19,45 +19,28 @@
         <form class="example-form">
           <ion-grid>
             <ion-row>
-              <ion-col size="6">
+              <ion-col size="12">
                 <mat-form-field class="example-full-width">
                   <mat-label>Nom</mat-label>
                   <input matInput type="text" name="nom" #nom="ngModel" required [(ngModel)]="user.nom"
                     placeholder="Entrer votre nom">
                 </mat-form-field>
               </ion-col>
-              <ion-col size="6">
+              <ion-col size="12">
                 <mat-form-field class="example-full-width">
                   <mat-label>Prénoms</mat-label>
                   <input matInput type="text" name="prenom" #prenom="ngModel" required [(ngModel)]="user.prenom"
                     placeholder="Entrer votre prénom">
                 </mat-form-field>
               </ion-col>
-              <ion-col size="6">
+              <ion-col size="12">
                 <mat-form-field class="example-full-width">
                   <mat-label>Email</mat-label>
                   <input matInput type="email" name="email" #email="ngModel" required [(ngModel)]="user.email"
                     placeholder="Entrer votre email">
                 </mat-form-field>
               </ion-col>
-              <ion-col size="6">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Date de naissance</mat-label>
-                  <input matInput [matDatepicker]="pickerEx" (click)="pickerEx.open()" (keydown)="false"
-                    (dateChange)="updateDOBDateDeNaissance($event)">
-                  <mat-datepicker-toggle matSuffix [for]="pickerEx"></mat-datepicker-toggle>
-                  <mat-datepicker #pickerEx></mat-datepicker>
-                  <mat-hint>
-                    <ion-datetime style="    margin-top: -5px;" [value]="user?.birthday"
-                      [dayShortNames]="customDayShortNames" displayFormat="DD MMM YYYY"
-                      monthShortNames="janvier, fevrier, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, decemebre">
-                    </ion-datetime>
-
-                  </mat-hint>
-
-                </mat-form-field>
-
-              </ion-col>
+           
               <span>
                 <mat-form-field class="code">
 
@@ -77,33 +60,29 @@
 
 
               </ion-col>
-              <ion-col size="6">
+              <ion-col size="12">
                 <mat-form-field class="example-full-width">
                   <mat-label>Mot de passe</mat-label>
-                  <input matInput type="password" name="passwordId" #passwordId="ngModel" minlength="8" required
+                  <input matInput  [type]="hide ? 'text' : 'password'" name="passwordId" #passwordId="ngModel" minlength="8" required
                     [(ngModel)]="user.password" placeholder="">
-
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                        </button>
                 </mat-form-field>
                 <div style="font-size: 11px;margin-left: 1px; width: 272px;" *ngIf="passwordId.errors?.minlength">
                   Le mot de passe doit contenir au moins 8 caractères
                 </div>
               </ion-col>
-              <ion-col size="6">
+              <ion-col size="12">
                 <mat-form-field class="example-full-width">
                   <mat-label>Confirmer mot de passe</mat-label>
                   <input matInput name="conf" #conf="ngModel" required [(ngModel)]="user.conf" placeholder=""
-                    type="password">
+                  [type]="hideC ? 'text' : 'password'">
+                  <button mat-icon-button matSuffix (click)="hideC = !hideC" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideC">
+                      <mat-icon>{{hideC ? 'visibility' : 'visibility_off'}}</mat-icon>
+                      </button>
                 </mat-form-field>
               </ion-col>
-              <ion-col size="6">
-
-              </ion-col>
-              <ion-col size="6">
-
-              </ion-col>
-
-
-
             </ion-row>
           </ion-grid>
 
@@ -130,24 +109,35 @@
           <button (click)="choseAvatr('https://www.teepzy.com/1.png')" mat-raised-button>
             <img src="https://www.teepzy.com/1.png" alt="" />
           </button>
+          <span *ngIf="user?.photo == 'https://www.teepzy.com/1.png' "  class="material-icons check">
+              check
+            </span>
         </mat-grid-tile>
         <mat-grid-tile>
           <button (click)="choseAvatr('https://www.teepzy.com/2.png')" mat-raised-button>
             <img src="https://www.teepzy.com/2.png" alt="" />
           </button>
-
+          <span *ngIf="user?.photo == 'https://www.teepzy.com/2.png'"  class="material-icons check">
+            check
+          </span>
         </mat-grid-tile>
         <mat-grid-tile>
           <button (click)="choseAvatr('https://www.teepzy.com/3.png')" mat-raised-button>
             <img src="https://www.teepzy.com/3.png" alt="" />
 
           </button>
+          <span *ngIf="user?.photo == 'https://www.teepzy.com/3.png' "  class="material-icons check">
+            check
+          </span>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button (click)="choseAvatr('http://localhost:5000/4.png')" mat-raised-button>
+          <button (click)="choseAvatr('https://www.teepzy.com/4.png')" mat-raised-button>
             <img src="https://www.teepzy.com/4.png" alt="" />
 
           </button>
+          <span *ngIf="user?.photo == 'https://www.teepzy.com/4.png' "  class="material-icons check">
+            check
+          </span>
 
         </mat-grid-tile>
         <mat-grid-tile>
@@ -155,6 +145,9 @@
             <img src="https://www.teepzy.com/5.png" alt="" />
 
           </button>
+          <span *ngIf="user?.photo == 'https://www.teepzy.com/5.png' "  class="material-icons check">
+            check
+          </span>
 
         </mat-grid-tile>
         <mat-grid-tile>
@@ -162,7 +155,9 @@
             <img src="https://www.teepzy.com/6.png" alt="" />
 
           </button>
-
+          <span *ngIf="user?.photo == 'https://www.teepzy.com/6.png' "  class="material-icons check">
+            check
+          </span>
         </mat-grid-tile>
       </mat-grid-list>
 
@@ -203,7 +198,6 @@
     <button style="float: right;" [disabled]="nom.errors?.required 
     || passwordId.errors?.required
     || conf.errors?.required
-    || user?.birthday == ''
         || prenom.errors?.required 
         || email.errors?.required
         || phone.errors?.required

@@ -6,7 +6,7 @@
               <ion-icon name="arrow-back-outline"></ion-icon>
             </button>
             <div class="example-button-container">
-              <ion-button color="secondary" style="margin-top: 1px;" (click)="addPost()"  [disabled]="contentMsg.errors?.required"  expand="block" shape="round">
+              <ion-button color="secondary" style="margin-top: 1px;" (click)="presentAlertConfirm()"  [disabled]="contentMsg.errors?.required"  expand="block" shape="round">
                 <span *ngIf="!loading">
                   Publier
                 </span>

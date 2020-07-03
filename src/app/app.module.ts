@@ -27,6 +27,8 @@ import { AddPostPageModule } from './add-post/add-post.module';
 import { EmojiPickerModule } from 'ng-emoji-picker';
 import { MAT_DATE_LOCALE } from '@angular/material';
 import { DatapasseService } from './providers/datapasse.service';
+import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
+import { BottomSheetOverviewExampleSheetPageModule } from './bottom-sheet-overview-example-sheet/bottom-sheet-overview-example-sheet.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +36,7 @@ import { DatapasseService } from './providers/datapasse.service';
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, BrowserAnimationsModule,
     HttpClientModule,
     AddPostPageModule,
+    BottomSheetOverviewExampleSheetPageModule,
     Ng2SearchPipeModule,
     EmojiPickerModule
   ],
@@ -44,6 +47,7 @@ import { DatapasseService } from './providers/datapasse.service';
     AuthService,
     WindowService,
     DatapasseService,
+    MatBottomSheet,
     AndroidPermissions,
     SocialSharing,
     ImagePicker,

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, ToastController, AlertController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
-import { Tab1Page } from '../tab1/tab1.page';
 import { DatapasseService } from '../providers/datapasse.service';
 
 @Component({
@@ -17,7 +16,8 @@ export class AddPostPage implements OnInit {
     content: '',
     image_url: '',
     userPhoto_url: '',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    userPseudo:''
   }
 
   loading =  false
@@ -30,7 +30,8 @@ export class AddPostPage implements OnInit {
     private toastController : ToastController,
     private authService: AuthService,
     private contactService: ContactService,
-    private dataPass: DatapasseService
+    private dataPass: DatapasseService,
+    public alertController: AlertController
     ) { }
 
   ngOnInit() {
@@ -50,6 +51,36 @@ export class AddPostPage implements OnInit {
     })
   }
 
+
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Quel pseudo Voulez-vous utiliser ?',
+      message: '',
+      buttons: [
+        {
+          text: 'Amical',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.post.userPseudo = this.user['pseudoIntime']
+            console.log(this.post.userPseudo);
+            this.addPost()
+          }
+        }, {
+          text: 'Professionnel',
+          handler: () => {
+            this.post.userPseudo = this.user['pseudoPro']
+            console.log(this.post.userPseudo);
+            this.addPost()
+
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
 
   getPosts(userId) {

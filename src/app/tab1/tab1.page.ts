@@ -6,6 +6,8 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import * as moment from 'moment';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription } from 'rxjs';
+import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
+import { BottomSheetOverviewExampleSheetPage } from '../bottom-sheet-overview-example-sheet/bottom-sheet-overview-example-sheet.page';
 
 
 @Component({
@@ -54,13 +56,13 @@ export class Tab1Page implements OnInit {
 
   search = ''
   subscription: Subscription;  
-
   timeCall = 0
 
   constructor(private authService: AuthService,
     private toasterController: ToastController,
     private socialSharing: SocialSharing,
     private dataPass: DatapasseService,
+    private _bottomSheet: MatBottomSheet,
     private contactService: ContactService) { 
 
       this.subscription = this.dataPass.getPosts().subscribe(list => {  
@@ -93,6 +95,10 @@ export class Tab1Page implements OnInit {
     }, error => {
       console.log(error)
     })
+  }
+
+  openBottomSheet(): void {
+    this._bottomSheet.open(BottomSheetOverviewExampleSheetPage);
   }
 
   showResPanel() {
