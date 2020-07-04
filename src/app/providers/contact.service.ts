@@ -62,12 +62,22 @@ export class ContactService {
 
   addPost(post): Observable<any> {
     let url = 'users/posts';
-    return this.http.post(local_url + url, JSON.stringify(post), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
+  }
+
+  rePost(post): Observable<any> {
+    let url = 'users/reposts';
+    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
+  }
+
+  addRePost(post): Observable<any> {
+    let url = 'users/reposts';
+    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
 
@@ -99,6 +109,12 @@ export class ContactService {
   addFavorite(favorite): Observable<any> {
     let url = 'users/addFavorite';
     return this.http.post(base_url + url, favorite, httpOptionsJson);
+  }
+
+
+  spam(sign): Observable<any> {
+    let url = 'users/reports';
+    return this.http.post(base_url + url, JSON.stringify(sign), httpOptionsJson);
   }
 
 }

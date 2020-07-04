@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, AlertController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import * as moment from 'moment';
 import { DatapasseService } from '../providers/datapasse.service';
@@ -48,7 +48,7 @@ export class Tab1Page implements OnInit {
   postId = ''
   commentId = ''
 
-
+  
   _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
   showSearch = false
@@ -63,6 +63,7 @@ export class Tab1Page implements OnInit {
     private socialSharing: SocialSharing,
     private dataPass: DatapasseService,
     private _bottomSheet: MatBottomSheet,
+    public alertController: AlertController,
     private contactService: ContactService) { 
 
       this.subscription = this.dataPass.getPosts().subscribe(list => {  
@@ -112,6 +113,58 @@ export class Tab1Page implements OnInit {
       }).catch((err) => {
         alert(JSON.stringify(err))
       });
+  }
+
+
+  signaler(pId, reason){
+    let spam = {
+      userId: this.userId,
+      postId: pId,
+      reason: reason
+    }
+    this.contactService.spam(spam).subscribe(res =>{
+      console.log(res)
+      this.presentToast('Ce post a été signlé comme spam')
+    }, error =>{
+      this.presentToast('Oops! une erreur est survenue')
+      console.log(error)
+    })
+  }
+
+
+  async presentAlertConfirm(pId) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Pourquoi signlez-vous cette publication ?',
+      message: '',
+      buttons: [
+        {
+          text: 'Inaproprié',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            let reason = 'Inaproprié'
+            this.signaler(pId,reason)
+          }
+        }, {
+          text: 'Lorem ipsum',
+          handler: () => {
+            let reason = 'Inaproprié'
+            this.signaler(pId,reason)
+          }
+        }
+        , {
+          text: 'Lorem ipsum2',
+          handler: () => {
+            let reason = 'Lorem ipsum2'
+            this.signaler(pId,reason)
+
+          }
+        }
+      ]
+    });
+    await alert.present();
+
   }
 
   addFavorite(postId) {
@@ -186,11 +239,33 @@ export class Tab1Page implements OnInit {
   }
 
 
+  rePost(post) {
+    let repost = {
+      postId: post['_id'],
+      fromId: post['userId'],
+      reposterId: this.userId,
+      userPhoto_url: post['userPhoto_url'],
+      userPseudo: post['userPseudo'],
+      content: post['content'],
+      image_url: post['image_url'],
+      backgroundColor: post['backgroundColor'],
+      includedCircles: post['includedCircles']
+    }
+    this.contactService.rePost(repost).subscribe(res => {
+      console.log(res)
+      this.getPosts(this.userId)
+      this.presentToast('Ce post a été publié')
+    }, error => {
+      this.presentToast('Oops! une erreur est survenue')
+      console.log(error)
+    })
+  }
+
   getPosts(userId) {
       this.timeCall = 1
-
     this.contactService.getPosts(userId).subscribe(res => {
       console.log(res)
+      this.listPosts = []
       if (res['data'] != null) {
         this.posts = res['data']
         this.posts.forEach(e => {

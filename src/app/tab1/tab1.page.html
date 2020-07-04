@@ -8,11 +8,12 @@
           aria-label="Example icon button with a home icon">
           <mat-icon>search</mat-icon>
         </button>
-        <button class="btn-icon" mat-mini-fab aria-label="Example icon button with a home icon">
-          <ion-menu-button>
+        <ion-menu-button>
+        <button mat-mini-fab aria-label="Example icon button with a home icon">
             <mat-icon>settings</mat-icon>
-          </ion-menu-button>
         </button>
+      </ion-menu-button>
+
 
 
       </div>
@@ -83,15 +84,14 @@
       </ion-fab>
 
       <!-- fab placed to the bottom end -->
+      <label class="modal-open " for="modal-open2">
       <ion-fab style="margin-bottom: 50px;" vertical="bottom" horizontal="end" slot="fixed">
-
-        <label class="modal-open modal-label" for="modal-open2">
           <ion-fab-button color="light">
             <ion-icon name="return-up-forward"></ion-icon>
           </ion-fab-button>
-        </label>
-
       </ion-fab>
+    </label>
+
 
       <!-- fab placed to the bottom end -->
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -100,6 +100,53 @@
         </ion-fab-button>
       </ion-fab>
 
+      <input type="radio" name="modal" value="open" id="modal-open2" class="modal-radio" />
+      <div class="modal2">
+        <label class="modal-label overlay">
+          <input type="radio" name="modal" value="close" class="modal-radio" />
+        </label>
+        <div class="content">
+          <div class="top" style="margin-top: -32px;color: black;">
+            <h2>Partager </h2>
+            <label class="modal-label close-btn">
+              <input type="radio" name="modal" value="close" class="modal-radio" />
+            </label>
+          </div>
+          <span>
+    
+            <!-- fab placed to the bottom end -->
+            <ion-fab (click)="presentAlertConfirm(p?._id)" vertical="bottom" horizontal="start" slot="fixed">
+              <ion-fab-button style="    margin-bottom: 48px;" color="primary">
+                <ion-icon style="color:white" name="flag-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-fab>
+       
+            <!-- fab placed to the bottom end -->
+            <ion-fab (click)="sendShare(p)" vertical="bottom" style="    margin-left: 95px;" horizontal="start" slot="fixed">
+              <ion-fab-button style="    margin-bottom: 48px;" color="primary">
+                <ion-icon style="color:white" name="share-social-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-fab>
+    
+        
+            <!-- fab placed to the bottom end -->
+            <ion-fab  vertical="bottom" style="margin-right: 100px;" horizontal="end" slot="fixed">
+              <ion-fab-button style="    margin-bottom: 48px;" color="primary">
+                <ion-icon  style="color:white"  name="download-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-fab>
+      
+       
+            <!-- fab placed to the bottom end -->
+            <ion-fab (click)="rePost(p)" vertical="bottom" horizontal="end" slot="fixed">
+              <ion-fab-button style="    margin-bottom: 48px;" color="primary">
+                <ion-icon style="color:white" name="share-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-fab>
+          </span>
+        </div>
+      </div>
+    
 
 
     </ion-slide>
@@ -107,70 +154,7 @@
   </ion-slides>
 
 
-  <input type="radio" name="modal" value="open" id="modal-open2" class="modal-radio" />
-  <div class="modal2">
-    <label class="modal-label overlay">
-      <input type="radio" name="modal" value="close" class="modal-radio" />
-    </label>
-    <div class="content">
-      <div class="top">
-        <h2>Partager </h2>
-        <label class="modal-label close-btn">
-          <input type="radio" name="modal" value="close" class="modal-radio" />
-        </label>
-      </div>
-      <span>
-
-        <!-- fab placed to the bottom end -->
-        <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
-            <ion-icon style="color:white" name="flag-outline"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-        <!-- fab placed to the bottom end -->
-        <ion-fab vertical="bottom" style="    margin-left: 48px;" horizontal="start" slot="fixed">
-          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
-            <ion-icon style="color:white" name="copy-outline"></ion-icon>
-
-          </ion-fab-button>
-        </ion-fab>
-        <!-- fab placed to the bottom end -->
-        <ion-fab vertical="bottom" style="    margin-left: 95px;" horizontal="start" slot="fixed">
-          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
-            <ion-icon style="color:white" name="send-outline"></ion-icon>
-
-          </ion-fab-button>
-        </ion-fab>
-
-        <!-- fab placed to the bottom end -->
-        <ion-fab vertical="bottom" style="margin-left: -26px;" horizontal="center" slot="fixed">
-          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
-            <ion-icon style="color:white" name="logo-snapchat"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-        <!-- fab placed to the bottom end -->
-        <ion-fab vertical="bottom" style="margin-right: 100px;" horizontal="end" slot="fixed">
-          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
-            <ion-icon  style="color:white"  name="logo-facebook"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-        <!-- fab placed to the bottom end -->
-        <ion-fab vertical="bottom" style="margin-right: 49px;" horizontal="end" slot="fixed">
-          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
-            <ion-icon style="color:white" name="messenger-outline"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-   
-        <!-- fab placed to the bottom end -->
-        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-          <ion-fab-button style="    margin-bottom: 48px;" color="primary">
-            <ion-icon style="color:white" name="logo-instagram"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-      </span>
-    </div>
-  </div>
-
+ 
   <div class="content">
     <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
     <div class="modal">

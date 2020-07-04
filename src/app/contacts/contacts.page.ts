@@ -23,7 +23,7 @@ export class ContactsPage implements OnInit {
     {
       givenName: 'Chris',
       familyName: 'Hounsounou',
-      phone: '+22998090908',
+      phone: '98148917',
       invited: false
     },
     {
@@ -82,16 +82,15 @@ export class ContactsPage implements OnInit {
 
   constructor(private contacts: Contacts, private sms: SMS,
     public toastController: ToastController,
-    private androidPermissions: AndroidPermissions,
     private socialSharing: SocialSharing,
     private contactService: ContactService) { }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.loadContacts()
-    let a =  '+229 66 77 23 27'
+    let a =  '66 77 23 27'
     let b = '+22966772327'
-    console.log(a.replace(/\s/g, '') == b.replace(/\s/g, '') ? true: false)
+    console.log(a.replace(/\s/g, '').slice(-7) == b.replace(/\s/g, '').slice(-7) ? true: false)
     //this.getTeepzr()
   }
 
@@ -141,16 +140,13 @@ export class ContactsPage implements OnInit {
     }
     this.contacts.find(['*'], options).then((contacts) => {
       this.myContacts = contacts
-  //    alert('Contacts succesfully loaded')
-
-
       for (const mC of this.myContacts) {
         // set loading on list
-        this.arrayIncrementLoading++
-        while (this.arrayIncrementLoading <= this.myContacts.length ) {
+        this.loading = true
+        this.arrayIncrementLoading += 1
+        if (this.arrayIncrementLoading <= this.myContacts.length) {
         this.loading = true
         }
-
         let inviteViaSms = {
           phone: mC.phoneNumbers[0].value,
         }
@@ -187,13 +183,16 @@ export class ContactsPage implements OnInit {
     })
   }
 
+    
+
   getTeepzr() {
     let list = []
     this.contactService.teepZrs(this.userId).subscribe(res => {
       console.log(res)
       this.listTeepZrs = res['data']
+     // this.bPhoneNumberInArray()
       this.listContacts.forEach(um => {
-        this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '') == um.phone.replace(/\s/g, '') ? list.push(x) : null })
+        this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push(x) : null })
       });
       this.listTeepZrs = list
       this.listTeepZrs.forEach(e => {
@@ -213,19 +212,6 @@ export class ContactsPage implements OnInit {
 
     })
   }
-
-  checkSMSPermission() {
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.SEND_SMS).then(
-      result => console.log('Has permission?', result.hasPermission),
-      err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.SEND_SMS)
-    );
-  }
-  
-  requestSMSPermission() {
-    // tslint:disable-next-line: max-line-length
-    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.SEND_SMS, this.androidPermissions.PERMISSION.BROADCAST_SMS]);
-  }
-
 
 
   sendShare(c) {
