@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, IonSlides } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import * as moment from 'moment';
 import { DatapasseService } from '../providers/datapasse.service';
@@ -17,10 +17,6 @@ import { BottomSheetOverviewExampleSheetPage } from '../bottom-sheet-overview-ex
 })
 export class Tab1Page implements OnInit {
 
-  slideOpts = {
-    initialSlide: 1,
-    speed: 400
-  };
 
   user: any
 
@@ -58,6 +54,69 @@ export class Tab1Page implements OnInit {
   subscription: Subscription;  
   timeCall = 0
 
+
+   slideOpts = {
+    on: {
+      beforeInit() {
+        const swiper = this;
+        swiper.classNames.push(`${swiper.params.containerModifierClass}fade`);
+        const overwriteParams = {
+          slidesPerView: 1,
+          slidesPerColumn: 1,
+          slidesPerGroup: 1,
+          watchSlidesProgress: true,
+          spaceBetween: 0,
+          virtualTranslate: true,
+        };
+        swiper.params = Object.assign(swiper.params, overwriteParams);
+        swiper.params = Object.assign(swiper.originalParams, overwriteParams);
+      },
+      setTranslate() {
+        const swiper = this;
+        const { slides } = swiper;
+        for (let i = 0; i < slides.length; i += 1) {
+          const $slideEl = swiper.slides.eq(i);
+          const offset$$1 = $slideEl[0].swiperSlideOffset;
+          let tx = -offset$$1;
+          if (!swiper.params.virtualTranslate) tx -= swiper.translate;
+          let ty = 0;
+          if (!swiper.isHorizontal()) {
+            ty = tx;
+            tx = 0;
+          }
+          const slideOpacity = swiper.params.fadeEffect.crossFade
+            ? Math.max(1 - Math.abs($slideEl[0].progress), 0)
+            : 1 + Math.min(Math.max($slideEl[0].progress, -1), 0);
+          $slideEl
+            .css({
+              opacity: slideOpacity,
+            })
+            .transform(`translate3d(${tx}px, ${ty}px, 0px)`);
+        }
+      },
+      setTransition(duration) {
+        const swiper = this;
+        const { slides, $wrapperEl } = swiper;
+        slides.transition(duration);
+        if (swiper.params.virtualTranslate && duration !== 0) {
+          let eventTriggered = false;
+          slides.transitionEnd(() => {
+            if (eventTriggered) return;
+            if (!swiper || swiper.destroyed) return;
+            eventTriggered = true;
+            swiper.animating = false;
+            const triggerEvents = ['webkitTransitionEnd', 'transitionend'];
+            for (let i = 0; i < triggerEvents.length; i += 1) {
+              $wrapperEl.trigger(triggerEvents[i]);
+            }
+          });
+        }
+      },
+    }
+  }
+
+  @ViewChild(IonSlides, null)slides: IonSlides;
+
   constructor(private authService: AuthService,
     private toasterController: ToastController,
     private socialSharing: SocialSharing,
@@ -82,6 +141,23 @@ export class Tab1Page implements OnInit {
 
   }
 
+  public next(){
+    this.slides.slideNext();
+  }
+
+  public prev(){
+    this.slides.slidePrev();
+  }
+
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      this.getPosts(this.userId)
+      event.target.complete();
+    }, 4000);
+  }
 
 
 
@@ -139,12 +215,11 @@ export class Tab1Page implements OnInit {
       message: '',
       buttons: [
         {
-          text: 'Inaproprié',
+          text: 'Annuler',
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            let reason = 'Inaproprié'
-            this.signaler(pId,reason)
+            this.presentToast('Annulé')
           }
         }, {
           text: 'Lorem ipsum',
@@ -153,7 +228,16 @@ export class Tab1Page implements OnInit {
             this.signaler(pId,reason)
           }
         }
-        , {
+        ,
+        {
+          text: 'Lorem ipsum',
+          handler: () => {
+            let reason = 'Inaproprié'
+            this.signaler(pId,reason)
+          }
+        }
+        ,
+        {
           text: 'Lorem ipsum2',
           handler: () => {
             let reason = 'Lorem ipsum2'
@@ -176,6 +260,21 @@ export class Tab1Page implements OnInit {
       console.log(res)
       this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = true : null)
       this.presentToast('Ajouté aux favoris')
+    }, error => {
+      this.presentToast('Oops! une erreur est survenue')
+      console.log(error)
+    })
+  }
+
+  removeFavorite(postId) {
+    let favoris = {
+      userId: this.userId,
+      postId: postId
+    }
+    this.contactService.removeFavorite(favoris).subscribe(res => {
+      console.log(res)
+      this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = false : null)
+      this.presentToast('Enlevés des favoris')
     }, error => {
       this.presentToast('Oops! une erreur est survenue')
       console.log(error)

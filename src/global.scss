@@ -33,13 +33,29 @@
   
 }
 
+// for iphone 5
 .swiper-wrapper{
     color: white;
-    height: 517px;
+    height: 443px;
     border-radius: 40px 40px 1px 0px;
-    margin-top: 9px;
+    margin-top: 25px;
 }
 
+/*
+
+color: white;
+    height: 401px;
+    border-radius: 40px 40px 1px 0px;
+    margin-top: 5px;
+*/
 .mat-mini-fab.mat-accent{
     background-color: #cfcfcf;;
 }
+
+
+
+  
+  /* On screens that are 600px or less, set the background color to olive */
+  @media screen and (max-width: 600px) {
+  
+  }

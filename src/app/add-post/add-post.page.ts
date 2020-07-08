@@ -59,15 +59,23 @@ export class AddPostPage implements OnInit {
       message: '',
       buttons: [
         {
-          text: 'Amical',
+          text: 'Annuler',
           role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.presentToast('Publication annulée')
+          }
+        }, 
+        
+        {
+          text: 'Amical',
           cssClass: 'secondary',
           handler: (blah) => {
             this.post.userPseudo = this.user['pseudoIntime']
             console.log(this.post.userPseudo);
             this.addPost()
           }
-        }, {
+        },{
           text: 'Professionnel',
           handler: () => {
             this.post.userPseudo = this.user['pseudoPro']

@@ -5,6 +5,7 @@ import { ContactService } from '../providers/contact.service';
 import { ToastController } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -41,9 +42,9 @@ export class ContactsPage implements OnInit {
 
     },
     {
-      givenName: 'Elvire',
-      familyName: 'Anato',
-      phone: '+229 98098867',
+      givenName: 'Ridy',
+      familyName: 'Nkyalu',
+      phone: '+330663534043',
       invited: false
 
     },
@@ -80,18 +81,21 @@ export class ContactsPage implements OnInit {
   lowValueT: number = 0;
   highValueT: number = 5;
 
+  userPhone = ''
   constructor(private contacts: Contacts, private sms: SMS,
     public toastController: ToastController,
     private socialSharing: SocialSharing,
+    public router: Router,
     private contactService: ContactService) { }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
-    this.loadContacts()
+    this.userPhone = localStorage.getItem('teepzyPhone')
+    //this.loadContacts()
     let a =  '66 77 23 27'
     let b = '+22966772327'
     console.log(a.replace(/\s/g, '').slice(-7) == b.replace(/\s/g, '').slice(-7) ? true: false)
-    //this.getTeepzr()
+    this.getTeepzr()
   }
 
 
@@ -142,16 +146,18 @@ export class ContactsPage implements OnInit {
       this.myContacts = contacts
       for (const mC of this.myContacts) {
         // set loading on list
-        this.loading = true
-        this.arrayIncrementLoading += 1
-        if (this.arrayIncrementLoading <= this.myContacts.length) {
-        this.loading = true
-        }
+      
         let inviteViaSms = {
           phone: mC.phoneNumbers[0].value,
         }
         this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
+          this.loading = true
+          this.arrayIncrementLoading += 1
+          if (this.arrayIncrementLoading <= this.myContacts.length) {
+          this.loading = true
+          }
           if (res['status'] == 201) {
+         
             this.listContacts.push(
               {
                 givenName: mC.name.givenName,
@@ -183,7 +189,13 @@ export class ContactsPage implements OnInit {
     })
   }
 
-    
+
+  goToOutcircle(){
+    this.router.navigate(['/outcircle'], {
+      replaceUrl: true,
+    })
+  }
+
 
   getTeepzr() {
     let list = []
@@ -191,7 +203,7 @@ export class ContactsPage implements OnInit {
       console.log(res)
       this.listTeepZrs = res['data']
      // this.bPhoneNumberInArray()
-      this.listContacts.forEach(um => {
+      this.contactsTest.forEach(um => {
         this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push(x) : null })
       });
       this.listTeepZrs = list

@@ -18,7 +18,6 @@
             <mat-label>Cercle Amical</mat-label>
             <input matInput type="text" name="pAmical" #pAmical="ngModel" [(ngModel)]="user.pseudoIntime"
               (ngModelChange)="check()" placeholder="Entrer un Pseudo">
-
           </mat-form-field>
           <div *ngIf="retourUsr == 404 && loadingA == false && user?.pseudoIntime != ''">
             <span class="material-icons">

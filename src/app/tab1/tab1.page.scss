@@ -1,16 +1,60 @@
 ion-title{
     color: #ea4e50;
 }
-
+ion-toolbar{
+    height: 68px;
+    margin-bottom: -22px;
+}
 ion-slide{
     border-radius: 40px 40px 1px 0px;
+}
+.material-icons{
+    color: #ea4e50;
 }
 
 .example-button-container{
     float: right;
-    margin-top: -27px;
-    margin-right: 12px;
+    margin-right: -3px;
     display: flex;
+}
+
+.next-btn{
+    height: -webkit-fill-available;
+    position: absolute;
+    width: 19%;
+    background: #f0f8ff00;
+    color: #f0f8ff00;
+}
+.match-img{
+    position: absolute;
+    float: left;
+    width: 70%;
+    bottom: 57px;
+    display: flex;
+    color: #ea4e50;
+    font-size: 12px;
+
+}
+
+.match-image{
+    border-radius: 96px;
+    height: 25px;
+    width: 25px;
+    
+}
+.prev-btn{
+    float: right;
+    position: absolute;
+    height: 51%;
+    right: 0;
+    background: #f0f8ff00;
+    color: #f0f8ff00;
+}
+
+mat-icon{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .mat-img{
@@ -32,13 +76,14 @@ mat-card-title, mat-card-subtitle{
 }
 mat-card-title{
     font-size: 19px;
-    font-weight: 300;
+    font-weight: 600;
 }
 .comment-form{
-    border-radius: 34px;
-    margin-top: 22px;
-    width: 355px;
-    margin-left: -17px;
+    border-radius: 0px;
+    margin-top: -102px;
+    width: 362px;
+    margin-left: -21px;
+    height: 75px;
 }
 .mat-img-res{
     float: left;
@@ -119,12 +164,15 @@ mat-form-field{
 .cmt{
     width: 352px;
     margin-left: -16px;
+    background: #f7ebeb;
+    border-radius: 0px;
+    box-shadow: none;
 }
 ion-button{
     width: 28%;
     float: right;
     margin-right: -10px;
-    margin-top: -32px;
+    margin-top: -52px;
 }
 
 
@@ -213,6 +261,19 @@ ion-grid{
 
 
 
+.modal-label2{
+    background: #cfcfcf;
+    padding: 14px;
+    border-radius: 40px;
+    margin-right: -24px;
+    width: 52px;
+    font-size: 25px;
+    height: 52px;
+    margin-bottom: 14px;
+    position: relative;
+
+}
+
 .modal-radio {
     position: absolute;
     visibility: hidden;
@@ -224,7 +285,7 @@ ion-grid{
     z-index: 1113;
     height: 100%;
     width: 100%;
-    top: 0;
+    top: 185px;
     left: 0;
     overflow: hidden;
     opacity: 0;
@@ -272,7 +333,7 @@ ion-grid{
     max-height: 98%;
     top: 2%;
     left: 0%;
-    background: #fff;
+    background: #F0EFEF;
     border-radius: 44px 44px 0px 0px;
     box-shadow: 0 3px 15px -2px #222;
     padding: 20px;
@@ -285,7 +346,7 @@ ion-grid{
     max-height: 98%;
     top: 16%;
     left: 0%;
-    background: #fff;
+    background: #F0EFEF;
     border-radius: 44px 44px 0px 0px;
     box-shadow: 0 3px 15px -2px #222;
     padding: 20px;
@@ -294,12 +355,11 @@ ion-grid{
 
 .close-btn {
     position: absolute;
-    width: 30px;
-    height: 30px;
-    top: 10px;
-    right: 20px;
+    width: 17px;
+    height: 8px;
+    top: 11px;
+    right: 43px;
     border-radius: 50%;
-    border: 2px solid #f44336;
     cursor: pointer;
 }
 
@@ -309,7 +369,7 @@ ion-grid{
     position: absolute;
     width: 70%;
     height: 2px;
-    background: #f44336;
+    background: #ea4e50;
     left: 15%;
     top: 50%;
     top: calc(50% - 1px);
@@ -320,3 +380,82 @@ ion-grid{
 .close-btn:before {
     transform: rotate(-45deg);
 }
+
+.content-comment{
+    margin-left: 56px;
+    margin-top: -46px !important;
+}
+
+.star-btn{
+    float: right;
+    margin-top: -42px;
+}
+
+.answers{
+    color: #908A8A;
+}
+
+.scroll-content {
+    position: relative;
+  }
+  
+.text-share
+{
+      font-size: 11px;
+      margin-top: 19px;
+  }
+
+  .rs-btn{
+    margin-left: 95px;margin-bottom: 53px;text-align: center;
+  }
+  .sv-btn{
+    margin-right: 92px;margin-bottom: 53px;text-align: center;
+  }
+
+  .fixContainer{
+    position: fixed;
+    padding: 2em;
+    left: 59%;
+    top: 64%;
+    transform: translate(-50%, -50%);
+    }
+  /* On screens that are 992px or less, set the background color to blue */
+@media screen and (max-width: 320px) {
+    .modal2{
+        height: 37%;
+        width: 100%;
+        top: 308px;
+        
+    }
+
+    .fixContainer{
+    position: fixed;
+    padding: 2em;
+    left: 59%;
+    top: 64%;
+    transform: translate(-50%, -50%);
+    }
+
+
+    ion-button {
+        width: 28%;
+        float: right;
+        margin-right: 26px;
+        margin-top: -49px;
+    }
+
+    .ion-textarea {
+        width: 67%;
+        margin-left: -15px;
+    }
+
+    .search-input{
+        width: 73%;
+    }
+    .rs-btn{
+        margin-left: 79px;
+    }
+    .sv-btn{
+        margin-right: 81px;
+    }
+  }

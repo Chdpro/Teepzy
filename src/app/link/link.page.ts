@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-link',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LinkPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
+  }
+  goToContacts(){
+    this.router.navigate(['/contacts'], {
+      replaceUrl: true,
+    })
   }
 
 }

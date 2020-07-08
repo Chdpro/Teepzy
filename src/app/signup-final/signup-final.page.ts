@@ -105,8 +105,7 @@ export class SignupFinalPage implements OnInit {
 
   check() {
     this.loadingA = true
-    this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
-    this.user.pseudoPro = this.user.pseudoPro.toLowerCase() 
+    this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase().replace(/\s/g, '')
     console.log(this.user.pseudoIntime)
     this.authService.check(this.user).subscribe(res => {
       console.log(res)
@@ -128,6 +127,7 @@ export class SignupFinalPage implements OnInit {
 
   checkP() {
     this.loadingP = true
+    this.user.pseudoPro = this.user.pseudoPro.toLowerCase().replace(/\s/g, '') 
     this.authService.check(this.user).subscribe(res => {
       console.log(res)
       this.loadingP = false

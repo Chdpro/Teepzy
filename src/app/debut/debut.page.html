@@ -20,7 +20,7 @@
 
             </ion-col>
             <ion-col size="8">
-                <ion-button routerLink="/signup" expand="block" shape="round">Créer un compte</ion-button>
+                <ion-button (click)="goToSign()" expand="block" shape="round">Créer un compte</ion-button>
 
             </ion-col>
             <ion-col size="2">
@@ -34,7 +34,7 @@
                     <span>
                         Vous êtes déjà un teepZr?
                     </span>
-                    <a routerLink="/login" > Connectez-vous</a>
+                    <a (click)="goToLogin()" > Connectez-vous</a>
                 </span>
 
             </ion-col>

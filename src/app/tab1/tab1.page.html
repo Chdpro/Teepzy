@@ -1,169 +1,233 @@
 <ion-content [fullscreen]="true" [scrollY]="false">
+
   <ion-header class="ion-no-border">
     <ion-toolbar>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="8">
+            <h3 style="margin-top: 9px;color: #ea4e50;" *ngIf="!showSearch">Bonjour {{user?.prenom}}</h3>
+          </ion-col>
+          <ion-col>
+            <div *ngIf="!showSearch" class="example-button-container">
+              <button (click)="showSearch = true" class="btn-icon" mat-mini-fab
+                aria-label="Example icon button with a home icon">
+                <mat-icon>search</mat-icon>
+              </button>
+              <button style="text-align: center;" mat-mini-fab aria-label="Example icon button with a home icon">
+                <ion-menu-button autoHide="false">
+                  <mat-icon>settings</mat-icon>
+                </ion-menu-button>
+              </button>
+            </div>
+          </ion-col>
+        </ion-row>
 
-      <ion-title *ngIf="!showSearch">Bonjour {{user?.prenom}}</ion-title>
-      <div *ngIf="!showSearch" class="example-button-container">
-        <button (click)="showSearch = true" class="btn-icon" mat-mini-fab
-          aria-label="Example icon button with a home icon">
-          <mat-icon>search</mat-icon>
-        </button>
-        <ion-menu-button>
-        <button mat-mini-fab aria-label="Example icon button with a home icon">
-            <mat-icon>settings</mat-icon>
-        </button>
-      </ion-menu-button>
+        <ion-row>
+          <ion-col>
+            <span *ngIf="showSearch" style="display: flex;">
+              <button (click)="showSearch = false" style="font-size: 29px;" mat-button>
+                <ion-icon name="arrow-back-outline"></ion-icon>
+              </button>
+              <form style="margin-top: 65px; margin-bottom: -57px;" class="example-form">
+                <mat-form-field appearance="outline" class="example-full-width search-input">
+                  <mat-label>Rechercher</mat-label>
+                  <input [(ngModel)]="search" name="search" matInput placeholder="Taper pour filtrer">
+                </mat-form-field>
+              </form>
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
 
-
-      </div>
-
-      <span *ngIf="showSearch" style="display: flex;">
-        <button (click)="showSearch = false" style="font-size: 29px;" mat-button>
-          <ion-icon name="arrow-back-outline"></ion-icon>
-        </button>
-        <form style="margin-top: 85px; margin-bottom: -21px;" class="example-form">
-          <mat-form-field appearance="outline" class="example-full-width search-input">
-            <mat-label>Rechercher</mat-label>
-            <input [(ngModel)]="search" name="search" matInput placeholder="Taper pour filtrer">
-          </mat-form-field>
-        </form>
-      </span>
 
     </ion-toolbar>
   </ion-header>
 
-  <ion-slides pager="true" [options]="slideOpts">
-    <ion-slide *ngFor="let p of listPosts?.reverse() | filter:search ;trackBy: trackByFn "
-      [style.background-color]="p?.backgroundColor"
-      [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-      <div class="post-txt">
-        <div style="line-height: 21px;
-        margin-top: -10px;
-        width: 223px;">
-          <img class="img-poster" [src]="p?.userPhoto_url" alt="">
-          <strong>
-            {{p?.userPseudo}}
-          </strong><br>
-          <small>
-            {{p?.circle || '' }}
-          </small>
-          <span class="time">
-            {{time(p?.createdAt) }}
-          </span>
-        </div><br>
-        <p>
-          {{ p?.content }}
-        </p>
+  <div>
+    <ion-slides pager="true" (ionSlideNextEnd)="next()" (ionSlidePrevEnd)="prev()" [options]="slideOpts">
+
+      <ion-slide *ngFor="let p of listPosts?.reverse() | filter:search ;trackBy: trackByFn "
+        [style.background-color]="p?.backgroundColor"
+        [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+
+        <div class="post-txt" (click)="next()">
+          <div style="line-height: 21px;
+              margin-top: -10px;
+              width: 223px;">
+            <img class="img-poster" [src]="p?.userPhoto_url" alt="">
+            <strong>
+              {{p?.userPseudo}}
+            </strong><br>
+            <small>
+              {{p?.circle || '' }}
+            </small>
+            <span class="time">
+              {{time(p?.createdAt) }}
+            </span>
+          </div><br>
+          <p>
+            {{ p?.content }}
+          </p>
+
+          <div class="match-img">
+            <span style="margin-top: 6px;">MATCH</span>
+            <span style="margin-left: 6px;">
+              <img class="match-image"
+                src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+            </span>
+            <span style="margin-left: -9px;">
+              <img class="match-image"
+                src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+            </span>
+            <span style="margin-right: 6px;margin-left: -9px;">
+              <img class="match-image"
+                src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+            </span>
+            <span style="margin-top: 6px;">+3</span>
+
+          </div>
+
+
+        </div>
+
+        <div>
+          <label (click)="getCommentsOfPost(p?._id)" class="modal-open modal-label2" for="modal-open">
+              <ion-icon name="chatbubble"></ion-icon>
+          </label>
+
+          <!-- fab placed to the bottom end -->
+          <ion-fab *ngIf="p?.favorite != true" (click)="addFavorite(p?._id)" style="margin-bottom: 133px;"
+            vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button color="light">
+              <ion-icon name="star-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+          <!-- fab placed to the bottom end -->
+          <ion-fab *ngIf="p?.favorite == true" (click)="removeFavorite(p?._id)" style="margin-bottom: 133px;"
+            vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button color="light">
+              <ion-icon name="star"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+
+          <!-- fab placed to the bottom end -->
+          <label class="modal-open " for="modal-open2">
+            <ion-fab style="margin-bottom: 75px;" vertical="bottom" horizontal="end" slot="fixed">
+              <ion-fab-button color="light">
+                <span class="material-icons">
+                  redo
+                </span>
+              </ion-fab-button>
+            </ion-fab>
+          </label>
+
+
+          <!-- fab placed to the bottom end -->
+          <ion-fab vertical="bottom" style="    margin-bottom: 16px;" horizontal="end" slot="fixed">
+            <ion-fab-button color="light">
+              <span class="material-icons">
+                group_add
+              </span>
+            </ion-fab-button>
+          </ion-fab>
+
+        </div>
 
 
 
+      </ion-slide>
+      <div class="next-btn" (click)="prev()">
+        prev
       </div>
+      <div class="prev-btn" (click)="next()">
+        next
+      </div>
+    </ion-slides>
+
+  </div>
 
 
-      <!-- fab placed to the bottom end -->
-      <ion-fab (click)="getCommentsOfPost(p?._id)" style="margin-bottom: 150px;" vertical="bottom" horizontal="end"
-        slot="fixed">
-        <label class="modal-open modal-label" for="modal-open">
-
-          <ion-fab-button color="light">
-
-            <ion-icon name="chatbubble-outline"></ion-icon>
-          </ion-fab-button>
-        </label>
-
-      </ion-fab>
-      <!-- fab placed to the bottom end -->
-      <ion-fab (click)="addFavorite(p?._id)" style="margin-bottom: 100px;" vertical="bottom" horizontal="end"
-        slot="fixed">
-        <ion-fab-button color="light">
-          <ion-icon *ngIf="p?.favorite != true" name="star-outline"></ion-icon>
-          <ion-icon *ngIf="p?.favorite == true" name="star"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-
-      <!-- fab placed to the bottom end -->
-      <label class="modal-open " for="modal-open2">
-      <ion-fab style="margin-bottom: 50px;" vertical="bottom" horizontal="end" slot="fixed">
-          <ion-fab-button color="light">
-            <ion-icon name="return-up-forward"></ion-icon>
-          </ion-fab-button>
-      </ion-fab>
+  <input type="radio" name="modal" value="open" id="modal-open2" class="modal-radio" />
+  <div class="modal2">
+    <label class="modal-label overlay">
+      <input type="radio" name="modal" value="close" class="modal-radio" />
     </label>
-
-
-      <!-- fab placed to the bottom end -->
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button color="light">
-          <ion-icon name="people"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-
-      <input type="radio" name="modal" value="open" id="modal-open2" class="modal-radio" />
-      <div class="modal2">
-        <label class="modal-label overlay">
+    <div class="content">
+      <div class="top" style="margin-top: -32px;color: black; text-align: center;">
+        <h5>PARTAGER </h5>
+        <label class="modal-label close-btn">
           <input type="radio" name="modal" value="close" class="modal-radio" />
         </label>
-        <div class="content">
-          <div class="top" style="margin-top: -32px;color: black;">
-            <h2>Partager </h2>
-            <label class="modal-label close-btn">
-              <input type="radio" name="modal" value="close" class="modal-radio" />
-            </label>
-          </div>
-          <span>
-    
-            <!-- fab placed to the bottom end -->
-            <ion-fab (click)="presentAlertConfirm(p?._id)" vertical="bottom" horizontal="start" slot="fixed">
-              <ion-fab-button style="    margin-bottom: 48px;" color="primary">
-                <ion-icon style="color:white" name="flag-outline"></ion-icon>
-              </ion-fab-button>
-            </ion-fab>
-       
-            <!-- fab placed to the bottom end -->
-            <ion-fab (click)="sendShare(p)" vertical="bottom" style="    margin-left: 95px;" horizontal="start" slot="fixed">
-              <ion-fab-button style="    margin-bottom: 48px;" color="primary">
-                <ion-icon style="color:white" name="share-social-outline"></ion-icon>
-              </ion-fab-button>
-            </ion-fab>
-    
-        
-            <!-- fab placed to the bottom end -->
-            <ion-fab  vertical="bottom" style="margin-right: 100px;" horizontal="end" slot="fixed">
-              <ion-fab-button style="    margin-bottom: 48px;" color="primary">
-                <ion-icon  style="color:white"  name="download-outline"></ion-icon>
-              </ion-fab-button>
-            </ion-fab>
-      
-       
-            <!-- fab placed to the bottom end -->
-            <ion-fab (click)="rePost(p)" vertical="bottom" horizontal="end" slot="fixed">
-              <ion-fab-button style="    margin-bottom: 48px;" color="primary">
-                <ion-icon style="color:white" name="share-outline"></ion-icon>
-              </ion-fab-button>
-            </ion-fab>
-          </span>
-        </div>
       </div>
-    
+      <span>
+        <!-- fab placed to the bottom end -->
+        <ion-fab (click)="presentAlertConfirm(p?._id)" style="margin-bottom: 53px;text-align: center;" vertical="bottom"
+          horizontal="start" slot="fixed">
+          <ion-fab-button color="primary">
+            <ion-icon style="color:white" name="flag-outline"></ion-icon>
+          </ion-fab-button>
+          <div class="text-share">
+            signaler
+          </div>
+        </ion-fab>
 
 
-    </ion-slide>
+        <!-- fab placed to the bottom end -->
+        <ion-fab (click)="sendShare(p)" class="rs-btn" vertical="bottom" horizontal="start" slot="fixed">
+          <ion-fab-button color="primary">
+            <ion-icon style="color:white" name="share-social-outline"></ion-icon>
+          </ion-fab-button>
+          <div style="    margin-left: -18px;" class="text-share">
+            Réseaux sociaux
+          </div>
+        </ion-fab>
 
-  </ion-slides>
+
+        <!-- fab placed to the bottom end -->
+        <ion-fab vertical="bottom" class="sv-btn" horizontal="end" slot="fixed">
+          <ion-fab-button color="primary">
+            <span style="color: #ffff;" class="material-icons">
+              save_alt
+            </span>
+          </ion-fab-button>
+          <div class="text-share">
+            Enregistrer
+          </div>
+        </ion-fab>
 
 
- 
+        <!-- fab placed to the bottom end -->
+        <ion-fab (click)="rePost(p)" vertical="bottom" style="margin-bottom: 53px;text-align: center;" horizontal="end"
+          slot="fixed">
+          <ion-fab-button color="primary">
+            <span style="color:white" class="material-icons">
+              redo
+            </span>
+          </ion-fab-button>
+          <div class="text-share">
+            Mon cercle
+          </div>
+        </ion-fab>
+      </span>
+    </div>
+  </div>
+
+
   <div class="content">
     <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
     <div class="modal">
       <label class="modal-label overlay">
         <input type="radio" name="modal" value="close" class="modal-radio" />
       </label>
-      <div class="content" style="overflow: auto;">
+      <div class="content scroll-content" style="overflow: auto;">
         <div class="top">
-          <h3 style="text-align: center;"> {{listComments?.length}} Commentaire(s) </h3>
+          <h5 style="text-align: center;margin-top: -14px;"> {{listComments?.length}} Commentaire <span
+              *ngIf="listComments?.length > 1"> s </span> </h5>
           <label class="modal-label close-btn">
             <input type="radio" name="modal" value="close" class="modal-radio" />
           </label>
@@ -179,19 +243,18 @@
               <mat-card-subtitle></mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <p>
+              <p class="content-comment">
                 {{c?.comment}}
               </p>
-
-
-            </mat-card-content>
-            <mat-card-actions>
-              <button class="btn-icon" mat-button aria-label="Example icon button with a home icon">
+              <button class="btn-icon star-btn" mat-button aria-label="Example icon button with a home icon">
                 <ion-icon name="star-outline"></ion-icon>
               </button>
-              <button (click)="getCommentsOfComment(c?._id)" class="btn-icon" mat-button
+            </mat-card-content>
+            <mat-card-actions>
+
+              <button (click)="getCommentsOfComment(c?._id)" class="btn-icon answers" mat-button
                 aria-label="Example icon button with a home icon">
-                Réponse(s)
+                Voir les réponses( {{ listCommentsOfComment?.length || '0' }} )
               </button>
             </mat-card-actions>
             <div *ngIf="showResponsePanel">
@@ -208,8 +271,6 @@
                 Aucune réponse
               </div>
             </div>
-
-
             <span *ngIf="showResponsePanel" style="display: flex;">
               <!-- Textarea in an item with a placeholder -->
               <ion-item class="ion-textarea">
@@ -224,28 +285,25 @@
           </mat-card>
 
 
-        </div>
 
-        <div *ngIf="listComments?.length == 0" style="margin-top: 112px;text-align: center;">
-          Aucun Commentaire pour ce post
-        </div>
-
-
-
-        <mat-card class="comment-form">
-          <div class="form-wrapper">
-            <!-- Textarea in an item with a placeholder -->
-            <ion-item class="ion-textarea">
-              <ion-textarea matInput name="comment" required #comment="ngModel" [(ngModel)]="commentT.comment"
-                placeholder="Commenter..."></ion-textarea>
-            </ion-item>
-
-            <ion-button (click)="addCommentToPost()" size="small" [disabled]="comment.errors?.required" expand="block"
-              shape="round">Envoyer</ion-button>
-
+          <div *ngIf="listComments?.length == 0" style="margin-top: 112px;text-align: center;">
+            Aucun Commentaire pour ce post
           </div>
 
-        </mat-card>
+          <div class="fixContainer">
+            <mat-card class="comment-form">
+              <div class="form-wrapper">
+                <!-- Textarea in an item with a placeholder -->
+                <ion-item class="ion-textarea">
+                  <ion-textarea matInput name="comment" required #comment="ngModel" [(ngModel)]="commentT.comment"
+                    placeholder="Commenter..."></ion-textarea>
+                </ion-item>
+                <ion-button (click)="addCommentToPost()" size="small" [disabled]="comment.errors?.required"
+                  expand="block" shape="round">Envoyer</ion-button>
+              </div>
+            </mat-card>
+          </div>
+        </div>
 
       </div>
     </div>

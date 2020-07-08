@@ -37,8 +37,8 @@
             <ion-spinner *ngIf="loading && listTeepzrsToInvite?.length ==  0 " color="primary" name="dots">
             </ion-spinner>
 
-            <ion-item
-              *ngFor="let c of listTeepzrsToInvite |filter:contact | slice: lowValueT : highValueT  ;trackBy: trackByFn ">
+            <div *ngFor="let c of listTeepzrsToInvite |filter:contact | slice: lowValueT : highValueT  ;trackBy: trackByFn ">
+              <ion-item *ngIf="c?.phone !== userPhone" >        
               <img alt="" [src]="c?.photo">
               <ion-label> {{ c?.prenom }} <b> {{c?.nom}} </b>
                 <p>
@@ -59,6 +59,8 @@
 
             </ion-item>
 
+
+            </div>
 
             <ion-row>
               <ion-col size="2">
@@ -126,7 +128,7 @@
 
               </ion-col>
               <ion-col size="8">
-                <ion-button style="margin-top: 71px;" routerLink="/outcircle" expand="block" shape="round">Valider
+                <ion-button style="margin-top: 71px;" (click)="goToOutcircle()" expand="block" shape="round">Valider
                 </ion-button>
 
               </ion-col>

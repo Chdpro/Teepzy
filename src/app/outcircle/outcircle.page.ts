@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-outcircle',
@@ -53,6 +54,7 @@ export class OutcirclePage implements OnInit {
 
   constructor(private contactService: ContactService,
     public toastController: ToastController,
+    public router: Router,
     
     ) { }
 
@@ -78,6 +80,12 @@ export class OutcirclePage implements OnInit {
       this.highValue = this.highValue - this.pageSize;
     }
     this.pageIndex = event.pageIndex;
+  }
+
+  goToFeed(){
+    this.router.navigate(['/tabs/tab1'], {
+      replaceUrl: true,
+    })
   }
 
   getTeepzr() {

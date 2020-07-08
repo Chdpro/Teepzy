@@ -49,8 +49,7 @@ export class AppComponent {
   firebase.initializeApp(firebaseConfig);
 
   let token = localStorage.getItem('teepzyToken')
-
-if (token) {
+/*if (token) {
    this.router.navigateByUrl('/tabs/tab1', {
      replaceUrl: true
    }
@@ -60,7 +59,7 @@ if (token) {
      replaceUrl: true
    }
    )
-  }
+  }*/
 }
 
   initializeApp() {
