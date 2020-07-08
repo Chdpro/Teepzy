@@ -51,7 +51,7 @@ export class ContactService {
 
   teepZrs(userId): Observable<any> {
     let url = 'users/teepzr/' + userId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   eventualKnownTeepZrs(userId): Observable<any> {
@@ -77,7 +77,7 @@ export class ContactService {
 
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
 
@@ -114,7 +114,7 @@ export class ContactService {
 
   removeFavorite(favorite): Observable<any> {
     let url = 'users/removeFavorite';
-    return this.http.post(local_url + url, favorite, httpOptionsJson);
+    return this.http.post(base_url + url, favorite, httpOptionsJson);
   }
 
 
