@@ -30,6 +30,16 @@ export class ContactService {
 
   inviteToJoinCircle(invitation): Observable<any> {
     let url = 'users/inviteToJoinCircle';
+    return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
+  }
+
+  acceptInvitation(invitation): Observable<any> {
+    let url = 'users/acceptToJoinCircle';
+    return this.http.post(base_url + url, invitation, httpOptionsJson);
+  }
+
+  listInivtation(invitation): Observable<any> {
+    let url = 'users/invitations';
     return this.http.post(base_url + url, invitation, httpOptionsJson);
   }
 

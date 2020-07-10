@@ -1,12 +1,85 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ContactService } from '../providers/contact.service';
+import { ToastController, MenuController } from '@ionic/angular';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page implements OnInit {
 
-  constructor() {}
+
+  userId = ''
+  invitations = []
+  loading = false
+  constructor(
+    private contactService: ContactService, 
+    private menuCtrl: MenuController,
+    private toastController: ToastController) {
+      this.menuCtrl.enable(true);
+      this.menuCtrl.swipeGesture(true);
+    }
+
+
+
+  ngOnInit(){
+    this.userId = localStorage.getItem('teepzyUserId');
+    this.listInvitations()
+
+  }
+
+
+  listInvitations(){
+    let invitation  = {
+      idReceiver: this.userId
+    }
+    this.contactService.listInivtation(invitation).subscribe(res =>{
+      console.log(res)
+      this.invitations = res['data']
+    }, error =>{
+      console.log(error)
+    })
+  }
+
+  time(date) {
+    moment.locale('fr');
+    return moment(date).fromNow()
+  }
+
+
+  trackByFn(index, item) {
+    return index; // or item.id
+  }
+
+  acceptInvitation(I){
+    console.log(I)
+
+    let invitation  = {
+      idReceiver: this.userId,
+      idInvitation: I['_id'],
+      typeLink: I['typeLink'],
+      idSender: I['senderId']
+    }
+    this.loading = true
+    this.contactService.acceptInvitation(invitation).subscribe(res =>{
+      console.log(res)
+      this.loading = false
+      this.listInvitations()
+      this.presentToast('Vous désormais en contact')
+    }, error =>{
+      console.log(error)
+      this.loading = false
+    })
+  }
+
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 4000
+    });
+    toast.present();
+}
 
 }

@@ -48,17 +48,16 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div>
     <ion-slides pager="true" (ionSlideNextEnd)="next()" (ionSlidePrevEnd)="prev()" [options]="slideOpts">
 
       <ion-slide *ngFor="let p of listPosts?.reverse() | filter:search ;trackBy: trackByFn "
         [style.background-color]="p?.backgroundColor"
         [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
-
         <div class="post-txt" (click)="next()">
-          <div style="line-height: 21px;
-              margin-top: -10px;
-              width: 223px;">
+            <span *ngIf="p?.reposterId == userId" style="font-size: small;">
+                Vous avez publié la demande de 
+            </span>
+          <div style="line-height: 21px; margin-top: 11px;width: 223px;">
             <img class="img-poster" [src]="p?.userPhoto_url" alt="">
             <strong>
               {{p?.userPseudo}}
@@ -96,9 +95,22 @@
         </div>
 
         <div>
-          <label (click)="getCommentsOfPost(p?._id)" class="modal-open modal-label2" for="modal-open">
-              <ion-icon name="chatbubble"></ion-icon>
-          </label>
+          <ion-fab style="margin-bottom: 188px;" (click)="getCommentsOfPost(p?._id)" vertical="bottom" horizontal="end"
+            slot="fixed">
+            <ion-fab-button color="light">
+              <label class="modal-open" for="modal-open">
+                <ion-icon style="font-size: 26px;margin-top: 5px;" name="chatbubble"></ion-icon>
+              </label>
+            </ion-fab-button>
+          </ion-fab>
+
+
+          <!--button (click)="getCommentsOfPost(p?._id)" mat-mini-fab aria-label="Example icon button with a home icon">
+            <label class="modal-open modal-label" for="modal-open">
+              <mat-icon>home</mat-icon>
+            </label>
+
+          </button-->
 
           <!-- fab placed to the bottom end -->
           <ion-fab *ngIf="p?.favorite != true" (click)="addFavorite(p?._id)" style="margin-bottom: 133px;"
@@ -117,7 +129,7 @@
 
           <!-- fab placed to the bottom end -->
           <label class="modal-open " for="modal-open2">
-            <ion-fab style="margin-bottom: 75px;" vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab style="margin-bottom: 75px;" (click)="openShareActionSheet(p)" vertical="bottom" horizontal="end" slot="fixed">
               <ion-fab-button color="light">
                 <span class="material-icons">
                   redo
@@ -149,19 +161,18 @@
       </div>
     </ion-slides>
 
-  </div>
 
 
-  <input type="radio" name="modal" value="open" id="modal-open2" class="modal-radio" />
+  <input type="radio" name="modal2" value="open" id="modal-open2" class="modal-radio" />
   <div class="modal2">
     <label class="modal-label overlay">
-      <input type="radio" name="modal" value="close" class="modal-radio" />
+      <input type="radio" name="modal2" value="close" class="modal-radio" />
     </label>
     <div class="content">
       <div class="top" style="margin-top: -32px;color: black; text-align: center;">
         <h5>PARTAGER </h5>
         <label class="modal-label close-btn">
-          <input type="radio" name="modal" value="close" class="modal-radio" />
+          <input type="radio" name="modal2" value="close" class="modal-radio" />
         </label>
       </div>
       <span>
@@ -218,23 +229,22 @@
   </div>
 
 
-  <div class="content">
     <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
     <div class="modal">
       <label class="modal-label overlay">
         <input type="radio" name="modal" value="close" class="modal-radio" />
       </label>
-      <div class="content scroll-content" style="overflow: auto;">
+      <div class="content" style="overflow: auto;">
         <div class="top">
           <h5 style="text-align: center;margin-top: -14px;"> {{listComments?.length}} Commentaire <span
-              *ngIf="listComments?.length > 1"> s </span> </h5>
+            style="margin-left: -4px;"  *ngIf="listComments?.length > 1"> s </span> </h5>
           <label class="modal-label close-btn">
             <input type="radio" name="modal" value="close" class="modal-radio" />
           </label>
         </div>
         <div>
 
-          <mat-card *ngFor="let c of listComments;trackBy: trackByFn " class="example-card cmt">
+          <mat-card *ngFor="let c of listComments?.reverse();trackBy: trackByFn " class="example-card cmt">
             <mat-card-header>
               <div mat-card-avatar class="example-header-image"></div>
               <img mat-card-image class="mat-img" [src]="c?.userPhoto" alt="">
@@ -307,5 +317,4 @@
 
       </div>
     </div>
-  </div>
 </ion-content>

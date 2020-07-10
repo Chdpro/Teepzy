@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Contacts } from '@ionic-native/contacts/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
 import { ContactService } from '../providers/contact.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, AlertController } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Router } from '@angular/router';
@@ -23,7 +23,7 @@ export class ContactsPage implements OnInit {
   contactsTest = [
     {
       givenName: 'Chris',
-      familyName: 'Hounsounou',
+      familyName: 'Placktor',
       phone: '98148917',
       invited: false
     },
@@ -86,15 +86,16 @@ export class ContactsPage implements OnInit {
     public toastController: ToastController,
     private socialSharing: SocialSharing,
     public router: Router,
+    public alertController: AlertController,
     private contactService: ContactService) { }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
     this.loadContacts()
-    let a =  '66 77 23 27'
+    let a = '66 77 23 27'
     let b = '+22966772327'
-    console.log(a.replace(/\s/g, '').slice(-7) == b.replace(/\s/g, '').slice(-7) ? true: false)
+    console.log(a.replace(/\s/g, '').slice(-7) == b.replace(/\s/g, '').slice(-7) ? true : false)
     //this.getTeepzr()
   }
 
@@ -104,7 +105,7 @@ export class ContactsPage implements OnInit {
   }
 
 
-  
+
   getPaginatorData(event) {
     console.log(event);
     if (event.pageIndex === this.pageIndex + 1) {
@@ -146,7 +147,7 @@ export class ContactsPage implements OnInit {
       this.myContacts = contacts
       for (const mC of this.myContacts) {
         // set loading on list
-      
+
         let inviteViaSms = {
           phone: mC.phoneNumbers[0].value,
         }
@@ -154,10 +155,10 @@ export class ContactsPage implements OnInit {
           this.loading = true
           this.arrayIncrementLoading += 1
           if (this.arrayIncrementLoading <= this.myContacts.length) {
-          this.loading = true
+            this.loading = true
           }
           if (res['status'] == 201) {
-         
+
             this.listContacts.push(
               {
                 givenName: mC.name.givenName,
@@ -190,7 +191,7 @@ export class ContactsPage implements OnInit {
   }
 
 
-  goToOutcircle(){
+  goToOutcircle() {
     this.router.navigate(['/outcircle'], {
       replaceUrl: true,
     })
@@ -202,7 +203,7 @@ export class ContactsPage implements OnInit {
     this.contactService.teepZrs(this.userId).subscribe(res => {
       console.log(res)
       this.listTeepZrs = res['data']
-     // this.bPhoneNumberInArray()
+      // this.bPhoneNumberInArray()
       this.listContacts.forEach(um => {
         this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push(x) : null })
       });
@@ -227,7 +228,7 @@ export class ContactsPage implements OnInit {
 
 
   sendShare(c) {
-    this.socialSharing.share('Bonjour,  ' + '<br>' + "Je vous invite à rejoindre Teepzy. Téléchargez à ce lien", 'TeepZy' , null,
+    this.socialSharing.share('Bonjour,  ' + '<br>' + "Je vous invite à rejoindre Teepzy. Téléchargez à ce lien", 'TeepZy', null,
       ' https://play.google.com/store/apps/details?id=com.teepzy.com').then(() => {
         this.sendInvitationSmsToServer(c)
       }).catch((err) => {
@@ -267,13 +268,16 @@ export class ContactsPage implements OnInit {
   }
 
 
-  sendInvitationToJoinCircle(idReceiver) {
+  sendInvitationToJoinCircle(idReceiver, typeLink) {
     console.log(idReceiver)
     this.loading = true
     let invitation = {
       idSender: this.userId,
-      idReceiver: idReceiver
+      idReceiver: idReceiver,
+      typeLink: typeLink
     }
+    console.log(invitation)
+
     this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
       console.log(res)
       this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = true : null)
@@ -287,6 +291,43 @@ export class ContactsPage implements OnInit {
       alert(JSON.stringify(error))
 
     })
+  }
+
+  async presentAlertConfirm(IdR) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: "Quel type d'invitation voulez-vous envoyer ?",
+      message: '',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.presentToast('Annulé')
+          }
+        },
+
+        {
+          text: 'Professionnelle',
+          handler: () => {
+            let typeLink = 'PRO'
+            this.sendInvitationToJoinCircle(IdR, typeLink)
+          }
+        },
+
+        {
+          text: 'Amicale',
+          handler: () => {
+            let typeLink = 'AMICAL'
+            this.sendInvitationToJoinCircle(IdR, typeLink)
+
+          }
+        }
+      ]
+    });
+    await alert.present();
+
   }
 
   listSorter(array: any) {

@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
+import { MaterialModule } from '../material.module';
 
 import { Tab2PageRoutingModule } from './tab2-routing.module';
 
@@ -13,6 +14,7 @@ import { Tab2PageRoutingModule } from './tab2-routing.module';
     IonicModule,
     CommonModule,
     FormsModule,
+    MaterialModule,
     ExploreContainerComponentModule,
     Tab2PageRoutingModule
   ],

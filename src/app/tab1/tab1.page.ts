@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
-import { ToastController, AlertController, IonSlides } from '@ionic/angular';
+import { ToastController, AlertController, IonSlides, MenuController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import * as moment from 'moment';
 import { DatapasseService } from '../providers/datapasse.service';
@@ -54,6 +54,7 @@ export class Tab1Page implements OnInit {
   subscription: Subscription;  
   timeCall = 0
 
+  repost:any
 
    slideOpts = {
     on: {
@@ -117,14 +118,19 @@ export class Tab1Page implements OnInit {
 
   @ViewChild(IonSlides, null)slides: IonSlides;
 
+  navigationSubscription;     
+
   constructor(private authService: AuthService,
     private toasterController: ToastController,
     private socialSharing: SocialSharing,
     private dataPass: DatapasseService,
     private _bottomSheet: MatBottomSheet,
     public alertController: AlertController,
+    private menuCtrl: MenuController,
     private contactService: ContactService) { 
-
+      this.menuCtrl.enable(true);
+      this.menuCtrl.swipeGesture(true);
+  
       this.subscription = this.dataPass.getPosts().subscribe(list => {  
         console.log( list) 
         if (list.length > 0) {    
@@ -134,11 +140,21 @@ export class Tab1Page implements OnInit {
     }
 
   ngOnInit() {
+    /*setTimeout(() => {
+    window.location.href = window.location.href
+      
+    }, 500);*/
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.userId)
     this.getPosts(this.userId)
 
 
+  }
+
+  ngOnDestroy() {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
   }
 
   public next(){
@@ -156,7 +172,7 @@ export class Tab1Page implements OnInit {
       console.log('Async operation has ended');
       this.getPosts(this.userId)
       event.target.complete();
-    }, 4000);
+    }, 400);
   }
 
 
@@ -183,8 +199,8 @@ export class Tab1Page implements OnInit {
     this.showResponsePanel ? this.showResponsePanel = false : this.showResponsePanel = true
   }
 
-  sendShare(c) {
-    this.socialSharing.share('Bonjour,  ' + '<br>' + c.content, 'TeepZy', null,
+  sendShare() {
+    this.socialSharing.share('Bonjour,  ' + '<br>' + this.repost['content'], 'TeepZy', null,
       ' https://play.google.com/store/apps/details?id=com.teepzy.com').then(() => {
       }).catch((err) => {
         alert(JSON.stringify(err))
@@ -208,7 +224,7 @@ export class Tab1Page implements OnInit {
   }
 
 
-  async presentAlertConfirm(pId) {
+  async presentAlertConfirm() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Pourquoi signlez-vous cette publication ?',
@@ -225,7 +241,7 @@ export class Tab1Page implements OnInit {
           text: 'Lorem ipsum',
           handler: () => {
             let reason = 'Inaproprié'
-            this.signaler(pId,reason)
+            this.signaler(this.repost['postId'],reason)
           }
         }
         ,
@@ -233,7 +249,7 @@ export class Tab1Page implements OnInit {
           text: 'Lorem ipsum',
           handler: () => {
             let reason = 'Inaproprié'
-            this.signaler(pId,reason)
+            this.signaler(this.repost['postId'],reason)
           }
         }
         ,
@@ -241,7 +257,7 @@ export class Tab1Page implements OnInit {
           text: 'Lorem ipsum2',
           handler: () => {
             let reason = 'Lorem ipsum2'
-            this.signaler(pId,reason)
+            this.signaler(this.repost['postId'],reason)
 
           }
         }
@@ -338,8 +354,9 @@ export class Tab1Page implements OnInit {
   }
 
 
-  rePost(post) {
-    let repost = {
+  openShareActionSheet(post){
+    console.log(post)
+     this.repost = {
       postId: post['_id'],
       fromId: post['userId'],
       reposterId: this.userId,
@@ -350,7 +367,10 @@ export class Tab1Page implements OnInit {
       backgroundColor: post['backgroundColor'],
       includedCircles: post['includedCircles']
     }
-    this.contactService.rePost(repost).subscribe(res => {
+  }
+
+  rePost() {
+    this.contactService.rePost(this.repost).subscribe(res => {
       console.log(res)
       this.getPosts(this.userId)
       this.presentToast('Ce post a été publié')
@@ -402,8 +422,9 @@ export class Tab1Page implements OnInit {
             content: e['content'],
             image_url: e['image_url'],
             backgroundColor: e['backgroundColor'],
-            includedCircles: e['includedCircles'],
+            includedUsers: e['includedUsers'],
             createdAt: e['createdAt'],
+            reposterId: e['reposterId'],
             favorite: true
           },
         )
@@ -420,8 +441,9 @@ export class Tab1Page implements OnInit {
             content: e['content'],
             image_url: e['image_url'],
             backgroundColor: e['backgroundColor'],
-            includedCircles: e['includedCircles'],
+            includedUsers: e['includedUsers'],
             createdAt: e['createdAt'],
+            reposterId: e['reposterId'],
             favorite: false
           },
         )
