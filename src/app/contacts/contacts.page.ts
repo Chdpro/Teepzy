@@ -19,7 +19,6 @@ export class ContactsPage implements OnInit {
   listTeepzrsToInvite = []
   listContacts = []
   listTeepZrs = []
-
   contactsTest = [
     {
       givenName: 'Chris',
@@ -64,10 +63,8 @@ export class ContactsPage implements OnInit {
     }
   ]
   isDragged = true
-
   loading = false
   userId = ''
-  term = ''
   contactsTests = []
   arrayIncrementLoading = 0
 
@@ -203,7 +200,6 @@ export class ContactsPage implements OnInit {
     this.contactService.teepZrs(this.userId).subscribe(res => {
       console.log(res)
       this.listTeepZrs = res['data']
-      // this.bPhoneNumberInArray()
       this.listContacts.forEach(um => {
         this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push(x) : null })
       });

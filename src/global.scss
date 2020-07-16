@@ -36,7 +36,7 @@
 // for iphone 5
 .swiper-wrapper{
     color: white;
-    height: 443px;
+    height: -webkit-fill-available;
     border-radius: 40px 40px 1px 0px;
     margin-top: 25px;
 }
@@ -52,6 +52,10 @@ color: white;
 */
 .mat-mini-fab.mat-accent{
     background-color: #cfcfcf;;
+}
+
+.mat-tab-body-wrapper{
+    overflow: scroll !important;
 }
 
 

@@ -56,6 +56,11 @@ export class Tab1Page implements OnInit {
 
   repost:any
 
+  publication:any
+  linkModal =  false
+
+  users = []
+
    slideOpts = {
     on: {
       beforeInit() {
@@ -146,6 +151,7 @@ export class Tab1Page implements OnInit {
     }, 500);*/
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.userId)
+    this.getUsersToMatch()
     this.getPosts(this.userId)
 
 
@@ -380,6 +386,40 @@ export class Tab1Page implements OnInit {
     })
   }
 
+
+  linker(linkedUser) {
+    let invitation = {
+      idSender:this.publication.userId,
+      idReceiver: linkedUser._id,
+      typeLink: 'PRO',
+      linkerId: this.userId
+    }
+    console.log(invitation)
+
+    if (this.userId == this.publication.userId) {
+      this.presentToast("Vous ne pouvez pas linker cette publication parce que vous en êtes l'auteur")
+    }else{
+      this.contactService.linkPeoples(invitation).subscribe(res => {
+        console.log(res)
+        this.getPosts(this.userId)
+        this.presentToast('Vous avez linké ce post')
+      }, error => {
+        this.presentToast('Oops! une erreur est survenue')
+        console.log(error)
+      })
+    }
+ 
+  }
+
+  getUsersToMatch() {
+    this.contactService.getUsersMatch(this.userId).subscribe(res => {
+      console.log(res)
+      this.users = res['data']
+    }, error => {
+      console.log(error)
+    })
+  }
+
   getPosts(userId) {
       this.timeCall = 1
     this.contactService.getPosts(userId).subscribe(res => {
@@ -454,6 +494,14 @@ export class Tab1Page implements OnInit {
   }
 
 
+showLinkModal(p){
+this.publication = p
+if (this.linkModal) {
+  this.linkModal = false
+} else {
+  this.linkModal = true
+}
+}
 
   async presentToast(msg) {
     const toast = await this.toasterController.create({

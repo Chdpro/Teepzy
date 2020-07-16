@@ -6,15 +6,51 @@ ion-toolbar{
     margin-bottom: -22px;
 }
 
+img{
+    border-radius: 54px;
+    border: solid 2px #ea4e50;
+    
+
+}
+
+
+.check-btn{
+    margin-top: -46px !important ;
+
+}
+
+.img-match{
+    width: 16%;
+    border-radius: 54px;
+    height: 49px;
+    border: solid 2px #ea4e50;
+    margin-right: 15px;
+    margin-bottom: 18px;
+
+}
+
 ion-slides{
     height: -webkit-fill-available;
 }
 ion-slide{
     border-radius: 40px 40px 1px 0px;
-    height: 510px;
+    height: auto
+}
+
+mat-card-header{
+    margin-top: 24px !important;
 }
 .material-icons{
     color: #ea4e50;
+}
+
+.cancel-btn{
+    width: 100%;
+    position: initial;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1px;
 }
 
 .example-button-container{
@@ -50,7 +86,7 @@ ion-slide{
 .prev-btn{
     float: right;
     position: absolute;
-    height: 43%;
+    height: 58%;
     right: 0;
     background: #f0f8ff00;
     color: #f0f8ff00;
@@ -63,11 +99,9 @@ mat-icon{
 }
 
 .mat-img{
-    float: left;
-    margin-left: -159px;
-    width: 18%;
-    border-radius: 40px;
-    height: 52px;
+    width: 121px;
+    border-radius: 21px;
+    height: 100%;
 }
 .mat-res{
     background: aliceblue;
@@ -86,9 +120,9 @@ mat-card-title{
 .comment-form{
     border-radius: 0px;
     margin-top: -102px;
-    width: 362px;
-    margin-left: -21px;
     height: 75px;
+    width: -webkit-fill-available;
+    margin-left: -46px;
 }
 .mat-img-res{
     float: left;
@@ -154,7 +188,7 @@ strong , small{
     height: 100%;
 }
 
-mat-form-field{
+.mat-form-field{
     position: fixed;
     display: block;
     width: 63%;
@@ -162,24 +196,61 @@ mat-form-field{
 
 }
 
+.mat-form-field2{
+         position: fixed; 
+        display: block;
+        width: 91%;
+         margin-top: 0;
+}
+
+.input-s[type=text]{
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    border: 1px solid #e9565c;
+    color: #a0d18c;
+    width: 315px;
+    height: 48px;
+    padding-left: 10px;
+    margin-top: 17px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    }
+    
+.input-s[type=text]:focus {
+     outline: none;
+     border: 1px solid #a0d18c;
+     color: #2d9fd9;
+}
+
 .ion-textarea{
-    width: 67%;
+    width: 61%;
     margin-left: 16px;
-    margin-top: -11px;
+    margin-top: 11px;
 
 }
 .cmt{
-    width: 352px;
-    margin-left: -16px;
-    background: #f7ebeb;
+    width: 332px;
+    margin-left: -2px;
+    background: #f0efef;
     border-radius: 0px;
     box-shadow: none;
 }
+
+.cmt2{
+    width: 332px;
+    margin-left: 8px;
+    background: #f0efef;
+    border-radius: 0px;
+    box-shadow: none;
+    margin-top: 7px;
+}
 ion-button{
-    width: 28%;
     float: right;
-    margin-right: -10px;
     margin-top: -52px;
+    width: 22%;
+    margin-right: 25px;
 }
 
 
@@ -261,6 +332,18 @@ ion-grid{
     color: #fff;
     width: 59px;
     height: 37px;
+    
+    
+}
+
+
+
+.modal-open3 {
+    border-radius: 10px;
+    color: #fff;
+    width: 59px;
+    height: 57px;
+    margin-top: 24px;
 }
 
 .modal-label {
@@ -278,6 +361,11 @@ ion-grid{
     font-size: 25px;
     height: 52px;
     margin-bottom: 14px;
+    position: relative;
+
+}
+
+.modal-label3{
     position: relative;
 
 }
@@ -304,13 +392,26 @@ ion-grid{
 .modal2 {
     position: absolute;
     z-index: 1500;
-    height: 30%;
+    height: 33%;
     width: 100%;
     top: 390px;
     left: 0;
     overflow: hidden;
     opacity: 0;
     transform: scale(0);
+    transition: opacity .5s, transform .5s;
+}
+
+.modal3 {
+    position: absolute;
+    z-index: 1500;
+    height: -webkit-fill-available;
+    width: 100%;
+    top: 120px;
+    left: 0;
+    overflow: auto;
+    opacity: 1;
+    transform: scale(1);
     transition: opacity .5s, transform .5s;
 }
 
@@ -325,6 +426,11 @@ ion-grid{
     transform: scale(1);
 }
 
+#modal-open3:checked+.modal3 {
+    opacity: 1;
+    transform: scale(1);
+}
+
 .overlay {
     width: 100%;
     height: 100%;
@@ -333,10 +439,18 @@ ion-grid{
     left: 0;
 }
 
+.overlay3 {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    top: 65px;
+    left: 0;
+}
+
 .modal .content {
     position: absolute;
     width: 100%;
-    height: 481px;
+    height: -webkit-fill-available;
     max-height: 98%;
     top: 2%;
     left: 0%;
@@ -352,6 +466,19 @@ ion-grid{
     height: 481px;
     max-height: 98%;
     top: 16%;
+    left: 0%;
+    background: #F0EFEF;
+    border-radius: 44px 44px 0px 0px;
+    box-shadow: 0 3px 15px -2px #222;
+    padding: 20px;
+}
+
+.modal3 .content {
+    position: absolute;
+    width: 100%;
+    height: 481px;
+    max-height: 98%;
+    top: 2%;
     left: 0%;
     background: #F0EFEF;
     border-radius: 44px 44px 0px 0px;
@@ -390,12 +517,14 @@ ion-grid{
 
 .content-comment{
     margin-left: 56px;
-    margin-top: -46px !important;
+    margin-top: -11px !important;
+    
 }
 
 .star-btn{
     float: right;
-    margin-top: -42px;
+    margin-top: -66px;
+
 }
 
 .answers{
@@ -421,9 +550,9 @@ ion-grid{
 
   .fixContainer{
     position: fixed;
-    padding: 2em;
-    left: 53%;
     top: 68%;
+    left: 61%;
+    width: -webkit-fill-available;
     transform: translate(-50%, -50%);
     }
   /* On screens that are 992px or less, set the background color to blue */
@@ -433,12 +562,98 @@ ion-grid{
         height: 543px;
     }
 }
+
+  /* On screens that are 992px or less, set the background color to blue */
+  @media screen and (min-width: 361px) and (max-width: 374px) {
+ 
+    .modal3{
+        top: 181px;
+        height: 556px;
+    }
+    .fixContainer{
+        top: 74%;
+    }
+    .ion-textarea{
+        margin-top: -13px;
+    }
+}
+
+  /* On screens that are 992px or less, set the background color to blue */
+  @media screen and (width: 414px){
+ 
+    .modal3{
+        top: 188px;
+        height: 502px;
+    }
+    .fixContainer{
+        top: 72%;
+    }
+  
+}
+
+  /* On screens that are 992px or less, set the background color to blue */
+  @media screen and (width: 375px){
+ 
+    .modal3{
+        top: 181px;
+    }
+    .fixContainer{
+        top: 74%;
+    }
+    .ion-textarea{
+        margin-top: -13px;
+    }
+
+    .comment-form{
+        margin-top: -142px;
+    }
+}
+
+  /* On screens that are 992px or less, set the background color to blue */
+  @media screen and (width: 412px){
+ .comment-form{
+    margin-top: -12px;
+
+ }
+ .ion-textarea{
+    margin-top: 1px;
+ }
+ .fixContainer{
+     top: 65%;
+ }
+ 
+}
+
+@media screen and (width: 375px) {
+    .fixContainer{
+        top: 79%;
+    }
+ }
+ 
+@media screen and (width: 411px){
+   .modal3{
+    top: 199px;
+    height: 556px;
+   }
+   .ion-textarea{
+    margin-top: -5px;
+   }
+   .fixContainer{
+    top: 74%;
+
+   }
+   
+}
+
 @media screen and (max-width: 320px) {
     .modal2{
         height: 37%;
         width: 100%;
         top: 308px;
         
+    }
+    .modal3{
+        top: 31px;
     }
 
     ion-slide{
@@ -466,6 +681,19 @@ ion-grid{
     
     }
 
+    .modal-label3{
+        background: #cfcfcf;
+        padding: 14px;
+        border-radius: 40px;
+        margin-right: -24px;
+        width: 52px;
+        font-size: 25px;
+        height: 52px;
+        margin-bottom: 14px;
+        position: relative;
+    
+    }
+
     ion-button {
         width: 28%;
         float: right;
@@ -473,9 +701,15 @@ ion-grid{
         margin-top: -49px;
     }
 
+    .comment-form{
+        width: 328px;
+    margin-left: -65px;
+    }
+
     .ion-textarea {
         width: 67%;
         margin-left: -15px;
+        margin-top: -12px;
     }
 
     .search-input{

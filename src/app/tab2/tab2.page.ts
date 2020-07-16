@@ -13,6 +13,8 @@ export class Tab2Page implements OnInit {
 
   userId = ''
   invitations = []
+  notifications = []
+
   loading = false
   constructor(
     private contactService: ContactService, 
@@ -27,7 +29,7 @@ export class Tab2Page implements OnInit {
   ngOnInit(){
     this.userId = localStorage.getItem('teepzyUserId');
     this.listInvitations()
-
+    this.listNotifications()
   }
 
 
@@ -38,6 +40,15 @@ export class Tab2Page implements OnInit {
     this.contactService.listInivtation(invitation).subscribe(res =>{
       console.log(res)
       this.invitations = res['data']
+    }, error =>{
+      console.log(error)
+    })
+  }
+
+  listNotifications(){
+    this.contactService.listNotification(this.userId).subscribe(res =>{
+      console.log(res)
+      this.notifications = res['data']
     }, error =>{
       console.log(error)
     })
@@ -54,8 +65,6 @@ export class Tab2Page implements OnInit {
   }
 
   acceptInvitation(I){
-    console.log(I)
-
     let invitation  = {
       idReceiver: this.userId,
       idInvitation: I['_id'],

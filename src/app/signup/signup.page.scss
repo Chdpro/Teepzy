@@ -53,6 +53,7 @@ button{
 /* [Object] Modal
  * =============================== */
  .modal {
+  z-index: 2000;
     opacity: 0;
     visibility: hidden;
     position: fixed;
@@ -81,7 +82,7 @@ button{
   .modal-state:checked + .modal {
     visibility: visible;
     opacity: 1;
-    height: 90%;
+    height: 100%;
 
   }
   

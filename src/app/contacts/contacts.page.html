@@ -1,8 +1,5 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
     <ion-title>Contacts</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,7 +11,7 @@
       <ion-col>
 
         <!-- tabs here-->
-        <mat-tab-group>
+        <mat-tab-group color="warn" >
           <mat-tab [label]=" 'Inviter  (' + listTeepzrsToInvite?.length + ')'">
 
             <div *ngIf="listTeepzrsToInvite?.length ==  0" style="text-align: center;
@@ -51,15 +48,9 @@
                   Inviter
                 </span>
                 <ion-spinner *ngIf="loading" color="primary" name="dots"></ion-spinner>
-
               </ion-button>
-
               <button *ngIf="!loading  && c?.invited" mat-stroked-button>Invité</button>
-
-
             </ion-item>
-
-
             </div>
 
             <ion-row>
@@ -80,10 +71,7 @@
                 <mat-label>Rechercher</mat-label>
                 <input [(ngModel)]="term" name="term" placeholder="Taper pour filtrer" matInput>
               </mat-form-field>
-
             </form>
-
-
             <ion-list>
               <mat-paginator *ngIf="listContacts?.length > 0" [length]="listContacts?.length" [pageSize]="pageSize"
                 (page)="pageEvent = getPaginatorData($event)">
@@ -91,8 +79,6 @@
               <ion-spinner *ngIf="loading && listContacts?.length ==  0 " color="primary" name="dots"></ion-spinner>
 
               <ion-item *ngFor="let c of listContacts | filter:term | slice: lowValue : highValue; trackBy: trackByFn ">
-
-
                 <div class="round-bg">
                   {{c?.givenName | slice:0:1 }}
                 </div>

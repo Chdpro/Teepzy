@@ -104,6 +104,7 @@ export class AppComponent {
     localStorage.removeItem('teepzyUserId')
     localStorage.removeItem('teepzyToken')
     localStorage.removeItem('teepzyEmail')
+    localStorage.removeItem('teepzyPhone')
     this.presentToast('Vous êtes bien déconnectés')
     this.router.navigateByUrl('/login', {
       replaceUrl: true

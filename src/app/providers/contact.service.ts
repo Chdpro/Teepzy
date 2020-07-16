@@ -33,6 +33,12 @@ export class ContactService {
     return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
+  linkPeoples(invitation): Observable<any> {
+    let url = 'users/linkPeople';
+    return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
+  }
+  
+
   acceptInvitation(invitation): Observable<any> {
     let url = 'users/acceptToJoinCircle';
     return this.http.post(base_url + url, invitation, httpOptionsJson);
@@ -41,6 +47,12 @@ export class ContactService {
   listInivtation(invitation): Observable<any> {
     let url = 'users/invitations';
     return this.http.post(base_url + url, invitation, httpOptionsJson);
+  }
+
+
+  listNotification(id): Observable<any> {
+    let url = 'users/notifications/'+ id ;
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   checkInviteViaSms(check): Observable<any> {
@@ -87,6 +99,11 @@ export class ContactService {
 
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
+    return this.http.get(base_url + url, httpOptionsJson);
+  }
+
+  getUsersMatch(userId): Observable<any> {
+    let url = 'users/users/' + userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
