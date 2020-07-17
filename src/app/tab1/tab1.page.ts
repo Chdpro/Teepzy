@@ -1,13 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
-import { ToastController, AlertController, IonSlides, MenuController } from '@ionic/angular';
+import { ToastController, AlertController, IonSlides, MenuController, ModalController, IonRouterOutlet } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import * as moment from 'moment';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription } from 'rxjs';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import { BottomSheetOverviewExampleSheetPage } from '../bottom-sheet-overview-example-sheet/bottom-sheet-overview-example-sheet.page';
+import { LinkSheetPage } from '../link-sheet/link-sheet.page';
+import { CommentsPage } from '../comments/comments.page';
 
 
 @Component({
@@ -132,6 +134,8 @@ export class Tab1Page implements OnInit {
     private _bottomSheet: MatBottomSheet,
     public alertController: AlertController,
     private menuCtrl: MenuController,
+    private modalController: ModalController,
+    private routerOutlet: IonRouterOutlet,
     private contactService: ContactService) { 
       this.menuCtrl.enable(true);
       this.menuCtrl.swipeGesture(true);
@@ -303,6 +307,27 @@ export class Tab1Page implements OnInit {
     })
   }
 
+  async presentLinkModal(post) {
+    const modal = await this.modalController.create({
+      component: LinkSheetPage,
+      componentProps: post,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+    });
+    return await modal.present();
+  }
+
+
+  async presentCommentModal(post) {
+    const modal = await this.modalController.create({
+      component: CommentsPage,
+      componentProps: post,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+    });
+    return await modal.present();
+  }
+
   getCommentsOfPost(postId) {
     this.postId = postId
     this.contactService.getCommentsOfPost(postId).subscribe(res => {
@@ -387,29 +412,7 @@ export class Tab1Page implements OnInit {
   }
 
 
-  linker(linkedUser) {
-    let invitation = {
-      idSender:this.publication.userId,
-      idReceiver: linkedUser._id,
-      typeLink: 'PRO',
-      linkerId: this.userId
-    }
-    console.log(invitation)
-
-    if (this.userId == this.publication.userId) {
-      this.presentToast("Vous ne pouvez pas linker cette publication parce que vous en êtes l'auteur")
-    }else{
-      this.contactService.linkPeoples(invitation).subscribe(res => {
-        console.log(res)
-        this.getPosts(this.userId)
-        this.presentToast('Vous avez linké ce post')
-      }, error => {
-        this.presentToast('Oops! une erreur est survenue')
-        console.log(error)
-      })
-    }
- 
-  }
+  
 
   getUsersToMatch() {
     this.contactService.getUsersMatch(this.userId).subscribe(res => {

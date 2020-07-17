@@ -30,6 +30,8 @@ import { DatapasseService } from './providers/datapasse.service';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import { BottomSheetOverviewExampleSheetPageModule } from './bottom-sheet-overview-example-sheet/bottom-sheet-overview-example-sheet.module';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { CommentsPageModule } from './comments/comments.module';
+import { LinkSheetPageModule } from './link-sheet/link-sheet.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,6 +39,8 @@ import { OneSignal } from '@ionic-native/onesignal/ngx';
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, BrowserAnimationsModule,
     HttpClientModule,
     AddPostPageModule,
+    CommentsPageModule,
+    LinkSheetPageModule,
     BottomSheetOverviewExampleSheetPageModule,
     Ng2SearchPipeModule,
     EmojiPickerModule

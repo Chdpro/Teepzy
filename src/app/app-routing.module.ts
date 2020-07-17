@@ -41,6 +41,14 @@ const routes: Routes = [
   {
     path: 'bottom-sheet-overview-example-sheet',
     loadChildren: () => import('./bottom-sheet-overview-example-sheet/bottom-sheet-overview-example-sheet.module').then( m => m.BottomSheetOverviewExampleSheetPageModule)
+  },
+  {
+    path: 'comments',
+    loadChildren: () => import('./comments/comments.module').then( m => m.CommentsPageModule)
+  },
+  {
+    path: 'link-sheet',
+    loadChildren: () => import('./link-sheet/link-sheet.module').then( m => m.LinkSheetPageModule)
   }
 ];
 @NgModule({

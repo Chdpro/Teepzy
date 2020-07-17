@@ -1,0 +1,126 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="success">
+    <ion-title>LINK TO</ion-title>
+    <ion-icon (click)="dismiss()" class="close-icon" name="close-outline"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <mat-tab-group color="warn" >
+    <mat-tab label="Match">
+      <mat-card class="example-card cmt2">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <img mat-card-image class="mat-img"
+              src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+          </div>
+          <mat-card-title style="color: #ea4e50;">Enock JOULA</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="content-comment" style="color: #ea4e50;">
+            Nom du Cercle
+          </p>
+          <button class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
+    
+            <div class="pretty p-icon p-round p-pulse">
+              <input type="checkbox" />
+              <div class="state p-success">
+                  <i class="icon mdi mdi-check"></i>
+                  <label></label>
+              </div>
+          </div>
+          </button>
+        </mat-card-content>
+
+      </mat-card>
+      <mat-card class="example-card cmt2">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <img mat-card-image class="mat-img"
+              src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+          </div>
+          <mat-card-title style="color: #ea4e50;">Enock JOULA</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="content-comment" style="color: #ea4e50;">
+            Nom du Cercle
+          </p>
+          <button class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
+            <div class="pretty p-icon p-round p-pulse">
+              <input type="checkbox" />
+              <div class="state p-success">
+                  <i class="icon mdi mdi-check"></i>
+                  <label></label>
+              </div>
+          </div>
+          </button>
+        </mat-card-content>
+
+      </mat-card>
+      <mat-card class="example-card cmt2">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <img mat-card-image class="mat-img"
+              src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+          </div>
+          <mat-card-title style="color: #ea4e50;">Enock JOULA</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="content-comment" style="color: #ea4e50;">
+            Nom du Cercle
+          </p>
+          <button class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
+            <!--span class="material-icons">
+              check_circle_outline
+            </span-->
+            <div class="pretty p-icon p-round p-pulse">
+              <input type="checkbox" />
+              <div class="state p-success">
+                  <i class="icon mdi mdi-check"></i>
+                  <label></label>
+              </div>
+          </div>
+          
+          </button>
+        </mat-card-content>
+
+      </mat-card>
+    
+    </mat-tab>
+    <mat-tab label="Recherche">
+
+      <input  class="input-s" type="text" [(ngModel)]='filtre' placeholder="filtrer...">
+
+      <mat-card *ngFor="let u of users| filter:filtre ;trackBy: trackByFn " class="example-card cmt2">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <img mat-card-image class="mat-img"
+              [src]="u?.photo" alt="">
+          </div>
+          <mat-card-title style="color: #ea4e50;"> {{u?.pseudoIntime}} </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <!--p class="content-comment" style="color: #ea4e50;">
+            Nom du Cercle
+          </p-->
+          <button (click)="linker(u)" class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
+            <div class="pretty p-icon p-round p-pulse">
+              <input type="checkbox" />
+              <div class="state p-success">
+                  <i class="icon mdi mdi-check"></i>
+                  <label></label>
+              </div>
+          </div>
+          </button>
+        </mat-card-content>
+
+      </mat-card>
+
+    </mat-tab>
+
+  </mat-tab-group>
+
+  <ion-button (click)="dismiss()" class="cancel-btn" expand="block" size="large" color="medium">Annuler</ion-button>
+
+</ion-content>

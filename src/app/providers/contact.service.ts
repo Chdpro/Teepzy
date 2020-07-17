@@ -30,7 +30,7 @@ export class ContactService {
 
   inviteToJoinCircle(invitation): Observable<any> {
     let url = 'users/inviteToJoinCircle';
-    return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
+    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
   linkPeoples(invitation): Observable<any> {
