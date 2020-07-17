@@ -67,7 +67,10 @@ export class SignupPage implements OnInit {
     private statusBar: StatusBar,
 
 
-  ) { }
+  ) {
+    this.initializeApp();
+
+   }
 
   ngOnInit() {
 
@@ -90,8 +93,8 @@ export class SignupPage implements OnInit {
       if (isCordovaAvailable) {
         this.oneSignal.startInit(oneSignalAppId, sender_id);
         this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
-        //this.oneSignal.handleNotificationReceived().subscribe(data => this.onPushReceived(data.payload));
-       // this.oneSignal.handleNotificationOpened().subscribe(data => this.onPushOpened(data.notification.payload));
+        this.oneSignal.handleNotificationReceived().subscribe(data => this.onPushReceived(data.payload));
+       this.oneSignal.handleNotificationOpened().subscribe(data => this.onPushOpened(data.notification.payload));
         this.oneSignal.endInit();
         // Then You Can Get Devices ID
 
@@ -107,6 +110,15 @@ export class SignupPage implements OnInit {
   }
 
 
+
+  private onPushOpened(payload: OSNotificationPayload) {
+    // alert('Push received :' + payload.body)
+  }
+
+  private onPushReceived(payload: OSNotificationPayload) {
+    // alert('Push opened: ' + payload.body)
+  }
+  
   listCountriesCodes() {
     this.authService.listCodes().subscribe(res => {
       this.codes = res

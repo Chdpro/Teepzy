@@ -363,8 +363,11 @@
           <small>
             {{p?.circle || '' }}
           </small>
-          <span class="time">
+          <span class="time" *ngIf="time(p?.createdAt) != 'il y a une heure'">
             {{time(p?.createdAt) }}
+          </span>
+          <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
+            il y a 1 heure
           </span>
         </div><br>
         <p>
@@ -440,23 +443,24 @@
 
    
         <!-- fab placed to the bottom end -->
-        <ion-fab vertical="bottom" (click)="showLinkModal(p)"  style="margin-bottom: 20px;" horizontal="end" slot="fixed">
-          <ion-fab-button  color="light" >
+        <label class="modal-open3 " for="modal-open3">
+        <ion-fab vertical="bottom"   style="margin-bottom: 20px;" horizontal="end" slot="fixed">
+          <ion-fab-button (click)="showLinkModal(p)" color="light" >
               <span class="material-icons">
                 group_add
               </span>
           </ion-fab-button>
         </ion-fab>
-
+        </label>
       </div>
 
 
 
     </ion-slide>
-    <div class="next-btn" (click)="prev()">
+    <div class="next-btn" (click)='prev()'>
       prev
     </div>
-    <div class="prev-btn" (click)="next()">
+    <div class="prev-btn" (click)='next()'>
       next
     </div>
   </ion-slides>

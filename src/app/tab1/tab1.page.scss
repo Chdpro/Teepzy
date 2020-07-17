@@ -1,3 +1,9 @@
+/*ion-modal{
+    height: 344px;
+    bottom: 0;
+    border-radius: 39px 45px 1px 1px;
+}*/
+
 ion-title{
     color: #ea4e50;
 }
@@ -86,10 +92,11 @@ mat-card-header{
 .prev-btn{
     float: right;
     position: absolute;
-    height: 58%;
+    height: 54%;
     right: 0;
     background: #f0f8ff00;
     color: #f0f8ff00;
+    width: 19%;
 }
 
 mat-icon{
