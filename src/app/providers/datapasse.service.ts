@@ -12,8 +12,27 @@ export class DatapasseService {
   
   sendPosts(posts) {  
     this.subject.next(posts);  
-  }  
+  }
   
+  sendProjects(project) {  
+    this.subject.next(project);  
+  }
+
+ 
+  
+  getProjects(): Observable<any> {  
+    return this.subject.asObservable();  
+  }
+
+  sendProducts(project) {  
+    this.subject.next(project);  
+  }
+
+  getProducts(): Observable<any> {  
+    return this.subject.asObservable();  
+  }
+
+
   getPosts(): Observable<any> {  
     return this.subject.asObservable();  
   }

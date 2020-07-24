@@ -60,7 +60,6 @@ export class CommentsPage implements OnInit {
     this.contactService.addCommentToPost(this.commentT).subscribe(res => {
       console.log(res)
       if (res['status'] == 200) {
-        //this.presentToast('')
         this.commentT.comment = ''
         this.getCommentsOfPost(this.postId)
       }

@@ -1,0 +1,375 @@
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../providers/auth.service';
+import { ContactService } from '../providers/contact.service';
+import { ToastController, LoadingController, ActionSheetController } from '@ionic/angular';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { base_url } from 'src/config';
+import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
+
+@Component({
+  selector: 'app-edit-profile',
+  templateUrl: './edit-profile.page.html',
+  styleUrls: ['./edit-profile.page.scss'],
+})
+export class EditProfilePage implements OnInit {
+
+  profile1 ={
+    nom: '',
+    localisation: 'localisation',
+    metier: 'metier',
+    userId: '',
+    siteweb: 'siteweb',
+    socialsPro: [],
+    tags: [],
+    bio: 'bio',
+  }
+
+  profile2 ={
+    userId: '',
+    socialsAmical: [],
+    hobbies: [],
+  }
+  
+  socials = []
+  socialsAdded = []
+  socialsAdde2 = []
+
+  user:any
+  rs_url = ''
+  rs_url2 = ''
+
+  media:any
+  media2:any
+
+
+
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  tags = [
+   
+  ]; 
+
+  visible1 = true;
+  selectable1 = true;
+  removable1 = true;
+  addOnBlur1 = true;
+  readonly separatorKeysCodes1: number[] = [ENTER, COMMA];
+  tags1 = [
+   
+  ];
+
+  tab1 = 0
+  tab2 = 0
+
+  loading = false
+
+
+  photos: any = [];
+  filesName = new Array();
+  dispImags = []
+  showModal = 'hidden'
+
+  constructor(private authService: AuthService, 
+    private contactService: ContactService,
+    private loadingCtrl: LoadingController,
+    private camera: Camera,
+    private filePath: FilePath,
+    public actionSheetController: ActionSheetController,
+    private transfer: FileTransfer,
+     private toasterController: ToastController) { }
+
+  ngOnInit() {
+    this.getSocials();
+    let userId = localStorage.getItem('teepzyUserId')
+    this.profile1.userId = userId;
+    this.profile2.userId = userId;
+    this.getUserInfo(userId)
+  }
+
+  updateProfile(){
+    this.loading = true
+    let userId =  localStorage.getItem('teepzyUserId')
+    console.log(this.profile1)
+
+    // update profile 1
+    this.socialsAdded.length>0? this.profile1.socialsPro = this.socialsAdded: null
+    this.tags1.length>0 ? this.profile1.tags = this.tags1 : null
+    this.authService.updateProfile(this.profile1).subscribe(res =>{
+      console.log(res)
+      this.presentToast('Profil 1 mis à jour')
+      this.getUserInfo(userId)
+      this.loading = false
+
+    }, error =>{
+      console.log(error)
+      this.presentToast('Oops! une erreur est survenue ')
+      this.loading = false
+
+    })
+    // update profile 2
+    this.socialsAdde2.length > 0? this.profile2.socialsAmical = this.socialsAdde2 : null
+    this.tags.length>0 ? this.profile2.hobbies = this.tags : null
+    console.log(this.profile2)
+
+    this.authService.updateProfile2(this.profile2).subscribe(res =>{
+      console.log(res)
+      this.presentToast('Profil 2 mis à jour')
+      this.getUserInfo(userId)
+      this.loading = false
+
+    }, error =>{
+      console.log(error)
+      this.presentToast('Oops! une erreur est survenue ')
+      this.loading = false
+
+    })
+  }
+
+
+
+  addSocial(){
+    let sociale = {
+      _id: this.media['_id'],
+      icon : this.media['icon'],
+      nom : this.media['nom'],
+      url : this.rs_url,
+      type: this.media['type']
+    }
+   if (this.socialsAdded.length == 0) {
+    this.socialsAdded.push(sociale)
+   } else {
+    for (const sA of this.socialsAdded) {
+      if (sA['_id'] == sociale['_id']) {
+        this.presentToast('Ce média a été déjà ajouté')
+      }else{
+        this.socialsAdded.push(sociale)
+        console.log('hello')
+      }
+      
+    }
+   }
+
+    console.log(this.socialsAdded)
+  
+  }
+
+
+  addSocialProfile2(){
+    let sociale = {
+      _id: this.media2['_id'],
+      icon : this.media2['icon'],
+      nom : this.media2['nom'],
+      url : this.rs_url2,
+      type: this.media2['type']
+    }
+    
+   if (this.socialsAdde2.length == 0) {
+    this.socialsAdde2.push(sociale)
+   } else {
+    for (const sA of this.socialsAdde2) {
+      if (sA['_id'] == sociale['_id']) {
+        this.presentToast('Ce média a été déjà ajouté')
+      }else{
+        this.socialsAdde2.push(sociale)
+        console.log('hello')
+      }
+      
+    }
+   }
+
+    console.log(this.socialsAdde2)
+  
+  }
+
+
+  getSocials(){
+    this.contactService.getSocials().subscribe(res =>{
+      console.log(res)
+      this.socials = res
+    }, error =>{
+      console.log(error)
+    })
+  }
+
+  getUserInfo(userId) {
+    this.authService.myInfos(userId).subscribe(res => {
+      console.log(res)
+      this.user = res['data'];
+      this.profile1.nom = this.user['nom'];
+      this.profile1.bio = this.user['bio'];
+      this.profile1.localisation = this.user['localisation'];
+      this.profile1.metier = this.user['metier'];
+      this.profile1.siteweb = this.user['siteweb'];
+      this.profile1.socialsPro = this.user['socialsPro'];
+      this.user['socialsPro']? this.socialsAdded = this.user['socialsPro'] : null;
+      this.user['socialsAmical']? this.socialsAdde2 = this.user['socialsAmical']: null;
+      this.profile2.socialsAmical = this.user['socialsAmical'];
+      this.profile1.tags = this.user['tags'];
+      this.user['tags']? this.tags1 = this.user['tags']: null;
+      this.user['hobbies']? this.tags = this.user['hobbies']: null;
+      this.profile2.hobbies = this.user['hobbies'];
+
+    }, error => {
+      console.log(error)
+    })
+  }
+
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.tags.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  add1(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.tags1.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove1(tag): void {
+    const index = this.tags1.indexOf(tag);
+    if (index >= 0) {
+      this.tags1.splice(index, 1);
+    }
+  }
+
+
+  remove(tag): void {
+    const index = this.tags.indexOf(tag);
+    if (index >= 0) {
+      this.tags.splice(index, 1);
+    }
+  }
+
+
+  async selectImage() {
+    const actionSheet = await this.actionSheetController.create({
+      header: "Select Image source",
+      buttons: [{
+        text: 'Choisir dans votre galerie',
+        handler: () => {
+          this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+        }
+      },
+      {
+        text: 'Utiliser la Camera',
+        handler: () => {
+          this.pickImage(this.camera.PictureSourceType.CAMERA);
+        }
+      },
+      {
+        text: 'Annuler',
+        role: 'cancel'
+      }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+
+
+  pickImage(sourceType) {
+    const options: CameraOptions = {
+      quality: 100,
+      sourceType: sourceType,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      // let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
+
+      this.filePath.resolveNativePath(imageData).then((nativepath) => {
+        this.photos.push(nativepath)
+        //  alert(this.photos)
+        if (this.photos.length != 0) {
+          this.uploadImage()
+
+        }
+      })
+
+    }, (err) => {
+      // Handle error
+    });
+  }
+
+
+  uploadImage() {
+    var ref = this;
+    for (let index = 0; index < ref.photos.length; index++) {
+      // interval++
+      const fileTransfer = ref.transfer.create()
+      let options: FileUploadOptions = {
+        fileKey: "photo",
+        fileName: (Math.random() * 100000000000000000) + '.jpg',
+        chunkedMode: false,
+        mimeType: "image/jpeg",
+        headers: {},
+      }
+      var serverUrl = base_url + '/upload-photos'
+      this.filesName.push({ fileUrl: "https://teepzy.com/" + options.fileName, type: 'image' })
+      fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
+        this.user.photo = "http://92.222.71.38:3000/" + options.fileName
+        this.presentToast('Photo Mise à jour')
+      })
+    }
+
+  }
+
+  shwModal() {
+    console.log(this.showModal)
+    if (this.showModal === 'hidden') {
+      this.showModal = 'visible'
+
+    } else {
+      this.showModal = 'hidden'
+     /* if (this.user.photo != '') {
+        this.presentToast("Avatar choisi ")
+        }*/
+    }
+
+  }
+
+
+  choseAvatr(url) {
+    console.log(url)
+    this.user.photo = url;
+
+  }
+ 
+  async presentToast(msg) {
+    const toast = await this.toasterController.create({
+      message: msg,
+      duration: 4000
+    });
+    toast.present();
+  }
+}

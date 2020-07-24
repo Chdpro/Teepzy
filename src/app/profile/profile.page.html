@@ -1,0 +1,184 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <button class="mat-header-btn" mat-button [matMenuTriggerFor]="menu">
+      <ion-icon name="ellipsis-horizontal"></ion-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button (click)="goToEdit()" mat-menu-item>Editer</button>
+      <button mat-menu-item>Parametres</button>
+    </mat-menu>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="banner">
+    <div>
+      <img class="img-banner" [src]="user?.photo" alt="">
+      <span (click)="switchProfile()" *ngIf="isProProfile" class="material-icons toggle_o">
+        toggle_off
+      </span>
+      <span (click)="switchProfile()" *ngIf="!isProProfile" class="material-icons toggle_o">
+          toggle_on
+        </span>
+    </div>
+    <div class="text-banner">
+      <span class="user-pseudo" *ngIf="isProProfile"> {{user?.pseudoPro}} </span><br>
+      <span class="user-pseudo" *ngIf="!isProProfile"> {{user?.pseudoIntime}} </span><br>
+
+      <span>{{user?.metier}} </span><br>
+      <span>{{user?.localisation}}</span>
+    </div>
+    <div>
+      <mat-card class="card-banner">{{relationsCount || '0' }} Teepzers</mat-card>
+
+    </div>
+  </div>
+
+
+
+  <mat-tab-group>
+    <mat-tab label="PROFIL">
+
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+
+
+
+            <ion-slides pager="false" [options]="slideOpts">
+              <div *ngIf="isProProfile">
+
+                <button mat-button *ngFor="let rs of user?.socialsPro" [matMenuTriggerFor]="menu1">
+                  <ion-slide>
+                    <mat-card class="rs-card">
+                      <ion-icon class="rs-btn" [name]="rs?.icon"></ion-icon>
+                    </mat-card>
+                  </ion-slide>
+                  <mat-menu #menu1="matMenu">
+                    <button mat-menu-item>{{rs?.url}}</button>
+                  </mat-menu>
+                </button>
+
+              </div>
+
+              <div *ngIf="!isProProfile">
+                <ion-slide *ngFor="let rs of user?.socialsAmical">
+                  <mat-card class="rs-card">
+                    <ion-icon class="rs-btn" [name]="rs?.icon"></ion-icon>
+                  </mat-card>
+                </ion-slide>
+              </div>
+            </ion-slides>
+
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12">
+            <h2>
+              A propos
+            </h2>
+            <p>
+              {{user?.bio}}
+            </p>
+
+            <div class="site-link">
+              <a href=""> {{ user?.siteweb }} </a>
+            </div>
+          </ion-col>
+          <ion-col size="12" *ngIf="isProProfile">
+            <h2>
+              Compétences
+            </h2>
+            <span>
+              <ion-chip *ngFor="let t of user?.tags">
+                <ion-label color="primary">{{t}}</ion-label>
+              </ion-chip>
+            </span>
+          </ion-col>
+          <ion-col size="12" *ngIf="!isProProfile">
+            <h2>
+              Hobbies
+            </h2>
+            <span>
+              <ion-chip *ngFor="let h of user?.hobbies">
+                <ion-label color="primary">{{h}}</ion-label>
+              </ion-chip>
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </mat-tab>
+    <mat-tab label="PORTFOLIO">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12">
+            <h2>
+              Projets
+              <button (click)="presentAddProjectModal()" mat-button>
+                <span class="material-icons add-icon">
+                  add
+                </span>
+              </button>
+
+            </h2>
+          </ion-col>
+          <ion-col *ngFor="let p of listProjects">
+            <img class="projet-img"
+              [src]="p?.photo" alt="">
+            <div class="text-over">
+              <label for="">
+                {{p?.nom}}
+              </label>
+            </div>
+
+          </ion-col>
+     
+        </ion-row>
+      </ion-grid>
+    </mat-tab>
+    <mat-tab label="BOUTIQUE">
+        <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <h2>
+                  E-Shop
+                  <button (click)="presentAddProductModal()" mat-button>
+                    <span class="material-icons add-icon">
+                      add
+                    </span>
+                  </button>
+    
+                </h2>
+              </ion-col>
+              <ion-col size="6" *ngFor="let p of listProducts">
+       
+                <span>
+                  <div class="text-over shop-price" >
+                    <label for="">
+                      12$
+                    </label>
+                  </div> 
+                </span>
+                    <img class="product-img"
+                    [src]="p?.photo" alt="">
+                <div class="text-over">
+                  <label for="">
+                    {{p?.nom}}
+                  </label>
+                </div>
+    
+              </ion-col>
+         
+            </ion-row>
+          </ion-grid>
+    </mat-tab>
+  </mat-tab-group>
+
+</ion-content>

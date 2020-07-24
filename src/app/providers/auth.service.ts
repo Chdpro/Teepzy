@@ -43,6 +43,16 @@ export class AuthService {
     return this.http.post(base_url + url, user, httpOptionsJson);
   }
 
+  updateProfile(user): Observable<any> {
+    let url = 'users/updateProfile';
+    return this.http.post(local_url + url, JSON.stringify(user), httpOptionsJson);
+  }
+
+  updateProfile2(user): Observable<any> {
+    let url = 'users/updateProfile2';
+    return this.http.post(local_url + url, JSON.stringify(user), httpOptionsJson);
+  }
+
 
   listCodes(): Observable<any>{
     return of(codes);
@@ -57,7 +67,7 @@ export class AuthService {
 
   myInfos(id) {
     let url = 'users/user/' + id
-    return this.http.get(base_url + url, httpOptionsJson)
+    return this.http.get(local_url + url, httpOptionsJson)
   }
 
 

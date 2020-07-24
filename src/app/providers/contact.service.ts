@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient,} from '@angular/common/http';
-import { base_url, test_url, local_url } from 'src/config';
+import { base_url, test_url } from 'src/config';
 import { Observable } from 'rxjs';
 
 
@@ -30,7 +30,7 @@ export class ContactService {
 
   inviteToJoinCircle(invitation): Observable<any> {
     let url = 'users/inviteToJoinCircle';
-    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
   linkPeoples(invitation): Observable<any> {
@@ -97,8 +97,23 @@ export class ContactService {
     return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
+  addProject(project): Observable<any> {
+    let url = 'users/addProject';
+    return this.http.post(base_url + url, JSON.stringify(project), httpOptionsJson);
+  }
+
+  addProduct(product): Observable<any> {
+    let url = 'users/addProduct';
+    return this.http.post(base_url + url, JSON.stringify(product), httpOptionsJson);
+  }
+
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
+    return this.http.get(base_url + url, httpOptionsJson);
+  }
+
+  getSocials(): Observable<any> {
+    let url = 'socials/';
     return this.http.get(base_url + url, httpOptionsJson);
   }
 

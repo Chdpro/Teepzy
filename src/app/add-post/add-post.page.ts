@@ -30,7 +30,7 @@ export class AddPostPage implements OnInit {
     private toastController : ToastController,
     private authService: AuthService,
     private contactService: ContactService,
-    private dataPass: DatapasseService,
+    private dataPass: DatapasseService, 
     public alertController: AlertController
     ) { }
 

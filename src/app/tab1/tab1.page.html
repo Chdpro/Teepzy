@@ -111,137 +111,6 @@
   </div>
 
 
- 
-  <input type="radio" name="modal3" value="open" id="modal-open3" class="modal-radio" />
-  <div class="modal3" *ngIf="linkModal">
-    <label class="modal-label overlay3">
-      <input type="radio" name="modal3" value="close" class="modal-radio" />
-    </label>
-    <div class="content" style="overflow: auto;">
-      <div class="top" style="margin-top: -32px;color: black; text-align: center;">
-        <h5>LINK TO </h5>
-        <label class="modal-label close-btn" (click)="showLinkModal()">
-          <input type="radio" name="modal3" value="close" class="modal-radio" />
-        </label>
-      </div>
-      <mat-tab-group color="warn" >
-        <mat-tab label="Match">
-          <mat-card class="example-card cmt2">
-            <mat-card-header>
-              <div mat-card-avatar>
-                <img mat-card-image class="mat-img"
-                  src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
-              </div>
-              <mat-card-title style="color: #ea4e50;">Enock JOULA</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <p class="content-comment" style="color: #ea4e50;">
-                Nom du Cercle
-              </p>
-              <button class="btn-icon star-btn" mat-button aria-label="Example icon button with a home icon">
-        
-                <div class="pretty p-icon p-round p-pulse">
-                  <input type="checkbox" />
-                  <div class="state p-success">
-                      <i class="icon mdi mdi-check"></i>
-                      <label></label>
-                  </div>
-              </div>
-              </button>
-            </mat-card-content>
-
-          </mat-card>
-          <mat-card class="example-card cmt2">
-            <mat-card-header>
-              <div mat-card-avatar>
-                <img mat-card-image class="mat-img"
-                  src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
-              </div>
-              <mat-card-title style="color: #ea4e50;">Enock JOULA</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <p class="content-comment" style="color: #ea4e50;">
-                Nom du Cercle
-              </p>
-              <button class="btn-icon star-btn" mat-button aria-label="Example icon button with a home icon">
-                <div class="pretty p-icon p-round p-pulse">
-                  <input type="checkbox" />
-                  <div class="state p-success">
-                      <i class="icon mdi mdi-check"></i>
-                      <label></label>
-                  </div>
-              </div>
-              </button>
-            </mat-card-content>
-
-          </mat-card>
-          <mat-card class="example-card cmt2">
-            <mat-card-header>
-              <div mat-card-avatar>
-                <img mat-card-image class="mat-img"
-                  src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
-              </div>
-              <mat-card-title style="color: #ea4e50;">Enock JOULA</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <p class="content-comment" style="color: #ea4e50;">
-                Nom du Cercle
-              </p>
-              <button class="btn-icon star-btn" mat-button aria-label="Example icon button with a home icon">
-                <!--span class="material-icons">
-                  check_circle_outline
-                </span-->
-                <div class="pretty p-icon p-round p-pulse">
-                  <input type="checkbox" />
-                  <div class="state p-success">
-                      <i class="icon mdi mdi-check"></i>
-                      <label></label>
-                  </div>
-              </div>
-              
-              </button>
-            </mat-card-content>
-
-          </mat-card>
-        
-        </mat-tab>
-        <mat-tab label="Recherche">
-
-          <input  class="input-s" type="text" [(ngModel)]='filtre' placeholder="filtrer...">
-
-          <mat-card *ngFor="let u of users| filter:filtre ;trackBy: trackByFn " class="example-card cmt2">
-            <mat-card-header>
-              <div mat-card-avatar>
-                <img mat-card-image class="mat-img"
-                  [src]="u?.photo" alt="">
-              </div>
-              <mat-card-title style="color: #ea4e50;"> {{u?.pseudoIntime}} </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <!--p class="content-comment" style="color: #ea4e50;">
-                Nom du Cercle
-              </p-->
-              <button (click)="linker(u)" class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
-                <div class="pretty p-icon p-round p-pulse">
-                  <input type="checkbox" />
-                  <div class="state p-success">
-                      <i class="icon mdi mdi-check"></i>
-                      <label></label>
-                  </div>
-              </div>
-              </button>
-            </mat-card-content>
-
-          </mat-card>
-
-        </mat-tab>
-
-      </mat-tab-group>
-
-      <ion-button (click)="showLinkModal()" class="cancel-btn" expand="block" size="large" color="medium">Annuler</ion-button>
-
-    </div>
-  </div>
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
@@ -299,7 +168,7 @@
         <ion-fab style="margin-bottom: 188px;" (click)="presentCommentModal(p)" vertical="bottom" horizontal="end"
           slot="fixed">
           <ion-fab-button color="light">
-              <ion-icon style="font-size: 26px;margin-top: 5px;" name="chatbubble-outline"></ion-icon>
+            <ion-icon style="font-size: 26px;" name="chatbubble-outline"></ion-icon>
           </ion-fab-button>
         </ion-fab>
 
@@ -339,13 +208,14 @@
         </label>
 
 
-   
+
         <!-- fab placed to the bottom end -->
-        <ion-fab vertical="bottom" (click)="presentLinkModal(p)"  style="margin-bottom: 20px;" horizontal="end" slot="fixed">
-          <ion-fab-button color="light" >
-              <span class="material-icons">
-                group_add
-              </span>
+        <ion-fab vertical="bottom" (click)="presentLinkModal(p)" style="margin-bottom: 20px;" horizontal="end"
+          slot="fixed">
+          <ion-fab-button color="light">
+            <span class="material-icons">
+              group_add
+            </span>
           </ion-fab-button>
         </ion-fab>
       </div>

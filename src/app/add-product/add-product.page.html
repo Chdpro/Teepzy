@@ -1,0 +1,81 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+      <ion-title>
+        <input class="title-input" type="text" [(ngModel)]="title" name="title">
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <ion-header class="ion-no-border">
+      <ion-toolbar>
+        <span class="text-btn">
+          <button class="cancel-btn" (click)="dismiss()" mat-button>ANNULER</button>
+          <button class="save-btn" [disabled]="nom.errors?.required 
+                  || logiciel.errors?.required
+                  || description.errors?.required
+                      || tags?.length == 0 " (click)="addProduct()" mat-button>
+  
+            <span *ngIf="!loading">
+              ENREGISTRER
+            </span>
+            <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+  
+          </button>
+        </span>
+      </ion-toolbar>
+    </ion-header>
+  
+    <div class="banner">
+  
+      <div>
+        <img class="add-photo" src="../../assets/img/neutral.jpg" alt="">
+  
+        <!-- fab placed to the bottom end -->
+        <ion-fab (click)="selectImage(p)" vertical="center" horizontal="center" slot="fixed">
+          <ion-fab-button color="light">
+            <ion-icon name="add"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+  
+      </div>
+    </div>
+  
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <mat-label>NOM</mat-label>
+              <input matInput #nom="ngModel" required name="nom" [(ngModel)]="product.nom" placeholder="Nom du produit">
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>PRIX</mat-label>
+              <input matInput name="logiciel" type="number" #logiciel="ngModel" required [(ngModel)]="product.price"
+                placeholder="Prix">
+            </mat-form-field>
+  
+            <mat-form-field class="example-full-width">
+              <mat-label>DESCRIPTION</mat-label>
+              <input matInput name="description" #description="ngModel" required [(ngModel)]="product.description"
+                placeholder="Description du produit">
+            </mat-form-field>
+            <mat-form-field class="example-chip-list">
+              <mat-chip-list #chipList aria-label="Fruit selection">
+                <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
+                  (removed)="remove(tag)">
+                  {{tag}}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="TAG" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+              </mat-chip-list>
+            </mat-form-field>
+  
+          </form>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  
+  
+  </ion-content>

@@ -72,9 +72,20 @@ ion-modal{
     border-radius: 0;
 
 }
+
+.add-project-class{
+    height: 100%;
+    top: 0;
+    bottom: 0 !important;
+    border-radius: 0;
+}
 .sc-ion-modal-md-h{
     top: unset ;
 
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
+    background-color: #ea4e4f;
 }
 
   

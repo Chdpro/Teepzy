@@ -32,6 +32,8 @@ import { BottomSheetOverviewExampleSheetPageModule } from './bottom-sheet-overvi
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { CommentsPageModule } from './comments/comments.module';
 import { LinkSheetPageModule } from './link-sheet/link-sheet.module';
+import { AddProductPageModule } from './add-product/add-product.module';
+import { AddProjectPageModule } from './add-project/add-project.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +41,8 @@ import { LinkSheetPageModule } from './link-sheet/link-sheet.module';
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, BrowserAnimationsModule,
     HttpClientModule,
     AddPostPageModule,
+    AddProductPageModule,
+    AddProjectPageModule,
     CommentsPageModule,
     LinkSheetPageModule,
     BottomSheetOverviewExampleSheetPageModule,

@@ -1,0 +1,68 @@
+.title-input{
+    border-radius: 30px;
+    padding: 8px;
+    width: 34%;
+    background: #E0DFDF;
+    border: aquamarine;
+    color: #ea4d4f;
+    padding-left: 15px;
+}
+
+.save-btn{
+    float: right;
+}
+
+.text-btn{
+    color: #C4C1C1;
+}
+
+.cancel-btn{
+    color: #ea4d4f;
+}
+
+.card-banner{
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 17px;
+    position: relative;
+    border-radius: 28px;
+    text-align: center;
+    font-weight: 600;
+    color: #ea4d4f;
+}
+
+.add-photo{
+    border-radius: 42px;
+    width: 75%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 1px 1px 4px 0px;
+    position: relative;
+    margin-top: 22px;
+
+}
+
+ion-icon{
+    color: #ea4d4f;
+}
+
+.banner{
+    height: 46%;
+    border-radius: 1px 1px 35px 35px;
+    position: relative;
+    padding-top: 13px;
+
+}
+
+mat-form-field{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.example-chip-list{
+    width: 80%;
+}

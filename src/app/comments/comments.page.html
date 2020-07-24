@@ -3,7 +3,7 @@
 <ion-content  color="success" class="content" style="    background-color: #F0EFEF;">
   <ion-header class="ion-no-border">
     <ion-toolbar  color="success">
-      <ion-title>Commentaires</ion-title>
+      <ion-title>  {{listComments?.length || '0' }} Commentaire <span style="margin-left: -5px;" *ngIf="listComments?.length > 1">s</span> </ion-title>
       <ion-icon (click)="dismiss()" class="close-icon" name="close-outline"></ion-icon>
     </ion-toolbar>
   </ion-header>
