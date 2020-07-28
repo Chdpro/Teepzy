@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient,} from '@angular/common/http';
-import { base_url, test_url } from 'src/config';
+import { base_url, test_url, local_url } from 'src/config';
 import { Observable } from 'rxjs';
 
 
@@ -31,6 +31,12 @@ export class ContactService {
   inviteToJoinCircle(invitation): Observable<any> {
     let url = 'users/inviteToJoinCircle';
     return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
+  }
+  
+
+  cancelToJoinCircle(invitation): Observable<any> {
+    let url = 'users/cancelToJoinCircle';
+    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
   linkPeoples(invitation): Observable<any> {

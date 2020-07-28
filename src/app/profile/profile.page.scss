@@ -15,6 +15,7 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+    border: solid 1px #fff;
 }
 
 .text-banner{
@@ -34,7 +35,7 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 6px;
-    position: relative;
+    position: sticky;
     border-radius: 28px;
     text-align: center;
     font-weight: 600;
@@ -109,12 +110,10 @@ ion-slides {
 
   .toggle_o{
     margin-top: -33px;
-    /* float: right; */
     display: block;
-    /* margin-left: auto; */
-    /* margin-right: auto; */
     text-align: center;
-    margin-left: 57px;
+    margin-left: 87px;
+    font-size: 27px;
     color: white;
   }
 
@@ -127,5 +126,8 @@ ion-slides {
     margin-right: 12px;
   }
 
-
+.arrow{
+    margin-top: 36px;
+    font-size: 32px;
+}
   

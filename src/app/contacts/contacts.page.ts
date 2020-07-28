@@ -42,7 +42,7 @@ export class ContactsPage implements OnInit {
     },
     {
       givenName: 'Ridy',
-      familyName: 'Nkyalu',
+      familyName: 'FRANCE',
       phone: '+330663534043',
       invited: false
 
@@ -89,11 +89,11 @@ export class ContactsPage implements OnInit {
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
-    this.loadContacts()
+    //this.loadContacts()
     let a = '66 77 23 27'
     let b = '+22966772327'
     console.log(a.replace(/\s/g, '').slice(-7) == b.replace(/\s/g, '').slice(-7) ? true : false)
-    //this.getTeepzr()
+    this.getTeepzr()
   }
 
 
@@ -201,7 +201,7 @@ export class ContactsPage implements OnInit {
       console.log(res)
       this.listTeepZrs = res['data']
       this.contactsTest.forEach(um => {
-        this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push(x) : null })
+        this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push({  _id: x['_id'], prenom: um.givenName,  nom: um.familyName,phone: x.phone ,photo: x.photo}) : null })
       });
       this.listTeepZrs = list
       this.listTeepZrs.forEach(e => {
@@ -288,6 +288,31 @@ export class ContactsPage implements OnInit {
     })
   }
 
+
+  cancelInvitationToJoinCircle(idReceiver) {
+    console.log(idReceiver)
+    this.loading = true
+    let invitation = {
+      idSender: this.userId,
+      idReceiver: idReceiver,
+      typeLink: 'INVITATION'
+    }
+
+    this.contactService.cancelToJoinCircle(invitation).subscribe(res => {
+      console.log(res)
+      this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = false : null)
+      this.presentToast('Invitation annulée')
+      console.log(this.listTeepzrsToInvite)
+      //  this.getTeepzr()
+      this.loading = false
+    }, error => {
+      this.presentToast('Invitation non envoyée')
+      this.loading = false
+
+    })
+  }
+
+  
   async presentAlertConfirm(IdR) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',

@@ -1,19 +1,6 @@
 <ion-content>
 
   <ion-grid>
-
-    <ion-row>
-      <ion-col>
-        <div (click)="shwModal()">
-          <label for="modal-2">
-            <img class="img-user" src="../../assets/img/Illustration 5-05.png" alt="">
-          </label>
-
-        </div>
-
-      </ion-col>
-
-    </ion-row>
     <ion-row>
       <ion-col>
         <form class="example-form">
@@ -193,13 +180,13 @@
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <button style="float: right;" [disabled]="nom.errors?.required 
+    <button style="float: right;" 
+    [disabled]="nom.errors?.required 
     || passwordId.errors?.required
     || conf.errors?.required
         || prenom.errors?.required 
         || email.errors?.required
         || phone.errors?.required
-        || user?.photo == ''
         || selected == ''" (click)="signIn()" mat-button>Suivant</button>
   </ion-toolbar>
 </ion-footer>

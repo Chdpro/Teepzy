@@ -43,10 +43,32 @@ label{
     margin-left: auto;
     margin-right: auto;
     margin-top: 31px;
-    height: -webkit-fill-available;
-    font-weight: 200;
+    height: 102px;
+    font-weight: 500;
 }
 
+small{
+    font-size: 18px !important;
+    color: #ea4e50;
+
+}
 .camera-icon{
     margin-bottom: -7px;
+    color: #ea4e50;
+
+}
+
+.round-img{
+    height: 123px;
+    width: 123px;
+    border-radius: 90px;
+    border: solid 1px #ea4e50;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 36px;
+    padding-top: 45px;
+    text-align: center;
+    color: #ea4e50;
+    font-size: 27px;
 }

@@ -17,7 +17,7 @@ import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx
 export class EditProfilePage implements OnInit {
 
   profile1 ={
-    nom: '',
+    pseudoPro: '',
     localisation: 'localisation',
     metier: 'metier',
     userId: '',
@@ -31,6 +31,7 @@ export class EditProfilePage implements OnInit {
     userId: '',
     socialsAmical: [],
     hobbies: [],
+    pseudoIntime: ''
   }
   
   socials = []
@@ -58,6 +59,10 @@ export class EditProfilePage implements OnInit {
   visible1 = true;
   selectable1 = true;
   removable1 = true;
+  removable2 = true;
+  removable3 = true;
+
+
   addOnBlur1 = true;
   readonly separatorKeysCodes1: number[] = [ENTER, COMMA];
   tags1 = [
@@ -132,7 +137,11 @@ export class EditProfilePage implements OnInit {
   }
 
 
-
+   checkAvailability(arr, val) {
+    return arr.some(function(arrVal) {
+        return val === arrVal['_id'];
+    });
+}
   addSocial(){
     let sociale = {
       _id: this.media['_id'],
@@ -141,22 +150,8 @@ export class EditProfilePage implements OnInit {
       url : this.rs_url,
       type: this.media['type']
     }
-   if (this.socialsAdded.length == 0) {
-    this.socialsAdded.push(sociale)
-   } else {
-    for (const sA of this.socialsAdded) {
-      if (sA['_id'] == sociale['_id']) {
-        this.presentToast('Ce média a été déjà ajouté')
-      }else{
-        this.socialsAdded.push(sociale)
-        console.log('hello')
-      }
-      
-    }
-   }
 
-    console.log(this.socialsAdded)
-  
+    this.checkAvailability(this.socialsAdded, sociale['_id']) ? this.presentToast('Ce média a été déjà ajouté'):this.socialsAdded.push(sociale) 
   }
 
 
@@ -168,23 +163,8 @@ export class EditProfilePage implements OnInit {
       url : this.rs_url2,
       type: this.media2['type']
     }
-    
-   if (this.socialsAdde2.length == 0) {
-    this.socialsAdde2.push(sociale)
-   } else {
-    for (const sA of this.socialsAdde2) {
-      if (sA['_id'] == sociale['_id']) {
-        this.presentToast('Ce média a été déjà ajouté')
-      }else{
-        this.socialsAdde2.push(sociale)
-        console.log('hello')
-      }
-      
-    }
-   }
+    this.checkAvailability(this.socialsAdde2, sociale['_id']) ? this.presentToast('Ce média a été déjà ajouté'):this.socialsAdde2.push(sociale) 
 
-    console.log(this.socialsAdde2)
-  
   }
 
 
@@ -201,7 +181,8 @@ export class EditProfilePage implements OnInit {
     this.authService.myInfos(userId).subscribe(res => {
       console.log(res)
       this.user = res['data'];
-      this.profile1.nom = this.user['nom'];
+      this.profile1.pseudoPro = this.user['pseudoPro'];
+      this.profile2.pseudoIntime = this.user['pseudoIntime'];
       this.profile1.bio = this.user['bio'];
       this.profile1.localisation = this.user['localisation'];
       this.profile1.metier = this.user['metier'];
@@ -258,11 +239,24 @@ export class EditProfilePage implements OnInit {
     }
   }
 
+  remove2(tag): void {
+    const index = this.tags1.indexOf(tag);
+    if (index >= 0) {
+      this.tags1.splice(index, 1);
+    }
+  }
+
+  remove3(tag): void {
+    const index = this.socialsAdde2.indexOf(tag);
+    if (index >= 0) {
+      this.socialsAdde2.splice(index, 1);
+    }
+  }
 
   remove(tag): void {
-    const index = this.tags.indexOf(tag);
+    const index = this.socialsAdded.indexOf(tag);
     if (index >= 0) {
-      this.tags.splice(index, 1);
+      this.socialsAdded.splice(index, 1);
     }
   }
 

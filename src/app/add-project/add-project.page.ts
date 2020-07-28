@@ -23,7 +23,7 @@ export class AddProjectPage implements OnInit {
   project = {
     userId: '',
     nom: '',
-    photo: '',
+    photo: 'http://teepzy.com/project.jpg',
     tags : [],
     description: '',
     logiciel: ''

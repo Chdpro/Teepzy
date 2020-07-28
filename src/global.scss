@@ -58,6 +58,9 @@ color: white;
     overflow: scroll !important;
 }
 
+::ng-deep .mat-tab-label {
+    pointer-events: none;
+ }
 
 ion-modal{
     height: 404px;

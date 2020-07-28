@@ -23,6 +23,8 @@ export class SignupFinalPage implements OnInit {
 
   }
 
+  userInfo:any
+
   photos: any = [];
   filesName = new Array();
   dispImags = []
@@ -57,15 +59,23 @@ export class SignupFinalPage implements OnInit {
      console.log(usr['params'])
     this.user.photo = usr['params']['photo']
     this.user.userId = localStorage.getItem('teepzyUserId')
-
+    this.getUserInfo(this.user.userId)
     this.menuCtrl.enable(false);
     this.menuCtrl.swipeGesture(false);
 
   }
 
 
-  updateUser() {
+  getUserInfo(userId) {
+    this.authService.myInfos(userId).subscribe(res => {
+      console.log(res)
+      this.userInfo = res['data'];
+    }, error => {
+      console.log(error)
+    })
+  }
 
+  updateUser() {
     if ((this.user.pseudoIntime == '' && this.user.pseudoPro != '') || (this.user.pseudoIntime != '' && this.user.pseudoPro == '')) {
       this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
       this.user.pseudoPro = this.user.pseudoPro.toLowerCase() 

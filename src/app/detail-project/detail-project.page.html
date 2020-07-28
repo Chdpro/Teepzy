@@ -1,0 +1,111 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="8">
+            <h3 style="margin-top: 9px;color: #ea4e50;" *ngIf="!showSearch">Bonjour {{user?.prenom}}</h3>
+          </ion-col>
+          <ion-col>
+            <div *ngIf="!showSearch" class="example-button-container">
+              <button (click)="showSearch = true" class="btn-icon" mat-mini-fab
+                aria-label="Example icon button with a home icon">
+                <mat-icon>search</mat-icon>
+              </button>
+              <button style="text-align: center;" mat-mini-fab aria-label="Example icon button with a home icon">
+                <ion-menu-button autoHide="false">
+                  <mat-icon>settings</mat-icon>
+                </ion-menu-button>
+              </button>
+            </div>
+          </ion-col>
+        </ion-row>
+  
+        <ion-row>
+          <ion-col>
+            <span *ngIf="showSearch" style="display: flex;">
+              <button (click)="showSearch = false" style="font-size: 29px;" mat-button>
+                <ion-icon name="arrow-back-outline"></ion-icon>
+              </button>
+              <form style="margin-top: 72px; margin-bottom: -41px;" class="example-form">
+                <mat-form-field class="example-full-width search-input mat-form-field">
+                  <mat-label>Rechercher</mat-label>
+                  <input [(ngModel)]="search" name="search" matInput placeholder="Taper pour filtrer">
+                </mat-form-field>
+              </form>
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  
+  
+  
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content [fullscreen]="true" [scrollY]="false">
+
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+  
+    <ion-slides pager="true" [options]="slideOpts">
+      <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
+        [style.background-color]="p?.backgroundColor"
+        [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+        <div class="post-txt" (click)="next()">
+          <span *ngIf="p?.reposterId == userId" style="font-size: small;">
+            Vous avez publié la demande de
+          </span>
+          <div style="line-height: 21px; margin-top: 11px;width: 223px;">
+            <img class="img-poster" [src]="p?.userPhoto_url" alt="">
+            <strong>
+              {{p?.userPseudo}}
+            </strong><br>
+            <small>
+              {{p?.circle || '' }}
+            </small>
+            <span class="time" *ngIf="time(p?.createdAt) != 'il y a une heure'">
+              {{time(p?.createdAt) }}
+            </span>
+            <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
+              il y a 1 heure
+            </span>
+          </div><br>
+          <p>
+            {{ p?.content }}
+          </p>
+  
+          <div class="match-img">
+            <span style="margin-top: 6px;">MATCH</span>
+            <span style="margin-left: 6px;">
+              <img class="match-image"
+                src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+            </span>
+            <span style="margin-left: -9px;">
+              <img class="match-image"
+                src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+            </span>
+            <span style="margin-right: 6px;margin-left: -9px;">
+              <img class="match-image"
+                src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
+            </span>
+            <span style="margin-top: 6px;">+3</span>
+  
+          </div>
+  
+  
+        </div>
+  
+        <div>
+        
+        </div>
+  
+  
+  
+      </ion-slide>
+    
+    </ion-slides>
+  
+  
+  
+  </ion-content>

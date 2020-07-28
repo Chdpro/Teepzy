@@ -8,7 +8,7 @@ ion-title{
 
 .banner{
     background: #ea4e4f;
-    height: 46%;
+    height: 60%;
     border-radius: 1px 1px 35px 35px;
     position: relative;
     padding-top: 23px;
@@ -61,10 +61,9 @@ ion-title{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    box-shadow: 1px 1px 7px 2px;
+  /*  box-shadow: 1px 1px 7px 2px;*/
     position: relative;
-    margin-top: -13px;
-
+    margin-top: 18px;
 }
 
 .save-btn{
@@ -116,6 +115,12 @@ button{
     width: 100%;
   }
 
+  .mat-con-cancel{
+    font-size: 16px;
+    margin-left: 8px;
+    margin-top: 9px;
+    color: #929292;
+  }
 
 // modal
 

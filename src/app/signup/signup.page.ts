@@ -94,7 +94,10 @@ export class SignupPage implements OnInit {
         this.oneSignal.startInit(oneSignalAppId, sender_id);
         this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
         this.oneSignal.handleNotificationReceived().subscribe(data => this.onPushReceived(data.payload));
-       this.oneSignal.handleNotificationOpened().subscribe(data => this.onPushOpened(data.notification.payload));
+       this.oneSignal.handleNotificationOpened().subscribe(data => {
+        this.onPushOpened(data.notification.payload)
+        this.router.navigateByUrl('/tabs/tab2')
+       } );
         this.oneSignal.endInit();
         // Then You Can Get Devices ID
 
@@ -113,6 +116,7 @@ export class SignupPage implements OnInit {
 
   private onPushOpened(payload: OSNotificationPayload) {
     // alert('Push received :' + payload.body)
+
   }
 
   private onPushReceived(payload: OSNotificationPayload) {

@@ -14,13 +14,13 @@ import { fromEvent } from 'rxjs';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  navigate : any;
+  navigate: any;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private router: Router,
-    private navCtrl:NavController,
+    private navCtrl: NavController,
     public toastController: ToastController,
 
 
@@ -35,32 +35,32 @@ export class AppComponent {
       this.navCtrl.pop(); // I have used for my case
     });
 
-      // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyAtsHTJJtzF_V4G2oz4_8n7O2MrTZ8q6UU",
-    authDomain: "newagent-d1b9b.firebaseapp.com",
-    databaseURL: "https://newagent-d1b9b.firebaseio.com",
-    projectId: "newagent-d1b9b",
-    storageBucket: "newagent-d1b9b.appspot.com",
-    messagingSenderId: "1034496750412",
-    appId: "1:1034496750412:web:1c5a4da512652c3b51d5e9"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAtsHTJJtzF_V4G2oz4_8n7O2MrTZ8q6UU",
+      authDomain: "newagent-d1b9b.firebaseapp.com",
+      databaseURL: "https://newagent-d1b9b.firebaseio.com",
+      projectId: "newagent-d1b9b",
+      storageBucket: "newagent-d1b9b.appspot.com",
+      messagingSenderId: "1034496750412",
+      appId: "1:1034496750412:web:1c5a4da512652c3b51d5e9"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
 
-  let token = localStorage.getItem('teepzyToken')
-/*if (token) {
-   this.router.navigateByUrl('/tabs/tab1', {
-     replaceUrl: true
-   }
-   )
-  }else if(!token){
-   this.router.navigateByUrl('/debut', {
-     replaceUrl: true
-   }
-   )
-  }*/
-}
+    let token = localStorage.getItem('teepzyToken')
+    /*if (token) {
+       this.router.navigateByUrl('/tabs/tab1', {
+         replaceUrl: true
+       }
+       )
+      }else if(!token){
+       this.router.navigateByUrl('/debut', {
+         replaceUrl: true
+       }
+       )
+      }*/
+  }
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -70,26 +70,25 @@ export class AppComponent {
   }
 
 
-  sideMenu()
-  {
+  sideMenu() {
     this.navigate =
-    [
-      {
-        title : "Home",
-        url   : "/home",
-        icon  : "home"
-      },
-      {
-        title : "Chat",
-        url   : "/chat",
-        icon  : "chatboxes"
-      },
-      {
-        title : "Contacts",
-        url   : "/contacts",
-        icon  : "contacts"
-      },
-    ]
+      [
+        {
+          title: "Home",
+          url: "/home",
+          icon: "home"
+        },
+        {
+          title: "Chat",
+          url: "/chat",
+          icon: "chatboxes"
+        },
+        {
+          title: "Contacts",
+          url: "/contacts",
+          icon: "contacts"
+        },
+      ]
   }
   async presentToast(msg) {
     const toast = await this.toastController.create({
@@ -100,7 +99,7 @@ export class AppComponent {
   }
 
 
-  logout(){
+  logout() {
     localStorage.removeItem('teepzyUserId')
     localStorage.removeItem('teepzyToken')
     localStorage.removeItem('teepzyEmail')

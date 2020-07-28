@@ -34,6 +34,7 @@ import { CommentsPageModule } from './comments/comments.module';
 import { LinkSheetPageModule } from './link-sheet/link-sheet.module';
 import { AddProductPageModule } from './add-product/add-product.module';
 import { AddProjectPageModule } from './add-project/add-project.module';
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [AppComponent],
@@ -69,6 +70,10 @@ import { AddProjectPageModule } from './add-project/add-project.module';
     OneSignal,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
+    { 
+      provide: HAMMER_GESTURE_CONFIG, 
+      useClass: HammerGestureConfig 
+  }
   ],
   bootstrap: [AppComponent]
 })
