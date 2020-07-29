@@ -8,8 +8,14 @@
     padding-left: 15px;
 }
 
-.save-btn{
-    float: right;
+
+
+.mat-add-circle{
+    font-size: 37px;
+    color: #ea4d4f;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .text-btn{
@@ -65,4 +71,13 @@ mat-form-field{
 
 .example-chip-list{
     width: 80%;
+}
+
+
+.example-form{
+    position: sticky;
+}
+
+ion-fab{
+    position: absolute;
 }

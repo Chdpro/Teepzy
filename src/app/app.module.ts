@@ -35,6 +35,9 @@ import { LinkSheetPageModule } from './link-sheet/link-sheet.module';
 import { AddProductPageModule } from './add-product/add-product.module';
 import { AddProjectPageModule } from './add-project/add-project.module';
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { local_url } from 'src/config';
+const config: SocketIoConfig = { url: local_url, options: {} };
 
 @NgModule({
   declarations: [AppComponent],
@@ -48,7 +51,8 @@ import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-br
     LinkSheetPageModule,
     BottomSheetOverviewExampleSheetPageModule,
     Ng2SearchPipeModule,
-    EmojiPickerModule
+    EmojiPickerModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     StatusBar,

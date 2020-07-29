@@ -132,12 +132,15 @@
           <small>
             {{p?.circle || '' }}
           </small>
-          <span class="time" *ngIf="time(p?.createdAt) != 'il y a une heure'">
+          <span class="time" *ngIf="(time(p?.createdAt) != 'il y a une heure') || (time(p?.createdAt) == 'il y a un jour') ">
             {{time(p?.createdAt) }}
           </span>
           <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
             il y a 1 heure
           </span>
+          <span class="time" *ngIf="time(p?.createdAt) == 'il y a un jour'">
+              il y a 1 jour
+            </span>
         </div><br>
         <p>
           {{ p?.content }}

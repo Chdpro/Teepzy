@@ -53,13 +53,14 @@ mat-form-field{
 }
 
 img{
-    width: 16%;
-    border-radius: 54px;
+    width: 49px;
     height: 49px;
     border: solid 2px #ea4e50;
     margin-right: 15px;
     margin-bottom: 18px;
-
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
 }
 ion-icon{
     margin-right: 27px;

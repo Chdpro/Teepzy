@@ -58,7 +58,7 @@ export class ContactService {
 
   listNotification(id): Observable<any> {
     let url = 'users/notifications/'+ id ;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
 
   checkInviteViaSms(check): Observable<any> {

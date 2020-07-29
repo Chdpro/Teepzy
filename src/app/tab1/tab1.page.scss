@@ -13,9 +13,10 @@ ion-toolbar{
 }
 
 img{
-    border-radius: 54px;
     border: solid 2px #ea4e50;
-    
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
 
 }
 
@@ -27,11 +28,13 @@ img{
 
 .img-match{
     width: 16%;
-    border-radius: 54px;
     height: 49px;
     border: solid 2px #ea4e50;
     margin-right: 15px;
     margin-bottom: 18px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
 
 }
 
@@ -80,13 +83,17 @@ mat-card-header{
     display: flex;
     color: #ea4e50;
     font-size: 12px;
-
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
 }
 
 .match-image{
-    border-radius: 96px;
     height: 25px;
     width: 25px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
     
 }
 .prev-btn{
@@ -135,9 +142,11 @@ mat-card-title{
     float: left;
     margin-left: -1px;
     width: 18%;
-    border-radius: 40px;
-    height: 35px;
+    height: 18%;
     margin-right: 12px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
 }
 .search-input{
     width: 76%;
@@ -174,10 +183,12 @@ ion-icon{
 
 .img-poster{
     width: 23%;
-    height: 52px;
+    height: 23%;
     float: left;
-    border-radius: 34px;
     margin-left: -12px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
 }
 
 strong , small{

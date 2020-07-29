@@ -9,9 +9,11 @@
     border-radius: 1px 1px 35px 35px;
 }
 .img-banner{
-    width: 33%;
-    height: 48%;
-    border-radius: 85px;
+    height: 125px;
+    width: 125px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -34,8 +36,8 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 6px;
-    position: sticky;
+    margin-top: 40px;
+    position: relative;
     border-radius: 28px;
     text-align: center;
     font-weight: 600;
@@ -102,6 +104,20 @@ label{
     margin-top: -9px;
 }
 
+.chevron{
+    font-size: 24px;
+}
+
+.left{
+    float: left;
+    margin-left: -13px;
+    margin-top: 39px;
+}
+.right{
+    float: right;
+    margin-left: -13px;
+    margin-top: 39px;
+}
 /// shop cart css
 
 ion-slides {
@@ -131,3 +147,4 @@ ion-slides {
     font-size: 32px;
 }
   
+

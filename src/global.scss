@@ -62,10 +62,19 @@ color: white;
     pointer-events: none;
  }
 
+ .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination{
+     display: none !important;
+ }
 ion-modal{
     height: 404px;
     bottom: 0 !important;
     border-radius: 39px 45px 1px 1px;
+}
+
+.sc-ion-modal-md  .backdrop-no-tappable{
+    background: black;
+    height: 804px;
+
 }
 
 .my-custom-class {

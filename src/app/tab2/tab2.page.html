@@ -46,10 +46,11 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <div class="md-content">
-          <mat-tab-group color="warn" #tabGroup [selectedIndex]="selected" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
+        <div class=”mat-content” (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
+          <mat-tab-group [(selectedIndex)]="selectedTab" color="warn">
             <mat-tab label="TOUS">
-              <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed" (ionRefresh)="doRefreshNotification($event)">
+              <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
+                (ionRefresh)="doRefreshNotification($event)">
                 <ion-refresher-content></ion-refresher-content>
               </ion-refresher>
               <div>
@@ -80,9 +81,10 @@
               </div>
             </mat-tab>
             <mat-tab label="MENTION">
-                <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed" (ionRefresh)="doRefreshNotification($event)">
-                    <ion-refresher-content></ion-refresher-content>
-                  </ion-refresher>
+              <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
+                (ionRefresh)="doRefreshNotification($event)">
+                <ion-refresher-content></ion-refresher-content>
+              </ion-refresher>
               <div>
                 <!--ion-item>
                 <ion-icon color="primary" name="chatbubble"></ion-icon>
@@ -105,9 +107,10 @@
               </div>
             </mat-tab>
             <mat-tab label="INVITATION">
-                <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed" (ionRefresh)="doRefreshInvitation($event)">
-                    <ion-refresher-content></ion-refresher-content>
-                  </ion-refresher>
+              <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
+                (ionRefresh)="doRefreshInvitation($event)">
+                <ion-refresher-content></ion-refresher-content>
+              </ion-refresher>
               <div>
                 <ion-item *ngFor="let i of invitations;trackBy: trackByFn ">
                   <img alt="" [src]="i?.photo">

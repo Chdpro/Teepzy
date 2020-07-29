@@ -7,7 +7,7 @@
 
 <ion-content>
 
-  <mat-tab-group color="warn" >
+  <mat-tab-group color="warn">
     <mat-tab label="Match">
       <mat-card class="example-card cmt2">
         <mat-card-header>
@@ -22,14 +22,14 @@
             Nom du Cercle
           </p>
           <button class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
-    
+
             <div class="pretty p-icon p-round p-pulse">
               <input type="checkbox" />
               <div class="state p-success">
-                  <i class="icon mdi mdi-check"></i>
-                  <label></label>
+                <i class="icon mdi mdi-check"></i>
+                <label></label>
               </div>
-          </div>
+            </div>
           </button>
         </mat-card-content>
 
@@ -50,10 +50,10 @@
             <div class="pretty p-icon p-round p-pulse">
               <input type="checkbox" />
               <div class="state p-success">
-                  <i class="icon mdi mdi-check"></i>
-                  <label></label>
+                <i class="icon mdi mdi-check"></i>
+                <label></label>
               </div>
-          </div>
+            </div>
           </button>
         </mat-card-content>
 
@@ -77,26 +77,26 @@
             <div class="pretty p-icon p-round p-pulse">
               <input type="checkbox" />
               <div class="state p-success">
-                  <i class="icon mdi mdi-check"></i>
-                  <label></label>
+                <i class="icon mdi mdi-check"></i>
+                <label></label>
               </div>
-          </div>
-          
+            </div>
+
           </button>
         </mat-card-content>
 
       </mat-card>
-    
+
     </mat-tab>
     <mat-tab label="Recherche">
 
-      <input  class="input-s" type="text" [(ngModel)]='filtre' placeholder="filtrer...">
+      <input class="input-s" type="text" [(ngModel)]='filtre' placeholder="filtrer...">
 
-      <mat-card *ngFor="let u of users| filter:filtre ;trackBy: trackByFn " class="example-card cmt2">
+      <mat-card *ngFor="let u of usersMatch| filter:filtre ;trackBy: trackByFn " (click)="addLink(u)"
+        class="example-card cmt2">
         <mat-card-header>
           <div mat-card-avatar>
-            <img mat-card-image class="mat-img"
-              [src]="u?.photo" alt="">
+            <img mat-card-image class="mat-img" [src]="u?.photo" alt="">
           </div>
           <mat-card-title style="color: #ea4e50;"> {{u?.pseudoIntime}} </mat-card-title>
         </mat-card-header>
@@ -104,23 +104,32 @@
           <!--p class="content-comment" style="color: #ea4e50;">
             Nom du Cercle
           </p-->
-          <button (click)="linker(u)" class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
+          <button class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
             <div class="pretty p-icon p-round p-pulse">
-              <input type="checkbox" />
+              <input [checked]="u?.match" type="checkbox" />
               <div class="state p-success">
-                  <i class="icon mdi mdi-check"></i>
-                  <label></label>
+                <i class="icon mdi mdi-check"></i>
+                <label></label>
               </div>
-          </div>
+            </div>
           </button>
         </mat-card-content>
-
       </mat-card>
-
     </mat-tab>
-
   </mat-tab-group>
 
-  <ion-button (click)="dismiss()" class="cancel-btn" expand="block" size="large" color="medium">Annuler</ion-button>
 
 </ion-content>
+<!-- Footer without a border -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+      <mat-form-field *ngIf="usersSelected.length > 0" appearance="outline" class="example-full-width">
+          <input matInput placeholder="Je te link avec XXX" [(ngModel)]="message" >
+        </mat-form-field>
+    <ion-button *ngIf="usersSelected.length > 0" (click)="updateProfile()" expand="full">
+      <span *ngIf="loading == false">ENREGISTRER</span>
+      <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+    </ion-button>
+    <ion-button *ngIf="usersSelected.length == 0" (click)="dismiss()" class="cancel-btn" expand="block" size="large" color="medium">Annuler</ion-button>
+  </ion-toolbar>
+</ion-footer>

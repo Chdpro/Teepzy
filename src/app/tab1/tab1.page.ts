@@ -63,6 +63,8 @@ export class Tab1Page implements OnInit {
 
   users = []
 
+
+
    slideOpts = {
     on: {
       beforeInit() {
@@ -311,6 +313,8 @@ export class Tab1Page implements OnInit {
     const modal = await this.modalController.create({
       component: LinkSheetPage,
       componentProps: post,
+      backdropDismiss:false,
+      showBackdrop: true,
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
     });
@@ -322,6 +326,8 @@ export class Tab1Page implements OnInit {
     const modal = await this.modalController.create({
       component: CommentsPage,
       componentProps: post,
+      backdropDismiss:false,
+      showBackdrop: true,
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
     });

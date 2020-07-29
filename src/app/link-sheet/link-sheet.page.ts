@@ -13,7 +13,14 @@ export class LinkSheetPage implements OnInit {
   userId = ''
   user:any
   users = []
+  usersMatch = []
+  usersSelected = []
   publication:any
+  match = true
+  loading = false
+
+  message = ''
+
   constructor(private modalController: ModalController, 
     private contactService: ContactService,
     private toasterController: ToastController,
@@ -35,7 +42,8 @@ export class LinkSheetPage implements OnInit {
       idSender:this.publication.userId,
       idReceiver: linkedUser._id,
       typeLink: 'PRO',
-      linkerId: this.userId
+      linkerId: this.userId,
+      message: this.message
     }
     console.log(invitation)
 
@@ -52,6 +60,26 @@ export class LinkSheetPage implements OnInit {
     }
  
   }
+  checkAvailability(arr, val) {
+    return arr.some(function(arrVal) {
+        return val === arrVal['_id'];
+    })
+  }
+
+  addLink(link){
+    this.checkAvailability(this.usersSelected, link['_id']) ? null : this.usersSelected.push(link);  
+  }
+
+
+  validateLinks(){
+    this.loading = true
+    for (const uS of this.usersSelected) {
+      uS['']
+      this.linker(uS)
+    }
+    this.loading = false
+
+  }
 
   trackByFn(index, item) {
     return index; // or item.id
@@ -60,7 +88,18 @@ export class LinkSheetPage implements OnInit {
   getUsersToMatch() {
     this.contactService.getUsersMatch(this.userId).subscribe(res => {
       console.log(res)
-      this.users = res['data']
+      this.users = res['data'];
+      for (const u of this.users) {
+        this.usersMatch.push({
+          nom: u.nom,
+          prenom: u.prenom,
+          pseudoIntime: u.pseudoIntime,
+          pseudoPro: u.pseudoPro,
+          _id: u._id,
+          match: false,
+          photo: u.photo
+        })
+      }
     }, error => {
       console.log(error)
     })

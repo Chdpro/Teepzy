@@ -11,17 +11,7 @@
     <ion-toolbar>
       <span class="text-btn">
         <button class="cancel-btn" (click)="dismiss()" mat-button>ANNULER</button>
-        <button class="save-btn" [disabled]="nom.errors?.required 
-                || logiciel.errors?.required
-                || description.errors?.required
-                    || tags?.length == 0 " (click)="addProject()" mat-button>
 
-          <span *ngIf="!loading">
-            ENREGISTRER
-          </span>
-          <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-
-        </button>
       </span>
     </ion-toolbar>
   </ion-header>
@@ -71,6 +61,11 @@
                 [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
             </mat-chip-list>
           </mat-form-field>
+          <button [disabled]="tags.length == 0" (click)="add($event)" class=" mat-add-circle" mat-button>
+            <span class="material-icons">
+              add_circle
+            </span>
+          </button>
 
         </form>
       </ion-col>
@@ -79,3 +74,17 @@
 
 
 </ion-content>
+<!-- Footer without a border -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-button expand="block" class="save-btn" [disabled]="nom.errors?.required 
+        || logiciel.errors?.required
+        || description.errors?.required
+        || tags?.length == 0 " (click)="addProject()" mat-button>
+      <span *ngIf="!loading">
+        ENREGISTRER
+      </span>
+      <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
