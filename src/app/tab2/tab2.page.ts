@@ -22,7 +22,7 @@ export class Tab2Page implements OnInit {
   @ViewChild('tabGroup', { static: true }) tabGroup: MatTabGroup;
   public selected: number;
 
-  message = '';
+  message = 'mon message pour vous';
   messages = [];
   currentUser = '';
 
@@ -46,10 +46,11 @@ export class Tab2Page implements OnInit {
 
 
   ngOnInit() {
-    this.coonectSocket()
     this.userId = localStorage.getItem('teepzyUserId');
     this.listInvitations()
     this.listNotifications()
+    this.coonectSocket()
+
   }
 
 
@@ -113,34 +114,13 @@ export class Tab2Page implements OnInit {
 
   coonectSocket() {
     this.socket.connect();
-    let name = `user-${new Date().getTime()}`;
-    this.currentUser = name;
-    this.socket.emit('set-name', name);
-    this.socket.fromEvent('users-changed').subscribe(data => {
-      let user = data['user'];
-      if (data['event'] === 'left') {
-        console.log('User left: ' + user);
-      } else {
-        console.log('User joined: ' + user);
-      }
-    });
-
-    this.socket.fromEvent('message').subscribe(message => {
-      this.messages.push(message);
-      console.log(message)
-
-    });
-
-    this.socket.emit('notifications', 'notifications');
-    this.socket.fromEvent('user-notifications').subscribe(notif => {
+    this.socket.fromEvent('user-notification').subscribe(notif => {
       console.log(notif)
+      this.notifications.push(notif)
+      console.log(this.notifications)
     });
   }
 
-  sendMessage() {
-    this.socket.emit('send-message', { text: this.message });
-    this.message = '';
-  }
 
   doRefreshNotification(event) {
     console.log('Begin async operation');
@@ -168,17 +148,24 @@ export class Tab2Page implements OnInit {
     this.contactService.listInivtation(invitation).subscribe(res => {
       console.log(res)
       this.invitations = res['data']
+
     }, error => {
       console.log(error)
+
     })
   }
 
   listNotifications() {
+    this.loading = true
     this.contactService.listNotification(this.userId).subscribe(res => {
       console.log(res)
       this.notifications = res['data']
+      this.loading = false
+
     }, error => {
       console.log(error)
+      this.loading = false
+
     })
   }
 

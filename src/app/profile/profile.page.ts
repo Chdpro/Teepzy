@@ -24,18 +24,18 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
         animate(250, style({ height: '*' }))
       ])
     ]),
-      trigger(
-        'enterAnimation', [
-          transition(':enter', [
-            style({transform: 'translateX(100%)', opacity: 0}),
-            animate('800ms', style({transform: 'translateX(0)', opacity: 1}))
-          ]),
-          transition(':leave', [
-            style({transform: 'translateX(0)', opacity: 1}),
-            animate('800ms', style({transform: 'translateX(100%)', opacity: 0}))
-          ])
-        ]
-      )
+    trigger(
+      'enterAnimation', [
+      transition(':enter', [
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('800ms', style({ transform: 'translateX(0)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ transform: 'translateX(0)', opacity: 1 }),
+        animate('800ms', style({ transform: 'translateX(100%)', opacity: 0 }))
+      ])
+    ]
+    )
   ],
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
@@ -49,6 +49,8 @@ export class ProfilePage implements OnInit {
     initialSlide: 1,
     slidesPerView: 3,
     speed: 400,
+    noSwipingClass: 'swiper-no-swiping',
+
   };
 
   isProProfile = true
@@ -65,12 +67,14 @@ export class ProfilePage implements OnInit {
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
-
   selectedTab = 0
 
   constructor(private router: Router, private modalController: ModalController,
     private dataPass: DatapasseService,
     private authService: AuthService) {
+
+
+
     this.subscription = this.dataPass.getPosts().subscribe(list => {
       if (list.length > 0) {
         this.listProjects = list
@@ -89,6 +93,31 @@ export class ProfilePage implements OnInit {
     this.getUserInfo(userId)
   }
 
+  next() {
+    if (this.user.socialsPro.length <= 3) {
+      this.ionSlides.lockSwipes(true)
+    } else if (this.user.socialsAmical.length <= 3) {
+      this.ionSlides.lockSwipes(true)
+    } else {
+      this.ionSlides.lockSwipes(false)
+      this.ionSlides.slideNext()
+      this.ionSlides.lockSwipes(true)
+    }
+  }
+
+
+  prev() {
+    if (this.user.socialsPro.length <= 3) {
+      this.ionSlides.lockSwipes(true)
+    } else if (this.user.socialsAmical.length <= 3) {
+      this.ionSlides.lockSwipes(true)
+    } else {
+      this.ionSlides.lockSwipes(false)
+      this.ionSlides.slidePrev()
+      this.ionSlides.lockSwipes(true)
+    }
+  }
+
   goToEdit() {
     this.router.navigate(['/edit-profile'])
   }
@@ -98,37 +127,37 @@ export class ProfilePage implements OnInit {
   }
 
 
-swipe2(e: TouchEvent, when: string): void {
-  const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
-  const time = new Date().getTime();
- if (when === 'start') {
-  this.swipeCoord = coord;
-  this.swipeTime = time;
-  } else if (when === 'end') {
-  const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
-  const duration = time - this.swipeTime;
- if (duration < 1000 //
-  && Math.abs(direction[0]) > 30 // Long enough
-  && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) { // Horizontal enough
-  const swipe = direction[0] < 0 ? 'next' : 'previous';
-  console.info(swipe);
-  if(swipe === 'next'){
-  const isFirst = this.selectedTab === 0;
- if(this.selectedTab <= 2){
-  this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
- }
- console.log("Swipe left - INDEX: "+ this.selectedTab);
-  } else if(swipe === 'previous'){
-  const isLast = this.selectedTab === 2;
- if(this.selectedTab >= 1){
-  this.selectedTab = this.selectedTab - 1;
+  swipe2(e: TouchEvent, when: string): void {
+    const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
+    const time = new Date().getTime();
+    if (when === 'start') {
+      this.swipeCoord = coord;
+      this.swipeTime = time;
+    } else if (when === 'end') {
+      const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
+      const duration = time - this.swipeTime;
+      if (duration < 1000 //
+        && Math.abs(direction[0]) > 30 // Long enough
+        && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) { // Horizontal enough
+        const swipe = direction[0] < 0 ? 'next' : 'previous';
+        console.info(swipe);
+        if (swipe === 'next') {
+          const isFirst = this.selectedTab === 0;
+          if (this.selectedTab <= 2) {
+            this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
+          }
+          console.log("Swipe left - INDEX: " + this.selectedTab);
+        } else if (swipe === 'previous') {
+          const isLast = this.selectedTab === 2;
+          if (this.selectedTab >= 1) {
+            this.selectedTab = this.selectedTab - 1;
+          }
+          console.log("Swipe right — INDEX: " + this.selectedTab);
+        }
+        // Do whatever you want with swipe
+      }
+    }
   }
- console.log("Swipe right — INDEX: " + this.selectedTab);
-  }
- // Do whatever you want with swipe
-  }
-  }
- }
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {

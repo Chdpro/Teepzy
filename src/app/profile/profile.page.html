@@ -46,56 +46,68 @@
       <mat-tab label="PROFIL">
 
         <ion-grid>
-          <ion-row>
-       
+          <ion-row *ngIf="isProProfile">
+
             <ion-col size="2">
-              <button mat-button (click)="this.Slides.slidePrev()" class="backBtn"> 
+              <button mat-button (click)="prev()" class="backBtn">
                 <ion-icon class="chevron left" name="chevron-back"></ion-icon>
               </button>
             </ion-col>
             <ion-col size="8">
-             
-              <ion-slides *ngIf="isProProfile" pager="false" [hidden]="false" [options]="slideOpts">
-                <div [@enterAnimation] >
-                  <button mat-button *ngFor="let rs of user?.socialsPro" [matMenuTriggerFor]="menu1">
-                    <ion-slide>
+
+              <ion-slides #slides pager="false" [hidden]="false" [options]="slideOpts">
+                  <ion-slide style="width: 80%" [@enterAnimation]>
+                    <button mat-button *ngFor="let rs of user?.socialsPro" [matMenuTriggerFor]="menu1">
                       <mat-card class="rs-card">
                         <ion-icon class="rs-btn" [name]="rs?.icon"></ion-icon>
                       </mat-card>
-                    </ion-slide>
-                    <mat-menu #menu1="matMenu">
-                      <button mat-menu-item>{{rs?.url}}</button>
-                    </mat-menu>
-                  </button>
-                </div>
+                      <mat-menu #menu1="matMenu">
+                        <button mat-menu-item>{{rs?.url}}</button>
+                      </mat-menu>
+                    </button>
+                  </ion-slide>
+              </ion-slides>
 
-              </ion-slides>
-              <ion-slides *ngIf="!isProProfile"  pager="false" [options]="slideOpts">
-                  <div [@enterAnimation] >
-                      <button mat-button *ngFor="let rs of user?.socialsAmical" [matMenuTriggerFor]="menu2">
-                        <ion-slide>
-                          <mat-card class="rs-card">
-                            <ion-icon class="rs-btn" [name]="rs?.icon"></ion-icon>
-                          </mat-card>
-                        </ion-slide>
-                        <mat-menu #menu2="matMenu">
-                            <button mat-menu-item>{{rs?.url}}</button>
-                          </mat-menu>
-                      </button>
-                    </div>
-              </ion-slides>
-      
+
             </ion-col>
             <ion-col size="2">
-              <button mat-button (click)="this.Slides.slideNext()" class="nextBtn"> 
-                    <ion-icon class="chevron right" name="chevron-forward"></ion-icon>
-             </button>
+              <button mat-button (click)="next()" class="nextBtn">
+                <ion-icon class="chevron right" name="chevron-forward"></ion-icon>
+              </button>
             </ion-col>
 
           </ion-row>
-        </ion-grid>
+          <ion-row *ngIf="!isProProfile">
 
-        <ion-grid>
+            <ion-col size="2">
+              <button mat-button (click)="prev()" class="backBtn">
+                <ion-icon class="chevron left" name="chevron-back"></ion-icon>
+              </button>
+            </ion-col>
+            <ion-col size="8">
+
+              <ion-slides class=“swiper-no-swiping” #slides pager="false" [options]="slideOpts">
+                  <ion-slide style="width: 80%" [@enterAnimation]>
+                    <button mat-button *ngFor="let rs of user?.socialsAmical" [matMenuTriggerFor]="menu2">
+                      <mat-card class="rs-card">
+                        <ion-icon class="rs-btn" [name]="rs?.icon"></ion-icon>
+                      </mat-card>
+                      <mat-menu #menu2="matMenu">
+                        <button mat-menu-item>{{rs?.url}}</button>
+                      </mat-menu>
+                    </button>
+                  </ion-slide>
+              </ion-slides>
+
+            </ion-col>
+            <ion-col size="2">
+              <button mat-button (click)="next()" class="nextBtn">
+                <ion-icon class="chevron right" name="chevron-forward"></ion-icon>
+              </button>
+            </ion-col>
+
+          </ion-row>
+
           <ion-row>
             <ion-col size="12">
 

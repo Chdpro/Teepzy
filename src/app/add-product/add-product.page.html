@@ -2,22 +2,16 @@
     <ion-toolbar>
       <ion-title>
         <input class="title-input" type="text" [(ngModel)]="title" name="title">
+        <button class="cancel-btn" (click)="dismiss()" mat-button>
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+
       </ion-title>
     </ion-toolbar>
   </ion-header>
   
-  <ion-content>
-    <ion-header class="ion-no-border">
-      <ion-toolbar>
-        <span class="text-btn">
-          <button class="cancel-btn" (click)="dismiss()" mat-button>ANNULER</button>
-    
-        </span>
-      </ion-toolbar>
-    </ion-header>
-  
+  <ion-content no-bounce>
     <div class="banner">
-  
       <div>
         <img class="add-photo" src="../../assets/img/neutral.jpg" alt="">
   

@@ -12,9 +12,10 @@
 .text-btn{
     color: #C4C1C1;
 }
-
 .cancel-btn{
     color: #ea4d4f;
+    font-size: 27px;
+    float: right;
 }
 
 .card-banner{
@@ -37,9 +38,8 @@
     margin-left: auto;
     margin-right: auto;
     box-shadow: 1px 1px 4px 0px;
-    position: relative;
     margin-top: 22px;
-
+    display: block
 }
 
 ion-icon{
@@ -47,10 +47,10 @@ ion-icon{
 }
 
 .banner{
-    height: 46%;
+    height: 34%;
     border-radius: 1px 1px 35px 35px;
     position: relative;
-    padding-top: 13px;
+    padding-top: 0px;
 
 }
 

@@ -36,7 +36,7 @@ export class ContactService {
 
   cancelToJoinCircle(invitation): Observable<any> {
     let url = 'users/cancelToJoinCircle';
-    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
   linkPeoples(invitation): Observable<any> {
@@ -58,7 +58,7 @@ export class ContactService {
 
   listNotification(id): Observable<any> {
     let url = 'users/notifications/'+ id ;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   checkInviteViaSms(check): Observable<any> {

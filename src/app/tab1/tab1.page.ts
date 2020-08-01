@@ -6,10 +6,11 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import * as moment from 'moment';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription } from 'rxjs';
-import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { BottomSheetOverviewExampleSheetPage } from '../bottom-sheet-overview-example-sheet/bottom-sheet-overview-example-sheet.page';
 import { LinkSheetPage } from '../link-sheet/link-sheet.page';
 import { CommentsPage } from '../comments/comments.page';
+import { Socket } from 'ngx-socket-io';
 
 
 @Component({
@@ -46,26 +47,26 @@ export class Tab1Page implements OnInit {
   postId = ''
   commentId = ''
 
-  
+
   _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
   showSearch = false
   showResponsePanel = false
 
   search = ''
-  subscription: Subscription;  
+  subscription: Subscription;
   timeCall = 0
 
-  repost:any
+  repost: any
 
-  publication:any
-  linkModal =  false
+  publication: any
+  linkModal = false
 
   users = []
 
 
 
-   slideOpts = {
+  slideOpts = {
     on: {
       beforeInit() {
         const swiper = this;
@@ -125,9 +126,9 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  @ViewChild(IonSlides, null)slides: IonSlides;
+  @ViewChild(IonSlides, null) slides: IonSlides;
 
-  navigationSubscription;     
+  navigationSubscription;
 
   constructor(private authService: AuthService,
     private toasterController: ToastController,
@@ -138,26 +139,27 @@ export class Tab1Page implements OnInit {
     private menuCtrl: MenuController,
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
-    private contactService: ContactService) { 
-      this.menuCtrl.enable(true);
-      this.menuCtrl.swipeGesture(true);
-  
-      this.subscription = this.dataPass.getPosts().subscribe(list => {  
-        console.log( list) 
-        if (list.length > 0) {    
-          this.listPosts = list     
-        }  
-      });  
-    }
+    private socket: Socket,
+    private contactService: ContactService) {
+    this.menuCtrl.enable(true);
+    this.menuCtrl.swipeGesture(true);
+
+    this.subscription = this.dataPass.getPosts().subscribe(list => {
+      console.log(list)
+      if (list.length > 0) {
+        this.listPosts = list
+      }
+    });
+  }
 
   ngOnInit() {
     /*setTimeout(() => {
     window.location.href = window.location.href
       
     }, 500);*/
+    this.connectSocket()
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.userId)
-    this.getUsersToMatch()
     this.getPosts(this.userId)
 
 
@@ -169,11 +171,17 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  public next(){
+  connectSocket(){
+    this.socket.connect();
+    this.socket.fromEvent('user-notification').subscribe(notif => {
+      console.log(notif)
+    });
+  }
+  public next() {
     this.slides.slideNext();
   }
 
-  public prev(){
+  public prev() {
     this.slides.slidePrev();
   }
 
@@ -220,16 +228,16 @@ export class Tab1Page implements OnInit {
   }
 
 
-  signaler(pId, reason){
+  signaler(pId, reason) {
     let spam = {
       userId: this.userId,
       postId: pId,
       reason: reason
     }
-    this.contactService.spam(spam).subscribe(res =>{
+    this.contactService.spam(spam).subscribe(res => {
       console.log(res)
       this.presentToast('Ce post a été signlé comme spam')
-    }, error =>{
+    }, error => {
       this.presentToast('Oops! une erreur est survenue')
       console.log(error)
     })
@@ -253,7 +261,7 @@ export class Tab1Page implements OnInit {
           text: 'Lorem ipsum',
           handler: () => {
             let reason = 'Inaproprié'
-            this.signaler(this.repost['postId'],reason)
+            this.signaler(this.repost['postId'], reason)
           }
         }
         ,
@@ -261,7 +269,7 @@ export class Tab1Page implements OnInit {
           text: 'Lorem ipsum',
           handler: () => {
             let reason = 'Inaproprié'
-            this.signaler(this.repost['postId'],reason)
+            this.signaler(this.repost['postId'], reason)
           }
         }
         ,
@@ -269,7 +277,7 @@ export class Tab1Page implements OnInit {
           text: 'Lorem ipsum2',
           handler: () => {
             let reason = 'Lorem ipsum2'
-            this.signaler(this.repost['postId'],reason)
+            this.signaler(this.repost['postId'], reason)
 
           }
         }
@@ -285,6 +293,7 @@ export class Tab1Page implements OnInit {
       postId: postId
     }
     this.contactService.addFavorite(favoris).subscribe(res => {
+      this.socket.emit('notification', 'notification');
       console.log(res)
       this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = true : null)
       this.presentToast('Ajouté aux favoris')
@@ -313,7 +322,7 @@ export class Tab1Page implements OnInit {
     const modal = await this.modalController.create({
       component: LinkSheetPage,
       componentProps: post,
-      backdropDismiss:false,
+      backdropDismiss: false,
       showBackdrop: true,
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
@@ -326,7 +335,7 @@ export class Tab1Page implements OnInit {
     const modal = await this.modalController.create({
       component: CommentsPage,
       componentProps: post,
-      backdropDismiss:false,
+      backdropDismiss: false,
       showBackdrop: true,
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
@@ -334,66 +343,16 @@ export class Tab1Page implements OnInit {
     return await modal.present();
   }
 
-  getCommentsOfPost(postId) {
-    this.postId = postId
-    this.contactService.getCommentsOfPost(postId).subscribe(res => {
-      console.log(res);
-      this.listComments = res['data']
-    }, error => {
-      console.log(error)
-    })
-  }
-
-  addCommentToPost() {
-    this.commentT.userId = this.userId
-    this.commentT.postId = this.postId
-    this.contactService.addCommentToPost(this.commentT).subscribe(res => {
-      console.log(res)
-      if (res['status'] == 200) {
-        //this.presentToast('')
-        this.commentT.comment = ''
-        this.getCommentsOfPost(this.postId)
-      }
-    })
-
-  }
 
 
 
-  addCommentToComment() {
-    this.commentC.userId = this.userId
-    this.commentC.commentId = this.commentId
-    this.contactService.addCommentToComment(this.commentC).subscribe(res => {
-      console.log(res)
-      if (res['status'] == 200) {
-        //this.presentToast('')
-        this.commentC.comment = ''
-        this.presentToast('Vous avez répondu')
-        this.getCommentsOfComment(this.commentId)
-      }
-    }, error =>{
-      console.log(error)
-      this.presentToast('Oops! une erreur est survenue')
-
-    })
-
-  }
-
-  getCommentsOfComment(commentId) {
-    this.showResPanel()
-    this.commentId = commentId
-    this.contactService.getCommentsOfComment(commentId).subscribe(res => {
-      console.log(res);
-      this.listCommentsOfComment = res['data']
-    }, error => {
-      console.log(error)
-    })
-  }
 
 
-  openShareActionSheet(post){
+
+
+  openShareActionSheet(post) {
     console.log(post)
-     this.repost = {
+    this.repost = {
       postId: post['_id'],
       fromId: post['userId'],
       reposterId: this.userId,
@@ -418,19 +377,10 @@ export class Tab1Page implements OnInit {
   }
 
 
-  
 
-  getUsersToMatch() {
-    this.contactService.getUsersMatch(this.userId).subscribe(res => {
-      console.log(res)
-      this.users = res['data']
-    }, error => {
-      console.log(error)
-    })
-  }
 
   getPosts(userId) {
-      this.timeCall = 1
+    this.timeCall = 1
     this.contactService.getPosts(userId).subscribe(res => {
       console.log(res)
       this.listPosts = []
@@ -503,14 +453,14 @@ export class Tab1Page implements OnInit {
   }
 
 
-showLinkModal(p){
-this.publication = p
-if (this.linkModal) {
-  this.linkModal = false
-} else {
-  this.linkModal = true
-}
-}
+  showLinkModal(p) {
+    this.publication = p
+    if (this.linkModal) {
+      this.linkModal = false
+    } else {
+      this.linkModal = true
+    }
+  }
 
   async presentToast(msg) {
     const toast = await this.toasterController.create({

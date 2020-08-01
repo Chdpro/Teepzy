@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavParams, ToastController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-comments',
@@ -34,15 +35,20 @@ export class CommentsPage implements OnInit {
   constructor(private modalController: ModalController, 
     private contactService: ContactService,
     private toasterController: ToastController,
+    private socket: Socket,
     private navParams: NavParams) { }
 
   ngOnInit() {
+    this.connectSocket()
     let post = this.navParams.data;
     this.getCommentsOfPost(post['_id'])
     console.log(post)
     this.userId = localStorage.getItem('teepzyUserId');
   }
 
+  connectSocket(){
+    this.socket.connect();
+  }
 
   getCommentsOfPost(postId) {
     this.postId = postId
@@ -60,6 +66,7 @@ export class CommentsPage implements OnInit {
     this.contactService.addCommentToPost(this.commentT).subscribe(res => {
       console.log(res)
       if (res['status'] == 200) {
+        this.socket.emit('notification', 'notification');
         this.commentT.comment = ''
         this.getCommentsOfPost(this.postId)
       }
@@ -121,6 +128,12 @@ export class CommentsPage implements OnInit {
     return index; // or item.id
   }
 
+
+  ionViewWillLeave() {
+    this.socket.disconnect();
+    console.log('disconnected')
+  }
+  
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data

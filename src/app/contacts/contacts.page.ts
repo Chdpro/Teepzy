@@ -96,11 +96,11 @@ export class ContactsPage implements OnInit {
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
-    //this.loadContacts()
+    this.loadContacts()
     let a = '66 77 23 27'
     let b = '+22966772327'
     console.log(a.replace(/\s/g, '').slice(-7) == b.replace(/\s/g, '').slice(-7) ? true : false)
-    this.getTeepzr()
+    //this.getTeepzr()
   }
 
 
@@ -112,35 +112,35 @@ export class ContactsPage implements OnInit {
   swipe2(e: TouchEvent, when: string): void {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     const time = new Date().getTime();
-   if (when === 'start') {
-    this.swipeCoord = coord;
-    this.swipeTime = time;
+    if (when === 'start') {
+      this.swipeCoord = coord;
+      this.swipeTime = time;
     } else if (when === 'end') {
-    const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
-    const duration = time - this.swipeTime;
-   if (duration < 1000 //
-    && Math.abs(direction[0]) > 30 // Long enough
-    && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) { // Horizontal enough
-    const swipe = direction[0] < 0 ? 'next' : 'previous';
-    console.info(swipe);
-    if(swipe === 'next'){
-    const isFirst = this.selectedTab === 0;
-   if(this.selectedTab <= 2){
-    this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
-   }
-   console.log("Swipe left - INDEX: "+ this.selectedTab);
-    } else if(swipe === 'previous'){
-    const isLast = this.selectedTab === 2;
-   if(this.selectedTab >= 1){
-    this.selectedTab = this.selectedTab - 1;
+      const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
+      const duration = time - this.swipeTime;
+      if (duration < 1000 //
+        && Math.abs(direction[0]) > 30 // Long enough
+        && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) { // Horizontal enough
+        const swipe = direction[0] < 0 ? 'next' : 'previous';
+        console.info(swipe);
+        if (swipe === 'next') {
+          const isFirst = this.selectedTab === 0;
+          if (this.selectedTab <= 2) {
+            this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
+          }
+          console.log("Swipe left - INDEX: " + this.selectedTab);
+        } else if (swipe === 'previous') {
+          const isLast = this.selectedTab === 2;
+          if (this.selectedTab >= 1) {
+            this.selectedTab = this.selectedTab - 1;
+          }
+          console.log("Swipe right — INDEX: " + this.selectedTab);
+        }
+        // Do whatever you want with swipe
+      }
     }
-   console.log("Swipe right — INDEX: " + this.selectedTab);
-    }
-   // Do whatever you want with swipe
-    }
-    }
-   }
-  
+  }
+
 
 
   getPaginatorData(event) {
@@ -184,16 +184,18 @@ export class ContactsPage implements OnInit {
       this.myContacts = contacts
       for (const mC of this.myContacts) {
         // set loading on list
-
         let inviteViaSms = {
           phone: mC.phoneNumbers[0].value,
         }
         this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
           this.loading = true
-          this.arrayIncrementLoading += 1
           if (res['status'] == 201) {
-            if (this.arrayIncrementLoading <= this.myContacts.length) {
-              this.loading = true
+            this.loading = true;
+            if (this.listContacts.length < this.myContacts.length) {
+              this.loading = true;
+            }else if(this.listContacts.length == this.myContacts.length){
+              this.loading = false
+
             }
             this.listContacts.push(
               {
@@ -204,8 +206,12 @@ export class ContactsPage implements OnInit {
               }
             )
           } else {
-            if (this.arrayIncrementLoading <= this.myContacts.length) {
-              this.loading = true
+            this.loading = true;
+            if (this.listContacts.length < this.myContacts.length) {
+              this.loading = true;
+            }else if(this.listContacts.length == this.myContacts.length){
+              this.loading = false
+
             }
             this.listContacts.push(
               {
@@ -216,7 +222,6 @@ export class ContactsPage implements OnInit {
               }
             )
           }
-          this.loading = false
         }, error => {
           this.loading = false
         })
@@ -242,8 +247,8 @@ export class ContactsPage implements OnInit {
     this.contactService.teepZrs(this.userId).subscribe(res => {
       console.log(res)
       this.listTeepZrs = res['data']
-      this.contactsTest.forEach(um => {
-        this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push({  _id: x['_id'], prenom: um.givenName,  nom: um.familyName,phone: x.phone ,photo: x.photo}) : null })
+      this.listContacts.forEach(um => {
+        this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push({ _id: x['_id'], prenom: um.givenName, nom: um.familyName, phone: x.phone, photo: x.photo }) : null })
       });
       this.listTeepZrs = list
       this.listTeepZrs.forEach(e => {
@@ -354,7 +359,7 @@ export class ContactsPage implements OnInit {
     })
   }
 
-  
+
   async presentAlertConfirm(IdR) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',

@@ -44,6 +44,7 @@
 <ion-content [fullscreen]="true">
 
   <ion-grid>
+ 
     <ion-row>
       <ion-col>
         <div class=”mat-content” (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
@@ -53,9 +54,11 @@
                 (ionRefresh)="doRefreshNotification($event)">
                 <ion-refresher-content></ion-refresher-content>
               </ion-refresher>
+              <ion-spinner *ngIf="loading && notifications.length ==  0 " color="primary" name="dots"></ion-spinner>
+
               <div>
 
-                <ion-item *ngFor="let n of notifications;trackBy: trackByFn ">
+                <ion-item *ngFor="let n of notifications?.reverse();trackBy: trackByFn ">
                   <span style="margin-right: 24px;" class="material-icons">
                     {{n?.icon_name}}
                   </span>
@@ -71,7 +74,7 @@
                 </ion-item>
 
 
-                <div *ngIf="notifications?.length == 0" class="empty-msg">
+                <div *ngIf="loading == false && notifications?.length == 0" class="empty-msg">
                   <span class="material-icons drafts">
                     notifications
                   </span><br>
@@ -85,6 +88,7 @@
                 (ionRefresh)="doRefreshNotification($event)">
                 <ion-refresher-content></ion-refresher-content>
               </ion-refresher>
+  
               <div>
                 <!--ion-item>
                 <ion-icon color="primary" name="chatbubble"></ion-icon>
