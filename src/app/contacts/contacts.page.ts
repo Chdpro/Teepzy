@@ -96,7 +96,9 @@ export class ContactsPage implements OnInit {
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
+
     this.loadContacts()
+
     let a = '66 77 23 27'
     let b = '+22966772327'
     console.log(a.replace(/\s/g, '').slice(-7) == b.replace(/\s/g, '').slice(-7) ? true : false)
@@ -184,19 +186,17 @@ export class ContactsPage implements OnInit {
       this.myContacts = contacts
       for (const mC of this.myContacts) {
         // set loading on list
+        if (this.listContacts.length < this.myContacts.length) {
+          this.loading = true;
+        }else if(this.listContacts.length == this.myContacts.length){
+          this.loading = false
+
+        }
         let inviteViaSms = {
           phone: mC.phoneNumbers[0].value,
         }
         this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
-          this.loading = true
           if (res['status'] == 201) {
-            this.loading = true;
-            if (this.listContacts.length < this.myContacts.length) {
-              this.loading = true;
-            }else if(this.listContacts.length == this.myContacts.length){
-              this.loading = false
-
-            }
             this.listContacts.push(
               {
                 givenName: mC.name.givenName,
@@ -206,13 +206,6 @@ export class ContactsPage implements OnInit {
               }
             )
           } else {
-            this.loading = true;
-            if (this.listContacts.length < this.myContacts.length) {
-              this.loading = true;
-            }else if(this.listContacts.length == this.myContacts.length){
-              this.loading = false
-
-            }
             this.listContacts.push(
               {
                 givenName: mC.name.givenName,
@@ -227,7 +220,6 @@ export class ContactsPage implements OnInit {
         })
       }
       this.getTeepzr()
-      this.loading = false
 
 
     }, error => {
@@ -248,6 +240,7 @@ export class ContactsPage implements OnInit {
       console.log(res)
       this.listTeepZrs = res['data']
       this.listContacts.forEach(um => {
+
         this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push({ _id: x['_id'], prenom: um.givenName, nom: um.familyName, phone: x.phone, photo: x.photo }) : null })
       });
       this.listTeepZrs = list
@@ -261,6 +254,7 @@ export class ContactsPage implements OnInit {
             this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], invited: false })
             console.log(this.listTeepzrsToInvite)
           }
+          
         })
       });
     }, error => {

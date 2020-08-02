@@ -10,21 +10,23 @@
 </ion-header>
 
 <ion-content no-bounce>
-  <div class="banner">
-    <div>
-      <img class="add-photo" src="../../assets/img/neutral.jpg" alt="">
-
-      <!-- fab placed to the bottom end -->
-      <ion-fab (click)="selectImage(p)" vertical="center" horizontal="center" slot="fixed">
-        <ion-fab-button color="light">
-          <ion-icon name="add"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-
-    </div>
-  </div>
 
   <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="banner">
+          <div>
+            <img class="add-photo" src="../../assets/img/neutral.jpg" alt="">
+            <!-- fab placed to the bottom end -->
+            <ion-fab (click)="selectImage(p)" vertical="center" horizontal="center" slot="fixed">
+              <ion-fab-button color="light">
+                <ion-icon name="add"></ion-icon>
+              </ion-fab-button>
+            </ion-fab>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
     <ion-row>
       <ion-col>
         <form class="example-form">
