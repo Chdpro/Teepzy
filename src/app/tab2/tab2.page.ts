@@ -54,6 +54,9 @@ export class Tab2Page implements OnInit {
   }
 
 
+  ionViewWillEnter(){
+    this.listInvitations()
+  }
   swipe2(e: TouchEvent, when: string): void {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     const time = new Date().getTime();
@@ -148,6 +151,7 @@ export class Tab2Page implements OnInit {
     this.contactService.listInivtation(invitation).subscribe(res => {
       console.log(res)
       this.invitations = res['data']
+      console.log(this.invitations)
 
     }, error => {
       console.log(error)

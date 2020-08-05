@@ -46,8 +46,9 @@
 
 mat-tab-group{
     margin-top: 27px;
-    margin-left: 14px;
 }
+
+
 
 .rs-btn{
     font-size: 24px;
@@ -118,6 +119,38 @@ label{
     margin-left: -13px;
     margin-top: 39px;
 }
+
+// mes teepz cards start
+
+.img-teepz{
+        width: 36px;
+    border-radius: 213px;
+    height: 36px;
+    border: solid 1px #ea4d4f;
+}
+.time{
+    font-size: 10px;
+}
+mat-card{
+        border-radius: 40px;
+        height: 100%;
+}
+mat-card-actions{
+    display: inline-flex;
+}
+.mat-p{
+    padding: 14px;
+}
+mat-card-content{
+        background: bisque;
+    padding: 16px;
+    width: 165px;
+    margin-left: -17px;
+    margin-top: -16px;
+    border-radius: 29px 29px 1px 1px;
+    
+}
+
 /// shop cart css
 
 ion-slides {

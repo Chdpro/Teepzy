@@ -21,6 +21,9 @@
     </div>
     <ion-grid>
       <ion-row>
+          <ion-col size="12" >
+              <img class="img-to-post" [src]="dispImags[0]" alt="">
+            </ion-col>
         <ion-col>
           <form class="example-form">
             <mat-form-field class="example-full-width">
@@ -34,7 +37,7 @@
         </ion-col>
         <ion-col size="12">
           <span>
-            <span class="material-icons img-mat-icon">
+            <span (click)="selectImage()" class="material-icons img-mat-icon">
               collections
             </span>
             <span class="material-icons">
@@ -43,7 +46,8 @@
           </span>
           <div class="example-button-container color-btns">
             <button (click)="setBackgroundColor('#fff')" class="btn-icon white-btn" mat-mini-fab
-              aria-label="Example icon button with a home icon">
+              aria-label="Example icon button 
+              with a home icon">
 
             </button>
             <button (click)="setBackgroundColor('#000000')" class="btn-icon black-btn" mat-mini-fab

@@ -6,6 +6,7 @@ import { ToastController, AlertController } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Router } from '@angular/router';
+import { Socket } from 'ngx-socket-io';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class ContactsPage implements OnInit {
 
   myContacts = []
   listTeepzrsToInvite = []
+  listTeepzrsToInviteOutCircle = []
   listContacts = []
   listTeepZrs = []
   contactsTest = [
@@ -83,26 +85,30 @@ export class ContactsPage implements OnInit {
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
-
   selectedTab = 0
 
   constructor(private contacts: Contacts, private sms: SMS,
     public toastController: ToastController,
     private socialSharing: SocialSharing,
     public router: Router,
+    private socket : Socket,
     public alertController: AlertController,
     private contactService: ContactService) { }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
-
+    this.connectSocket()
     this.loadContacts()
-
     let a = '66 77 23 27'
     let b = '+22966772327'
     console.log(a.replace(/\s/g, '').slice(-7) == b.replace(/\s/g, '').slice(-7) ? true : false)
     //this.getTeepzr()
+    this.getTeepzrOutCircle()
+  }
+
+  connectSocket(){
+    this.socket.connect();
   }
 
 
@@ -127,12 +133,12 @@ export class ContactsPage implements OnInit {
         console.info(swipe);
         if (swipe === 'next') {
           const isFirst = this.selectedTab === 0;
-          if (this.selectedTab <= 2) {
+          if (this.selectedTab <= 3) {
             this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
           }
           console.log("Swipe left - INDEX: " + this.selectedTab);
         } else if (swipe === 'previous') {
-          const isLast = this.selectedTab === 2;
+          const isLast = this.selectedTab === 3;
           if (this.selectedTab >= 1) {
             this.selectedTab = this.selectedTab - 1;
           }
@@ -170,6 +176,7 @@ export class ContactsPage implements OnInit {
     }
     this.pageIndexT = event.pageIndex;
   }
+
 
 
 
@@ -240,7 +247,6 @@ export class ContactsPage implements OnInit {
       console.log(res)
       this.listTeepZrs = res['data']
       this.listContacts.forEach(um => {
-
         this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push({ _id: x['_id'], prenom: um.givenName, nom: um.familyName, phone: x.phone, photo: x.photo }) : null })
       });
       this.listTeepZrs = list
@@ -254,7 +260,6 @@ export class ContactsPage implements OnInit {
             this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], invited: false })
             console.log(this.listTeepzrsToInvite)
           }
-          
         })
       });
     }, error => {
@@ -305,6 +310,7 @@ export class ContactsPage implements OnInit {
   }
 
 
+
   sendInvitationToJoinCircle(idReceiver, typeLink) {
     console.log(idReceiver)
     this.loading = true
@@ -313,14 +319,12 @@ export class ContactsPage implements OnInit {
       idReceiver: idReceiver,
       typeLink: typeLink
     }
-    console.log(invitation)
-
     this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
       console.log(res)
       this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = true : null)
       this.presentToast('Invitation envoyée')
+      this.socket.emit('notification', 'notification');
       console.log(this.listTeepzrsToInvite)
-      //  this.getTeepzr()
       this.loading = false
     }, error => {
       this.presentToast('Invitation non envoyée')
@@ -330,22 +334,28 @@ export class ContactsPage implements OnInit {
   }
 
 
-  cancelInvitationToJoinCircle(idReceiver) {
-    console.log(idReceiver)
+  cancelInvitationToJoinCircle(u) {
     this.loading = true
     let invitation = {
       idSender: this.userId,
-      idReceiver: idReceiver,
-      typeLink: 'INVITATION'
+      idReceiver: u._id,
     }
 
     this.contactService.cancelToJoinCircle(invitation).subscribe(res => {
       console.log(res)
-      this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = false : null)
-      this.presentToast('Invitation annulée')
-      console.log(this.listTeepzrsToInvite)
-      //  this.getTeepzr()
+
+      if (res['status'] == 400) {
+      this.presentToast('Invitation non envoyée')
       this.loading = false
+
+      }else{
+        this.listTeepzrsToInvite.find((c, index) => c['_id'] == u._id ? c['invited'] = false : null)
+        console.log(this.listTeepzrsToInvite)
+        this.presentToast('Invitation annulée')
+        this.loading = false
+
+      }
+      //  this.getTeepzr()
     }, error => {
       this.presentToast('Invitation non envoyée')
       this.loading = false
@@ -391,10 +401,71 @@ export class ContactsPage implements OnInit {
 
   }
 
+
+  goToFeed(){
+    this.router.navigateByUrl('/tabs/tab1', {
+      replaceUrl: true,
+    })
+  }
+
+  getTeepzrOutCircle() {
+    this.loading = true
+    this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
+      console.log(res)
+      this.listTeepZrs = this.listSorter(res['data'])
+      this.loading = false
+      this.listTeepZrs.forEach(e => {
+        let invitation = {
+          idSender: this.userId,
+          idReceiver: e['_id']
+        }
+        this.checkInvitationOutCircle(invitation, e)
+      });
+      console.log(this.listTeepZrs)
+    }, error => {
+      console.log(error)
+      this.loading = false
+      this.presentToast('Oops! Une erreur est survenue sur le serveur')
+
+    })
+  }
+
+  checkInvitationOutCircle(invitation, e){
+    this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
+      console.log(res)
+      if (res['status'] == 201) {
+        this.listTeepzrsToInviteOutCircle.push(
+          {
+            _id: e['_id'],
+            nom: e['nom'],
+            prenom: e['prenom'],
+            phone: e['phone'],
+            photo: e['photo'],
+            invited: true
+          },
+        )
+
+      } else {
+        this.listTeepzrsToInviteOutCircle.push(
+          {
+            _id: e['_id'],
+            nom: e['nom'],
+            prenom: e['prenom'],
+            phone: e['phone'],
+            photo: e['photo'],
+            invited: false
+          },
+        )
+      }
+    })
+  }
+
+
   listSorter(array: any) {
     array.sort((a, b) => a.name.givenName.localeCompare(b.name.givenName, 'fr', { sensitivity: 'base' }));
     return array;
   }
+
 
   async presentToast(msg) {
     const toast = await this.toastController.create({

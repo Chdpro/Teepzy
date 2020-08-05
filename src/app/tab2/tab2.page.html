@@ -48,7 +48,7 @@
     <ion-row>
       <ion-col>
         <div class=”mat-content” (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
-          <mat-tab-group [(selectedIndex)]="selectedTab" color="warn">
+          <mat-tab-group [(selectedIndex)]="selectedTab" color="warn"  mat-align-tabs="center">
             <mat-tab label="TOUS">
               <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
                 (ionRefresh)="doRefreshNotification($event)">

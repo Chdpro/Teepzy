@@ -42,7 +42,7 @@
   </div>
 
   <div class=”mat-content” (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
-    <mat-tab-group [(selectedIndex)]="selectedTab">
+    <mat-tab-group [(selectedIndex)]="selectedTab" mat-align-tabs="center">
       <mat-tab label="PROFIL">
 
         <ion-grid>
@@ -55,17 +55,18 @@
             </ion-col>
             <ion-col size="8">
 
-              <ion-slides #slides pager="false" [hidden]="false" [options]="slideOpts">
-                  <ion-slide style="width: 80%" [@enterAnimation]>
-                    <button mat-button *ngFor="let rs of user?.socialsPro" [matMenuTriggerFor]="menu1">
-                      <mat-card class="rs-card">
-                        <ion-icon class="rs-btn" [name]="rs?.icon"></ion-icon>
-                      </mat-card>
-                      <mat-menu #menu1="matMenu">
-                        <button mat-menu-item>{{rs?.url}}</button>
-                      </mat-menu>
-                    </button>
-                  </ion-slide>
+              <ion-slides style="padding-left: 35px;" class="swiper-no-swiping" #slides pager="false" [hidden]="false"
+                [options]="slideOpts">
+                <ion-slide [@enterAnimation]>
+                  <button mat-button *ngFor="let rs of user?.socialsPro" [matMenuTriggerFor]="menu1">
+                    <mat-card class="rs-card">
+                      <ion-icon class="rs-btn" [name]="rs?.icon"></ion-icon>
+                    </mat-card>
+                    <mat-menu #menu1="matMenu">
+                      <button mat-menu-item>{{rs?.url}}</button>
+                    </mat-menu>
+                  </button>
+                </ion-slide>
               </ion-slides>
 
 
@@ -86,17 +87,18 @@
             </ion-col>
             <ion-col size="8">
 
-              <ion-slides class=“swiper-no-swiping” #slides pager="false" [options]="slideOpts">
-                  <ion-slide style="width: 80%" [@enterAnimation]>
-                    <button mat-button *ngFor="let rs of user?.socialsAmical" [matMenuTriggerFor]="menu2">
-                      <mat-card class="rs-card">
-                        <ion-icon class="rs-btn" [name]="rs?.icon"></ion-icon>
-                      </mat-card>
-                      <mat-menu #menu2="matMenu">
-                        <button mat-menu-item>{{rs?.url}}</button>
-                      </mat-menu>
-                    </button>
-                  </ion-slide>
+              <ion-slides class="swiper-no-swiping" style="padding-left: 35px;" class=“swiper-no-swiping” #slides
+                pager="false" [options]="slideOpts">
+                <ion-slide [@enterAnimation]>
+                  <button mat-button *ngFor="let rs of user?.socialsAmical" [matMenuTriggerFor]="menu2">
+                    <mat-card class="rs-card">
+                      <ion-icon class="rs-btn" [name]="rs?.icon"></ion-icon>
+                    </mat-card>
+                    <mat-menu #menu2="matMenu">
+                      <button mat-menu-item>{{rs?.url}}</button>
+                    </mat-menu>
+                  </button>
+                </ion-slide>
               </ion-slides>
 
             </ion-col>
@@ -202,6 +204,72 @@
                   {{p?.nom}}
                 </label>
               </div>
+
+            </ion-col>
+
+          </ion-row>
+        </ion-grid>
+      </mat-tab>
+
+      <mat-tab label="MES TEEPZ">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <h2>
+                Teepz
+              </h2>
+            </ion-col>
+            <ion-col size="12">
+              <mat-paginator *ngIf="listTeepz?.length > 0" [length]="listTeepz?.length"
+                [pageSize]="pageSize" (page)="pageEvent = getPaginatorDataTeepzr($event)">
+              </mat-paginator>
+            </ion-col>
+            <ion-col size="6" *ngFor="let lt of listTeepz | slice: lowValue : highValue  ;trackBy: trackByFn ">
+
+              <mat-card class="example-card">
+                <mat-card-header>
+
+                </mat-card-header>
+                <mat-card-content [style.background-color]="lt?.backgroundColor"
+                [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                  <p class="mat-p">
+
+                    {{lt?.content}}
+                  </p>
+                </mat-card-content>
+                <mat-card-actions>
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col>
+                        <div>
+                          <img class="img-teepz" [src]="lt?.userPhoto_url"
+                            alt="Photo of a Shiba Inu">
+                        </div>
+                      </ion-col>
+                      <ion-col>
+                        <strong>
+                          {{lt?.userPseudo}}
+                        </strong>
+                        <small>
+                          {{lt?.circle || '' }}
+                        </small>
+                        <span class="time" *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(p?.createdAt) == 'il y a un jour') ">
+                          {{time(lt?.createdAt) }}
+                        </span>
+                        <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">
+                          il y a 1 heure
+                        </span>
+                        <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un jour'">
+                            il y a 1 jour
+                          </span>
+                 
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+
+
+                </mat-card-actions>
+              </mat-card>
 
             </ion-col>
 

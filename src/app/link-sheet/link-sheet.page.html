@@ -7,7 +7,8 @@
 
 <ion-content>
 
-  <mat-tab-group color="warn">
+  <div class="mat-content" (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
+  <mat-tab-group  [(selectedIndex)]="selectedTab" color="warn" mat-align-tabs="center">
     <mat-tab label="Match">
       <mat-card class="example-card cmt2">
         <mat-card-header>
@@ -86,50 +87,58 @@
         </mat-card-content>
 
       </mat-card>
-
     </mat-tab>
     <mat-tab label="Recherche">
 
       <input class="input-s" type="text" [(ngModel)]='filtre' placeholder="filtrer...">
 
-      <mat-card *ngFor="let u of usersMatch| filter:filtre ;trackBy: trackByFn " (click)="addLink(u)"
-        class="example-card cmt2">
-        <mat-card-header>
-          <div mat-card-avatar>
-            <img mat-card-image class="mat-img" [src]="u?.photo" alt="">
-          </div>
-          <mat-card-title style="color: #ea4e50;"> {{u?.pseudoIntime}} </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <!--p class="content-comment" style="color: #ea4e50;">
-            Nom du Cercle
-          </p-->
-          <button class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
-            <div class="pretty p-icon p-round p-pulse">
-              <input [checked]="u?.match" type="checkbox" />
-              <div class="state p-success">
-                <i class="icon mdi mdi-check"></i>
-                <label></label>
-              </div>
+      <div>
+          <mat-card *ngFor="let u of usersMatch| filter:filtre ;trackBy: trackByFn " (click)="addLink(u)"
+          class="example-card cmt2">
+          <mat-card-header>
+            <div mat-card-avatar>
+              <img mat-card-image class="mat-img" [src]="u?.photo" alt="">
             </div>
-          </button>
-        </mat-card-content>
-      </mat-card>
+            <mat-card-title style="color: #ea4e50;"> {{u?.pseudoIntime}} </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <!--p class="content-comment" style="color: #ea4e50;">
+              Nom du Cercle
+            </p-->
+            <button class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
+              <div class="pretty p-icon p-round p-pulse">
+                <input [checked]="u?.match" type="checkbox" />
+                <div class="state p-success">
+                  <i class="icon mdi mdi-check"></i>
+                  <label></label>
+                </div>
+              </div>
+            </button>
+          </mat-card-content>
+        </mat-card>
+  
+      </div>
+
+      <div class="not-found" *ngIf="usersMatch.length == 0">
+        Aucun utilisateur à matcher à cette offre
+      </div>
     </mat-tab>
   </mat-tab-group>
-
+  </div>
 
 </ion-content>
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-      <mat-form-field *ngIf="usersSelected.length > 0" appearance="outline" class="example-full-width">
-          <input matInput placeholder="Je te link avec XXX" [(ngModel)]="message" >
-        </mat-form-field>
-    <ion-button *ngIf="usersSelected.length > 0" (click)="updateProfile()" expand="full">
-      <span *ngIf="loading == false">ENREGISTRER</span>
-      <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-    </ion-button>
-    <ion-button *ngIf="usersSelected.length == 0" (click)="dismiss()" class="cancel-btn" expand="block" size="large" color="medium">Annuler</ion-button>
+      <form *ngIf="usersSelected.length > 0" class="example-form">
+          <input class="input-m" type="text" placeholder="XXX,Je te link avec YYY" [(ngModel)]="message">
+        </form>
+
+        <ion-button *ngIf="usersSelected.length > 0" (click)="updateProfile()" expand="full">
+            <span *ngIf="!loading">ENVOYER</span>
+            <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+          </ion-button>
+    <ion-button *ngIf="usersSelected.length == 0" (click)="dismiss()" class="cancel-btn" expand="block" size="large"
+      color="medium">Annuler</ion-button>
   </ion-toolbar>
 </ion-footer>

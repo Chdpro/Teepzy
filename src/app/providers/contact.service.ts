@@ -81,6 +81,10 @@ export class ContactService {
     let url = 'users/teepzr/' + userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
+  teepZ(userId): Observable<any> {
+    let url = 'users/posts/my/' + userId;
+    return this.http.get(local_url + url, httpOptionsJson);
+  }
 
   eventualKnownTeepZrs(userId): Observable<any> {
     let url = 'users/teepzr/eventualsTeepzrs/' + userId;

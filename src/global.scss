@@ -62,6 +62,10 @@ color: white;
     pointer-events: none;
  }
 
+ .mat-tab-label{
+        font-size: 10px;
+}
+
  .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination{
      display: none !important;
  }

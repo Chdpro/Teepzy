@@ -8,6 +8,8 @@ import { Subscription } from 'rxjs';
 import { AddProductPage } from '../add-product/add-product.page';
 import { IonSlides } from '@ionic/angular';
 import { trigger, transition, style, animate, state } from '@angular/animations';
+import { ContactService } from '../providers/contact.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-profile',
@@ -49,8 +51,6 @@ export class ProfilePage implements OnInit {
     initialSlide: 1,
     slidesPerView: 3,
     speed: 400,
-    noSwipingClass: 'swiper-no-swiping',
-
   };
 
   isProProfile = true
@@ -60,6 +60,7 @@ export class ProfilePage implements OnInit {
   listProjects = []
   listProducts = []
 
+  listTeepz = []
   @ViewChild('slides', null) ionSlides: IonSlides;
 
   disablePrevBtn = true;
@@ -69,8 +70,14 @@ export class ProfilePage implements OnInit {
   private swipeTime?: number;
   selectedTab = 0
 
+  pageIndex: number = 0;
+  pageSize: number = 4;
+  lowValue: number = 0;
+  highValue: number = 4;
+
   constructor(private router: Router, private modalController: ModalController,
     private dataPass: DatapasseService,
+    private contactService: ContactService,
     private authService: AuthService) {
 
 
@@ -91,6 +98,31 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     let userId = localStorage.getItem('teepzyUserId')
     this.getUserInfo(userId)
+    this.getMyPosts(userId)
+  }
+
+  time(date) {
+    moment.locale('fr');
+    return moment(date).fromNow()
+  }
+
+
+
+  trackByFn(index, item) {
+    return index; // or item.id
+  }
+
+  getPaginatorData(event) {
+    console.log(event);
+    if (event.pageIndex === this.pageIndex + 1) {
+      this.lowValue = this.lowValue + this.pageSize;
+      this.highValue = this.highValue + this.pageSize;
+    }
+    else if (event.pageIndex === this.pageIndex - 1) {
+      this.lowValue = this.lowValue - this.pageSize;
+      this.highValue = this.highValue - this.pageSize;
+    }
+    this.pageIndex = event.pageIndex;
   }
 
   next() {
@@ -143,12 +175,12 @@ export class ProfilePage implements OnInit {
         console.info(swipe);
         if (swipe === 'next') {
           const isFirst = this.selectedTab === 0;
-          if (this.selectedTab <= 2) {
+          if (this.selectedTab <= 4) {
             this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
           }
           console.log("Swipe left - INDEX: " + this.selectedTab);
         } else if (swipe === 'previous') {
-          const isLast = this.selectedTab === 2;
+          const isLast = this.selectedTab === 4;
           if (this.selectedTab >= 1) {
             this.selectedTab = this.selectedTab - 1;
           }
@@ -166,6 +198,15 @@ export class ProfilePage implements OnInit {
       this.listProjects = res['projects']
       this.listProducts = res['products']
       this.relationsCount = res['relationsCount']
+    }, error => {
+      console.log(error)
+    })
+  }
+
+  getMyPosts(userId) {
+    this.contactService.teepZ(userId).subscribe(res => {
+      console.log(res)
+      this.listTeepz = res['data'];
     }, error => {
       console.log(error)
     })
@@ -204,7 +245,6 @@ export class ProfilePage implements OnInit {
     const modal = await this.modalController.create({
       component: AddProductPage,
       cssClass: 'add-project-class'
-
     });
     return await modal.present();
   }
