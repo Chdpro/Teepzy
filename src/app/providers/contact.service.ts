@@ -86,6 +86,11 @@ export class ContactService {
     return this.http.get(local_url + url, httpOptionsJson);
   }
 
+  favorites(userId): Observable<any> {
+    let url = 'users/myFavorite/' + userId;
+    return this.http.get(local_url + url, httpOptionsJson);
+  }
+
   eventualKnownTeepZrs(userId): Observable<any> {
     let url = 'users/teepzr/eventualsTeepzrs/' + userId;
     return this.http.get(base_url + url, httpOptionsJson);

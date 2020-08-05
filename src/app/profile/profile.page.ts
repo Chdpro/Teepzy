@@ -61,6 +61,8 @@ export class ProfilePage implements OnInit {
   listProducts = []
 
   listTeepz = []
+  listFavorites = []
+
   @ViewChild('slides', null) ionSlides: IonSlides;
 
   disablePrevBtn = true;
@@ -99,6 +101,7 @@ export class ProfilePage implements OnInit {
     let userId = localStorage.getItem('teepzyUserId')
     this.getUserInfo(userId)
     this.getMyPosts(userId)
+    this.getMyFavoritePosts(userId)
   }
 
   time(date) {
@@ -207,6 +210,16 @@ export class ProfilePage implements OnInit {
     this.contactService.teepZ(userId).subscribe(res => {
       console.log(res)
       this.listTeepz = res['data'];
+    }, error => {
+      console.log(error)
+    })
+  }
+
+
+  getMyFavoritePosts(userId) {
+    this.contactService.favorites(userId).subscribe(res => {
+      console.log(res)
+      this.listFavorites = res['data'];
     }, error => {
       console.log(error)
     })
