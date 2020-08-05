@@ -134,12 +134,12 @@
                 </ion-chip>
               </span>
             </ion-col>
-              <ion-col size="4">
+              <ion-col size="12">
                 <h2>
                 Mes Favoris
                 </h2>
               </ion-col>
-              <ion-col size="8">
+              <ion-col size="12">
                 <mat-paginator *ngIf="listFavorites?.length > 0" [length]="listFavorites?.length"
                   [pageSize]="pageSize" (page)="pageEvent = getPaginatorData($event)">
                 </mat-paginator>

@@ -1,0 +1,40 @@
+<ion-header  class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+          <input class="input-s" type="text" name="searchValue" #searchValue="ngModel" [(ngModel)]='search.searchValue' (ngModelChange)="searchOnMatches()" placeholder="Rechercher...">
+      </ion-col>
+      <ion-col size="12">
+        <div class="mat-content" (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
+          <mat-tab-group  [(selectedIndex)]="selectedTab" color="warn" mat-align-tabs="center">
+            <mat-tab label="Personnes">
+            
+            </mat-tab>
+            <mat-tab label="Publications">
+        
+        
+            </mat-tab>
+            <mat-tab label="Projets">
+        
+        
+              </mat-tab>
+              <mat-tab label="Boutiques">
+        
+        
+                </mat-tab>
+          </mat-tab-group>
+          </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

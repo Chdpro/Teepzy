@@ -137,6 +137,11 @@ export class ContactService {
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
+  SearchOnMatch(search?:any){
+    let url = 'users/searchMatch';
+    return this.http.post(local_url + url, JSON.stringify(search), httpOptionsJson);
+  }
+
 
   addCommentToPost(comment): Observable<any> {
     let url = 'users/comments/all';
