@@ -5,7 +5,7 @@ import { ContactService } from '../providers/contact.service';
 import { ToastController, AlertController } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 
 
@@ -81,29 +81,35 @@ export class ContactsPage implements OnInit {
   highValueT: number = 5;
 
   userPhone = ''
+  previousUrl: string;
 
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
   selectedTab = 0
 
+  previousRoute = ''
   constructor(private contacts: Contacts, private sms: SMS,
     public toastController: ToastController,
     private socialSharing: SocialSharing,
     public router: Router,
+    public route: ActivatedRoute,
     private socket : Socket,
     public alertController: AlertController,
-    private contactService: ContactService) { }
+    private contactService: ContactService) { 
+     this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
+      console.log(this.previousRoute)
+     }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
     this.connectSocket()
-    this.loadContacts()
+    //this.loadContacts()
     let a = '66 77 23 27'
     let b = '+22966772327'
     console.log(a.replace(/\s/g, '').slice(-7) == b.replace(/\s/g, '').slice(-7) ? true : false)
-    //this.getTeepzr()
+    this.getTeepzr()
     this.getTeepzrOutCircle()
   }
 
@@ -246,7 +252,7 @@ export class ContactsPage implements OnInit {
     this.contactService.teepZrs(this.userId).subscribe(res => {
       console.log(res)
       this.listTeepZrs = res['data']
-      this.listContacts.forEach(um => {
+      this.contactsTest.forEach(um => {
         this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push({ _id: x['_id'], prenom: um.givenName, nom: um.familyName, phone: x.phone, photo: x.photo }) : null })
       });
       this.listTeepZrs = list

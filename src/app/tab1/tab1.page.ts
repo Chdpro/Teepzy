@@ -11,6 +11,7 @@ import { BottomSheetOverviewExampleSheetPage } from '../bottom-sheet-overview-ex
 import { LinkSheetPage } from '../link-sheet/link-sheet.page';
 import { CommentsPage } from '../comments/comments.page';
 import { Socket } from 'ngx-socket-io';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -140,6 +141,7 @@ export class Tab1Page implements OnInit {
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
     private socket: Socket,
+    private router: Router,
     private contactService: ContactService) {
     this.menuCtrl.enable(true);
     this.menuCtrl.swipeGesture(true);
@@ -210,6 +212,15 @@ export class Tab1Page implements OnInit {
     })
   }
 
+  goToContacts(){
+    this.router.navigate(['/contacts', {previousUrl: 'feeds'}])
+
+  }
+
+  goToSearch(){
+    this.router.navigateByUrl('/search')
+    
+  }
   openBottomSheet(): void {
     this._bottomSheet.open(BottomSheetOverviewExampleSheetPage);
   }

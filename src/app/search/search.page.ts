@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-search',
@@ -23,12 +24,38 @@ export class SearchPage implements OnInit {
   products = []
   posts = []
 
+  pageIndexT: number = 0;
+  pageSizeT: number = 5;
+  lowValueT: number = 0;
+  highValueT: number = 5;
+
   constructor(private contactService: ContactService) { }
 
   ngOnInit() {
     this.search.userId = localStorage.getItem('teepzyUserId');
 
   }
+
+  time(date) {
+    moment.locale('fr');
+    return moment(date).fromNow()
+  }
+
+
+
+  getPaginatorDataTeepzr(event) {
+    console.log(event);
+    if (event.pageIndex === this.pageIndexT + 1) {
+      this.lowValueT = this.lowValueT + this.pageSizeT;
+      this.highValueT = this.highValueT + this.pageSizeT;
+    }
+    else if (event.pageIndex === this.pageIndexT - 1) {
+      this.lowValueT = this.lowValueT - this.pageSizeT;
+      this.highValueT = this.highValueT - this.pageSizeT;
+    }
+    this.pageIndexT = event.pageIndex;
+  }
+
 
   swipe2(e: TouchEvent, when: string): void {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
