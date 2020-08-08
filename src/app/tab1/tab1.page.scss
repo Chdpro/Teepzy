@@ -11,6 +11,19 @@ ion-toolbar{
     height: 68px;
     margin-bottom: -22px;
 }
+.round-img{
+    height: 64px;
+    width: 64px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%; 
+    border: solid 1px #ea4e50;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    float: left;
+    margin-left: -12px;
+}
 
 img{
     border: solid 2px #ea4e50;
@@ -99,7 +112,7 @@ mat-card-header{
 .prev-btn{
     float: right;
     position: absolute;
-    height: 54%;
+    height: 46%;
     right: 0;
     background: #f0f8ff00;
     color: #f0f8ff00;
@@ -158,6 +171,10 @@ mat-card-title{
 
 mat-icon{
     color: #ea4e50;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .actions{
@@ -175,12 +192,26 @@ ion-icon{
 }
 
 .post-txt{
-    margin-bottom: 154px;
-    width: min-content;
+    margin-bottom: -5px;
+    width: 100%;
     font-size: 28px;
     font-weight: 100;
+    padding-left: 17px;
 }
 
+.header-slide{
+    width: 213px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 21px; margin-top: 11px;
+}
+
+.mat-button{
+    width: 54px;
+    height: 54px;
+    background: #cfcfcf;
+}
 .img-poster{
     width: 23%;
     height: 23%;
@@ -415,8 +446,8 @@ ion-grid{
     top: 390px;
     left: 0;
     overflow: hidden;
-    opacity: 0;
-    transform: scale(0);
+    opacity: 1;
+    transform: scale(1);
     transition: opacity .5s, transform .5s;
 }
 

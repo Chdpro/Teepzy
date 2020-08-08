@@ -83,12 +83,12 @@ export class ContactService {
   }
   teepZ(userId): Observable<any> {
     let url = 'users/posts/my/' + userId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   favorites(userId): Observable<any> {
     let url = 'users/myFavorite/' + userId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   eventualKnownTeepZrs(userId): Observable<any> {
@@ -139,7 +139,7 @@ export class ContactService {
 
   SearchOnMatch(search?:any){
     let url = 'users/searchMatch';
-    return this.http.post(local_url + url, JSON.stringify(search), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(search), httpOptionsJson);
   }
 
 
@@ -170,7 +170,7 @@ export class ContactService {
 
   addFavorite(favorite): Observable<any> {
     let url = 'users/addFavorite';
-    return this.http.post(base_url + url, favorite, httpOptionsJson);
+    return this.http.post(local_url + url, favorite, httpOptionsJson);
   }
 
 

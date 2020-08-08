@@ -98,6 +98,10 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
+
+  }
+
+  ionViewWillEnter(){
     let userId = localStorage.getItem('teepzyUserId')
     this.getUserInfo(userId)
     this.getMyPosts(userId)

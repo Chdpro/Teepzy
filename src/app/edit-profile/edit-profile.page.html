@@ -11,8 +11,10 @@
 
   <div class="banner">
     <div>
-      <img class="add-photo" [src]="user?.photo" alt="">
-
+      <!--img class="add-photo" [src]="user?.photo" alt=""-->
+      <div class="round-img"    [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+        {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}} 
+      </div>
       <!-- fab placed to the bottom end -->
       <ion-fab (click)="shwModal()" vertical="center" horizontal="center" slot="fixed">
         <ion-fab-button color="light">

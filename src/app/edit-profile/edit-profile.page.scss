@@ -13,14 +13,23 @@ ion-title{
   position: relative;
   padding-top: 1px;
 }
-.img-banner{
-    width: 33%;
-    height: 48%;
-    border-radius: 85px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-   
+
+
+.round-img{
+  height: 125px;
+  width: 125px;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%; 
+  border: solid 1px #ffffff;
+  padding-top: 53px;
+  text-align: center;
+  font-size: 18px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 52px;
+
 }
 
 .add-photo{

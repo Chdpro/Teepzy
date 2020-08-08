@@ -49,6 +49,7 @@ export class LoginPage implements OnInit {
         localStorage.setItem('teepzyToken', this.profileInfo['token'])
         localStorage.setItem('teepzyEmail', this.profileInfo['userI']['email'])
         localStorage.setItem('teepzyPhone', this.profileInfo['userI']['phone'])
+        localStorage.setItem('FinalStepCompleted', 'FinalStepCompleted')
         this.router.navigateByUrl('/contacts', {
           replaceUrl: true
         })

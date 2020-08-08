@@ -17,7 +17,10 @@
   <div class="banner">
     <div class="toggle" (click)="switchProfile()" (touchstart)="swipe($event, 'start')"
       (touchend)="swipe($event, 'end')">
-      <img class="img-banner" [src]="user?.photo" alt="">
+      <!--img class="img-banner" [src]="user?.photo" alt=""-->
+      <div class="round-img"    [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+        {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}} 
+      </div>
       <span (click)="switchProfile()" *ngIf="isProProfile" class="material-icons toggle_o">
         toggle_off
       </span>
@@ -162,8 +165,9 @@
                       <ion-row>
                         <ion-col>
                           <div>
-                            <img class="img-teepz" [src]="lt?.userPhoto_url"
-                              alt="Photo of a Shiba Inu">
+                            <div class="round-img-post">
+                              {{lt?.userPseudo | slice:0:1| uppercase}} {{lt?.nom | slice:0:1 | uppercase}} 
+                            </div>
                           </div>
                         </ion-col>
                         <ion-col>
@@ -306,8 +310,11 @@
                     <ion-row>
                       <ion-col>
                         <div>
-                          <img class="img-teepz" [src]="lt?.userPhoto_url"
-                            alt="Photo of a Shiba Inu">
+                          <!--img class="img-teepz" [src]="lt?.userPhoto_url"
+                            alt="Photo of a Shiba Inu"-->
+                            <div class="round-img-post">
+                              {{lt?.userPseudo | slice:0:1| uppercase}} {{lt?.nom | slice:0:1 | uppercase}} 
+                            </div>
                         </div>
                       </ion-col>
                       <ion-col>

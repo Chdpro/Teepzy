@@ -9,6 +9,22 @@ ion-modal {
     width: 100%;
     height: 100%;
   }
+
+  .round-img-post{
+    height: 70px;
+    width: 70px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border: solid 1px #ea4d4f;
+    padding-top: 25px;
+    text-align: center;
+    font-size: 15px;
+    display: block;
+    margin-left: 8px;
+    margin-right: 2px;
+    color: #000000;
+}
 ion-title{
     color: #ea4e50;
 }

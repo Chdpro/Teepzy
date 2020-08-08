@@ -62,6 +62,7 @@ export class Tab1Page implements OnInit {
 
   publication: any
   linkModal = false
+  shareLink= false
 
   users = []
 
@@ -127,6 +128,7 @@ export class Tab1Page implements OnInit {
     }
   }
 
+
   @ViewChild(IonSlides, null) slides: IonSlides;
 
   navigationSubscription;
@@ -146,25 +148,22 @@ export class Tab1Page implements OnInit {
     this.menuCtrl.enable(true);
     this.menuCtrl.swipeGesture(true);
 
-    this.subscription = this.dataPass.getPosts().subscribe(list => {
+ /*   this.subscription = this.dataPass.getPosts().subscribe(list => {
       console.log(list)
       if (list.length > 0) {
         this.listPosts = list
       }
-    });
+    });*/
   }
 
   ngOnInit() {
-    /*setTimeout(() => {
-    window.location.href = window.location.href
-      
-    }, 500);*/
     this.connectSocket()
+  }
+
+  ionViewWillEnter(){
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.userId)
     this.getPosts(this.userId)
-
-
   }
 
   ngOnDestroy() {
@@ -185,6 +184,28 @@ export class Tab1Page implements OnInit {
 
   public prev() {
     this.slides.slidePrev();
+  }
+
+  showShareSheet(post){
+    if (post) {
+      this.repost = {
+        postId: post['_id'],
+        fromId: post['userId'],
+        reposterId: this.userId,
+        userPhoto_url: post['userPhoto_url'],
+        userPseudo: post['userPseudo'],
+        content: post['content'],
+        image_url: post['image_url'],
+        backgroundColor: post['backgroundColor'],
+        includedCircles: post['includedCircles']
+      }
+    }
+  
+    if (this.shareLink) {
+      this.shareLink = false
+    } else {
+      this.shareLink = true
+    }
   }
 
 

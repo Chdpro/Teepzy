@@ -64,6 +64,10 @@ export class AddProjectPage implements OnInit {
 
   }
 
+  ionViewWillEnter(){
+
+  }
+
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data

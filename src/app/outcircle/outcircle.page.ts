@@ -59,10 +59,13 @@ export class OutcirclePage implements OnInit {
     ) { }
 
   ngOnInit() {
+
+  }
+
+  ionViewWillEnter(){
     this.userId = localStorage.getItem('teepzyUserId');
     this.getTeepzr()
   }
-
 
   trackByFn(index, item) {
     return index; // or item.id

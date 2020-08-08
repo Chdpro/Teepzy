@@ -84,6 +84,7 @@ export class SignupFinalPage implements OnInit {
         if (res['status'] == 200) {
           this.retourUsr = true
           this.presentToast('Vous êtes bien connectés')
+          localStorage.setItem('FinalStepCompleted', 'FinalStepCompleted')
           this.router.navigateByUrl('/contacts', {
             replaceUrl: true
           })

@@ -15,8 +15,9 @@
       </ion-toolbar>
     </ion-header>
     <div class="post-txt">
-      <div style="line-height: 21px;margin-top: 1px;">
-        <img class="img-poster" [src]="user?.photo" alt="">
+   
+      <div class="round-img-post">
+        {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}} 
       </div>
     </div>
     <ion-grid>

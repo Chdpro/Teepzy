@@ -34,13 +34,18 @@ export class LinkSheetPage implements OnInit {
 
 
   ngOnInit() {
+
+
+  }
+
+  ionViewWillEnter(){
     let post = this.navParams.data;
     console.log(post)
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.userId)
     this.getUsersToMatch()
-
   }
+
 
   linker(linkedUser) {
     let invitation = {

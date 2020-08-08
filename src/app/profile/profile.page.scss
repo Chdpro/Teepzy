@@ -8,16 +8,37 @@
     height: 46%;
     border-radius: 1px 1px 35px 35px;
 }
-.img-banner{
+
+.round-img{
     height: 125px;
     width: 125px;
     border-radius: 100%;
     -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
+    -moz-border-radius: 100%; 
+    border: solid 1px #ffffff;
+    padding-top: 53px;
+    text-align: center;
+    font-size: 18px;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    border: solid 1px #fff;
+}
+
+
+.round-img-post{
+    height: 54px;
+    width: 54px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%; 
+    border: solid 1px #ea4d4f;
+    padding-top: 16px;
+    text-align: center;
+    font-size: 18px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: #000000;
 }
 
 .text-banner{

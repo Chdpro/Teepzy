@@ -47,9 +47,13 @@ export class AddPostPage implements OnInit {
     ) { }
 
   ngOnInit() {
+
+
+  }
+
+  ionViewWillEnter(){
     this.post.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.post.userId)
-
   }
 
   

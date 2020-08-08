@@ -83,6 +83,26 @@
         <div style="margin-left: 16px;margin-bottom: 2px;" id="recaptcha-container"></div>
       </ion-col>
     </ion-row>
+
+
+    <ion-row>
+      <ion-col>
+
+      </ion-col>
+      <ion-col>
+
+      </ion-col>
+      <ion-col>
+        <button style="float: right;" 
+        [disabled]="nom.errors?.required 
+        || passwordId.errors?.required
+        || conf.errors?.required
+            || prenom.errors?.required 
+            || email.errors?.required
+            || phone.errors?.required
+            || selected == ''" (click)="signIn()" mat-button>Suivant</button>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 
   <input class="modal-state" id="modal-2" type="checkbox" />
@@ -154,23 +174,6 @@
       </div-->
    
 
-      <ion-row>
-
-        <ion-col size="2">
-
-        </ion-col>
-        <ion-col size="8">
-          <ion-button (click)="shwModal()" [disabled]="user?.photo == ''" expand="block" shape="round">
-            <label class="" for="modal-2">
-              Valider
-            </label>
-          </ion-button>
-
-        </ion-col>
-        <ion-col size="2">
-
-        </ion-col>
-      </ion-row>
 
     </div>
   </div>
@@ -178,15 +181,8 @@
 
 </ion-content>
 <!-- Footer without a border -->
-<ion-footer class="ion-no-border">
+<!--ion-footer class="ion-no-border">
   <ion-toolbar>
-    <button style="float: right;" 
-    [disabled]="nom.errors?.required 
-    || passwordId.errors?.required
-    || conf.errors?.required
-        || prenom.errors?.required 
-        || email.errors?.required
-        || phone.errors?.required
-        || selected == ''" (click)="signIn()" mat-button>Suivant</button>
+
   </ion-toolbar>
-</ion-footer>
+</ion-footer-->

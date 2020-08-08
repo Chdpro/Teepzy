@@ -46,16 +46,14 @@ export class Tab2Page implements OnInit {
 
 
   ngOnInit() {
-    this.userId = localStorage.getItem('teepzyUserId');
-    this.listInvitations()
-    this.listNotifications()
     this.coonectSocket()
-
   }
 
 
   ionViewWillEnter(){
+    this.userId = localStorage.getItem('teepzyUserId');
     this.listInvitations()
+    this.listNotifications()
   }
   swipe2(e: TouchEvent, when: string): void {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];

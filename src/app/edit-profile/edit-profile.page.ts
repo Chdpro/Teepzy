@@ -95,6 +95,10 @@ export class EditProfilePage implements OnInit {
      private toasterController: ToastController) { }
 
   ngOnInit() {
+
+  }
+
+  ionViewWillEnter(){
     this.getSocials();
     let userId = localStorage.getItem('teepzyUserId')
     this.profile1.userId = userId;

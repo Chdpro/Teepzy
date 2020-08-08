@@ -49,12 +49,20 @@ export class AppComponent {
     firebase.initializeApp(firebaseConfig);
 
     let token = localStorage.getItem('teepzyToken')
-    /*if (token) {
+    let fsc = localStorage.getItem('FinalStepCompleted')
+
+   /* if (token && fsc) {
        this.router.navigateByUrl('/tabs/tab1', {
          replaceUrl: true
        }
        )
-      }else if(!token){
+      }else if(token && !fsc){
+        this.router.navigateByUrl('/signup-final', {
+          replaceUrl: true
+        }
+        )
+       }
+      else if(!token){
        this.router.navigateByUrl('/debut', {
          replaceUrl: true
        }

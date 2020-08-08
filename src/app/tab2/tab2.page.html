@@ -42,55 +42,51 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
+  <div class="mat-content" (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
+    <mat-tab-group [(selectedIndex)]="selectedTab" color="warn" mat-align-tabs="center">
+      <mat-tab label="TOUS">
+        <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
+          (ionRefresh)="doRefreshNotification($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ion-spinner *ngIf="loading && notifications.length ==  0 " color="primary" name="dots"></ion-spinner>
 
-  <ion-grid>
- 
-    <ion-row>
-      <ion-col>
-        <div class=”mat-content” (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
-          <mat-tab-group [(selectedIndex)]="selectedTab" color="warn"  mat-align-tabs="center">
-            <mat-tab label="TOUS">
-              <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
-                (ionRefresh)="doRefreshNotification($event)">
-                <ion-refresher-content></ion-refresher-content>
-              </ion-refresher>
-              <ion-spinner *ngIf="loading && notifications.length ==  0 " color="primary" name="dots"></ion-spinner>
+        <div>
 
-              <div>
-
-                <ion-item *ngFor="let n of notifications?.reverse();trackBy: trackByFn ">
-                  <span style="margin-right: 24px;" class="material-icons">
-                    {{n?.icon_name}}
-                  </span>
-                  <img alt=""
-                    src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg">
-                  <ion-label><b *ngIf="userId != n?.fromId"> {{n?.pseudoIntime}} </b> <b *ngIf="userId == n?.fromId">
-                      Vous </b><br>
-                    <strong>
-                      <span *ngIf="userId != n?.fromId">a</span> <span *ngIf="userId == n?.fromId">avez</span>
-                      {{n?.message}}
-                    </strong>
-                  </ion-label>
-                </ion-item>
+          <ion-item *ngFor="let n of notifications?.reverse();trackBy: trackByFn ">
+            <span style="margin-right: 24px;" class="material-icons">
+              {{n?.icon_name}}
+            </span>
+            <div class="round-img-post">
+              {{n?.pseudoIntime | slice:0:1| uppercase}} {{n?.pseudoPro | slice:0:1 | uppercase}}
+            </div>
+            <ion-label><b *ngIf="userId != n?.fromId"> {{n?.pseudoIntime}} </b> <b *ngIf="userId == n?.fromId">
+                Vous </b><br>
+              <strong>
+                <span *ngIf="userId != n?.fromId">a</span> <span *ngIf="userId == n?.fromId">avez</span>
+                {{n?.message}}
+              </strong>
+            </ion-label>
+          </ion-item>
 
 
-                <div *ngIf="loading == false && notifications?.length == 0" class="empty-msg">
-                  <span class="material-icons drafts">
-                    notifications
-                  </span><br>
-                  <span>Aucune notification ici</span>
-                </div>
+          <div *ngIf="loading == false && notifications?.length == 0" class="empty-msg">
+            <span class="material-icons drafts">
+              notifications
+            </span><br>
+            <span>Aucune notification ici</span>
+          </div>
 
-              </div>
-            </mat-tab>
-            <mat-tab label="MENTION">
-              <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
-                (ionRefresh)="doRefreshNotification($event)">
-                <ion-refresher-content></ion-refresher-content>
-              </ion-refresher>
-  
-              <div>
-                <!--ion-item>
+        </div>
+      </mat-tab>
+      <mat-tab label="MENTION">
+        <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
+          (ionRefresh)="doRefreshNotification($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+
+        <div>
+          <!--ion-item>
                 <ion-icon color="primary" name="chatbubble"></ion-icon>
                 <img alt="" src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg">
                 <ion-label><b> CHRISMAL </b><br>
@@ -101,53 +97,51 @@
               </ion-item-->
 
 
-                <div class="empty-msg">
-                  <span class="material-icons drafts">
-                    record_voice_over
-                  </span><br>
-                  <span>Aucune mention ici</span>
-                </div>
+          <div class="empty-msg">
+            <span class="material-icons drafts">
+              record_voice_over
+            </span><br>
+            <span>Aucune mention ici</span>
+          </div>
 
-              </div>
-            </mat-tab>
-            <mat-tab label="INVITATION">
-              <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
-                (ionRefresh)="doRefreshInvitation($event)">
-                <ion-refresher-content></ion-refresher-content>
-              </ion-refresher>
-              <div>
-                <ion-item *ngFor="let i of invitations;trackBy: trackByFn ">
-                  <img alt="" [src]="i?.photo">
-                  <ion-label><b> {{i?.pseudo}} </b> <span style="margin-left: 37px;font-size: 11px;">
-                      {{time(i?.createdAt) }} </span> <br>
-                    <div class="example-button-row">
-                      <button class="btn-accent" (click)="acceptInvitation(i)" mat-raised-button color="accent">
-
-                        <span *ngIf="!loading">
-                          Accepter
-                        </span>
-                        <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-
-
-                      </button>
-                    </div>
-                  </ion-label>
-                </ion-item>
-              </div>
-
-              <div *ngIf="invitations?.length == 0" class="empty-msg">
-                <span class="material-icons drafts">
-                  drafts
-                </span><br>
-                <span>Aucune invitation ici</span>
-              </div>
-
-            </mat-tab>
-          </mat-tab-group>
         </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      </mat-tab>
+      <mat-tab label="INVITATION">
+        <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
+          (ionRefresh)="doRefreshInvitation($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <div>
+          <ion-item *ngFor="let i of invitations;trackBy: trackByFn ">
+
+            <div class="round-img-post">
+              {{i?.pseudoIntime | slice:0:1| uppercase}} {{i?.pseudoPro | slice:0:1 | uppercase}}
+            </div>
+            <ion-label><b> {{i?.pseudo}} </b> <span style="margin-left: 37px;font-size: 11px;">
+                {{time(i?.createdAt) }} </span> <br>
+              <div class="example-button-row">
+                <button class="btn-accent" (click)="acceptInvitation(i)" mat-raised-button color="accent">
+
+                  <span *ngIf="!loading">
+                    Accepter
+                  </span>
+                  <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
 
 
+                </button>
+              </div>
+            </ion-label>
+          </ion-item>
+        </div>
+
+        <div *ngIf="invitations?.length == 0" class="empty-msg">
+          <span class="material-icons drafts">
+            drafts
+          </span><br>
+          <span>Aucune invitation ici</span>
+        </div>
+
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </ion-content>

@@ -11,6 +11,25 @@ ion-slide{
 .material-icons{
     color: #ea4e50;
 }
+.mat-content{
+    height: -webkit-fill-available;
+  }
+
+.round-img-post{
+    height: 47px;
+    width: 47px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border: solid 1px #ea4d4f;
+    padding-top: 8px;
+    text-align: center;
+    font-size: 13px;
+    display: block;
+    margin-left: -8px;
+    margin-right: 12px;
+    color: #000000;
+}
 
 .example-button-container{
     float: right;

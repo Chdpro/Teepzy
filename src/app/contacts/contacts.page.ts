@@ -105,11 +105,11 @@ export class ContactsPage implements OnInit {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
     this.connectSocket()
-    //this.loadContacts()
+    this.loadContacts()
     let a = '66 77 23 27'
     let b = '+22966772327'
     console.log(a.replace(/\s/g, '').slice(-7) == b.replace(/\s/g, '').slice(-7) ? true : false)
-    this.getTeepzr()
+    //this.getTeepzr()
     this.getTeepzrOutCircle()
   }
 
@@ -241,9 +241,16 @@ export class ContactsPage implements OnInit {
 
 
   goToOutcircle() {
-    this.router.navigate(['/outcircle'], {
-      replaceUrl: true,
-    })
+    if (this.previousRoute) {
+      this.router.navigate(['/tabs/tab1'], {
+        replaceUrl: true,
+      })
+    }else{
+      this.router.navigate(['/outcircle'], {
+        replaceUrl: true,
+      })
+    }
+
   }
 
 
@@ -252,7 +259,7 @@ export class ContactsPage implements OnInit {
     this.contactService.teepZrs(this.userId).subscribe(res => {
       console.log(res)
       this.listTeepZrs = res['data']
-      this.contactsTest.forEach(um => {
+      this.listContacts.forEach(um => {
         this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push({ _id: x['_id'], prenom: um.givenName, nom: um.familyName, phone: x.phone, photo: x.photo }) : null })
       });
       this.listTeepZrs = list
