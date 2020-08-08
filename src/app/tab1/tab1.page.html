@@ -131,7 +131,7 @@
         <div class="header-slide" (click)="next()">
           <!--img class="img-poster" [src]="p?.userPhoto_url" alt=""-->
           <div class="round-img" [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
-            {{p?.userPseudo | slice:0:1| uppercase}} {{p?.userPseudo | slice:0:1 | uppercase}}
+            {{p?.prenom | slice:0:1| uppercase}} {{p?.nom | slice:0:1 | uppercase}}
           </div>
           <strong>
             {{p?.userPseudo}}
