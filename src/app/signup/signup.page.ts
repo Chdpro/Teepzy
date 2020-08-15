@@ -77,10 +77,10 @@ export class SignupPage implements OnInit {
     this.menuCtrl.enable(false);
     this.menuCtrl.swipeGesture(false);
 
-    this.windowRef = this.win.windowRef
+    //this.windowRef = this.win.windowRef
     //console.log(this.win.windowRef)
-    this.windowRef.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container')
-    this.windowRef.recaptchaVerifier.render()
+    //this.windowRef.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container')
+    //this.windowRef.recaptchaVerifier.render()
     this.listCountriesCodes()
   }
 
@@ -193,9 +193,7 @@ export class SignupPage implements OnInit {
     this.windowRef.confirmationResult
       .confirm(this.verificationCode)
       .then(result => {
-
         this.signup()
-
       })
       .catch(error => {
         console.log(error, "Incorrect code entered?");

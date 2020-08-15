@@ -94,12 +94,12 @@ export class ContactsPage implements OnInit {
     private socialSharing: SocialSharing,
     public router: Router,
     public route: ActivatedRoute,
-    private socket : Socket,
+    private socket: Socket,
     public alertController: AlertController,
-    private contactService: ContactService) { 
-     this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
-      console.log(this.previousRoute)
-     }
+    private contactService: ContactService) {
+    this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
+    console.log(this.previousRoute)
+  }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
@@ -113,7 +113,7 @@ export class ContactsPage implements OnInit {
     this.getTeepzrOutCircle()
   }
 
-  connectSocket(){
+  connectSocket() {
     this.socket.connect();
   }
 
@@ -201,7 +201,7 @@ export class ContactsPage implements OnInit {
         // set loading on list
         if (this.listContacts.length < this.myContacts.length) {
           this.loading = true;
-        }else if(this.listContacts.length == this.myContacts.length){
+        } else if (this.listContacts.length == this.myContacts.length) {
           this.loading = false
 
         }
@@ -245,7 +245,7 @@ export class ContactsPage implements OnInit {
       this.router.navigate(['/tabs/tab1'], {
         replaceUrl: true,
       })
-    }else{
+    } else {
       this.router.navigate(['/outcircle'], {
         replaceUrl: true,
       })
@@ -358,10 +358,10 @@ export class ContactsPage implements OnInit {
       console.log(res)
 
       if (res['status'] == 400) {
-      this.presentToast('Invitation non envoyée')
-      this.loading = false
+        this.presentToast('Invitation non envoyée')
+        this.loading = false
 
-      }else{
+      } else {
         this.listTeepzrsToInvite.find((c, index) => c['_id'] == u._id ? c['invited'] = false : null)
         console.log(this.listTeepzrsToInvite)
         this.presentToast('Invitation annulée')
@@ -415,7 +415,7 @@ export class ContactsPage implements OnInit {
   }
 
 
-  goToFeed(){
+  goToFeed() {
     this.router.navigateByUrl('/tabs/tab1', {
       replaceUrl: true,
     })
@@ -443,7 +443,7 @@ export class ContactsPage implements OnInit {
     })
   }
 
-  checkInvitationOutCircle(invitation, e){
+  checkInvitationOutCircle(invitation, e) {
     this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
       console.log(res)
       if (res['status'] == 201) {

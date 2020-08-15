@@ -4,11 +4,10 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SearchPageRoutingModule } from './search-routing.module';
+import { DetailFeedPageRoutingModule } from './detail-feed-routing.module';
 import { MaterialModule } from '../material.module';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
-import { SearchPage } from './search.page';
+import { DetailFeedPage } from './detail-feed.page';
 
 @NgModule({
   imports: [
@@ -16,9 +15,8 @@ import { SearchPage } from './search.page';
     FormsModule,
     IonicModule,
     MaterialModule,
-    Ng2SearchPipeModule,
-    SearchPageRoutingModule
+    DetailFeedPageRoutingModule
   ],
-  declarations: [SearchPage]
+  declarations: [DetailFeedPage]
 })
-export class SearchPageModule {}
+export class DetailFeedPageModule {}

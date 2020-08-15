@@ -51,7 +51,7 @@ export class AppComponent {
     let token = localStorage.getItem('teepzyToken')
     let fsc = localStorage.getItem('FinalStepCompleted')
 
-   /* if (token && fsc) {
+    if (token && fsc) {
        this.router.navigateByUrl('/tabs/tab1', {
          replaceUrl: true
        }
@@ -67,7 +67,7 @@ export class AppComponent {
          replaceUrl: true
        }
        )
-      }*/
+      }
   }
 
   initializeApp() {

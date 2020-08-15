@@ -49,8 +49,176 @@
 <ion-content [fullscreen]="true" [scrollY]="false">
 
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-slides pager="true" [options]="slideOpts">
+    <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
+      
+      [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  p?.image_url != '' ? 'url(' + p?.image_url + ')' : p?.backgroundColor }">
+      <div class="post-txt">
+
+   
+        <div class="header-slide" (click)="next()">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                  <span *ngIf="p?.reposterId == userId" style="font-size: small;">
+                      Vous avez partagé le teepz de
+                    </span>
+              </ion-col>
+              <ion-col>
+                  <div *ngIf="p?.userPhoto_url != ''">
+                      <img  class="img" [src]="p?.userPhoto_url" alt="">
+                  </div>
+            
+                  <div *ngIf="p?.userPhoto_url == ''" class="round-img" [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                      {{p?.userPseudo | slice:0:1| uppercase}}
+                    </div>
+              </ion-col>
+              <ion-col style="    text-align: left;">
+                  <strong>
+                      {{p?.userPseudo}}
+                    </strong><br>
+                    <small>
+                      {{p?.circle || '' }}
+                    </small>
+                    <span class="time"
+                      *ngIf="(time(p?.createdAt) != 'il y a une heure') || (time(p?.createdAt) != 'il y a un jour') ">
+                      {{time(p?.createdAt) }}
+                    </span>
+                    <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
+                      il y a 1 heure
+                    </span>
+                    <span class="time" *ngIf="time(p?.createdAt) == 'il y a un jour'">
+                      il y a 1 jour
+                    </span>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+    
+        </div><br>
+        <p class="content" [ngStyle]="{'font-size': p?.content.length > 110 ? '17px' : '23px' }" (click)="next()">
+          {{ p?.content }}
+        </p>
+
+
+        <div class="match-img">
+          <span style="margin-top: 6px;">MATCH</span>
+          <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
+            <img class="match-image"
+              [src]="m?.photo" alt="">
+          </span>
+          <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0">0</span>
+  
+          <span style="margin-top: 6px;" *ngIf="p?.matches?.length > 0">+ {{p.matches?.length - 3}} </span>
+
+        </div>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <section>
+                <div class="example-button-row">
+                  <div class="example-flex-container">
+                    <div class="example-button-container " (click)="presentCommentModal(p)">
+                      <button mat-fab class="mat-button" color="primary"
+                        aria-label="Example icon button with a delete icon">
+                        <ion-icon style="font-size: 26px;margin-top: -3px;" name="chatbubble-outline"></ion-icon>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+
+              </section>
+            </ion-col>
+            <ion-col size="12" *ngIf="p?.favorite == true">
+              <section>
+                <div class="example-button-row">
+                  <div class="example-flex-container">
+                    <div class="example-button-container" (click)="removeFavorite(p?._id)">
+                      <button mat-fab class="mat-button" color="primary"
+                        aria-label="Example icon button with a delete icon">
+                        <ion-icon style="    font-size: large;margin-top: -3px;" name="star"></ion-icon>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+
+              </section>
+            </ion-col>
+            <ion-col size="12" *ngIf="p?.favorite != true">
+              <section>
+                <div class="example-button-row">
+                  <div class="example-flex-container">
+                    <div class="example-button-container" (click)="addFavorite(p?._id)">
+                      <button mat-fab class="mat-button" color="primary"
+                        aria-label="Example icon button with a delete icon">
+                        <ion-icon style="    font-size: large;margin-top: -3px;" name="star-outline"></ion-icon>
+
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+
+              </section>
+            </ion-col>
+            <ion-col size="12">
+              <section>
+                <div class="example-button-row">
+                  <div class="example-flex-container">
+                    <div class="example-button-container" >
+                        <button mat-fab color="primary" (click)="showShareSheet(p)" class="mat-button"
+                          aria-label="Example icon button with a delete icon">
+                          <span style="    margin-top: -4px;" class="material-icons">
+                            redo
+                          </span>
+                        </button>
+                    </div>
+
+                  </div>
+                </div>
+              </section>
+            </ion-col>
+            <ion-col size="12">
+              <section>
+                <div class="example-button-row">
+                  <div class="example-flex-container">
+                    <div class="example-button-container" (click)="presentLinkModal(p)">
+                      <button mat-fab color="primary" class="mat-button"
+                        aria-label="Example icon button with a delete icon">
+                        <span style="    margin-top: -4px;" class="material-icons">
+                          group_add
+                        </span>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+
+              </section>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+
+    </ion-slide>
+    <div class="next-btn" (click)='prev()'>
+      prev
+    </div>
+    <div class="prev-btn" (click)='next()'>
+      next
+    </div>
+  </ion-slides>
+
   <input type="radio" *ngIf="shareLink" name="modal2" value="open" id="modal-open2" class="modal-radio" />
-  <div class="modal2" *ngIf="shareLink">
+  <div class="modal2" (click)="dismissShareSheet()" *ngIf="shareLink">
     <label class="modal-label overlay">
       <input type="radio" name="modal2" value="close" class="modal-radio" />
     </label>
@@ -114,223 +282,10 @@
     </div>
   </div>
 
-
-
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-
-  <ion-slides pager="true" [options]="slideOpts">
-    <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
-      [style.background-color]="p?.backgroundColor"
-      [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
-      <div class="post-txt">
-        <span *ngIf="p?.reposterId == userId" style="font-size: small;">
-          Vous avez partagé le teepz de
-        </span>
-        <div class="header-slide" (click)="next()">
-          <!--img class="img-poster" [src]="p?.userPhoto_url" alt=""-->
-          <div class="round-img" [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
-            {{p?.prenom | slice:0:1| uppercase}} {{p?.nom | slice:0:1 | uppercase}}
-          </div>
-          <strong>
-            {{p?.userPseudo}}
-          </strong><br>
-          <small>
-            {{p?.circle || '' }}
-          </small>
-          <span class="time"
-            *ngIf="(time(p?.createdAt) != 'il y a une heure') || (time(p?.createdAt) == 'il y a un jour') ">
-            {{time(p?.createdAt) }}
-          </span>
-          <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
-            il y a 1 heure
-          </span>
-          <span class="time" *ngIf="time(p?.createdAt) == 'il y a un jour'">
-            il y a 1 jour
-          </span>
-        </div><br>
-        <p (click)="next()">
-          {{ p?.content }}
-        </p>
-
-
-        <div class="match-img">
-          <span style="margin-top: 6px;">MATCH</span>
-          <span style="margin-left: 6px;">
-            <img class="match-image"
-              src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
-          </span>
-          <span style="margin-left: -9px;">
-            <img class="match-image"
-              src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
-          </span>
-          <span style="margin-right: 6px;margin-left: -9px;">
-            <img class="match-image"
-              src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
-          </span>
-          <span style="margin-top: 6px;">+3</span>
-
-        </div>
-
-        <ion-grid>
-          <ion-row>
-            <ion-col size="12">
-              <section>
-                <div class="example-button-row">
-                  <div class="example-flex-container">
-                    <div class="example-button-container " (click)="presentCommentModal(p)">
-                      <button mat-fab class="mat-button" color="primary"
-                        aria-label="Example icon button with a delete icon">
-                        <ion-icon style="font-size: 26px;" name="chatbubble-outline"></ion-icon>
-                      </button>
-                    </div>
-
-                  </div>
-                </div>
-
-              </section>
-            </ion-col>
-            <ion-col size="12" *ngIf="p?.favorite == true">
-              <section>
-                <div class="example-button-row">
-                  <div class="example-flex-container">
-                    <div class="example-button-container" (click)="removeFavorite(p?._id)">
-                      <button mat-fab class="mat-button" color="primary"
-                        aria-label="Example icon button with a delete icon">
-                        <ion-icon style="    font-size: large;" name="star"></ion-icon>
-                      </button>
-                    </div>
-
-                  </div>
-                </div>
-
-              </section>
-            </ion-col>
-            <ion-col size="12" *ngIf="p?.favorite != true">
-              <section>
-                <div class="example-button-row">
-                  <div class="example-flex-container">
-                    <div class="example-button-container" (click)="addFavorite(p?._id)">
-                      <button mat-fab class="mat-button" color="primary"
-                        aria-label="Example icon button with a delete icon">
-                        <ion-icon style="    font-size: large;" name="star-outline"></ion-icon>
-
-                      </button>
-                    </div>
-
-                  </div>
-                </div>
-
-              </section>
-            </ion-col>
-            <ion-col size="12">
-              <section>
-                <div class="example-button-row">
-                  <div class="example-flex-container">
-                    <div class="example-button-container" >
-                        <button mat-fab color="primary" (click)="showShareSheet(p)" class="mat-button"
-                          aria-label="Example icon button with a delete icon">
-                          <span class="material-icons">
-                            redo
-                          </span>
-                        </button>
-                    </div>
-
-                  </div>
-                </div>
-              </section>
-            </ion-col>
-            <ion-col size="12">
-              <section>
-                <div class="example-button-row">
-                  <div class="example-flex-container">
-                    <div class="example-button-container" (click)="presentLinkModal(p)">
-                      <button mat-fab color="primary" class="mat-button"
-                        aria-label="Example icon button with a delete icon">
-                        <span class="material-icons">
-                          group_add
-                        </span>
-                      </button>
-                    </div>
-
-                  </div>
-                </div>
-
-              </section>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </div>
-
-      <!--div>
-    
-        <ion-fab style="margin-bottom: 188px;" (click)="presentCommentModal(p)" vertical="bottom" horizontal="end"
-          slot="fixed">
-          <ion-fab-button color="light">
-            <ion-icon style="font-size: 26px;" name="chatbubble-outline"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-
-
-        <!--button (click)="getCommentsOfPost(p?._id)" mat-mini-fab aria-label="Example icon button with a home icon">
-            <label class="modal-open modal-label" for="modal-open">
-              <mat-icon>home</mat-icon>
-            </label>
-
-          </button-->
-
-      <!-- fab placed to the bottom end --
-        <ion-fab *ngIf="p?.favorite != true" (click)="addFavorite(p?._id)" style="margin-bottom: 133px;"
-          vertical="bottom" horizontal="end" slot="fixed">
-          <ion-fab-button color="light">
-            <ion-icon name="star-outline"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-        <!-- fab placed to the bottom end --
-        <ion-fab *ngIf="p?.favorite == true" (click)="removeFavorite(p?._id)" style="margin-bottom: 133px;"
-          vertical="bottom" horizontal="end" slot="fixed">
-          <ion-fab-button color="light">
-            <ion-icon name="star"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-
-        <!-- fab placed to the bottom end --
-        <label class="modal-open " for="modal-open2">
-          <ion-fab style="margin-bottom: 75px;" (click)="openShareActionSheet(p)" vertical="bottom" horizontal="end"
-            slot="fixed">
-            <ion-fab-button color="light">
-              <span class="material-icons">
-                redo
-              </span>
-            </ion-fab-button>
-          </ion-fab>
-        </label>
-
-
-
-        <!-- fab placed to the bottom end --
-        <ion-fab vertical="bottom" (click)="presentLinkModal(p)" style="margin-bottom: 20px;" horizontal="end"
-          slot="fixed">
-          <ion-fab-button color="light">
-            <span class="material-icons">
-              group_add
-            </span>
-          </ion-fab-button>
-        </ion-fab>
-      </div-->
-
-
-
-    </ion-slide>
-    <div class="next-btn" (click)='prev()'>
-      prev
-    </div>
-    <div class="prev-btn" (click)='next()'>
-      next
-    </div>
-  </ion-slides>
-
+  <input type="radio"  name="modal" value="open" id="modal-open" class="modal-radio" />
+  <div class="modal" (click)="dismiss()" *ngIf="globals?.showBackground " [ngStyle]="{'opacity': globals?.showBackground == true ? '1' : '0' }">
+  
+  </div>
 
 
 </ion-content>

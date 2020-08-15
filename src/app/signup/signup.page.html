@@ -86,13 +86,7 @@
 
 
     <ion-row>
-      <ion-col>
-
-      </ion-col>
-      <ion-col>
-
-      </ion-col>
-      <ion-col>
+      <ion-col class="footer-btn">
         <button style="float: right;" 
         [disabled]="nom.errors?.required 
         || passwordId.errors?.required
@@ -100,12 +94,12 @@
             || prenom.errors?.required 
             || email.errors?.required
             || phone.errors?.required
-            || selected == ''" (click)="signIn()" mat-button>Suivant</button>
+            || selected == ''" (click)="signup()" mat-button>Suivant</button>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <input class="modal-state" id="modal-2" type="checkbox" />
+  <!--input class="modal-state" id="modal-2" type="checkbox" />
   <div class="modal">
     <label class="modal__bg" for="modal-2"></label>
     <div class="modal__inner">
@@ -169,14 +163,11 @@
       </mat-grid-list>
 
 
-      <!--div>
-        <button (click)="selectImage()" class="mat-raised-btn" mat-raised-button>Choisir une photo</button>
-      </div-->
    
 
 
     </div>
-  </div>
+  </div-->
 
 
 </ion-content>

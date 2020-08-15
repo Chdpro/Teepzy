@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, NavParams, ToastController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { Socket } from 'ngx-socket-io';
+import { DatapasseService } from '../providers/datapasse.service';
+import { Globals } from '../globals';
 
 @Component({
   selector: 'app-comments',
@@ -35,8 +37,12 @@ export class CommentsPage implements OnInit {
   constructor(private modalController: ModalController, 
     private contactService: ContactService,
     private toasterController: ToastController,
+    private dataPasse: DatapasseService,
     private socket: Socket,
-    private navParams: NavParams) { }
+    private globals: Globals,
+    private navParams: NavParams) {
+
+     }
 
   ngOnInit() {
     this.connectSocket()
@@ -140,6 +146,7 @@ export class CommentsPage implements OnInit {
     this.modalController.dismiss({
       'dismissed': true
     });
+    this.globals.showBackground = false;
   }
 
 }

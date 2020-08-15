@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
 import { ToastController, LoadingController, ActionSheetController } from '@ionic/angular';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
@@ -16,7 +16,7 @@ import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx
 })
 export class EditProfilePage implements OnInit {
 
-  profile1 ={
+  profile1 = {
     pseudoPro: '',
     localisation: 'localisation',
     metier: 'metier',
@@ -27,23 +27,23 @@ export class EditProfilePage implements OnInit {
     bio: 'bio',
   }
 
-  profile2 ={
+  profile2 = {
     userId: '',
     socialsAmical: [],
     hobbies: [],
     pseudoIntime: ''
   }
-  
+
   socials = []
   socialsAdded = []
   socialsAdde2 = []
 
-  user:any
+  user: any
   rs_url = ''
   rs_url2 = ''
 
-  media:any
-  media2:any
+  media: any
+  media2: any
 
 
 
@@ -53,8 +53,8 @@ export class EditProfilePage implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags = [
-   
-  ]; 
+
+  ];
 
   visible1 = true;
   selectable1 = true;
@@ -66,7 +66,7 @@ export class EditProfilePage implements OnInit {
   addOnBlur1 = true;
   readonly separatorKeysCodes1: number[] = [ENTER, COMMA];
   tags1 = [
-   
+
   ];
 
   tab1 = 0
@@ -85,20 +85,20 @@ export class EditProfilePage implements OnInit {
 
   selectedTab = 0
 
-  constructor(private authService: AuthService, 
+  constructor(private authService: AuthService,
     private contactService: ContactService,
     private loadingCtrl: LoadingController,
     private camera: Camera,
     private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
-     private toasterController: ToastController) { }
+    private toasterController: ToastController) { }
 
   ngOnInit() {
 
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.getSocials();
     let userId = localStorage.getItem('teepzyUserId')
     this.profile1.userId = userId;
@@ -110,67 +110,69 @@ export class EditProfilePage implements OnInit {
   swipe2(e: TouchEvent, when: string): void {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     const time = new Date().getTime();
-   if (when === 'start') {
-    this.swipeCoord = coord;
-    this.swipeTime = time;
+    if (when === 'start') {
+      this.swipeCoord = coord;
+      this.swipeTime = time;
     } else if (when === 'end') {
-    const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
-    const duration = time - this.swipeTime;
-   if (duration < 1000 //
-    && Math.abs(direction[0]) > 30 // Long enough
-    && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) { // Horizontal enough
-    const swipe = direction[0] < 0 ? 'next' : 'previous';
-    console.info(swipe);
-    if(swipe === 'next'){
-    const isFirst = this.selectedTab === 0;
-   if(this.selectedTab <= 2){
-    this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
-   }
-   console.log("Swipe left - INDEX: "+ this.selectedTab);
-    } else if(swipe === 'previous'){
-    const isLast = this.selectedTab === 2;
-   if(this.selectedTab >= 1){
-    this.selectedTab = this.selectedTab - 1;
+      const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
+      const duration = time - this.swipeTime;
+      if (duration < 1000 //
+        && Math.abs(direction[0]) > 30 // Long enough
+        && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) { // Horizontal enough
+        const swipe = direction[0] < 0 ? 'next' : 'previous';
+        console.info(swipe);
+        if (swipe === 'next') {
+          const isFirst = this.selectedTab === 0;
+          if (this.selectedTab <= 2) {
+            this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
+          }
+          console.log("Swipe left - INDEX: " + this.selectedTab);
+        } else if (swipe === 'previous') {
+          const isLast = this.selectedTab === 2;
+          if (this.selectedTab >= 1) {
+            this.selectedTab = this.selectedTab - 1;
+          }
+          console.log("Swipe right — INDEX: " + this.selectedTab);
+        }
+        // Do whatever you want with swipe
+      }
     }
-   console.log("Swipe right — INDEX: " + this.selectedTab);
-    }
-   // Do whatever you want with swipe
-    }
-    }
-   }
-   
-  updateProfile(){
-    this.loading = true
-    let userId =  localStorage.getItem('teepzyUserId')
-    console.log(this.profile1)
+  }
 
+  updateProfile() {
+    this.loading = true
+    let userId = localStorage.getItem('teepzyUserId')
     // update profile 1
-    this.socialsAdded.length>0? this.profile1.socialsPro = this.socialsAdded: null
-    this.tags1.length>0 ? this.profile1.tags = this.tags1 : null
-    this.authService.updateProfile(this.profile1).subscribe(res =>{
+    this.socialsAdded.length > 0 ? this.profile1.socialsPro = this.socialsAdded : null
+    this.tags1.length > 0 ? this.profile1.tags = this.tags1 : null
+    this.authService.updateProfile(this.profile1).subscribe(res => {
       console.log(res)
       this.presentToast('Profil 1 mis à jour')
+      if (this.photos.length != 0) {
+        this.uploadImage()
+      }
       this.getUserInfo(userId)
       this.loading = false
 
-    }, error =>{
+    }, error => {
       console.log(error)
       this.presentToast('Oops! une erreur est survenue ')
       this.loading = false
 
     })
     // update profile 2
-    this.socialsAdde2.length > 0? this.profile2.socialsAmical = this.socialsAdde2 : null
-    this.tags.length>0 ? this.profile2.hobbies = this.tags : null
-    console.log(this.profile2)
-
-    this.authService.updateProfile2(this.profile2).subscribe(res =>{
+    this.socialsAdde2.length > 0 ? this.profile2.socialsAmical = this.socialsAdde2 : null
+    this.tags.length > 0 ? this.profile2.hobbies = this.tags : null
+    this.authService.updateProfile2(this.profile2).subscribe(res => {
       console.log(res)
       this.presentToast('Profil 2 mis à jour')
+      if (this.photos.length != 0) {
+        this.uploadImage()
+      }
       this.getUserInfo(userId)
       this.loading = false
 
-    }, error =>{
+    }, error => {
       console.log(error)
       this.presentToast('Oops! une erreur est survenue ')
       this.loading = false
@@ -179,42 +181,42 @@ export class EditProfilePage implements OnInit {
   }
 
 
-   checkAvailability(arr, val) {
-    return arr.some(function(arrVal) {
-        return val === arrVal['_id'];
+  checkAvailability(arr, val) {
+    return arr.some(function (arrVal) {
+      return val === arrVal['_id'];
     });
-}
-  addSocial(){
+  }
+  addSocial() {
     let sociale = {
       _id: this.media['_id'],
-      icon : this.media['icon'],
-      nom : this.media['nom'],
-      url : this.rs_url,
+      icon: this.media['icon'],
+      nom: this.media['nom'],
+      url: this.rs_url,
       type: this.media['type']
     }
 
-    this.checkAvailability(this.socialsAdded, sociale['_id']) ? this.presentToast('Ce média a été déjà ajouté'):this.socialsAdded.push(sociale) 
+    this.checkAvailability(this.socialsAdded, sociale['_id']) ? this.presentToast('Ce média a été déjà ajouté') : this.socialsAdded.push(sociale)
   }
 
 
-  addSocialProfile2(){
+  addSocialProfile2() {
     let sociale = {
       _id: this.media2['_id'],
-      icon : this.media2['icon'],
-      nom : this.media2['nom'],
-      url : this.rs_url2,
+      icon: this.media2['icon'],
+      nom: this.media2['nom'],
+      url: this.rs_url2,
       type: this.media2['type']
     }
-    this.checkAvailability(this.socialsAdde2, sociale['_id']) ? this.presentToast('Ce média a été déjà ajouté'):this.socialsAdde2.push(sociale) 
+    this.checkAvailability(this.socialsAdde2, sociale['_id']) ? this.presentToast('Ce média a été déjà ajouté') : this.socialsAdde2.push(sociale)
 
   }
 
 
-  getSocials(){
-    this.contactService.getSocials().subscribe(res =>{
+  getSocials() {
+    this.contactService.getSocials().subscribe(res => {
       console.log(res)
       this.socials = res
-    }, error =>{
+    }, error => {
       console.log(error)
     })
   }
@@ -230,13 +232,14 @@ export class EditProfilePage implements OnInit {
       this.profile1.metier = this.user['metier'];
       this.profile1.siteweb = this.user['siteweb'];
       this.profile1.socialsPro = this.user['socialsPro'];
-      this.user['socialsPro']? this.socialsAdded = this.user['socialsPro'] : null;
-      this.user['socialsAmical']? this.socialsAdde2 = this.user['socialsAmical']: null;
+      this.user['socialsPro'] ? this.socialsAdded = this.user['socialsPro'] : null;
+      this.user['socialsAmical'] ? this.socialsAdde2 = this.user['socialsAmical'] : null;
       this.profile2.socialsAmical = this.user['socialsAmical'];
       this.profile1.tags = this.user['tags'];
-      this.user['tags']? this.tags1 = this.user['tags']: null;
-      this.user['hobbies']? this.tags = this.user['hobbies']: null;
+      this.user['tags'] ? this.tags1 = this.user['tags'] : null;
+      this.user['hobbies'] ? this.tags = this.user['hobbies'] : null;
       this.profile2.hobbies = this.user['hobbies'];
+      this.user['photo'] ?  this.dispImags[0] = this.user['photo'] : null
 
     }, error => {
       console.log(error)
@@ -346,10 +349,7 @@ export class EditProfilePage implements OnInit {
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
         this.photos.push(nativepath)
         //  alert(this.photos)
-        if (this.photos.length != 0) {
-          this.uploadImage()
-
-        }
+  
       })
 
     }, (err) => {
@@ -364,16 +364,16 @@ export class EditProfilePage implements OnInit {
       // interval++
       const fileTransfer = ref.transfer.create()
       let options: FileUploadOptions = {
-        fileKey: "photo",
+        fileKey: "avatar",
         fileName: (Math.random() * 100000000000000000) + '.jpg',
         chunkedMode: false,
         mimeType: "image/jpeg",
         headers: {},
       }
-      var serverUrl = base_url + '/upload-photos'
-      this.filesName.push({ fileUrl: "https://teepzy.com/" + options.fileName, type: 'image' })
+      var serverUrl = base_url + '/upload-avatar'
+      this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
       fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-        this.user.photo = "http://92.222.71.38:3000/" + options.fileName
+        this.user.photo = base_url + options.fileName
         this.presentToast('Photo Mise à jour')
       })
     }
@@ -387,9 +387,9 @@ export class EditProfilePage implements OnInit {
 
     } else {
       this.showModal = 'hidden'
-     /* if (this.user.photo != '') {
-        this.presentToast("Avatar choisi ")
-        }*/
+      /* if (this.user.photo != '') {
+         this.presentToast("Avatar choisi ")
+         }*/
     }
 
   }
@@ -400,7 +400,7 @@ export class EditProfilePage implements OnInit {
     this.user.photo = url;
 
   }
- 
+
   async presentToast(msg) {
     const toast = await this.toasterController.create({
       message: msg,

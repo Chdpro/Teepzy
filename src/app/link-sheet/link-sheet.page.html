@@ -10,17 +10,17 @@
   <div class="mat-content" (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
   <mat-tab-group  [(selectedIndex)]="selectedTab" color="warn" mat-align-tabs="center">
     <mat-tab label="Match">
-      <mat-card class="example-card cmt2">
+      <mat-card *ngFor="let m of post?.matches" class="example-card cmt2">
         <mat-card-header>
           <div mat-card-avatar>
             <img mat-card-image class="mat-img"
               src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
           </div>
-          <mat-card-title style="color: #ea4e50;">Enock JOULA</mat-card-title>
+          <mat-card-title style="color: #ea4e50;">@{{m?.pseudoIntime}} </mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <p class="content-comment" style="color: #ea4e50;">
-            Nom du Cercle
+           {{m?.nom }}  {{m?.prenom }}
           </p>
           <button class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
 
@@ -35,65 +35,16 @@
         </mat-card-content>
 
       </mat-card>
-      <mat-card class="example-card cmt2">
-        <mat-card-header>
-          <div mat-card-avatar>
-            <img mat-card-image class="mat-img"
-              src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
-          </div>
-          <mat-card-title style="color: #ea4e50;">Enock JOULA</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p class="content-comment" style="color: #ea4e50;">
-            Nom du Cercle
-          </p>
-          <button class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
-            <div class="pretty p-icon p-round p-pulse">
-              <input type="checkbox" />
-              <div class="state p-success">
-                <i class="icon mdi mdi-check"></i>
-                <label></label>
-              </div>
-            </div>
-          </button>
-        </mat-card-content>
-
-      </mat-card>
-      <mat-card class="example-card cmt2">
-        <mat-card-header>
-          <div mat-card-avatar>
-            <img mat-card-image class="mat-img"
-              src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
-          </div>
-          <mat-card-title style="color: #ea4e50;">Enock JOULA</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p class="content-comment" style="color: #ea4e50;">
-            Nom du Cercle
-          </p>
-          <button class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
-            <!--span class="material-icons">
-              check_circle_outline
-            </span-->
-            <div class="pretty p-icon p-round p-pulse">
-              <input type="checkbox" />
-              <div class="state p-success">
-                <i class="icon mdi mdi-check"></i>
-                <label></label>
-              </div>
-            </div>
-
-          </button>
-        </mat-card-content>
-
-      </mat-card>
+      <div *ngIf="!post?.matches || post?.matches.length == 0" class="match-txt">
+        Aucun match pour ce post
+      </div>
     </mat-tab>
     <mat-tab label="Recherche">
 
       <input class="input-s" type="text" [(ngModel)]='filtre' placeholder="filtrer...">
 
       <div>
-          <mat-card *ngFor="let u of usersMatch| filter:filtre ;trackBy: trackByFn " (click)="addLink(u)"
+          <mat-card *ngFor="let u of listTeepZrs| filter:filtre ;trackBy: trackByFn " (click)="addLink(u)"
           class="example-card cmt2">
           <mat-card-header>
             <div mat-card-avatar>

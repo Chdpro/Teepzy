@@ -16,7 +16,11 @@
       <ion-col>
         <div class="banner">
           <div>
-            <img class="add-photo" src="../../assets/img/neutral.jpg" alt="">
+            <img *ngIf="dispImags?.length == 0" class="add-photo" src="../../assets/img/neutral.jpg" alt="">
+
+            <div  *ngIf="dispImags?.length > 0">
+                <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
+            </div>
             <!-- fab placed to the bottom end -->
             <ion-fab (click)="selectImage(p)" vertical="center" horizontal="center" slot="fixed">
               <ion-fab-button color="light">

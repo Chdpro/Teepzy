@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController, NavParams } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
+import { Globals } from '../globals';
 
 @Component({
   selector: 'app-link-sheet',
@@ -25,11 +26,13 @@ export class LinkSheetPage implements OnInit {
   private swipeTime?: number;
 
   selectedTab = 0
+  listTeepZrs = []
   
   constructor(private modalController: ModalController, 
     private contactService: ContactService,
     private toasterController: ToastController,
     private authService: AuthService,
+    private globals: Globals,
     private navParams: NavParams) { }
 
 
@@ -44,6 +47,17 @@ export class LinkSheetPage implements OnInit {
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.userId)
     this.getUsersToMatch()
+    this.getTeepzr()
+  }
+
+  getTeepzr() {
+    this.contactService.teepZrs(this.userId).subscribe(res => {
+      console.log(res)
+      this.listTeepZrs = res['data']
+    }, error => {
+      console.log(error)
+
+    })
   }
 
 
@@ -172,6 +186,7 @@ export class LinkSheetPage implements OnInit {
     this.modalController.dismiss({
       'dismissed': true
     });
+    this.globals.showBackground = false;
   }
 
 

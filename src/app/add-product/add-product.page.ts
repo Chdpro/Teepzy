@@ -111,6 +111,9 @@ export class AddProductPage implements OnInit {
       this.contactService.addProduct(this.product).subscribe(res =>{
         console.log(res);
         this.loading = false
+        if (this.photos.length != 0) {
+          this.uploadImage()
+        }
         this.presentToast('Nouveau produit ajouté');
         let userId = localStorage.getItem('teepzyUserId')
         this.getProducts(userId)
@@ -166,10 +169,7 @@ export class AddProductPage implements OnInit {
         this.filePath.resolveNativePath(imageData).then((nativepath) => {
           this.photos.push(nativepath)
           //  alert(this.photos)
-          if (this.photos.length != 0) {
-            this.uploadImage()
-  
-          }
+    
         })
   
       }, (err) => {
@@ -184,16 +184,16 @@ export class AddProductPage implements OnInit {
         // interval++
         const fileTransfer = ref.transfer.create()
         let options: FileUploadOptions = {
-          fileKey: "photo",
+          fileKey: "avatar",
           fileName: (Math.random() * 100000000000000000) + '.jpg',
           chunkedMode: false,
           mimeType: "image/jpeg",
           headers: {},
         }
-        var serverUrl = base_url + '/upload-photos'
-        this.filesName.push({ fileUrl: "https://teepzy.com/" + options.fileName, type: 'image' })
+        var serverUrl = base_url + '/upload-avatar'
+        this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
         fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-          this.product.photo = "http://92.222.71.38:3000/" + options.fileName
+          this.product.photo = base_url + options.fileName
           this.presentToast('Photo Mise à jour')
         })
       }

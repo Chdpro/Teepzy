@@ -9,9 +9,26 @@
     border-radius: 1px 1px 35px 35px;
 }
 
+.pseudo-txt{
+    text-align: start;
+    margin-left: 5px;
+}
+.round-img-profile{
+    height: 114px;
+    width: 114px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%; 
+    border: solid 1px #ffffff;
+    text-align: center;
+    font-size: 18px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 .round-img{
-    height: 125px;
-    width: 125px;
+    height: 54px;
+    width: 54px;
     border-radius: 100%;
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%; 
@@ -26,13 +43,13 @@
 
 
 .round-img-post{
-    height: 54px;
-    width: 54px;
+    height: 39px;
+    width: 39px;
     border-radius: 100%;
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%; 
     border: solid 1px #ea4d4f;
-    padding-top: 16px;
+    padding-top: 8px;
     text-align: center;
     font-size: 18px;
     display: block;
@@ -144,7 +161,7 @@ label{
 // mes teepz cards start
 
 .img-teepz{
-        width: 36px;
+        width: 56px;
     border-radius: 213px;
     height: 36px;
     border: solid 1px #ea4d4f;
@@ -169,7 +186,7 @@ mat-card-content{
     margin-left: -17px;
     margin-top: -16px;
     border-radius: 29px 29px 1px 1px;
-    
+    height: 200px;
 }
 
 /// shop cart css

@@ -81,6 +81,12 @@ export class ContactService {
     let url = 'users/teepzr/' + userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
+
+  searchTeepZrs(search): Observable<any> {
+    let url = 'users/teepzrto';
+    return this.http.post(local_url + url, search, httpOptionsJson);
+  }
+
   teepZ(userId): Observable<any> {
     let url = 'users/posts/my/' + userId;
     return this.http.get(base_url + url, httpOptionsJson);
@@ -99,7 +105,7 @@ export class ContactService {
 
   addPost(post): Observable<any> {
     let url = 'users/posts';
-    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
+    return this.http.post(local_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   rePost(post): Observable<any> {
@@ -139,7 +145,7 @@ export class ContactService {
 
   SearchOnMatch(search?:any){
     let url = 'users/searchMatch';
-    return this.http.post(base_url + url, JSON.stringify(search), httpOptionsJson);
+    return this.http.post(local_url + url, JSON.stringify(search), httpOptionsJson);
   }
 
 
@@ -170,7 +176,7 @@ export class ContactService {
 
   addFavorite(favorite): Observable<any> {
     let url = 'users/addFavorite';
-    return this.http.post(local_url + url, favorite, httpOptionsJson);
+    return this.http.post(base_url + url, favorite, httpOptionsJson);
   }
 
 

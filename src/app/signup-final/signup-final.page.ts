@@ -70,6 +70,7 @@ export class SignupFinalPage implements OnInit {
     this.authService.myInfos(userId).subscribe(res => {
       console.log(res)
       this.userInfo = res['data'];
+      this.userInfo['photo'] ?  this.dispImags[0] = this.userInfo['photo'] : null
     }, error => {
       console.log(error)
     })
@@ -83,6 +84,10 @@ export class SignupFinalPage implements OnInit {
         console.log(res)
         if (res['status'] == 200) {
           this.retourUsr = true
+          if (this.photos.length != 0) {
+            this.uploadImage()
+  
+          }
           this.presentToast('Vous êtes bien connectés')
           localStorage.setItem('FinalStepCompleted', 'FinalStepCompleted')
           this.router.navigateByUrl('/contacts', {
@@ -101,6 +106,10 @@ export class SignupFinalPage implements OnInit {
         console.log(res)
         if (res['status'] == 200) {
           this.retourUsr = true
+          if (this.photos.length != 0) {
+            this.uploadImage()
+  
+          }
           this.presentToast('Vous êtes bien connectés')
           this.router.navigateByUrl('/contacts', {
             replaceUrl: true
@@ -211,10 +220,7 @@ export class SignupFinalPage implements OnInit {
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
         this.photos.push(nativepath)
         //  alert(this.photos)
-        if (this.photos.length != 0) {
-          this.uploadImage()
-
-        }
+      //  this.user.photo = this.photos[0]
       })
 
     }, (err) => {
@@ -229,20 +235,20 @@ export class SignupFinalPage implements OnInit {
       // interval++
       const fileTransfer = ref.transfer.create()
       let options: FileUploadOptions = {
-        fileKey: "photo",
+        fileKey: "avatar",
         fileName: (Math.random() * 100000000000000000) + '.jpg',
         chunkedMode: false,
         mimeType: "image/jpeg",
         headers: {},
       }
-      var serverUrl = base_url + '/upload-photos'
-      this.filesName.push({ fileUrl: "https://teepzy.com/" + options.fileName, type: 'image' })
+
+      var serverUrl = base_url + 'upload-avatar'
+      this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
       fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-        this.user.photo = "http://92.222.71.38:3000/" + options.fileName
-        this.presentToast('Photo Mise à jour')
+        this.user.photo = base_url + options.fileName;
+        this.presentToast('Photo Mise à jour');
       })
     }
-
   }
 
 

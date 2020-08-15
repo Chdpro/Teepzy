@@ -145,10 +145,7 @@ export class AddProjectPage implements OnInit {
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
         this.photos.push(nativepath)
         //  alert(this.photos)
-        if (this.photos.length != 0) {
-          this.uploadImage()
-
-        }
+  
       })
 
     }, (err) => {
@@ -163,16 +160,16 @@ export class AddProjectPage implements OnInit {
       // interval++
       const fileTransfer = ref.transfer.create()
       let options: FileUploadOptions = {
-        fileKey: "photo",
+        fileKey: "avatar",
         fileName: (Math.random() * 100000000000000000) + '.jpg',
         chunkedMode: false,
         mimeType: "image/jpeg",
         headers: {},
       }
-      var serverUrl = base_url + '/upload-photos'
-      this.filesName.push({ fileUrl: "https://teepzy.com/" + options.fileName, type: 'image' })
+      var serverUrl = base_url + '/upload-avatar'
+      this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
       fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-        this.project.photo = "http://92.222.71.38:3000/" + options.fileName
+        this.project.photo = base_url + options.fileName
         this.presentToast('Photo Mise à jour')
       })
     }
@@ -195,6 +192,9 @@ export class AddProjectPage implements OnInit {
     this.contactService.addProject(this.project).subscribe(res =>{
       console.log(res);
       this.loading = false
+      if (this.photos.length != 0) {
+        this.uploadImage()
+      }
       this.presentToast('Nouveau projet ajouté')
       let userId = localStorage.getItem('teepzyUserId')
       this.getProjects(userId)

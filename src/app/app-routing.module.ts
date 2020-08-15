@@ -73,7 +73,12 @@ const routes: Routes = [
   {
     path: 'search',
     loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
-  }
+  },
+  {
+    path: 'detail-feed',
+    loadChildren: () => import('./detail-feed/detail-feed.module').then( m => m.DetailFeedPageModule)
+  },
+
 ];
 @NgModule({
   imports: [

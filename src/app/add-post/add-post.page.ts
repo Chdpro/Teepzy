@@ -27,12 +27,14 @@ export class AddPostPage implements OnInit {
  
 
   loading =  false
+  showModal =  false
   user:any
   listPosts = []
 
   photos: any = [];
   filesName = new Array();
   dispImags = []
+  userPhoto = []
 
   constructor(public modalController: ModalController, 
     private toastController : ToastController,
@@ -62,11 +64,20 @@ export class AddPostPage implements OnInit {
     this.authService.myInfos(userId).subscribe(res => {
       console.log(res)
       this.user = res['data'];
+      this.user['photo']? this.userPhoto[0] = this.user['photo'] : null
     }, error =>{
       console.log(error)
     })
   }
 
+  dismissConfirmModal(){
+    if (this.showModal) {
+      this.showModal = false
+    } else {
+      this.showModal = true
+    }
+  
+  }
 
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
@@ -111,10 +122,7 @@ export class AddPostPage implements OnInit {
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
         this.photos.push(nativepath)
         //  alert(this.photos)
-        if (this.photos.length != 0) {
-          this.uploadImage()
-
-        }
+  
       })
 
     }, (err) => {
@@ -129,16 +137,16 @@ export class AddPostPage implements OnInit {
       // interval++
       const fileTransfer = ref.transfer.create()
       let options: FileUploadOptions = {
-        fileKey: "photo",
+        fileKey: "avatar",
         fileName: (Math.random() * 100000000000000000) + '.jpg',
         chunkedMode: false,
         mimeType: "image/jpeg",
         headers: {},
       }
-      var serverUrl = base_url + '/upload-photos'
-      this.filesName.push({ fileUrl: "https://teepzy.com/" + options.fileName, type: 'image' })
+      var serverUrl = base_url + '/upload-avatar'
+      this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
       fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-        this.user.photo = "http://92.222.71.38:3000/" + options.fileName
+        this.user.image_url = base_url + options.fileName
         this.presentToast('Photo Mise à jour')
       })
     }
@@ -148,44 +156,9 @@ export class AddPostPage implements OnInit {
 
 
 
-  async presentAlertConfirm() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Quel pseudo Voulez-vous utiliser ?',
-      message: '',
-      buttons: [
-        {
-          text: 'Annuler',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            this.presentToast('Publication annulée')
-          }
-        }, 
-        
-        {
-          text: 'Amical',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            this.post.userPseudo = this.user['pseudoIntime']
-            console.log(this.post.userPseudo);
-            this.addPost()
-          }
-        },{
-          text: 'Professionnel',
-          handler: () => {
-            this.post.userPseudo = this.user['pseudoPro']
-            console.log(this.post.userPseudo);
-            this.addPost()
-
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
+ confirmBeforePosting(){
+   this.showModal =  true
+ }
 
   getPosts(userId) {
     this.contactService.getPosts(userId).subscribe(res => {
@@ -197,16 +170,19 @@ export class AddPostPage implements OnInit {
     })
   }
 
-  addPost(){
+  addPost(p){
     this.loading =  true
     this.post.userPhoto_url = this.user.photo
+    this.post.userPseudo = p
     console.log(this.post);
-
     this.contactService.addPost(this.post).subscribe(res =>{
       console.log(res);
       this.loading =  false
       if (res['status'] == 200) {
         this.getPosts(this.post.userId)
+        if (this.photos.length != 0) {
+          this.uploadImage()
+        }
         this.presentToast('Demande publiée')
         this.dismiss()
       }

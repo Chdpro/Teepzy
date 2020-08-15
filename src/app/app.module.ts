@@ -38,6 +38,7 @@ import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-br
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { local_url, base_url } from 'src/config';
+import { Globals } from './globals';
 const config: SocketIoConfig = { url: base_url, options: {} };
 
 @NgModule({
@@ -73,6 +74,7 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     SMS,
     Contacts,
     OneSignal,
+    Globals,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
     { 

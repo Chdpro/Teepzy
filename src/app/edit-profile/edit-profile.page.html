@@ -11,12 +11,15 @@
 
   <div class="banner">
     <div>
-      <!--img class="add-photo" [src]="user?.photo" alt=""-->
-      <div class="round-img"    [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+      <div  *ngIf="dispImags?.length > 0">
+          <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
+      </div>
+
+      <div  *ngIf="dispImags?.length == 0" class="round-img"    [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
         {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}} 
       </div>
       <!-- fab placed to the bottom end -->
-      <ion-fab (click)="shwModal()" vertical="center" horizontal="center" slot="fixed">
+      <ion-fab (click)="selectImage()" vertical="center" horizontal="center" slot="fixed">
         <ion-fab-button color="light">
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
@@ -25,7 +28,93 @@
   </div>
   <div class=”mat-content” (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
     <mat-tab-group [(selectedIndex)]="selectedTab" mat-align-tabs="center">
-      <mat-tab (click)="switchTab1()" [label]="user?.pseudoPro">
+      <mat-tab (click)="switchTab2()" class="mat-tab-2" style=" margin-left: 128px;" [label]="'@' + user?.pseudoIntime">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <form class="example-form">
+                <span>
+                  <mat-form-field class="rs-input-left">
+                    <mat-label>MES APPLIS</mat-label>
+                    <mat-select [(ngModel)]="media2" name="media2">
+                      <mat-option *ngFor="let s of socials" [value]="s">
+                        <ion-icon class="rs-btn" [name]="s.icon"></ion-icon>
+                        {{s.nom}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field class="rs-input-right">
+                    <mat-label>URL</mat-label>
+                    <input matInput [(ngModel)]="rs_url2" name="rs_url2" placeholder="URL">
+                  </mat-form-field>
+                  <span style="margin-bottom: 12px;">
+                    <ion-chip *ngFor="let so of socialsAdde2">
+                      <ion-label color="primary">
+                        <ion-icon class="rs-btn" [name]="so?.icon"></ion-icon>
+                        {{so?.nom}}
+                      </ion-label>
+                      <mat-icon class="mat-con-cancel" (click)="remove3(so)" *ngIf="removable2">cancel</mat-icon>
+
+                    </ion-chip>
+                    <!--span *ngIf="socialsAdded?.length == 0" >Ajouter un média</span-->
+                    <button [disabled]="rs_url2 == ''|| media2 == ''" (click)="addSocialProfile2()"
+                      class=" mat-add-circle" mat-button>
+                      <span class="material-icons">
+                        add_circle
+                      </span>
+                    </button>
+                  </span>
+                </span>
+
+                <mat-form-field class="example-full-width">
+                  <mat-label>PSEUDO AMICAL</mat-label>
+                  <input matInput disabled name="nom2" [(ngModel)]="profile2.pseudoIntime" placeholder="NOM">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <mat-label>MÉTIER</mat-label>
+                  <input matInput name="metier2" [(ngModel)]="profile1.metier" placeholder="MÉTIER">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                  <mat-label>LOCALISATION</mat-label>
+                  <input matInput name="localisation2" [(ngModel)]="profile1.localisation" placeholder="LOCALISATION">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                  <mat-label>BIO</mat-label>
+                  <input matInput name="bio" [(ngModel)]="profile1.bio" placeholder="BIO">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                  <mat-label>SITE WEB</mat-label>
+                  <input matInput name="siteweb2" [(ngModel)]="profile1.siteweb" placeholder="SITE WEB">
+                </mat-form-field>
+                <mat-form-field class="example-chip-list">
+                  <mat-chip-list #chipList aria-label="Fruit selection">
+                    <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
+                      (removed)="remove(tag)">
+                      {{tag}}
+                      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                    <input placeholder="HOBBIES" [matChipInputFor]="chipList"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                      (matChipInputTokenEnd)="add($event)">
+                  </mat-chip-list>
+                </mat-form-field>
+
+                <!--span *ngIf="socialsAdded?.length == 0" >Ajouter un média</span-->
+                <button [disabled]="tags.length == 0" (click)="add($event)" class=" mat-add-circle" mat-button>
+                  <span class="material-icons">
+                    add_circle
+                  </span>
+                </button>
+              </form>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </mat-tab>
+      <mat-tab (click)="switchTab1()" [label]="'@' + user?.pseudoPro">
         <ion-grid>
           <ion-row>
             <ion-col>
@@ -112,92 +201,7 @@
           </ion-row>
         </ion-grid>
       </mat-tab>
-      <mat-tab (click)="switchTab2()" class="mat-tab-2" style=" margin-left: 128px;" [label]="user?.pseudoIntime">
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <form class="example-form">
-                <span>
-                  <mat-form-field class="rs-input-left">
-                    <mat-label>MES APPLIS</mat-label>
-                    <mat-select [(ngModel)]="media2" name="media2">
-                      <mat-option *ngFor="let s of socials" [value]="s">
-                        <ion-icon class="rs-btn" [name]="s.icon"></ion-icon>
-                        {{s.nom}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-
-                  <mat-form-field class="rs-input-right">
-                    <mat-label>URL</mat-label>
-                    <input matInput [(ngModel)]="rs_url2" name="rs_url2" placeholder="URL">
-                  </mat-form-field>
-                  <span style="margin-bottom: 12px;">
-                    <ion-chip *ngFor="let so of socialsAdde2">
-                      <ion-label color="primary">
-                        <ion-icon class="rs-btn" [name]="so?.icon"></ion-icon>
-                        {{so?.nom}}
-                      </ion-label>
-                      <mat-icon class="mat-con-cancel" (click)="remove3(so)" *ngIf="removable2">cancel</mat-icon>
-
-                    </ion-chip>
-                    <!--span *ngIf="socialsAdded?.length == 0" >Ajouter un média</span-->
-                    <button [disabled]="rs_url2 == ''|| media2 == ''" (click)="addSocialProfile2()"
-                      class=" mat-add-circle" mat-button>
-                      <span class="material-icons">
-                        add_circle
-                      </span>
-                    </button>
-                  </span>
-                </span>
-
-                <mat-form-field class="example-full-width">
-                  <mat-label>PSEUDO AMICAL</mat-label>
-                  <input matInput disabled name="nom2" [(ngModel)]="profile2.pseudoIntime" placeholder="NOM">
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-                  <mat-label>MÉTIER</mat-label>
-                  <input matInput name="metier2" [(ngModel)]="profile1.metier" placeholder="MÉTIER">
-                </mat-form-field>
-
-                <mat-form-field class="example-full-width">
-                  <mat-label>LOCALISATION</mat-label>
-                  <input matInput name="localisation2" [(ngModel)]="profile1.localisation" placeholder="LOCALISATION">
-                </mat-form-field>
-
-                <mat-form-field class="example-full-width">
-                  <mat-label>BIO</mat-label>
-                  <input matInput name="bio" [(ngModel)]="profile1.bio" placeholder="BIO">
-                </mat-form-field>
-
-                <mat-form-field class="example-full-width">
-                  <mat-label>SITE WEB</mat-label>
-                  <input matInput name="siteweb2" [(ngModel)]="profile1.siteweb" placeholder="SITE WEB">
-                </mat-form-field>
-                <mat-form-field class="example-chip-list">
-                  <mat-chip-list #chipList aria-label="Fruit selection">
-                    <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
-                      (removed)="remove(tag)">
-                      {{tag}}
-                      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                    </mat-chip>
-                    <input placeholder="HOBBIES" [matChipInputFor]="chipList"
-                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-                      (matChipInputTokenEnd)="add($event)">
-                  </mat-chip-list>
-                </mat-form-field>
-
-                <!--span *ngIf="socialsAdded?.length == 0" >Ajouter un média</span-->
-                <button [disabled]="tags.length == 0" (click)="add($event)" class=" mat-add-circle" mat-button>
-                  <span class="material-icons">
-                    add_circle
-                  </span>
-                </button>
-              </form>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </mat-tab>
+    
     </mat-tab-group>
   </div>
 

@@ -17,8 +17,10 @@
   <div class="banner">
     <div class="toggle" (click)="switchProfile()" (touchstart)="swipe($event, 'start')"
       (touchend)="swipe($event, 'end')">
-      <!--img class="img-banner" [src]="user?.photo" alt=""-->
-      <div class="round-img"    [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+      <div *ngIf="user?.photo != ''">
+      <img class="round-img-profile" [src]="user?.photo" alt="">
+      </div>
+      <div class="round-img"  *ngIf="user?.photo == ''"  [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
         {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}} 
       </div>
       <span (click)="switchProfile()" *ngIf="isProProfile" class="material-icons toggle_o">
@@ -137,6 +139,17 @@
                 </ion-chip>
               </span>
             </ion-col>
+
+            <ion-col size="12" *ngIf="!isProProfile">
+              <h2>
+                Hobbies
+              </h2>
+              <span>
+                <ion-chip *ngFor="let h of user?.hobbies">
+                  <ion-label color="primary">{{h}}</ion-label>
+                </ion-chip>
+              </span>
+            </ion-col>
               <ion-col size="12">
                 <h2>
                 Mes Favoris
@@ -154,9 +167,9 @@
                   <mat-card-header>
   
                   </mat-card-header>
-                  <mat-card-content [style.background-color]="lt?.backgroundColor"
-                  [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white' }">
-                    <p class="mat-p">
+                  <mat-card-content 
+                  [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor }">
+                    <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
   
                       {{lt?.content}}
                     </p>
@@ -164,20 +177,20 @@
                   <mat-card-actions>
                     <ion-grid>
                       <ion-row>
-                        <ion-col>
+                        <ion-col size="4">
                           <div>
                             <div class="round-img-post">
-                              {{lt?.prenom | slice:0:1| uppercase}} {{lt?.nom | slice:0:1 | uppercase}} 
+                              {{lt?.userPseudo | slice:0:1| uppercase}}  
                             </div>
                           </div>
                         </ion-col>
-                        <ion-col>
+                        <ion-col class="pseudo-txt">
                           <strong>
                             {{lt?.userPseudo}}
                           </strong>
                           <small>
                             {{lt?.circle || '' }}
-                          </small>
+                          </small><br>
                           <span class="time" *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(p?.createdAt) == 'il y a un jour') ">
                             {{time(lt?.createdAt) }}
                           </span>
@@ -203,16 +216,6 @@
                   </div>
               </ion-col>
   
-            <ion-col size="12" *ngIf="!isProProfile">
-              <h2>
-                Hobbies
-              </h2>
-              <span>
-                <ion-chip *ngFor="let h of user?.hobbies">
-                  <ion-label color="primary">{{h}}</ion-label>
-                </ion-chip>
-              </span>
-            </ion-col>
           </ion-row>
         </ion-grid>
 
@@ -299,33 +302,33 @@
                 <mat-card-header>
 
                 </mat-card-header>
-                <mat-card-content [style.background-color]="lt?.backgroundColor"
-                [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white' }">
-                  <p class="mat-p">
-
+                <mat-card-content 
+                [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor }">
+                  <p  [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
                     {{lt?.content}}
                   </p>
                 </mat-card-content>
                 <mat-card-actions>
                   <ion-grid>
                     <ion-row>
-                      <ion-col>
+                      <ion-col size="4">
                         <div>
-                          <!--img class="img-teepz" [src]="lt?.userPhoto_url"
-                            alt="Photo of a Shiba Inu"-->
-                            <div class="round-img-post">
+                          <img *ngIf="lt?.userPhoto_url != ''" class="img-teepz" [src]="lt?.userPhoto_url"
+                            alt="Photo of a Shiba Inu">
+
+                            <div *ngIf="lt?.userPhoto_url == ''" class="round-img-post">
                               {{lt?.userPseudo | slice:0:1| uppercase}} {{lt?.nom | slice:0:1 | uppercase}} 
                             </div>
                         </div>
                       </ion-col>
-                      <ion-col>
+                      <ion-col class="pseudo-txt" >
                         <strong>
                           {{lt?.userPseudo}}
-                        </strong>
+                        </strong><br>
                         <small>
                           {{lt?.circle || '' }}
                         </small>
-                        <span class="time" *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(p?.createdAt) == 'il y a un jour') ">
+                        <span class="time" *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(p?.createdAt) != 'il y a un jour') ">
                           {{time(lt?.createdAt) }}
                         </span>
                         <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">

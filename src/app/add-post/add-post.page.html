@@ -4,7 +4,7 @@
       <ion-toolbar [style.background-color]="post?.backgroundColor">
         <ion-icon (click)="dismiss()" name="arrow-back-outline"></ion-icon>
         <div class="example-button-container">
-          <ion-button color="secondary" style="margin-top: 1px;" (click)="presentAlertConfirm()"
+          <ion-button color="secondary" style="margin-top: 1px;" (click)="confirmBeforePosting()"
             [disabled]="contentMsg.errors?.required" expand="block" shape="round">
             <span *ngIf="!loading">
               Publier
@@ -15,25 +15,40 @@
       </ion-toolbar>
     </ion-header>
     <div class="post-txt">
-   
-      <div class="round-img-post">
-        {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}} 
+
+        <div *ngIf="userPhoto?.length > 0">
+            <img *ngFor="let img of userPhoto" class="img" [src]="img" alt="">
+        </div>
+  
+      <div *ngIf="userPhoto?.length == 0" class="round-img-post" [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">
+        {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}}
       </div>
     </div>
     <ion-grid>
       <ion-row>
-          <ion-col size="12" >
-              <img class="img-to-post" [src]="dispImags[0]" alt="">
-            </ion-col>
+        <ion-col size="12">
+          <img *ngIf="dispImags?.length == 0" class="img-to-post" [src]="dispImags[0]" alt="">
+        </ion-col>
         <ion-col>
           <form class="example-form">
             <mat-form-field class="example-full-width">
               <mat-label [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">Tapez ce que vous
                 voulez</mat-label>
               <textarea [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }" matInput
-                [(ngModel)]="post.content" name="contentMsg" required #contentMsg="ngModel" rows="15" cols="60"
-                placeholder="Ex. Je recherche un graphiste..."></textarea>
+                [(ngModel)]="post.content" name="contentMsg" required #contentMsg="ngModel" maxlength="130" rows="15"
+                cols="60" placeholder="Ex. Je recherche un graphiste..."></textarea>
             </mat-form-field>
+            <span>
+
+
+              <div class="limit-chars" *ngIf="post?.content.length == 130">
+                limite maximale de caractère à 130
+              </div>
+              <div class="limitCounter">
+                {{post?.content.length}} / 130
+              </div>
+
+            </span>
           </form>
         </ion-col>
         <ion-col size="12">
@@ -46,8 +61,7 @@
             </span>
           </span>
           <div class="example-button-container color-btns">
-            <button (click)="setBackgroundColor('#fff')" class="btn-icon white-btn" mat-mini-fab
-              aria-label="Example icon button 
+            <button (click)="setBackgroundColor('#fff')" class="btn-icon white-btn" mat-mini-fab aria-label="Example icon button 
               with a home icon">
 
             </button>
@@ -71,6 +85,35 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+
+
+    <input class="modal-state" (click)="dismissConfirmModal()" id="modal-2" type="checkbox" />
+    <div *ngIf="showModal" class="modal">
+      <label class="modal__bg" for="modal-2"></label>
+      <div class="modal__inner">
+        <label (click)="dismissConfirmModal()" class="modal__close" for="modal-2"></label>
+        <h2 class="alert-header" style="font-size: 20px;font-weight: 200;">Quel pseudo voulez-vous utiliser?</h2>
+        <mat-grid-list cols="2" rowHeight="2:1">
+          <mat-grid-tile>
+              <div class="example-button-row">
+                  <button (click)="addPost(user?.pseudoIntime)" mat-button color="warn">@{{user?.pseudoIntime}} </button>
+                </div>
+          </mat-grid-tile>
+          <mat-grid-tile>
+              <div class="example-button-row">
+                  <button (click)="addPost(user?.pseudoPro)" mat-button color="warn">@{{user?.pseudoPro}}</button>
+                </div>
+          </mat-grid-tile>
+     
+        </mat-grid-list>
+
+
+
+
+
+      </div>
+    </div>
+
 
   </div>
 

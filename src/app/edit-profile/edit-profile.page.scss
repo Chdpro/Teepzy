@@ -14,6 +14,19 @@ ion-title{
   padding-top: 1px;
 }
 
+.round-img-profile{
+  height: 114px;
+  width: 114px;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%; 
+  border: solid 1px #ffffff;
+  text-align: center;
+  font-size: 18px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .round-img{
   height: 125px;
@@ -38,6 +51,7 @@ ion-title{
     -o-filter: blur(5px);
     -ms-filter: blur(5px);
     filter: blur(5px);
+    border: solid 2px forestgreen;
 }
 .text-banner{
     text-align: center;
@@ -71,7 +85,6 @@ ion-title{
     margin-right: auto;
   /*  box-shadow: 1px 1px 7px 2px;*/
     position: relative;
-    margin-top: 18px;
 }
 
 .save-btn{

@@ -44,4 +44,12 @@ export class DatapasseService {
   getUserPhoto(): Observable<any> {  
     return this.subject.asObservable();  
   }
+
+  send(data) {  
+    this.subject.next(data);  
+  }  
+
+  get(): Observable<any> {  
+    return this.subject.asObservable();  
+  }
 }
