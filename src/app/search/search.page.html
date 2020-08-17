@@ -54,15 +54,27 @@
                   <small>
                     {{lt?.circle || '' }}
                   </small><br>
-                  <span class="time"
-                    *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(p?.createdAt) == 'il y a un jour') ">
-                    {{time(lt?.createdAt) }}
+                  <span *ngIf="time(lt?.createdAt) != 'il y a un mois'">
+                    <span *ngIf="time(lt?.createdAt) != 'il y a un jour'">
+                    <span *ngIf="time(lt?.createdAt) != 'il y a une minute'">
+                      <span class="time"
+                      *ngIf="time(lt?.createdAt) != 'il y a une heure'">
+                      {{time(lt?.createdAt) }}
+                    </span>
+                    </span>
+                    </span>
+                  </span>
+                  <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une minute'">
+                    il y a 1 minute
                   </span>
                   <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">
                     il y a 1 heure
                   </span>
                   <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un jour'">
                     il y a 1 jour
+                  </span>
+                  <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un mois'">
+                    il y a 1 mois
                   </span>
 
                 </ion-col>

@@ -166,7 +166,7 @@ export class AddProjectPage implements OnInit {
         mimeType: "image/jpeg",
         headers: {},
       }
-      var serverUrl = base_url + '/upload-avatar'
+      var serverUrl = base_url + 'upload-avatar'
       this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
       fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
         this.project.photo = base_url + options.fileName
@@ -189,12 +189,10 @@ export class AddProjectPage implements OnInit {
   addProject(){
     this.loading = true
     this.tags.length > 0 ? this.project.tags = this.tags : null
+    this.photos.length > 0 ? this.uploadImage() : null
     this.contactService.addProject(this.project).subscribe(res =>{
       console.log(res);
       this.loading = false
-      if (this.photos.length != 0) {
-        this.uploadImage()
-      }
       this.presentToast('Nouveau projet ajouté')
       let userId = localStorage.getItem('teepzyUserId')
       this.getProjects(userId)

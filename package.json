@@ -27,7 +27,7 @@
     "@ionic-native/contacts": "^5.26.0",
     "@ionic-native/core": "^5.0.7",
     "@ionic-native/file": "^5.27.0",
-    "@ionic-native/file-path": "^5.27.0",
+    "@ionic-native/file-path": "^5.28.0",
     "@ionic-native/file-transfer": "^5.27.0",
     "@ionic-native/image-picker": "^5.27.0",
     "@ionic-native/onesignal": "^5.27.0",
@@ -42,6 +42,7 @@
     "cordova-plugin-contacts": "^3.0.1",
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-file-transfer": "^1.7.1",
+    "cordova-plugin-filepath": "^1.5.8",
     "cordova-plugin-telerik-imagepicker": "^2.3.3",
     "cordova-plugin-x-socialsharing": "^5.6.8",
     "cordova-sms-plugin": "^1.0.0",
@@ -113,7 +114,8 @@
       },
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-file": {},
-      "onesignal-cordova-plugin": {}
+      "onesignal-cordova-plugin": {},
+      "cordova-plugin-filepath": {}
     },
     "platforms": [
       "android"

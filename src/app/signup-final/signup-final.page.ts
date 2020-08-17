@@ -80,14 +80,11 @@ export class SignupFinalPage implements OnInit {
     if ((this.user.pseudoIntime == '' && this.user.pseudoPro != '') || (this.user.pseudoIntime != '' && this.user.pseudoPro == '')) {
       this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
       this.user.pseudoPro = this.user.pseudoPro.toLowerCase() 
+      this.photos.length > 0 ? this.uploadImage() : null
       this.authService.update(this.user).subscribe(res => {
         console.log(res)
         if (res['status'] == 200) {
           this.retourUsr = true
-          if (this.photos.length != 0) {
-            this.uploadImage()
-  
-          }
           this.presentToast('Vous êtes bien connectés')
           localStorage.setItem('FinalStepCompleted', 'FinalStepCompleted')
           this.router.navigateByUrl('/contacts', {
@@ -106,10 +103,6 @@ export class SignupFinalPage implements OnInit {
         console.log(res)
         if (res['status'] == 200) {
           this.retourUsr = true
-          if (this.photos.length != 0) {
-            this.uploadImage()
-  
-          }
           this.presentToast('Vous êtes bien connectés')
           this.router.navigateByUrl('/contacts', {
             replaceUrl: true

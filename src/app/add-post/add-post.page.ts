@@ -21,14 +21,14 @@ export class AddPostPage implements OnInit {
     image_url: '',
     userPhoto_url: '',
     backgroundColor: '#fff',
-    userPseudo:''
+    userPseudo: ''
   }
 
- 
 
-  loading =  false
-  showModal =  false
-  user:any
+
+  loading = false
+  showModal = false
+  user: any
   listPosts = []
 
   photos: any = [];
@@ -36,47 +36,47 @@ export class AddPostPage implements OnInit {
   dispImags = []
   userPhoto = []
 
-  constructor(public modalController: ModalController, 
-    private toastController : ToastController,
+  constructor(public modalController: ModalController,
+    private toastController: ToastController,
     private authService: AuthService,
     private contactService: ContactService,
-    private dataPass: DatapasseService, 
+    private dataPass: DatapasseService,
     public alertController: AlertController,
     private camera: Camera,
     private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
-    ) { }
+  ) { }
 
   ngOnInit() {
 
 
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.post.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.post.userId)
   }
 
-  
+
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
       console.log(res)
       this.user = res['data'];
-      this.user['photo']? this.userPhoto[0] = this.user['photo'] : null
-    }, error =>{
+      this.user['photo'] ? this.userPhoto[0] = this.user['photo'] : null
+    }, error => {
       console.log(error)
     })
   }
 
-  dismissConfirmModal(){
+  dismissConfirmModal() {
     if (this.showModal) {
       this.showModal = false
     } else {
       this.showModal = true
     }
-  
+
   }
 
   async selectImage() {
@@ -118,17 +118,16 @@ export class AddPostPage implements OnInit {
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-
       this.userPhoto[0] == this.dispImags[0]
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
         this.photos.push(nativepath)
-        //  alert(this.photos)
-
-  
+      }, error => {
       })
 
     }, (err) => {
       // Handle error
+      alert(err)
+
     });
   }
 
@@ -145,11 +144,13 @@ export class AddPostPage implements OnInit {
         mimeType: "image/jpeg",
         headers: {},
       }
-      var serverUrl = base_url + '/upload-avatar'
+      var serverUrl = base_url + 'upload-avatar'
       this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
       fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-        this.user.image_url = base_url + options.fileName
+        this.user.image_url = base_url + options.fileName;
         this.presentToast('Photo Mise à jour')
+      }, error => {
+        console.log(JSON.stringify(error))
       })
     }
 
@@ -158,39 +159,38 @@ export class AddPostPage implements OnInit {
 
 
 
- confirmBeforePosting(){
-   this.showModal =  true
- }
+  confirmBeforePosting() {
+    this.showModal = true
+    console.log(this.showModal)
+  }
 
   getPosts(userId) {
     this.contactService.getPosts(userId).subscribe(res => {
       console.log(res)
       this.listPosts = res['data']
-      this.dataPass.sendPosts(this.listPosts);  
-    }, error =>{
+      this.dataPass.sendPosts(this.listPosts);
+    }, error => {
       console.log(error)
     })
   }
 
-  addPost(p){
-    this.loading =  true
+  addPost(p) {
+    this.loading = true
     this.post.userPhoto_url = this.user.photo
     this.post.userPseudo = p
     console.log(this.post);
-    this.contactService.addPost(this.post).subscribe(res =>{
+    this.photos.length > 0 ? this.uploadImage() : null
+    this.contactService.addPost(this.post).subscribe(res => {
       console.log(res);
-      this.loading =  false
+      this.loading = false
       if (res['status'] == 200) {
         this.getPosts(this.post.userId)
-        if (this.photos.length != 0) {
-          this.uploadImage()
-        }
         this.presentToast('Demande publiée')
         this.dismiss()
       }
-    }, error =>{
+    }, error => {
       console.log(error)
-      this.loading =  false
+      this.loading = false
       this.presentToast('Oops! une erreur est survenue')
 
     })
