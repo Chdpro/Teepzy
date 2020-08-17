@@ -111,3 +111,9 @@ ion-modal{
   @media screen and (max-width: 600px) {
   
   }
+
+  .carousel-control-next-icon, .carousel-control-prev-icon{
+    background-color: #ea4d4f;
+    border-radius: 81px;
+    padding: 11px;
+  }

@@ -119,9 +119,11 @@ export class AddPostPage implements OnInit {
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
 
+      this.userPhoto[0] == this.dispImags[0]
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
         this.photos.push(nativepath)
         //  alert(this.photos)
+
   
       })
 

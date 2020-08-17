@@ -86,10 +86,10 @@
         </form>
 
         <ion-button *ngIf="usersSelected.length > 0" (click)="updateProfile()" expand="full">
-            <span *ngIf="!loading">ENVOYER</span>
+            <span *ngIf="loading == false ">ENVOYER</span>
             <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
           </ion-button>
-    <ion-button *ngIf="usersSelected.length == 0" (click)="dismiss()" class="cancel-btn" expand="block" size="large"
-      color="medium">Annuler</ion-button>
+    <!--ion-button *ngIf="usersSelected.length == 0" (click)="dismiss()" class="cancel-btn" expand="block" size="large"
+      color="medium">Annuler</ion-button-->
   </ion-toolbar>
 </ion-footer>
