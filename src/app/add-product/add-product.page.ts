@@ -108,7 +108,6 @@ export class AddProductPage implements OnInit {
     addProduct(){
       this.loading = true
       this.tags.length > 0 ? this.product.tags = this.tags : null;
-      this.photos.length > 0 ? this.uploadImage() : null
       this.contactService.addProduct(this.product).subscribe(res =>{
         console.log(res);
         this.loading = false
@@ -178,23 +177,32 @@ export class AddProductPage implements OnInit {
   
     uploadImage() {
       var ref = this;
-      for (let index = 0; index < ref.photos.length; index++) {
-        // interval++
-        const fileTransfer = ref.transfer.create()
-        let options: FileUploadOptions = {
-          fileKey: "avatar",
-          fileName: (Math.random() * 100000000000000000) + '.jpg',
-          chunkedMode: false,
-          mimeType: "image/jpeg",
-          headers: {},
+      this.loading = true
+      if (ref.photos.length > 0) {
+        for (let index = 0; index < ref.photos.length; index++) {
+          // interval++
+          const fileTransfer = ref.transfer.create()
+          let options: FileUploadOptions = {
+            fileKey: "avatar",
+            fileName: (Math.random() * 100000000000000000) + '.jpg',
+            chunkedMode: false,
+            mimeType: "image/jpeg",
+            headers: {},
+          }
+          var serverUrl = base_url + 'upload-avatar'
+          this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
+          fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
+            this.loading = false
+            this.product.photo = base_url + options.fileName
+            this.addProduct()
+          })
         }
-        var serverUrl = base_url + 'upload-avatar'
-        this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
-        fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-          this.product.photo = base_url + options.fileName
-          this.presentToast('Photo Mise à jour')
-        })
+      }else{
+        this.addProduct()
+        this.loading = false
+
       }
+     
   
     }
   

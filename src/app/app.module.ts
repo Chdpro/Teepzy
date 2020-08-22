@@ -39,16 +39,22 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { local_url, base_url } from 'src/config';
 import { Globals } from './globals';
-const config: SocketIoConfig = { url: base_url, options: {} };
+import { CircleMembersPageModule } from './circle-members/circle-members.module';
+const config: SocketIoConfig = { url: local_url, options: {} };
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, BrowserAnimationsModule,
+  imports: [
+    BrowserModule, 
+    IonicModule.forRoot(), 
+    AppRoutingModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AddPostPageModule,
     AddProductPageModule,
     AddProjectPageModule,
+    CircleMembersPageModule,
     CommentsPageModule,
     LinkSheetPageModule,
     BottomSheetOverviewExampleSheetPageModule,

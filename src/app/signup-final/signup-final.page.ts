@@ -80,7 +80,6 @@ export class SignupFinalPage implements OnInit {
     if ((this.user.pseudoIntime == '' && this.user.pseudoPro != '') || (this.user.pseudoIntime != '' && this.user.pseudoPro == '')) {
       this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
       this.user.pseudoPro = this.user.pseudoPro.toLowerCase() 
-      this.photos.length > 0 ? this.uploadImage() : null
       this.authService.update(this.user).subscribe(res => {
         console.log(res)
         if (res['status'] == 200) {
@@ -224,24 +223,32 @@ export class SignupFinalPage implements OnInit {
 
   uploadImage() {
     var ref = this;
-    for (let index = 0; index < ref.photos.length; index++) {
-      // interval++
-      const fileTransfer = ref.transfer.create()
-      let options: FileUploadOptions = {
-        fileKey: "avatar",
-        fileName: (Math.random() * 100000000000000000) + '.jpg',
-        chunkedMode: false,
-        mimeType: "image/jpeg",
-        headers: {},
+    this.loading = true
+    if (ref.photos.length > 0) {
+      for (let index = 0; index < ref.photos.length; index++) {
+        // interval++
+        const fileTransfer = ref.transfer.create()
+        let options: FileUploadOptions = {
+          fileKey: "avatar",
+          fileName: (Math.random() * 100000000000000000) + '.jpg',
+          chunkedMode: false,
+          mimeType: "image/jpeg",
+          headers: {},
+        }
+  
+        var serverUrl = base_url + 'upload-avatar'
+        this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
+        fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
+          this.user.photo = base_url + options.fileName;
+          this.loading = false;
+          this.updateUser()
+        })
       }
-
-      var serverUrl = base_url + 'upload-avatar'
-      this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
-      fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-        this.user.photo = base_url + options.fileName;
-        this.presentToast('Photo Mise à jour');
-      })
+    } else{
+      this.loading = false;
+      this.updateUser()
     }
+  
   }
 
 

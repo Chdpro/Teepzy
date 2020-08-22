@@ -174,8 +174,9 @@
                   <mat-card-header>
   
                   </mat-card-header>
-                  <mat-card-content 
-                  [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor }">
+                <mat-card-content 
+                  [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white',
+                   'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': 'cover' }">
                     <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
   
                       {{lt?.content}}
@@ -323,7 +324,7 @@
 
                 </mat-card-header>
                 <mat-card-content 
-                [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor }">
+                [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': 'cover' }">
                   <p  [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
                     {{lt?.content}}
                   </p>
@@ -334,7 +335,7 @@
                       <ion-col size="4">
                         <div>
                           <img *ngIf="lt?.userPhoto_url != ''" class="img-teepz" [src]="lt?.userPhoto_url"
-                            alt="Photo of a Shiba Inu">
+                            alt="">
 
                             <div *ngIf="lt?.userPhoto_url == ''" class="round-img-post">
                               {{lt?.userPseudo | slice:0:1| uppercase}} {{lt?.nom | slice:0:1 | uppercase}} 

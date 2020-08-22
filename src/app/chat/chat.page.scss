@@ -1,0 +1,61 @@
+
+    .user_name {
+        color: #fff;
+    }
+    .message {
+        padding: 10px !important;
+        transition: all 250ms ease-in-out !important;
+        border-radius: 10px !important;
+        margin-bottom: 4px !important;
+        margin-left: -13px;
+    }
+    .my_message {
+        background: #E86A70  !important;
+        color: #000 !important;
+    }
+    .other_message {
+        background: #C4C1C1 !important;
+        color: #000 !important;
+    margin-left: 9px;
+    }
+    .time {
+        color: #000000;
+        float: right;
+        font-size: small;
+    }
+    .message_row {
+        background-color: #fff;
+    }
+
+    .send-btn{
+        border-radius: 87px;
+    padding: 15px;
+    float: right;
+    }
+
+    img{
+        width: 49px;
+        height: 49px;
+        border: solid 2px #ea4e50;
+        margin-right: 15px;
+        margin-bottom: 18px;
+        border-radius: 100%;
+        -webkit-border-radius: 100%;
+        -moz-border-radius: 100%;
+    }
+    
+    .round-img-post{
+        height: 47px;
+        width: 47px;
+        border-radius: 100%;
+        -webkit-border-radius: 100%;
+        -moz-border-radius: 100%;
+        border: solid 1px #ea4d4f;
+        padding-top: 14px;
+        text-align: center;
+        font-size: 13px;
+        display: block;
+        margin-right: 12px;
+        color: #000000;
+    }
+    

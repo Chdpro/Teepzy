@@ -216,8 +216,9 @@ export class Tab1Page implements OnInit {
     } else {
       this.shareLink = true
     }
-  
   }
+
+
   showShareSheet(post) {
     if (post) {
       this.repost = {
@@ -265,6 +266,7 @@ export class Tab1Page implements OnInit {
       console.log(error)
     })
   }
+
 
   goToContacts() {
     this.router.navigate(['/contacts', { previousUrl: 'feeds' }])
@@ -457,7 +459,6 @@ export class Tab1Page implements OnInit {
   getPosts(userId) {
     this.timeCall = 1
     this.contactService.getPosts(userId).subscribe(res => {
-      console.log(res)
       this.listPosts = []
       if (res['data'] != null) {
         this.posts = res['data']
@@ -523,7 +524,6 @@ export class Tab1Page implements OnInit {
         )
       }
 
-      console.log(this.listPosts)
     })
   }
 

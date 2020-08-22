@@ -1,0 +1,69 @@
+<ion-header  class="ion-no-border">
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+    <ion-title> <strong style="font-size: 18px;"> {{pseudo}} </strong> </ion-title> 
+    <small style="    margin-left: 23px;">En ligne il y a 20 min</small>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row *ngFor="let message of messages;trackBy: trackByFn">
+      
+            <ion-col  *ngIf="message?.userId !== userId" size="2">
+              <div *ngIf="photo == null" class="round-img-post">
+                {{pseudo | slice:0:1| uppercase}} 
+              </div>
+              <img *ngIf="photo !== null " [src]="photo" alt="">
+             
+            </ion-col>
+          
+            <ion-col size="9" *ngIf="message?.userId !== userId" class="message" [ngClass]="{'my_message': message?.userId == userId, 'other_message': message?.userId !== userId}">
+              <span class="user_name">{{ message?.pseudo }}:</span><br>
+              <span>{{ message?.text }}</span>
+              <div class="time">{{message?.createdAt | date:'dd.MM hh:MM'}}</div>
+            </ion-col>
+            <ion-col *ngIf="message?.userId !== userId" size="1">
+
+            </ion-col>
+       
+
+            <ion-col *ngIf="message?.userId == userId" size="1">
+
+            </ion-col>
+            <ion-col size="9" *ngIf="message?.userId == userId" class="message" [ngClass]="{'my_message': message?.userId === userId, 'other_message': message?.userId !== userId}">
+              <span class="user_name">{{ message?.pseudo }}:</span><br>
+              <span>{{ message?.text }}</span>
+              <div class="time">{{message?.createdAt | date:'dd.MM hh:MM'}}</div>
+            </ion-col>
+          
+            <ion-col *ngIf="message?.userId == userId" size="2">
+              <div *ngIf="!user?.photo" class="round-img-post">
+                {{user?.pseudoPro | slice:0:1| uppercase}} 
+              </div>
+              <img *ngIf="user?.photo" [src]="user?.photo" alt="">
+             
+            </ion-col>
+       
+          </ion-row>
+      </ion-grid>
+
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+      <ion-row class="message_row">
+        <ion-col size="9">
+          <ion-item no-lines>
+            <ion-input type="text" placeholder="Message" [(ngModel)]="message.text"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="3">
+          <button ion-button clear color="primary" class="send-btn" (click)="sendMessage()" [disabled]="message === ''">
+              <ion-icon name="send"></ion-icon>
+        </button>
+        </ion-col>
+      </ion-row>
+    </ion-toolbar>
+  </ion-footer>

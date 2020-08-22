@@ -80,7 +80,7 @@
     <ion-button expand="block" class="save-btn" [disabled]="nom.errors?.required 
           || logiciel.errors?.required
           || description.errors?.required
-          || tags?.length == 0 " (click)="addProduct()" mat-button>
+          || tags?.length == 0 " (click)="uploadImage()" mat-button>
       <span *ngIf="!loading">
         ENREGISTRER
       </span>

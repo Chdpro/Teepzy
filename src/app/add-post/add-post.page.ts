@@ -132,26 +132,37 @@ export class AddPostPage implements OnInit {
   }
 
 
-  uploadImage() {
+  uploadImage(p) {
     var ref = this;
-    for (let index = 0; index < ref.photos.length; index++) {
-      // interval++
-      const fileTransfer = ref.transfer.create()
-      let options: FileUploadOptions = {
-        fileKey: "avatar",
-        fileName: (Math.random() * 100000000000000000) + '.jpg',
-        chunkedMode: false,
-        mimeType: "image/jpeg",
-        headers: {},
+    this.loading = true
+    if (ref.photos.length > 0) {
+      for (let index = 0; index < ref.photos.length; index++) {
+        // interval++
+        const fileTransfer = ref.transfer.create()
+        let options: FileUploadOptions = {
+          fileKey: "avatar",
+          fileName: (Math.random() * 100000000000000000) + '.jpg',
+          chunkedMode: false,
+          mimeType: "image/jpeg",
+          headers: {},
+        }
+        var serverUrl = base_url + 'upload-avatar'
+        this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
+        fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
+          this.post.image_url = base_url + options.fileName;
+          this.addPost(p)
+          this.loading = false
+
+        }, error => {
+          this.loading = false
+
+        })
       }
-      var serverUrl = base_url + 'upload-avatar'
-      this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
-      fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-        this.user.image_url = base_url + options.fileName;
-        this.presentToast('Photo Mise à jour')
-      }, error => {
-        console.log(JSON.stringify(error))
-      })
+    }
+   else {
+      this.addPost(p)
+      this.loading = false
+
     }
 
   }
@@ -179,7 +190,7 @@ export class AddPostPage implements OnInit {
     this.post.userPhoto_url = this.user.photo
     this.post.userPseudo = p
     console.log(this.post);
-    this.photos.length > 0 ? this.uploadImage() : null
+    //this.photos.length > 0 ? this.uploadImage() : null
     this.contactService.addPost(this.post).subscribe(res => {
       console.log(res);
       this.loading = false

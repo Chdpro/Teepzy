@@ -78,6 +78,14 @@ const routes: Routes = [
     path: 'detail-feed',
     loadChildren: () => import('./detail-feed/detail-feed.module').then( m => m.DetailFeedPageModule)
   },
+  {
+    path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
+  },
+  {
+    path: 'circle-members',
+    loadChildren: () => import('./circle-members/circle-members.module').then( m => m.CircleMembersPageModule)
+  },
 
 ];
 @NgModule({

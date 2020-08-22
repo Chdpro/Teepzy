@@ -54,80 +54,79 @@
   </ion-refresher>
 
   <ion-slides pager="true" [options]="slideOpts">
-    <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
-      
-      [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white',
-       'background':  p?.image_url != '' ? 'url(' + p?.image_url + ')' : p?.backgroundColor }">
+    <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn " [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white',
+       'background':  p?.image_url != '' ? 'url(' + p?.image_url + ')' : p?.backgroundColor, 'background-position': 'center center', 'background-size': 'cover' }">
       <div class="post-txt">
 
-   
         <div class="header-slide" (click)="next()">
           <ion-grid>
             <ion-row class="infos">
               <ion-col size="12">
-                  <span *ngIf="p?.reposterId == userId" style="font-size: small;">
-                      Vous avez partagé le teepz de
-                    </span>
+                <span *ngIf="p?.reposterId == userId" style="font-size: small;">
+                  Vous avez partagé le teepz de
+                </span>
               </ion-col>
               <ion-col>
-                  <div *ngIf="p?.userPhoto_url != ''">
-                      <img  class="img" [src]="p?.userPhoto_url" alt="">
-                  </div>
-            
-                  <div *ngIf="p?.userPhoto_url == ''" class="round-img" [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
-                      {{p?.userPseudo | slice:0:1| uppercase}}
-                    </div>
+                <div *ngIf="p?.userPhoto_url != ''">
+                  <img class="img" [src]="p?.userPhoto_url" alt="">
+                </div>
+
+                <div *ngIf="p?.userPhoto_url == ''" class="round-img"
+                  [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                  {{p?.userPseudo | slice:0:1| uppercase}}
+                </div>
               </ion-col>
               <ion-col style="    text-align: left;">
-                  <strong>
-                      {{p?.userPseudo}}
-                    </strong><br>
-                    <small>
-                      {{p?.circle || '' }}
-                    </small>
-                    <span *ngIf="time(p?.createdAt) != 'il y a un mois'">
-                      <span *ngIf="time(p?.createdAt) != 'il y a un jour'">
-                      <span *ngIf="time(p?.createdAt) != 'il y a une minute'">
-                        <span class="time"
-                        *ngIf="time(p?.createdAt) != 'il y a une heure'">
+                <strong>
+                  {{p?.userPseudo}}
+                </strong><br>
+                <small>
+                  {{p?.circle || '' }}
+                </small>
+                <span *ngIf="time(p?.createdAt) != 'il y a un mois'">
+                  <span *ngIf="time(p?.createdAt) != 'il y a un jour'">
+                    <span *ngIf="time(p?.createdAt) != 'il y a une minute'">
+                      <span class="time" *ngIf="time(p?.createdAt) != 'il y a une heure'">
                         {{time(p?.createdAt) }}
                       </span>
-                      </span>
-                      </span>
                     </span>
-                    <span class="time" *ngIf="time(p?.createdAt) == 'il y a une minute'">
-                      il y a 1 minute
-                    </span>
-                    <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
-                      il y a 1 heure
-                    </span>
-                    <span class="time" *ngIf="time(p?.createdAt) == 'il y a un jour'">
-                      il y a 1 jour
-                    </span>
-                    <span class="time" *ngIf="time(p?.createdAt) == 'il y a un mois'">
-                      il y a 1 mois
-                    </span>
+                  </span>
+                </span>
+                <span class="time" *ngIf="time(p?.createdAt) == 'il y a une minute'">
+                  il y a 1 minute
+                </span>
+                <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
+                  il y a 1 heure
+                </span>
+                <span class="time" *ngIf="time(p?.createdAt) == 'il y a un jour'">
+                  il y a 1 jour
+                </span>
+                <span class="time" *ngIf="time(p?.createdAt) == 'il y a un mois'">
+                  il y a 1 mois
+                </span>
               </ion-col>
             </ion-row>
           </ion-grid>
 
-    
+
         </div><br>
-        <p class="content" [ngStyle]="{'font-size': p?.content.length > 60 ? '17px' : '23px' }" (click)="next()">
+        <p class="content" *ngIf="p?.image_url == ''" [ngStyle]="{'font-size': p?.content.length > 60 ? '17px' : '23px' }" (click)="next()">
           {{ p?.content }}
         </p>
 
 
         <div class="match-img">
-          <span style="margin-top: 6px;">MATCH</span>
-          <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
-            <img class="match-image"
-              [src]="m?.photo" alt="">
-          </span>
-          <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0">0</span>
-  
-          <span style="margin-top: 6px;" *ngIf="p?.matches?.length > 0">+ {{p.matches?.length - 3}} </span>
-
+          <div>
+            <span style="margin-top: 6px;">MATCH</span>
+            <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
+              <img class="match-image" [src]="m?.photo" alt="">
+            </span>
+            <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0">0</span>
+            <span style="margin-top: 6px;" *ngIf="p?.matches?.length > 0">+ {{p.matches?.length - 3}} </span> <br>
+          </div>
+          <div class="content-down" *ngIf="p?.image_url != ''"  [ngStyle]="{'font-size': p?.content.length > 20 ? '14px' : '17px' }" (click)="next()">
+            {{ p?.content }}
+          </div>
         </div>
 
         <ion-grid>
@@ -185,13 +184,13 @@
               <section>
                 <div class="example-button-row">
                   <div class="example-flex-container">
-                    <div class="example-button-container" >
-                        <button mat-fab color="primary" (click)="showShareSheet(p)" class="mat-button"
-                          aria-label="Example icon button with a delete icon">
-                          <span style="    margin-top: -4px;" class="material-icons">
-                            redo
-                          </span>
-                        </button>
+                    <div class="example-button-container">
+                      <button mat-fab color="primary" (click)="showShareSheet(p)" class="mat-button"
+                        aria-label="Example icon button with a delete icon">
+                        <span style="    margin-top: -4px;" class="material-icons">
+                          redo
+                        </span>
+                      </button>
                     </div>
 
                   </div>
@@ -295,9 +294,10 @@
     </div>
   </div>
 
-  <input type="radio"  name="modal" value="open" id="modal-open" class="modal-radio" />
-  <div class="modal" (click)="dismiss()" *ngIf="globals?.showBackground " [ngStyle]="{'opacity': globals?.showBackground == true ? '1' : '0' }">
-  
+  <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
+  <div class="modal" (click)="dismiss()" *ngIf="globals?.showBackground "
+    [ngStyle]="{'opacity': globals?.showBackground == true ? '1' : '0' }">
+
   </div>
 
 

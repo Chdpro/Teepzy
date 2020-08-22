@@ -25,13 +25,13 @@
         </h4>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="search.searchValue.length == 0">
+    <ion-row *ngIf="search?.searchValue.length == 0">
       <ion-col size="6" *ngFor="let lt of posts ;trackBy: trackByFn  ">
         <mat-card class="example-card">
           <mat-card-header>
           </mat-card-header>
           <mat-card-content class="feed-card-content" 
-          [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor }">
+          [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': 'cover'  }">
             <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
 
               {{lt?.content}}
@@ -42,7 +42,9 @@
               <ion-row>
                 <ion-col size="4">
                   <div>
-                    <div class="round-img-post2">
+                      <!--img *ngIf="lt?.userPhoto_url != ''" class="round-img-post" [src]="lt?.userPhoto_url"
+                      alt=""-->
+                    <div  class="round-img-post2">
                       {{lt?.userPseudo | slice:0:1| uppercase}}
                     </div>
                   </div>
@@ -178,7 +180,7 @@
 
                       </mat-card-header>
                       <mat-card-content 
-                      [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor }">
+                      [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': 'cover'  }">
                         <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
                           {{lt?.content}}
                         </p>

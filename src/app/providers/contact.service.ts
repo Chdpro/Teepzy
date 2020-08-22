@@ -179,6 +179,30 @@ export class ContactService {
     return this.http.post(base_url + url, favorite, httpOptionsJson);
   }
 
+  getCircleMembers(id): Observable<any> {
+    let url = 'users/circle/'+ id;
+    return this.http.get(base_url + url, httpOptionsJson);
+  }
+
+  initChatRoom(room): Observable<any> {
+    let url = 'chat/';
+    return this.http.post(base_url + url, room, httpOptionsJson);
+  }
+
+  mChatRooms(id): Observable<any> {
+    let url = 'chat/' + id;
+    return this.http.get(base_url + url, httpOptionsJson);
+  }
+
+  ChatRoomMessages(id): Observable<any> {
+    let url = 'chat/room/' + id;
+    return this.http.get(base_url + url, httpOptionsJson);
+  }
+
+  addMessage(message): Observable<any> {
+    let url = 'chat/addMessage';
+    return this.http.post(base_url + url, message, httpOptionsJson);
+  }
 
   removeFavorite(favorite): Observable<any> {
     let url = 'users/removeFavorite';
