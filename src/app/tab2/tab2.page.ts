@@ -4,6 +4,7 @@ import { ToastController, MenuController } from '@ionic/angular';
 import * as moment from 'moment';
 import { MatTabGroup, MatTab } from '@angular/material';
 import { Socket } from 'ngx-socket-io';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tab2',
@@ -32,7 +33,7 @@ export class Tab2Page implements OnInit {
   private swipeTime?: number;
 
   selectedTab = 0
-
+  subscription: Subscription
   constructor(
     private contactService: ContactService,
     private menuCtrl: MenuController,
@@ -52,6 +53,7 @@ export class Tab2Page implements OnInit {
 
   ionViewWillEnter(){
     this.userId = localStorage.getItem('teepzyUserId');
+    this.socket.emit('online', this.userId );
     this.listInvitations()
     this.listNotifications()
   }
@@ -221,6 +223,13 @@ export class Tab2Page implements OnInit {
   ionViewWillLeave() {
     this.socket.disconnect();
     console.log('disconnected')
+    this.subscription?  this.subscription.unsubscribe() :  null
+
+  }
+  ngOnDestroy() { 
+    this.subscription?  this.subscription.unsubscribe() :  null
+    //this.socket.removeAllListeners('message');
+    //this.socket.removeAllListeners('users-changed');
   }
 
 }

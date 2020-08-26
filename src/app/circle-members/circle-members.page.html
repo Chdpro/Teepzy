@@ -27,7 +27,7 @@
         <strong>
           {{m?.prenom}} {{m?.nom}}          
         </strong>
-        <ion-checkbox [(ngModel)]="checkItems[m._id]" (ngModelChange)="addUserToCreateChatRoom()" style="float: right;" color="primary"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="checkItems[m._id]" (ngModelChange)="addUserToCreateChatRoom(m._id)" style="float: right;" color="primary"></ion-checkbox>
 
       </ion-label>
     </ion-item>
@@ -44,7 +44,7 @@
         </ion-item>
       </ion-col>
       <ion-col  size="12">
-        <ion-button *ngIf="membersToChatWith.length == 1" (click)="createChatRoom()" expand="full">
+        <ion-button *ngIf="membersToChatWith.length >= 1" (click)="createChatRoom()" expand="full">
          <span *ngIf="loading == false">
             INITIER UNE DISCUSSION
          </span> 

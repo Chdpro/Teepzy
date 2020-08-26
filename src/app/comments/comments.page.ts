@@ -4,6 +4,7 @@ import { ContactService } from '../providers/contact.service';
 import { Socket } from 'ngx-socket-io';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Globals } from '../globals';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-comments',
@@ -34,6 +35,7 @@ export class CommentsPage implements OnInit {
   userId = ''
   showResponsePanel = false
   
+  subscription: Subscription
   constructor(private modalController: ModalController, 
     private contactService: ContactService,
     private toasterController: ToastController,
@@ -138,6 +140,14 @@ export class CommentsPage implements OnInit {
   ionViewWillLeave() {
     this.socket.disconnect();
     console.log('disconnected')
+    this.subscription?  this.subscription.unsubscribe() :  null
+
+  }
+
+  ngOnDestroy() { 
+    this.subscription?  this.subscription.unsubscribe() :  null
+    this.socket.removeAllListeners('message');
+    //this.socket.removeAllListeners('users-changed');
   }
   
   dismiss() {

@@ -6,6 +6,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
+import { ContactService } from './providers/contact.service';
+import { Socket } from 'ngx-socket-io';
 
 
 @Component({
@@ -15,6 +17,7 @@ import { fromEvent } from 'rxjs';
 })
 export class AppComponent {
   navigate: any;
+  userId =  ''
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -22,6 +25,8 @@ export class AppComponent {
     private router: Router,
     private navCtrl: NavController,
     public toastController: ToastController,
+    private contactService: ContactService,
+    private socket: Socket,
 
 
   ) {
@@ -49,12 +54,25 @@ export class AppComponent {
     firebase.initializeApp(firebaseConfig);
 
     let token = localStorage.getItem('teepzyToken')
+    let id = localStorage.getItem('teepzyUserId')
+    this.userId = id
     let fsc = localStorage.getItem('FinalStepCompleted')
 
     if (token && fsc) {
+      this.socket.emit('online', id );
+      //this.socket.emit('number-online', id );
+
+      let user = {
+        userId: id,
+        isOnline: true
+      }
+      this.contactService.getConnected(user).subscribe(res =>{
+        console.log(res)
+      })
        this.router.navigateByUrl('/tabs/tab1', {
          replaceUrl: true
        }
+
        )
       }else if(token && !fsc){
         this.router.navigateByUrl('/signup-final', {
@@ -118,4 +136,20 @@ export class AppComponent {
     })
 
   }
+  ngDoCheck(){
+
+  }
+
+  ngOnDestroy(){
+    console.log('user has quit')
+    let user = {
+      userId: this.userId,
+      isOnline: false
+    }
+    this.contactService.getConnected(user).subscribe(res =>{
+      console.log(res)
+    })
+    this.socket.emit('disconnect', this.userId );
+  }
+  
 }

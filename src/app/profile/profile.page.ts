@@ -10,6 +10,7 @@ import { IonSlides } from '@ionic/angular';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { ContactService } from '../providers/contact.service';
 import * as moment from 'moment';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-profile',
@@ -80,6 +81,7 @@ export class ProfilePage implements OnInit {
   constructor(private router: Router, private modalController: ModalController,
     private dataPass: DatapasseService,
     private contactService: ContactService,
+    private socket: Socket,
     private authService: AuthService) {
 
 
@@ -103,6 +105,7 @@ export class ProfilePage implements OnInit {
 
   ionViewWillEnter(){
     let userId = localStorage.getItem('teepzyUserId')
+    this.socket.emit('online', userId );
     this.getUserInfo(userId)
     this.getMyPosts(userId)
     this.getMyFavoritePosts(userId)

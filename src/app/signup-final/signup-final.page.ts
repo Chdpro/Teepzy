@@ -6,6 +6,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { base_url } from 'src/config';
+import { ContactService } from '../providers/contact.service';
 
 @Component({
   selector: 'app-signup-final',
@@ -49,6 +50,7 @@ export class SignupFinalPage implements OnInit {
     private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
+    private contactService: ContactService,
   ) { 
 
     
@@ -62,6 +64,7 @@ export class SignupFinalPage implements OnInit {
     this.getUserInfo(this.user.userId)
     this.menuCtrl.enable(false);
     this.menuCtrl.swipeGesture(false);
+
 
   }
 
@@ -86,6 +89,13 @@ export class SignupFinalPage implements OnInit {
           this.retourUsr = true
           this.presentToast('Vous êtes bien connectés')
           localStorage.setItem('FinalStepCompleted', 'FinalStepCompleted')
+          let user = {
+            userId: this.user.userId ,
+            isOnline: true
+          }
+          this.contactService.getConnected(user).subscribe(res => {
+            console.log(res)
+          })
           this.router.navigateByUrl('/contacts', {
             replaceUrl: true
           })

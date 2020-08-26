@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { NavController, NavParams, ToastController } from '@ionic/angular';
 import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
 import { state } from '@angular/animations';
 import { AuthService } from '../providers/auth.service';
+import { MatMenuTrigger } from '@angular/material';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 @Component({
   selector: 'app-chat',
@@ -17,8 +19,14 @@ export class ChatPage implements OnInit {
   messages = [];
   nickname = '';
   userId = ''
-  pseudo = ''
-  user:any
+  stateO = {
+    pseudo: '',
+    roomLength: 0,
+    name: '',
+    connectedUserId: '',
+    online: false
+  }
+  user: any
   photo = ''
   message = {
     userId: '',
@@ -27,32 +35,45 @@ export class ChatPage implements OnInit {
     pseudo: ''
   }
 
+
+  menu = false
+  subscription: Subscription;
+  @ViewChild('clickHoverMenuTrigger', null) clickHoverMenuTrigger: MatMenuTrigger
+
   constructor(private navCtrl: NavController,
     private socket: Socket,
     private router: Router,
     private contactService: ContactService,
     private authService: AuthService,
+    private clipboard: Clipboard,
     private toastCtrl: ToastController) {
     //this.nickname = this.navParams.data;
     const state = this.router.getCurrentNavigation().extras.state
     console.log(state)
-    this.pseudo = state.pseudo
+    this.stateO.pseudo = state.pseudo
+    this.stateO.name = state.roomName
+    this.stateO.roomLength = state.roomLength
+    this.stateO.connectedUserId = state.connectedUserId
+    this.coonectSocket()
+    this.disconnectUserSocket()
     this.getMessagesBySocket().subscribe(message => {
-      this.messages.push(message);
       console.log(message)
+      message['roomId'] == state.roomId ? this.messages.push(message) : null
     });
+    this.deleteMessageFromSocket()
 
-    this.getUsers().subscribe(data => {
+    /*this.getUsers().subscribe(data => {
       let user = data['user'];
       if (data['event'] === 'left') {
         this.showToast('User left: ' + user);
       } else {
         this.showToast('User joined: ' + user);
       }
-    });
+    });*/
   }
 
   ngOnInit() {
+
     const state = this.router.getCurrentNavigation().extras.state
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUser()
@@ -67,12 +88,91 @@ export class ChatPage implements OnInit {
   sendMessage() {
     this.contactService.addMessage(this.message).subscribe(res => {
       console.log(res)
-     // this.getMessages(this.message.roomId)
-      this.socket.emit('add-message',  this.message );
+      // this.getMessages(this.message.roomId)
+      this.socket.emit('add-message', this.message);
       this.message.text = '';
     }, error => {
       console.log(error)
     })
+  }
+
+  addMessageToFavorite(messageId){
+    let favoris = {
+      userId: this.userId,
+      messageId: messageId,
+      type: 'MESSAGE'
+    }
+    console.log(favoris)
+    this.contactService.addMessageFavorite(favoris).subscribe(res => {
+      console.log(res)
+      this.showToast('Ajouté aux favoris')
+    }, error => {
+      this.showToast('Oops! une erreur est survenue')
+      console.log(error)
+    })
+  }
+
+  deleteMessage(messageId) {
+    let message = {
+      messageId: messageId
+    }
+    console.log(message)
+    this.contactService.deleteMessage(message).subscribe(res => {
+      console.log(res)
+    }, error => {
+      console.log(error)
+    })
+  }
+
+  coonectSocket() {
+    this.socket.connect();
+    this.socket.fromEvent('user-online').subscribe(notif => {
+      console.log(notif)
+      notif['userId'] == this.stateO.connectedUserId ? this.stateO.online = true : null
+    });
+  }
+
+  disconnectUserSocket() {
+    this.socket.connect();
+    this.socket.fromEvent('user-outline').subscribe(notif => {
+      console.log(notif)
+      notif['userId'] == this.stateO.connectedUserId ? this.stateO.online = false : null
+    });
+  }
+
+  deleteMessageFromSocket() {
+    this.socket.connect();
+    this.socket.fromEvent('delete-message').subscribe(messageId => {
+      console.log(messageId)
+      if (this.checkAvailability(this.messages, messageId)) {
+       let list =  this.deleteObjectFromList(this.messages, messageId) 
+        this.messages = list
+      }
+    });
+  }
+
+
+  checkAvailability(arr, val) {
+    return arr.some(function (arrVal) {
+      return val === arrVal['_id'];
+    });
+  }
+
+  deleteObjectFromList(list, id) {
+    // get index of object with id:37
+    let removeIndex = list.map(function (item) { return item.id; }).indexOf(id);
+    // remove object
+    list.splice(removeIndex, 1);
+    return list
+  }
+
+
+  onLongPress() {
+
+  }
+
+  onLongPressing() {
+    this.clickHoverMenuTrigger.openMenu();
   }
 
   getMessages(id) {
@@ -85,8 +185,8 @@ export class ChatPage implements OnInit {
 
   }
 
-  getMessagesBySocket(){
-     let observable = new Observable(observer => {
+  getMessagesBySocket() {
+    let observable = new Observable(observer => {
       this.socket.on('message', (data) => {
         observer.next(data);
       });
@@ -94,13 +194,13 @@ export class ChatPage implements OnInit {
     return observable;
   }
 
-  getUser(){
-    this.authService.myInfos(this.userId).subscribe(res =>{
+  getUser() {
+    this.authService.myInfos(this.userId).subscribe(res => {
       console.log(res)
       this.user = res['data']
-      
+
       this.message.pseudo = this.user.pseudoPro
-    }, error =>{
+    }, error => {
       console.log(error)
     })
   }
@@ -114,8 +214,16 @@ export class ChatPage implements OnInit {
     return observable;
   }
 
+  copyMessage(text) {
+    this.clipboard.copy(text).then(res => {
+      this.showToast("message copié")
+    });
+
+  }
   ionViewWillLeave() {
     this.socket.disconnect();
+    this.subscription ? this.subscription.unsubscribe() : null
+
   }
 
   async showToast(msg) {
@@ -127,4 +235,9 @@ export class ChatPage implements OnInit {
   }
 
 
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
+    this.socket.removeAllListeners('message');
+    //this.socket.removeAllListeners('users-changed');
+  }
 }

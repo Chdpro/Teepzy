@@ -40,7 +40,7 @@ export class Tab3Page implements OnInit {
   ionViewWillEnter(){
 
     this.userId = localStorage.getItem('teepzyUserId');
-
+    this.socket.emit('online', this.userId );
     this.getUsersOfCircle()
     this.getChatRooms()
 
@@ -98,12 +98,26 @@ export class Tab3Page implements OnInit {
     this.router.navigateByUrl('/search')
   }
 
-  gotoChatRoom(roomId, pseudo, photo) {
+  gotoChatRoom(roomId, pseudo, photo, roomLength, roomName, connectedUserId) {
+    console.log(roomId, pseudo, photo)
     this.socket.connect();
     this.socket.emit('set-nickname', this.nickname);
     this.navCtrl.navigateForward("/chat", 
-    { state: { nickname: this.nickname, roomId: roomId,pseudo: pseudo, photo: photo } });
+    { state: { nickname: this.nickname, roomId: roomId,pseudo: pseudo,
+       photo: photo, roomLength: roomLength, roomName, connectedUserId: connectedUserId } });
     // this.router.navigateByUrl('/chat')
 
+  }
+
+  ionViewWillLeave() {
+    this.socket.disconnect();
+    console.log('disconnected')
+    this.subscription?  this.subscription.unsubscribe() :  null
+
+  }
+  ngOnDestroy() { 
+    this.subscription?  this.subscription.unsubscribe() :  null
+    //this.socket.removeAllListeners('message');
+    //this.socket.removeAllListeners('users-changed');
   }
 }

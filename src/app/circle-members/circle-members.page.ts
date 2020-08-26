@@ -4,6 +4,7 @@ import { NavController, ModalController, ToastController } from '@ionic/angular'
 import { ContactService } from '../providers/contact.service';
 import { Socket } from 'ngx-socket-io';
 import { DatapasseService } from '../providers/datapasse.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-circle-members',
@@ -17,14 +18,15 @@ export class CircleMembersPage implements OnInit {
   membersToChatWith = []
 
   chatRoom = {
-    name: 'Ma discussion',
+    name: '',
     connectedUsers: [],
     userId: ''
   }
 
-  loading =  false
+  loading = false
   rooms = []
 
+  subscription: Subscription
   constructor(public navCtrl: NavController,
     private router: Router,
     private contactService: ContactService,
@@ -42,30 +44,33 @@ export class CircleMembersPage implements OnInit {
   joinChat() {
   }
 
-  addUserToCreateChatRoom() {
-    for (const key in this.checkItems) {
-      console.log(key);
-      this.membersToChatWith.push(key)
+  addUserToCreateChatRoom(idUser) {
+    if (!this.membersToChatWith.includes(idUser)) {
+      this.membersToChatWith.push(idUser)
+    } else {
+      this.deleteItemFromList(this.membersToChatWith, idUser)
     }
     console.log(this.membersToChatWith)
   }
 
+
+
   createChatRoom() {
     this.loading = true
     this.chatRoom.connectedUsers = this.membersToChatWith
-    this.contactService.initChatRoom(this.chatRoom).subscribe(res =>{
+    this.contactService.initChatRoom(this.chatRoom).subscribe(res => {
       console.log(res)
       if (res['status'] == 200) {
-      this.loading = false
-      this.presentToast('Une discussion créee')
-      this.getChatRooms()
+        this.loading = false
+        this.presentToast('Une discussion créee')
+        this.getChatRooms()
         this.dataPasse.send(this.rooms)
-      this.dismiss() 
-      }else{
+        this.dismiss()
+      } else {
         this.presentToast('Cette discussion existe déjà')
         this.loading = false
       }
-    }, error =>{
+    }, error => {
       this.loading = false
       this.presentToast('Oops! une erreur est survenue')
       console.log(error)
@@ -95,6 +100,16 @@ export class CircleMembersPage implements OnInit {
   }
 
 
+  deleteItemFromList(list, i) {
+    // get index of object with id:37
+    let removeIndex = list.map(function (item) { return item; }).indexOf(i);
+    // remove object
+    list.splice(removeIndex, 1);
+    return list
+  }
+
+
+
   async presentToast(msg) {
     const toast = await this.toasterController.create({
       message: msg,
@@ -111,4 +126,10 @@ export class CircleMembersPage implements OnInit {
     });
   }
 
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
+    //this.socket.removeAllListeners('message');
+    //this.socket.removeAllListeners('users-changed');
+  }
 }

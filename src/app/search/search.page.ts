@@ -47,6 +47,7 @@ export class SearchPage implements OnInit {
 
   ngOnInit() {
     this.search.userId = localStorage.getItem('teepzyUserId');
+    this.socket.emit('online', this.search.userId );
     this.getPosts()
   }
 

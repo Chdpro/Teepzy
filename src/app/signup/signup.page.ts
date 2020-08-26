@@ -126,7 +126,6 @@ export class SignupPage implements OnInit {
   listCountriesCodes() {
     this.authService.listCodes().subscribe(res => {
       this.codes = res
-      console.log(this.codes)
     })
   }
 
@@ -206,6 +205,8 @@ export class SignupPage implements OnInit {
   signup() {
     console.log(JSON.stringify(this.user));
     this.presentLoading()
+    //this.user.playerId = '111288d-dkjlm667'
+    this.user.phone = this.selected + this.telephone;
     if (this.user.password == this.user.conf) {
       this.authService.signup(JSON.stringify(this.user)).subscribe(res => {
         console.log(res)

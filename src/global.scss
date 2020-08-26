@@ -62,6 +62,10 @@ color: white;
     pointer-events: none;
  }
 
+ .mat-menu-panel{
+    min-width: 330px !important;
+    margin-left: 10px !important;
+ }
  .mat-tab-label{
     padding: 0 9px !important;
    }

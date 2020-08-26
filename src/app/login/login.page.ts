@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { Router } from '@angular/router';
 import { ToastController, LoadingController, MenuController } from '@ionic/angular';
+import { ContactService } from '../providers/contact.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,8 @@ export class LoginPage implements OnInit {
     public router: Router,
     public toastController: ToastController,
     private loadingCtrl: LoadingController,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private contactService: ContactService
 
   ) { }
 
@@ -49,6 +51,14 @@ export class LoginPage implements OnInit {
         localStorage.setItem('teepzyToken', this.profileInfo['token'])
         localStorage.setItem('teepzyEmail', this.profileInfo['userI']['email'])
         localStorage.setItem('teepzyPhone', this.profileInfo['userI']['phone'])
+        let id = localStorage.getItem('teepzyUserId')
+        let user = {
+          userId: id,
+          isOnline: true
+        }
+        this.contactService.getConnected(user).subscribe(res => {
+          console.log(res)
+        })
         localStorage.setItem('FinalStepCompleted', 'FinalStepCompleted')
         this.router.navigateByUrl('/contacts', {
           replaceUrl: true

@@ -155,12 +155,12 @@ export class Tab1Page implements OnInit {
     this.global = globals;
 
 
-       this.subscription = this.dataPass.getPosts().subscribe(list => {
-         console.log(list)
-         if (list.length > 0) {
-           this.listPosts = list
-         }
-       });
+    this.subscription = this.dataPass.getPosts().subscribe(list => {
+      console.log(list)
+      if (list.length > 0) {
+        this.listPosts = list
+      }
+    });
   }
 
   ngOnInit() {
@@ -169,6 +169,7 @@ export class Tab1Page implements OnInit {
 
   ionViewWillEnter() {
     this.userId = localStorage.getItem('teepzyUserId');
+    this.socket.emit('online', this.userId);
     this.getUserInfo(this.userId)
     this.getPosts(this.userId)
     console.log(this.dataPass.get())
@@ -194,7 +195,7 @@ export class Tab1Page implements OnInit {
     this.modalController.dismiss({
       'dismissed': true
     });
-    if ( this.globals.showBackground) {
+    if (this.globals.showBackground) {
       this.globals.showBackground = false;
     } else {
       this.globals.showBackground = true;
@@ -210,7 +211,7 @@ export class Tab1Page implements OnInit {
     this.slides.slidePrev();
   }
 
-  dismissShareSheet(){
+  dismissShareSheet() {
     if (this.shareLink) {
       this.shareLink = false
     } else {
@@ -239,7 +240,7 @@ export class Tab1Page implements OnInit {
     } else {
       this.shareLink = true
     }
-  
+
   }
 
 
@@ -357,7 +358,8 @@ export class Tab1Page implements OnInit {
   addFavorite(postId) {
     let favoris = {
       userId: this.userId,
-      postId: postId
+      postId: postId,
+      type: 'POST'
     }
     this.contactService.addFavorite(favoris).subscribe(res => {
       this.socket.emit('notification', 'notification');
@@ -386,7 +388,7 @@ export class Tab1Page implements OnInit {
   }
 
   async presentLinkModal(post) {
-    if ( this.globals.showBackground) {
+    if (this.globals.showBackground) {
       this.globals.showBackground = false;
     } else {
       this.globals.showBackground = true;
@@ -404,7 +406,7 @@ export class Tab1Page implements OnInit {
 
 
   async presentCommentModal(post) {
-    if ( this.globals.showBackground) {
+    if (this.globals.showBackground) {
       this.globals.showBackground = false;
     } else {
       this.globals.showBackground = true;
@@ -536,6 +538,7 @@ export class Tab1Page implements OnInit {
       this.linkModal = true
     }
   }
+
 
   async presentToast(msg) {
     const toast = await this.toasterController.create({

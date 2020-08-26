@@ -6,7 +6,7 @@
 
 <ion-content>
   <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
-  <div *ngIf="listTeepzrsToInvite?.length == 0" class="modal">
+  <div *ngIf="listTeepzrsToInvite?.length == 0 && listContacts?.length !== myContacts?.length" class="modal">
     <label class="modal-label overlay">
       <input type="radio" name="modal" value="close" class="modal-radio" />
     </label>

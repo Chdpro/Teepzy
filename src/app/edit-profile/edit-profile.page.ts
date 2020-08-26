@@ -8,6 +8,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { base_url } from 'src/config';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-profile',
@@ -84,7 +85,7 @@ export class EditProfilePage implements OnInit {
   private swipeTime?: number;
 
   selectedTab = 0
-
+  subcription: Subscription
   constructor(private authService: AuthService,
     private contactService: ContactService,
     private loadingCtrl: LoadingController,
@@ -407,5 +408,11 @@ export class EditProfilePage implements OnInit {
       duration: 4000
     });
     toast.present();
+  }
+
+  ngOnDestroy() { 
+    this.subcription?  this.subcription.unsubscribe() :  null
+    //this.socket.removeAllListeners('message');
+    //this.socket.removeAllListeners('users-changed');
   }
 }

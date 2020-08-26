@@ -55,7 +55,7 @@
 
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn " [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white',
-       'background':  p?.image_url != '' ? 'url(' + p?.image_url + ')' : p?.backgroundColor, 'background-position': 'center center', 'background-size': 'cover' }">
+       'background':  p?.image_url != '' ? 'url(' + p?.image_url + ')' : p?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' }">
       <div class="post-txt">
 
         <div class="header-slide" (click)="next()">
