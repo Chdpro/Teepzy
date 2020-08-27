@@ -5,90 +5,83 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content scroll="true">
 
   <div class="mat-content" (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
-  <mat-tab-group  [(selectedIndex)]="selectedTab" color="warn" mat-align-tabs="center">
-    <mat-tab label="Match">
-      <mat-card *ngFor="let m of post?.matches" class="example-card cmt2">
-        <mat-card-header>
-          <div mat-card-avatar>
-            <img mat-card-image class="mat-img"
-              src="../../assets/img/man-wearing-black-and-white-stripe-shirt-looking-at-white-212286.jpg" alt="">
-          </div>
-          <mat-card-title style="color: #ea4e50;">@{{m?.pseudoIntime}} </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p class="content-comment" style="color: #ea4e50;">
-           {{m?.nom }}  {{m?.prenom }}
-          </p>
-          <button class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
+    <mat-tab-group [(selectedIndex)]="selectedTab" color="warn" mat-align-tabs="center">
+      <mat-tab label="Match">
+          <div class="item-wrapper"  style="overflow:scroll;">
 
-            <div class="pretty p-icon p-round p-pulse">
-              <input type="checkbox" />
-              <div class="state p-success">
-                <i class="icon mdi mdi-check"></i>
-                <label></label>
-              </div>
-            </div>
-          </button>
-        </mat-card-content>
-
-      </mat-card>
-      <div *ngIf="!post?.matches || post?.matches.length == 0" class="match-txt">
-        Aucun match pour ce post
-      </div>
-    </mat-tab>
-    <mat-tab label="Recherche">
-
-      <input class="input-s" type="text" [(ngModel)]='filtre' placeholder="filtrer...">
-
-      <div>
-          <mat-card *ngFor="let u of listTeepZrs| filter:filtre ;trackBy: trackByFn " (click)="addLink(u)"
-          class="example-card cmt2">
-          <mat-card-header>
-            <div mat-card-avatar>
-              <img mat-card-image class="mat-img" [src]="u?.photo" alt="">
-            </div>
-            <mat-card-title style="color: #ea4e50;"> {{u?.pseudoIntime}} </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <!--p class="content-comment" style="color: #ea4e50;">
-              Nom du Cercle
-            </p-->
-            <button class="btn-icon star-btn check-btn" mat-button aria-label="Example icon button with a home icon">
-              <div class="pretty p-icon p-round p-pulse">
-                <input [checked]="u?.match" type="checkbox" />
-                <div class="state p-success">
-                  <i class="icon mdi mdi-check"></i>
-                  <label></label>
+              <ion-item *ngFor="let m of post?.matches| filter:filtre ;trackBy: trackByFn " (click)="addLink(m)">
+                <div *ngIf="m?.photo =='' || m?.photo == null" class="round-img-post">
+                  {{m?.prenom | slice:0:1| uppercase}} {{m?.nom | slice:0:1 | uppercase}}
                 </div>
-              </div>
-            </button>
-          </mat-card-content>
-        </mat-card>
-  
-      </div>
+                <img mat-card-image *ngIf="m?.photo != null"  [src]="m?.photo" alt="">
+                <div>
+                    {{m?.pseudoIntime}} 
+                </div>
+                <ion-label>
+                           
+                  <ion-checkbox name="ckeck" [(ngModel)]="checkItems[m._id]" style="float: right;"
+                    color="primary"></ion-checkbox>
+    
+                </ion-label>
+              </ion-item>
+    
+    
+    
+            </div>
+   
+        <div *ngIf="!post?.matches || post?.matches.length == 0" class="match-txt">
+          Aucun match pour ce post
+        </div>
+      </mat-tab>
+      <mat-tab label="Recherche">
 
-      <div class="not-found" *ngIf="usersMatch.length == 0">
-        Aucun utilisateur à matcher à cette offre
-      </div>
-    </mat-tab>
-  </mat-tab-group>
+        <input class="input-s" type="text" [(ngModel)]='filtre' placeholder="filtrer...">
+
+
+        
+        <div class="item-wrapper"  style="overflow:scroll;">
+
+          <ion-item *ngFor="let u of listTeepZrs| filter:filtre ;trackBy: trackByFn " (click)="addLink(u)">
+            <div *ngIf="u?.photo =='' || u?.photo == null" class="round-img-post">
+              {{u?.prenom | slice:0:1| uppercase}} {{u?.nom | slice:0:1 | uppercase}}
+            </div>
+            <img mat-card-image *ngIf="u?.photo != null"  [src]="u?.photo" alt="">
+            <div>
+                {{u?.pseudoIntime}} 
+            </div>
+            <ion-label>
+                       
+              <ion-checkbox name="ckeck" [(ngModel)]="checkItems[u._id]" style="float: right;"
+                color="primary"></ion-checkbox>
+
+            </ion-label>
+          </ion-item>
+
+
+
+        </div>
+        <div class="not-found" *ngIf="usersMatch.length == 0">
+          Aucun utilisateur à matcher à cette offre
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 
 </ion-content>
 <!-- Footer without a border -->
-<ion-footer class="ion-no-border">
+<ion-footer *ngIf="usersSelected.length > 0"  class="ion-no-border">
   <ion-toolbar>
-      <form *ngIf="usersSelected.length > 0" class="example-form">
-          <input class="input-m" type="text" placeholder="XXX,Je te link avec YYY" [(ngModel)]="message">
-        </form>
+    <form *ngIf="usersSelected.length > 0" class="example-form">
+      <input class="input-m" type="text" name="msg" placeholder="XXX,Je te link avec YYY" [(ngModel)]="message">
+    </form>
 
-        <ion-button *ngIf="usersSelected.length > 0" (click)="updateProfile()" expand="full">
-            <span *ngIf="loading == false ">ENVOYER</span>
-            <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-          </ion-button>
+    <ion-button *ngIf="usersSelected.length > 0" (click)="updateProfile()" expand="full">
+      <span *ngIf="loading == false ">ENVOYER</span>
+      <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+    </ion-button>
     <!--ion-button *ngIf="usersSelected.length == 0" (click)="dismiss()" class="cancel-btn" expand="block" size="large"
       color="medium">Annuler</ion-button-->
   </ion-toolbar>

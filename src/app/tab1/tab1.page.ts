@@ -507,7 +507,6 @@ export class Tab1Page implements OnInit {
         )
 
       } else {
-        console.log('pas favoris')
 
         this.listPosts.push(
           {
@@ -525,6 +524,7 @@ export class Tab1Page implements OnInit {
           },
         )
       }
+      console.log(this.listPosts)
 
     })
   }

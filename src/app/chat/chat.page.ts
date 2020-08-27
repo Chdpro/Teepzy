@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NavController, NavParams, ToastController } from '@ionic/angular';
 import { Socket } from 'ngx-socket-io';
@@ -32,13 +32,23 @@ export class ChatPage implements OnInit {
     userId: '',
     roomId: '',
     text: '',
-    pseudo: ''
+    pseudo: '',
+    messageRepliedId: '',
+    isReply: false
   }
 
+  repliedMessage = {
+    messageId: '',
+    text: '',
+    userId: '',
+    pseudo: ''
+  }
 
   menu = false
   subscription: Subscription;
   @ViewChild('clickHoverMenuTrigger', null) clickHoverMenuTrigger: MatMenuTrigger
+  // used for scrolling the pane
+  @ViewChild('scrollMe', null) private myScrollContainer: ElementRef;
 
   constructor(private navCtrl: NavController,
     private socket: Socket,
@@ -73,7 +83,6 @@ export class ChatPage implements OnInit {
   }
 
   ngOnInit() {
-
     const state = this.router.getCurrentNavigation().extras.state
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUser()
@@ -85,24 +94,63 @@ export class ChatPage implements OnInit {
     this.getMessages(state.roomId)
   }
 
-  sendMessage() {
-    this.contactService.addMessage(this.message).subscribe(res => {
-      console.log(res)
-      // this.getMessages(this.message.roomId)
-      this.socket.emit('add-message', this.message);
-      this.message.text = '';
-    }, error => {
-      console.log(error)
-    })
+  ionViewDidEnter(){
+    this.scrollToBottom();
+
   }
 
-  addMessageToFavorite(messageId){
+  replyto(msg) {
+    this.message.isReply = true
+    this.repliedMessage.pseudo = msg.pseudo;
+    this.repliedMessage.text = msg.text;
+    this.repliedMessage.userId = msg.userId
+    this.repliedMessage.messageId = msg._id
+    console.log(this.repliedMessage)
+
+  }
+
+  close() {
+    this.message.isReply = false
+    this.repliedMessage.pseudo = '';
+    this.repliedMessage.text = '';
+    this.repliedMessage.userId = ''
+    this.repliedMessage.messageId = ''
+    console.log(this.repliedMessage)
+  }
+
+
+  sendMessage() {
+    if (!this.message.isReply) {
+      this.contactService.addMessage(this.message).subscribe(res => {
+        console.log(res)
+        this.socket.emit('add-message', this.message);
+        this.message.text = '';
+      }, error => {
+        console.log(error)
+      })
+    } else {
+      this.message.pseudo = this.repliedMessage.pseudo
+      this.message.messageRepliedId = this.repliedMessage.messageId
+      this.contactService.addReplyMessage(this.message).subscribe(res => {
+        console.log(res)
+        this.socket.emit('add-message', this.message);
+        this.message.text = '';
+        this.close()
+      }, error => {
+        console.log(error)
+      })
+    }
+
+  }
+
+
+
+  addMessageToFavorite(messageId) {
     let favoris = {
       userId: this.userId,
       messageId: messageId,
       type: 'MESSAGE'
     }
-    console.log(favoris)
     this.contactService.addMessageFavorite(favoris).subscribe(res => {
       console.log(res)
       this.showToast('Ajouté aux favoris')
@@ -145,7 +193,7 @@ export class ChatPage implements OnInit {
     this.socket.fromEvent('delete-message').subscribe(messageId => {
       console.log(messageId)
       if (this.checkAvailability(this.messages, messageId)) {
-       let list =  this.deleteObjectFromList(this.messages, messageId) 
+        let list = this.deleteObjectFromList(this.messages, messageId)
         this.messages = list
       }
     });
@@ -235,6 +283,12 @@ export class ChatPage implements OnInit {
   }
 
 
+
+
+  scrollToBottom(): void {
+    // method used to enable scrolling
+    this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+  }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null
     this.socket.removeAllListeners('message');

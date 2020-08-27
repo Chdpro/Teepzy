@@ -54,7 +54,7 @@
   </ion-refresher>
 
   <ion-slides pager="true" [options]="slideOpts">
-    <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn " [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white',
+    <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn " [ngStyle]="{'color': p?.backgroundColor == '#fff' && p?.image_url == ''? 'black' : 'white', 
        'background':  p?.image_url != '' ? 'url(' + p?.image_url + ')' : p?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' }">
       <div class="post-txt">
 
@@ -66,7 +66,8 @@
                   Vous avez partagé le teepz de
                 </span>
               </ion-col>
-              <ion-col>
+              <ion-col [ngStyle]="{'background': p?.image_url != '' ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
+              'font-weight': p?.image_url != '' ? '800': '100' }">
                 <div *ngIf="p?.userPhoto_url != ''">
                   <img class="img" [src]="p?.userPhoto_url" alt="">
                 </div>
@@ -76,7 +77,9 @@
                   {{p?.userPseudo | slice:0:1| uppercase}}
                 </div>
               </ion-col>
-              <ion-col style="    text-align: left;">
+              <ion-col  [ngStyle]="{'background': p?.image_url != '' ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
+                
+               'font-weight': p?.image_url != '' ? '800': '100' }" style="    text-align: left;">
                 <strong>
                   {{p?.userPseudo}}
                 </strong><br>
@@ -124,7 +127,7 @@
             <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0">0</span>
             <span style="margin-top: 6px;" *ngIf="p?.matches?.length > 0">+ {{p.matches?.length - 3}} </span> <br>
           </div>
-          <div class="content-down" *ngIf="p?.image_url != ''"  [ngStyle]="{'font-size': p?.content.length > 20 ? '14px' : '17px' }" (click)="next()">
+          <div class="content-down" *ngIf="p?.image_url != ''"  [ngStyle]="{'font-size': p?.content.length > 20 ? '14px' : '17px', 'color': 'white', 'font-weight': '800' }" (click)="next()">
             {{ p?.content }}
           </div>
         </div>

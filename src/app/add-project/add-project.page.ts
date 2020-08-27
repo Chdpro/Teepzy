@@ -198,7 +198,6 @@ export class AddProjectPage implements OnInit {
   addProject(){
     this.loading = true
     this.tags.length > 0 ? this.project.tags = this.tags : null
-    this.photos.length > 0 ? this.uploadImage() : null
     this.contactService.addProject(this.project).subscribe(res =>{
       console.log(res);
       this.loading = false

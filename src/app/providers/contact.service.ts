@@ -176,19 +176,19 @@ export class ContactService {
 
   addFavorite(favorite): Observable<any> {
     let url = 'users/addFavorite';
-    return this.http.post(local_url + url, favorite, httpOptionsJson);
+    return this.http.post(base_url + url, favorite, httpOptionsJson);
   }
 
   addMessageFavorite(favorite): Observable<any> {
     let url = 'users/addMessageFavorite';
-    return this.http.post(local_url + url, favorite, httpOptionsJson);
+    return this.http.post(base_url + url, favorite, httpOptionsJson);
   }
 
   
 
   getCircleMembers(id): Observable<any> {
     let url = 'users/circle/'+ id;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
 
   initChatRoom(room): Observable<any> {
@@ -198,7 +198,7 @@ export class ContactService {
 
   mChatRooms(id): Observable<any> {
     let url = 'chat/' + id;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   ChatRoomMessages(id): Observable<any> {
@@ -210,6 +210,12 @@ export class ContactService {
     let url = 'chat/addMessage';
     return this.http.post(local_url + url, message, httpOptionsJson);
   }
+
+  addReplyMessage(message): Observable<any> {
+    let url = 'chat/addReplyMessage';
+    return this.http.post(local_url + url, message, httpOptionsJson);
+  }
+
   deleteMessage(message): Observable<any> {
     let url = 'chat/deleteMessage';
     return this.http.post(local_url + url, message, httpOptionsJson);

@@ -61,7 +61,7 @@ export class AuthService {
 
   signup(user) {
     let url = 'users/register';
-    return this.http.post(local_url + url, user, httpOptionsJson);
+    return this.http.post(base_url + url, user, httpOptionsJson);
   }
 
 

@@ -28,6 +28,8 @@ export class LinkSheetPage implements OnInit {
   selectedTab = 0
   listTeepZrs = []
   
+  checkItems = {}
+
   constructor(private modalController: ModalController, 
     private contactService: ContactService,
     private toasterController: ToastController,
@@ -59,6 +61,32 @@ export class LinkSheetPage implements OnInit {
 
     })
   }
+
+
+  addLink(link) {
+    console.log(this.usersSelected.includes(link['_id']))
+    if (this.usersSelected.includes(link['_id'])) {
+      let l = this.deleteItemFromList(this.usersSelected, link['_id'])
+      this.usersSelected = l
+      console.log(this.usersSelected)
+
+    } else {
+      this.usersSelected.push(link['_id'])
+      console.log(this.usersSelected)
+
+    }
+  }
+
+  deleteItemFromList(list, i) {
+    // get index of object with id:37
+    let removeIndex = list.map(function (item) { return item; }).indexOf(i);
+    // remove object
+    list.splice(removeIndex, 1);
+    return list
+  }
+
+
+
 
 
   linker(linkedUser) {
@@ -123,9 +151,6 @@ export class LinkSheetPage implements OnInit {
 
 
 
-  addLink(link){
-    this.checkAvailability(this.usersSelected, link['_id']) ? null : this.usersSelected.push(link);  
-  }
 
 
   validateLinks(){

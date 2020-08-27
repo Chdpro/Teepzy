@@ -163,3 +163,22 @@ mat-card-title{
 .mat-content{
     height: -webkit-fill-available;
 }
+
+.round-img-post{
+    height: 47px;
+    width: 47px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border: solid 1px #ea4d4f;
+    padding-top: 14px;
+    text-align: center;
+    font-size: 13px;
+    display: block;
+    margin-right: 12px;
+    color: #000000;
+}
+
+ion-item{
+    --ion-background-color:#ececec ;
+ }

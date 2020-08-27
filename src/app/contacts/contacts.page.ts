@@ -198,13 +198,7 @@ export class ContactsPage implements OnInit {
     this.contacts.find(['*'], options).then((contacts) => {
       this.myContacts = contacts
       for (const mC of this.myContacts) {
-        // set loading on list
-        if (this.listContacts.length < this.myContacts.length) {
-          this.loading = true;
-        } else if (this.listContacts.length == this.myContacts.length) {
-          this.loading = false
-
-        }
+     
         let inviteViaSms = {
           phone: mC.phoneNumbers[0].value,
         }
@@ -303,7 +297,7 @@ export class ContactsPage implements OnInit {
       this.listContacts.find((c, index) => c['phone'].replace(/\s/g, '') == phone.replace(/\s/g, '') ? c['invited'] = true : null)
     }, error => {
       this.presentToast('Invitation non envoyée')
-      alert(JSON.stringify(error))
+     // alert(JSON.stringify(error))
     })
   }
 
@@ -342,7 +336,6 @@ export class ContactsPage implements OnInit {
     }, error => {
       this.presentToast('Invitation non envoyée')
       this.loading = false
-
     })
   }
 
