@@ -27,7 +27,8 @@ export class Tab3Page implements OnInit {
     private dataPasse: DatapasseService,
     private socket: Socket) { 
 
-      this.subscription = this.dataPasse.getPosts().subscribe(list => {
+      this.subscription = this.dataPasse.get().subscribe(list => {
+        console.log(list)
         if (list.length > 0) {
           this.rooms = list
         }

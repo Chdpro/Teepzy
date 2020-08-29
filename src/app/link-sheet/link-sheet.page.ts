@@ -27,7 +27,7 @@ export class LinkSheetPage implements OnInit {
 
   selectedTab = 0
   listTeepZrs = []
-  
+  matches = []
   checkItems = {}
 
   constructor(private modalController: ModalController, 
@@ -46,6 +46,7 @@ export class LinkSheetPage implements OnInit {
   ionViewWillEnter(){
     let post = this.navParams.data;
     console.log(post)
+    this.matches = post.matches
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.userId)
     this.getUsersToMatch()
@@ -88,6 +89,9 @@ export class LinkSheetPage implements OnInit {
 
 
 
+  inviter(){
+    this.user
+  }
 
   linker(linkedUser) {
     let invitation = {

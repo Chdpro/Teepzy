@@ -1,5 +1,5 @@
 <ion-content color="success" class="content" style="    background-color: #F0EFEF;">
-  <div >
+  <div>
     <ion-header class="ion-no-border">
       <ion-toolbar color="success">
         <ion-title> {{listComments?.length || '0' }} Commentaire <span style="margin-left: -5px;"
@@ -15,9 +15,13 @@
           <mat-card *ngFor="let c of listComments?.reverse();trackBy: trackByFn " class="example-card cmt">
             <mat-card-header>
               <div mat-card-avatar>
-                <img mat-card-image class="mat-img" [src]="c?.userPhoto" alt="">
+                <img *ngIf="c?.userPhoto_url != null " mat-card-image class="mat-img" [src]="c?.userPhoto" alt="">
+                <div *ngIf="c?.userPhoto_url == null " class="round-img">
+                  {{c?.userPseudo | slice:0:1| uppercase}}
+                </div>
+  
               </div>
-
+            
 
               <mat-card-title>{{c?.userPseudo}}</mat-card-title>
             </mat-card-header>
@@ -36,15 +40,20 @@
                 Voir les réponses( {{ listCommentsOfComment?.length || '0' }} )
               </button>
             </mat-card-actions>
-            <div *ngIf="showResponsePanel">
+            <div  *ngIf="showResponsePanel">
               <div *ngFor="let cc of listCommentsOfComment?.reverse();trackBy: trackByFn ">
-                <div *ngIf="cc?.commentId == c?._id" class="mat-res">
+                <div *ngIf="cc?.commentId == c?._id" class="mat-res" style="display: inline-flex;">
                   <div mat-card-avatar>
-                    <img mat-card-image class="mat-img" [src]="cc?.userPhoto" alt="">
+                    <img mat-card-image *ngIf="cc?.userPhoto_url != null " class="mat-img" [src]="cc?.userPhoto" alt="">
+                    <div *ngIf="cc?.userPhoto_url == null " class="round-img">
+                      {{cc?.userPseudo | slice:0:1| uppercase}}
+                    </div>
                   </div>
-                  <mat-card-title>{{cc?.userPseudo}}</mat-card-title>
-                  <mat-card-subtitle></mat-card-subtitle>
-                  {{cc?.comment}}
+                  <mat-card-title style="margin-left: 17px;">{{cc?.userPseudo}}</mat-card-title><br>
+                  <div>
+                    {{cc?.comment}}
+                  </div>
+              
                 </div>
               </div>
 
@@ -75,10 +84,10 @@
       Aucun Commentaire pour ce post
     </div>
 
-    <div class="fixContainer">
+    <!--div class="fixContainer">
       <mat-card class="comment-form">
         <div class="form-wrapper">
-          <!-- Textarea in an item with a placeholder -->
+          <!-- Textarea in an item with a placeholder --
           <ion-item class="ion-textarea2">
             <ion-textarea matInput name="comment" required #comment="ngModel" [(ngModel)]="commentT.comment"
               placeholder="Commenter..."></ion-textarea>
@@ -87,10 +96,27 @@
             shape="round">Envoyer</ion-button>
         </div>
       </mat-card>
-    </div>
+    </div-->
 
 
 
   </div>
 
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-row class="message_row">
+   
+      <ion-col size="9">
+        <ion-item no-lines>
+          <ion-input type="text" placeholder="Ajouter un commentaire" name="comment" required #comment="ngModel" [(ngModel)]="commentT.comment"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="3">
+        <button ion-button clear color="primary" class="send-btn" (click)="addCommentToPost()" size="small" [disabled]="comment.errors?.required">
+          <ion-icon name="send"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

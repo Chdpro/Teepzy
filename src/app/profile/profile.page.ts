@@ -86,7 +86,7 @@ export class ProfilePage implements OnInit {
 
 
 
-    this.subscription = this.dataPass.getPosts().subscribe(list => {
+    this.subscription = this.dataPass.getProjects().subscribe(list => {
       if (list.length > 0) {
         this.listProjects = list
       }

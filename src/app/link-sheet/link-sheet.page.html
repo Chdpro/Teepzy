@@ -12,11 +12,11 @@
       <mat-tab label="Match">
           <div class="item-wrapper"  style="overflow:scroll;">
 
-              <ion-item *ngFor="let m of post?.matches| filter:filtre ;trackBy: trackByFn " (click)="addLink(m)">
+              <ion-item *ngFor="let m of matches| filter:filtre ;trackBy: trackByFn " (click)="addLink(m)">
                 <div *ngIf="m?.photo =='' || m?.photo == null" class="round-img-post">
                   {{m?.prenom | slice:0:1| uppercase}} {{m?.nom | slice:0:1 | uppercase}}
                 </div>
-                <img mat-card-image *ngIf="m?.photo != null"  [src]="m?.photo" alt="">
+                <img mat-card-image class="" *ngIf="m?.photo != null"  [src]="m?.photo" alt="">
                 <div>
                     {{m?.pseudoIntime}} 
                 </div>
@@ -32,7 +32,7 @@
     
             </div>
    
-        <div *ngIf="!post?.matches || post?.matches.length == 0" class="match-txt">
+        <div *ngIf="!matches || matches.length == 0" class="match-txt">
           Aucun match pour ce post
         </div>
       </mat-tab>

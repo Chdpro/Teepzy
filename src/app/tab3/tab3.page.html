@@ -67,7 +67,7 @@
         {{m?.connectedUsersInfo?.prenom | slice:0:1| uppercase}} {{m?.connectedUsersInfo?.nom | slice:0:1 | uppercase}}
       </div>
       <img *ngIf="m?.connectedUsersInfo?.photo" [src]="m?.connectedUsersInfo?.photo" alt="">
-      <ion-label>
+      <ion-label [ngStyle]="{ 'padding-bottom':  m?.lastMessage.length == 0 ? '14px': '0' }">
         <b *ngIf="m?.connectedUsersInfo._id == userId"> {{m?.userInitiator.pseudoPro}} </b>
         <b *ngIf="m?.connectedUsersInfo._id != userId"> {{m?.connectedUsersInfo.pseudoPro}} </b>
         <b *ngIf="m?.lastMessage.length > 0" style="float: right;" class="time">
@@ -86,7 +86,7 @@
         {{m?.name | slice:0:1| uppercase}} 
       </div>
       <img *ngIf="m?.photo" [src]="m?.photo" alt="">
-      <ion-label>
+      <ion-label [ngStyle]="{ 'padding-bottom':  m?.lastMessage.length == 0 ? '14px': '0' }" >
         <b > {{m?.name}} </b>
         <b *ngIf="m?.lastMessage.length > 0" style="float: right;" class="time">
           {{m?.lastMessage[0].createdAt | date:'hh:MM' }}

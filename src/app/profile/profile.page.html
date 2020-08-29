@@ -17,10 +17,10 @@
   <div class="banner">
     <div class="toggle" (click)="switchProfile()" (touchstart)="swipe($event, 'start')"
       (touchend)="swipe($event, 'end')">
-      <div *ngIf="user?.photo != ''">
+      <div *ngIf="user?.photo != null">
       <img class="round-img-profile" [src]="user?.photo" alt="">
       </div>
-      <div class="round-img"  *ngIf="user?.photo == ''"  [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+      <div class="round-img"  *ngIf="user?.photo == null"  [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
         {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}} 
       </div>
       <span (click)="switchProfile()" *ngIf="isProProfile" class="material-icons toggle_o">
@@ -187,7 +187,9 @@
                       <ion-row>
                         <ion-col size="4">
                           <div>
-                            <div class="round-img-post">
+                              <img *ngIf="lt?.userPhoto_url != null" class="img-teepz" [src]="lt?.userPhoto_url"
+                              alt="">
+                            <div  *ngIf="lt?.userPhoto_url == null"  class="round-img-post">
                               {{lt?.userPseudo | slice:0:1| uppercase}}  
                             </div>
                           </div>
@@ -334,10 +336,10 @@
                     <ion-row>
                       <ion-col size="4">
                         <div>
-                          <img *ngIf="lt?.userPhoto_url != ''" class="img-teepz" [src]="lt?.userPhoto_url"
+                          <img *ngIf="lt?.userPhoto_url != null" class="img-teepz" [src]="lt?.userPhoto_url"
                             alt="">
 
-                            <div *ngIf="lt?.userPhoto_url == ''" class="round-img-post">
+                            <div *ngIf="lt?.userPhoto_url == null" class="round-img-post">
                               {{lt?.userPseudo | slice:0:1| uppercase}} {{lt?.nom | slice:0:1 | uppercase}} 
                             </div>
                         </div>

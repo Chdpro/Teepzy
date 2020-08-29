@@ -8,33 +8,40 @@ export class DatapasseService {
 
 
   private subject = new Subject<any>();  
+
+  private subjectPost = new Subject<any>();  
+
+  private subjectProdut = new Subject<any>();  
+  private subjectProject = new Subject<any>();  
+  private subjectRoom = new Subject<any>();  
+
   constructor() { }  
   
   sendPosts(posts) {  
-    this.subject.next(posts);  
+    this.subjectPost.next(posts);  
   }
   
   sendProjects(project) {  
-    this.subject.next(project);  
+    this.subjectProject.next(project);  
   }
 
  
   
   getProjects(): Observable<any> {  
-    return this.subject.asObservable();  
+    return this.subjectProject.asObservable();  
   }
 
   sendProducts(project) {  
-    this.subject.next(project);  
+    this.subjectProdut.next(project);  
   }
 
   getProducts(): Observable<any> {  
-    return this.subject.asObservable();  
+    return this.subjectProdut.asObservable();  
   }
 
 
   getPosts(): Observable<any> {  
-    return this.subject.asObservable();  
+    return this.subjectPost.asObservable();  
   }
 
   sendUserPhoto(user) {  
@@ -46,10 +53,11 @@ export class DatapasseService {
   }
 
   send(data) {  
-    this.subject.next(data);  
+    console.log(data)
+    this.subjectRoom.next(data);  
   }  
 
   get(): Observable<any> {  
-    return this.subject.asObservable();  
+    return this.subjectRoom.asObservable();  
   }
 }

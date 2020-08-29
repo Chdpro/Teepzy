@@ -4,12 +4,6 @@
     border-radius: 39px 45px 1px 1px;
 }*/
 
-ion-slide{
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: 100% 100%;
-
-}
 
 /*.content, .infos{
 
@@ -78,10 +72,20 @@ img{
 ion-slides{
     height: -webkit-fill-available;
 }
+/*.ion-slide-no-img{
+    opacity: 0 !important;
+
+}*/
 ion-slide{
     border-radius: 40px 40px 1px 0px;
     height: -webkit-fill-available;
 }
+/*
+.ion-slide-img{
+    opacity: 1 !important;
+
+}*/
+
 
 mat-card-header{
     margin-top: 24px !important;
@@ -116,7 +120,6 @@ mat-card-header{
     position: absolute;
     float: left;
     width: 70%;
-    bottom: 57px;
     display: flex;
     color: #ea4e50;
     font-size: 12px;

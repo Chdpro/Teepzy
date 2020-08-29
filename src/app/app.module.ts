@@ -41,7 +41,7 @@ import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { local_url, base_url } from 'src/config';
 import { Globals } from './globals';
 import { CircleMembersPageModule } from './circle-members/circle-members.module';
-const config: SocketIoConfig = { url: local_url, options: {} };
+const config: SocketIoConfig = { url: base_url, options: {} };
 
 @NgModule({
   declarations: [AppComponent],

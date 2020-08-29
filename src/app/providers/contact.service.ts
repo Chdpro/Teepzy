@@ -82,6 +82,11 @@ export class ContactService {
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
+  AllTeepZrs(userId): Observable<any> {
+    let url = 'users/users/' + userId;
+    return this.http.get(base_url + url, httpOptionsJson);
+  }
+
   searchTeepZrs(search): Observable<any> {
     let url = 'users/teepzrto';
     return this.http.post(base_url + url, search, httpOptionsJson);
@@ -105,7 +110,7 @@ export class ContactService {
 
   addPost(post): Observable<any> {
     let url = 'users/posts';
-    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
+    return this.http.post(local_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   rePost(post): Observable<any> {
@@ -188,12 +193,12 @@ export class ContactService {
 
   getCircleMembers(id): Observable<any> {
     let url = 'users/circle/'+ id;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   initChatRoom(room): Observable<any> {
     let url = 'chat/';
-    return this.http.post(local_url + url, room, httpOptionsJson);
+    return this.http.post(base_url + url, room, httpOptionsJson);
   }
 
   mChatRooms(id): Observable<any> {
@@ -203,22 +208,22 @@ export class ContactService {
 
   ChatRoomMessages(id): Observable<any> {
     let url = 'chat/room/' + id;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   addMessage(message): Observable<any> {
     let url = 'chat/addMessage';
-    return this.http.post(local_url + url, message, httpOptionsJson);
+    return this.http.post(base_url + url, message, httpOptionsJson);
   }
 
   addReplyMessage(message): Observable<any> {
     let url = 'chat/addReplyMessage';
-    return this.http.post(local_url + url, message, httpOptionsJson);
+    return this.http.post(base_url + url, message, httpOptionsJson);
   }
 
   deleteMessage(message): Observable<any> {
     let url = 'chat/deleteMessage';
-    return this.http.post(local_url + url, message, httpOptionsJson);
+    return this.http.post(base_url + url, message, httpOptionsJson);
   }
 
   getConnected(user): Observable<any> {

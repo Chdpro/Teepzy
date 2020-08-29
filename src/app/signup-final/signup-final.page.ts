@@ -24,13 +24,13 @@ export class SignupFinalPage implements OnInit {
 
   }
 
-  userInfo:any
+  userInfo: any
 
   photos: any = [];
   filesName = new Array();
   dispImags = []
 
-  
+
   retourUsr: any
   retourUsrP = 0
   profileInfo: any
@@ -51,14 +51,14 @@ export class SignupFinalPage implements OnInit {
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
     private contactService: ContactService,
-  ) { 
+  ) {
 
-    
+
   }
 
   ngOnInit() {
     let usr = this.route.snapshot.queryParamMap
-     console.log(usr['params'])
+    console.log(usr['params'])
     this.user.photo = usr['params']['photo']
     this.user.userId = localStorage.getItem('teepzyUserId')
     this.getUserInfo(this.user.userId)
@@ -73,7 +73,7 @@ export class SignupFinalPage implements OnInit {
     this.authService.myInfos(userId).subscribe(res => {
       console.log(res)
       this.userInfo = res['data'];
-      this.userInfo['photo'] ?  this.dispImags[0] = this.userInfo['photo'] : null
+      this.userInfo['photo'] ? this.dispImags[0] = this.userInfo['photo'] : null
     }, error => {
       console.log(error)
     })
@@ -82,7 +82,7 @@ export class SignupFinalPage implements OnInit {
   updateUser() {
     if ((this.user.pseudoIntime == '' && this.user.pseudoPro != '') || (this.user.pseudoIntime != '' && this.user.pseudoPro == '')) {
       this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
-      this.user.pseudoPro = this.user.pseudoPro.toLowerCase() 
+      this.user.pseudoPro = this.user.pseudoPro.toLowerCase()
       this.authService.update(this.user).subscribe(res => {
         console.log(res)
         if (res['status'] == 200) {
@@ -90,7 +90,7 @@ export class SignupFinalPage implements OnInit {
           this.presentToast('Vous êtes bien connectés')
           localStorage.setItem('FinalStepCompleted', 'FinalStepCompleted')
           let user = {
-            userId: this.user.userId ,
+            userId: this.user.userId,
             isOnline: true
           }
           this.contactService.getConnected(user).subscribe(res => {
@@ -104,10 +104,9 @@ export class SignupFinalPage implements OnInit {
         console.log(error)
         this.presentToast('Oops! une erreur est survenue')
       })
-    }  else  if ((this.user.pseudoIntime != '' && this.user.pseudoPro != '') ) {
+    } else if ((this.user.pseudoIntime != '' && this.user.pseudoPro != '')) {
       this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
-      this.user.pseudoPro = this.user.pseudoPro.toLowerCase() 
-        console.log(this.user.pseudoIntime)
+      this.user.pseudoPro = this.user.pseudoPro.toLowerCase()
       this.authService.update(this.user).subscribe(res => {
         console.log(res)
         if (res['status'] == 200) {
@@ -122,7 +121,7 @@ export class SignupFinalPage implements OnInit {
         this.presentToast('Oops! une erreur est survenue')
       })
     }
-    
+
     else {
       this.presentToast('Veuillez renseigner au moins un pseudo')
     }
@@ -162,7 +161,7 @@ export class SignupFinalPage implements OnInit {
 
   checkP() {
     this.loadingP = true
-    this.user.pseudoPro = this.user.pseudoPro.toLowerCase().replace(/\s/g, '') 
+    this.user.pseudoPro = this.user.pseudoPro.toLowerCase().replace(/\s/g, '')
     this.authService.check(this.user).subscribe(res => {
       console.log(res)
       this.loadingP = false
@@ -222,7 +221,7 @@ export class SignupFinalPage implements OnInit {
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
         this.photos.push(nativepath)
         //  alert(this.photos)
-      //  this.user.photo = this.photos[0]
+        //  this.user.photo = this.photos[0]
       })
 
     }, (err) => {
@@ -245,7 +244,7 @@ export class SignupFinalPage implements OnInit {
           mimeType: "image/jpeg",
           headers: {},
         }
-  
+
         var serverUrl = base_url + 'upload-avatar'
         this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
         fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
@@ -254,11 +253,11 @@ export class SignupFinalPage implements OnInit {
           this.updateUser()
         })
       }
-    } else{
+    } else {
       this.loading = false;
       this.updateUser()
     }
-  
+
   }
 
 

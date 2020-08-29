@@ -96,7 +96,6 @@ export class ChatPage implements OnInit {
 
   ionViewDidEnter(){
     this.scrollToBottom();
-
   }
 
   replyto(msg) {

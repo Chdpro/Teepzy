@@ -502,6 +502,7 @@ export class Tab1Page implements OnInit {
             includedUsers: e['includedUsers'],
             createdAt: e['createdAt'],
             reposterId: e['reposterId'],
+            matches: e['matches'],
             favorite: true
           },
         )
@@ -520,12 +521,12 @@ export class Tab1Page implements OnInit {
             includedUsers: e['includedUsers'],
             createdAt: e['createdAt'],
             reposterId: e['reposterId'],
+            matches: e['matches'],
             favorite: false
           },
         )
       }
       console.log(this.listPosts)
-
     })
   }
 

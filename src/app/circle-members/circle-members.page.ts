@@ -38,7 +38,7 @@ export class CircleMembersPage implements OnInit {
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.chatRoom.userId = this.userId
-    this.getUsersOfCircle()
+    this.getUsers()
   }
 
   joinChat() {
@@ -58,13 +58,13 @@ export class CircleMembersPage implements OnInit {
   createChatRoom() {
     this.loading = true
     this.chatRoom.connectedUsers = this.membersToChatWith
+    this.chatRoom.name != '' ? null : this.chatRoom.name = 'Entre nous deux'
     this.contactService.initChatRoom(this.chatRoom).subscribe(res => {
       console.log(res)
       if (res['status'] == 200) {
         this.loading = false
         this.presentToast('Une discussion créee')
         this.getChatRooms()
-        this.dataPasse.send(this.rooms)
         this.dismiss()
       } else {
         this.presentToast('Cette discussion existe déjà')
@@ -81,6 +81,8 @@ export class CircleMembersPage implements OnInit {
     this.contactService.mChatRooms(this.userId).subscribe(res => {
       console.log(res);
       this.rooms = res['data']
+      this.dataPasse.send(this.rooms)
+
     }, error => {
       console.log(error)
     })
@@ -89,9 +91,19 @@ export class CircleMembersPage implements OnInit {
   trackByFn(index, item) {
     return index; // or item.id
   }
-
+/*
   getUsersOfCircle() {
     this.contactService.getCircleMembers(this.userId).subscribe(res => {
+      console.log(res);
+      this.members = res['data']
+    }, error => {
+      console.log(error)
+    })
+  }*/
+
+
+  getUsers() {
+    this.contactService.AllTeepZrs(this.userId).subscribe(res => {
       console.log(res);
       this.members = res['data']
     }, error => {

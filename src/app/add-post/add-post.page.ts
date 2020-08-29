@@ -168,6 +168,7 @@ export class AddPostPage implements OnInit {
       }
     }
    else {
+     console.log('add a post')
       this.addPost(p)
       this.loading = false
 

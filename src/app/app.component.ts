@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { ContactService } from './providers/contact.service';
 import { Socket } from 'ngx-socket-io';
+import { AuthService } from './providers/auth.service';
 
 
 @Component({
@@ -18,6 +19,7 @@ import { Socket } from 'ngx-socket-io';
 export class AppComponent {
   navigate: any;
   userId =  ''
+  userInfo:any
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -27,7 +29,7 @@ export class AppComponent {
     public toastController: ToastController,
     private contactService: ContactService,
     private socket: Socket,
-
+    private authService: AuthService
 
   ) {
     this.sideMenu();
@@ -57,35 +59,7 @@ export class AppComponent {
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
     let fsc = localStorage.getItem('FinalStepCompleted')
-
-    if (token && fsc) {
-      this.socket.emit('online', id );
-      //this.socket.emit('number-online', id );
-
-      let user = {
-        userId: id,
-        isOnline: true
-      }
-      this.contactService.getConnected(user).subscribe(res =>{
-        console.log(res)
-      })
-       this.router.navigateByUrl('/tabs/tab1', {
-         replaceUrl: true
-       }
-
-       )
-      }else if(token && !fsc){
-        this.router.navigateByUrl('/signup-final', {
-          replaceUrl: true
-        }
-        )
-       }
-      else if(!token){
-       this.router.navigateByUrl('/debut', {
-         replaceUrl: true
-       }
-       )
-      }
+    this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
@@ -116,6 +90,48 @@ export class AppComponent {
         },
       ]
   }
+
+  getUserInfo(userId, token) {
+    this.authService.myInfos(userId).subscribe(res => {
+      console.log(res)
+      this.userInfo = res['data'];
+     /* if (token && this.userInfo['isCompleted']) {
+        this.socket.emit('online', userId );  
+        let user = {
+          userId: userId,
+          isOnline: true
+        }
+        this.contactService.getConnected(user).subscribe(res =>{
+          console.log(res)
+        })
+         this.router.navigateByUrl('/tabs/tab1', {
+           replaceUrl: true
+         }
+  
+         )
+        }else if(token && !this.userInfo['isCompleted']){
+          this.router.navigateByUrl('/signup-final', {
+            replaceUrl: true
+          }
+          )
+         }
+        else if(!token){
+         this.router.navigateByUrl('/debut', {
+           replaceUrl: true
+         }
+         )
+        }*/
+    }, error => {
+      console.log(error)
+   /*   if(!token){
+        this.router.navigateByUrl('/debut', {
+          replaceUrl: true
+        }
+        )
+       }*/
+    })
+  }
+
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
