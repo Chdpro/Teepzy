@@ -95,7 +95,7 @@ export class AppComponent {
     this.authService.myInfos(userId).subscribe(res => {
       console.log(res)
       this.userInfo = res['data'];
-     /* if (token && this.userInfo['isCompleted']) {
+      if (token && this.userInfo['isCompleted']) {
         this.socket.emit('online', userId );  
         let user = {
           userId: userId,
@@ -120,15 +120,15 @@ export class AppComponent {
            replaceUrl: true
          }
          )
-        }*/
+        }
     }, error => {
       console.log(error)
-   /*   if(!token){
+      if(!token){
         this.router.navigateByUrl('/debut', {
           replaceUrl: true
         }
         )
-       }*/
+       }
     })
   }
 

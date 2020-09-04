@@ -19,6 +19,7 @@ export class Tab3Page implements OnInit {
   members = []
   rooms = []
   subscription: Subscription;
+  loading =  false
 
   constructor(public navCtrl: NavController,
     private router: Router,
@@ -72,11 +73,15 @@ export class Tab3Page implements OnInit {
   }
 
   getChatRooms() {
+    this.loading = true
     this.contactService.mChatRooms(this.userId).subscribe(res => {
       console.log(res);
       this.rooms = res['data']
+      this.loading = false
     }, error => {
       console.log(error)
+      this.loading = false
+
     })
   }
 

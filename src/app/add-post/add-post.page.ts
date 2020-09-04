@@ -9,6 +9,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { base_url } from 'src/config';
 import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-post',
@@ -21,6 +22,7 @@ export class AddPostPage implements OnInit {
     userId: '',
     content: '',
     image_url: '',
+    video_url: '',
     userPhoto_url: '',
     backgroundColor: '#fff',
     userPseudo: ''
@@ -38,6 +40,10 @@ export class AddPostPage implements OnInit {
   dispImags = []
   userPhoto = []
 
+  videos: any = [];
+  videoFilesName = new Array();
+  dispVideos = []
+
   subscription: Subscription;
 
 
@@ -51,7 +57,8 @@ export class AddPostPage implements OnInit {
     private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
-    private socket: Socket
+    private socket: Socket,
+    public sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -62,7 +69,7 @@ export class AddPostPage implements OnInit {
   ionViewWillEnter() {
     this.post.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.post.userId)
-    this.socket.emit('online', this.post.userId );
+    this.socket.emit('online', this.post.userId);
 
   }
 
@@ -89,11 +96,17 @@ export class AddPostPage implements OnInit {
 
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
-      header: "Select Image source",
+      header: "Selectionner un média",
       buttons: [{
         text: 'Choisir dans votre galerie',
         handler: () => {
           this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+        }
+      },
+      {
+        text: 'Choisir une vidéo',
+        handler: () => {
+          this.pickVideo(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
       },
       {
@@ -139,11 +152,39 @@ export class AddPostPage implements OnInit {
     });
   }
 
+  pickVideo(sourceType) {
+    const options: CameraOptions = {
+      quality: 100,
+      sourceType: sourceType,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      mediaType: this.camera.MediaType.VIDEO,
+
+    }
+    this.camera.getPicture(options).then((videoData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      // let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(videoData))
+      let videoPath = 'file://' + videoData
+      this.filePath.resolveNativePath(videoPath).then((nativepath) => {
+        this.videos.push(nativepath)
+        alert(this.videos)
+      }, error => {
+        alert(JSON.stringify(error))
+      })
+
+    }, (err) => {
+      // Handle error
+      alert(err)
+
+    });
+  }
+
 
   uploadImage(p) {
     var ref = this;
     this.loading = true
-    if (ref.photos.length > 0) {
+    if (ref.photos.length > 0 && ref.videos.length == 0) {
       for (let index = 0; index < ref.photos.length; index++) {
         // interval++
         const fileTransfer = ref.transfer.create()
@@ -166,9 +207,36 @@ export class AddPostPage implements OnInit {
 
         })
       }
+    } else if (ref.videos.length > 0 && ref.photos.length == 0) {
+      for (let index = 0; index < ref.videos.length; index++) {
+        // interval++
+        const fileTransfer = ref.transfer.create()
+        let options: FileUploadOptions = {
+          fileKey: "avatar",
+          fileName: (Math.random() * 100000000000000000) + '.mp4',
+          chunkedMode: false,
+          mimeType: "video/mp4",
+          headers: {},
+        }
+        var serverUrl = base_url + 'upload-avatar'
+        this.filesName.push({ fileUrl: base_url + options.fileName, type: 'video' })
+        alert(ref.videos)
+        fileTransfer.upload(ref.videos[index], serverUrl, options).then(() => {
+          this.post.video_url = base_url + options.fileName;
+          alert(this.post.video_url)
+          this.addPost(p)
+          this.loading = false
+
+        }, error => {
+          this.loading = false
+          alert(JSON.stringify(error))
+
+
+        })
+      }
     }
-   else {
-     console.log('add a post')
+    else {
+      alert('add a post')
       this.addPost(p)
       this.loading = false
 
@@ -240,8 +308,8 @@ export class AddPostPage implements OnInit {
   }
 
 
-  ngOnDestroy() { 
-    this.subscription?  this.subscription.unsubscribe() :  null
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
     //this.socket.removeAllListeners('message');
     //this.socket.removeAllListeners('users-changed');
   }

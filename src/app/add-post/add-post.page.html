@@ -16,12 +16,13 @@
     </ion-header>
     <div class="post-txt">
 
-      
-        <div *ngIf="userPhoto?.length > 0">
-            <img *ngFor="let img of userPhoto" class="img" [src]="img" alt="">
-        </div>
-  
-      <div *ngIf="userPhoto?.length == 0" class="round-img-post" [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">
+
+      <div *ngIf="userPhoto?.length > 0">
+        <img *ngFor="let img of userPhoto" class="img" [src]="img" alt="">
+      </div>
+
+      <div *ngIf="userPhoto?.length == 0" class="round-img-post"
+        [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">
         {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}}
       </div>
     </div>
@@ -29,7 +30,23 @@
       <ion-row>
         <ion-col size="12">
           <img *ngIf="dispImags?.length > 0" class="img-to-post" [src]="dispImags[0]" alt="">
+          <!--iframe 
+          [src]="sanitizer.bypassSecurityTrustResourceUrl(dispVideos[0])" 
+          allow="autoplay;" 
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen
+          controls controlsList="nodownload"
+          >
+        </iframe-->
+          <div *ngIf="dispVideos?.length > 0">
+            <video oncontextmenu="return false;" id="myVideo" autoplay controls="false">
+              <source [src]="sanitizer.bypassSecurityTrustResourceUrl(dispVideos[0])" type="video/mp4">
+            </video>
+          </div>
+
         </ion-col>
+
         <ion-col>
           <form class="example-form">
             <mat-form-field class="example-full-width">
@@ -96,16 +113,17 @@
         <h2 class="alert-header" style="font-size: 20px;font-weight: 200;">Quel pseudo voulez-vous utiliser?</h2>
         <mat-grid-list cols="2" rowHeight="2:1">
           <mat-grid-tile>
-              <div class="example-button-row">
-                  <button (click)="uploadImage(user?.pseudoIntime)" mat-button color="warn">@{{user?.pseudoIntime}} </button>
-                </div>
+            <div class="example-button-row">
+              <button (click)="uploadImage(user?.pseudoIntime)" mat-button color="warn">@{{user?.pseudoIntime}}
+              </button>
+            </div>
           </mat-grid-tile>
           <mat-grid-tile>
-              <div class="example-button-row">
-                  <button (click)="uploadImage(user?.pseudoPro)" mat-button color="warn">@{{user?.pseudoPro}}</button>
-                </div>
+            <div class="example-button-row">
+              <button (click)="uploadImage(user?.pseudoPro)" mat-button color="warn">@{{user?.pseudoPro}}</button>
+            </div>
           </mat-grid-tile>
-     
+
         </mat-grid-list>
 
 

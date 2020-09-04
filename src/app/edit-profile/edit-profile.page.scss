@@ -85,6 +85,9 @@ ion-title{
     margin-right: auto;
   /*  box-shadow: 1px 1px 7px 2px;*/
     position: relative;
+    background-position: center center; 
+    background-size: contain;
+    background-repeat: no-repeat
 }
 
 .save-btn{

@@ -12,3 +12,4 @@ export const server_key = 'AAAA8NzPs0w:APA91bHPXon5bL196LnDHo77Qf7pelPDbQatn1QI1
 export const base_url = 'https://www.teepzy.com/'
 export const local_url = 'http://localhost:5000/'
 export const test_url = 'http://192.168.0.102:5000/'
+

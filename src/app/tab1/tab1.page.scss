@@ -34,6 +34,17 @@ ion-toolbar{
     float: left;
 }
 
+.match-pseudo{
+    height: 24px;
+    width: 24px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%; 
+    border: solid 1px #ea4e50;
+    padding-top: 3px;
+  
+}
+
 img{
     border: solid 2px #ea4e50;
     border-radius: 100%;
@@ -50,6 +61,12 @@ img{
     display: block;
     margin-left: 8px;
     margin-right: 2px;
+}
+
+.img-media, .pseudo-media{
+    height: 54px;
+    width: 54px;
+
 }
 
 .check-btn{
@@ -139,7 +156,7 @@ mat-card-header{
 .prev-btn{
     float: right;
     position: absolute;
-    height: 35%;
+    height: 22%;
     right: 0;
     background: #f0f8ff00;
     color: #f0f8ff00;
@@ -223,7 +240,14 @@ ion-icon{
     background: rgb(0 0 0 / 18%);
     padding: 14px;
     border-radius: 30px;
-    margin-left: -43px;
+    margin-left: -192px;
+
+}
+
+.filigrane{
+    background: rgb(0 0 0 / 18%);
+    padding: 14px;
+    border-radius: 30px;
 }
 .content{
     display: block;

@@ -110,7 +110,7 @@ export class ContactService {
 
   addPost(post): Observable<any> {
     let url = 'users/posts';
-    return this.http.post(local_url + url, JSON.stringify(post), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   rePost(post): Observable<any> {
@@ -135,7 +135,7 @@ export class ContactService {
 
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get( base_url + url, httpOptionsJson);
   }
 
   getSocials(): Observable<any> {
@@ -151,6 +151,12 @@ export class ContactService {
   SearchOnMatch(search?:any){
     let url = 'users/searchMatch';
     return this.http.post(base_url + url, JSON.stringify(search), httpOptionsJson);
+  }
+
+
+  changeAccount(change?:any){
+    let url = 'users/changeAccount';
+    return this.http.post(base_url + url, JSON.stringify(change), httpOptionsJson);
   }
 
 

@@ -16,7 +16,9 @@ export class LinkSheetPage implements OnInit {
   users = []
   usersMatch = []
   usersSelected = []
-  publication:any
+  publication = {
+    userId:''
+  }
   match = true
   loading = false
 
@@ -46,6 +48,7 @@ export class LinkSheetPage implements OnInit {
   ionViewWillEnter(){
     let post = this.navParams.data;
     console.log(post)
+    this.publication.userId = post.userId
     this.matches = post.matches
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.userId)
@@ -87,22 +90,29 @@ export class LinkSheetPage implements OnInit {
   }
 
 
-
-
   inviter(){
     this.user
   }
 
-  linker(linkedUser) {
+  linkPeople(){
+    let count = 0
+    if (this.usersSelected.length > 0) {
+      for (const us of this.usersSelected) {
+        count++
+        this.linker(us)
+        count == this.usersSelected.length ? this.presentToast('Vous avez linké ces personnes') : null
+      }  
+    }
+  }
+
+  linker(linkedUserId) {
     let invitation = {
       idSender:this.publication.userId,
-      idReceiver: linkedUser._id,
+      idReceiver: linkedUserId,
       typeLink: 'PRO',
       linkerId: this.userId,
       message: this.message
     }
-    console.log(invitation)
-
     if (this.userId == this.publication.userId) {
       this.presentToast("Vous ne pouvez pas linker cette publication parce que vous en êtes l'auteur")
     }else{

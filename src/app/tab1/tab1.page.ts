@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
-import { ToastController, AlertController, IonSlides, MenuController, ModalController, IonRouterOutlet } from '@ionic/angular';
+import { ToastController, AlertController, IonSlides, MenuController, ModalController, IonRouterOutlet, ActionSheetController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import * as moment from 'moment';
 import { DatapasseService } from '../providers/datapasse.service';
@@ -13,6 +13,8 @@ import { CommentsPage } from '../comments/comments.page';
 import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import { Globals } from '../globals';
+import { DomSanitizer } from '@angular/platform-browser';
+import { typeAccount } from '../constant/constant';
 
 
 @Component({
@@ -67,7 +69,7 @@ export class Tab1Page implements OnInit {
 
   users = []
 
-
+  video_url = '../../assets/img/test.mp4'
 
   slideOpts = {
     on: {
@@ -149,6 +151,8 @@ export class Tab1Page implements OnInit {
     private socket: Socket,
     private router: Router,
     private globals: Globals,
+    public  sanitizer:DomSanitizer,
+    public actionSheetController: ActionSheetController,
     private contactService: ContactService) {
     this.menuCtrl.enable(true);
     this.menuCtrl.swipeGesture(true);
@@ -530,6 +534,48 @@ export class Tab1Page implements OnInit {
     })
   }
 
+
+  async changePseudo() {
+    const actionSheet = await this.actionSheetController.create({
+      header: "Changer de compte",
+      buttons: [{
+        text: '@' + this.user.pseudoPro,
+        handler: () => {
+         // this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+         this.changeAccount(typeAccount.pseudoPro)
+        }
+      },
+      {
+        text: '@' + this.user.pseudoIntime,
+        handler: () => {
+         // this.pickVideo(this.camera.PictureSourceType.PHOTOLIBRARY);
+         this.changeAccount(typeAccount.pseudoIntime)
+        }
+      },
+
+      {
+        text: 'Annuler',
+        role: 'cancel'
+      }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+
+  changeAccount(typeAccount){
+    let change = {
+      typeCircle: typeAccount,
+      userId: this.userId
+    }
+    this.contactService.changeAccount(change).subscribe(res =>{
+      console.log(res)
+      this.presentToast('compte changé')
+      this.getUserInfo(this.userId)
+    }, error =>{
+      console.log(error)
+    })
+  }
 
   showLinkModal(p) {
     this.publication = p

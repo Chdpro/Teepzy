@@ -3,7 +3,15 @@
     <ion-grid>
       <ion-row>
         <ion-col size="6">
-          <h3 style="margin-top: 9px;color: #ea4e50;font-size: 20px;" *ngIf="!showSearch">Bonjour {{user?.prenom}}</h3>
+          <h3 style="margin-top: 9px;color: #ea4e50;font-size: 20px;" *ngIf="!showSearch">
+            <span *ngIf="user?.typeCircle == 'PRO'">
+              @{{user?.pseudoPro}}
+            </span>
+            <span *ngIf="user?.typeCircle == 'AMICAL'">
+              @{{user?.pseudoIntime}}
+            </span>
+            <ion-icon (click)="changePseudo()" name="chevron-down-outline"></ion-icon>
+          </h3>
         </ion-col>
         <ion-col>
           <div *ngIf="!showSearch" class="example-button-container">
@@ -55,8 +63,7 @@
 
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
-    [ngClass]="{'ion-slide-img': p?.image_url != '', 'ion-slide-no-img': p?.image_url == ''}"
-    [ngStyle]="{
+      [ngClass]="{'ion-slide-img': p?.image_url != '', 'ion-slide-no-img': p?.image_url == ''}" [ngStyle]="{
         'color': p?.backgroundColor == '#fff' && p?.image_url == ''? 'black' : 'white', 
         'background-image':  p?.image_url != '' ? 'url(' + p?.image_url + ')' : '',
         'background-color': p?.image_url == '' ? p?.backgroundColor : 'black',
@@ -64,6 +71,13 @@
         'background-size': 'cover', 
         'background-repeat': 'no-repeat'
       }">
+      <div *ngIf="p?.video_url">
+        <div style="position: relative; top: 0; width: 100%; height: 100%; z-index: -1;">
+          <video style="width:100%; height:100%" oncontextmenu="return false;" id="myVideo" autoplay controls="false">
+            <source [src]="sanitizer.bypassSecurityTrustResourceUrl(p?.video_url)" type="video/mp4">
+          </video>
+        </div>
+      </div>
       <div class="post-txt">
 
         <div class="header-slide" (click)="next()">
@@ -74,20 +88,22 @@
                   Vous avez partagé le teepz de
                 </span>
               </ion-col>
-              <ion-col [ngStyle]="{'background': p?.image_url != '' ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
-              'font-weight': p?.image_url != '' ? '800': '100' }">
-                <div >
+              <ion-col *ngIf="!p?.image_url || !p?.video_url" [ngStyle]="{'background': p?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
+              'font-weight': p?.image_url ? '800': '100' }">
+                <div>
                   <img *ngIf="p?.userPhoto_url != null " class="img" [src]="p?.userPhoto_url" alt="">
                 </div>
 
-                <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class="round-img"
-                  [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
-                  {{p?.userPseudo | slice:0:1| uppercase}}
+                <div>
+                  <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class="round-img"
+                    [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                    {{p?.userPseudo | slice:0:1| uppercase}}
+                  </div>
                 </div>
+
               </ion-col>
-              <ion-col  [ngStyle]="{'background': p?.image_url != '' ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
-                
-               'font-weight': p?.image_url != '' ? '800': '100' }" style="    text-align: left;">
+              <ion-col *ngIf="!p?.image_url || !p?.video_url" [ngStyle]="{'background': p?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
+               'font-weight': p?.image_url ? '800': '100' }" style="    text-align: left;">
                 <strong>
                   {{p?.userPseudo}}
                 </strong><br>
@@ -116,27 +132,76 @@
                   il y a 1 mois
                 </span>
               </ion-col>
+              <ion-col *ngIf="p?.image_url|| p?.video_url">
+                <div style="float: right;margin-right: -25px;">
+                  <img *ngIf="p?.userPhoto_url != null " class="img img-media" [src]="p?.userPhoto_url" alt="">
+                </div>
+
+                <div style="float: right;margin-right: -26px;" *ngIf="p?.image_url || p?.video_url">
+                  <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class="round-img pseudo-media"
+                    [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                    {{p?.userPseudo | slice:0:1| uppercase}}
+                  </div>
+                </div>
+
+              </ion-col>
             </ion-row>
           </ion-grid>
 
 
         </div><br>
-        <p class="content" *ngIf="p?.image_url == ''" [ngStyle]="{'font-size': p?.content.length > 60 ? '17px' : '23px' }" (click)="next()">
+        <p class="content" *ngIf="!p?.image_url && !p?.video_url"
+          [ngStyle]="{'font-size': p?.content.length > 60 ? '17px' : '23px' }" (click)="next()">
           {{ p?.content }}
         </p>
 
 
-        <div [ngStyle]="{'bottom': p?.image_url != '' ? '-30px' : '57px' }"  class="match-img">
-          <div>
-            <span >MATCH</span>
-            <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
-              <img class="match-image" [src]="m?.photo" alt="">
+        <div [ngStyle]="{'bottom': p?.image_url || p?.video_url ? '-30px' : '57px' }" class="match-img">
+          <span style="color: #ffff;margin-left: 50px !important;" *ngIf="p?.image_url || p?.video_url">
+            <strong>
+              @{{p?.userPseudo}} -
+            </strong>
+            <span *ngIf="time(p?.createdAt) != 'il y a un mois'">
+              <span *ngIf="time(p?.createdAt) != 'il y a un jour'">
+                <span *ngIf="time(p?.createdAt) != 'il y a une minute'">
+                  <span class="time" *ngIf="time(p?.createdAt) != 'il y a une heure'">
+                    {{time(p?.createdAt) }}
+                  </span>
+                </span>
+              </span>
             </span>
-            <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0">0</span>
-            <span style="margin-top: 6px;" *ngIf="p?.matches?.length > 3">+ {{p.matches?.length - 3}} </span> <br>
-          
+            <span class="time" *ngIf="time(p?.createdAt) == 'il y a une minute'">
+              il y a 1 minute
+            </span>
+            <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
+              il y a 1 heure
+            </span>
+            <span class="time" *ngIf="time(p?.createdAt) == 'il y a un jour'">
+              il y a 1 jour
+            </span>
+            <span class="time" *ngIf="time(p?.createdAt) == 'il y a un mois'">
+              il y a 1 mois
+            </span>
+          </span>
+
+          <div style="display: flex;margin-top: 12px;"*ngIf="!p?.image_url && !p?.video_url">
+            <span>MATCH</span>
+            <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
+              <img class="match-image" *ngIf="m?.photo != null" [src]="m?.photo" alt="">
+              <div class="match-pseudo" *ngIf="m?.photo == null"
+                [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                {{m?.prenom | slice:0:1| uppercase}}
+              </div>
+
+            </span>
+            <span *ngIf="p?.matches?.length == 0"> 0</span>
+            <span *ngIf="p?.matches?.length > 3">
+              + {{p.matches?.length - 3}} </span> <br>
           </div>
-          <div class="content-down" *ngIf="p?.image_url != ''"  [ngStyle]="{'font-size': p?.content.length > 20 ? '14px' : '17px', 'color': 'white', 'font-weight': '800' }" (click)="next()">
+
+          <div class="content-down" *ngIf="p?.image_url || p?.video_url"
+            [ngStyle]="{'font-size': p?.content.length > 20 ? '14px' : '17px', 'color': 'white', 'font-weight': '800' }"
+            (click)="next()">
             {{ p?.content }}
           </div>
         </div>
@@ -227,12 +292,23 @@
 
               </section>
             </ion-col>
+            <ion-col size="12">
+              <div class="filigrane" style="float: right;font-weight: 800;" *ngIf="p?.image_url || p?.video_url">
+                <span>MATCH</span>
+                <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
+                  <img class="match-image" [src]="m?.photo" alt="">
+                </span>
+                <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0"> 0</span>
+                <span style="margin-top: 6px;" *ngIf="p?.matches?.length > 3">+ {{p.matches?.length - 3}} </span> <br>
+              </div>
+            </ion-col>
           </ion-row>
         </ion-grid>
       </div>
 
 
     </ion-slide>
+
     <div class="next-btn" (click)='prev()'>
       prev
     </div>

@@ -205,7 +205,7 @@ export class SignupPage implements OnInit {
   signup() {
     console.log(JSON.stringify(this.user));
     this.presentLoading()
-    //this.user.playerId = '111288d-dkjlm667'
+   // this.user.playerId = '971bc26a-e1fb-428c-8902-94d691f857eb'
     this.user.phone = this.selected + this.telephone;
     if (this.user.password == this.user.conf) {
       this.authService.signup(JSON.stringify(this.user)).subscribe(res => {

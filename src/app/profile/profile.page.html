@@ -18,10 +18,11 @@
     <div class="toggle" (click)="switchProfile()" (touchstart)="swipe($event, 'start')"
       (touchend)="swipe($event, 'end')">
       <div *ngIf="user?.photo != null">
-      <img class="round-img-profile" [src]="user?.photo" alt="">
+        <img class="round-img-profile" [src]="user?.photo" alt="">
       </div>
-      <div class="round-img"  *ngIf="user?.photo == null"  [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
-        {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}} 
+      <div class="round-img" *ngIf="user?.photo == null"
+        [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+        {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}}
       </div>
       <span (click)="switchProfile()" *ngIf="isProProfile" class="material-icons toggle_o">
         toggle_off
@@ -53,15 +54,16 @@
         <ion-grid>
           <ion-row *ngIf="isProProfile">
 
-     
+
             <ion-col size="12">
 
-         
+
 
               <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <button mat-button class="rs-button" *ngFor="let rs of user?.socialsPro" [matMenuTriggerFor]="menu1">
+                    <button mat-button class="rs-button" *ngFor="let rs of user?.socialsPro"
+                      [matMenuTriggerFor]="menu1">
                       <mat-card class="rs-card">
                         <ion-icon class="rs-btn" [name]="rs?.icon"></ion-icon>
                       </mat-card>
@@ -70,13 +72,15 @@
                       </mat-menu>
                     </button>
                   </div>
-            
+
                 </div>
-                <a *ngIf="user?.socialsPro.length > 3" class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <a *ngIf="user?.socialsPro.length > 3" class="carousel-control-prev" href="#carouselExampleControls"
+                  role="button" data-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span class="sr-only">Previous</span>
                 </a>
-                <a *ngIf="user?.socialsPro.length > 3" class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <a *ngIf="user?.socialsPro.length > 3" class="carousel-control-next" href="#carouselExampleControls"
+                  role="button" data-slide="next">
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="sr-only">Next</span>
                 </a>
@@ -84,17 +88,18 @@
 
 
             </ion-col>
-          
+
 
           </ion-row>
           <ion-row *ngIf="!isProProfile">
 
-  
+
             <ion-col size="12">
               <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <button mat-button class="rs-button" *ngFor="let rs of user?.socialsAmical" [matMenuTriggerFor]="menu1">
+                    <button mat-button class="rs-button" *ngFor="let rs of user?.socialsAmical"
+                      [matMenuTriggerFor]="menu1">
                       <mat-card class="rs-card">
                         <ion-icon class="rs-btn" [name]="rs?.icon"></ion-icon>
                       </mat-card>
@@ -103,21 +108,23 @@
                       </mat-menu>
                     </button>
                   </div>
-            
+
                 </div>
-                <a *ngIf="user?.socialsAmical.length > 3" class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <a *ngIf="user?.socialsAmical.length > 3" class="carousel-control-prev" href="#carouselExampleControls"
+                  role="button" data-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span class="sr-only">Previous</span>
                 </a>
-                <a *ngIf="user?.socialsAmical.length > 3" class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <a *ngIf="user?.socialsAmical.length > 3" class="carousel-control-next" href="#carouselExampleControls"
+                  role="button" data-slide="next">
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="sr-only">Next</span>
                 </a>
               </div>
 
             </ion-col>
-     
-     
+
+
 
 
           </ion-row>
@@ -157,88 +164,86 @@
                 </ion-chip>
               </span>
             </ion-col>
-              <ion-col size="12">
-                <h2>
+            <ion-col size="12">
+              <h2>
                 Mes Favoris
 
-                </h2>
-              </ion-col>
-              <ion-col size="12">
-                <mat-paginator *ngIf="listFavorites?.length > 0" [length]="listFavorites?.length"
-                  [pageSize]="pageSize" (page)="pageEvent = getPaginatorData($event)">
-                </mat-paginator>
-              </ion-col>
-              <ion-col size="6" *ngFor="let lt of listFavorites | slice: lowValue : highValue  ;trackBy: trackByFn ">
-  
-                <mat-card class="example-card">
-                  <mat-card-header>
-  
-                  </mat-card-header>
-                <mat-card-content 
+              </h2>
+            </ion-col>
+            <ion-col size="12">
+              <mat-paginator *ngIf="listFavorites?.length > 0" [length]="listFavorites?.length" [pageSize]="pageSize"
+                (page)="pageEvent = getPaginatorData($event)">
+              </mat-paginator>
+            </ion-col>
+            <ion-col size="6" *ngFor="let lt of listFavorites | slice: lowValue : highValue  ;trackBy: trackByFn ">
+
+              <mat-card class="example-card">
+                <mat-card-header>
+
+                </mat-card-header>
+                <mat-card-content
                   [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white',
                    'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' }">
-                    <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
-  
-                      {{lt?.content}}
-                    </p>
-                  </mat-card-content>
-                  <mat-card-actions>
-                    <ion-grid>
-                      <ion-row>
-                        <ion-col size="4">
-                          <div>
-                              <img *ngIf="lt?.userPhoto_url != null" class="img-teepz" [src]="lt?.userPhoto_url"
-                              alt="">
-                            <div  *ngIf="lt?.userPhoto_url == null"  class="round-img-post">
-                              {{lt?.userPseudo | slice:0:1| uppercase}}  
-                            </div>
+                  <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
+
+                    {{lt?.content}}
+                  </p>
+                </mat-card-content>
+                <mat-card-actions>
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col size="4">
+                        <div>
+                          <img *ngIf="lt?.userPhoto_url != null" class="img-teepz" [src]="lt?.userPhoto_url" alt="">
+                          <div *ngIf="lt?.userPhoto_url == null" class="round-img-post">
+                            {{lt?.userPseudo | slice:0:1| uppercase}}
                           </div>
-                        </ion-col>
-                        <ion-col class="pseudo-txt">
-                          <strong>
-                            {{lt?.userPseudo}}
-                          </strong>
-                          <small>
-                            {{lt?.circle || '' }}
-                          </small><br>
-                          <span *ngIf="time(lt?.createdAt) != 'il y a un mois'">
-                            <span *ngIf="time(lt?.createdAt) != 'il y a un jour'">
+                        </div>
+                      </ion-col>
+                      <ion-col class="pseudo-txt">
+                        <strong>
+                          {{lt?.userPseudo}}
+                        </strong>
+                        <small>
+                          {{lt?.circle || '' }}
+                        </small><br>
+                        <span *ngIf="time(lt?.createdAt) != 'il y a un mois'">
+                          <span *ngIf="time(lt?.createdAt) != 'il y a un jour'">
                             <span *ngIf="time(lt?.createdAt) != 'il y a une minute'">
-                              <span class="time"
-                              *ngIf="time(lt?.createdAt) != 'il y a une heure'">
-                              {{time(lt?.createdAt) }}
-                            </span>
-                            </span>
+                              <span class="time" *ngIf="time(lt?.createdAt) != 'il y a une heure'">
+                                {{time(lt?.createdAt) }}
+                              </span>
                             </span>
                           </span>
-                          <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une minute'">
-                            il y a 1 minute
-                          </span>
-                          <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">
-                            il y a 1 heure
-                          </span>
-                          <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un jour'">
-                            il y a 1 jour
-                          </span>
-                          <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un mois'">
-                            il y a 1 mois
-                          </span>
-                   
-                        </ion-col>
-                      </ion-row>
-                    </ion-grid>
-  
-  
-                  </mat-card-actions>
-                </mat-card>
-  
-              </ion-col>
-              <ion-col size="12" *ngIf="listFavorites?.length == 0">
-                  <div>
-                    Aucun post ajouté aux favoris
-                  </div>
-              </ion-col>
-  
+                        </span>
+                        <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une minute'">
+                          il y a 1 minute
+                        </span>
+                        <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">
+                          il y a 1 heure
+                        </span>
+                        <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un jour'">
+                          il y a 1 jour
+                        </span>
+                        <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un mois'">
+                          il y a 1 mois
+                        </span>
+
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+
+
+                </mat-card-actions>
+              </mat-card>
+
+            </ion-col>
+            <ion-col size="12" *ngIf="listFavorites?.length == 0">
+              <div>
+                Aucun post ajouté aux favoris
+              </div>
+            </ion-col>
+
           </ion-row>
         </ion-grid>
 
@@ -315,8 +320,8 @@
               </h2>
             </ion-col>
             <ion-col size="12">
-              <mat-paginator *ngIf="listTeepz?.length > 0" [length]="listTeepz?.length"
-                [pageSize]="pageSize" (page)="pageEvent = getPaginatorDataTeepzr($event)">
+              <mat-paginator *ngIf="listTeepz?.length > 0" [length]="listTeepz?.length" [pageSize]="pageSize"
+                (page)="pageEvent = getPaginatorDataTeepzr($event)">
               </mat-paginator>
             </ion-col>
             <ion-col size="6" *ngFor="let lt of listTeepz | slice: lowValue : highValue  ;trackBy: trackByFn ">
@@ -325,9 +330,9 @@
                 <mat-card-header>
 
                 </mat-card-header>
-                <mat-card-content 
-                [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' }">
-                  <p  [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
+                <mat-card-content
+                  [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' }">
+                  <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
                     {{lt?.content}}
                   </p>
                 </mat-card-content>
@@ -336,31 +341,31 @@
                     <ion-row>
                       <ion-col size="4">
                         <div>
-                          <img *ngIf="lt?.userPhoto_url != null" class="img-teepz" [src]="lt?.userPhoto_url"
-                            alt="">
+                          <img *ngIf="lt?.userPhoto_url != null" class="img-teepz" [src]="lt?.userPhoto_url" alt="">
 
-                            <div *ngIf="lt?.userPhoto_url == null" class="round-img-post">
-                              {{lt?.userPseudo | slice:0:1| uppercase}} {{lt?.nom | slice:0:1 | uppercase}} 
-                            </div>
+                          <div *ngIf="lt?.userPhoto_url == null" class="round-img-post">
+                            {{lt?.userPseudo | slice:0:1| uppercase}} {{lt?.nom | slice:0:1 | uppercase}}
+                          </div>
                         </div>
                       </ion-col>
-                      <ion-col class="pseudo-txt" >
+                      <ion-col class="pseudo-txt">
                         <strong>
                           {{lt?.userPseudo}}
                         </strong><br>
                         <small>
                           {{lt?.circle || '' }}
                         </small>
-                        <span class="time" *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(p?.createdAt) != 'il y a un jour') ">
+                        <span class="time"
+                          *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(p?.createdAt) != 'il y a un jour') ">
                           {{time(lt?.createdAt) }}
                         </span>
                         <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">
                           il y a 1 heure
                         </span>
                         <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un jour'">
-                            il y a 1 jour
-                          </span>
-                 
+                          il y a 1 jour
+                        </span>
+
                       </ion-col>
                     </ion-row>
                   </ion-grid>
