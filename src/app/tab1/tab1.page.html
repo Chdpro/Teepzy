@@ -71,15 +71,31 @@
         'background-size': 'cover', 
         'background-repeat': 'no-repeat'
       }">
-      <div *ngIf="p?.video_url">
-        <div style="position: relative; top: 0; width: 100%; height: 100%; z-index: -1;">
-          <video style="width:100%; height:100%" oncontextmenu="return false;" id="myVideo" autoplay controls="false">
-            <source [src]="sanitizer.bypassSecurityTrustResourceUrl(p?.video_url)" type="video/mp4">
-          </video>
-        </div>
-      </div>
-      <div class="post-txt">
 
+      <div (click)="toggleVideo()"  class="post-txt">
+        <div *ngIf="p?.video_url">
+          <div >
+            <video #videoPlayer>
+              <source [src]="sanitizer.bypassSecurityTrustResourceUrl(p?.video_url)" type="video/mp4" />
+            </video>
+         
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+
+                </ion-col>
+                <ion-col>
+                  <button *ngIf="!isPlaying"  class="play-btn" mat-button>
+                    <ion-icon name="play-outline"></ion-icon>
+                  </button>
+                </ion-col>
+                <ion-col>
+                  
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+        </div>
         <div class="header-slide" (click)="next()">
           <ion-grid>
             <ion-row class="infos">
@@ -88,7 +104,7 @@
                   Vous avez partagé le teepz de
                 </span>
               </ion-col>
-              <ion-col *ngIf="!p?.image_url || !p?.video_url" [ngStyle]="{'background': p?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
+              <ion-col *ngIf="!p?.image_url && !p?.video_url" [ngStyle]="{'background': p?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
               'font-weight': p?.image_url ? '800': '100' }">
                 <div>
                   <img *ngIf="p?.userPhoto_url != null " class="img" [src]="p?.userPhoto_url" alt="">
@@ -102,7 +118,7 @@
                 </div>
 
               </ion-col>
-              <ion-col *ngIf="!p?.image_url || !p?.video_url" [ngStyle]="{'background': p?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
+              <ion-col *ngIf="!p?.image_url && !p?.video_url" [ngStyle]="{'background': p?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
                'font-weight': p?.image_url ? '800': '100' }" style="    text-align: left;">
                 <strong>
                   {{p?.userPseudo}}
@@ -138,7 +154,7 @@
                 </div>
 
                 <div style="float: right;margin-right: -26px;" *ngIf="p?.image_url || p?.video_url">
-                  <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class="round-img pseudo-media"
+                  <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class=" pseudo-media"
                     [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
                     {{p?.userPseudo | slice:0:1| uppercase}}
                   </div>
@@ -184,7 +200,7 @@
             </span>
           </span>
 
-          <div style="display: flex;margin-top: 12px;"*ngIf="!p?.image_url && !p?.video_url">
+          <div style="display: flex;margin-top: 12px;" *ngIf="!p?.image_url && !p?.video_url">
             <span>MATCH</span>
             <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
               <img class="match-image" *ngIf="m?.photo != null" [src]="m?.photo" alt="">

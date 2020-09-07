@@ -37,6 +37,7 @@ import { AddProjectPageModule } from './add-project/add-project.module';
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { VideoPlayer } from '@ionic-native/video-player/ngx';
 
 import { local_url, base_url } from 'src/config';
 import { Globals } from './globals';
@@ -83,6 +84,7 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     OneSignal,
     Clipboard,
     Globals,
+    VideoPlayer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
     { 

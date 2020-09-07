@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
 import { ToastController, AlertController, IonSlides, MenuController, ModalController, IonRouterOutlet, ActionSheetController } from '@ionic/angular';
@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { Globals } from '../globals';
 import { DomSanitizer } from '@angular/platform-browser';
 import { typeAccount } from '../constant/constant';
+import { VideoPlayer } from '@ionic-native/video-player/ngx';
 
 
 @Component({
@@ -70,7 +71,7 @@ export class Tab1Page implements OnInit {
   users = []
 
   video_url = '../../assets/img/test.mp4'
-
+  isPlaying = false
   slideOpts = {
     on: {
       beforeInit() {
@@ -139,6 +140,10 @@ export class Tab1Page implements OnInit {
 
   navigationSubscription;
 
+  @ViewChild('videoPlayer', null) videoplayer: ElementRef;
+
+
+
   constructor(private authService: AuthService,
     private toasterController: ToastController,
     private socialSharing: SocialSharing,
@@ -151,8 +156,9 @@ export class Tab1Page implements OnInit {
     private socket: Socket,
     private router: Router,
     private globals: Globals,
-    public  sanitizer:DomSanitizer,
+    public sanitizer: DomSanitizer,
     public actionSheetController: ActionSheetController,
+    private videoPlayer: VideoPlayer,
     private contactService: ContactService) {
     this.menuCtrl.enable(true);
     this.menuCtrl.swipeGesture(true);
@@ -209,10 +215,17 @@ export class Tab1Page implements OnInit {
 
   public next() {
     this.slides.slideNext();
+    this.isPlaying = false
+    this.videoplayer.nativeElement.pause()
+
   }
 
   public prev() {
     this.slides.slidePrev();
+    this.isPlaying = false
+    this.videoplayer.nativeElement.pause()
+
+
   }
 
   dismissShareSheet() {
@@ -223,6 +236,13 @@ export class Tab1Page implements OnInit {
     }
   }
 
+
+  toggleVideo(event?: any) {
+    this.isPlaying = true
+    this.videoplayer.nativeElement.play()
+
+
+  }
 
   showShareSheet(post) {
     if (post) {
@@ -502,6 +522,7 @@ export class Tab1Page implements OnInit {
             userPseudo: e['userPseudo'],
             content: e['content'],
             image_url: e['image_url'],
+            video_url: e['video_url'],
             backgroundColor: e['backgroundColor'],
             includedUsers: e['includedUsers'],
             createdAt: e['createdAt'],
@@ -521,6 +542,7 @@ export class Tab1Page implements OnInit {
             userPseudo: e['userPseudo'],
             content: e['content'],
             image_url: e['image_url'],
+            video_url: e['video_url'],
             backgroundColor: e['backgroundColor'],
             includedUsers: e['includedUsers'],
             createdAt: e['createdAt'],
@@ -541,15 +563,15 @@ export class Tab1Page implements OnInit {
       buttons: [{
         text: '@' + this.user.pseudoPro,
         handler: () => {
-         // this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
-         this.changeAccount(typeAccount.pseudoPro)
+          // this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+          this.changeAccount(typeAccount.pseudoPro)
         }
       },
       {
         text: '@' + this.user.pseudoIntime,
         handler: () => {
-         // this.pickVideo(this.camera.PictureSourceType.PHOTOLIBRARY);
-         this.changeAccount(typeAccount.pseudoIntime)
+          // this.pickVideo(this.camera.PictureSourceType.PHOTOLIBRARY);
+          this.changeAccount(typeAccount.pseudoIntime)
         }
       },
 
@@ -562,17 +584,34 @@ export class Tab1Page implements OnInit {
     await actionSheet.present();
   }
 
+  playVideoHosted(video) {
+    console.log('video')
 
-  changeAccount(typeAccount){
+    if (video) {
+      this.isPlaying = true
+      this.videoPlayer.play(video).then(() => {
+        console.log('video completed');
+        this.isPlaying = false
+      }).catch(err => {
+        console.log(err);
+        alert(JSON.stringify(err))
+        this.isPlaying = false
+
+      });
+    }
+
+  }
+
+  changeAccount(typeAccount) {
     let change = {
       typeCircle: typeAccount,
       userId: this.userId
     }
-    this.contactService.changeAccount(change).subscribe(res =>{
+    this.contactService.changeAccount(change).subscribe(res => {
       console.log(res)
       this.presentToast('compte changé')
       this.getUserInfo(this.userId)
-    }, error =>{
+    }, error => {
       console.log(error)
     })
   }

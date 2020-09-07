@@ -10,6 +10,7 @@ import { base_url } from 'src/config';
 import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
+import { typeAccount } from '../constant/constant';
 
 @Component({
   selector: 'app-add-post',
@@ -141,13 +142,16 @@ export class AddPostPage implements OnInit {
       this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
       this.userPhoto[0] == this.dispImags[0]
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
-        this.photos.push(nativepath)
+        if (this.photos.length == 0) {
+          this.photos.push(nativepath)
+        }else if(this.photos.length > 1){
+            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+          }
       }, error => {
       })
 
     }, (err) => {
       // Handle error
-      alert(err)
 
     });
   }
@@ -167,15 +171,16 @@ export class AddPostPage implements OnInit {
       this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(videoData))
       let videoPath = 'file://' + videoData
       this.filePath.resolveNativePath(videoPath).then((nativepath) => {
+        if (this.videos.length == 0) {
         this.videos.push(nativepath)
-        alert(this.videos)
+        }else if(this.videos.length > 1){
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
+        }
       }, error => {
-        alert(JSON.stringify(error))
       })
 
     }, (err) => {
       // Handle error
-      alert(err)
 
     });
   }
@@ -199,7 +204,7 @@ export class AddPostPage implements OnInit {
         this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
         fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
           this.post.image_url = base_url + options.fileName;
-          this.addPost(p)
+          this.addPost()
           this.loading = false
 
         }, error => {
@@ -220,24 +225,20 @@ export class AddPostPage implements OnInit {
         }
         var serverUrl = base_url + 'upload-avatar'
         this.filesName.push({ fileUrl: base_url + options.fileName, type: 'video' })
-        alert(ref.videos)
         fileTransfer.upload(ref.videos[index], serverUrl, options).then(() => {
           this.post.video_url = base_url + options.fileName;
-          alert(this.post.video_url)
-          this.addPost(p)
+          this.addPost()
           this.loading = false
 
         }, error => {
           this.loading = false
-          alert(JSON.stringify(error))
 
 
         })
       }
     }
     else {
-      alert('add a post')
-      this.addPost(p)
+      this.addPost()
       this.loading = false
 
     }
@@ -262,10 +263,15 @@ export class AddPostPage implements OnInit {
     })
   }
 
-  addPost(p) {
+  addPost() {
     this.loading = true
     this.post.userPhoto_url = this.user.photo
-    this.post.userPseudo = p
+    if (this.user.typeCircle == typeAccount.pseudoIntime) {
+    this.post.userPseudo = this.user.pseudoIntime
+      
+    }else if(this.user.typeCircle == typeAccount.pseudoPro){
+      this.post.userPseudo = this.user.pseudoPro
+    }
     console.log(this.post);
     //this.photos.length > 0 ? this.uploadImage() : null
     this.contactService.addPost(this.post).subscribe(res => {
