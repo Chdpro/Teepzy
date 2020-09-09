@@ -3,14 +3,14 @@
     <ion-grid>
       <ion-row>
         <ion-col size="6">
-          <h3 style="margin-top: 9px;color: #ea4e50;font-size: 20px;" *ngIf="!showSearch">
+          <h3 (click)="changePseudo()" style="margin-top: 9px;color: #ea4e50;font-size: 20px;" *ngIf="!showSearch">
             <span *ngIf="user?.typeCircle == 'PRO'">
               @{{user?.pseudoPro}}
             </span>
             <span *ngIf="user?.typeCircle == 'AMICAL'">
               @{{user?.pseudoIntime}}
             </span>
-            <ion-icon (click)="changePseudo()" name="chevron-down-outline"></ion-icon>
+            <ion-icon name="chevron-down-outline"></ion-icon>
           </h3>
         </ion-col>
         <ion-col>
@@ -72,25 +72,25 @@
         'background-repeat': 'no-repeat'
       }">
 
-      <div (click)="toggleVideo()"  class="post-txt">
+      <div (click)="toggleVideo()" class="post-txt">
         <div *ngIf="p?.video_url">
-          <div >
+          <div>
             <video #videoPlayer>
               <source [src]="sanitizer.bypassSecurityTrustResourceUrl(p?.video_url)" type="video/mp4" />
             </video>
-         
+
             <ion-grid>
               <ion-row>
                 <ion-col>
 
                 </ion-col>
                 <ion-col>
-                  <button *ngIf="!isPlaying"  class="play-btn" mat-button>
+                  <button *ngIf="!isPlaying" class="play-btn" mat-button>
                     <ion-icon name="play-outline"></ion-icon>
                   </button>
                 </ion-col>
                 <ion-col>
-                  
+
                 </ion-col>
               </ion-row>
             </ion-grid>
@@ -148,24 +148,12 @@
                   il y a 1 mois
                 </span>
               </ion-col>
-              <ion-col *ngIf="p?.image_url|| p?.video_url">
-                <div style="float: right;margin-right: -25px;">
-                  <img *ngIf="p?.userPhoto_url != null " class="img img-media" [src]="p?.userPhoto_url" alt="">
-                </div>
 
-                <div style="float: right;margin-right: -26px;" *ngIf="p?.image_url || p?.video_url">
-                  <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class=" pseudo-media"
-                    [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
-                    {{p?.userPseudo | slice:0:1| uppercase}}
-                  </div>
-                </div>
-
-              </ion-col>
             </ion-row>
           </ion-grid>
 
 
-        </div><br>
+        </div>
         <p class="content" *ngIf="!p?.image_url && !p?.video_url"
           [ngStyle]="{'font-size': p?.content.length > 60 ? '17px' : '23px' }" (click)="next()">
           {{ p?.content }}
@@ -223,7 +211,21 @@
         </div>
 
         <ion-grid>
-          <ion-row>
+          <ion-row [ngStyle]=" {'margin-top': !p?.image_url && !p?.video_url? '-111px' : '0'}">
+            <ion-col *ngIf="p?.image_url|| p?.video_url">
+              <div style="float: right;">
+                <img *ngIf="p?.userPhoto_url != null " class="img img-media" [src]="p?.userPhoto_url" alt="">
+              </div>
+
+              <div style="float: right;" *ngIf="p?.image_url || p?.video_url">
+                <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class=" pseudo-media"
+                  [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                  {{p?.userPseudo | slice:0:1| uppercase}}
+                </div>
+              </div>
+
+            </ion-col>
+
             <ion-col size="12">
               <section>
                 <div class="example-button-row">
@@ -263,7 +265,7 @@
                     <div class="example-button-container" (click)="addFavorite(p?._id)">
                       <button mat-fab class="mat-button" color="primary"
                         aria-label="Example icon button with a delete icon">
-                        <ion-icon style="    font-size: large;margin-top: -3px;" name="star-outline"></ion-icon>
+                        <ion-icon style="font-size: large;margin-top: -3px;" name="star-outline"></ion-icon>
 
                       </button>
                     </div>
@@ -309,12 +311,13 @@
               </section>
             </ion-col>
             <ion-col size="12">
-              <div class="filigrane" style="float: right;font-weight: 800;" *ngIf="p?.image_url || p?.video_url">
-                <span>MATCH</span>
+              <div class="filigrane" style="float: right;font-weight: 800;font-size: 7px;"
+                *ngIf="p?.image_url || p?.video_url">
+                <span>MATCHES</span>
                 <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
                   <img class="match-image" [src]="m?.photo" alt="">
                 </span>
-                <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0"> 0</span>
+                <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0"> <br> 0</span>
                 <span style="margin-top: 6px;" *ngIf="p?.matches?.length > 3">+ {{p.matches?.length - 3}} </span> <br>
               </div>
             </ion-col>
