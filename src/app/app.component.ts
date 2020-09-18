@@ -54,11 +54,9 @@ export class AppComponent {
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-
     let token = localStorage.getItem('teepzyToken')
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
-    let fsc = localStorage.getItem('FinalStepCompleted')
     this.getUserInfo(this.userId, token)
   }
 
@@ -90,6 +88,7 @@ export class AppComponent {
         },
       ]
   }
+
 
   getUserInfo(userId, token) {
     this.authService.myInfos(userId).subscribe(res => {

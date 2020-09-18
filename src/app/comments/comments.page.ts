@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavParams, ToastController } from '@ionic/angular';
+import { ModalController, NavParams, ToastController, MenuController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { Socket } from 'ngx-socket-io';
 import { DatapasseService } from '../providers/datapasse.service';
@@ -42,7 +42,9 @@ export class CommentsPage implements OnInit {
     private dataPasse: DatapasseService,
     private socket: Socket,
     private globals: Globals,
+    private menuCtrl: MenuController,
     private navParams: NavParams) {
+      this.menuCtrl.enable(false);
 
      }
 

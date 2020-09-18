@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
-import { ToastController, LoadingController, ActionSheetController } from '@ionic/angular';
+import { ToastController, LoadingController, ActionSheetController, MenuController } from '@ionic/angular';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { FilePath } from '@ionic-native/file-path/ngx';
@@ -93,7 +93,11 @@ export class EditProfilePage implements OnInit {
     private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
-    private toasterController: ToastController) { }
+    private menuCtrl: MenuController,
+    private toasterController: ToastController) {
+      this.menuCtrl.enable(false);
+
+     }
 
   ngOnInit() {
 

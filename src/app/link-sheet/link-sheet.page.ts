@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController, NavParams } from '@ionic/angular';
+import { ModalController, ToastController, NavParams, MenuController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { Globals } from '../globals';
@@ -37,7 +37,11 @@ export class LinkSheetPage implements OnInit {
     private toasterController: ToastController,
     private authService: AuthService,
     private globals: Globals,
-    private navParams: NavParams) { }
+    private menuCtrl: MenuController,
+    private navParams: NavParams) { 
+      this.menuCtrl.enable(false);
+
+    }
 
 
   ngOnInit() {

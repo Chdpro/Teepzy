@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, QueryList } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
 import { ToastController, AlertController, IonSlides, MenuController, ModalController, IonRouterOutlet, ActionSheetController } from '@ionic/angular';
@@ -140,8 +140,11 @@ export class Tab1Page implements OnInit {
 
   navigationSubscription;
 
-  @ViewChild('videoPlayer', null) videoplayer: ElementRef;
+  @ViewChild('videoPlayer', null) videoPlayers: ElementRef;
 
+  currentPlaying = null
+
+  currentIndex:Number = 0;
 
 
   constructor(private authService: AuthService,
@@ -163,8 +166,6 @@ export class Tab1Page implements OnInit {
     this.menuCtrl.enable(true);
     this.menuCtrl.swipeGesture(true);
     this.global = globals;
-
-
     this.subscription = this.dataPass.getPosts().subscribe(list => {
       console.log(list)
       if (list.length > 0) {
@@ -213,18 +214,24 @@ export class Tab1Page implements OnInit {
   }
 
 
+  getSlideIndex(){
+    console.log(this.isElementInViewPort(this.videoPlayers.nativeElement))
+    this.slides.getActiveIndex().then(
+      (index)=>{
+        this.currentIndex = index;
+        console.log(this.currentIndex)
+     });
+   }
+
   public next() {
     this.slides.slideNext();
-    this.isPlaying = false
-    this.videoplayer.nativeElement.pause()
+    this.stopVideo()
 
   }
 
   public prev() {
     this.slides.slidePrev();
-    this.isPlaying = false
-    this.videoplayer.nativeElement.pause()
-
+    this.stopVideo()
 
   }
 
@@ -236,12 +243,44 @@ export class Tab1Page implements OnInit {
     }
   }
 
+  playVideo(videoUrl?:any){
+    console.log(videoUrl)
+    const nativeElement = this.videoPlayers.nativeElement;
+   // const inView = this.isElementInViewPort(nativeElement);
+    if (videoUrl) {
+      this.currentPlaying = nativeElement;
+      this.currentPlaying.muted = false;
+      this.currentPlaying.play();
+    }else{
+     this.currentPlaying = nativeElement;
+     this.currentPlaying.muted = true;
+     this.currentPlaying.pause();
+    }
+  }
 
-  toggleVideo(event?: any) {
-    this.isPlaying = true
-    this.videoplayer.nativeElement.play()
+  stopVideo(){
+    const nativeElement = this.videoPlayers.nativeElement;
+    this.currentPlaying = nativeElement;
+    this.currentPlaying.muted = true;
+    this.currentPlaying.pause();
+    this.currentPlaying = null
+  }
 
 
+  swipeEvent(event?:Event, videoUrl?:any){
+    console.log(videoUrl)
+    this.playVideo()
+  
+  /*  this.videoPlayers.forEach(player =>{
+      console.log(player)
+    })*/
+  }
+
+
+  isElementInViewPort(el){
+    const rect = el.getBoundingClientRect();
+    const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+    return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
   }
 
   showShareSheet(post) {

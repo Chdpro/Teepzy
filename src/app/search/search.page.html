@@ -13,10 +13,40 @@
 
     <!--  tabs aprt -->
     <ion-row>
-      <ion-col size="12">
-        <input class="input-s" type="text" name="searchValue" #searchValue="ngModel" [(ngModel)]='search.searchValue'
-          (ngModelChange)="searchOn()" placeholder="Rechercher...">
+      <ion-col>
+        <form class="example-form">
+          <input type="text" class="input-s" aria-label="Number" #searchValue="ngModel" [(ngModel)]='search.searchValue'
+            (ngModelChange)="searchOn()" name="autoComplete" [matAutocomplete]="auto">
+          <mat-icon class="search-icon" matSuffix>search</mat-icon>
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <span *ngIf="search.searchValue.slice(0, 1) === '@'">
+              <mat-option *ngFor="let option of listTeepZrs |filter:search.searchValue "
+                [value]="'@' + option?.pseudoPro">
+                @{{option?.pseudoPro}}
+              </mat-option>
+            </span>
+          </mat-autocomplete>
+        </form>
+
       </ion-col>
+      <!--ion-col size="12">
+        <input class="input-s" 
+        type="text" 
+        name="search" 
+        id="search"
+        #searchValue="ngModel" 
+        [(ngModel)]='search.searchValue'
+        (ngModelChange)="searchOn()"
+        list="search"
+        placeholder="Rechercher...">
+        <datalist id="search">
+          <option *ngFor="let s of listTeepZrs" [value]="s?.pseudoPro">
+            <option value="ee"></option>
+            <option value="ee"></option>
+            <option value="ee"></option>
+
+      </datalist>
+      </ion-col-->
     </ion-row>
     <ion-row *ngIf="search.searchValue.length == 0">
       <ion-col size="12">
@@ -26,12 +56,12 @@
       </ion-col>
     </ion-row>
     <ion-row *ngIf="search?.searchValue.length == 0">
-      <ion-col size="6" *ngFor="let lt of posts ;trackBy: trackByFn  ">
+      <ion-col size="6" *ngFor="let lt of posts ;trackBy: trackByFn" (click)="goToDetailTeepz(lt?._id)">
         <mat-card class="example-card">
           <mat-card-header>
           </mat-card-header>
-          <mat-card-content class="feed-card-content" 
-          [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' }">
+          <mat-card-content class="feed-card-content"
+            [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' }">
             <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
 
               {{lt?.content}}
@@ -42,9 +72,9 @@
               <ion-row>
                 <ion-col size="4">
                   <div>
-                      <!--img *ngIf="lt?.userPhoto_url != ''" class="round-img-post" [src]="lt?.userPhoto_url"
+                    <!--img *ngIf="lt?.userPhoto_url != ''" class="round-img-post" [src]="lt?.userPhoto_url"
                       alt=""-->
-                    <div  class="round-img-post2">
+                    <div class="round-img-post2">
                       {{lt?.userPseudo | slice:0:1| uppercase}}
                     </div>
                   </div>
@@ -58,12 +88,11 @@
                   </small><br>
                   <span *ngIf="time(lt?.createdAt) != 'il y a un mois'">
                     <span *ngIf="time(lt?.createdAt) != 'il y a un jour'">
-                    <span *ngIf="time(lt?.createdAt) != 'il y a une minute'">
-                      <span class="time"
-                      *ngIf="time(lt?.createdAt) != 'il y a une heure'">
-                      {{time(lt?.createdAt) }}
-                    </span>
-                    </span>
+                      <span *ngIf="time(lt?.createdAt) != 'il y a une minute'">
+                        <span class="time" *ngIf="time(lt?.createdAt) != 'il y a une heure'">
+                          {{time(lt?.createdAt) }}
+                        </span>
+                      </span>
                     </span>
                   </span>
                   <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une minute'">
@@ -107,7 +136,13 @@
                   <div class="round-img-post">
                     {{c?.prenom | slice:0:1| uppercase}} {{c?.nom | slice:0:1 | uppercase}}
                   </div>
-                  <ion-label class="p-seudo"> {{ c?.pseudoPro }}
+                  <ion-label class="p-seudo">
+                    <span>
+                      {{ c?.pseudoPro }}
+                    </span>
+                    <span>
+                      {{ c?.pseudoIntime }}
+                    </span>
                     <p>
                       {{ c?.circleMembersCount }} Contact <span *ngIf="c?.circleMembersCount > 1">s</span>
                     </p>
@@ -173,14 +208,14 @@
 
               <ion-grid>
                 <ion-row>
-                  <ion-col size="6" *ngFor="let lt of posts;trackBy: trackByFn ">
+                  <ion-col size="6" *ngFor="let lt of posts;trackBy: trackByFn " (click)="goToDetailTeepz(lt?._id)">
 
                     <mat-card class="example-card">
                       <mat-card-header>
 
                       </mat-card-header>
-                      <mat-card-content 
-                      [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' } ">
+                      <mat-card-content
+                        [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' } ">
                         <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
                           {{lt?.content}}
                         </p>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController, ModalController, MenuController } from '@ionic/angular';
 import { Socket } from 'ngx-socket-io';
 import { ContactService } from '../providers/contact.service';
 import { CircleMembersPage } from '../circle-members/circle-members.page';
@@ -26,8 +26,9 @@ export class Tab3Page implements OnInit {
     private contactService: ContactService,
     public modalController: ModalController,
     private dataPasse: DatapasseService,
+    private menuCtrl: MenuController,
     private socket: Socket) { 
-
+      this.menuCtrl.enable(false);
       this.subscription = this.dataPasse.get().subscribe(list => {
         console.log(list)
         if (list.length > 0) {
@@ -58,6 +59,15 @@ export class Tab3Page implements OnInit {
   }
 
   
+  doRefresh(event) {
+    console.log('Begin async operation');
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      this.getChatRooms()
+      event.target.complete();
+    }, 400);
+  }
+
 
   getUsersOfCircle() {
     this.contactService.getCircleMembers(this.userId).subscribe(res => {
@@ -81,7 +91,6 @@ export class Tab3Page implements OnInit {
     }, error => {
       console.log(error)
       this.loading = false
-
     })
   }
 

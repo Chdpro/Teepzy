@@ -175,7 +175,7 @@
                 (page)="pageEvent = getPaginatorData($event)">
               </mat-paginator>
             </ion-col>
-            <ion-col size="6" *ngFor="let lt of listFavorites | slice: lowValue : highValue  ;trackBy: trackByFn ">
+            <ion-col size="6" *ngFor="let lt of listFavorites | slice: lowValue : highValue  ;trackBy: trackByFn " (click)="goToDetailTeepz(lt?._id)">
 
               <mat-card class="example-card">
                 <mat-card-header>
@@ -324,7 +324,7 @@
                 (page)="pageEvent = getPaginatorDataTeepzr($event)">
               </mat-paginator>
             </ion-col>
-            <ion-col size="6" *ngFor="let lt of listTeepz | slice: lowValue : highValue  ;trackBy: trackByFn ">
+            <ion-col size="6" *ngFor="let lt of listTeepz | slice: lowValue : highValue  ;trackBy: trackByFn " (click)="goToDetailTeepz(lt?._id)" >
 
               <mat-card class="example-card">
                 <mat-card-header>

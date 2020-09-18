@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Contacts } from '@ionic-native/contacts/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
 import { ContactService } from '../providers/contact.service';
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, MenuController } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
+import { AuthService } from '../providers/auth.service';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { Socket } from 'ngx-socket-io';
 })
 export class ContactsPage implements OnInit {
 
+  userInfo:any
   myContacts = []
   listTeepzrsToInvite = []
   listTeepzrsToInviteOutCircle = []
@@ -96,7 +98,10 @@ export class ContactsPage implements OnInit {
     public route: ActivatedRoute,
     private socket: Socket,
     public alertController: AlertController,
+    private authService: AuthService,
+    private menuCtrl: MenuController,
     private contactService: ContactService) {
+      this.menuCtrl.enable(false);
     this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
     console.log(this.previousRoute)
   }
@@ -111,6 +116,7 @@ export class ContactsPage implements OnInit {
     console.log(a.replace(/\s/g, '').slice(-7) == b.replace(/\s/g, '').slice(-7) ? true : false)
     //this.getTeepzr()
     this.getTeepzrOutCircle()
+    this.getUserInfo(this.userId)
   }
 
   connectSocket() {
@@ -318,8 +324,8 @@ export class ContactsPage implements OnInit {
 
 
 
-  sendInvitationToJoinCircle(idReceiver, typeLink) {
-    console.log(idReceiver)
+  sendInvitationToJoinCircle(idReceiver) {
+   let typeLink = this.userInfo['typeCircle']
     this.loading = true
     let invitation = {
       idSender: this.userId,
@@ -369,6 +375,15 @@ export class ContactsPage implements OnInit {
     })
   }
 
+  getUserInfo(userId) {
+    this.authService.myInfos(userId).subscribe(res => {
+      console.log(res)
+      this.userInfo = res['data'];
+    }, error => {
+      console.log(error)
+    })
+  }
+
 
   async presentAlertConfirm(IdR) {
     const alert = await this.alertController.create({
@@ -388,16 +403,14 @@ export class ContactsPage implements OnInit {
         {
           text: 'Professionnelle',
           handler: () => {
-            let typeLink = 'PRO'
-            this.sendInvitationToJoinCircle(IdR, typeLink)
+            this.sendInvitationToJoinCircle(IdR)
           }
         },
 
         {
           text: 'Amicale',
           handler: () => {
-            let typeLink = 'AMICAL'
-            this.sendInvitationToJoinCircle(IdR, typeLink)
+            this.sendInvitationToJoinCircle(IdR)
 
           }
         }

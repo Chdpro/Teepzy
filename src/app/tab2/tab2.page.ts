@@ -40,7 +40,7 @@ export class Tab2Page implements OnInit {
     private toastController: ToastController,
     private socket: Socket
   ) {
-    this.menuCtrl.enable(true);
+    this.menuCtrl.enable(false);
     this.menuCtrl.swipeGesture(true);
   }
 
@@ -151,8 +151,6 @@ export class Tab2Page implements OnInit {
     this.contactService.listInivtation(invitation).subscribe(res => {
       console.log(res)
       this.invitations = res['data']
-      console.log(this.invitations)
-
     }, error => {
       console.log(error)
 

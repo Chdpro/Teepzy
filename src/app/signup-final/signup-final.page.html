@@ -4,7 +4,7 @@
     <ion-row>
       <ion-col size="12">
         <div *ngIf="dispImags?.length > 0">
-            <img *ngFor="let img of dispImags" [src]="img" alt="">
+          <img *ngFor="let img of dispImags" [src]="img" alt="">
         </div>
         <div *ngIf="dispImags?.length == 0" class="round-img">
           {{userInfo?.prenom | slice:0:1 | uppercase}} {{userInfo?.nom | slice:0:1| uppercase}}
@@ -13,8 +13,8 @@
       <ion-col size="12">
         <button (click)="selectImage()" class="mat-btn" mat-button>
           <span>
-              <ion-icon class="camera-icon" name="camera"></ion-icon>
-            <small >
+            <ion-icon class="camera-icon" name="camera"></ion-icon>
+            <small>
               Charger une photo
             </small>
           </span>
@@ -86,6 +86,19 @@
 
           </mat-form-field>
 
+          <mat-radio-group [(ngModel)]="user.gender" name="gender"  style="display: flex;" aria-label="Select an option">
+            <mat-radio-button value="HOMME">Homme</mat-radio-button>
+            <mat-radio-button value="FEMME">Femme</mat-radio-button>
+            <mat-radio-button value="PERSONNALISE">Personnalisé</mat-radio-button>
+          </mat-radio-group>
+
+          <div class="condition">
+            En cliquant sur S’inscrire, vous acceptez nos Conditions générales. Découvrez comment nous recueillons,
+            utilisons et partageons vos données en lisant notre Politique d’utilisation des données et comment nous
+            utilisons les cookies et autres technologies similaires en consultant notre Politique d’utilisation des
+            cookies. Vous recevrez peut-être des notifications par texto de notre part et vous pouvez à tout moment vous
+            désabonner.
+          </div>
         </form>
 
       </ion-col>

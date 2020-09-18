@@ -31,6 +31,7 @@
     "@ionic-native/file-path": "^5.28.0",
     "@ionic-native/file-transfer": "^5.27.0",
     "@ionic-native/image-picker": "^5.27.0",
+    "@ionic-native/media-capture": "^5.28.0",
     "@ionic-native/onesignal": "^5.27.0",
     "@ionic-native/sms": "^5.26.0",
     "@ionic-native/social-sharing": "^5.26.0",
@@ -46,6 +47,7 @@
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-filepath": "^1.5.8",
+    "cordova-plugin-media-capture": "^3.0.3",
     "cordova-plugin-telerik-imagepicker": "^2.3.3",
     "cordova-plugin-video-player": "git+https://github.com/moust/cordova-plugin-videoplayer.git",
     "cordova-plugin-x-socialsharing": "^5.6.8",
@@ -121,7 +123,8 @@
       "onesignal-cordova-plugin": {},
       "cordova-plugin-filepath": {},
       "cordova-clipboard": {},
-      "com.moust.cordova.videoplayer": {}
+      "com.moust.cordova.videoplayer": {},
+      "cordova-plugin-media-capture": {}
     },
     "platforms": [
       "android"

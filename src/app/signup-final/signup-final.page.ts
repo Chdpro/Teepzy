@@ -21,6 +21,7 @@ export class SignupFinalPage implements OnInit {
     role: '',
     photo: '',
     birthday: '',
+    gender: ''
 
   }
 
@@ -39,6 +40,8 @@ export class SignupFinalPage implements OnInit {
 
   loadingA = false
   loadingP = false
+
+  
 
   constructor(private authService: AuthService,
     public router: Router,
@@ -67,6 +70,7 @@ export class SignupFinalPage implements OnInit {
 
 
   }
+
 
 
   getUserInfo(userId) {

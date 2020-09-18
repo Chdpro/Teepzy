@@ -3,7 +3,14 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title> <strong style="font-size: 18px;" *ngIf="stateO?.roomLength == 1"> {{stateO?.pseudo}} </strong>
+    <ion-title>
+      <strong style="font-size: 18px;" *ngIf="stateO?.roomLength == 1 &&stateO?.connectedUserId !== userId">
+        {{stateO?.pseudo}} </strong>
+      <strong style="font-size: 18px;" *ngIf="stateO?.roomLength == 1 && stateO?.connectedUserId === userId">
+        <span *ngIf="roomInitiator?.typeCircle == 'PRO'"> {{roomInitiator?.pseudoPro}} </span>
+        <span *ngIf="roomInitiator?.typeCircle == 'AMICAL'"> {{roomInitiator?.pseudoIntime}} </span>
+      </strong>
+
       <strong style="font-size: 18px;" *ngIf="stateO?.roomLength > 1"> {{stateO?.name}} </strong>
     </ion-title>
     <small style="margin-left: 23px;" *ngIf="stateO?.online">En ligne</small>
@@ -11,88 +18,103 @@
 </ion-header>
 
 <ion-content>
-  
-    <div #scrollMe id="messages-container" style="overflow: auto; height: 100%;">
-        <ion-grid >
+
+  <div #scrollMe id="messages-container" style="overflow: auto; height: 100%;">
+
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-grid>
+
+      <ion-spinner *ngIf="loading" color="primary" name="dots"></ion-spinner>
 
 
-            <ion-row  *ngFor="let message of messages;trackBy: trackByFn" [matMenuTriggerFor]="clickHoverMenu"
-              #clickHoverMenuTrigger="matMenuTrigger" (onLongPressing)="onLongPressing()">
-        
-              <ion-col *ngIf="message?.userId !== userId" size="2">
-                <div *ngIf="photo == null" class="round-img-post">
-                  {{message?.pseudo | slice:0:1| uppercase}}
-                </div>
-                <img *ngIf="photo !== null " [src]="photo" alt="">
-        
-              </ion-col>
-        
-              <ion-col size="9" *ngIf="message?.userId !== userId" class="message"
-                [ngClass]="{'my_message': message?.userId == userId, 'other_message': message?.userId !== userId}">
-                <span class="user_name">{{ message?.pseudo }}:</span><br>
-                <span>{{ message?.text }}</span>
-                <div class="time">{{message?.createdAt | date:'dd.MM hh:MM'}}</div>
-              </ion-col>
-              <ion-col *ngIf="message?.userId !== userId" size="1">
-        
-              </ion-col>
-        
-        
-              <ion-col *ngIf="message?.userId == userId" size="1">
-        
-              </ion-col>
-              <ion-col size="9" *ngIf="message?.userId == userId" class="message"
-                [ngClass]="{'my_message': message?.userId === userId, 'other_message': message?.userId !== userId}">
-                <div *ngIf="message?.isReply == true" class="replied-msg">
-                  <strong *ngIf="message?.FromMessagePseudo !=  message?.pseudo"> {{ message?.FromMessagePseudo }} </strong>
-                  <strong *ngIf="message?.FromMessagePseudo ==  message?.pseudo"> Vous </strong> <br>
-        
-                  {{message?.FromMessageText}}
-                </div>
-        
-                <span class="user_name">{{ message?.pseudo }}:</span><br>
-                <span>{{ message?.text }}</span>
-                <div class="time">{{message?.createdAt | date:'dd.MM hh:MM'}}</div>
-              </ion-col>
-        
-              <ion-col *ngIf="message?.userId == userId" size="2">
-                <div *ngIf="!user?.photo" class="round-img-post">
-                  {{user?.pseudoPro | slice:0:1| uppercase}}
-                </div>
-                <img *ngIf="user?.photo" [src]="user?.photo" alt="">
-        
-              </ion-col>
-              <ion-col size="12">
-        
-                <mat-menu #clickHoverMenu="matMenu">
-                  <button (click)="addMessageToFavorite(message?._id)" mat-menu-item>
-                    <mat-icon>start_border</mat-icon>
-                    <span>Important</span>
-                  </button>
-                  <button (click)="replyto(message)" mat-menu-item>
-                    <mat-icon>reply</mat-icon>
-                    <span>Répondre</span>
-                  </button>
-                  <button mat-menu-item>
-                    <mat-icon>voicemail</mat-icon>
-                    <span>Transférer</span>
-                  </button>
-                  <button (click)="copyMessage(message?.text)" mat-menu-item>
-                    <mat-icon>file_copy</mat-icon>
-                    <span>Copier</span>
-                  </button>
-        
-                  <button (click)="deleteMessage(message?._id)" style="color: red;" mat-menu-item>
-                    <mat-icon style="color: red;">delete</mat-icon>
-                    <span>Supprimer</span>
-                  </button>
-                </mat-menu>
-              </ion-col>
-            </ion-row>
-        
-        
-          </ion-grid>
-            </div>
+
+      <ion-row *ngFor="let message of messages;trackBy: trackByFn" [matMenuTriggerFor]="clickHoverMenu"
+        #clickHoverMenuTrigger="matMenuTrigger" (onLongPressing)="onLongPressing()">
+
+        <ion-col *ngIf="message?.userId !== userId" size="2">
+          <div *ngIf="photo == null" class="round-img-post">
+            {{message?.pseudo | slice:0:1| uppercase}}
+          </div>
+          <img *ngIf="photo !== null " [src]="photo" alt="">
+
+        </ion-col>
+
+        <ion-col size="9" *ngIf="message?.userId !== userId" class="message"
+          [ngClass]="{'my_message': message?.userId == userId, 'other_message': message?.userId !== userId}">
+          <div *ngIf="message?.isReply == true" class="replied-msg">
+            <strong *ngIf="message?.userFromId !==  message?.userId"> {{ message?.FromMessagePseudo }} </strong>
+            <strong *ngIf="message?.userFromId ===  message?.userId"> Vous </strong> <br>
+            {{message?.FromMessageText}}
+          </div>
+          <span class="user_name">{{ message?.pseudo }}:</span><br>
+          <span>{{ message?.text }}</span>
+          <div class="time">{{message?.createdAt | date:'dd.MM hh:mm'}}</div>
+        </ion-col>
+        <ion-col *ngIf="message?.userId !== userId" size="1">
+
+        </ion-col>
+
+
+        <ion-col *ngIf="message?.userId == userId" size="1">
+
+        </ion-col>
+        <ion-col size="9" *ngIf="message?.userId == userId" class="message"
+          [ngClass]="{'my_message': message?.userId === userId, 'other_message': message?.userId !== userId}">
+          <div *ngIf="message?.isReply == true" class="replied-msg">
+            <strong *ngIf="message?.userFromId !==  message?.userId"> {{ message?.FromMessagePseudo }} </strong>
+            <strong *ngIf="message?.userFromId ===  message?.userId"> Vous </strong> <br>
+            {{message?.FromMessageText}}
+          </div>
+
+          <span class="user_name">{{ message?.pseudo }}:</span><br>
+          <span>{{ message?.text }}</span>
+          <div class="time">{{message?.createdAt | date:'dd.MM hh:mm'}}</div>
+        </ion-col>
+
+        <ion-col *ngIf="message?.userId == userId" size="2">
+          <div *ngIf="!user?.photo" class="round-img-post">
+            {{user?.pseudoPro | slice:0:1| uppercase}}
+          </div>
+          <img *ngIf="user?.photo" [src]="user?.photo" alt="">
+
+        </ion-col>
+        <ion-col size="12">
+
+          <mat-menu #clickHoverMenu="matMenu">
+            <button (click)="test(message)" mat-menu-item>
+              <mat-icon>start_border</mat-icon>
+              <span>test</span>
+            </button>
+            <button (click)="addMessageToFavorite(message?._id)" mat-menu-item>
+              <mat-icon>start_border</mat-icon>
+              <span>Important</span>
+            </button>
+            <button (click)="replyto(message)" mat-menu-item>
+              <mat-icon>reply</mat-icon>
+              <span>Répondre</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>voicemail</mat-icon>
+              <span>Transférer</span>
+            </button>
+            <button (click)="copyMessage(message?.text)" mat-menu-item>
+              <mat-icon>file_copy</mat-icon>
+              <span>Copier</span>
+            </button>
+
+            <button (click)="deleteMessage(message?._id)" style="color: red;" mat-menu-item>
+              <mat-icon style="color: red;">delete</mat-icon>
+              <span>Supprimer</span>
+            </button>
+          </mat-menu>
+        </ion-col>
+      </ion-row>
+
+
+    </ion-grid>
+  </div>
 
 </ion-content>
 <ion-footer>
@@ -100,10 +122,10 @@
     <ion-row class="message_row">
       <ion-col size="12" *ngIf="message.isReply == true">
         <div class="replied-msg">
-          <strong *ngIf="repliedMessage?.userId !== userId"> {{ repliedMessage?.pseudo }} </strong>
-          <strong *ngIf="repliedMessage?.userId == userId"> Vous </strong>
+          <strong *ngIf="repliedMessage?.userFromId !== userId"> {{ repliedMessage?.pseudo }} </strong>
+          <strong *ngIf="repliedMessage?.userFromId == userId"> Vous </strong>
           <ion-icon (click)="close()" style="float: right;" name="close-outline"></ion-icon>
-           <br>
+          <br>
 
           {{repliedMessage?.text}}
         </div>

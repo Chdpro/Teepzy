@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import * as moment from 'moment';
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, MenuController } from '@ionic/angular';
 import { Socket } from 'ngx-socket-io';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -21,6 +22,7 @@ export class SearchPage implements OnInit {
     userId:''
   }
 
+  listTeepZrs = []
   users = []
   usersNotInCircles = []
   projects = []
@@ -37,18 +39,25 @@ export class SearchPage implements OnInit {
   lowValueT: number = 0;
   highValueT: number = 5;
 
+  options: string[] = ['One', 'Two', 'Three'];
 
 
   constructor(private contactService: ContactService,
     public toastController: ToastController,
     private socket: Socket,
-    private alertController: AlertController
-    ) { }
+    private alertController: AlertController,
+    private router: Router,
+    private menuCtrl: MenuController
+    ) { 
+      this.menuCtrl.enable(false);
+
+    }
 
   ngOnInit() {
     this.search.userId = localStorage.getItem('teepzyUserId');
     this.socket.emit('online', this.search.userId );
     this.getPosts()
+    this.getTeepzr()
   }
 
   time(date) {
@@ -60,6 +69,12 @@ export class SearchPage implements OnInit {
     this.socket.connect();
   }
 
+
+
+  goToDetailTeepz(idTeepz) {
+    this.router.navigate(['/detail-feed', { idTeepz: idTeepz }])
+    console.log(idTeepz)
+  }
 
   getPaginatorDataTeepzr(event) {
     console.log(event);
@@ -109,7 +124,7 @@ export class SearchPage implements OnInit {
 
   getPosts(){
     this.contactService.getPosts(this.search.userId).subscribe(res =>{
-      console.log(res)
+      //console.log(res)
       this.posts = res['data'];
     }, error =>{
       console.log(error)
@@ -135,18 +150,15 @@ export class SearchPage implements OnInit {
 
   searchUsersNotInMyCircle(){
     this.contactService.searchTeepZrs(this.search).subscribe(res =>{
-      console.log(res);
       this.usersNotInCircles = res['users']
       this.usersNotInCircles.forEach(e => {
         let invitation = { idSender: this.search.userId, idReceiver: e['_id'] }
         this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
-          console.log( this.checkAvailability(this.listTeepzrsToInvite, e['_id']))
           if (res['status'] == 201) {
-
             this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null :  this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'],  pseudoIntime: e['pseudoIntime'], pseudoPro: e['pseudoPro'], circleMembersCount: e['circleMembersCount'], invited: true }) 
           } else {
+            console.log(this.listTeepzrsToInvite)
             this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null : this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'],  pseudoIntime: e['pseudoIntime'], pseudoPro: e['pseudoPro'], circleMembersCount: e['circleMembersCount'], invited: false })
-        
           }
         })
       });
@@ -155,6 +167,17 @@ export class SearchPage implements OnInit {
     })
   }
   
+
+  getTeepzr() {
+    this.contactService.teepZrs(this.search.userId).subscribe(res => {
+      console.log(res)
+      this.listTeepZrs = res['data']
+    }, error => {
+      console.log(error)
+
+    })
+  }
+
   searchOnMatches(){
     this.contactService.SearchOnMatch(this.search).subscribe(res =>{
       console.log(res);
@@ -168,7 +191,6 @@ export class SearchPage implements OnInit {
   }
   searchOn(){
     if (this.search.searchValue.slice(0,1) == '@') {
-      console.log(this.search.searchValue)
       this.users = []
       this.searchUsersNotInMyCircle()
       this.getPosts()

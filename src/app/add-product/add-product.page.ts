@@ -4,7 +4,7 @@ import { MatChipInputEvent } from '@angular/material';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription } from 'rxjs';
-import { ModalController, ToastController, ActionSheetController } from '@ionic/angular';
+import { ModalController, ToastController, ActionSheetController, MenuController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
@@ -55,7 +55,11 @@ export class AddProductPage implements OnInit {
     private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
-    private contactService: ContactService) { }
+    private menuCtrl: MenuController,
+    private contactService: ContactService) {
+    this.menuCtrl.enable(false);
+      
+    }
 
     ngOnInit() {
       let userId = localStorage.getItem('teepzyUserId')

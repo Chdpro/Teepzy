@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -55,8 +55,11 @@ export class OutcirclePage implements OnInit {
   constructor(private contactService: ContactService,
     public toastController: ToastController,
     public router: Router,
-    
-    ) { }
+    private menuCtrl: MenuController
+    ) { 
+      this.menuCtrl.enable(false);
+
+    }
 
   ngOnInit() {
 

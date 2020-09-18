@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddProjectPage } from '../add-project/add-project.page';
-import { ModalController } from '@ionic/angular';
+import { ModalController, MenuController } from '@ionic/angular';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription } from 'rxjs';
@@ -82,10 +82,9 @@ export class ProfilePage implements OnInit {
     private dataPass: DatapasseService,
     private contactService: ContactService,
     private socket: Socket,
+    private menuCtrl: MenuController,
     private authService: AuthService) {
-
-
-
+      this.menuCtrl.enable(false);
     this.subscription = this.dataPass.getProjects().subscribe(list => {
       if (list.length > 0) {
         this.listProjects = list
@@ -117,6 +116,10 @@ export class ProfilePage implements OnInit {
   }
 
 
+  goToDetailTeepz(idTeepz) {
+    this.router.navigate(['/detail-feed', { idTeepz: idTeepz }])
+    console.log(idTeepz)
+  }
 
   trackByFn(index, item) {
     return index; // or item.id

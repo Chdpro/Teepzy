@@ -1,9 +1,17 @@
-/*ion-modal{
-    height: 344px;
-    bottom: 0;
-    border-radius: 39px 45px 1px 1px;
-}*/
+video{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
 
+ 
+
+}
 ion-title{
     color: #ea4e50;
 }
@@ -25,6 +33,17 @@ ion-toolbar{
     float: left;
 }
 
+.match-pseudo{
+    height: 24px;
+    width: 24px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%; 
+    border: solid 1px #ea4e50;
+    padding-top: 3px;
+  
+}
+
 img{
     border: solid 2px #ea4e50;
     border-radius: 100%;
@@ -41,6 +60,33 @@ img{
     display: block;
     margin-left: 8px;
     margin-right: 2px;
+}
+.play-btn{
+    font-size: 31px;
+    font-weight: 100;
+    top: 43%;
+    position: fixed;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgb(0 0 0 / 18%);;
+    padding-left: 18px;
+    border-radius: 18px;
+}
+.img-media, .pseudo-media{
+    height: 54px;
+    width: 54px;
+
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%; 
+    border: solid 1px #ea4e50;
+    padding-top: 14px;
+    padding-left: 20px;
+    text-align: left;
+    font-size: 18px;
+    float: right;
+
 }
 
 .check-btn{
@@ -63,10 +109,20 @@ img{
 ion-slides{
     height: -webkit-fill-available;
 }
+/*.ion-slide-no-img{
+    opacity: 0 !important;
+
+}*/
 ion-slide{
     border-radius: 40px 40px 1px 0px;
     height: -webkit-fill-available;
 }
+/*
+.ion-slide-img{
+    opacity: 1 !important;
+
+}*/
+
 
 mat-card-header{
     margin-top: 24px !important;
@@ -101,7 +157,6 @@ mat-card-header{
     position: absolute;
     float: left;
     width: 70%;
-    bottom: 57px;
     display: flex;
     color: #ea4e50;
     font-size: 12px;
@@ -121,7 +176,7 @@ mat-card-header{
 .prev-btn{
     float: right;
     position: absolute;
-    height: 35%;
+    height: 22%;
     right: 0;
     background: #f0f8ff00;
     color: #f0f8ff00;
@@ -198,6 +253,25 @@ ion-fab-button{
 
 ion-icon{
     color: #ea4e50;
+}
+.content-down{
+    margin-top: 25px;
+    color: black;
+    background: rgb(0 0 0 / 18%);
+    padding: 14px;
+    border-radius: 30px;
+    margin-left: -180px;
+
+}
+
+.filigrane{
+    background: rgb(0 0 0 / 18%);
+    padding-top: 21px;
+    border-radius: 30px;
+    color: #fff;
+    height: 54px;
+    width: 54px;
+    margin-right: -3px;
 }
 .content{
     display: block;
@@ -469,7 +543,7 @@ ion-grid{
     z-index: 1500;
     height: 100%;
     width: 100%;
-    top: 0px;
+    top: -57px;
     left: 0;
     overflow: hidden;
     opacity: 1;

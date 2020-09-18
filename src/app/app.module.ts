@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, NavParams } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -38,6 +38,7 @@ import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-br
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
+import { MediaCapture } from '@ionic-native/media-capture/ngx';
 
 import { local_url, base_url } from 'src/config';
 import { Globals } from './globals';
@@ -85,6 +86,7 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     Clipboard,
     Globals,
     VideoPlayer,
+    MediaCapture,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
     { 

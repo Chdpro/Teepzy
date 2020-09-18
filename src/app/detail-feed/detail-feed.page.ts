@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { ToastController, AlertController, IonSlides, MenuController, ModalController, IonRouterOutlet } from '@ionic/angular';
@@ -11,7 +11,7 @@ import { BottomSheetOverviewExampleSheetPage } from '../bottom-sheet-overview-ex
 import { LinkSheetPage } from '../link-sheet/link-sheet.page';
 import { CommentsPage } from '../comments/comments.page';
 import { Socket } from 'ngx-socket-io';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Globals } from '../globals';
 
 
@@ -27,6 +27,7 @@ export class DetailFeedPage implements OnInit {
   user: any
 
   listPosts = []
+  post:any
   posts = []
 
   userId = ''
@@ -50,7 +51,6 @@ export class DetailFeedPage implements OnInit {
   postId = ''
   commentId = ''
 
-
   _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
   showSearch = false
@@ -59,7 +59,6 @@ export class DetailFeedPage implements OnInit {
   search = ''
   subscription: Subscription;
   timeCall = 0
-
   repost: any
 
   publication: any
@@ -68,12 +67,13 @@ export class DetailFeedPage implements OnInit {
 
   users = []
 
-
-
-
+  isPlaying = false
   showBackground = false
   global: Globals;
   navigationSubscription;
+
+  @ViewChild('videoPlayer', null) videoplayer: ElementRef;
+
 
   constructor(private authService: AuthService,
     private toasterController: ToastController,
@@ -87,33 +87,35 @@ export class DetailFeedPage implements OnInit {
     private socket: Socket,
     private router: Router,
     private globals: Globals,
+    public route: ActivatedRoute,
     private contactService: ContactService) {
-    this.menuCtrl.enable(true);
+    this.menuCtrl.enable(false);
     this.menuCtrl.swipeGesture(true);
     this.global = globals;
-
-
-       this.subscription = this.dataPass.get().subscribe(list => {
-         console.log(list)
-         if (list.length > 0) {
-           this.listPosts = list
-         }
-       });
+    let idTeepz = this.route.snapshot.paramMap.get('idTeepz')
+   
   }
 
   ngOnInit() {
+
   }
 
 
-  getAPost(){
-    
+  getAPost(idTeepz){
+    this.contactService.getPost(idTeepz).subscribe(res =>{
+      console.log(res)
+      this.post = res['data'];
+    }, error =>{
+      console.log(error)
+    })
   }
 
   ionViewWillEnter() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.userId)
     this.getPosts(this.userId)
-    console.log(this.dataPass.get())
+    let idTeepz = this.route.snapshot.paramMap.get('idTeepz')
+    this.getAPost(idTeepz)
   }
 
   ngOnDestroy() {
@@ -129,6 +131,14 @@ export class DetailFeedPage implements OnInit {
       console.log(notif)
     });
   }
+
+  toggleVideo(event?: any) {
+    this.isPlaying = true
+    this.videoplayer.nativeElement.play()
+
+
+  }
+
 
   dismiss() {
     // using the injected ModalController this page

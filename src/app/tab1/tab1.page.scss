@@ -6,11 +6,18 @@ video{
     min-height: 100%;
     width: auto;
     height: auto;
-    z-index: -100;
+   /* z-index: -100;*/
     transform: translateX(-50%) translateY(-50%);
+    vertical-align: middle;
 
  
 
+}
+
+.userPseudo-bg{
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 60px;
+   
 }
 ion-title{
     color: #ea4e50;
@@ -71,8 +78,9 @@ img{
     margin-right: auto;
     background: rgb(0 0 0 / 18%);;
     padding-left: 18px;
-    border-radius: 18px;
+    border-radius: 50px;
 }
+
 .img-media, .pseudo-media{
     height: 54px;
     width: 54px;
@@ -260,7 +268,7 @@ ion-icon{
     background: rgb(0 0 0 / 18%);
     padding: 14px;
     border-radius: 30px;
-    margin-left: -180px;
+    margin-left: -10px;
 
 }
 

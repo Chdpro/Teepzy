@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController, AlertController, ActionSheetController } from '@ionic/angular';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ModalController, ToastController, AlertController, ActionSheetController, MenuController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
@@ -11,6 +11,8 @@ import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { typeAccount } from '../constant/constant';
+import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+
 
 @Component({
   selector: 'app-add-post',
@@ -45,7 +47,15 @@ export class AddPostPage implements OnInit {
   videoFilesName = new Array();
   dispVideos = []
 
+  testVideos = ['../../assets/test.mp4']
+
   subscription: Subscription;
+
+
+  @ViewChild('myVideo', null) videoPlayers: ElementRef;
+
+  currentPlaying = null
+
 
 
   constructor(public modalController: ModalController,
@@ -59,8 +69,14 @@ export class AddPostPage implements OnInit {
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
     private socket: Socket,
-    public sanitizer: DomSanitizer
-  ) { }
+    public sanitizer: DomSanitizer,
+    private menuCtrl: MenuController,
+    private mediaCapture: MediaCapture
+  ) {
+
+    this.menuCtrl.enable(false);
+
+  }
 
   ngOnInit() {
 
@@ -73,6 +89,7 @@ export class AddPostPage implements OnInit {
     this.socket.emit('online', this.post.userId);
 
   }
+
 
 
 
@@ -105,15 +122,21 @@ export class AddPostPage implements OnInit {
         }
       },
       {
+        text: 'Utiliser la Camera',
+        handler: () => {
+          this.pickImage(this.camera.PictureSourceType.CAMERA);
+        }
+      },
+      {
         text: 'Choisir une vidéo',
         handler: () => {
           this.pickVideo(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
       },
       {
-        text: 'Utiliser la Camera',
+        text: 'Enregistrer une vidéo',
         handler: () => {
-          this.pickImage(this.camera.PictureSourceType.CAMERA);
+          this.takeVideo();
         }
       },
       {
@@ -124,6 +147,7 @@ export class AddPostPage implements OnInit {
     });
     await actionSheet.present();
   }
+
 
 
 
@@ -144,9 +168,9 @@ export class AddPostPage implements OnInit {
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
         if (this.photos.length == 0) {
           this.photos.push(nativepath)
-        }else if(this.photos.length > 1){
-            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
-          }
+        } else if (this.photos.length > 1) {
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+        }
       }, error => {
       })
 
@@ -155,6 +179,35 @@ export class AddPostPage implements OnInit {
 
     });
   }
+
+
+  takeVideo() {
+    let options: CaptureVideoOptions = { limit: 1, duration: 15 }
+    this.mediaCapture.captureVideo(options)
+      .then(
+        (data: MediaFile[]) => {
+          // imageData is either a base64 encoded string or a file URI
+          // If it's base64 (DATA_URL):
+          // let base64Image = 'data:image/jpeg;base64,' + imageData;
+          this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(data))
+          let videoPath = 'file://' + data
+          this.filePath.resolveNativePath(videoPath).then((nativepath) => {
+            if (this.videos.length == 0) {
+              this.videos.push(nativepath)
+            } else if (this.videos.length > 1) {
+              this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
+            }
+          }, error => {
+          })
+        },
+        (err: CaptureError) => {
+          console.error(err)
+        }
+      );
+  }
+
+
+ 
 
   pickVideo(sourceType) {
     const options: CameraOptions = {
@@ -168,16 +221,21 @@ export class AddPostPage implements OnInit {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(videoData))
-      let videoPath = 'file://' + videoData
-      this.filePath.resolveNativePath(videoPath).then((nativepath) => {
-        if (this.videos.length == 0) {
-        this.videos.push(nativepath)
-        }else if(this.videos.length > 1){
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
-        }
-      }, error => {
-      })
+  
+   
+        this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(videoData))
+        let videoPath = 'file://' + videoData
+        this.filePath.resolveNativePath(videoPath).then((nativepath) => {
+          if (this.videos.length == 0) {
+            this.videos.push(nativepath)
+          } else if (this.videos.length > 1) {
+            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
+          }
+        }, error => {
+        })
+   
+ 
+      
 
     }, (err) => {
       // Handle error
@@ -206,36 +264,42 @@ export class AddPostPage implements OnInit {
           this.post.image_url = base_url + options.fileName;
           this.addPost()
           this.loading = false
-
         }, error => {
           this.loading = false
 
         })
       }
     } else if (ref.videos.length > 0 && ref.photos.length == 0) {
-      for (let index = 0; index < ref.videos.length; index++) {
-        // interval++
-        const fileTransfer = ref.transfer.create()
-        let options: FileUploadOptions = {
-          fileKey: "avatar",
-          fileName: (Math.random() * 100000000000000000) + '.mp4',
-          chunkedMode: false,
-          mimeType: "video/mp4",
-          headers: {},
+      if (this.videoPlayers.nativeElement.duration < 16.5) {
+        for (let index = 0; index < ref.videos.length; index++) {
+          // interval++
+          const fileTransfer = ref.transfer.create()
+          let options: FileUploadOptions = {
+            fileKey: "avatar",
+            fileName: (Math.random() * 100000000000000000) + '.mp4',
+            chunkedMode: false,
+            mimeType: "video/mp4",
+            headers: {},
+          }
+          var serverUrl = base_url + 'upload-avatar'
+          this.filesName.push({ fileUrl: base_url + options.fileName, type: 'video' })
+          fileTransfer.upload(ref.videos[index], serverUrl, options).then(() => {
+            this.post.video_url = base_url + options.fileName;
+            this.addPost()
+            this.loading = false
+  
+          }, error => {
+            this.loading = false
+           // alert("video upload did not work!" + JSON.stringify(error))
+  
+          })
         }
-        var serverUrl = base_url + 'upload-avatar'
-        this.filesName.push({ fileUrl: base_url + options.fileName, type: 'video' })
-        fileTransfer.upload(ref.videos[index], serverUrl, options).then(() => {
-          this.post.video_url = base_url + options.fileName;
-          this.addPost()
-          this.loading = false
+      }else{
+        this.presentToast("La durée de la vidéo ne doit pas dépasser 15s")
+        this.loading = false
 
-        }, error => {
-          this.loading = false
-
-
-        })
       }
+    
     }
     else {
       this.addPost()
@@ -244,6 +308,7 @@ export class AddPostPage implements OnInit {
     }
 
   }
+
 
 
 
@@ -267,9 +332,9 @@ export class AddPostPage implements OnInit {
     this.loading = true
     this.post.userPhoto_url = this.user.photo
     if (this.user.typeCircle == typeAccount.pseudoIntime) {
-    this.post.userPseudo = this.user.pseudoIntime
-      
-    }else if(this.user.typeCircle == typeAccount.pseudoPro){
+      this.post.userPseudo = this.user.pseudoIntime
+
+    } else if (this.user.typeCircle == typeAccount.pseudoPro) {
       this.post.userPseudo = this.user.pseudoPro
     }
     console.log(this.post);

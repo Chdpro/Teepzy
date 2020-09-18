@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ActionSheetController } from '@ionic/angular';
+import { ModalController, ActionSheetController, MenuController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { ToastController } from '@ionic/angular';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
@@ -54,7 +54,9 @@ export class AddProjectPage implements OnInit {
     private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
+    private menuCtrl: MenuController,
     private contactService: ContactService) { 
+      this.menuCtrl.enable(false);
  
      }
 

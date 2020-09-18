@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavController, ModalController, ToastController } from '@ionic/angular';
+import { NavController, ModalController, ToastController, MenuController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { Socket } from 'ngx-socket-io';
 import { DatapasseService } from '../providers/datapasse.service';
@@ -33,7 +33,11 @@ export class CircleMembersPage implements OnInit {
     public modalController: ModalController,
     private toasterController: ToastController,
     private dataPasse: DatapasseService,
-    private socket: Socket) { }
+    private menuCtrl: MenuController,
+    private socket: Socket) { 
+      this.menuCtrl.enable(false);
+
+    }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');

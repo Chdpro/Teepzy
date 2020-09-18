@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { NavController, NavParams, ToastController } from '@ionic/angular';
+import { NavController, NavParams, ToastController, MenuController } from '@ionic/angular';
 import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
@@ -16,7 +16,10 @@ import { Clipboard } from '@ionic-native/clipboard/ngx';
 })
 export class ChatPage implements OnInit {
 
+  loading =  false
   messages = [];
+
+  roomInitiator:any
   nickname = '';
   userId = ''
   stateO = {
@@ -30,18 +33,24 @@ export class ChatPage implements OnInit {
   photo = ''
   message = {
     userId: '',
+    userFromId: '',
+    FromMessageText:'',
+    FromMessagePseudo:'',
     roomId: '',
     text: '',
     pseudo: '',
     messageRepliedId: '',
-    isReply: false
+    isReply: false,
+    createdAt: new Date()
   }
 
   repliedMessage = {
     messageId: '',
     text: '',
-    userId: '',
-    pseudo: ''
+    userFromId: '',
+    pseudo: '',
+    createdAt: new Date()
+
   }
 
   menu = false
@@ -56,7 +65,9 @@ export class ChatPage implements OnInit {
     private contactService: ContactService,
     private authService: AuthService,
     private clipboard: Clipboard,
+    private menuCtrl: MenuController,
     private toastCtrl: ToastController) {
+      this.menuCtrl.enable(false);
     //this.nickname = this.navParams.data;
     const state = this.router.getCurrentNavigation().extras.state
     console.log(state)
@@ -65,12 +76,12 @@ export class ChatPage implements OnInit {
     this.stateO.roomLength = state.roomLength
     this.stateO.connectedUserId = state.connectedUserId
     this.coonectSocket()
-    this.disconnectUserSocket()
     this.getMessagesBySocket().subscribe(message => {
       console.log(message)
       message['roomId'] == state.roomId ? this.messages.push(message) : null
     });
     this.deleteMessageFromSocket()
+    this.disconnectUserSocket()
 
     /*this.getUsers().subscribe(data => {
       let user = data['user'];
@@ -98,12 +109,24 @@ export class ChatPage implements OnInit {
     this.scrollToBottom();
   }
 
+  doRefresh(event) {
+    console.log('Begin async operation');
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      const state = this.router.getCurrentNavigation().extras.state
+      this.getMessages(state.roomId)
+      event.target.complete();
+    }, 400);
+  }
+
+
   replyto(msg) {
     this.message.isReply = true
     this.repliedMessage.pseudo = msg.pseudo;
     this.repliedMessage.text = msg.text;
-    this.repliedMessage.userId = msg.userId
-    this.repliedMessage.messageId = msg._id
+    this.repliedMessage.userFromId = msg.userId
+    msg.messageRepliedId? this.repliedMessage.messageId = msg.messageRepliedId : this.repliedMessage.messageId = msg._id
+
     console.log(this.repliedMessage)
 
   }
@@ -112,9 +135,14 @@ export class ChatPage implements OnInit {
     this.message.isReply = false
     this.repliedMessage.pseudo = '';
     this.repliedMessage.text = '';
-    this.repliedMessage.userId = ''
+    this.repliedMessage.userFromId = ''
     this.repliedMessage.messageId = ''
     console.log(this.repliedMessage)
+  }
+
+
+  getRoom(){
+
   }
 
 
@@ -128,8 +156,10 @@ export class ChatPage implements OnInit {
         console.log(error)
       })
     } else {
-      this.message.pseudo = this.repliedMessage.pseudo
+      this.message.FromMessagePseudo = this.repliedMessage.pseudo
       this.message.messageRepliedId = this.repliedMessage.messageId
+      this.message.userFromId = this.repliedMessage.userFromId
+      this.message.FromMessageText = this.repliedMessage.text
       this.contactService.addReplyMessage(this.message).subscribe(res => {
         console.log(res)
         this.socket.emit('add-message', this.message);
@@ -214,8 +244,8 @@ export class ChatPage implements OnInit {
   }
 
 
-  onLongPress() {
-
+  test(msg) {
+    console.log(msg)
   }
 
   onLongPressing() {
@@ -223,11 +253,17 @@ export class ChatPage implements OnInit {
   }
 
   getMessages(id) {
+    this.loading = true
     this.contactService.ChatRoomMessages(id).subscribe(res => {
       console.log(res)
+      this.loading = false
+      let roomInitiatorId = res['data']['userId']
+      this.getChatRoomUserInitiator(roomInitiatorId)
       this.messages = res['data']['messages']
     }, error => {
       console.log(error)
+      this.loading = false
+
     })
 
   }
@@ -241,11 +277,20 @@ export class ChatPage implements OnInit {
     return observable;
   }
 
+  getChatRoomUserInitiator(id) {
+    this.authService.myInfos(id).subscribe(res => {
+      console.log(res)
+      this.roomInitiator = res['data']
+  //    this.message.pseudo = this.user.pseudoPro
+    }, error => {
+      console.log(error)
+    })
+  }
+
   getUser() {
     this.authService.myInfos(this.userId).subscribe(res => {
       console.log(res)
       this.user = res['data']
-
       this.message.pseudo = this.user.pseudoPro
     }, error => {
       console.log(error)

@@ -70,10 +70,10 @@ export class SignupPage implements OnInit {
   ) {
     this.initializeApp();
 
+
    }
 
   ngOnInit() {
-
     this.menuCtrl.enable(false);
     this.menuCtrl.swipeGesture(false);
 

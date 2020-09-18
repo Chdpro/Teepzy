@@ -55,13 +55,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" [scrollY]="false">
-
-
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
-  <ion-slides pager="true" [options]="slideOpts">
+  <ion-slides  pager="false" [options]="slideOpts">
     <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
       [ngClass]="{'ion-slide-img': p?.image_url != '', 'ion-slide-no-img': p?.image_url == ''}" [ngStyle]="{
         'color': p?.backgroundColor == '#fff' && p?.image_url == ''? 'black' : 'white', 
@@ -72,20 +69,19 @@
         'background-repeat': 'no-repeat'
       }">
 
-      <div (click)="toggleVideo()" class="post-txt">
+      <div  (click)="playVideo(p?.video_url)" class="post-txt">
         <div *ngIf="p?.video_url">
           <div>
-            <video #videoPlayer>
-              <source [src]="sanitizer.bypassSecurityTrustResourceUrl(p?.video_url)" type="video/mp4" />
+            <video #videoPlayer playsinline preload="metadata">
+              <source [src]="sanitizer.bypassSecurityTrustResourceUrl(p?.video_url + '#t=0.5')" type="video/mp4" />
             </video>
-
             <ion-grid>
               <ion-row>
                 <ion-col>
 
                 </ion-col>
                 <ion-col>
-                  <button *ngIf="!isPlaying" class="play-btn" mat-button>
+                  <button  *ngIf="!currentPlaying" class="play-btn" mat-button>
                     <ion-icon name="play-outline"></ion-icon>
                   </button>
                 </ion-col>
@@ -161,32 +157,6 @@
 
 
         <div [ngStyle]="{'bottom': p?.image_url || p?.video_url ? '-30px' : '57px' }" class="match-img">
-          <span style="color: #ffff;margin-left: 50px !important;" *ngIf="p?.image_url || p?.video_url">
-            <strong>
-              @{{p?.userPseudo}} -
-            </strong>
-            <span *ngIf="time(p?.createdAt) != 'il y a un mois'">
-              <span *ngIf="time(p?.createdAt) != 'il y a un jour'">
-                <span *ngIf="time(p?.createdAt) != 'il y a une minute'">
-                  <span class="time" *ngIf="time(p?.createdAt) != 'il y a une heure'">
-                    {{time(p?.createdAt) }}
-                  </span>
-                </span>
-              </span>
-            </span>
-            <span class="time" *ngIf="time(p?.createdAt) == 'il y a une minute'">
-              il y a 1 minute
-            </span>
-            <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
-              il y a 1 heure
-            </span>
-            <span class="time" *ngIf="time(p?.createdAt) == 'il y a un jour'">
-              il y a 1 jour
-            </span>
-            <span class="time" *ngIf="time(p?.createdAt) == 'il y a un mois'">
-              il y a 1 mois
-            </span>
-          </span>
 
           <div style="display: flex;margin-top: 12px;" *ngIf="!p?.image_url && !p?.video_url">
             <span>MATCH</span>
@@ -206,7 +176,37 @@
           <div class="content-down" *ngIf="p?.image_url || p?.video_url"
             [ngStyle]="{'font-size': p?.content.length > 20 ? '14px' : '17px', 'color': 'white', 'font-weight': '800' }"
             (click)="next()">
-            {{ p?.content }}
+            <span style="color: #ffff;margin-left: 50px !important;" *ngIf="p?.image_url || p?.video_url">
+              <strong>
+                @{{p?.userPseudo}} -
+              </strong>
+              <span *ngIf="time(p?.createdAt) != 'il y a un mois'">
+                <span *ngIf="time(p?.createdAt) != 'il y a un jour'">
+                  <span *ngIf="time(p?.createdAt) != 'il y a une minute'">
+                    <span class="time" *ngIf="time(p?.createdAt) != 'il y a une heure'">
+                      {{time(p?.createdAt) }}
+                    </span>
+                  </span>
+                </span>
+              </span>
+              <span class="time" *ngIf="time(p?.createdAt) == 'il y a une minute'">
+                il y a 1 minute
+              </span>
+              <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
+                il y a 1 heure
+              </span>
+              <span class="time" *ngIf="time(p?.createdAt) == 'il y a un jour'">
+                il y a 1 jour
+              </span>
+              <span class="time" *ngIf="time(p?.createdAt) == 'il y a un mois'">
+                il y a 1 mois
+              </span>
+            </span><br>
+
+            <div style="float: left;margin-left: -8px;">
+              {{ p?.content }}
+            </div>
+
           </div>
         </div>
 
@@ -217,7 +217,8 @@
                 <img *ngIf="p?.userPhoto_url != null " class="img img-media" [src]="p?.userPhoto_url" alt="">
               </div>
 
-              <div style="float: right;" *ngIf="p?.image_url || p?.video_url">
+              <div style="float: right; color: #fff !important;" class="userPseudo-bg"
+                *ngIf="p?.image_url || p?.video_url">
                 <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class=" pseudo-media"
                   [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
                   {{p?.userPseudo | slice:0:1| uppercase}}
@@ -314,7 +315,7 @@
               <div class="filigrane" style="float: right;font-weight: 800;font-size: 7px;"
                 *ngIf="p?.image_url || p?.video_url">
                 <span>MATCHES</span>
-                <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
+                <span style="margin-top: 15px;" *ngFor="let m of p?.matches | slice:0:3;">
                   <img class="match-image" [src]="m?.photo" alt="">
                 </span>
                 <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0"> <br> 0</span>

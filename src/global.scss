@@ -58,10 +58,29 @@ color: white;
     background-color: #cfcfcf;;
 }
 
+
+::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none;
+    overflow: hidden;
+  }
+  
+
+  
+  .scroll-content {
+    overflow: hidden;
+  } 
+
+
 .mat-tab-body-wrapper{
     overflow: scroll !important;
 }
 
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle, .mat-radio-inner-circle{
+    border-color: #ea4d4f;
+}
+.mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple{
+    background-color: #ea4d4f;
+}
 ::ng-deep .mat-tab-label {
     pointer-events: none;
  }
