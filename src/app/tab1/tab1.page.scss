@@ -10,14 +10,17 @@ video{
     transform: translateX(-50%) translateY(-50%);
     vertical-align: middle;
 
- 
-
 }
 
 .userPseudo-bg{
     background: rgba(0, 0, 0, 0.18);
     border-radius: 60px;
    
+}
+
+.match-align{
+    float: right;
+    margin-left: 4px;
 }
 ion-title{
     color: #ea4e50;
@@ -47,8 +50,7 @@ ion-toolbar{
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%; 
     border: solid 1px #ea4e50;
-    padding-top: 3px;
-  
+    background-color: rgba(255, 255, 255, 0.288);
 }
 
 img{
@@ -493,38 +495,10 @@ ion-grid{
 }
 
 
-
-.modal-open3 {
-    border-radius: 10px;
-    color: #fff;
-    width: 59px;
-    height: 57px;
-    margin-top: 24px;
-}
-
 .modal-label {
     position: relative;
 }
 
-
-
-.modal-label2{
-    background: #cfcfcf;
-    padding: 14px;
-    border-radius: 40px;
-    margin-right: -65px;
-    width: 52px;
-    font-size: 25px;
-    height: 52px;
-    margin-bottom: 14px;
-    position: relative;
-
-}
-
-.modal-label3{
-    position: relative;
-
-}
 
 .modal-radio {
     position: absolute;
@@ -546,45 +520,9 @@ ion-grid{
     background: rgba(0,0,0, .9);
 }
 
-.modal2 {
-    position: absolute;
-    z-index: 1500;
-    height: 100%;
-    width: 100%;
-    top: -57px;
-    left: 0;
-    overflow: hidden;
-    opacity: 1;
-    transform: scale(1);
-    transition: opacity .5s, transform .5s;
-    background: rgba(0,0,0, .9);
-}
-
-.modal3 {
-    position: absolute;
-    z-index: 1500;
-    height: -webkit-fill-available;
-    width: 100%;
-    top: 120px;
-    left: 0;
-    overflow: auto;
-    opacity: 1;
-    transform: scale(1);
-    transition: opacity .5s, transform .5s;
-}
 
 
 #modal-open:checked+.modal {
-    opacity: 1;
-    transform: scale(1);
-}
-
-#modal-open2:checked+.modal2 {
-    opacity: 1;
-    transform: scale(1);
-}
-
-#modal-open3:checked+.modal3 {
     opacity: 1;
     transform: scale(1);
 }
@@ -597,44 +535,11 @@ ion-grid{
     left: 0;
 }
 
-.overlay3 {
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0);
-    top: 65px;
-    left: 0;
-}
 
 .modal .content {
     position: absolute;
     width: 100%;
     height: -webkit-fill-available;
-    max-height: 98%;
-    top: 2%;
-    left: 0%;
-    background: #F0EFEF;
-    border-radius: 44px 44px 0px 0px;
-    box-shadow: 0 3px 15px -2px #222;
-    padding: 20px;
-}
-
-.modal2 .content {
-    position: absolute;
-    width: 100%;
-    height: 481px;
-    max-height: 30%;
-    bottom: 0%;
-    left: 0%;
-    background: #F0EFEF;
-    border-radius: 44px 44px 0px 0px;
-    box-shadow: 0 3px 15px -2px #222;
-    padding: 20px;
-}
-
-.modal3 .content {
-    position: absolute;
-    width: 100%;
-    height: 481px;
     max-height: 98%;
     top: 2%;
     left: 0%;
@@ -723,11 +628,6 @@ ion-grid{
 
   /* On screens that are 992px or less, set the background color to blue */
   @media screen and (min-width: 361px) and (max-width: 374px) {
- 
-    .modal3{
-        top: 181px;
-        height: 556px;
-    }
     .fixContainer{
         top: 74%;
     }
@@ -742,12 +642,7 @@ ion-grid{
 
   /* On screens that are 992px or less, set the background color to blue */
   @media screen and (width: 414px){
- 
-    .modal3{
-        top: 188px;
-        height: 502px;
-    }
-    .fixContainer{
+   .fixContainer{
         top: 72%;
     }
     ion-slide{
@@ -760,9 +655,6 @@ ion-grid{
   /* On screens that are 992px or less, set the background color to blue */
   @media screen and (width: 375px){
  
-    .modal3{
-        top: 181px;
-    }
     .fixContainer{
         top: 74%;
     }
@@ -809,10 +701,6 @@ ion-grid{
  }
  
 @media screen and (width: 411px){
-   .modal3{
-    top: 199px;
-    height: 556px;
-   }
    .ion-textarea{
     margin-top: -5px;
    }
@@ -828,16 +716,7 @@ ion-grid{
 }
 
 @media screen and (max-width: 320px) {
-    .modal2{
-        height: 37%;
-        width: 100%;
-        top: 308px;
-        
-    }
-    .modal3{
-        top: 31px;
-    }
-
+  
     ion-slide{
         border-radius: 40px 40px 1px 0px;
         height: -webkit-fill-available;
@@ -850,32 +729,7 @@ ion-grid{
     transform: translate(-50%, -50%);
     }
 
-    .modal-label2{
-        background: #cfcfcf;
-        padding: 14px;
-        border-radius: 40px;
-        margin-right: -24px;
-        width: 52px;
-        font-size: 25px;
-        height: 52px;
-        margin-bottom: 14px;
-        position: relative;
-    
-    }
-
-    .modal-label3{
-        background: #cfcfcf;
-        padding: 14px;
-        border-radius: 40px;
-        margin-right: -24px;
-        width: 52px;
-        font-size: 25px;
-        height: 52px;
-        margin-bottom: 14px;
-        position: relative;
-    
-    }
-
+  
     ion-button {
         width: 28%;
         float: right;

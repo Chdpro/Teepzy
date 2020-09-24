@@ -43,6 +43,7 @@ import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { local_url, base_url } from 'src/config';
 import { Globals } from './globals';
 import { CircleMembersPageModule } from './circle-members/circle-members.module';
+import { ShareSheetPageModule } from './share-sheet/share-sheet.module';
 const config: SocketIoConfig = { url: base_url, options: {} };
 
 @NgModule({
@@ -57,6 +58,7 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     AddPostPageModule,
     AddProductPageModule,
     AddProjectPageModule,
+    ShareSheetPageModule,
     CircleMembersPageModule,
     CommentsPageModule,
     LinkSheetPageModule,

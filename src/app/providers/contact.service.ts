@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient,} from '@angular/common/http';
+import { HttpHeaders, HttpClient, } from '@angular/common/http';
 import { base_url, test_url, local_url } from 'src/config';
 import { Observable } from 'rxjs';
 
@@ -32,7 +32,7 @@ export class ContactService {
     let url = 'users/inviteToJoinCircle';
     return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
-  
+
 
   cancelToJoinCircle(invitation): Observable<any> {
     let url = 'users/cancelToJoinCircle';
@@ -43,7 +43,7 @@ export class ContactService {
     let url = 'users/linkPeople';
     return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
-  
+
 
   acceptInvitation(invitation): Observable<any> {
     let url = 'users/acceptToJoinCircle';
@@ -57,7 +57,7 @@ export class ContactService {
 
 
   listNotification(id): Observable<any> {
-    let url = 'users/notifications/'+ id ;
+    let url = 'users/notifications/' + id;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
@@ -71,6 +71,30 @@ export class ContactService {
     let url = 'users/deleteSmsInvitation';
     return this.http.post(base_url + url, check, httpOptionsJson);
   }
+
+
+  deletePost(postId): Observable<any> {
+    let url = 'users/post/' + postId;
+    return this.http.delete(local_url + url, httpOptionsJson);
+  }
+
+
+  deleteRePost(postId): Observable<any> {
+    let url = 'users/repost/' + postId;
+    return this.http.delete(local_url + url, httpOptionsJson);
+  }
+
+
+  updateRePost(post): Observable<any> {
+    let url = 'users/repost/update';
+    return this.http.put(local_url + url, post, httpOptionsJson);
+  }
+
+  updatePost(post): Observable<any> {
+    let url = 'users/post/update';
+    return this.http.put(local_url + url, post, httpOptionsJson);
+  }
+
 
   checkInvitationTeepzr(check): Observable<any> {
     let url = 'users/checkInvitation';
@@ -89,7 +113,7 @@ export class ContactService {
 
   searchTeepZrs(search): Observable<any> {
     let url = 'users/teepzrto';
-    return this.http.post(base_url + url, search, httpOptionsJson);
+    return this.http.post(local_url + url, search, httpOptionsJson);
   }
 
   teepZ(userId): Observable<any> {
@@ -106,7 +130,7 @@ export class ContactService {
     let url = 'users/teepzr/eventualsTeepzrs/' + userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
-  
+
 
   addPost(post): Observable<any> {
     let url = 'users/posts';
@@ -143,6 +167,12 @@ export class ContactService {
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
+
+  getRePost(idTeepz): Observable<any> {
+    let url = 'users/repost/' + idTeepz;
+    return this.http.get(base_url + url, httpOptionsJson);
+  }
+
   getSocials(): Observable<any> {
     let url = 'socials/';
     return this.http.get(base_url + url, httpOptionsJson);
@@ -153,13 +183,13 @@ export class ContactService {
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
-  SearchOnMatch(search?:any){
+  SearchOnMatch(search?: any) {
     let url = 'users/searchMatch';
     return this.http.post(base_url + url, JSON.stringify(search), httpOptionsJson);
   }
 
 
-  changeAccount(change?:any){
+  changeAccount(change?: any) {
     let url = 'users/changeAccount';
     return this.http.post(base_url + url, JSON.stringify(change), httpOptionsJson);
   }
@@ -200,10 +230,10 @@ export class ContactService {
     return this.http.post(base_url + url, favorite, httpOptionsJson);
   }
 
-  
+
 
   getCircleMembers(id): Observable<any> {
-    let url = 'users/circle/'+ id;
+    let url = 'users/circle/' + id;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 

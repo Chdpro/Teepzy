@@ -86,6 +86,14 @@ const routes: Routes = [
     path: 'circle-members',
     loadChildren: () => import('./circle-members/circle-members.module').then( m => m.CircleMembersPageModule)
   },
+  {
+    path: 'share-sheet',
+    loadChildren: () => import('./share-sheet/share-sheet.module').then( m => m.ShareSheetPageModule)
+  },
+  {
+    path: 'edit-post',
+    loadChildren: () => import('./edit-post/edit-post.module').then( m => m.EditPostPageModule)
+  },
 
 ];
 @NgModule({

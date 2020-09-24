@@ -35,7 +35,7 @@ ion-slide{
     text-align: center;
     font-size: 13px;
     display: block;
-    margin-left: -8px;
+    margin-left: 8px;
     margin-right: 12px;
     color: #000000;
 }
@@ -47,7 +47,8 @@ ion-slide{
 }
 
 .example-button-row{
-    margin-top: 12px;
+    margin-top: -44px;
+    float: right;
 }
 .btn-icon{
     margin-right: 22px;

@@ -1,0 +1,58 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Partager</ion-title>
+    <ion-icon (click)="dismiss()" class="close-icone" name="close-outline"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content">
+
+  <span>
+  <!-- fab placed to the bottom end -->
+  <ion-fab (click)="presentAlertConfirm(p?._id)" vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="primary">
+      <ion-icon style="color:white" name="flag-outline"></ion-icon>
+    </ion-fab-button>
+    <div class="text-share">
+      signaler
+    </div>
+  </ion-fab>
+
+  <!-- fab placed to the bottom end -->
+  <ion-fab (click)="sendShare(p)" class="rs-btn" vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="primary">
+      <ion-icon style="color:white" name="share-social-outline"></ion-icon>
+    </ion-fab-button>
+    <div style="    margin-left: -18px;" class="text-share">
+      Réseaux sociaux
+    </div>
+  </ion-fab>
+
+  <!-- fab placed to the bottom end -->
+  <ion-fab vertical="bottom" class="sv-btn" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary">
+      <span style="color: #ffff;" class="material-icons">
+        save_alt
+      </span>
+    </ion-fab-button>
+    <div class="text-share">
+      Enregistrer
+    </div>
+  </ion-fab>
+
+  <!-- fab placed to the bottom end -->
+  <ion-fab (click)="rePost(p)" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary">
+      <span style="color:white" class="material-icons">
+        redo
+      </span>
+    </ion-fab-button>
+    <div class="text-share">
+      Mon cercle
+    </div>
+  </ion-fab>
+
+
+  </span>
+
+</ion-content>

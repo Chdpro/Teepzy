@@ -109,25 +109,12 @@ export class ChatPage implements OnInit {
     this.scrollToBottom();
   }
 
-  doRefresh(event) {
-    console.log('Begin async operation');
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      const state = this.router.getCurrentNavigation().extras.state
-      this.getMessages(state.roomId)
-      event.target.complete();
-    }, 400);
-  }
-
-
   replyto(msg) {
     this.message.isReply = true
     this.repliedMessage.pseudo = msg.pseudo;
     this.repliedMessage.text = msg.text;
     this.repliedMessage.userFromId = msg.userId
     msg.messageRepliedId? this.repliedMessage.messageId = msg.messageRepliedId : this.repliedMessage.messageId = msg._id
-
-    console.log(this.repliedMessage)
 
   }
 
@@ -236,8 +223,7 @@ export class ChatPage implements OnInit {
   }
 
   deleteObjectFromList(list, id) {
-    // get index of object with id:37
-    let removeIndex = list.map(function (item) { return item.id; }).indexOf(id);
+    let removeIndex = list.map(function (item) { return item._id; }).indexOf(id);
     // remove object
     list.splice(removeIndex, 1);
     return list

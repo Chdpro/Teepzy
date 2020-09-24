@@ -61,7 +61,7 @@ export class LinkSheetPage implements OnInit {
   }
 
   getTeepzr() {
-    this.contactService.teepZrs(this.userId).subscribe(res => {
+    this.contactService.getCircleMembers(this.userId).subscribe(res => {
       console.log(res)
       this.listTeepZrs = res['data']
     }, error => {

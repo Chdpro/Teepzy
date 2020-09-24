@@ -27,7 +27,7 @@ export class ContactsPage implements OnInit {
     {
       givenName: 'Chris',
       familyName: 'Placktor',
-      phone: '98148917',
+      phone: '+22998148917',
       invited: false
     },
     {
@@ -101,7 +101,7 @@ export class ContactsPage implements OnInit {
     private authService: AuthService,
     private menuCtrl: MenuController,
     private contactService: ContactService) {
-      this.menuCtrl.enable(false);
+    this.menuCtrl.enable(false);
     this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
     console.log(this.previousRoute)
   }
@@ -337,9 +337,9 @@ export class ContactsPage implements OnInit {
       this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = true : null)
       this.presentToast('Invitation envoyée')
       this.socket.emit('notification', 'notification');
-      console.log(this.listTeepzrsToInvite)
       this.loading = false
     }, error => {
+      alert(JSON.stringify(error))
       this.presentToast('Invitation non envoyée')
       this.loading = false
     })
@@ -401,14 +401,14 @@ export class ContactsPage implements OnInit {
         },
 
         {
-          text: 'Professionnelle',
+          text: '@' + this.userInfo.pseudoPro,
           handler: () => {
             this.sendInvitationToJoinCircle(IdR)
           }
         },
 
         {
-          text: 'Amicale',
+          text: '@' + this.userInfo.pseudoIntime,
           handler: () => {
             this.sendInvitationToJoinCircle(IdR)
 

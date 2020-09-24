@@ -11,6 +11,7 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
 import { ContactService } from '../providers/contact.service';
 import * as moment from 'moment';
 import { Socket } from 'ngx-socket-io';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -83,8 +84,10 @@ export class ProfilePage implements OnInit {
     private contactService: ContactService,
     private socket: Socket,
     private menuCtrl: MenuController,
+    public sanitizer: DomSanitizer,
     private authService: AuthService) {
       this.menuCtrl.enable(false);
+      
     this.subscription = this.dataPass.getProjects().subscribe(list => {
       if (list.length > 0) {
         this.listProjects = list
@@ -116,10 +119,15 @@ export class ProfilePage implements OnInit {
   }
 
 
-  goToDetailTeepz(idTeepz) {
-    this.router.navigate(['/detail-feed', { idTeepz: idTeepz }])
-    console.log(idTeepz)
+  goToDetailMesTeepz(idTeepz) {
+    this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'mesTeepz' }])
+    
   }
+  goToDetailTeepz(idTeepz) {
+    this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'mesFavorite' }])
+    
+  }
+
 
   trackByFn(index, item) {
     return index; // or item.id

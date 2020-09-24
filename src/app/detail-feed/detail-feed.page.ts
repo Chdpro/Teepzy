@@ -4,15 +4,13 @@ import { AuthService } from '../providers/auth.service';
 import { ToastController, AlertController, IonSlides, MenuController, ModalController, IonRouterOutlet } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import * as moment from 'moment';
-import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription } from 'rxjs';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { BottomSheetOverviewExampleSheetPage } from '../bottom-sheet-overview-example-sheet/bottom-sheet-overview-example-sheet.page';
 import { LinkSheetPage } from '../link-sheet/link-sheet.page';
 import { CommentsPage } from '../comments/comments.page';
 import { Socket } from 'ngx-socket-io';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Globals } from '../globals';
+import { ShareSheetPage } from '../share-sheet/share-sheet.page';
 
 
 @Component({
@@ -27,7 +25,7 @@ export class DetailFeedPage implements OnInit {
   user: any
 
   listPosts = []
-  post:any
+  post: any
   posts = []
 
   userId = ''
@@ -72,14 +70,15 @@ export class DetailFeedPage implements OnInit {
   global: Globals;
   navigationSubscription;
 
-  @ViewChild('videoPlayer', null) videoplayer: ElementRef;
+  currentPlaying = null
+  @ViewChild('videoPlayer', null) videoPlayers: ElementRef;
 
+
+  previousRoute = ''
 
   constructor(private authService: AuthService,
     private toasterController: ToastController,
     private socialSharing: SocialSharing,
-    private dataPass: DatapasseService,
-    private _bottomSheet: MatBottomSheet,
     public alertController: AlertController,
     private menuCtrl: MenuController,
     private modalController: ModalController,
@@ -92,31 +91,44 @@ export class DetailFeedPage implements OnInit {
     this.menuCtrl.enable(false);
     this.menuCtrl.swipeGesture(true);
     this.global = globals;
-    let idTeepz = this.route.snapshot.paramMap.get('idTeepz')
-   
+    this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
   }
+
+  ionViewWillEnter() {
+    this.userId = localStorage.getItem('teepzyUserId');
+    this.getUserInfo(this.userId)
+    let idTeepz = this.route.snapshot.paramMap.get('idTeepz')
+    this.getAPost(idTeepz)
+    this.getRepost(idTeepz)
+
+  }
+
 
   ngOnInit() {
 
   }
 
 
-  getAPost(idTeepz){
-    this.contactService.getPost(idTeepz).subscribe(res =>{
+  getAPost(idTeepz) {
+    this.contactService.getPost(idTeepz).subscribe(res => {
       console.log(res)
       this.post = res['data'];
-    }, error =>{
+    }, error => {
+      console.log(error)
+    })
+
+  }
+
+  getRepost(idTeepz) {
+    this.contactService.getRePost(idTeepz).subscribe(res => {
+      console.log(res)
+      console.log('repost!!!')
+      this.post == null ? this.post = res['data'] : null;
+    }, error => {
       console.log(error)
     })
   }
 
-  ionViewWillEnter() {
-    this.userId = localStorage.getItem('teepzyUserId');
-    this.getUserInfo(this.userId)
-    this.getPosts(this.userId)
-    let idTeepz = this.route.snapshot.paramMap.get('idTeepz')
-    this.getAPost(idTeepz)
-  }
 
   ngOnDestroy() {
     if (this.navigationSubscription) {
@@ -132,11 +144,124 @@ export class DetailFeedPage implements OnInit {
     });
   }
 
-  toggleVideo(event?: any) {
-    this.isPlaying = true
-    this.videoplayer.nativeElement.play()
 
 
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: "Supprimer ?",
+      message: '',
+      buttons: [
+        {
+          text: 'Non',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.presentToast('Annulé')
+          }
+        },
+
+        {
+          text: 'Oui',
+          handler: () => {
+            this.delete()
+          }
+        },
+
+      ]
+    });
+    await alert.present();
+
+  }
+
+
+
+  delete(){
+    this.post.postId ? this.deleteRePost() : this.deletePost() 
+  }
+
+  update(){
+    this.post.postId ? this.editRePost() : this.editPost()
+  }
+
+  editPost() {
+    let post = {
+      postId: this.post.postId,
+      content: this.post.content,
+      image_url: this.post.image_url,
+      video_url: this.post.video_url,
+      backgroundColor: this.post.backgroundColor,
+    }
+    this.contactService.updatePost(post).subscribe(res => {
+      console.log(res)
+    }, error => {
+      console.log(error)
+    })
+  }
+
+
+  editRePost() {
+    let post = {
+      postId: this.post.postId,
+      content: this.post.content,
+      image_url: this.post.image_url,
+      video_url: this.post.video_url,
+      backgroundColor: this.post.backgroundColor,
+    }
+    this.contactService.updateRePost(post).subscribe(res => {
+      console.log(res)
+      this.presentToast('Post modifié')
+    }, error => {
+      console.log(error)
+      this.presentToast('Oops! une erreur est survenue')
+
+    })
+  }
+
+  deletePost() {
+    this.contactService.deletePost(this.post._id).subscribe(res => {
+      console.log(res)
+      this.presentToast('Post supprimé')
+    }, error => {
+      console.log(error)
+      this.presentToast('Oops! une erreur est survenue')
+    })
+
+  }
+
+  deleteRePost() {
+    this.contactService.deleteRePost(this.post._id).subscribe(res => {
+      console.log(res)
+      this.presentToast('Post supprimé')
+    }, error => {
+      console.log(error)
+      this.presentToast('Oops! une erreur est survenue')
+    })
+
+  }
+
+
+  playVideo(videoUrl?: any) {
+    console.log(videoUrl)
+    const nativeElement = this.videoPlayers.nativeElement;
+    // const inView = this.isElementInViewPort(nativeElement);
+    if (videoUrl) {
+      this.currentPlaying = nativeElement;
+      this.currentPlaying.muted = false;
+      this.currentPlaying.play();
+    } else {
+      this.currentPlaying = nativeElement;
+      this.currentPlaying.muted = true;
+      this.currentPlaying.pause();
+    }
+  }
+
+  stopVideo() {
+    const nativeElement = this.videoPlayers.nativeElement;
+    this.currentPlaying = nativeElement;
+    this.currentPlaying.muted = true;
+    this.currentPlaying.pause();
+    this.currentPlaying = null
   }
 
 
@@ -146,42 +271,11 @@ export class DetailFeedPage implements OnInit {
     this.modalController.dismiss({
       'dismissed': true
     });
-    if ( this.globals.showBackground) {
+    if (this.globals.showBackground) {
       this.globals.showBackground = false;
     } else {
       this.globals.showBackground = true;
     }
-  }
-
-  dismissShareSheet(){
-    if (this.shareLink) {
-      this.shareLink = false
-    } else {
-      this.shareLink = true
-    }
-  
-  }
-  showShareSheet(post) {
-    if (post) {
-      this.repost = {
-        postId: post['_id'],
-        fromId: post['userId'],
-        reposterId: this.userId,
-        userPhoto_url: post['userPhoto_url'],
-        userPseudo: post['userPseudo'],
-        content: post['content'],
-        image_url: post['image_url'],
-        backgroundColor: post['backgroundColor'],
-        includedCircles: post['includedCircles']
-      }
-    }
-
-    if (this.shareLink) {
-      this.shareLink = false
-    } else {
-      this.shareLink = true
-    }
-  
   }
 
 
@@ -218,81 +312,25 @@ export class DetailFeedPage implements OnInit {
     this.router.navigateByUrl('/search')
 
   }
-  openBottomSheet(): void {
-    this._bottomSheet.open(BottomSheetOverviewExampleSheetPage);
-  }
-
-  showResPanel() {
-    console.log('show panel')
-    this.showResponsePanel ? this.showResponsePanel = false : this.showResponsePanel = true
-  }
-
-  sendShare() {
-    this.socialSharing.share('Bonjour,  ' + '<br>' + this.repost['content'], 'TeepZy', null,
-      ' https://play.google.com/store/apps/details?id=com.teepzy.com').then(() => {
-      }).catch((err) => {
-        alert(JSON.stringify(err))
-      });
-  }
 
 
-  signaler(pId, reason) {
-    let spam = {
-      userId: this.userId,
-      postId: pId,
-      reason: reason
+
+  async presentShareModal(post) {
+    if (this.globals.showBackground) {
+      this.globals.showBackground = false;
+    } else {
+      this.globals.showBackground = true;
     }
-    this.contactService.spam(spam).subscribe(res => {
-      console.log(res)
-      this.presentToast('Ce post a été signlé comme spam')
-    }, error => {
-      this.presentToast('Oops! une erreur est survenue')
-      console.log(error)
-    })
-  }
-
-
-  async presentAlertConfirm() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Pourquoi signlez-vous cette publication ?',
-      message: '',
-      buttons: [
-        {
-          text: 'Annuler',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            this.presentToast('Annulé')
-          }
-        }, {
-          text: 'Lorem ipsum',
-          handler: () => {
-            let reason = 'Inaproprié'
-            this.signaler(this.repost['postId'], reason)
-          }
-        }
-        ,
-        {
-          text: 'Lorem ipsum',
-          handler: () => {
-            let reason = 'Inaproprié'
-            this.signaler(this.repost['postId'], reason)
-          }
-        }
-        ,
-        {
-          text: 'Lorem ipsum2',
-          handler: () => {
-            let reason = 'Lorem ipsum2'
-            this.signaler(this.repost['postId'], reason)
-
-          }
-        }
-      ]
+    const modal = await this.modalController.create({
+      component: ShareSheetPage,
+      componentProps: post,
+      cssClass: 'share-custom-class',
+      backdropDismiss: false,
+      showBackdrop: true,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
     });
-    await alert.present();
-
+    return await modal.present();
   }
 
   addFavorite(postId) {
@@ -327,7 +365,7 @@ export class DetailFeedPage implements OnInit {
   }
 
   async presentLinkModal(post) {
-    if ( this.globals.showBackground) {
+    if (this.globals.showBackground) {
       this.globals.showBackground = false;
     } else {
       this.globals.showBackground = true;
@@ -345,7 +383,7 @@ export class DetailFeedPage implements OnInit {
 
 
   async presentCommentModal(post) {
-    if ( this.globals.showBackground) {
+    if (this.globals.showBackground) {
       this.globals.showBackground = false;
     } else {
       this.globals.showBackground = true;
@@ -359,39 +397,6 @@ export class DetailFeedPage implements OnInit {
       presentingElement: this.routerOutlet.nativeEl,
     });
     return await modal.present();
-  }
-
-
-
-
-
-
-
-
-  openShareActionSheet(post) {
-    console.log(post)
-    this.repost = {
-      postId: post['_id'],
-      fromId: post['userId'],
-      reposterId: this.userId,
-      userPhoto_url: post['userPhoto_url'],
-      userPseudo: post['userPseudo'],
-      content: post['content'],
-      image_url: post['image_url'],
-      backgroundColor: post['backgroundColor'],
-      includedCircles: post['includedCircles']
-    }
-  }
-
-  rePost() {
-    this.contactService.rePost(this.repost).subscribe(res => {
-      console.log(res)
-      this.getPosts(this.userId)
-      this.presentToast('Ce post a été publié')
-    }, error => {
-      this.presentToast('Oops! une erreur est survenue')
-      console.log(error)
-    })
   }
 
 
@@ -447,8 +452,6 @@ export class DetailFeedPage implements OnInit {
         )
 
       } else {
-        console.log('pas favoris')
-
         this.listPosts.push(
           {
             _id: e['_id'],
@@ -465,20 +468,9 @@ export class DetailFeedPage implements OnInit {
           },
         )
       }
-
-      console.log(this.listPosts)
     })
   }
 
-
-  showLinkModal(p) {
-    this.publication = p
-    if (this.linkModal) {
-      this.linkModal = false
-    } else {
-      this.linkModal = true
-    }
-  }
 
   async presentToast(msg) {
     const toast = await this.toasterController.create({

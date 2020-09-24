@@ -40,8 +40,8 @@ ion-toolbar{
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%; 
     border: solid 1px #ea4e50;
-    padding-top: 3px;
-  
+    background-color: rgba(255, 255, 255, 0.288);
+    color: black;
 }
 
 img{
@@ -260,8 +260,12 @@ ion-icon{
     background: rgb(0 0 0 / 18%);
     padding: 14px;
     border-radius: 30px;
-    margin-left: -180px;
+  //  margin-left: -180px;
 
+}
+
+.match-align{
+    float: right;
 }
 
 .filigrane{

@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { ToastController, AlertController, MenuController } from '@ionic/angular';
 import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-search',
@@ -47,6 +48,7 @@ export class SearchPage implements OnInit {
     private socket: Socket,
     private alertController: AlertController,
     private router: Router,
+    public sanitizer: DomSanitizer,
     private menuCtrl: MenuController
     ) { 
       this.menuCtrl.enable(false);
@@ -72,8 +74,7 @@ export class SearchPage implements OnInit {
 
 
   goToDetailTeepz(idTeepz) {
-    this.router.navigate(['/detail-feed', { idTeepz: idTeepz }])
-    console.log(idTeepz)
+    this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'search' }])
   }
 
   getPaginatorDataTeepzr(event) {
@@ -149,7 +150,9 @@ export class SearchPage implements OnInit {
 }
 
   searchUsersNotInMyCircle(){
+    this.loading = true
     this.contactService.searchTeepZrs(this.search).subscribe(res =>{
+      this.loading = false
       this.usersNotInCircles = res['users']
       this.usersNotInCircles.forEach(e => {
         let invitation = { idSender: this.search.userId, idReceiver: e['_id'] }
@@ -164,6 +167,7 @@ export class SearchPage implements OnInit {
       });
     }, error =>{
       console.log(error)
+      this.loading = false
     })
   }
   
@@ -179,27 +183,25 @@ export class SearchPage implements OnInit {
   }
 
   searchOnMatches(){
+    this.loading = true
     this.contactService.SearchOnMatch(this.search).subscribe(res =>{
       console.log(res);
+      this.loading = false
       this.users = res['users']
       this.products = res['products']
       this.projects = res['projects']
       this.posts = res['posts']
     }, error =>{
+      this.loading = false
       console.log(error)
     })
   }
-  searchOn(){
-    if (this.search.searchValue.slice(0,1) == '@') {
-      this.users = []
-      this.searchUsersNotInMyCircle()
-      this.getPosts()
-    }else{
-      this.listTeepzrsToInvite = []
-      this.searchOnMatches()
-      this.getPosts()
-    }
 
+
+  searchOn(){
+    this.searchUsersNotInMyCircle()
+    this.searchOnMatches()
+    this.getPosts()
   }
 
   async presentToast(msg) {

@@ -281,7 +281,7 @@
                 <div class="example-button-row">
                   <div class="example-flex-container">
                     <div class="example-button-container">
-                      <button mat-fab color="primary" (click)="showShareSheet(p)" class="mat-button"
+                      <button mat-fab color="primary" (click)="presentShareModal(p)" class="mat-button"
                         aria-label="Example icon button with a delete icon">
                         <span style="    margin-top: -4px;" class="material-icons">
                           redo
@@ -315,12 +315,20 @@
               <div class="filigrane" style="float: right;font-weight: 800;font-size: 7px;"
                 *ngIf="p?.image_url || p?.video_url">
                 <span>MATCHES</span>
-                <span style="margin-top: 15px;" *ngFor="let m of p?.matches | slice:0:3;">
-                  <img class="match-image" [src]="m?.photo" alt="">
-                </span>
                 <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0"> <br> 0</span>
                 <span style="margin-top: 6px;" *ngIf="p?.matches?.length > 3">+ {{p.matches?.length - 3}} </span> <br>
+           
               </div>
+            </ion-col>
+            <ion-col *ngIf="p?.image_url || p?.video_url" size="12">
+              <span class="match-align" *ngFor="let m of p?.matches | slice:0:3;">
+                <img class="match-image" *ngIf="m?.photo !== null" [src]="m?.photo" alt="">
+                <div class="match-pseudo" *ngIf="m?.photo == null"
+                [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                {{m?.prenom | slice:0:1| uppercase}}
+              </div>
+              </span>
+             
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -337,70 +345,6 @@
     </div>
   </ion-slides>
 
-  <input type="radio" *ngIf="shareLink" name="modal2" value="open" id="modal-open2" class="modal-radio" />
-  <div class="modal2" (click)="dismissShareSheet()" *ngIf="shareLink">
-    <label class="modal-label overlay">
-      <input type="radio" name="modal2" value="close" class="modal-radio" />
-    </label>
-    <div class="content">
-      <div class="top" style="margin-top: -32px;color: black; text-align: center;">
-        <h5>PARTAGER </h5>
-        <label (click)="showShareSheet()" class="modal-label close-btn">
-          <input type="radio" name="modal2" value="close" class="modal-radio" />
-        </label>
-      </div>
-      <span>
-        <!-- fab placed to the bottom end -->
-        <ion-fab (click)="presentAlertConfirm(p?._id)" style="margin-bottom: 53px;text-align: center;" vertical="bottom"
-          horizontal="start" slot="fixed">
-          <ion-fab-button color="primary">
-            <ion-icon style="color:white" name="flag-outline"></ion-icon>
-          </ion-fab-button>
-          <div class="text-share">
-            signaler
-          </div>
-        </ion-fab>
-
-
-        <!-- fab placed to the bottom end -->
-        <ion-fab (click)="sendShare(p)" class="rs-btn" vertical="bottom" horizontal="start" slot="fixed">
-          <ion-fab-button color="primary">
-            <ion-icon style="color:white" name="share-social-outline"></ion-icon>
-          </ion-fab-button>
-          <div style="    margin-left: -18px;" class="text-share">
-            Réseaux sociaux
-          </div>
-        </ion-fab>
-
-
-        <!-- fab placed to the bottom end -->
-        <ion-fab vertical="bottom" class="sv-btn" horizontal="end" slot="fixed">
-          <ion-fab-button color="primary">
-            <span style="color: #ffff;" class="material-icons">
-              save_alt
-            </span>
-          </ion-fab-button>
-          <div class="text-share">
-            Enregistrer
-          </div>
-        </ion-fab>
-
-
-        <!-- fab placed to the bottom end -->
-        <ion-fab (click)="rePost(p)" vertical="bottom" style="margin-bottom: 53px;text-align: center;" horizontal="end"
-          slot="fixed">
-          <ion-fab-button color="primary">
-            <span style="color:white" class="material-icons">
-              redo
-            </span>
-          </ion-fab-button>
-          <div class="text-share">
-            Mon cercle
-          </div>
-        </ion-fab>
-      </span>
-    </div>
-  </div>
 
   <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
   <div class="modal" (click)="dismiss()" *ngIf="globals?.showBackground "

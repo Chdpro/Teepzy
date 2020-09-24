@@ -21,9 +21,6 @@
 
   <div #scrollMe id="messages-container" style="overflow: auto; height: 100%;">
 
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
     <ion-grid>
 
       <ion-spinner *ngIf="loading" color="primary" name="dots"></ion-spinner>
@@ -83,10 +80,7 @@
         <ion-col size="12">
 
           <mat-menu #clickHoverMenu="matMenu">
-            <button (click)="test(message)" mat-menu-item>
-              <mat-icon>start_border</mat-icon>
-              <span>test</span>
-            </button>
+         
             <button (click)="addMessageToFavorite(message?._id)" mat-menu-item>
               <mat-icon>start_border</mat-icon>
               <span>Important</span>

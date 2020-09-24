@@ -175,7 +175,8 @@
                 (page)="pageEvent = getPaginatorData($event)">
               </mat-paginator>
             </ion-col>
-            <ion-col size="6" *ngFor="let lt of listFavorites | slice: lowValue : highValue  ;trackBy: trackByFn " (click)="goToDetailTeepz(lt?._id)">
+            <ion-col size="6" *ngFor="let lt of listFavorites | slice: lowValue : highValue  ;trackBy: trackByFn "
+              (click)="goToDetailTeepz(lt?._id)">
 
               <mat-card class="example-card">
                 <mat-card-header>
@@ -184,10 +185,21 @@
                 <mat-card-content
                   [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white',
                    'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' }">
-                  <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
+                  <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '52px' : '0',
+                    'background': lt?.image_url != ''? ' #00000042': '', 
+                    'color': lt?.image_url != '' ? 'white' : '' }" class="mat-p">
 
                     {{lt?.content}}
                   </p>
+                  <div *ngIf="lt?.video_url">
+                    <div>
+                      <video #videoPlayer playsinline preload="metadata">
+                        <source [src]="sanitizer.bypassSecurityTrustResourceUrl(lt?.video_url + '#t=0.5')"
+                          type="video/mp4" />
+                      </video>
+                    </div>
+                  </div>
+
                 </mat-card-content>
                 <mat-card-actions>
                   <ion-grid>
@@ -324,7 +336,8 @@
                 (page)="pageEvent = getPaginatorDataTeepzr($event)">
               </mat-paginator>
             </ion-col>
-            <ion-col size="6" *ngFor="let lt of listTeepz | slice: lowValue : highValue  ;trackBy: trackByFn " (click)="goToDetailTeepz(lt?._id)" >
+            <ion-col size="6" *ngFor="let lt of listTeepz | slice: lowValue : highValue  ;trackBy: trackByFn "
+              (click)="goToDetailMesTeepz(lt?._id)">
 
               <mat-card class="example-card">
                 <mat-card-header>
@@ -332,9 +345,21 @@
                 </mat-card-header>
                 <mat-card-content
                   [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' }">
-                  <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '62px' : '0' }" class="mat-p">
+                  <p [ngStyle]="{'margin-top': lt?.content.length < 130 ? '52px' : '0',
+                  'background': lt?.image_url != ''? ' #00000042': '', 
+                  'color': lt?.image_url != '' ? 'white' : '' }" class="mat-p">
+
                     {{lt?.content}}
                   </p>
+                  <div *ngIf="lt?.video_url">
+                    <div>
+                      <video #videoPlayer playsinline preload="metadata">
+                        <source [src]="sanitizer.bypassSecurityTrustResourceUrl(lt?.video_url + '#t=0.5')"
+                          type="video/mp4" />
+                      </video>
+                    </div>
+                  </div>
+
                 </mat-card-content>
                 <mat-card-actions>
                   <ion-grid>

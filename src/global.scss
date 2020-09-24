@@ -29,8 +29,7 @@
 
 
 .example-full-width{
-    width: 80%;
-  
+    width: 80%; 
 }
 
 #myVideo{
@@ -56,23 +55,6 @@ color: white;
 */
 .mat-mini-fab.mat-accent{
     background-color: #cfcfcf;;
-}
-
-
-::-webkit-scrollbar, *::-webkit-scrollbar {
-    display: none;
-    overflow: hidden;
-  }
-  
-
-  
-  .scroll-content {
-    overflow: hidden;
-  } 
-
-
-.mat-tab-body-wrapper{
-    overflow: scroll !important;
 }
 
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle, .mat-radio-inner-circle{
@@ -104,11 +86,7 @@ ion-modal{
     border-radius: 39px 45px 1px 1px;
 }
 
-.sc-ion-modal-md  .backdrop-no-tappable{
-    background: black;
-    height: 804px;
 
-}
 
 .my-custom-class {
     height: 100%;
@@ -116,6 +94,15 @@ ion-modal{
     bottom: 0 !important;
     border-radius: 0;
 
+}
+
+
+.share-custom-class {
+    height: 30% !important;
+    top: 0;
+    bottom: 0 !important;
+    border-radius: 39px 45px 1px 1px;
+    background: #F0EFEF;
 }
 
 .add-project-class{
@@ -133,11 +120,7 @@ ion-modal{
     background-color: #ea4e4f;
 }
 
-  
-  /* On screens that are 600px or less, set the background color to olive */
-  @media screen and (max-width: 600px) {
-  
-  }
+ 
 
   .carousel-control-next-icon, .carousel-control-prev-icon{
     background-color: #ea4d4f;

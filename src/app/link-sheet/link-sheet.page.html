@@ -5,57 +5,25 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content scroll="true">
+<ion-content [scrollEvents]="true">
 
   <div class="mat-content" (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
     <mat-tab-group [(selectedIndex)]="selectedTab" color="warn" mat-align-tabs="center">
       <mat-tab label="Match">
-          <div class="item-wrapper"  style="overflow:scroll;">
+        <div class="item-wrapper">
 
-              <ion-item *ngFor="let m of matches| filter:filtre ;trackBy: trackByFn " (click)="addLink(m)">
-                <div *ngIf="m?.photo =='' || m?.photo == null" class="round-img-post">
-                  {{m?.prenom | slice:0:1| uppercase}} {{m?.nom | slice:0:1 | uppercase}}
-                </div>
-                <img mat-card-image class="" *ngIf="m?.photo != null"  [src]="m?.photo" alt="">
-                <div>
-                    {{m?.pseudoIntime}} 
-                </div>
-                <ion-label>
-                           
-                  <ion-checkbox name="ckeck" [(ngModel)]="checkItems[m._id]" style="float: right;"
-                    color="primary"></ion-checkbox>
-    
-                </ion-label>
-              </ion-item>
-    
-    
-    
+          <ion-item *ngFor="let m of matches| filter:filtre ;trackBy: trackByFn " (click)="addLink(m)">
+            <div *ngIf="m?.photo =='' || m?.photo == null" class="round-img-post">
+              {{m?.prenom | slice:0:1| uppercase}} {{m?.nom | slice:0:1 | uppercase}}
             </div>
-   
-        <div *ngIf="!matches || matches.length == 0" class="match-txt">
-          Aucun match pour ce post
-        </div>
-      </mat-tab>
-      <mat-tab label="Recherche">
-
-        <input class="input-s" type="text" [(ngModel)]='filtre' placeholder="filtrer...">
-
-
-        
-        <div class="item-wrapper"  style="overflow:scroll;">
-
-          <ion-item *ngFor="let u of listTeepZrs| filter:filtre ;trackBy: trackByFn " (click)="addLink(u)">
-            <div *ngIf="u?.photo =='' || u?.photo == null" class="round-img-post">
-              {{u?.prenom | slice:0:1| uppercase}} {{u?.nom | slice:0:1 | uppercase}}
-            </div>
-            <img mat-card-image *ngIf="u?.photo != null"  [src]="u?.photo" alt="">
+            <img mat-card-image class="" *ngIf="m?.photo != null" [src]="m?.photo" alt="">
             <div>
-                {{u?.pseudoIntime}} 
+              {{m?.pseudoIntime}}
             </div>
             <ion-label>
-                       
-              <ion-checkbox name="ckeck" [(ngModel)]="checkItems[u._id]" style="float: right;"
-                color="primary"></ion-checkbox>
+
+              <ion-checkbox name="ckeck" [(ngModel)]="checkItems[m._id]" style="float: right;" color="primary">
+              </ion-checkbox>
 
             </ion-label>
           </ion-item>
@@ -63,7 +31,36 @@
 
 
         </div>
-        <div class="not-found" *ngIf="usersMatch.length == 0">
+
+        <div *ngIf="!matches || matches.length == 0" class="match-txt">
+          Aucun match pour ce post
+        </div>
+      </mat-tab>
+      <mat-tab label="Recherche">
+
+        <div class="input-container">
+          <input class="input-s" type="text" [(ngModel)]='filtre' placeholder="filtrer...">
+        </div>
+
+        <div class="list-container">
+            <ion-item *ngFor="let u of listTeepZrs| filter:filtre ;trackBy: trackByFn " (click)="addLink(u)" >
+              <div *ngIf="u?.photo =='' || u?.photo == null" class="round-img-post">
+                {{u?.prenom | slice:0:1| uppercase}} {{u?.nom | slice:0:1 | uppercase}}
+              </div>
+              <img mat-card-image *ngIf="u?.photo != null" [src]="u?.photo" alt="">
+              <div>
+                {{u?.pseudoIntime}}
+              </div>
+              <ion-label>
+  
+                <ion-checkbox name="ckeck" [(ngModel)]="checkItems[u?._id]" style="float: right;" color="primary">
+                </ion-checkbox>
+  
+              </ion-label>
+            </ion-item>
+        </div>
+
+        <div class="not-found" *ngIf="usersMatch?.length == 0">
           Aucun utilisateur à matcher à cette offre
         </div>
       </mat-tab>
@@ -72,7 +69,7 @@
 
 </ion-content>
 <!-- Footer without a border -->
-<ion-footer *ngIf="usersSelected.length > 0"  class="ion-no-border">
+<ion-footer *ngIf="usersSelected.length > 0" class="ion-no-border">
   <ion-toolbar>
     <form *ngIf="usersSelected.length > 0" class="example-form">
       <input class="input-m" type="text" name="msg" placeholder="XXX,Je te link avec YYY" [(ngModel)]="message">

@@ -1,4 +1,47 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+        
+        </ion-col>
+        <ion-col *ngIf="previousRoute == 'mesTeepz'" >
+          <div *ngIf="!showSearch" class="example-button-container">
+            <button (click)="update()" class="btn-icon" mat-mini-fab
+              aria-label="Example icon button with a home icon">
+              <mat-icon>create</mat-icon>
+            </button>
+           
+            <button (click)="presentAlertConfirm()" style="text-align: center;" mat-mini-fab aria-label="Example icon button with a home icon">
+              <ion-menu-button autoHide="false">
+                <mat-icon>delete</mat-icon>
+              </ion-menu-button>
+            </button>
+          </div>
+        </ion-col>
+      </ion-row>
 
+      <ion-row>
+        <ion-col>
+          <span *ngIf="showSearch" style="display: flex;">
+            <button (click)="showSearch = false" style="font-size: 29px;" mat-button>
+              <ion-icon name="arrow-back-outline"></ion-icon>
+            </button>
+            <form style="margin-top: 72px; margin-bottom: -41px;" class="example-form">
+              <mat-form-field class="example-full-width search-input mat-form-field">
+                <mat-label>Rechercher</mat-label>
+                <input [(ngModel)]="search" name="search" matInput placeholder="Taper pour filtrer">
+              </mat-form-field>
+            </form>
+          </span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+
+  </ion-toolbar>
+</ion-header>
   
   <ion-content [fullscreen]="true" [scrollY]="false">
   
@@ -18,20 +61,19 @@
           'background-repeat': 'no-repeat'
         }">
   
-        <div (click)="toggleVideo()" class="post-txt">
+        <div (click)="playVideo(post?.video_url)" class="post-txt">
           <div *ngIf="post?.video_url">
             <div>
-              <video #videoPlayer>
+              <video #videoPlayer playsinline preload="metadata">
                 <source [src]="sanitizer.bypassSecurityTrustResourceUrl(post?.video_url)" type="video/mp4" />
               </video>
-  
               <ion-grid>
                 <ion-row>
                   <ion-col>
   
                   </ion-col>
                   <ion-col>
-                    <button *ngIf="!isPlaying" class="play-btn" mat-button>
+                    <button  *ngIf="!currentPlaying" class="play-btn" mat-button>
                       <ion-icon name="play-outline"></ion-icon>
                     </button>
                   </ion-col>
@@ -107,33 +149,7 @@
   
   
           <div [ngStyle]="{'bottom': post?.image_url || post?.video_url ? '-30px' : '57px' }" class="match-img">
-            <span style="color: #ffff;margin-left: 50px !important;" *ngIf="post?.image_url || post?.video_url">
-              <strong>
-                @{{post?.userPseudo}} -
-              </strong>
-              <span *ngIf="time(post?.createdAt) != 'il y a un mois'">
-                <span *ngIf="time(post?.createdAt) != 'il y a un jour'">
-                  <span *ngIf="time(post?.createdAt) != 'il y a une minute'">
-                    <span class="time" *ngIf="time(ppost?.createdAt) != 'il y a une heure'">
-                      {{time(post?.createdAt) }}
-                    </span>
-                  </span>
-                </span>
-              </span>
-              <span class="time" *ngIf="time(post?.createdAt) == 'il y a une minute'">
-                il y a 1 minute
-              </span>
-              <span class="time" *ngIf="time(post?.createdAt) == 'il y a une heure'">
-                il y a 1 heure
-              </span>
-              <span class="time" *ngIf="time(post?.createdAt) == 'il y a un jour'">
-                il y a 1 jour
-              </span>
-              <span class="time" *ngIf="time(post?.createdAt) == 'il y a un mois'">
-                il y a 1 mois
-              </span>
-            </span>
-  
+      
             <div style="display: flex;margin-top: 12px;" *ngIf="!post?.image_url && !post?.video_url">
               <span>MATCH</span>
               <span style="margin-left: 6px;" *ngFor="let m of post?.matches | slice:0:3;">
@@ -146,12 +162,40 @@
               </span>
               <span *ngIf="post?.matches?.length == 0"> 0</span>
               <span *ngIf="post?.matches?.length > 3">
-                + {{post.matches?.length - 3}} </span> <br>
+                + {{post.matches?.length - 3}} 
+              </span> <br>
             </div>
   
             <div class="content-down" *ngIf="post?.image_url || post?.video_url"
               [ngStyle]="{'font-size': post?.content.length > 20 ? '14px' : '17px', 'color': 'white', 'font-weight': '800' }"
               (click)="next()">
+              <span style="color: #ffff;margin-left: 50px !important;" *ngIf="post?.image_url || post?.video_url">
+                <strong>
+                  @{{post?.userPseudo}} -
+                </strong>
+                <span *ngIf="time(post?.createdAt) != 'il y a un mois'">
+                  <span *ngIf="time(post?.createdAt) != 'il y a un jour'">
+                    <span *ngIf="time(post?.createdAt) != 'il y a une minute'">
+                      <span class="time" *ngIf="time(ppost?.createdAt) != 'il y a une heure'">
+                        {{time(post?.createdAt) }}
+                      </span>
+                    </span>
+                  </span>
+                </span>
+                <span class="time" *ngIf="time(post?.createdAt) == 'il y a une minute'">
+                  il y a 1 minute
+                </span>
+                <span class="time" *ngIf="time(post?.createdAt) == 'il y a une heure'">
+                  il y a 1 heure
+                </span>
+                <span class="time" *ngIf="time(post?.createdAt) == 'il y a un jour'">
+                  il y a 1 jour
+                </span>
+                <span class="time" *ngIf="time(post?.createdAt) == 'il y a un mois'">
+                  il y a 1 mois
+                </span>
+              </span><br>
+    
               {{ post?.content }}
             </div>
           </div>
@@ -226,7 +270,7 @@
                   <div class="example-button-row">
                     <div class="example-flex-container">
                       <div class="example-button-container">
-                        <button mat-fab color="primary" (click)="showShareSheet(post)" class="mat-button"
+                        <button mat-fab color="primary" (click)="presentShareModal(post)" class="mat-button"
                           aria-label="Example icon button with a delete icon">
                           <span style="    margin-top: -4px;" class="material-icons">
                             redo
@@ -260,12 +304,21 @@
                 <div class="filigrane" style="float: right;font-weight: 800;font-size: 7px;"
                   *ngIf="post?.image_url || post?.video_url">
                   <span>MATCHES</span>
-                  <span style="margin-left: 6px;" *ngFor="let m of post?.matches | slice:0:3;">
-                    <img class="match-image" [src]="m?.photo" alt="">
-                  </span>
                   <span style="margin-top: 6px;" *ngIf="post?.matches?.length == 0"> <br> 0</span>
                   <span style="margin-top: 6px;" *ngIf="post?.matches?.length > 3">+ {{post.matches?.length - 3}} </span> <br>
+                  <br>
+              
+                   </div>
+                  
+              </ion-col>
+              <ion-col size="12">
+                <span class="match-align" style="margin-left: 6px;" *ngFor="let m of post?.matches | slice:0:3;">
+                  <img class="match-image" *ngIf="m?.photo !== null" [src]="m?.photo" alt="">
+                  <div class="match-pseudo" *ngIf="m?.photo == null"
+                  [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                  {{m?.prenom | slice:0:1| uppercase}}
                 </div>
+                </span>
               </ion-col>
             </ion-row>
           </ion-grid>
