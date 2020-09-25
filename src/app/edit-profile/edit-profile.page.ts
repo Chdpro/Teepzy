@@ -10,6 +10,7 @@ import { base_url } from 'src/config';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { DatapasseService } from '../providers/datapasse.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -91,6 +92,7 @@ export class EditProfilePage implements OnInit {
     private transfer: FileTransfer,
     private menuCtrl: MenuController,
     private router: Router,
+    private dataPasse: DatapasseService,
     private toasterController: ToastController) {
       this.menuCtrl.enable(false);
 
@@ -144,7 +146,8 @@ export class EditProfilePage implements OnInit {
     this.loading = true
     let userId = localStorage.getItem('teepzyUserId')
     // update profile 1
-    this.tags.length > 0 ? this.profile1.tags = this.tags : null
+    this.tags.length > 0 ? this.profile1.hobbies = this.tags : null
+    console.log(this.profile1.hobbies)
     this.authService.updateProfile(this.profile1).subscribe(res => {
       console.log(res)
       this.presentToast('Profil mis à jour')
@@ -205,6 +208,7 @@ export class EditProfilePage implements OnInit {
     this.authService.myInfos(userId).subscribe(res => {
       console.log(res)
       this.user = res['data'];
+      this.dataPasse.send(this.user)
       this.profile1.pseudoIntime = this.user['pseudoIntime'];
       this.profile1.bio = this.user['bio'];
       this.profile1.localisation = this.user['localisation'];

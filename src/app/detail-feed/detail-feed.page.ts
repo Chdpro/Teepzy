@@ -12,6 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Globals } from '../globals';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
 import { EditPostPage } from '../edit-post/edit-post.page';
+import { DatapasseService } from '../providers/datapasse.service';
 
 
 @Component({
@@ -88,11 +89,18 @@ export class DetailFeedPage implements OnInit {
     private router: Router,
     private globals: Globals,
     public route: ActivatedRoute,
+    private dataPasse: DatapasseService,
     private contactService: ContactService) {
     this.menuCtrl.enable(false);
     this.menuCtrl.swipeGesture(true);
     this.global = globals;
     this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
+    this.subscription = this.dataPasse.get().subscribe(p => {
+      console.log(p)
+      if (p) {
+        this.post = p
+      }
+    });
   }
 
   ionViewWillEnter() {

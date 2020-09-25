@@ -58,6 +58,11 @@ export class ProfilePage implements OnInit {
   isProProfile = true
   subscription: Subscription;
   subscription2: Subscription;
+  subscriptionFavorites: Subscription;
+  subscriptionMyTeepz: Subscription;
+  subscriptionMyInfo: Subscription;
+
+
 
   listProjects = []
   listProducts = []
@@ -93,12 +98,33 @@ export class ProfilePage implements OnInit {
         this.listProjects = list
       }
     });
+    this.subscription = this.dataPass.get().subscribe(u => {
+      if (u) {
+        this.user = u
+      }
+    });
     this.subscription2 = this.dataPass.getProducts().subscribe(list => {
       console.log(list)
       if (list.length > 0) {
         this.listProducts = list
       }
     });
+
+    this.subscriptionFavorites = this.dataPass.getFavorite().subscribe(list => {
+      console.log(list)
+      if (list.length > 0) {
+        this.listFavorites = list
+      }
+    });
+
+    this.subscriptionMyTeepz = this.dataPass.getPosts().subscribe(list => {
+      console.log(list)
+      if (list.length > 0) {
+        this.listTeepz = list
+      }
+    });
+
+    
   }
 
   ngOnInit() {
@@ -250,6 +276,8 @@ export class ProfilePage implements OnInit {
       console.log('Async operation has ended');
       let userId = localStorage.getItem('teepzyUserId')
       this.getUserInfo(userId)
+      this.getMyFavoritePosts(userId)
+      this.getMyPosts(userId)
       event.target.complete();
     }, 400);
   }

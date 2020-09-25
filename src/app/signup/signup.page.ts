@@ -27,7 +27,7 @@ export class SignupPage implements OnInit {
 
     conf: '',
     password: '',
-    playerId:''
+    playerId: ''
   }
 
   retourUsr: any
@@ -71,7 +71,7 @@ export class SignupPage implements OnInit {
     this.initializeApp();
 
 
-   }
+  }
 
   ngOnInit() {
     this.menuCtrl.enable(false);
@@ -89,22 +89,22 @@ export class SignupPage implements OnInit {
 
     //console.log(oneSignalAppId, sender_id)
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
+      this.statusBar.backgroundColorByHexString("#ffffff");
       if (isCordovaAvailable) {
         this.oneSignal.startInit(oneSignalAppId, sender_id);
         this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
         this.oneSignal.handleNotificationReceived().subscribe(data => this.onPushReceived(data.payload));
-       this.oneSignal.handleNotificationOpened().subscribe(data => {
-        this.onPushOpened(data.notification.payload)
-        this.router.navigateByUrl('/tabs/tab2')
-       } );
+        this.oneSignal.handleNotificationOpened().subscribe(data => {
+          this.onPushOpened(data.notification.payload)
+          this.router.navigateByUrl('/tabs/tab2')
+        });
         this.oneSignal.endInit();
         // Then You Can Get Devices ID
 
         this.oneSignal.getIds().then(identity => {
           //alert(identity.pushToken + " It's Push Token");
           this.user.playerId = identity.userId
-         // alert(this.playerId)
+          // alert(this.playerId)
 
         })
 
@@ -122,7 +122,7 @@ export class SignupPage implements OnInit {
   private onPushReceived(payload: OSNotificationPayload) {
     // alert('Push opened: ' + payload.body)
   }
-  
+
   listCountriesCodes() {
     this.authService.listCodes().subscribe(res => {
       this.codes = res
@@ -139,11 +139,11 @@ export class SignupPage implements OnInit {
     }
 
     if (this.user.photo != '') {
-    this.presentToast("Avatar choisi ")
+      this.presentToast("Avatar choisi ")
     }
   }
 
- 
+
 
 
   signIn() {
@@ -205,7 +205,7 @@ export class SignupPage implements OnInit {
   signup() {
     console.log(JSON.stringify(this.user));
     this.presentLoading()
-   // this.user.playerId = '971bc26a-e1fb-428c-8902-94d691f857eb'
+    this.user.playerId = '971bc26a-e1fb-428c-8902-94d691f857eb'
     this.user.phone = this.selected + this.telephone;
     if (this.user.password == this.user.conf) {
       this.authService.signup(JSON.stringify(this.user)).subscribe(res => {

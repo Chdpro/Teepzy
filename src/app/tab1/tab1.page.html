@@ -51,13 +51,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" [scrollY]="false"
-
->
+<ion-content [fullscreen]="true" [scrollY]="false">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-slides  pager="false" [options]="slideOpts">
+
+  <ion-slides pager="false" [options]="slideOpts">
+
+    <ion-slide *ngIf="listPosts?.length == 0">
+      <span style="color: #ea4e4f;" >
+        Aucune publication pour l'instant
+      </span>
+    </ion-slide>
     <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
       [ngClass]="{'ion-slide-img': p?.image_url != '', 'ion-slide-no-img': p?.image_url == ''}" [ngStyle]="{
         'color': p?.backgroundColor == '#fff' && p?.image_url == ''? 'black' : 'white', 
@@ -68,7 +73,7 @@
         'background-repeat': 'no-repeat'
       }">
 
-      <div  (click)="playVideo(p?.video_url)" class="post-txt">
+      <div (click)="playVideo(p?.video_url)" class="post-txt">
         <div *ngIf="p?.video_url">
           <div>
             <video #videoPlayer playsinline preload="metadata">
@@ -80,7 +85,7 @@
 
                 </ion-col>
                 <ion-col>
-                  <button  *ngIf="!currentPlaying" class="play-btn" mat-button>
+                  <button *ngIf="!currentPlaying" class="play-btn" mat-button>
                     <ion-icon name="play-outline"></ion-icon>
                   </button>
                 </ion-col>
@@ -316,18 +321,18 @@
                 <span>MATCHES</span>
                 <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0"> <br> 0</span>
                 <span style="margin-top: 6px;" *ngIf="p?.matches?.length > 3">+ {{p.matches?.length - 3}} </span> <br>
-           
+
               </div>
             </ion-col>
             <ion-col *ngIf="p?.image_url || p?.video_url" size="12">
               <span class="match-align" *ngFor="let m of p?.matches | slice:0:3;">
                 <img class="match-image" *ngIf="m?.photo !== null" [src]="m?.photo" alt="">
                 <div class="match-pseudo" *ngIf="m?.photo == null"
-                [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
-                {{m?.prenom | slice:0:1| uppercase}}
-              </div>
+                  [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                  {{m?.prenom | slice:0:1| uppercase}}
+                </div>
               </span>
-             
+
             </ion-col>
           </ion-row>
         </ion-grid>

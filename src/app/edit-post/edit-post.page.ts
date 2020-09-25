@@ -9,6 +9,7 @@ import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVide
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
+import { DatapasseService } from '../providers/datapasse.service';
 
 @Component({
   selector: 'app-edit-post',
@@ -70,7 +71,8 @@ export class EditPostPage implements OnInit {
     private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
-    private mediaCapture: MediaCapture
+    private mediaCapture: MediaCapture,
+    private dataPasse: DatapasseService
 
   ) { 
     this.menuCtrl.enable(false);
@@ -112,6 +114,7 @@ export class EditPostPage implements OnInit {
       this.post.userPhoto_url = this.poste.userPhoto_url
       this.post.userPseudo = this.poste.userPseudo
       this.post.video_url = this.poste.video_url
+      this.dataPasse.send(this.poste)
     }, error => {
       console.log(error)
     })
@@ -167,12 +170,33 @@ export class EditPostPage implements OnInit {
 
   }
 
+  getMyPosts(userId) {
+    this.contactService.teepZ(userId).subscribe(res => {
+      console.log(res)
+      let listTeepz = res['data'];
+      this.dataPasse.sendPosts(listTeepz)
+    }, error => {
+      console.log(error)
+    })
+  }
+
+  getMyFavoritePosts(userId) {
+    this.contactService.favorites(userId).subscribe(res => {
+      console.log(res)
+      let listFavorites = res['data'];
+      this.dataPasse.sendFavorite(listFavorites)
+    }, error => {
+      console.log(error)
+    })
+  }
+
 
   update(){
-    this.post.postId ? this.editRePost() : this.editPost()
+    this.post.postId ? this.editPost() : this.editRePost()
   }
 
   editPost() {
+    this.loading = true
     let post = {
       postId: this.post.postId,
       content: this.post.content,
@@ -182,13 +206,23 @@ export class EditPostPage implements OnInit {
     }
     this.contactService.updatePost(post).subscribe(res => {
       console.log(res)
+      this.loading = false
+      this.presentToast('Post modifié')
+      this.getAPost(this.post.postId)
+      this.getMyFavoritePosts(this.userId)
+      this.getMyPosts(this.userId)
+      this.dismiss()
+
     }, error => {
       console.log(error)
+      this.loading = false
+
     })
   }
 
 
   editRePost() {
+    this.loading = true
     let post = {
       postId: this.post.postId,
       content: this.post.content,
@@ -198,9 +232,14 @@ export class EditPostPage implements OnInit {
     }
     this.contactService.updateRePost(post).subscribe(res => {
       console.log(res)
+      this.loading = false
       this.presentToast('Post modifié')
+      this.getMyFavoritePosts(this.userId)
+      this.getMyPosts(this.userId)
+      this.dismiss()
     }, error => {
       console.log(error)
+      this.loading = false
       this.presentToast('Oops! une erreur est survenue')
 
     })
@@ -311,7 +350,6 @@ export class EditPostPage implements OnInit {
       sourceType: sourceType,
       destinationType: this.camera.DestinationType.FILE_URI,
       mediaType: this.camera.MediaType.VIDEO,
-
     }
     this.camera.getPicture(options).then((videoData) => {
       // imageData is either a base64 encoded string or a file URI

@@ -45,7 +45,7 @@ import { Globals } from './globals';
 import { CircleMembersPageModule } from './circle-members/circle-members.module';
 import { ShareSheetPageModule } from './share-sheet/share-sheet.module';
 import { EditPostPageModule } from './edit-post/edit-post.module';
-const config: SocketIoConfig = { url: base_url, options: {} };
+const config: SocketIoConfig = { url: local_url, options: {} };
 
 @NgModule({
   declarations: [AppComponent],

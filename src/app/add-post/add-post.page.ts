@@ -365,9 +365,7 @@ export class AddPostPage implements OnInit {
   addPost() {
     this.loading = true
     this.post.userPhoto_url = this.user.photo
-    if (this.user.typeCircle == typeAccount.pseudoIntime) {
       this.post.userPseudo = this.user.pseudoIntime
-    } 
     //this.photos.length > 0 ? this.uploadImage() : null
     this.contactService.addPost(this.post).subscribe(res => {
       console.log(res);

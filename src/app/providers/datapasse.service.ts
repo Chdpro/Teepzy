@@ -15,6 +15,9 @@ export class DatapasseService {
   private subjectProject = new Subject<any>();  
   private subjectRoom = new Subject<any>();  
 
+  private subjectFavorite = new Subject<any>();  
+
+
   constructor() { }  
   
   sendPosts(posts) {  
@@ -59,5 +62,14 @@ export class DatapasseService {
 
   get(): Observable<any> {  
     return this.subjectRoom.asObservable();  
+  }
+
+  sendFavorite(data) {  
+    console.log(data)
+    this.subjectFavorite.next(data);  
+  }  
+
+  getFavorite(): Observable<any> {  
+    return this.subjectFavorite.asObservable();  
   }
 }

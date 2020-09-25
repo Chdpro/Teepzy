@@ -9,7 +9,9 @@ import { fromEvent } from 'rxjs';
 import { ContactService } from './providers/contact.service';
 import { Socket } from 'ngx-socket-io';
 import { AuthService } from './providers/auth.service';
-
+import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal/ngx';
+import { isCordovaAvailable } from '../common/is-cordova-available'
+import { oneSignalAppId, sender_id } from 'src/config';
 
 @Component({
   selector: 'app-root',
@@ -29,7 +31,9 @@ export class AppComponent {
     public toastController: ToastController,
     private contactService: ContactService,
     private socket: Socket,
-    private authService: AuthService
+    private authService: AuthService,
+    private oneSignal: OneSignal,
+
 
   ) {
     this.sideMenu();
@@ -64,6 +68,19 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.backgroundColorByHexString("#ffffff");
       this.splashScreen.hide();
+      if (isCordovaAvailable) {
+        this.oneSignal.startInit(oneSignalAppId, sender_id);
+        this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
+        this.oneSignal.handleNotificationReceived().subscribe(data => this.onPushReceived(data.payload));
+       this.oneSignal.handleNotificationOpened().subscribe(data => {
+        this.onPushOpened(data.notification.payload)
+        this.router.navigateByUrl('/tabs/tab2')
+       } );
+        this.oneSignal.endInit();
+        // Then You Can Get Devices ID
+        this.oneSignal.getIds().then(identity => {
+        })
+      }
     });
   }
 
@@ -90,11 +107,22 @@ export class AppComponent {
   }
 
 
+
+  private onPushOpened(payload: OSNotificationPayload) {
+    // alert('Push received :' + payload.body)
+
+  }
+
+  private onPushReceived(payload: OSNotificationPayload) {
+    // alert('Push opened: ' + payload.body)
+  }
+  
+
   getUserInfo(userId, token) {
     this.authService.myInfos(userId).subscribe(res => {
       console.log(res)
       this.userInfo = res['data'];
-     /* if (token && this.userInfo['isCompleted']) {
+      if (token && this.userInfo['isCompleted']) {
         this.socket.emit('online', userId );  
         let user = {
           userId: userId,
@@ -119,7 +147,7 @@ export class AppComponent {
            replaceUrl: true
          }
          )
-        }*/
+        }
     }, error => {
       console.log(error)
       if(!token){
