@@ -164,13 +164,13 @@ export class ContactService {
 
   getPost(idTeepz): Observable<any> {
     let url = 'users/posts/' + idTeepz;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
 
 
   getRePost(idTeepz): Observable<any> {
     let url = 'users/repost/' + idTeepz;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
 
   getSocials(): Observable<any> {

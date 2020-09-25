@@ -71,6 +71,11 @@ export class LinkSheetPage implements OnInit {
   }
 
 
+  closeModalOnSwipeDown(event) {
+    console.log('close modal');
+    this.dismiss()
+  }
+
   addLink(link) {
     console.log(this.usersSelected.includes(link['_id']))
     if (this.usersSelected.includes(link['_id'])) {

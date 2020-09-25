@@ -11,12 +11,13 @@
 
   <div class="banner">
     <div>
-      <div  *ngIf="dispImags?.length > 0">
-          <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
+      <div *ngIf="dispImags?.length > 0">
+        <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
       </div>
 
-      <div  *ngIf="dispImags?.length == 0" class="round-img"    [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
-        {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}} 
+      <div *ngIf="dispImags?.length == 0" class="round-img"
+        [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+        {{user?.pseudoIntime | slice:0:1| uppercase}}
       </div>
       <!-- fab placed to the bottom end -->
       <ion-fab (click)="selectImage()" vertical="center" horizontal="center" slot="fixed">
@@ -59,7 +60,7 @@
                     </ion-chip>
                     <!--span *ngIf="socialsAdded?.length == 0" >Ajouter un média</span-->
                     <button [disabled]="rs_url2 == ''|| media2 == ''" (click)="addSocialProfile2()"
-                      class=" mat-add-circle" mat-button>
+                      class="shadow-none mat-add-circle" mat-button>
                       <span class="material-icons">
                         add_circle
                       </span>
@@ -68,8 +69,8 @@
                 </span>
 
                 <mat-form-field class="example-full-width">
-                  <mat-label>PSEUDO AMICAL</mat-label>
-                  <input matInput disabled name="nom2" [(ngModel)]="profile2.pseudoIntime" placeholder="NOM">
+                  <mat-label>PSEUDO</mat-label>
+                  <input matInput disabled name="nom2" [(ngModel)]="profile1.pseudoIntime" placeholder="NOM">
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
                   <mat-label>MÉTIER</mat-label>
@@ -93,9 +94,14 @@
                 <mat-form-field class="example-chip-list">
                   <mat-chip-list #chipList aria-label="Fruit selection">
                     <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
-                      (removed)="remove(tag)">
+                      (removed)="remove1(tag)">
                       {{tag}}
                       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                    <mat-chip>
+                      Ajouter
+                      <mat-icon (click)="add($event)" style="    width: 30px;
+                    height: 18px;" matChipRemove>add_circle</mat-icon>
                     </mat-chip>
                     <input placeholder="HOBBIES" [matChipInputFor]="chipList"
                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
@@ -104,17 +110,17 @@
                 </mat-form-field>
 
                 <!--span *ngIf="socialsAdded?.length == 0" >Ajouter un média</span-->
-                <button [disabled]="tags.length == 0" (click)="add($event)" class=" mat-add-circle" mat-button>
+                <!--button [disabled]="tags.length == 0" (click)="add($event)" class=" mat-add-circle" mat-button>
                   <span class="material-icons">
                     add_circle
                   </span>
-                </button>
+                </button-->
               </form>
             </ion-col>
           </ion-row>
         </ion-grid>
       </mat-tab>
-      <mat-tab (click)="switchTab1()" [label]="'@' + user?.pseudoPro">
+      <!--mat-tab (click)="switchTab1()" [label]="'@' + user?.pseudoPro">
         <ion-grid>
           <ion-row>
             <ion-col>
@@ -142,7 +148,6 @@
                       </ion-label>
                       <mat-icon class="mat-con-cancel" (click)="remove(so)" *ngIf="removable2">cancel</mat-icon>
                     </ion-chip>
-                    <!--span *ngIf="socialsAdded?.length == 0" >Ajouter un média</span-->
                     <button [disabled]="rs_url == ''|| media == ''" (click)="addSocial()" class=" mat-add-circle"
                       mat-button>
                       <span class="material-icons">
@@ -190,7 +195,6 @@
                       (matChipInputTokenEnd)="add1($event)">
                   </mat-chip-list>
                 </mat-form-field>
-                <!--span *ngIf="socialsAdded?.length == 0" >Ajouter un média</span-->
                 <button [disabled]="tags1.length == 0" (click)="add1($event)" class=" mat-add-circle" mat-button>
                   <span class="material-icons">
                     add_circle
@@ -200,8 +204,8 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-      </mat-tab>
-    
+      </mat-tab-->
+
     </mat-tab-group>
   </div>
 

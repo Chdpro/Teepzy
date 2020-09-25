@@ -36,6 +36,10 @@ export class ShareSheetPage implements OnInit {
   }
 
 
+  closeModalOnSwipeDown(event) {
+    console.log('close modal');
+    this.dismiss()
+  }
 
   sendShare() {
     this.socialSharing.share('Bonjour,  ' + '<br>' + this.post['content'], 'TeepZy', null,

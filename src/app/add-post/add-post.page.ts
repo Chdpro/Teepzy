@@ -112,6 +112,7 @@ export class AddPostPage implements OnInit {
 
   }
 
+  
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
       header: "Selectionner un média",
@@ -148,37 +149,6 @@ export class AddPostPage implements OnInit {
     await actionSheet.present();
   }
 
-
-
-
-  pickImage(sourceType) {
-    const options: CameraOptions = {
-      quality: 100,
-      sourceType: sourceType,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
-    this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      // let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-      this.userPhoto[0] == this.dispImags[0]
-      this.filePath.resolveNativePath(imageData).then((nativepath) => {
-        if (this.photos.length == 0) {
-          this.photos.push(nativepath)
-        } else if (this.photos.length > 1) {
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
-        }
-      }, error => {
-      })
-
-    }, (err) => {
-      // Handle error
-
-    });
-  }
 
 
   takeVideo() {
@@ -244,7 +214,71 @@ export class AddPostPage implements OnInit {
   }
 
 
-  uploadImage(p) {
+
+
+
+  pickImage(sourceType) {
+    const options: CameraOptions = {
+      quality: 100,
+      sourceType: sourceType,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      // let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
+      this.userPhoto[0] == this.dispImags[0]
+      this.filePath.resolveNativePath(imageData).then((nativepath) => {
+        if (this.photos.length == 0) {
+          this.photos.push(nativepath)
+        } else if (this.photos.length > 1) {
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+        }
+      }, error => {
+      })
+
+    }, (err) => {
+      // Handle error
+
+    });
+  }
+
+
+  pickMedia() {
+    const options: CameraOptions = {
+      quality: 100,
+      sourceType: this.camera.PictureSourceType.CAMERA,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.ALLMEDIA
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      // let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
+      this.userPhoto[0] == this.dispImags[0]
+      this.filePath.resolveNativePath(imageData).then((nativepath) => {
+        if (this.photos.length == 0) {
+          this.photos.push(nativepath)
+        } else if (this.photos.length > 1) {
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+        }
+      }, error => {
+      })
+
+    }, (err) => {
+      // Handle error
+
+    });
+  }
+
+
+
+  uploadImage() {
     var ref = this;
     this.loading = true
     if (ref.photos.length > 0 && ref.videos.length == 0) {
@@ -333,11 +367,7 @@ export class AddPostPage implements OnInit {
     this.post.userPhoto_url = this.user.photo
     if (this.user.typeCircle == typeAccount.pseudoIntime) {
       this.post.userPseudo = this.user.pseudoIntime
-
-    } else if (this.user.typeCircle == typeAccount.pseudoPro) {
-      this.post.userPseudo = this.user.pseudoPro
-    }
-    console.log(this.post);
+    } 
     //this.photos.length > 0 ? this.uploadImage() : null
     this.contactService.addPost(this.post).subscribe(res => {
       console.log(res);
@@ -381,8 +411,6 @@ export class AddPostPage implements OnInit {
 
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null
-    //this.socket.removeAllListeners('message');
-    //this.socket.removeAllListeners('users-changed');
   }
 
 }

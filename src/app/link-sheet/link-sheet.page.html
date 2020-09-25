@@ -6,7 +6,9 @@
 </ion-header>
 
 <ion-content [scrollEvents]="true">
-
+  <ion-refresher slot="fixed" (ionRefresh)="closeModalOnSwipeDown($event)">
+    <!--ion-refresher-content></ion-refresher-content-->
+  </ion-refresher>
   <div class="mat-content" (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
     <mat-tab-group [(selectedIndex)]="selectedTab" color="warn" mat-align-tabs="center">
       <mat-tab label="Match">

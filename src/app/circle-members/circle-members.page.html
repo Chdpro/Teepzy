@@ -20,15 +20,11 @@
 
     <ion-item *ngFor="let m of members| filter:search ;trackBy: trackByFn ">
       <div *ngIf="m?.photo =='' || m?.photo == null" class="round-img-post">
-        {{m?.pseudoIntime | slice:0:1| uppercase}} {{m?.pseudoPro | slice:0:1 | uppercase}}
+        {{m?.pseudoIntime | slice:0:1| uppercase}} 
       </div>
       <img *ngIf="m?.photo" [src]="m?.photo" alt="">
-      <ion-label><b> {{m?.pseudoPro}} </b> <b style="float: right;" class="time">  </b><br>
-        <strong>
-          {{m?.prenom}} {{m?.nom}}          
-        </strong>
+      <ion-label><b> {{m?.pseudoIntime}} </b> <b style="float: right;" class="time">  </b><br>
         <ion-checkbox [(ngModel)]="checkItems[m._id]" (ngModelChange)="addUserToCreateChatRoom(m._id)" style="float: right;" color="primary"></ion-checkbox>
-
       </ion-label>
     </ion-item>
 
@@ -49,7 +45,6 @@
             INITIER UNE DISCUSSION
          </span> 
          <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-
         </ion-button>
       </ion-col>
     </ion-row>

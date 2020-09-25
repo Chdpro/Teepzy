@@ -401,14 +401,7 @@ export class ContactsPage implements OnInit {
         },
 
         {
-          text: '@' + this.userInfo.pseudoPro,
-          handler: () => {
-            this.sendInvitationToJoinCircle(IdR)
-          }
-        },
-
-        {
-          text: '@' + this.userInfo.pseudoIntime,
+          text: 'Confirmer',
           handler: () => {
             this.sendInvitationToJoinCircle(IdR)
 

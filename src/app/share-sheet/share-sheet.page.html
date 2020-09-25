@@ -3,10 +3,13 @@
     <ion-title>Partager</ion-title>
     <ion-icon (click)="dismiss()" class="close-icone" name="close-outline"></ion-icon>
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content class="content">
-
+  <ion-refresher slot="fixed" (ionRefresh)="closeModalOnSwipeDown($event)">
+    <!--ion-refresher-content></ion-refresher-content-->
+  </ion-refresher>
   <span>
   <!-- fab placed to the bottom end -->
   <ion-fab (click)="presentAlertConfirm(p?._id)" vertical="bottom" horizontal="start" slot="fixed">

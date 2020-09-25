@@ -1,9 +1,117 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>editPost</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-</ion-content>
+<ion-content [style.background-color]="post?.backgroundColor" style="    height: -webkit-fill-available;">
+    <div [style.background-color]="post?.backgroundColor" style="    height: -webkit-fill-available;">
+      <ion-header class="ion-no-border" [style.background-color]="post?.backgroundColor">
+        <ion-toolbar [style.background-color]="post?.backgroundColor">
+          <ion-icon class="arrow-back-btn" (click)="dismiss()" name="arrow-back-outline"></ion-icon>
+          <div class="example-button-container">
+            <ion-button color="secondary" style="margin-top: 1px;" (click)="uploadImage()"
+              [disabled]="contentMsg.errors?.required" expand="block" shape="round">
+              <span *ngIf="!loading">
+                Modifier
+              </span>
+              <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+            </ion-button>
+          </div>
+        </ion-toolbar>
+      </ion-header>
+      <div class="post-txt">
+        <div *ngIf="userPhoto?.length > 0">
+          <img *ngFor="let img of userPhoto" class="img" [src]="img" alt="">
+        </div>
+  
+        <div *ngIf="userPhoto?.length == 0" class="round-img-post"
+          [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">
+          {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}}
+        </div>
+      </div>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12">
+            <img *ngIf="dispImags?.length > 0" class="img-to-post" [src]="dispImags[0]" alt="">
+            <!--iframe 
+            [src]="sanitizer.bypassSecurityTrustResourceUrl(dispVideos[0])" 
+            allow="autoplay;" 
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen
+            controls controlsList="nodownload"
+            >
+          </iframe-->
+            <div *ngIf="dispVideos?.length > 0">
+              <video #myVideo oncontextmenu="return false;" autoplay controls="false">
+                <source [src]="sanitizer.bypassSecurityTrustResourceUrl(dispVideos[0])" type="video/mp4">
+              </video>
+            </div>
+          </ion-col>
+  
+          <ion-col>
+            <form class="example-form">
+              <mat-form-field class="example-full-width">
+                <mat-label [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">Tapez ce que vous
+                  voulez</mat-label>
+                <textarea [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }" matInput
+                  [(ngModel)]="post.content" name="contentMsg" required #contentMsg="ngModel" maxlength="130" rows="15"
+                  cols="60" placeholder="Ex. Je recherche un graphiste..."></textarea>
+              </mat-form-field>
+              <span>
+  
+  
+                <div class="limit-chars" *ngIf="post?.content.length == 130">
+                  limite maximale de caractère à 130
+                </div>
+                <div class="limitCounter">
+                  {{post?.content.length}} / 130
+                </div>
+  
+              </span>
+            </form>
+          </ion-col>
+          <ion-col size="12">
+  
+  
+            <div class=" color-btns">
+              <ion-col size="2">
+                  <button (click)="setBackgroundColor('#000000')" class="btn-icon black-btn" mat-mini-fab
+                  aria-label="Example icon button with a home icon">
+    
+                </button>
+              </ion-col>
+              <ion-col size="2">
+                  <button (click)="setBackgroundColor('#E5858B')" class="btn-icon brown-btn" mat-mini-fab
+                  aria-label="Example icon button with a home icon">
+    
+                </button>
+              </ion-col>
+              <ion-col size="4">
+                  <span>
+                      <ion-fab vertical="center" horizontal="center" slot="fixed">
+                          <ion-fab-button>
+                            <ion-icon name="add"></ion-icon>
+                          </ion-fab-button>
+                        </ion-fab>
+        
+                    </span>
+              </ion-col>
+              <ion-col size="2">
+    
+                  <button (click)="setBackgroundColor('#6C9FF0')" class="btn-icon blue-btn" mat-mini-fab
+                  aria-label="Example icon button with a home icon">
+    
+                </button>
+              </ion-col>
+              <ion-col size="2">
+                  <button (click)="setBackgroundColor('#73D896')" class="btn-icon grey-btn" mat-mini-fab
+                  aria-label="Example icon button with a home icon">
+    
+                </button>
+              </ion-col>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  
+  
+    </div>
+  
+  
+  </ion-content>

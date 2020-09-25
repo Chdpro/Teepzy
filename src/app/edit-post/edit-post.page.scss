@@ -1,0 +1,255 @@
+ion-modal {
+    left: 0;
+    right: 0;
+    top: 0 !important;
+    height: 404px;
+    bottom: 0 !important;
+}
+
+video{
+  height: 55%;
+  width: 100%;
+}
+
+video::-internal-media-controls-download-button {
+  display:none;
+ }
+
+ video::-webkit-media-controls-enclosure {
+      overflow:hidden;
+ }
+
+ video::-webkit-media-controls-panel {
+      width: calc(100% + 30px); 
+ }
+
+.modal-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .img{
+    height: 70px;
+    width: 70px;
+    border-radius: 177px;
+    border: solid 3px #ea4e50;
+    display: block;
+    margin-left: 8px;
+    margin-right: 2px;
+}
+
+  .round-img-post{
+    height: 70px;
+    width: 70px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border: solid 1px #ea4d4f;
+    padding-top: 25px;
+    text-align: center;
+    font-size: 15px;
+    display: block;
+    margin-left: 8px;
+    margin-right: 2px;
+    color: #000000;
+}
+ion-title{
+    color: #ea4e50;
+}
+
+ion-fab{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.arrow-back-btn{
+    font-size: 35px;
+    margin-left: 15px;
+}
+
+.example-button-container{
+    float: right;
+    margin-top: 1px;
+    margin-right: 12px;
+}
+
+.limit-chars{
+    margin-bottom: 16px;
+}
+.limitCounter{
+    float: right;
+    margin-top: -8px;
+    margin-bottom: 18px;
+}
+
+.color-btns{
+  float: right;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 96%;
+}
+
+.grey-btn, .blue-btn{
+  float: right;
+}
+.brown-btn, .black-btn{
+  float: left;
+}
+
+.btn-icon{
+    margin-right: 13px;
+}
+
+mat-icon{
+    color: #ea4e50;
+}
+
+.img-poster{
+    border-radius: 139px;
+    width: 67px;
+    height: 67px;
+    margin-top: 36px;
+    margin-left: 22px;
+}
+
+
+
+mat-form-field{
+    width: 100%;
+}
+
+.img-mat-icon{
+    margin-right: 15px;
+}
+
+.material-icons{
+    color: #ea4e50;
+}
+
+.black-btn, .brown-btn, .blue-btn, .grey-btn, .white-btn{
+    border: 1px solid;
+}
+
+.black-btn{
+background: black;
+}
+.white-btn{
+background: white;
+}
+.grey-btn{
+background: #73D896;
+}
+.brown-btn{
+background: #E5858B;
+}
+
+.blue-btn{
+background: #6C9FF0;
+}
+
+ion-spinner{
+    width: 46px;
+    height: 58px;
+}
+
+
+// modal
+
+/* [Object] Modal
+ * =============================== */
+ .modal {
+    z-index: 2000;
+      visibility: visible;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      text-align: left;
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity .5s, transform .5s;
+      background: rgba(0,0,0, .9);
+    }
+
+    .alert-header{
+        width: 308px;
+        margin-top: 37px;
+        text-align: center;
+        margin-left: -19px;
+    }
+    
+    .modal__bg {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      cursor: pointer;
+    }
+    
+    .modal-state {
+      display: none;
+    }
+    
+    .modal-state:checked + .modal {
+      visibility: visible;
+      opacity: 1;
+      height: 100%;
+  
+    }
+    
+    .modal-state:checked + .modal .modal__inner {
+      top: 0;
+    }
+    
+    .modal__inner {
+      transition: top .25s ease;
+      position: absolute;
+      top: 2%;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 92%;
+      margin: auto;
+      overflow: auto;
+      background: #fff;
+      border-radius: 27px;
+      padding: 1em 2em;
+      height: 24%;
+    }
+    
+    .modal__close {
+      position: absolute;
+      right: 1em;
+      top: 1em;
+      width: 1.1em;
+      height: 1.1em;
+      cursor: pointer;
+    }
+    
+    .modal__close:after,
+    .modal__close:before {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 1.5em;
+      background: #ccc;
+      display: block;
+      transform: rotate(45deg);
+      left: 50%;
+      margin: -3px 0 0 -1px;
+      top: 0;
+    }
+    
+    .modal__close:hover:after,
+    .modal__close:hover:before {
+      background: #aaa;
+    }
+    
+    .modal__close:before {
+      transform: rotate(-45deg);
+    }
+   

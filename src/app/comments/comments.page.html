@@ -1,4 +1,9 @@
-<ion-content color="success" class="content" style="    background-color: #F0EFEF;">
+<ion-content color="success" class="content" style="background-color: #F0EFEF;"
+           
+>
+  <ion-refresher slot="fixed" (ionRefresh)="closeModalOnSwipeDown($event)">
+    <!--ion-refresher-content></ion-refresher-content-->
+  </ion-refresher>
   <div>
     <ion-header class="ion-no-border">
       <ion-toolbar color="success">
@@ -19,9 +24,9 @@
                 <div *ngIf="c?.userPhoto_url == null " class="round-img">
                   {{c?.userPseudo | slice:0:1| uppercase}}
                 </div>
-  
+
               </div>
-            
+
 
               <mat-card-title>{{c?.userPseudo}}</mat-card-title>
             </mat-card-header>
@@ -29,9 +34,9 @@
               <p class="content-comment">
                 {{c?.comment}}
               </p>
-              <button class="btn-icon star-btn" mat-button aria-label="Example icon button with a home icon">
+              <!--button class="btn-icon star-btn" mat-button aria-label="Example icon button with a home icon">
                 <ion-icon name="star-outline"></ion-icon>
-              </button>
+              </button-->
             </mat-card-content>
             <mat-card-actions>
 
@@ -40,7 +45,7 @@
                 Voir les réponses( {{ listCommentsOfComment?.length || '0' }} )
               </button>
             </mat-card-actions>
-            <div  *ngIf="showResponsePanel">
+            <div *ngIf="showResponsePanel">
               <div *ngFor="let cc of listCommentsOfComment?.reverse();trackBy: trackByFn ">
                 <div *ngIf="cc?.commentId == c?._id" class="mat-res" style="display: inline-flex;">
                   <div mat-card-avatar>
@@ -53,7 +58,7 @@
                   <div>
                     {{cc?.comment}}
                   </div>
-              
+
                 </div>
               </div>
 
@@ -106,14 +111,16 @@
 <ion-footer>
   <ion-toolbar>
     <ion-row class="message_row">
-   
+
       <ion-col size="9">
         <ion-item no-lines>
-          <ion-input type="text" placeholder="Ajouter un commentaire" name="comment" required #comment="ngModel" [(ngModel)]="commentT.comment"></ion-input>
+          <ion-input type="text" placeholder="Ajouter un commentaire" name="comment" required #comment="ngModel"
+            [(ngModel)]="commentT.comment"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size="3">
-        <button ion-button clear color="primary" class="send-btn" (click)="addCommentToPost()" size="small" [disabled]="comment.errors?.required">
+        <button ion-button clear color="primary" class="send-btn" (click)="addCommentToPost()" size="small"
+          [disabled]="comment.errors?.required">
           <ion-icon name="send"></ion-icon>
         </button>
       </ion-col>

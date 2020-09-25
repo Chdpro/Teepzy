@@ -56,6 +56,14 @@ export class CommentsPage implements OnInit {
     this.userId = localStorage.getItem('teepzyUserId');
   }
 
+
+  
+  closeModalOnSwipeDown(event) {
+    console.log('close modal');
+    this.dismiss()
+  }
+
+
   connectSocket(){
     this.socket.connect();
   }

@@ -23,7 +23,7 @@ export class AddProductPage implements OnInit {
   product = {
     userId: '',
     nom: '',
-    photo: 'http://teepzy.com/product.jpg',
+    photo: '',
     tags : [],
     description: '',
     price: ''

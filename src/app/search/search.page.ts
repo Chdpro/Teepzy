@@ -158,10 +158,10 @@ export class SearchPage implements OnInit {
         let invitation = { idSender: this.search.userId, idReceiver: e['_id'] }
         this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
           if (res['status'] == 201) {
-            this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null :  this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'],  pseudoIntime: e['pseudoIntime'], pseudoPro: e['pseudoPro'], circleMembersCount: e['circleMembersCount'], invited: true }) 
+            this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null :  this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'],  pseudoIntime: e['pseudoIntime'], circleMembersCount: e['circleMembersCount'], invited: true }) 
           } else {
             console.log(this.listTeepzrsToInvite)
-            this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null : this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'],  pseudoIntime: e['pseudoIntime'], pseudoPro: e['pseudoPro'], circleMembersCount: e['circleMembersCount'], invited: false })
+            this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null : this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'],  pseudoIntime: e['pseudoIntime'], circleMembersCount: e['circleMembersCount'], invited: false })
           }
         })
       });
@@ -251,8 +251,6 @@ export class SearchPage implements OnInit {
     }
 
     this.contactService.cancelToJoinCircle(invitation).subscribe(res => {
-      console.log(res)
-
       if (res['status'] == 400) {
         this.presentToast('Invitation non envoyée')
         this.loading = false

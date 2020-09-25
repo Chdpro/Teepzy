@@ -16,7 +16,6 @@ import { ContactService } from '../providers/contact.service';
 export class SignupFinalPage implements OnInit {
   user = {
     pseudoIntime: '',
-    pseudoPro: '',
     userId: '',
     role: '',
     photo: '',
@@ -41,7 +40,7 @@ export class SignupFinalPage implements OnInit {
   loadingA = false
   loadingP = false
 
-  
+
 
   constructor(private authService: AuthService,
     public router: Router,
@@ -84,9 +83,8 @@ export class SignupFinalPage implements OnInit {
   }
 
   updateUser() {
-    if ((this.user.pseudoIntime == '' && this.user.pseudoPro != '') || (this.user.pseudoIntime != '' && this.user.pseudoPro == '')) {
+    if ((this.user.pseudoIntime != '')) {
       this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
-      this.user.pseudoPro = this.user.pseudoPro.toLowerCase()
       this.authService.update(this.user).subscribe(res => {
         console.log(res)
         if (res['status'] == 200) {
@@ -108,26 +106,9 @@ export class SignupFinalPage implements OnInit {
         console.log(error)
         this.presentToast('Oops! une erreur est survenue')
       })
-    } else if ((this.user.pseudoIntime != '' && this.user.pseudoPro != '')) {
-      this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
-      this.user.pseudoPro = this.user.pseudoPro.toLowerCase()
-      this.authService.update(this.user).subscribe(res => {
-        console.log(res)
-        if (res['status'] == 200) {
-          this.retourUsr = true
-          this.presentToast('Vous êtes bien connectés')
-          this.router.navigateByUrl('/contacts', {
-            replaceUrl: true
-          })
-        }
-      }, error => {
-        console.log(error)
-        this.presentToast('Oops! une erreur est survenue')
-      })
     }
-
     else {
-      this.presentToast('Veuillez renseigner au moins un pseudo')
+      this.presentToast('Veuillez renseigner un pseudo')
     }
   }
 
@@ -165,7 +146,6 @@ export class SignupFinalPage implements OnInit {
 
   checkP() {
     this.loadingP = true
-    this.user.pseudoPro = this.user.pseudoPro.toLowerCase().replace(/\s/g, '')
     this.authService.check(this.user).subscribe(res => {
       console.log(res)
       this.loadingP = false

@@ -196,6 +196,8 @@ export class Tab1Page implements OnInit {
     });
   }
 
+
+  
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
@@ -266,10 +268,6 @@ export class Tab1Page implements OnInit {
   swipeEvent(event?:Event, videoUrl?:any){
     console.log(videoUrl)
     this.playVideo()
-  
-  /*  this.videoPlayers.forEach(player =>{
-      console.log(player)
-    })*/
   }
 
 
@@ -498,7 +496,6 @@ export class Tab1Page implements OnInit {
           },
         )
       }
-      console.log(this.listPosts)
     })
   }
 

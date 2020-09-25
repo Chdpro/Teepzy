@@ -104,6 +104,15 @@ ion-modal{
     border-radius: 39px 45px 1px 1px;
     background: #F0EFEF;
 }
+.edit-post-custom-class{
+    height: 100% !important;
+    top: 0;
+    bottom: 0 !important;
+    background: #F0EFEF;
+    border-radius: 0;
+
+}
+
 
 .add-project-class{
     height: 100%;
@@ -128,6 +137,12 @@ ion-modal{
     padding: 11px;
   }
 
+
+  button:focus, button:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
   .modal, .modal2, .modal3{
     display: block !important;
       

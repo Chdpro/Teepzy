@@ -143,15 +143,15 @@ export class AddProjectPage implements OnInit {
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
         this.photos.push(nativepath)
-        //  alert(this.photos)
-  
+          alert(this.photos)
       })
 
     }, (err) => {
       // Handle error
+      alert(err)
+
     });
   }
 

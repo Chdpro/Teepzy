@@ -66,7 +66,7 @@
     </ion-refresher>
 
     <div *ngFor="let m of rooms| filter:search ;trackBy: trackByFn "
-      (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo.pseudoPro, m?.connectedUsersInfo?.photo, m?.connectedUsers.length, m?.name, m?.connectedUsers[0])">
+      (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime, m?.connectedUsersInfo?.photo, m?.connectedUsers.length, m?.name, m?.connectedUsers[0])">
       <ion-item *ngIf="m?.connectedUsers.length == 1">
         <div *ngIf="!m?.connectedUsersInfo?.photo" class="round-img-post">
           {{m?.connectedUsersInfo?.prenom | slice:0:1| uppercase}}
@@ -74,8 +74,8 @@
         </div>
         <img *ngIf="m?.connectedUsersInfo?.photo" [src]="m?.connectedUsersInfo?.photo" alt="">
         <ion-label [ngStyle]="{ 'padding-bottom':  m?.lastMessage.length == 0 ? '14px': '0' }">
-          <b *ngIf="m?.connectedUsersInfo._id == userId"> {{m?.userInitiator.pseudoPro}} </b>
-          <b *ngIf="m?.connectedUsersInfo._id != userId"> {{m?.connectedUsersInfo.pseudoPro}} </b>
+          <b *ngIf="m?.connectedUsersInfo._id == userId"> {{m?.userInitiator?.pseudoIntime}} </b>
+          <b *ngIf="m?.connectedUsersInfo._id != userId"> {{m?.connectedUsersInfo?.pseudoIntime}} </b>
           <b *ngIf="m?.lastMessage.length > 0" style="float: right;" class="time">
             {{m?.lastMessage[0].createdAt | date:'hh:MM' }}
           </b><br>

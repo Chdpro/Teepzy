@@ -9,6 +9,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { base_url } from 'src/config';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -18,22 +19,18 @@ import { Subscription } from 'rxjs';
 export class EditProfilePage implements OnInit {
 
   profile1 = {
-    pseudoPro: '',
+    pseudoIntime: '',
     localisation: 'localisation',
     metier: 'metier',
     userId: '',
     siteweb: 'siteweb',
-    socialsPro: [],
+    socialsAmical: [],
     tags: [],
+    hobbies: [],
     bio: 'bio',
+    photo: ''
   }
 
-  profile2 = {
-    userId: '',
-    socialsAmical: [],
-    hobbies: [],
-    pseudoIntime: ''
-  }
 
   socials = []
   socialsAdded = []
@@ -88,12 +85,12 @@ export class EditProfilePage implements OnInit {
   subcription: Subscription
   constructor(private authService: AuthService,
     private contactService: ContactService,
-    private loadingCtrl: LoadingController,
     private camera: Camera,
     private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
     private menuCtrl: MenuController,
+    private router: Router,
     private toasterController: ToastController) {
       this.menuCtrl.enable(false);
 
@@ -107,7 +104,6 @@ export class EditProfilePage implements OnInit {
     this.getSocials();
     let userId = localStorage.getItem('teepzyUserId')
     this.profile1.userId = userId;
-    this.profile2.userId = userId;
     this.getUserInfo(userId)
   }
 
@@ -148,41 +144,20 @@ export class EditProfilePage implements OnInit {
     this.loading = true
     let userId = localStorage.getItem('teepzyUserId')
     // update profile 1
-    this.socialsAdded.length > 0 ? this.profile1.socialsPro = this.socialsAdded : null
-    this.tags1.length > 0 ? this.profile1.tags = this.tags1 : null
+    this.tags.length > 0 ? this.profile1.tags = this.tags : null
     this.authService.updateProfile(this.profile1).subscribe(res => {
       console.log(res)
-      this.presentToast('Profil 1 mis à jour')
-      if (this.photos.length != 0) {
-        this.uploadImage()
-      }
+      this.presentToast('Profil mis à jour')
       this.getUserInfo(userId)
       this.loading = false
-
+      this.router.navigate(['/tabs/profile'])
     }, error => {
       console.log(error)
       this.presentToast('Oops! une erreur est survenue ')
       this.loading = false
 
     })
-    // update profile 2
-    this.socialsAdde2.length > 0 ? this.profile2.socialsAmical = this.socialsAdde2 : null
-    this.tags.length > 0 ? this.profile2.hobbies = this.tags : null
-    this.authService.updateProfile2(this.profile2).subscribe(res => {
-      console.log(res)
-      this.presentToast('Profil 2 mis à jour')
-      if (this.photos.length != 0) {
-        this.uploadImage()
-      }
-      this.getUserInfo(userId)
-      this.loading = false
 
-    }, error => {
-      console.log(error)
-      this.presentToast('Oops! une erreur est survenue ')
-      this.loading = false
-
-    })
   }
 
 
@@ -230,22 +205,18 @@ export class EditProfilePage implements OnInit {
     this.authService.myInfos(userId).subscribe(res => {
       console.log(res)
       this.user = res['data'];
-      this.profile1.pseudoPro = this.user['pseudoPro'];
-      this.profile2.pseudoIntime = this.user['pseudoIntime'];
+      this.profile1.pseudoIntime = this.user['pseudoIntime'];
       this.profile1.bio = this.user['bio'];
       this.profile1.localisation = this.user['localisation'];
       this.profile1.metier = this.user['metier'];
       this.profile1.siteweb = this.user['siteweb'];
-      this.profile1.socialsPro = this.user['socialsPro'];
-      this.user['socialsPro'] ? this.socialsAdded = this.user['socialsPro'] : null;
       this.user['socialsAmical'] ? this.socialsAdde2 = this.user['socialsAmical'] : null;
-      this.profile2.socialsAmical = this.user['socialsAmical'];
+      this.profile1.socialsAmical = this.user['socialsAmical'];
       this.profile1.tags = this.user['tags'];
-      this.user['tags'] ? this.tags1 = this.user['tags'] : null;
+      //this.user['tags'] ? this.tags1 = this.user['tags'] : null;
       this.user['hobbies'] ? this.tags = this.user['hobbies'] : null;
-      this.profile2.hobbies = this.user['hobbies'];
+      this.profile1.hobbies = this.user['hobbies'];
       this.user['photo'] ?  this.dispImags[0] = this.user['photo'] : null
-
     }, error => {
       console.log(error)
     })
@@ -283,9 +254,9 @@ export class EditProfilePage implements OnInit {
   }
 
   remove1(tag): void {
-    const index = this.tags1.indexOf(tag);
+    const index = this.tags.indexOf(tag);
     if (index >= 0) {
-      this.tags1.splice(index, 1);
+      this.tags.splice(index, 1);
     }
   }
 
@@ -353,12 +324,14 @@ export class EditProfilePage implements OnInit {
 
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
         this.photos.push(nativepath)
-        //  alert(this.photos)
+          alert(this.photos)
   
       })
 
     }, (err) => {
       // Handle error
+      alert(err)
+
     });
   }
 
@@ -381,7 +354,7 @@ export class EditProfilePage implements OnInit {
         var serverUrl = base_url + 'upload-avatar'
         this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
         fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-          this.user.photo = base_url + options.fileName
+          this.profile1.photo = base_url + options.fileName
           this.updateProfile()
           this.loading = false
         })
@@ -403,9 +376,6 @@ export class EditProfilePage implements OnInit {
 
     } else {
       this.showModal = 'hidden'
-      /* if (this.user.photo != '') {
-         this.presentToast("Avatar choisi ")
-         }*/
     }
 
   }
@@ -427,7 +397,5 @@ export class EditProfilePage implements OnInit {
 
   ngOnDestroy() { 
     this.subcription?  this.subcription.unsubscribe() :  null
-    //this.socket.removeAllListeners('message');
-    //this.socket.removeAllListeners('users-changed');
   }
 }

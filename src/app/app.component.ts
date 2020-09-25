@@ -62,7 +62,7 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
+      this.statusBar.backgroundColorByHexString("#ffffff");
       this.splashScreen.hide();
     });
   }
@@ -94,7 +94,7 @@ export class AppComponent {
     this.authService.myInfos(userId).subscribe(res => {
       console.log(res)
       this.userInfo = res['data'];
-      if (token && this.userInfo['isCompleted']) {
+     /* if (token && this.userInfo['isCompleted']) {
         this.socket.emit('online', userId );  
         let user = {
           userId: userId,
@@ -119,7 +119,7 @@ export class AppComponent {
            replaceUrl: true
          }
          )
-        }
+        }*/
     }, error => {
       console.log(error)
       if(!token){

@@ -22,20 +22,20 @@
       </div>
       <div class="round-img" *ngIf="user?.photo == null"
         [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
-        {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}}
+        {{user?.pseudoIntime | slice:0:1| uppercase}} 
       </div>
-      <span (click)="switchProfile()" *ngIf="isProProfile" class="material-icons toggle_o">
+      <!--span (click)="switchProfile()" *ngIf="isProProfile" class="material-icons toggle_o">
         toggle_off
       </span>
       <span (click)="switchProfile()" *ngIf="!isProProfile" class="material-icons toggle_o">
         toggle_on
-      </span>
+      </span-->
     </div>
     <div class="text-banner">
       <span class="user-pseudo">
 
-        <span *ngIf="isProProfile" [@enterAnimation]> {{user?.pseudoPro}}</span>
-        <span *ngIf="!isProProfile" [@enterAnimation]>{{user?.pseudoIntime}}</span>
+        <!--span *ngIf="isProProfile" [@enterAnimation]> {{user?.pseudoPro}}</span-->
+        <span [@enterAnimation]>{{user?.pseudoIntime}}</span>
       </span><br>
 
       <span>{{user?.metier}} </span><br>
@@ -50,15 +50,9 @@
   <div class=”mat-content” (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
     <mat-tab-group [(selectedIndex)]="selectedTab" mat-align-tabs="center">
       <mat-tab label="PROFIL">
-
         <ion-grid>
-          <ion-row *ngIf="isProProfile">
-
-
+          <!--ion-row *ngIf="isProProfile">
             <ion-col size="12">
-
-
-
               <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
@@ -90,10 +84,8 @@
             </ion-col>
 
 
-          </ion-row>
-          <ion-row *ngIf="!isProProfile">
-
-
+          </ion-row-->
+          <ion-row>
             <ion-col size="12">
               <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
@@ -143,7 +135,7 @@
                 <a href=""> {{ user?.siteweb }} </a>
               </div>
             </ion-col>
-            <ion-col size="12" *ngIf="isProProfile">
+            <ion-col size="12">
               <h2>
                 Compétences
               </h2>
@@ -154,7 +146,7 @@
               </span>
             </ion-col>
 
-            <ion-col size="12" *ngIf="!isProProfile">
+            <ion-col size="12" >
               <h2>
                 Hobbies
               </h2>
@@ -274,14 +266,22 @@
 
               </h2>
             </ion-col>
-            <ion-col *ngFor="let p of listProjects">
-              <img class="projet-img" [src]="p?.photo" alt="">
-              <div class="text-over">
-                <label for="">
+    
+            <ion-col size="6" *ngFor="let p of listProjects">
+              <ion-card [ngStyle]="{'background-image':  p?.photo != '' ? 'url(' + p?.photo + ')' : ''}">
+                <ion-card-header>
+                  <ion-card-subtitle></ion-card-subtitle>
+                  <ion-card-title></ion-card-title>
+                </ion-card-header>
+                <ion-card-content class="ion-card-content">
                   {{p?.nom}}
-                </label>
-              </div>
-
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col size="12" *ngIf="listProjects?.length == 0">
+              <span class="msg">
+                Aucun projet ajouté
+              </span>
             </ion-col>
 
           </ion-row>
@@ -302,21 +302,20 @@
               </h2>
             </ion-col>
             <ion-col size="6" *ngFor="let p of listProducts">
-
-              <span>
-                <div class="text-over shop-price">
-                  <label for="">
-                    12$
-                  </label>
-                </div>
-              </span>
-              <img class="product-img" [src]="p?.photo" alt="">
-              <div class="text-over">
-                <label for="">
+              <ion-card [ngStyle]="{'background-image':  p?.photo != '' ? 'url(' + p?.photo + ')' : ''}">
+                <ion-card-header>
+                  <ion-card-subtitle class="price">{{p?.price}}</ion-card-subtitle>
+                  <ion-card-title></ion-card-title>
+                </ion-card-header>
+                <ion-card-content class="ion-card-content-shop">
                   {{p?.nom}}
-                </label>
-              </div>
-
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col size="12" *ngIf="listProducts?.length == 0">
+              <span class="msg">
+                Aucun produit ajouté
+              </span>
             </ion-col>
 
           </ion-row>

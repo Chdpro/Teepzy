@@ -3,14 +3,11 @@
     <ion-grid>
       <ion-row>
         <ion-col size="6">
-          <h3 (click)="changePseudo()" style="margin-top: 9px;color: #ea4e50;font-size: 20px;" *ngIf="!showSearch">
-            <span *ngIf="user?.typeCircle == 'PRO'">
-              @{{user?.pseudoPro}}
-            </span>
-            <span *ngIf="user?.typeCircle == 'AMICAL'">
+          <h3 style="margin-top: 9px;color: #ea4e50;font-size: 20px;" *ngIf="!showSearch">
+            <span>
               @{{user?.pseudoIntime}}
             </span>
-            <ion-icon name="chevron-down-outline"></ion-icon>
+            <!--ion-icon name="chevron-down-outline"></ion-icon-->
           </h3>
         </ion-col>
         <ion-col>
@@ -54,7 +51,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" [scrollY]="false">
+<ion-content [fullscreen]="true" [scrollY]="false"
+
+>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>

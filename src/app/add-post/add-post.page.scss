@@ -57,7 +57,13 @@ ion-title{
     color: #ea4e50;
 }
 
-ion-icon{
+ion-fab{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.arrow-back-btn{
     font-size: 35px;
     margin-left: 15px;
 }
@@ -78,10 +84,20 @@ ion-icon{
 }
 
 .color-btns{
-    float: right;
-    margin-top: -11px;
-    margin-right: -12px;
+  float: right;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 96%;
 }
+
+.grey-btn, .blue-btn{
+  float: right;
+}
+.brown-btn, .black-btn{
+  float: left;
+}
+
 .btn-icon{
     margin-right: 13px;
 }

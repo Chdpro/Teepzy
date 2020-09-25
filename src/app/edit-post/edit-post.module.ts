@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { EditPostPageRoutingModule } from './edit-post-routing.module';
+import { MaterialModule } from '../material.module';
 
 import { EditPostPage } from './edit-post.page';
 
@@ -13,8 +14,10 @@ import { EditPostPage } from './edit-post.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    MaterialModule,
     EditPostPageRoutingModule
   ],
+  entryComponents: [EditPostPage],
   declarations: [EditPostPage]
 })
 export class EditPostPageModule {}

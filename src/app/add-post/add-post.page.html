@@ -2,7 +2,7 @@
   <div [style.background-color]="post?.backgroundColor" style="    height: -webkit-fill-available;">
     <ion-header class="ion-no-border" [style.background-color]="post?.backgroundColor">
       <ion-toolbar [style.background-color]="post?.backgroundColor">
-        <ion-icon (click)="dismiss()" name="arrow-back-outline"></ion-icon>
+        <ion-icon class="arrow-back-btn" (click)="dismiss()" name="arrow-back-outline"></ion-icon>
         <div class="example-button-container">
           <ion-button color="secondary" style="margin-top: 1px;" (click)="uploadImage()"
             [disabled]="contentMsg.errors?.required" expand="block" shape="round">
@@ -40,7 +40,7 @@
           >
         </iframe-->
           <div *ngIf="dispVideos?.length > 0">
-            <video #myVideo  oncontextmenu="return false;" autoplay controls="false">
+            <video #myVideo oncontextmenu="return false;" autoplay controls="false">
               <source [src]="sanitizer.bypassSecurityTrustResourceUrl(dispVideos[0])" type="video/mp4">
             </video>
           </div>
@@ -70,68 +70,58 @@
           </form>
         </ion-col>
         <ion-col size="12">
-          <span>
-            <span (click)="selectImage()" class="material-icons img-mat-icon">
-              collections
-            </span>
-            <span (click)="testVideo()" class="material-icons">
-              mood
-            </span>
-          </span>
-          <div class="example-button-container color-btns">
-            <button (click)="setBackgroundColor('#fff')" class="btn-icon white-btn" mat-mini-fab aria-label="Example icon button 
-              with a home icon">
 
-            </button>
-            <button (click)="setBackgroundColor('#000000')" class="btn-icon black-btn" mat-mini-fab
-              aria-label="Example icon button with a home icon">
 
-            </button>
-            <button (click)="setBackgroundColor('#E5858B')" class="btn-icon brown-btn" mat-mini-fab
-              aria-label="Example icon button with a home icon">
-
-            </button>
-            <button (click)="setBackgroundColor('#6C9FF0')" class="btn-icon blue-btn" mat-mini-fab
-              aria-label="Example icon button with a home icon">
-
-            </button>
-            <button (click)="setBackgroundColor('#73D896')" class="btn-icon grey-btn" mat-mini-fab
-              aria-label="Example icon button with a home icon">
-
-            </button>
+          <div class=" color-btns">
+            <ion-col size="2">
+                <button (click)="setBackgroundColor('#000000')" class="btn-icon black-btn" mat-mini-fab
+                aria-label="Example icon button with a home icon">
+  
+              </button>
+            </ion-col>
+            <ion-col size="2">
+                <button (click)="setBackgroundColor('#E5858B')" class="btn-icon brown-btn" mat-mini-fab
+                aria-label="Example icon button with a home icon">
+  
+              </button>
+            </ion-col>
+            <ion-col size="4">
+                <span>
+                    <ion-fab (click)="pickMedia()" vertical="center" horizontal="center" slot="fixed">
+                        <ion-fab-button>
+                          <ion-icon name="add"></ion-icon>
+                        </ion-fab-button>
+                      </ion-fab>
+      
+                  </span>
+            </ion-col>
+            <ion-col size="2">
+  
+                <button (click)="setBackgroundColor('#6C9FF0')" class="btn-icon blue-btn" mat-mini-fab
+                aria-label="Example icon button with a home icon">
+  
+              </button>
+            </ion-col>
+            <ion-col size="2">
+                <button (click)="setBackgroundColor('#73D896')" class="btn-icon grey-btn" mat-mini-fab
+                aria-label="Example icon button with a home icon">
+  
+              </button>
+            </ion-col>
+    
+  
           </div>
         </ion-col>
       </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <button (click)="pickMedia()" mat-button>
+            pickMedia
+          </button>
+        </ion-col>
+      </ion-row>
     </ion-grid>
-
-
-    <input class="modal-state" (click)="dismissConfirmModal()" id="modal-2" type="checkbox" />
-    <div *ngIf="showModal" class="modal">
-      <label class="modal__bg" for="modal-2"></label>
-      <div class="modal__inner">
-        <label (click)="dismissConfirmModal()" class="modal__close" for="modal-2"></label>
-        <h2 class="alert-header" style="font-size: 20px;font-weight: 200;">Quel pseudo voulez-vous utiliser?</h2>
-        <mat-grid-list cols="2" rowHeight="2:1">
-          <mat-grid-tile>
-            <div class="example-button-row">
-              <button (click)="uploadImage(user?.pseudoIntime)" mat-button color="warn">@{{user?.pseudoIntime}}
-              </button>
-            </div>
-          </mat-grid-tile>
-          <mat-grid-tile>
-            <div class="example-button-row">
-              <button (click)="uploadImage(user?.pseudoPro)" mat-button color="warn">@{{user?.pseudoPro}}</button>
-            </div>
-          </mat-grid-tile>
-
-        </mat-grid-list>
-
-
-
-
-
-      </div>
-    </div>
 
 
   </div>

@@ -11,6 +11,7 @@ import { Socket } from 'ngx-socket-io';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Globals } from '../globals';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
+import { EditPostPage } from '../edit-post/edit-post.page';
 
 
 @Component({
@@ -130,6 +131,17 @@ export class DetailFeedPage implements OnInit {
   }
 
 
+  async presentPostEditModal() {
+
+    const modal = await this.modalController.create({
+      component: EditPostPage,
+      componentProps: this.post,
+      cssClass: 'edit-post-custom-class',
+      presentingElement: this.routerOutlet.nativeEl,
+    });
+    return await modal.present();
+  }
+
   ngOnDestroy() {
     if (this.navigationSubscription) {
       this.navigationSubscription.unsubscribe();
@@ -176,47 +188,12 @@ export class DetailFeedPage implements OnInit {
 
 
 
-  delete(){
-    this.post.postId ? this.deleteRePost() : this.deletePost() 
-  }
-
-  update(){
-    this.post.postId ? this.editRePost() : this.editPost()
-  }
-
-  editPost() {
-    let post = {
-      postId: this.post.postId,
-      content: this.post.content,
-      image_url: this.post.image_url,
-      video_url: this.post.video_url,
-      backgroundColor: this.post.backgroundColor,
-    }
-    this.contactService.updatePost(post).subscribe(res => {
-      console.log(res)
-    }, error => {
-      console.log(error)
-    })
+  delete() {
+    this.post.postId ? this.deleteRePost() : this.deletePost()
+    this.router.navigateByUrl('/tabs/profile')
   }
 
 
-  editRePost() {
-    let post = {
-      postId: this.post.postId,
-      content: this.post.content,
-      image_url: this.post.image_url,
-      video_url: this.post.video_url,
-      backgroundColor: this.post.backgroundColor,
-    }
-    this.contactService.updateRePost(post).subscribe(res => {
-      console.log(res)
-      this.presentToast('Post modifié')
-    }, error => {
-      console.log(error)
-      this.presentToast('Oops! une erreur est survenue')
-
-    })
-  }
 
   deletePost() {
     this.contactService.deletePost(this.post._id).subscribe(res => {

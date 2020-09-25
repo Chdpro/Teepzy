@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-title>
-      <input class="title-input" type="text" [(ngModel)]="title" name="title">
+      <span class="title-input">Boutique</span>
       <button class="cancel-btn" (click)="dismiss()" mat-button>
         <ion-icon name="close-outline"></ion-icon>
       </button>
@@ -18,8 +18,8 @@
           <div>
             <img *ngIf="dispImags?.length == 0" class="add-photo" src="../../assets/img/neutral.jpg" alt="">
 
-            <div  *ngIf="dispImags?.length > 0">
-                <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
+            <div *ngIf="dispImags?.length > 0">
+              <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
             </div>
             <!-- fab placed to the bottom end -->
             <ion-fab (click)="selectImage(p)" vertical="center" horizontal="center" slot="fixed">
@@ -44,11 +44,10 @@
             <input matInput name="logiciel" type="number" #logiciel="ngModel" required [(ngModel)]="product.price"
               placeholder="Prix">
           </mat-form-field>
-
           <mat-form-field class="example-full-width">
             <mat-label>DESCRIPTION</mat-label>
-            <input matInput name="description" #description="ngModel" required [(ngModel)]="product.description"
-              placeholder="Description du produit">
+            <textarea matInput name="description" #description="ngModel" required [(ngModel)]="product.description"
+              placeholder="Description du produit"></textarea>
           </mat-form-field>
           <mat-form-field class="example-chip-list">
             <mat-chip-list #chipList aria-label="Fruit selection">
@@ -57,15 +56,16 @@
                 {{tag}}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
+              <mat-chip>
+                Ajouter
+                <mat-icon (click)="add($event)" style="    width: 30px;
+              height: 18px;" matChipRemove>add_circle</mat-icon>
+              </mat-chip>
               <input placeholder="TAG" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
             </mat-chip-list>
           </mat-form-field>
-          <button [disabled]="tags.length == 0" (click)="add($event)" class=" mat-add-circle" mat-button>
-            <span class="material-icons">
-              add_circle
-            </span>
-          </button>
+
         </form>
       </ion-col>
     </ion-row>
