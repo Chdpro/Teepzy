@@ -228,12 +228,14 @@ export class SignupPage implements OnInit {
         }
       }, error => {
         console.log(error)
+        alert(JSON.stringify(error))
         this.loading = false;
         if (error['status'] == 403) {
           this.presentToast('Ce compte existe déjà. Vérifier email ou vos pseudos')
           this.dismissLoading()
         } else {
           this.presentToast('Oops! une erreur est survenue sur le serveur')
+          alert(JSON.stringify(error))
           this.dismissLoading()
 
         }

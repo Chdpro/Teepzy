@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { MatTabGroup, MatTab } from '@angular/material';
 import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab2',
@@ -38,7 +39,8 @@ export class Tab2Page implements OnInit {
     private contactService: ContactService,
     private menuCtrl: MenuController,
     private toastController: ToastController,
-    private socket: Socket
+    private socket: Socket,
+    private router: Router
   ) {
     this.menuCtrl.enable(false);
     this.menuCtrl.swipeGesture(true);
@@ -144,6 +146,10 @@ export class Tab2Page implements OnInit {
   }
 
 
+  goToContacts() {
+    this.router.navigate(['/contacts', { previousUrl: 'feeds' }])
+
+  }
   listInvitations() {
     let invitation = {
       idReceiver: this.userId

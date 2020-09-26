@@ -162,10 +162,10 @@ export class AddPostPage implements OnInit {
           this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(data))
           let videoPath = 'file://' + data
           this.filePath.resolveNativePath(videoPath).then((nativepath) => {
-            if (this.videos.length == 0) {
+            if (this.videos.length == 0 && this.photos.length == 0) {
               this.videos.push(nativepath)
-            } else if (this.videos.length > 1) {
-              this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
+            } else if (this.videos.length > 1 && this.photos.length > 0) {
+              this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
             }
           }, error => {
           })
@@ -196,10 +196,10 @@ export class AddPostPage implements OnInit {
         this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(videoData))
         let videoPath = 'file://' + videoData
         this.filePath.resolveNativePath(videoPath).then((nativepath) => {
-          if (this.videos.length == 0) {
+          if (this.videos.length == 0 && this.photos.length == 0) {
             this.videos.push(nativepath)
-          } else if (this.videos.length > 1) {
-            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
+          } else if (this.videos.length > 1 && this.photos.length > 0) {
+            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
           }
         }, error => {
         })
@@ -232,40 +232,10 @@ export class AddPostPage implements OnInit {
       this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
       this.userPhoto[0] == this.dispImags[0]
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
-        if (this.photos.length == 0) {
+        if (this.photos.length == 0 && this.videos.length == 0) {
           this.photos.push(nativepath)
-        } else if (this.photos.length > 1) {
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
-        }
-      }, error => {
-      })
-
-    }, (err) => {
-      // Handle error
-
-    });
-  }
-
-
-  pickMedia() {
-    const options: CameraOptions = {
-      quality: 100,
-      sourceType: this.camera.PictureSourceType.CAMERA,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.ALLMEDIA
-    }
-    this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      // let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-      this.userPhoto[0] == this.dispImags[0]
-      this.filePath.resolveNativePath(imageData).then((nativepath) => {
-        if (this.photos.length == 0) {
-          this.photos.push(nativepath)
-        } else if (this.photos.length > 1) {
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+        } else if (this.photos.length > 1 && this.videos.length > 0) {
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs média')
         }
       }, error => {
       })
@@ -300,10 +270,13 @@ export class AddPostPage implements OnInit {
           this.loading = false
         }, error => {
           this.loading = false
+          alert(JSON.stringify(error))
+
 
         })
       }
     } else if (ref.videos.length > 0 && ref.photos.length == 0) {
+      alert(this.videoPlayers.nativeElement.duration)
       if (this.videoPlayers.nativeElement.duration < 16.5) {
         for (let index = 0; index < ref.videos.length; index++) {
           // interval++
@@ -324,7 +297,7 @@ export class AddPostPage implements OnInit {
   
           }, error => {
             this.loading = false
-           // alert("video upload did not work!" + JSON.stringify(error))
+            alert("video upload did not work!" + JSON.stringify(error))
   
           })
         }

@@ -201,11 +201,12 @@ export class SignupFinalPage implements OnInit {
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
-        this.photos.push(nativepath)
-        //  alert(this.photos)
-        //  this.user.photo = this.photos[0]
+        if (this.photos.length == 0) {
+          this.photos.push(nativepath)
+        } else if (this.photos.length > 1) {
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+        }
       })
 
     }, (err) => {
@@ -234,6 +235,7 @@ export class SignupFinalPage implements OnInit {
         fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
           this.user.photo = base_url + options.fileName;
           this.loading = false;
+          alert(this.user.photo)
           this.updateUser()
         })
       }

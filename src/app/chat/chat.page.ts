@@ -101,7 +101,7 @@ export class ChatPage implements OnInit {
     this.message.pseudo = state.pseudo
     this.message.roomId = state.roomId
     this.photo = state.photo
-    console.log(this.photo)
+    console.log(state)
     this.getMessages(state.roomId)
   }
 
@@ -277,7 +277,7 @@ export class ChatPage implements OnInit {
     this.authService.myInfos(this.userId).subscribe(res => {
       console.log(res)
       this.user = res['data']
-      this.message.pseudo = this.user.pseudoPro
+      this.message.pseudo = this.user.pseudoIntime
     }, error => {
       console.log(error)
     })

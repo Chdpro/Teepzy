@@ -168,13 +168,19 @@ export class AddProductPage implements OnInit {
         this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
   
         this.filePath.resolveNativePath(imageData).then((nativepath) => {
-          this.photos.push(nativepath)
-          //  alert(this.photos)
+          if (this.photos.length == 0) {
+            this.photos.push(nativepath)
+          } else if (this.photos.length > 1) {
+            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+          }
+            alert(this.photos)
     
         })
   
       }, (err) => {
         // Handle error
+        alert(JSON.stringify(err))
+
       });
     }
   
@@ -198,12 +204,19 @@ export class AddProductPage implements OnInit {
           fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
             this.loading = false
             this.product.photo = base_url + options.fileName
+            alert(this.product.photo)
+
             this.addProduct()
+
+          }, error =>{
+            alert(JSON.stringify(error))
           })
         }
       }else{
         this.addProduct()
         this.loading = false
+        alert('WORK')
+
 
       }
      

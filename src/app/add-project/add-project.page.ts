@@ -144,8 +144,12 @@ export class AddProjectPage implements OnInit {
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
-        this.photos.push(nativepath)
-          alert(this.photos)
+        if (this.photos.length == 0) {
+          this.photos.push(nativepath)
+        } else if (this.photos.length > 1) {
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+        }
+        alert(this.photos)
       })
 
     }, (err) => {

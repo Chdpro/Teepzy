@@ -327,14 +327,17 @@ export class EditProfilePage implements OnInit {
       this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
 
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
-        this.photos.push(nativepath)
-          alert(this.photos)
+        if (this.photos.length == 0) {
+          this.photos.push(nativepath)
+        } else if (this.photos.length > 1) {
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+        }
   
       })
 
     }, (err) => {
       // Handle error
-      alert(err)
+      alert(JSON.stringify(err))
 
     });
   }
@@ -359,8 +362,12 @@ export class EditProfilePage implements OnInit {
         this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
         fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
           this.profile1.photo = base_url + options.fileName
+          alert(this.profile1.photo)
           this.updateProfile()
           this.loading = false
+        }, error =>{
+          alert(JSON.stringify(error))
+          
         })
       }
   
