@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { typeAccount } from '../constant/constant';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 
 @Component({
@@ -71,7 +72,8 @@ export class AddPostPage implements OnInit {
     private socket: Socket,
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController,
-    private mediaCapture: MediaCapture
+    private mediaCapture: MediaCapture,
+    private androidPermissions: AndroidPermissions
   ) {
 
     this.menuCtrl.enable(false);
@@ -83,15 +85,13 @@ export class AddPostPage implements OnInit {
 
   }
 
+
   ionViewWillEnter() {
     this.post.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.post.userId)
     this.socket.emit('online', this.post.userId);
 
   }
-
-
-
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
@@ -271,8 +271,6 @@ export class AddPostPage implements OnInit {
         }, error => {
           this.loading = false
           alert(JSON.stringify(error))
-
-
         })
       }
     } else if (ref.videos.length > 0 && ref.photos.length == 0) {

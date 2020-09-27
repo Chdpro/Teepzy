@@ -142,7 +142,7 @@ export class Tab1Page implements OnInit {
 
   currentPlaying = null
 
-  currentIndex:Number = 0;
+  currentIndex: Number = 0;
 
 
   constructor(private authService: AuthService,
@@ -197,7 +197,23 @@ export class Tab1Page implements OnInit {
   }
 
 
-  
+
+  swipeAll(event: any): any {
+  }
+
+  swipeLeft(event: any): any {
+    console.log('Swipe Left', event);
+    this.stopVideo()
+  }
+
+  swipeRight(event: any): any {
+    console.log('Swipe Right', event);
+    this.stopVideo()
+
+  }
+
+ 
+
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
@@ -212,14 +228,14 @@ export class Tab1Page implements OnInit {
   }
 
 
-  getSlideIndex(){
+  getSlideIndex() {
     console.log(this.isElementInViewPort(this.videoPlayers.nativeElement))
     this.slides.getActiveIndex().then(
-      (index)=>{
+      (index) => {
         this.currentIndex = index;
         console.log(this.currentIndex)
-     });
-   }
+      });
+  }
 
   public next() {
     this.slides.slideNext();
@@ -241,22 +257,22 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  playVideo(videoUrl?:any){
+  playVideo(videoUrl?: any) {
     console.log(videoUrl)
     const nativeElement = this.videoPlayers.nativeElement;
-   // const inView = this.isElementInViewPort(nativeElement);
+    // const inView = this.isElementInViewPort(nativeElement);
     if (videoUrl) {
       this.currentPlaying = nativeElement;
       this.currentPlaying.muted = false;
       this.currentPlaying.play();
-    }else{
-     this.currentPlaying = nativeElement;
-     this.currentPlaying.muted = true;
-     this.currentPlaying.pause();
+    } else {
+      this.currentPlaying = nativeElement;
+      this.currentPlaying.muted = true;
+      this.currentPlaying.pause();
     }
   }
 
-  stopVideo(){
+  stopVideo() {
     const nativeElement = this.videoPlayers.nativeElement;
     this.currentPlaying = nativeElement;
     this.currentPlaying.muted = true;
@@ -265,13 +281,13 @@ export class Tab1Page implements OnInit {
   }
 
 
-  swipeEvent(event?:Event, videoUrl?:any){
+  swipeEvent(event?: Event, videoUrl?: any) {
     console.log(videoUrl)
     this.playVideo()
   }
 
 
-  isElementInViewPort(el){
+  isElementInViewPort(el) {
     const rect = el.getBoundingClientRect();
     const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0);

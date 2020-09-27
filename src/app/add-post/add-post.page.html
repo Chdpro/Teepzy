@@ -23,7 +23,7 @@
 
       <div *ngIf="userPhoto?.length == 0" class="round-img-post"
         [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">
-        {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}}
+        {{user?.pseudoIntime | slice:0:1| uppercase}} 
       </div>
     </div>
     <ion-grid>
@@ -40,7 +40,7 @@
           >
         </iframe-->
           <div *ngIf="dispVideos?.length > 0">
-            <video #myVideo oncontextmenu="return false;" autoplay controls="false">
+            <video #myVideo preload="metadata" controls="false">
               <source [src]="sanitizer.bypassSecurityTrustResourceUrl(dispVideos[0])" type="video/mp4">
             </video>
           </div>

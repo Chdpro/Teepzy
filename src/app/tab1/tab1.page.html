@@ -56,14 +56,14 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-slides pager="false" [options]="slideOpts">
+  <ion-slides pager="false"  (ionSlideDidChange)="slideChanged($event)" [options]="slideOpts">
 
     <ion-slide *ngIf="listPosts?.length == 0">
       <span style="color: #ea4e4f;" >
         Aucune publication pour l'instant
       </span>
     </ion-slide>
-    <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
+    <ion-slide (click)="next()" *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
       [ngClass]="{'ion-slide-img': p?.image_url != '', 'ion-slide-no-img': p?.image_url == ''}" [ngStyle]="{
         'color': p?.backgroundColor == '#fff' && p?.image_url == ''? 'black' : 'white', 
         'background-image':  p?.image_url != '' ? 'url(' + p?.image_url + ')' : '',
@@ -71,11 +71,17 @@
         'background-position': 'center center', 
         'background-size': 'cover', 
         'background-repeat': 'no-repeat'
-      }">
+      }"
+          swipeAll
+          (swipe)="swipeAll($event)"
+          (swipeleft)="swipeLeft($event)"
+          (swiperight)="swipeRight($event)"
+      >
 
       <div (click)="playVideo(p?.video_url)" class="post-txt">
         <div *ngIf="p?.video_url">
-          <div>
+          <div 
+          >
             <video #videoPlayer playsinline preload="metadata">
               <source [src]="sanitizer.bypassSecurityTrustResourceUrl(p?.video_url + '#t=0.5')" type="video/mp4" />
             </video>
