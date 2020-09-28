@@ -159,16 +159,13 @@ export class AddPostPage implements OnInit {
           // imageData is either a base64 encoded string or a file URI
           // If it's base64 (DATA_URL):
           // let base64Image = 'data:image/jpeg;base64,' + imageData;
-          this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(data))
-          let videoPath = 'file://' + data
-          this.filePath.resolveNativePath(videoPath).then((nativepath) => {
+          alert(data[0].fullPath)
             if (this.videos.length == 0 && this.photos.length == 0) {
-              this.videos.push(nativepath)
+              this.videos.push(data[0].fullPath)
             } else if (this.videos.length > 1 && this.photos.length > 0) {
               this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
             }
-          }, error => {
-          })
+         
         },
         (err: CaptureError) => {
           console.error(err)
@@ -275,7 +272,8 @@ export class AddPostPage implements OnInit {
       }
     } else if (ref.videos.length > 0 && ref.photos.length == 0) {
       alert(this.videoPlayers.nativeElement.duration)
-      if (this.videoPlayers.nativeElement.duration < 16.5) {
+      if (this.videoPlayers.nativeElement.duration < 16.5 
+        && isNaN(this.videoPlayers.nativeElement.duration) !== true ) {
         for (let index = 0; index < ref.videos.length; index++) {
           // interval++
           const fileTransfer = ref.transfer.create()

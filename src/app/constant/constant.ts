@@ -12,5 +12,14 @@ export class Variable {
 export enum typeAccount {
     pseudoPro = "PRO",
     pseudoIntime = "AMICAL"
+
 }
+
+
+export enum type {
+    POST = "POST",
+    MESSAGE = "MESSAGE"
+
+}
+
 

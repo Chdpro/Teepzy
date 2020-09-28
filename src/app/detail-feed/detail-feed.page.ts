@@ -13,6 +13,7 @@ import { Globals } from '../globals';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
 import { EditPostPage } from '../edit-post/edit-post.page';
 import { DatapasseService } from '../providers/datapasse.service';
+import { type } from '../constant/constant';
 
 
 @Component({
@@ -121,7 +122,14 @@ export class DetailFeedPage implements OnInit {
   getAPost(idTeepz) {
     this.contactService.getPost(idTeepz).subscribe(res => {
       console.log(res)
-      this.post = res['data'];
+      let post = res['data'];
+      if (post) {
+        let favorite = {
+          userId: this.userId,
+          postId: post._id
+        }
+        this.checkFavorite(favorite, post)
+      }
     }, error => {
       console.log(error)
     })
@@ -131,8 +139,14 @@ export class DetailFeedPage implements OnInit {
   getRepost(idTeepz) {
     this.contactService.getRePost(idTeepz).subscribe(res => {
       console.log(res)
-      console.log('repost!!!')
-      this.post == null ? this.post = res['data'] : null;
+      this.post == null ?  this.post = res['data'] : null;
+      if (this.post) {
+        let favorite = {
+          userId: this.userId,
+          postId: this.post._id
+        }
+        this.checkFavorite(favorite, this.post)
+      }
     }, error => {
       console.log(error)
     })
@@ -264,15 +278,6 @@ export class DetailFeedPage implements OnInit {
   }
 
 
-  doRefresh(event) {
-    console.log('Begin async operation');
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      this.getPosts(this.userId)
-      event.target.complete();
-    }, 400);
-  }
-
 
 
   trackByFn(index, item) {
@@ -318,15 +323,28 @@ export class DetailFeedPage implements OnInit {
     return await modal.present();
   }
 
-  addFavorite(postId) {
+  addFavorite(post) {
     let favoris = {
       userId: this.userId,
-      postId: postId
+      postId: post._id,
+      type: type.POST
     }
     this.contactService.addFavorite(favoris).subscribe(res => {
       this.socket.emit('notification', 'notification');
       console.log(res)
-      this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = true : null)
+      this.post = {
+        _id: post['_id'],
+        userId: post['userId'],
+        userPhoto_url: post['userPhoto_url'],
+        userPseudo: post['userPseudo'],
+        content: post['content'],
+        image_url: post['image_url'],
+        backgroundColor: post['backgroundColor'],
+        includedUsers: post['includedUsers'],
+        createdAt: post['createdAt'],
+        reposterId: post['reposterId'],
+        favorite: false
+      }
       this.presentToast('Ajouté aux favoris')
     }, error => {
       this.presentToast('Oops! une erreur est survenue')
@@ -334,14 +352,28 @@ export class DetailFeedPage implements OnInit {
     })
   }
 
-  removeFavorite(postId) {
+  removeFavorite(post) {
     let favoris = {
       userId: this.userId,
-      postId: postId
+      postId: post._id
     }
     this.contactService.removeFavorite(favoris).subscribe(res => {
       console.log(res)
-      this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = false : null)
+      this.post = {
+        _id: post['_id'],
+        userId: post['userId'],
+        userPhoto_url: post['userPhoto_url'],
+        userPseudo: post['userPseudo'],
+        content: post['content'],
+        image_url: post['image_url'],
+        backgroundColor: post['backgroundColor'],
+        includedUsers: post['includedUsers'],
+        createdAt: post['createdAt'],
+        reposterId: post['reposterId'],
+        favorite: false
+      }
+
+
       this.presentToast('Enlevés des favoris')
     }, error => {
       this.presentToast('Oops! une erreur est survenue')
@@ -386,30 +418,6 @@ export class DetailFeedPage implements OnInit {
 
 
 
-
-  getPosts(userId) {
-    this.timeCall = 1
-    this.contactService.getPosts(userId).subscribe(res => {
-      console.log(res)
-      this.listPosts = []
-      if (res['data'] != null) {
-        this.posts = res['data']
-        this.posts.forEach(e => {
-          let favorite = {
-            userId: this.userId,
-            postId: e['_id'],
-          }
-          this.checkFavorite(favorite, e)
-        });
-      }
-
-      this.timeCall = 0
-
-    }, error => {
-      console.log(error)
-    })
-  }
-
   time(date) {
     moment.locale('fr');
     return moment(date).fromNow()
@@ -420,38 +428,33 @@ export class DetailFeedPage implements OnInit {
   checkFavorite(favorite, e) {
     this.contactService.checkFavorite(favorite).subscribe(res => {
       if (res['status'] == 201) {
-        this.listPosts.push(
-          {
-            _id: e['_id'],
-            userId: e['userId'],
-            userPhoto_url: e['userPhoto_url'],
-            userPseudo: e['userPseudo'],
-            content: e['content'],
-            image_url: e['image_url'],
-            backgroundColor: e['backgroundColor'],
-            includedUsers: e['includedUsers'],
-            createdAt: e['createdAt'],
-            reposterId: e['reposterId'],
-            favorite: true
-          },
-        )
-
+        this.post = {
+          _id: e['_id'],
+          userId: e['userId'],
+          userPhoto_url: e['userPhoto_url'],
+          userPseudo: e['userPseudo'],
+          content: e['content'],
+          image_url: e['image_url'],
+          backgroundColor: e['backgroundColor'],
+          includedUsers: e['includedUsers'],
+          createdAt: e['createdAt'],
+          reposterId: e['reposterId'],
+          favorite: true
+        }
       } else {
-        this.listPosts.push(
-          {
-            _id: e['_id'],
-            userId: e['userId'],
-            userPhoto_url: e['userPhoto_url'],
-            userPseudo: e['userPseudo'],
-            content: e['content'],
-            image_url: e['image_url'],
-            backgroundColor: e['backgroundColor'],
-            includedUsers: e['includedUsers'],
-            createdAt: e['createdAt'],
-            reposterId: e['reposterId'],
-            favorite: false
-          },
-        )
+        this.post = {
+          _id: e['_id'],
+          userId: e['userId'],
+          userPhoto_url: e['userPhoto_url'],
+          userPseudo: e['userPseudo'],
+          content: e['content'],
+          image_url: e['image_url'],
+          backgroundColor: e['backgroundColor'],
+          includedUsers: e['includedUsers'],
+          createdAt: e['createdAt'],
+          reposterId: e['reposterId'],
+          favorite: false
+        }
       }
     })
   }
