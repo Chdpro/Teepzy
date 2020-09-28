@@ -112,7 +112,7 @@ export class AddPostPage implements OnInit {
 
   }
 
-  
+
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
       header: "Selectionner un média",
@@ -140,6 +140,7 @@ export class AddPostPage implements OnInit {
           this.takeVideo();
         }
       },
+  
       {
         text: 'Annuler',
         role: 'cancel'
@@ -160,12 +161,13 @@ export class AddPostPage implements OnInit {
           // If it's base64 (DATA_URL):
           // let base64Image = 'data:image/jpeg;base64,' + imageData;
           alert(data[0].fullPath)
-            if (this.videos.length == 0 && this.photos.length == 0) {
-              this.videos.push(data[0].fullPath)
-            } else if (this.videos.length > 1 && this.photos.length > 0) {
-              this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
-            }
-         
+          this.dispVideos.push(data[0].fullPath)
+          if (this.videos.length == 0 && this.photos.length == 0) {
+            this.videos.push(data[0].fullPath)
+            alert(this.videos)
+          } else if (this.videos.length > 1 && this.photos.length > 0) {
+            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
+          }
         },
         (err: CaptureError) => {
           console.error(err)
@@ -175,7 +177,6 @@ export class AddPostPage implements OnInit {
 
 
  
-
   pickVideo(sourceType) {
     const options: CameraOptions = {
       quality: 100,
@@ -188,21 +189,21 @@ export class AddPostPage implements OnInit {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
-  
-   
-        this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(videoData))
-        let videoPath = 'file://' + videoData
-        this.filePath.resolveNativePath(videoPath).then((nativepath) => {
-          if (this.videos.length == 0 && this.photos.length == 0) {
-            this.videos.push(nativepath)
-          } else if (this.videos.length > 1 && this.photos.length > 0) {
-            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
-          }
-        }, error => {
-        })
-   
- 
-      
+
+
+      this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(videoData))
+      let videoPath = 'file://' + videoData
+      this.filePath.resolveNativePath(videoPath).then((nativepath) => {
+        if (this.videos.length == 0 && this.photos.length == 0) {
+          this.videos.push(nativepath)
+        } else if (this.videos.length > 1 && this.photos.length > 0) {
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
+        }
+      }, error => {
+      })
+
+
+
 
     }, (err) => {
       // Handle error
@@ -272,8 +273,8 @@ export class AddPostPage implements OnInit {
       }
     } else if (ref.videos.length > 0 && ref.photos.length == 0) {
       alert(this.videoPlayers.nativeElement.duration)
-      if (this.videoPlayers.nativeElement.duration < 16.5 
-        && isNaN(this.videoPlayers.nativeElement.duration) !== true ) {
+      if (this.videoPlayers.nativeElement.duration < 16.5
+        && isNaN(this.videoPlayers.nativeElement.duration) !== true) {
         for (let index = 0; index < ref.videos.length; index++) {
           // interval++
           const fileTransfer = ref.transfer.create()
@@ -290,19 +291,19 @@ export class AddPostPage implements OnInit {
             this.post.video_url = base_url + options.fileName;
             this.addPost()
             this.loading = false
-  
+
           }, error => {
             this.loading = false
             alert("video upload did not work!" + JSON.stringify(error))
-  
+
           })
         }
-      }else{
+      } else {
         this.presentToast("La durée de la vidéo ne doit pas dépasser 15s")
         this.loading = false
 
       }
-    
+
     }
     else {
       this.addPost()
@@ -334,7 +335,7 @@ export class AddPostPage implements OnInit {
   addPost() {
     this.loading = true
     this.post.userPhoto_url = this.user.photo
-      this.post.userPseudo = this.user.pseudoIntime
+    this.post.userPseudo = this.user.pseudoIntime
     //this.photos.length > 0 ? this.uploadImage() : null
     this.contactService.addPost(this.post).subscribe(res => {
       console.log(res);
