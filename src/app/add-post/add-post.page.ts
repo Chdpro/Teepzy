@@ -185,6 +185,7 @@ export class AddPostPage implements OnInit {
       mediaType: this.camera.MediaType.VIDEO,
 
     }
+  
     this.camera.getPicture(options).then((videoData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
