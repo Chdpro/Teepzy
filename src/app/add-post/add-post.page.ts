@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ModalController, ToastController, AlertController, ActionSheetController, MenuController } from '@ionic/angular';
+import { ModalController, ToastController, AlertController, 
+  ActionSheetController, MenuController, Platform } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
+import { File } from '@ionic-native/file/ngx';
 import { base_url } from 'src/config';
 import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
@@ -13,6 +15,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { typeAccount } from '../constant/constant';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+
+const MEDIA_FOLDER_NAME = 'my_media';
 
 
 @Component({
@@ -73,7 +77,9 @@ export class AddPostPage implements OnInit {
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController,
     private mediaCapture: MediaCapture,
-    private androidPermissions: AndroidPermissions
+    private androidPermissions: AndroidPermissions,
+    private file: File,
+    private plt: Platform
   ) {
 
     this.menuCtrl.enable(false);
@@ -82,7 +88,17 @@ export class AddPostPage implements OnInit {
 
   ngOnInit() {
 
-
+    this.plt.ready().then(() => {
+      let path = this.file.dataDirectory;
+      this.file.checkDir(path, MEDIA_FOLDER_NAME).then(
+        () => {
+          this.loadFiles();
+        },
+        err => {
+          this.file.createDir(path, MEDIA_FOLDER_NAME, false);
+        }
+      );
+    });
   }
 
 
@@ -150,7 +166,48 @@ export class AddPostPage implements OnInit {
     await actionSheet.present();
   }
 
+	
+  copyFileToLocalDir(fullPath) {
+    let myPath = fullPath;
+    // Make sure we copy from the right location
+    if (fullPath.indexOf('file://') < 0) {
+      myPath = 'file://' + fullPath;
+    }
+ 
+    const ext = myPath.split('.').pop();
+    const d = Date.now();
+    const newName = `${d}.${ext}`;
+ 
+    const name = myPath.substr(myPath.lastIndexOf('/') + 1);
+    const copyFrom = myPath.substr(0, myPath.lastIndexOf('/') + 1);
+    const copyTo = this.file.dataDirectory + MEDIA_FOLDER_NAME;
+ 
+    this.file.copyFile(copyFrom, name, copyTo, newName).then(
+      success => {
+        this.loadFiles();
+      },
+      error => {
+        console.log('error: ', error);
+      }
+    );
+  }
+ 
 
+  loadFiles() {
+    this.file.listDir(this.file.dataDirectory, MEDIA_FOLDER_NAME).then(
+      res => {
+        this.dispVideos = res;
+        alert(this.dispVideos)
+        if (this.videos.length == 0 && this.photos.length == 0) {
+          this.videos.push(this.dispVideos)
+          alert(this.videos)
+        } else if (this.videos.length > 1 && this.photos.length > 0) {
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
+        }
+      },
+      err => console.log('error loading files: ', err)
+    );
+  }
 
   takeVideo() {
     let options: CaptureVideoOptions = { limit: 1, duration: 15 }
@@ -160,17 +217,15 @@ export class AddPostPage implements OnInit {
           // imageData is either a base64 encoded string or a file URI
           // If it's base64 (DATA_URL):
           // let base64Image = 'data:image/jpeg;base64,' + imageData;
-          alert(data[0].fullPath)
-          this.dispVideos.push(data[0].fullPath)
-          if (this.videos.length == 0 && this.photos.length == 0) {
-            this.videos.push(data[0].fullPath)
-            alert(this.videos)
-          } else if (this.videos.length > 1 && this.photos.length > 0) {
-            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
-          }
+         // alert(data[0].fullPath)
+         // this.copyFileToLocalDir(data[0].fullPath);
+
+         alert(data[0].fullPath)
+         this.dispVideos.push(data[0].fullPath)
+
         },
         (err: CaptureError) => {
-          console.error(err)
+          alert(err)
         }
       );
   }
@@ -273,7 +328,7 @@ export class AddPostPage implements OnInit {
         })
       }
     } else if (ref.videos.length > 0 && ref.photos.length == 0) {
-      alert(this.videoPlayers.nativeElement.duration)
+      //alert(this.videoPlayers.nativeElement.duration)
       if (this.videoPlayers.nativeElement.duration < 16.5
         && isNaN(this.videoPlayers.nativeElement.duration) !== true) {
         for (let index = 0; index < ref.videos.length; index++) {
