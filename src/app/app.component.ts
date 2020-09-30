@@ -159,6 +159,7 @@ export class AppComponent {
     })
   }
 
+  
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,

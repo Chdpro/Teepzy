@@ -67,8 +67,9 @@ export class ChatPage implements OnInit {
     private clipboard: Clipboard,
     private menuCtrl: MenuController,
     private toastCtrl: ToastController) {
-      this.menuCtrl.enable(false);
-    //this.nickname = this.navParams.data;
+      this.menuCtrl.close('first');
+      this.menuCtrl.swipeGesture(false);
+      //this.nickname = this.navParams.data;
     const state = this.router.getCurrentNavigation().extras.state
     console.log(state)
     this.stateO.pseudo = state.pseudo

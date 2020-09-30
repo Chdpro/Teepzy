@@ -44,8 +44,8 @@ export class CommentsPage implements OnInit {
     private globals: Globals,
     private menuCtrl: MenuController,
     private navParams: NavParams) {
-      this.menuCtrl.enable(false);
-
+      this.menuCtrl.close('first');
+      this.menuCtrl.swipeGesture(false);
      }
 
   ngOnInit() {

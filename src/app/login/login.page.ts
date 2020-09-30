@@ -32,7 +32,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
 
-    this.menuCtrl.enable(false);
+    this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
 
   }

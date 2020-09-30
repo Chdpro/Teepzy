@@ -92,8 +92,8 @@ export class DetailFeedPage implements OnInit {
     public route: ActivatedRoute,
     private dataPasse: DatapasseService,
     private contactService: ContactService) {
-    this.menuCtrl.enable(false);
-    this.menuCtrl.swipeGesture(true);
+      this.menuCtrl.close('first');
+      this.menuCtrl.swipeGesture(false);
     this.global = globals;
     this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
     this.subscription = this.dataPasse.get().subscribe(p => {

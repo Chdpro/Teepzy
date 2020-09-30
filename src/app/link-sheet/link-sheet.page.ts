@@ -39,8 +39,8 @@ export class LinkSheetPage implements OnInit {
     private globals: Globals,
     private menuCtrl: MenuController,
     private navParams: NavParams) { 
-      this.menuCtrl.enable(false);
-
+      this.menuCtrl.close('first');
+      this.menuCtrl.swipeGesture(false);
     }
 
 
@@ -199,7 +199,6 @@ export class LinkSheetPage implements OnInit {
           nom: u.nom,
           prenom: u.prenom,
           pseudoIntime: u.pseudoIntime,
-          pseudoPro: u.pseudoPro,
           _id: u._id,
           match: false,
           photo: u.photo

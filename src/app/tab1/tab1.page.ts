@@ -159,7 +159,7 @@ export class Tab1Page implements OnInit {
     public actionSheetController: ActionSheetController,
     private videoPlayer: VideoPlayer,
     private contactService: ContactService) {
-    this.menuCtrl.enable(true);
+      this.menuCtrl.enable(true, 'first');
     this.menuCtrl.swipeGesture(true);
     this.global = globals;
     this.subscription = this.dataPass.getPosts().subscribe(list => {

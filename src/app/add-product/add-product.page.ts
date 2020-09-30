@@ -57,8 +57,8 @@ export class AddProductPage implements OnInit {
     private transfer: FileTransfer,
     private menuCtrl: MenuController,
     private contactService: ContactService) {
-    this.menuCtrl.enable(false);
-      
+      this.menuCtrl.close('first');
+      this.menuCtrl.swipeGesture(false);      
     }
 
     ngOnInit() {

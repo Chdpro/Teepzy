@@ -51,8 +51,8 @@ export class SearchPage implements OnInit {
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController
     ) { 
-      this.menuCtrl.enable(false);
-
+      this.menuCtrl.close('first');
+      this.menuCtrl.swipeGesture(false);
     }
 
   ngOnInit() {
@@ -213,8 +213,33 @@ export class SearchPage implements OnInit {
   }
 
 
-  openConfirmModal(){
-    this.showModal = true
+ 
+  async presentAlertConfirm(IdR) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: "Continuer ?",
+      message: '',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.presentToast('Annulé')
+          }
+        },
+
+        {
+          text: 'Confirmer',
+          handler: () => {
+            this.sendInvitationToJoinCircle(IdR, 'AMICAL')
+
+          }
+        }
+      ]
+    });
+    await alert.present();
+
   }
 
   sendInvitationToJoinCircle(idReceiver, typeLink) {

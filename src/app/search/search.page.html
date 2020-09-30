@@ -154,11 +154,11 @@
 
               <div *ngFor="let c of users | slice: lowValueT : highValueT  ;trackBy: trackByFn ">
                 <ion-item>
-                  <div class="round-img-post">
+                  <div *ngIf="c?.photo == null" class="round-img-post">
                     {{c?.pseudoIntime | slice:0:1| uppercase}}
                   </div>
+                  <img *ngIf="c?.photo !== null" class="round-img-user" [src]="c?.photo" alt="">
                   <ion-label class="p-seudo">
-
                     <span>
                       {{ c?.pseudoIntime }}
                     </span>
@@ -176,16 +176,18 @@
                 <div *ngFor="let c of listTeepzrsToInvite | slice: lowValueT : highValueT  ;trackBy: trackByFn ">
 
                   <ion-item>
-                    <div class="round-img-post">
-                      {{c?.prenom | slice:0:1| uppercase}} {{c?.nom | slice:0:1 | uppercase}}
+                    <div *ngIf="c?.photo == null" class="round-img-post">
+                      {{c?.pseudoIntime | slice:0:1| uppercase}} 
                     </div>
+                    <img *ngIf="c?.photo !== null" class="round-img-user" [src]="c?.photo" alt="">
+
                     <ion-label class="p-seudo"> {{ c?.pseudoIntime }}
                       <p>
                         {{ c?.circleMembersCount }} Contact <span *ngIf="c?.circleMembersCount > 1">s</span>
                       </p>
                     </ion-label>
 
-                    <ion-button *ngIf="c?.invited == false" (click)="openConfirmModal()" size="small">
+                    <ion-button *ngIf="c?.invited == false" (click)="presentAlertConfirm()" size="small">
                       <span>
                         Inviter
                       </span>

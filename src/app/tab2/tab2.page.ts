@@ -42,8 +42,8 @@ export class Tab2Page implements OnInit {
     private socket: Socket,
     private router: Router
   ) {
-    this.menuCtrl.enable(false);
-    this.menuCtrl.swipeGesture(true);
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
   }
 
 

@@ -13,8 +13,8 @@ export class LinkPage implements OnInit {
     private router: Router,
     private menuCtrl: MenuController
   ) { 
-    this.menuCtrl.enable(false);
-
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
   }
 
   ngOnInit() {

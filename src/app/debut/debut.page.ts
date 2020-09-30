@@ -16,7 +16,7 @@ export class DebutPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.menuCtrl.enable(false);
+    this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
   }
 

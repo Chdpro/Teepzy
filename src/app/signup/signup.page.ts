@@ -74,7 +74,7 @@ export class SignupPage implements OnInit {
   }
 
   ngOnInit() {
-    this.menuCtrl.enable(false);
+    this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
 
     //this.windowRef = this.win.windowRef

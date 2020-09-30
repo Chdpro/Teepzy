@@ -64,10 +64,8 @@ export class SignupFinalPage implements OnInit {
     this.user.photo = usr['params']['photo']
     this.user.userId = localStorage.getItem('teepzyUserId')
     this.getUserInfo(this.user.userId)
-    this.menuCtrl.enable(false);
+    this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
-
-
   }
 
 
@@ -234,8 +232,8 @@ export class SignupFinalPage implements OnInit {
         this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
         fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
           this.user.photo = base_url + options.fileName;
-          this.loading = false;
           alert(this.user.photo)
+          this.loading = false;
           this.updateUser()
         })
       }

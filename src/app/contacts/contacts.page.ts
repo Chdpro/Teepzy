@@ -101,7 +101,8 @@ export class ContactsPage implements OnInit {
     private authService: AuthService,
     private menuCtrl: MenuController,
     private contactService: ContactService) {
-    this.menuCtrl.enable(false);
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
     this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
     console.log(this.previousRoute)
   }

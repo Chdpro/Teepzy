@@ -35,14 +35,14 @@ export class CircleMembersPage implements OnInit {
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
     private socket: Socket) { 
-      this.menuCtrl.enable(false);
-
+      this.menuCtrl.close('first');
+      this.menuCtrl.swipeGesture(false);
     }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.chatRoom.userId = this.userId
-    this.getUsers()
+    this.getUsersOfCircle()
   }
 
   joinChat() {
@@ -95,7 +95,7 @@ export class CircleMembersPage implements OnInit {
   trackByFn(index, item) {
     return index; // or item.id
   }
-/*
+
   getUsersOfCircle() {
     this.contactService.getCircleMembers(this.userId).subscribe(res => {
       console.log(res);
@@ -103,17 +103,17 @@ export class CircleMembersPage implements OnInit {
     }, error => {
       console.log(error)
     })
-  }*/
+  }
 
 
-  getUsers() {
+  /* getUsers() {
     this.contactService.AllTeepZrs(this.userId).subscribe(res => {
       console.log(res);
       this.members = res['data']
     }, error => {
       console.log(error)
     })
-  }
+  }*/
 
 
   deleteItemFromList(list, i) {

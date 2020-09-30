@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavParams, ToastController, AlertController } from '@ionic/angular';
+import { ModalController, NavParams, ToastController, AlertController, MenuController } from '@ionic/angular';
 import { Globals } from '../globals';
 import { ContactService } from '../providers/contact.service';
 import { DatapasseService } from '../providers/datapasse.service';
@@ -27,8 +27,12 @@ export class ShareSheetPage implements OnInit {
     private dataPasse: DatapasseService,
     private alertController: AlertController,
     private socialSharing: SocialSharing,
+    private menuCtrl: MenuController
 
-    ) { }
+    ) { 
+      this.menuCtrl.close('first');
+      this.menuCtrl.swipeGesture(false);
+    }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');

@@ -11,8 +11,8 @@ export class DetailProjectPage implements OnInit {
   constructor(
     private menuCtrl: MenuController
   ) {
-    this.menuCtrl.enable(false);
-
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
    }
 
   ngOnInit() {

@@ -98,13 +98,15 @@
                       {{tag}}
                       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
-                    <mat-chip>
+                    <mat-chip class="add-mat-chip" >
                       Ajouter
                       <mat-icon (click)="add($event)" style="    width: 30px;
                     height: 18px;" matChipRemove>add_circle</mat-icon>
                     </mat-chip>
-                    <input placeholder="HOBBIES" [matChipInputFor]="chipList"
-                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                    <input placeholder="HOBBIES" 
+                    [matChipInputFor]="chipList"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="addOnBlur"
                       (matChipInputTokenEnd)="add($event)">
                   </mat-chip-list>
                 </mat-form-field>

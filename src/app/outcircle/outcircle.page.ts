@@ -57,8 +57,8 @@ export class OutcirclePage implements OnInit {
     public router: Router,
     private menuCtrl: MenuController
     ) { 
-      this.menuCtrl.enable(false);
-
+      this.menuCtrl.close('first');
+      this.menuCtrl.swipeGesture(false);
     }
 
   ngOnInit() {

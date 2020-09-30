@@ -94,9 +94,9 @@ export class EditProfilePage implements OnInit {
     private router: Router,
     private dataPasse: DatapasseService,
     private toasterController: ToastController) {
-      this.menuCtrl.enable(false);
-
-     }
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
+  }
 
   ngOnInit() {
 
@@ -220,7 +220,9 @@ export class EditProfilePage implements OnInit {
       //this.user['tags'] ? this.tags1 = this.user['tags'] : null;
       this.user['hobbies'] ? this.tags = this.user['hobbies'] : null;
       this.profile1.hobbies = this.user['hobbies'];
-      this.user['photo'] ?  this.dispImags[0] = this.user['photo'] : null
+      this.user['photo'] ? this.dispImags[0] = this.user['photo'] : null
+      this.user['photo'] ? this.profile1.photo = this.user['photo'] : null
+
     }, error => {
       console.log(error)
     })
@@ -324,16 +326,18 @@ export class EditProfilePage implements OnInit {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
 
-      this.filePath.resolveNativePath(imageData).then((nativepath) => {
-        if (this.photos.length == 0) {
-          this.photos.push(nativepath)
-        } else if (this.photos.length > 1) {
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
-        }
+      if (this.dispImags.length == 0) {
+        this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
+        this.filePath.resolveNativePath(imageData).then((nativepath) => {
+          if (this.photos.length == 0) {
+            this.photos.push(nativepath)
+          }
+        })
+      } else if (this.dispImags.length > 1) {
+        this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+      }
   
-      })
 
     }, (err) => {
       // Handle error
@@ -362,16 +366,16 @@ export class EditProfilePage implements OnInit {
         this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
         fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
           this.profile1.photo = base_url + options.fileName
-          alert(this.profile1.photo)
           this.updateProfile()
           this.loading = false
-        }, error =>{
+          this.photos = []
+        }, error => {
           alert(JSON.stringify(error))
-          
+
         })
       }
-  
-    }else{
+
+    } else {
       this.loading = false
       this.updateProfile()
 
@@ -406,7 +410,7 @@ export class EditProfilePage implements OnInit {
     toast.present();
   }
 
-  ngOnDestroy() { 
-    this.subcription?  this.subcription.unsubscribe() :  null
+  ngOnDestroy() {
+    this.subcription ? this.subcription.unsubscribe() : null
   }
 }

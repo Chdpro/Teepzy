@@ -75,8 +75,8 @@ export class EditPostPage implements OnInit {
     private dataPasse: DatapasseService
 
   ) { 
-    this.menuCtrl.enable(false);
-
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
 
   }
 

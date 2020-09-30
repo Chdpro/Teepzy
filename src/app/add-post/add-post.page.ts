@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ModalController, ToastController, AlertController, 
-  ActionSheetController, MenuController, Platform } from '@ionic/angular';
+import {
+  ModalController, ToastController, AlertController,
+  ActionSheetController, MenuController, Platform
+} from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
@@ -12,7 +14,6 @@ import { base_url } from 'src/config';
 import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
-import { typeAccount } from '../constant/constant';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
@@ -77,13 +78,12 @@ export class AddPostPage implements OnInit {
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController,
     private mediaCapture: MediaCapture,
-    private androidPermissions: AndroidPermissions,
     private file: File,
     private plt: Platform
   ) {
 
-    this.menuCtrl.enable(false);
-
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
   }
 
   ngOnInit() {
@@ -156,7 +156,7 @@ export class AddPostPage implements OnInit {
           this.takeVideo();
         }
       },
-  
+
       {
         text: 'Annuler',
         role: 'cancel'
@@ -166,22 +166,22 @@ export class AddPostPage implements OnInit {
     await actionSheet.present();
   }
 
-	
+
   copyFileToLocalDir(fullPath) {
     let myPath = fullPath;
     // Make sure we copy from the right location
     if (fullPath.indexOf('file://') < 0) {
       myPath = 'file://' + fullPath;
     }
- 
+
     const ext = myPath.split('.').pop();
     const d = Date.now();
     const newName = `${d}.${ext}`;
- 
+
     const name = myPath.substr(myPath.lastIndexOf('/') + 1);
     const copyFrom = myPath.substr(0, myPath.lastIndexOf('/') + 1);
     const copyTo = this.file.dataDirectory + MEDIA_FOLDER_NAME;
- 
+
     this.file.copyFile(copyFrom, name, copyTo, newName).then(
       success => {
         this.loadFiles();
@@ -191,7 +191,7 @@ export class AddPostPage implements OnInit {
       }
     );
   }
- 
+
 
   loadFiles() {
     this.file.listDir(this.file.dataDirectory, MEDIA_FOLDER_NAME).then(
@@ -209,6 +209,7 @@ export class AddPostPage implements OnInit {
     );
   }
 
+
   takeVideo() {
     let options: CaptureVideoOptions = { limit: 1, duration: 15 }
     this.mediaCapture.captureVideo(options)
@@ -217,11 +218,12 @@ export class AddPostPage implements OnInit {
           // imageData is either a base64 encoded string or a file URI
           // If it's base64 (DATA_URL):
           // let base64Image = 'data:image/jpeg;base64,' + imageData;
-         // alert(data[0].fullPath)
-         // this.copyFileToLocalDir(data[0].fullPath);
+          // alert(data[0].fullPath)
+          // this.copyFileToLocalDir(data[0].fullPath);
 
-         alert(data[0].fullPath)
-         this.dispVideos.push(data[0].fullPath)
+          alert(data[0].fullPath)
+          this.storeMediaFiles(data)
+         // this.dispVideos.push(data[0].fullPath)
 
         },
         (err: CaptureError) => {
@@ -230,8 +232,25 @@ export class AddPostPage implements OnInit {
       );
   }
 
+  storeMediaFiles(files) {
+      let mediafiles = []
+      mediafiles = mediafiles.concat(files)
+      alert(mediafiles[0].localURL)
+      this.dispVideos.push(mediafiles[0].localURL)
+      this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(mediafiles[0].localURL))
+      this.filePath.resolveNativePath(mediafiles[0].localURL).then((nativepath) => {
+        alert(nativepath)
+        if (this.videos.length == 0 && this.photos.length == 0) {
+          this.videos.push(nativepath)
+        } else if (this.videos.length > 1 && this.photos.length > 0) {
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
+        }
+      }, error => {
+      })
+  }
 
- 
+
+
   pickVideo(sourceType) {
     const options: CameraOptions = {
       quality: 100,
@@ -240,7 +259,7 @@ export class AddPostPage implements OnInit {
       mediaType: this.camera.MediaType.VIDEO,
 
     }
-  
+
     this.camera.getPicture(options).then((videoData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):

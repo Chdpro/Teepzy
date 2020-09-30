@@ -46,9 +46,23 @@
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>DESCRIPTION</mat-label>
-            <textarea matInput name="description" #description="ngModel" required [(ngModel)]="product.description"
+            <textarea matInput name="description" #description="ngModel"
+            maxlength="100" rows="5"
+            required [(ngModel)]="product.description"
               placeholder="Description du produit"></textarea>
           </mat-form-field>
+          <span>
+
+
+            <div class="limit-chars" *ngIf="product?.description.length == 100">
+              limite maximale de caractère à 100
+            </div>
+            <div class="limitCounter">
+              {{product?.description.length}} / 100
+            </div>
+
+          </span>
+
           <mat-form-field class="example-chip-list">
             <mat-chip-list #chipList aria-label="Fruit selection">
               <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
@@ -56,7 +70,7 @@
                 {{tag}}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
-              <mat-chip>
+              <mat-chip class="add-mat-chip">
                 Ajouter
                 <mat-icon (click)="add($event)" style="    width: 30px;
               height: 18px;" matChipRemove>add_circle</mat-icon>

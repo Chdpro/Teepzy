@@ -28,7 +28,8 @@ export class Tab3Page implements OnInit {
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
     private socket: Socket) { 
-      this.menuCtrl.enable(false);
+      this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
       this.subscription = this.dataPasse.get().subscribe(list => {
         console.log(list)
         if (list.length > 0) {

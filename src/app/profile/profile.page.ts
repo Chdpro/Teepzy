@@ -91,8 +91,9 @@ export class ProfilePage implements OnInit {
     private menuCtrl: MenuController,
     public sanitizer: DomSanitizer,
     private authService: AuthService) {
-      this.menuCtrl.enable(false);
-      
+      this.menuCtrl.close('first');
+      this.menuCtrl.swipeGesture(false);
+            
     this.subscription = this.dataPass.getProjects().subscribe(list => {
       if (list.length > 0) {
         this.listProjects = list
