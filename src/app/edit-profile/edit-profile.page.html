@@ -11,8 +11,9 @@
 
   <div class="banner">
     <div>
+
       <div *ngIf="dispImags?.length > 0">
-        <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
+        <img class="round-img-profile" *ngFor="let img of dispImags" [src]="img" alt="">
       </div>
 
       <div *ngIf="dispImags?.length == 0" class="round-img"
@@ -82,31 +83,32 @@
                   <input matInput name="localisation2" [(ngModel)]="profile1.localisation" placeholder="LOCALISATION">
                 </mat-form-field>
 
+                <input matInput name="biolabel" class="input-label" [(ngModel)]="profile1.bioLabel">
                 <mat-form-field class="example-full-width">
-                  <mat-label>BIO</mat-label>
-                  <input matInput name="bio" [(ngModel)]="profile1.bio" placeholder="BIO">
+                  <input matInput name="bio" [(ngModel)]="profile1.bio" placeholder="">
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
                   <mat-label>SITE WEB</mat-label>
                   <input matInput name="siteweb2" [(ngModel)]="profile1.siteweb" placeholder="SITE WEB">
                 </mat-form-field>
+
+                  <input matInput name="label" class="input-label" [(ngModel)]="profile1.tagsLabel">
                 <mat-form-field class="example-chip-list">
+
                   <mat-chip-list #chipList aria-label="Fruit selection">
                     <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
                       (removed)="remove1(tag)">
                       {{tag}}
                       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
-                    <mat-chip class="add-mat-chip" >
+                    <mat-chip class="add-mat-chip">
                       Ajouter
                       <mat-icon (click)="add($event)" style="    width: 30px;
                     height: 18px;" matChipRemove>add_circle</mat-icon>
                     </mat-chip>
-                    <input placeholder="HOBBIES" 
-                    [matChipInputFor]="chipList"
-                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                       [matChipInputAddOnBlur]="addOnBlur"
+                    <input [matChipInputFor]="chipList"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
                       (matChipInputTokenEnd)="add($event)">
                   </mat-chip-list>
                 </mat-form-field>

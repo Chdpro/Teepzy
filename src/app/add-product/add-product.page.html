@@ -16,13 +16,20 @@
       <ion-col>
         <div class="banner">
           <div>
-            <img *ngIf="dispImags?.length == 0" class="add-photo" src="../../assets/img/neutral.jpg" alt="">
+            <ion-row>
+              <ion-col *ngFor="let img of dispImags" size="3">
+                <div >
+                  <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
+                </div>
+              </ion-col>
+              <ion-col size="12" *ngIf="dispImags?.length == 0">
+                <img class="add-photo" src="../../assets/img/neutral.jpg" alt="">
+              </ion-col>
+            </ion-row>
 
-            <div *ngIf="dispImags?.length > 0">
-              <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
-            </div>
+    
             <!-- fab placed to the bottom end -->
-            <ion-fab (click)="selectImage(p)" vertical="center" horizontal="center" slot="fixed">
+            <ion-fab *ngIf="dispImags?.length <= 4" (click)="selectImage(p)" vertical="center" horizontal="center" slot="fixed">
               <ion-fab-button color="light">
                 <ion-icon name="add"></ion-icon>
               </ion-fab-button>
@@ -36,20 +43,20 @@
       <ion-col>
         <form class="example-form">
           <mat-form-field class="example-full-width">
-            <mat-label>NOM</mat-label>
+            <mat-label>TITRE</mat-label>
             <input matInput #nom="ngModel" required name="nom" [(ngModel)]="product.nom" placeholder="Nom du produit">
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>PRIX</mat-label>
-            <input matInput name="logiciel" type="number" #logiciel="ngModel" required [(ngModel)]="product.price"
+            <input matInput name="price" type="number" #price="ngModel" required [(ngModel)]="product.price"
               placeholder="Prix">
           </mat-form-field>
           <mat-form-field class="example-full-width">
-            <mat-label>DESCRIPTION</mat-label>
             <textarea matInput name="description" #description="ngModel"
             maxlength="100" rows="5"
+            (ngModelChange)="maxLengthDescription($event)"
             required [(ngModel)]="product.description"
-              placeholder="Description du produit"></textarea>
+              placeholder="DESCRIPTION"></textarea>
           </mat-form-field>
           <span>
 
@@ -91,10 +98,12 @@
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <ion-button expand="block" class="save-btn" [disabled]="nom.errors?.required 
-          || logiciel.errors?.required
+    <ion-button expand="block" class="save-btn" 
+    [disabled]="
+          nom.errors?.required 
+          || price.errors?.required
           || description.errors?.required
-          || tags?.length == 0 " (click)="uploadImage()" mat-button>
+          || tags?.length == 0 " (click)="uploadImagePermission()" mat-button>
       <span *ngIf="!loading">
         ENREGISTRER
       </span>

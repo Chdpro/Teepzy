@@ -62,7 +62,7 @@
                       {{ c?.phone }}
                     </p>
                   </ion-label>
-                  <ion-button *ngIf="c?.invited == false" (click)="presentAlertConfirm(c?._id)" size="small">
+                  <ion-button *ngIf="c?.invited == false" (click)="sendInvitationToJoinCircle(c?._id)" size="small">
                     <span>
                       Inviter
                     </span>

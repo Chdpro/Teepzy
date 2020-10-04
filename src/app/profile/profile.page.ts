@@ -140,6 +140,16 @@ export class ProfilePage implements OnInit {
     this.getMyFavoritePosts(userId)
   }
 
+  goToDetailProject(project){
+    this.router.navigate(['/detail-project',project])
+
+  }
+
+  goToDetailProduct(product){
+    this.router.navigate(['/detail-product', { product: product}])
+
+  }
+
   time(date) {
     moment.locale('fr');
     return moment(date).fromNow()

@@ -4,7 +4,7 @@
       <ion-toolbar [style.background-color]="post?.backgroundColor">
         <ion-icon class="arrow-back-btn" (click)="dismiss()" name="arrow-back-outline"></ion-icon>
         <div class="example-button-container">
-          <ion-button color="secondary" style="margin-top: 1px;" (click)="uploadImage()"
+          <ion-button color="secondary" style="margin-top: 1px;" (click)="addPostUsingPermission()"
             [disabled]="contentMsg.errors?.required" expand="block" shape="round">
             <span *ngIf="!loading">
               Publier
@@ -53,7 +53,11 @@
               <mat-label [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">Tapez ce que vous
                 voulez</mat-label>
               <textarea [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }" matInput
-                [(ngModel)]="post.content" name="contentMsg" required #contentMsg="ngModel" maxlength="130" rows="15"
+                [(ngModel)]="post.content" name="contentMsg" 
+                required
+                #contentMsg="ngModel"
+                maxlength="130" rows="15"
+                (ngModelChange)="post.content = $event + ''"
                 cols="60" placeholder="Ex. Je recherche un graphiste..."></textarea>
             </mat-form-field>
             <span>

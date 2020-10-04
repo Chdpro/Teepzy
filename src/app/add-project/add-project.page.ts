@@ -11,6 +11,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { base_url } from 'src/config';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @Component({
   selector: 'app-add-project',
@@ -23,7 +24,7 @@ export class AddProjectPage implements OnInit {
   project = {
     userId: '',
     nom: '',
-    photo: 'http://teepzy.com/project.jpg',
+    photo: [],
     tags : [],
     description: '',
   }
@@ -54,6 +55,7 @@ export class AddProjectPage implements OnInit {
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
     private menuCtrl: MenuController,
+    private androidPermissions: AndroidPermissions,
     private contactService: ContactService) { 
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false); 
@@ -77,6 +79,13 @@ export class AddProjectPage implements OnInit {
     });
   }
 
+
+    
+  maxLengthDescription(ev:Event){
+    let desc = this.project.description
+    this.project.description.length > 100 ? this.project.description =  desc.slice(0,99): null 
+    console.log(this.project.description.slice(0, 99))
+  }
 
 
   add(event: MatChipInputEvent): void {
@@ -102,6 +111,50 @@ export class AddProjectPage implements OnInit {
     }
   }
 
+
+  pickImagePermission(sourceType) {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.pickImage(sourceType)
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.pickImage(sourceType)
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+      }
+    );
+  }
+
+  takeImagePermission(sourceType) {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.pickImage(sourceType)
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.pickImage(sourceType)
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE)
+      }
+    );
+  }
 
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
@@ -143,10 +196,10 @@ export class AddProjectPage implements OnInit {
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
       this.filePath.resolveNativePath(imageData).then((nativepath) => {
-        if (this.photos.length == 0) {
+        if (this.photos.length < 4) {
           this.photos.push(nativepath)
-        } else if (this.photos.length > 1) {
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+        } else if (this.photos.length > 5) {
+          this.presentToast('Vous ne pouvez pas sélectionner plus de 4 images')
         }
         alert(this.photos)
       })
@@ -176,19 +229,77 @@ export class AddProjectPage implements OnInit {
         var serverUrl = base_url + 'upload-avatar'
         this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
         fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-          this.project.photo = base_url + options.fileName
-          this.addProject()
+          this.project.photo.push(base_url + options.fileName) 
           this.loading = false
         })
       }
   
-    }else{
-      this.loading = false
-      this.addProject()
-
     }
 
   }
+
+
+
+  uploadImagePermission() {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.uploadImages()
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.uploadImages()
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+      }
+    );
+  }
+
+
+  uploadImages() {
+    var interval = 0;
+    var ref = this;
+   
+    function InnerFunc() {
+      if (ref.photos.length) {
+        const fileTransfer = ref.transfer.create()
+        let options: FileUploadOptions = {
+          fileKey: "photo",
+          fileName: (Math.random() * 100000000000000000) + '.jpg',
+          chunkedMode: false,
+          mimeType: "image/jpeg",
+          headers: {},
+  
+        }
+  
+        var serverUrl = base_url + 'upload-avatar'
+        fileTransfer.upload(ref.photos[interval], serverUrl, options).then((data) => {
+          interval++;
+          if (interval < ref.photos.length) {
+            this.loading = false
+            this.project.photo.push(base_url + options.fileName)
+            InnerFunc();
+          } else {
+            this.loading = false
+            ref.addProject()
+            ref.presentToast("Images envoyées")
+          }
+        })
+      } else {
+        ref.addProject()
+      }
+   
+    }
+    InnerFunc()
+  }
+
 
   getProjects(userId) {
     this.authService.myInfos(userId).subscribe(res => {
@@ -203,6 +314,7 @@ export class AddProjectPage implements OnInit {
   addProject(){
     this.loading = true
     this.tags.length > 0 ? this.project.tags = this.tags : null
+    this.photos.length > 0? this.uploadImage() : null
     this.contactService.addProject(this.project).subscribe(res =>{
       console.log(res);
       this.loading = false
@@ -228,7 +340,5 @@ export class AddProjectPage implements OnInit {
 
   ngOnDestroy() { 
     this.subscription?  this.subscription.unsubscribe() :  null
-    //this.socket.removeAllListeners('message');
-    //this.socket.removeAllListeners('users-changed');
   }
 }

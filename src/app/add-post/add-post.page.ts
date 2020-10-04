@@ -14,11 +14,8 @@ import { base_url } from 'src/config';
 import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-
-const MEDIA_FOLDER_NAME = 'my_media';
-
 
 @Component({
   selector: 'app-add-post',
@@ -79,7 +76,8 @@ export class AddPostPage implements OnInit {
     private menuCtrl: MenuController,
     private mediaCapture: MediaCapture,
     private file: File,
-    private plt: Platform
+    private plt: Platform,
+    private androidPermissions: AndroidPermissions
   ) {
 
     this.menuCtrl.close('first');
@@ -88,17 +86,6 @@ export class AddPostPage implements OnInit {
 
   ngOnInit() {
 
-    this.plt.ready().then(() => {
-      let path = this.file.dataDirectory;
-      this.file.checkDir(path, MEDIA_FOLDER_NAME).then(
-        () => {
-          this.loadFiles();
-        },
-        err => {
-          this.file.createDir(path, MEDIA_FOLDER_NAME, false);
-        }
-      );
-    });
   }
 
 
@@ -128,6 +115,71 @@ export class AddPostPage implements OnInit {
 
   }
 
+  pickImagePermission(sourceType) {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.pickImage(sourceType)
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.pickImage(sourceType)
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+      }
+    );
+  }
+
+  takeImagePermission(sourceType) {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.pickImage(sourceType)
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.pickImage(sourceType)
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE)
+      }
+    );
+  }
+
+  pickVideoPermission(sourceType) {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.pickVideo(sourceType)
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.pickVideo(sourceType)
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+      }
+    );
+  }
 
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
@@ -135,19 +187,19 @@ export class AddPostPage implements OnInit {
       buttons: [{
         text: 'Choisir dans votre galerie',
         handler: () => {
-          this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+          this.pickImagePermission(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
       },
       {
         text: 'Utiliser la Camera',
         handler: () => {
-          this.pickImage(this.camera.PictureSourceType.CAMERA);
+          this.takeImagePermission(this.camera.PictureSourceType.CAMERA);
         }
       },
       {
         text: 'Choisir une vidéo',
         handler: () => {
-          this.pickVideo(this.camera.PictureSourceType.PHOTOLIBRARY);
+          this.pickVideoPermission(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
       },
       {
@@ -167,86 +219,82 @@ export class AddPostPage implements OnInit {
   }
 
 
-  copyFileToLocalDir(fullPath) {
-    let myPath = fullPath;
-    // Make sure we copy from the right location
-    if (fullPath.indexOf('file://') < 0) {
-      myPath = 'file://' + fullPath;
-    }
-
-    const ext = myPath.split('.').pop();
-    const d = Date.now();
-    const newName = `${d}.${ext}`;
-
-    const name = myPath.substr(myPath.lastIndexOf('/') + 1);
-    const copyFrom = myPath.substr(0, myPath.lastIndexOf('/') + 1);
-    const copyTo = this.file.dataDirectory + MEDIA_FOLDER_NAME;
-
-    this.file.copyFile(copyFrom, name, copyTo, newName).then(
-      success => {
-        this.loadFiles();
-      },
-      error => {
-        console.log('error: ', error);
-      }
-    );
-  }
-
-
-  loadFiles() {
-    this.file.listDir(this.file.dataDirectory, MEDIA_FOLDER_NAME).then(
-      res => {
-        this.dispVideos = res;
-        alert(this.dispVideos)
-        if (this.videos.length == 0 && this.photos.length == 0) {
-          this.videos.push(this.dispVideos)
-          alert(this.videos)
-        } else if (this.videos.length > 1 && this.photos.length > 0) {
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
-        }
-      },
-      err => console.log('error loading files: ', err)
-    );
-  }
 
 
   takeVideo() {
-    let options: CaptureVideoOptions = { limit: 1, duration: 15 }
-    this.mediaCapture.captureVideo(options)
-      .then(
-        (data: MediaFile[]) => {
-          // imageData is either a base64 encoded string or a file URI
-          // If it's base64 (DATA_URL):
-          // let base64Image = 'data:image/jpeg;base64,' + imageData;
-          // alert(data[0].fullPath)
-          // this.copyFileToLocalDir(data[0].fullPath);
 
-          alert(data[0].fullPath)
-          this.storeMediaFiles(data)
-         // this.dispVideos.push(data[0].fullPath)
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
 
-        },
-        (err: CaptureError) => {
-          alert(err)
+          let options: CaptureVideoOptions = { limit: 1, duration: 15 }
+          this.mediaCapture.captureVideo(options)
+            .then(
+              (data: MediaFile[]) => {
+                // imageData is either a base64 encoded string or a file URI
+                // If it's base64 (DATA_URL):
+                // let base64Image = 'data:image/jpeg;base64,' + imageData;
+                // alert(data[0].fullPath)
+                // this.copyFileToLocalDir(data[0].fullPath);
+
+                alert(data[0].fullPath)
+                this.storeMediaFiles(data)
+                // this.dispVideos.push(data[0].fullPath)
+
+              },
+              (err: CaptureError) => {
+                alert(err)
+              }
+            );
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+
+              let options: CaptureVideoOptions = { limit: 1, duration: 15 }
+              this.mediaCapture.captureVideo(options)
+                .then(
+                  (data: MediaFile[]) => {
+                    // imageData is either a base64 encoded string or a file URI
+                    // If it's base64 (DATA_URL):
+                    // let base64Image = 'data:image/jpeg;base64,' + imageData;
+                    // alert(data[0].fullPath)
+                    // this.copyFileToLocalDir(data[0].fullPath);
+
+                    alert(data[0].fullPath)
+                    this.storeMediaFiles(data)
+                    // this.dispVideos.push(data[0].fullPath)
+
+                  },
+                  (err: CaptureError) => {
+                    alert(err)
+                  }
+                );
+            }
+          });
         }
-      );
+      },
+      err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE)
+    );
+
   }
 
   storeMediaFiles(files) {
-      let mediafiles = []
-      mediafiles = mediafiles.concat(files)
-      alert(mediafiles[0].localURL)
-      this.dispVideos.push(mediafiles[0].localURL)
-      this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(mediafiles[0].localURL))
-      this.filePath.resolveNativePath(mediafiles[0].localURL).then((nativepath) => {
-        alert(nativepath)
-        if (this.videos.length == 0 && this.photos.length == 0) {
-          this.videos.push(nativepath)
-        } else if (this.videos.length > 1 && this.photos.length > 0) {
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
-        }
-      }, error => {
-      })
+    let mediafiles = []
+    mediafiles = mediafiles.concat(files)
+    alert(mediafiles[0].localURL)
+    this.dispVideos.push(mediafiles[0].localURL)
+    this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(mediafiles[0].localURL))
+    this.filePath.resolveNativePath(mediafiles[0].localURL).then((nativepath) => {
+      alert(nativepath)
+      if (this.videos.length == 0 && this.photos.length == 0) {
+        this.videos.push(nativepath)
+      } else if (this.videos.length > 1 && this.photos.length > 0) {
+        this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
+      }
+    }, error => {
+    })
   }
 
 
@@ -320,7 +368,27 @@ export class AddPostPage implements OnInit {
   }
 
 
-
+  addPostUsingPermission() {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.uploadImage()
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.uploadImage()
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+      }
+    );
+  }
   uploadImage() {
     var ref = this;
     this.loading = true

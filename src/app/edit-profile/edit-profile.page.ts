@@ -26,10 +26,11 @@ export class EditProfilePage implements OnInit {
     userId: '',
     siteweb: 'siteweb',
     socialsAmical: [],
-    tags: [],
     hobbies: [],
     bio: 'bio',
-    photo: ''
+    photo: '',
+    tagsLabel:'Hobbies',
+    bioLabel:'Biographie'
   }
 
 
@@ -216,7 +217,9 @@ export class EditProfilePage implements OnInit {
       this.profile1.siteweb = this.user['siteweb'];
       this.user['socialsAmical'] ? this.socialsAdde2 = this.user['socialsAmical'] : null;
       this.profile1.socialsAmical = this.user['socialsAmical'];
-      this.profile1.tags = this.user['tags'];
+      this.profile1.tagsLabel = this.user['tagsLabel'];
+      this.profile1.bioLabel  = this.user['bioLabel'];
+      //this.profile1.tags = this.user['tags'];
       //this.user['tags'] ? this.tags1 = this.user['tags'] : null;
       this.user['hobbies'] ? this.tags = this.user['hobbies'] : null;
       this.profile1.hobbies = this.user['hobbies'];

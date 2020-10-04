@@ -17,6 +17,7 @@ export class Tab2Page implements OnInit {
 
   userId = ''
   invitations = []
+  invitationsSms = []
   notifications = []
 
   loading = false
@@ -157,6 +158,19 @@ export class Tab2Page implements OnInit {
     this.contactService.listInivtation(invitation).subscribe(res => {
       console.log(res)
       this.invitations = res['data']
+    }, error => {
+      console.log(error)
+
+    })
+  }
+
+  listInvitationsViaSms() {
+    let invitation = {
+      idReceiver: this.userId
+    }
+    this.contactService.listInivtationViaSms(invitation).subscribe(res => {
+      console.log(res)
+      this.invitationsSms = res['data']
     }, error => {
       console.log(error)
 

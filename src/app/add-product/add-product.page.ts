@@ -10,6 +10,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { base_url } from 'src/config';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @Component({
   selector: 'app-add-product',
@@ -23,7 +24,7 @@ export class AddProductPage implements OnInit {
   product = {
     userId: '',
     nom: '',
-    photo: '',
+    photo: [],
     tags : [],
     description: '',
     price: ''
@@ -56,6 +57,7 @@ export class AddProductPage implements OnInit {
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
     private menuCtrl: MenuController,
+    private androidPermissions: AndroidPermissions,
     private contactService: ContactService) {
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false);      
@@ -109,6 +111,12 @@ export class AddProductPage implements OnInit {
       })
     }
   
+    maxLengthDescription(ev:Event){
+      let desc = this.product.description
+      this.product.description.length > 100 ? this.product.description =  desc.slice(0,99): null 
+      console.log(this.product.description.slice(0, 99))
+    }
+
     addProduct(){
       this.loading = true
       this.tags.length > 0 ? this.product.tags = this.tags : null;
@@ -127,19 +135,63 @@ export class AddProductPage implements OnInit {
     }
   
 
+    pickImagePermission(sourceType) {
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+        result => {
+          if (result.hasPermission) {
+            // code
+            this.pickImage(sourceType)
+          } else {
+            this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+              if (result.hasPermission) {
+                // code
+                this.pickImage(sourceType)
+              }
+            });
+          }
+        },
+        err => {
+          alert(err)
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+        }
+      );
+    }
+  
+    takeImagePermission(sourceType) {
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
+        result => {
+          if (result.hasPermission) {
+            // code
+            this.pickImage(sourceType)
+          } else {
+            this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => {
+              if (result.hasPermission) {
+                // code
+                this.pickImage(sourceType)
+              }
+            });
+          }
+        },
+        err => {
+          alert(err)
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE)
+        }
+      );
+    }
+
     async selectImage() {
       const actionSheet = await this.actionSheetController.create({
         header: "Select Image source",
         buttons: [{
           text: 'Choisir dans votre galerie',
           handler: () => {
-            this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+            this.pickImagePermission(this.camera.PictureSourceType.PHOTOLIBRARY);
           }
         },
         {
           text: 'Utiliser la Camera',
           handler: () => {
-            this.pickImage(this.camera.PictureSourceType.CAMERA);
+            this.takeImagePermission(this.camera.PictureSourceType.CAMERA);
           }
         },
         {
@@ -168,10 +220,10 @@ export class AddProductPage implements OnInit {
         this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
   
         this.filePath.resolveNativePath(imageData).then((nativepath) => {
-          if (this.photos.length == 0) {
+          if (this.photos.length < 4) {
             this.photos.push(nativepath)
-          } else if (this.photos.length > 1) {
-            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+          } else if (this.photos.length > 5) {
+            this.presentToast('Vous ne pouvez pas sélectionner plus de 4 images')
           }
             alert(this.photos)
     
@@ -203,25 +255,77 @@ export class AddProductPage implements OnInit {
           this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
           fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
             this.loading = false
-            this.product.photo = base_url + options.fileName
-            alert(this.product.photo)
-
-            this.addProduct()
-
+            this.product.photo.push(base_url + options.fileName)
           }, error =>{
             alert(JSON.stringify(error))
           })
         }
-      }else{
-        this.addProduct()
-        this.loading = false
-        alert('WORK')
-
-
       }
-     
   
     }
+
+
+
+    uploadImages() {
+      var interval = 0;
+      var ref = this;
+     
+      function InnerFunc() {
+        if (ref.photos.length) {
+          const fileTransfer = ref.transfer.create()
+          let options: FileUploadOptions = {
+            fileKey: "photo",
+            fileName: (Math.random() * 100000000000000000) + '.jpg',
+            chunkedMode: false,
+            mimeType: "image/jpeg",
+            headers: {},
+    
+          }
+    
+          var serverUrl = base_url + 'upload-avatar'
+          fileTransfer.upload(ref.photos[interval], serverUrl, options).then((data) => {
+            interval++;
+            if (interval < ref.photos.length) {
+              this.loading = false
+              this.product.photo.push(base_url + options.fileName)
+              InnerFunc();
+            } else {
+              this.loading = false
+              ref.addProduct()
+              ref.presentToast("Images envoyées")
+            }
+          })
+        } else {
+          ref.addProduct()
+        }
+     
+      }
+      InnerFunc()
+    }
+  
+
+  uploadImagePermission() {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.uploadImages()
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.uploadImages()
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+      }
+    );
+  }
+  
   
     async presentToast(msg) {
       const toast = await this.toasterController.create({

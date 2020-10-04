@@ -94,6 +94,11 @@ const routes: Routes = [
     path: 'edit-post',
     loadChildren: () => import('./edit-post/edit-post.module').then( m => m.EditPostPageModule)
   },
+  
+  {
+    path: 'detail-produit',
+    loadChildren: () => import('./detail-produit/detail-produit.module').then( m => m.DetailProduitPageModule)
+  },
 
 ];
 @NgModule({

@@ -5,6 +5,7 @@ import { ToastController, AlertController, MenuController } from '@ionic/angular
 import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { typeAccount } from '../constant/constant';
 
 @Component({
   selector: 'app-search',
@@ -213,42 +214,15 @@ export class SearchPage implements OnInit {
   }
 
 
- 
-  async presentAlertConfirm(IdR) {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: "Continuer ?",
-      message: '',
-      buttons: [
-        {
-          text: 'Annuler',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            this.presentToast('Annulé')
-          }
-        },
 
-        {
-          text: 'Confirmer',
-          handler: () => {
-            this.sendInvitationToJoinCircle(IdR, 'AMICAL')
 
-          }
-        }
-      ]
-    });
-    await alert.present();
-
-  }
-
-  sendInvitationToJoinCircle(idReceiver, typeLink) {
+  sendInvitationToJoinCircle(idReceiver) {
     console.log(idReceiver)
     this.loading = true
     let invitation = {
       idSender: this.search.userId,
       idReceiver: idReceiver,
-      typeLink: typeLink
+      typeLink: typeAccount.pseudoIntime
     }
     this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
       console.log(res)

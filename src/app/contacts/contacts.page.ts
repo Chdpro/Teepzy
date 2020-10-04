@@ -8,6 +8,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 import { AuthService } from '../providers/auth.service';
+import { typeAccount } from '../constant/constant';
 
 
 @Component({
@@ -331,7 +332,7 @@ export class ContactsPage implements OnInit {
     let invitation = {
       idSender: this.userId,
       idReceiver: idReceiver,
-      typeLink: typeLink
+      typeLink: typeAccount.pseudoIntime
     }
     this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
       console.log(res)

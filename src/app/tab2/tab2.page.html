@@ -144,7 +144,28 @@
           </ion-item>
         </div>
 
-        <div *ngIf="invitations?.length == 0" class="empty-msg">
+        <div>
+            <ion-item *ngFor="let i of invitationsSms;trackBy: trackByFn ">
+              <div class="round-img-post">
+                {{i?.pseudo | slice:0:1| uppercase}}
+              </div>
+              <ion-label><b> {{i?.pseudo}} </b><br> <span style="font-size: 11px;">
+                  {{time(i?.createdAt) }} </span> <br>
+                <div class="example-button-row">
+                  <button class="btn-accent" (click)="acceptInvitation(i)" mat-raised-button color="accent">
+                    <span *ngIf="!loading">
+                      Accepter
+                    </span>
+                    <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+  
+  
+                  </button>
+                </div>
+              </ion-label>
+            </ion-item>
+          </div>
+  
+        <div *ngIf="invitations?.length == 0 && invitationsSms.length == 0" class="empty-msg">
           <span class="material-icons drafts">
             drafts
           </span><br>

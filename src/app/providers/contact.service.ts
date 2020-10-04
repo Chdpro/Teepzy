@@ -55,6 +55,11 @@ export class ContactService {
     return this.http.post(base_url + url, invitation, httpOptionsJson);
   }
 
+  listInivtationViaSms(invitation): Observable<any> {
+    let url = 'users/invitationsSms';
+    return this.http.post(base_url + url, invitation, httpOptionsJson);
+  }
+
 
   listNotification(id): Observable<any> {
     let url = 'users/notifications/' + id;

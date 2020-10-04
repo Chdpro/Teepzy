@@ -42,6 +42,10 @@ video{
 
 }
 
+ion-card-subtitle{
+    color: #ea4d4f;
+    width: 40%;
+}
 
 ion-card {
     //background-image: url('../../assets/img/neutral.jpg');
@@ -85,6 +89,9 @@ ion-card {
     background: #ebf6f7;
     padding: 6px;
     border-radius: 14px;
+    margin-right: -14px;
+    margin-top: -29px;
+
 }
 
 

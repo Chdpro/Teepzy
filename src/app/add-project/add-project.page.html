@@ -17,13 +17,22 @@
       <ion-col>
         <div class="banner">
           <div>
-            <img *ngIf="dispImags?.length == 0" class="add-photo" src="../../assets/img/neutral.jpg" alt="">
 
-            <div *ngIf="dispImags?.length > 0">
-              <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
-            </div>
+            <ion-row>
+              <ion-col *ngFor="let img of dispImags" size="3">
+                <div >
+                  <img class="add-photo"  [src]="img" alt="">
+                </div>
+              </ion-col>
+              <ion-col size="12" *ngIf="dispImags?.length == 0">
+                <img class="add-photo" src="../../assets/img/neutral.jpg" alt="">
+              </ion-col>
+            </ion-row>
+
+
             <!-- fab placed to the bottom end -->
-            <ion-fab (click)="selectImage(p)" vertical="center" horizontal="center" slot="fixed">
+            <ion-fab *ngIf="dispImags?.length <= 4" (click)="selectImage(p)" vertical="center"
+              horizontal="center" slot="fixed">
               <ion-fab-button color="light">
                 <ion-icon name="add"></ion-icon>
               </ion-fab-button>
@@ -36,17 +45,16 @@
       <ion-col>
         <form class="example-form">
           <mat-form-field class="example-full-width">
-            <mat-label>NOM</mat-label>
+            <mat-label>TITRE</mat-label>
             <input matInput #nom="ngModel" required name="nom" [(ngModel)]="project.nom" placeholder="Titre du projet">
           </mat-form-field>
 
 
           <mat-form-field class="example-full-width">
-            <mat-label>DESCRIPTION</mat-label>
-            <textarea matInput name="description" #description="ngModel" 
-            maxlength="100" rows="5"
-            required [(ngModel)]="project.description"
-              placeholder="Description du projet"></textarea>
+            <!--mat-label>DESCRIPTION</mat-label-->
+            <textarea matInput name="description" #description="ngModel" maxlength="100" rows="5" required
+              [(ngModel)]="project.description" (ngModelChange)="maxLengthDescription($event)"
+              placeholder="DESCRIPTION"></textarea>
           </mat-form-field>
           <span>
 
@@ -76,7 +84,7 @@
                 [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
             </mat-chip-list>
           </mat-form-field>
-    
+
 
         </form>
       </ion-col>
@@ -89,9 +97,8 @@
 <ion-footer class="ion-no-border">
   <ion-toolbar>
     <ion-button expand="block" class="save-btn" [disabled]="nom.errors?.required 
-        || logiciel.errors?.required
         || description.errors?.required
-        || tags?.length == 0 " (click)="uploadImage()" mat-button>
+        || tags?.length == 0 " (click)="uploadImagePermission()" mat-button>
       <span *ngIf="!loading">
         ENREGISTRER
       </span>
