@@ -83,9 +83,13 @@
                   <input matInput name="localisation2" [(ngModel)]="profile1.localisation" placeholder="LOCALISATION">
                 </mat-form-field>
 
-                <input matInput name="biolabel" class="input-label" [(ngModel)]="profile1.bioLabel">
+                <input matInput name="biolabel" [disabled]="!isEditableB" class="input-label"
+                  [(ngModel)]="profile1.bioLabel">
+                <mat-icon class="edit-icon" (click)="swithEditModeB()" matSuffix>mode_edit</mat-icon>
+
                 <mat-form-field class="example-full-width">
                   <input matInput name="bio" [(ngModel)]="profile1.bio" placeholder="">
+
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
@@ -93,7 +97,10 @@
                   <input matInput name="siteweb2" [(ngModel)]="profile1.siteweb" placeholder="SITE WEB">
                 </mat-form-field>
 
-                  <input matInput name="label" class="input-label" [(ngModel)]="profile1.tagsLabel">
+                <input matInput name="label" [disabled]="!isEditableH" class="input-label"
+                  [(ngModel)]="profile1.tagsLabel">
+                <mat-icon class="edit-icon" (click)="swithEditModeH()" matSuffix>mode_edit</mat-icon>
+
                 <mat-form-field class="example-chip-list">
 
                   <mat-chip-list #chipList aria-label="Fruit selection">
@@ -107,9 +114,8 @@
                       <mat-icon (click)="add($event)" style="    width: 30px;
                     height: 18px;" matChipRemove>add_circle</mat-icon>
                     </mat-chip>
-                    <input [matChipInputFor]="chipList"
-                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-                      (matChipInputTokenEnd)="add($event)">
+                    <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                      [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
                   </mat-chip-list>
                 </mat-form-field>
 

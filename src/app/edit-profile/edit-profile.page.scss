@@ -7,8 +7,14 @@ ion-title{
 }
 
 .add-mat-chip{
-  margin-left: 231px;
-    margin-bottom: -21px;
+  margin-left: 231px !important;
+    margin-bottom: -21px !important;
+}
+
+.edit-icon{
+  float: right;
+  margin-right: 213px;
+  margin-top: -26px;
 }
 
 .banner{
@@ -77,6 +83,7 @@ ion-title{
 .input-label{
   font-size: 19px;
     color: #ab9292;
+    width: 31%;
 }
 
 .round-img-profile{

@@ -85,6 +85,10 @@ export class EditProfilePage implements OnInit {
 
   selectedTab = 0
   subcription: Subscription
+
+  isEditableB = false
+  isEditableH = false
+
   constructor(private authService: AuthService,
     private contactService: ContactService,
     private camera: Camera,
@@ -387,6 +391,7 @@ export class EditProfilePage implements OnInit {
   }
 
 
+
   shwModal() {
     console.log(this.showModal)
     if (this.showModal === 'hidden') {
@@ -399,9 +404,13 @@ export class EditProfilePage implements OnInit {
   }
 
 
-  choseAvatr(url) {
-    console.log(url)
-    this.user.photo = url;
+  swithEditModeB() {
+    this.isEditableB ? this.isEditableB = false : this.isEditableB = true
+    console.log(this.isEditableB)
+  }
+  swithEditModeH() {
+    this.isEditableH ? this.isEditableH = false : this.isEditableH = true
+    console.log(this.isEditableH)
 
   }
 

@@ -49,7 +49,7 @@
               <div *ngIf="u?.photo =='' || u?.photo == null" class="round-img-post">
                 {{u?.prenom | slice:0:1| uppercase}} {{u?.nom | slice:0:1 | uppercase}}
               </div>
-              <img mat-card-image *ngIf="u?.photo != null" [src]="u?.photo" alt="">
+              <img mat-card-image *ngIf="u?.photo" [src]="u?.photo" alt="">
               <div>
                 {{u?.pseudoIntime}}
               </div>

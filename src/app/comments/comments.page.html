@@ -20,8 +20,8 @@
           <mat-card *ngFor="let c of listComments?.reverse();trackBy: trackByFn " class="example-card cmt">
             <mat-card-header>
               <div mat-card-avatar>
-                <img *ngIf="c?.userPhoto_url != null " mat-card-image class="mat-img" [src]="c?.userPhoto" alt="">
-                <div *ngIf="c?.userPhoto_url == null " class="round-img">
+                <img *ngIf="c?.userPhoto_url" mat-card-image class="mat-img" [src]="c?.userPhoto" alt="">
+                <div *ngIf="c?.userPhoto_url == null || c?.userPhoto_url == '' " class="round-img">
                   {{c?.userPseudo | slice:0:1| uppercase}}
                 </div>
 

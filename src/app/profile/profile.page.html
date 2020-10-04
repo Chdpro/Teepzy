@@ -17,10 +17,10 @@
   <div class="banner">
     <div class="toggle" (click)="switchProfile()" (touchstart)="swipe($event, 'start')"
       (touchend)="swipe($event, 'end')">
-      <div *ngIf="user?.photo != null">
+      <div *ngIf="user?.photo">
         <img class="round-img-profile" [src]="user?.photo" alt="">
       </div>
-      <div class="round-img" *ngIf="user?.photo == null"
+      <div class="round-img" *ngIf="user?.photo == null || user?.photo == ''"
         [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
         {{user?.pseudoIntime | slice:0:1| uppercase}} 
       </div>

@@ -56,10 +56,10 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-slides pager="false"  (ionSlideDidChange)="slideChanged($event)" [options]="slideOpts">
+  <ion-slides pager="false" (ionSlideDidChange)="slideChanged($event)" [options]="slideOpts">
 
     <ion-slide *ngIf="listPosts?.length == 0">
-      <span style="color: #ea4e4f;" >
+      <span style="color: #ea4e4f;">
         Aucune publication pour l'instant
       </span>
     </ion-slide>
@@ -71,17 +71,11 @@
         'background-position': 'center center', 
         'background-size': 'cover', 
         'background-repeat': 'no-repeat'
-      }"
-          swipeAll
-          (swipe)="swipeAll($event)"
-          (swipeleft)="swipeLeft($event)"
-          (swiperight)="swipeRight($event)"
-      >
+      }" swipeAll (swipe)="swipeAll($event)" (swipeleft)="swipeLeft($event)" (swiperight)="swipeRight($event)">
 
       <div (click)="playVideo(p?.video_url)" class="post-txt">
         <div *ngIf="p?.video_url">
-          <div 
-          >
+          <div>
             <video #videoPlayer playsinline preload="metadata">
               <source [src]="sanitizer.bypassSecurityTrustResourceUrl(p?.video_url + '#t=0.5')" type="video/mp4" />
             </video>
@@ -113,7 +107,7 @@
               <ion-col *ngIf="!p?.image_url && !p?.video_url" [ngStyle]="{'background': p?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
               'font-weight': p?.image_url ? '800': '100' }">
                 <div>
-                  <img *ngIf="p?.userPhoto_url != null " class="img" [src]="p?.userPhoto_url" alt="">
+                  <img *ngIf="p?.userPhoto_url" class="img" [src]="p?.userPhoto_url" alt="">
                 </div>
 
                 <div>
@@ -224,7 +218,7 @@
           <ion-row [ngStyle]=" {'margin-top': !p?.image_url && !p?.video_url? '-111px' : '0'}">
             <ion-col *ngIf="p?.image_url|| p?.video_url">
               <div style="float: right;">
-                <img *ngIf="p?.userPhoto_url != null " class="img img-media" [src]="p?.userPhoto_url" alt="">
+                <img *ngIf="p?.userPhoto_url" class="img img-media" [src]="p?.userPhoto_url" alt="">
               </div>
 
               <div style="float: right; color: #fff !important;" class="userPseudo-bg"
