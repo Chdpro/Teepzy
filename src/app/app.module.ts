@@ -100,6 +100,22 @@ const config: SocketIoConfig = { url: base_url, options: {} };
       useClass: HammerGestureConfig 
   }
   ],
+  //ionic cordova plugin remove cordova-plugin-file
+  //ionic cordova plugin remove cordova-plugin-file-transfer
+  //ionic cordova plugin remove cordova-plugin-filepath
+  //ionic cordova plugin remove cordova-plugin-media-capture
+  //ionic cordova plugin remove cordova-plugin-camera
+  //ionic cordova plugin remove https://github.com/moust/cordova-plugin-videoplayer.git
+  //ionic cordova plugin remove cordova-sms-plugin
+
+  //ionic cordova plugin add cordova-plugin-file
+  //ionic cordova plugin add cordova-plugin-file-transfer
+  //ionic cordova plugin add cordova-plugin-filepath
+  //ionic cordova plugin add cordova-plugin-media-capture
+  //ionic cordova plugin add cordova-plugin-camera
+  //ionic cordova plugin add https://github.com/moust/cordova-plugin-videoplayer.git
+  //ionic cordova plugin add cordova-sms-plugin
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -11,6 +11,7 @@ import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { DatapasseService } from '../providers/datapasse.service';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @Component({
   selector: 'app-edit-profile',
@@ -98,6 +99,7 @@ export class EditProfilePage implements OnInit {
     private menuCtrl: MenuController,
     private router: Router,
     private dataPasse: DatapasseService,
+    private androidPermissions: AndroidPermissions,
     private toasterController: ToastController) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -301,13 +303,13 @@ export class EditProfilePage implements OnInit {
       buttons: [{
         text: 'Choisir dans votre galerie',
         handler: () => {
-          this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+          this.pickImagePermission(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
       },
       {
         text: 'Utiliser la Camera',
         handler: () => {
-          this.pickImage(this.camera.PictureSourceType.CAMERA);
+          this.pickImagePermission(this.camera.PictureSourceType.CAMERA);
         }
       },
       {
@@ -320,6 +322,27 @@ export class EditProfilePage implements OnInit {
   }
 
 
+  pickImagePermission(sourceType) {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.pickImage(sourceType)
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.pickImage(sourceType)
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+      }
+    );
+  }
 
   pickImage(sourceType) {
     const options: CameraOptions = {
@@ -353,6 +376,28 @@ export class EditProfilePage implements OnInit {
     });
   }
 
+
+  updateProfileUsingPermission() {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.uploadImage()
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.uploadImage()
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+      }
+    );
+  }
 
 
   uploadImage() {

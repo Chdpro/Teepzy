@@ -240,9 +240,10 @@ export class AddProductPage implements OnInit {
     uploadImage() {
       var ref = this;
       this.loading = true
+      let interval = 0
       if (ref.photos.length > 0) {
         for (let index = 0; index < ref.photos.length; index++) {
-          // interval++
+           interval++
           const fileTransfer = ref.transfer.create()
           let options: FileUploadOptions = {
             fileKey: "avatar",
@@ -256,6 +257,14 @@ export class AddProductPage implements OnInit {
           fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
             this.loading = false
             this.product.photo.push(base_url + options.fileName)
+            if (interval < ref.photos.length) {
+              this.loading = false
+              this.product.photo.push(base_url + options.fileName)
+            } else {
+              this.loading = false
+              ref.addProduct()
+              ref.presentToast("Images envoyées")
+            }
           }, error =>{
             alert(JSON.stringify(error))
           })
@@ -309,12 +318,12 @@ export class AddProductPage implements OnInit {
       result => {
         if (result.hasPermission) {
           // code
-          this.uploadImages()
+          this.uploadImage()
         } else {
           this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
             if (result.hasPermission) {
               // code
-              this.uploadImages()
+              this.uploadImage()
             }
           });
         }

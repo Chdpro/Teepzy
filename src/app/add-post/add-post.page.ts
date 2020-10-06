@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 @Component({
   selector: 'app-add-post',
@@ -75,8 +76,7 @@ export class AddPostPage implements OnInit {
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController,
     private mediaCapture: MediaCapture,
-    private file: File,
-    private plt: Platform,
+    private imagePicker: ImagePicker,
     private androidPermissions: AndroidPermissions
   ) {
 
@@ -114,6 +114,8 @@ export class AddPostPage implements OnInit {
     }
 
   }
+
+
 
   pickImagePermission(sourceType) {
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
@@ -338,6 +340,7 @@ export class AddPostPage implements OnInit {
 
 
 
+
   pickImage(sourceType) {
     const options: CameraOptions = {
       quality: 100,
@@ -389,6 +392,7 @@ export class AddPostPage implements OnInit {
       }
     );
   }
+  
   uploadImage() {
     var ref = this;
     this.loading = true

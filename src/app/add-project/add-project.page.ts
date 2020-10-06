@@ -6,12 +6,13 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
-import { Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { base_url } from 'src/config';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 @Component({
   selector: 'app-add-project',
@@ -56,6 +57,7 @@ export class AddProjectPage implements OnInit {
     private transfer: FileTransfer,
     private menuCtrl: MenuController,
     private androidPermissions: AndroidPermissions,
+    private imagePicker: ImagePicker,
     private contactService: ContactService) { 
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false); 
@@ -112,6 +114,7 @@ export class AddProjectPage implements OnInit {
   }
 
 
+
   pickImagePermission(sourceType) {
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
       result => {
@@ -165,6 +168,7 @@ export class AddProjectPage implements OnInit {
           this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
       },
+
       {
         text: 'Utiliser la Camera',
         handler: () => {
@@ -215,9 +219,10 @@ export class AddProjectPage implements OnInit {
   uploadImage() {
     var ref = this;
     this.loading = true
+    let interval = 0
     if (ref.photos.length > 0) {
       for (let index = 0; index < ref.photos.length; index++) {
-        // interval++
+         interval++
         const fileTransfer = ref.transfer.create()
         let options: FileUploadOptions = {
           fileKey: "avatar",
@@ -231,6 +236,14 @@ export class AddProjectPage implements OnInit {
         fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
           this.project.photo.push(base_url + options.fileName) 
           this.loading = false
+          if (interval < ref.photos.length) {
+            this.loading = false
+            this.project.photo.push(base_url + options.fileName)
+          } else {
+            this.loading = false
+            ref.addProject()
+            ref.presentToast("Images envoyées")
+          }
         })
       }
   
@@ -245,12 +258,12 @@ export class AddProjectPage implements OnInit {
       result => {
         if (result.hasPermission) {
           // code
-          this.uploadImages()
+          this.uploadImage()
         } else {
           this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
             if (result.hasPermission) {
               // code
-              this.uploadImages()
+              this.uploadImage()
             }
           });
         }
@@ -291,6 +304,8 @@ export class AddProjectPage implements OnInit {
             ref.addProject()
             ref.presentToast("Images envoyées")
           }
+        }, err =>{
+          alert(JSON.stringify(err))
         })
       } else {
         ref.addProject()

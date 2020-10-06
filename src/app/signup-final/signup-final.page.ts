@@ -7,6 +7,7 @@ import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { base_url } from 'src/config';
 import { ContactService } from '../providers/contact.service';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @Component({
   selector: 'app-signup-final',
@@ -53,6 +54,7 @@ export class SignupFinalPage implements OnInit {
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
     private contactService: ContactService,
+    private androidPermissions: AndroidPermissions
   ) {
 
 
@@ -166,13 +168,13 @@ export class SignupFinalPage implements OnInit {
       buttons: [{
         text: 'Choisir dans votre galerie',
         handler: () => {
-          this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+          this.pickImageUsingPermission(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
       },
       {
         text: 'Utiliser la Camera',
         handler: () => {
-          this.pickImage(this.camera.PictureSourceType.CAMERA);
+          this.pickImageUsingPermission(this.camera.PictureSourceType.CAMERA);
         }
       },
       {
@@ -184,6 +186,28 @@ export class SignupFinalPage implements OnInit {
     await actionSheet.present();
   }
 
+
+  pickImageUsingPermission(sourceType) {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.pickImage(sourceType)
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.pickImage(sourceType)
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+      }
+    );
+  }
 
 
   pickImage(sourceType) {
@@ -210,6 +234,28 @@ export class SignupFinalPage implements OnInit {
     }, (err) => {
       // Handle error
     });
+  }
+
+  updateUsingPermission() {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.uploadImage()
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.uploadImage()
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+      }
+    );
   }
 
 
