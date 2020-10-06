@@ -165,10 +165,10 @@
           <div style="display: flex;margin-top: 12px;" *ngIf="!p?.image_url && !p?.video_url">
             <span>MATCH</span>
             <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
-              <img class="match-image" *ngIf="m?.photo != null" [src]="m?.photo" alt="">
-              <div class="match-pseudo" *ngIf="m?.photo == null"
+              <img class="match-image" *ngIf="m?.photo" [src]="m?.photo" alt="">
+              <div class="match-pseudo" *ngIf="m?.photo == null || m?.photo"
                 [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
-                {{m?.prenom | slice:0:1| uppercase}}
+                {{m?.pseudoIntime | slice:0:1| uppercase}}
               </div>
 
             </span>
@@ -326,8 +326,8 @@
             </ion-col>
             <ion-col *ngIf="p?.image_url || p?.video_url" size="12">
               <span class="match-align" *ngFor="let m of p?.matches | slice:0:3;">
-                <img class="match-image" *ngIf="m?.photo !== null" [src]="m?.photo" alt="">
-                <div class="match-pseudo" *ngIf="m?.photo == null"
+                <img class="match-image" *ngIf="m?.photo" [src]="m?.photo" alt="">
+                <div class="match-pseudo" *ngIf="m?.photo == null || m?.photo ==''"
                   [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
                   {{m?.prenom | slice:0:1| uppercase}}
                 </div>

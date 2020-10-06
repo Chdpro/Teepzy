@@ -9,7 +9,13 @@ import { MenuController } from '@ionic/angular';
 })
 export class DetailProduitPage implements OnInit {
 
-  product:any
+  product = {
+    nom:'',
+    photo:'',
+    description:'',
+    price: '',
+    tags: []
+  }
   constructor(
     private menuCtrl: MenuController,
     private route: ActivatedRoute
@@ -19,8 +25,15 @@ export class DetailProduitPage implements OnInit {
    }
 
   ngOnInit() {
-    this.product = this.route.snapshot.paramMap['params']
-    console.log(this.product)
+    let product = this.route.snapshot.paramMap['params']
+    let tags = product.tags.split(',')
+    this.product.nom = product.nom 
+    this.product.photo = product.photo
+    this.product.description = product.description
+    this.product.tags = tags
+    this.product.price = product.price
+    console.log(tags)
+    console.log(product)
   }
 
 }

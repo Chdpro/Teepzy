@@ -9,7 +9,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class DetailProjectPage implements OnInit {
 
-  project:any
+  project = {
+    nom:'',
+    photo:'',
+    description:'',
+    tags: []
+  }
   constructor(
     private menuCtrl: MenuController,
     private route: ActivatedRoute
@@ -19,7 +24,13 @@ export class DetailProjectPage implements OnInit {
    }
 
   ngOnInit() {
-    this.project = this.route.snapshot.paramMap['params']
+    let project = this.route.snapshot.paramMap['params']
+    let tags = project.tags.split(',')
+    this.project.nom = project.nom 
+    this.project.photo = project.photo
+    this.project.description = project.description
+    this.project.tags = tags
+    console.log(tags)
     console.log(this.project)
   }
 

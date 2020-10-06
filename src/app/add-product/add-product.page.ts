@@ -217,17 +217,16 @@ export class AddProductPage implements OnInit {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64 (DATA_URL):
         // let base64Image = 'data:image/jpeg;base64,' + imageData;
+        if (this.dispImags.length == 0) {
         this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-  
         this.filePath.resolveNativePath(imageData).then((nativepath) => {
-          if (this.photos.length < 4) {
+          if (this.photos.length == 0) {
             this.photos.push(nativepath)
-          } else if (this.photos.length > 5) {
-            this.presentToast('Vous ne pouvez pas sélectionner plus de 4 images')
-          }
-            alert(this.photos)
-    
+          } 
         })
+        }else if (this.dispImags.length > 1) {
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+        }
   
       }, (err) => {
         // Handle error
@@ -240,10 +239,8 @@ export class AddProductPage implements OnInit {
     uploadImage() {
       var ref = this;
       this.loading = true
-      let interval = 0
       if (ref.photos.length > 0) {
         for (let index = 0; index < ref.photos.length; index++) {
-           interval++
           const fileTransfer = ref.transfer.create()
           let options: FileUploadOptions = {
             fileKey: "avatar",
@@ -257,14 +254,17 @@ export class AddProductPage implements OnInit {
           fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
             this.loading = false
             this.product.photo.push(base_url + options.fileName)
-            if (interval < ref.photos.length) {
+            this.addProduct()
+            this.photos = [],
+            this.dispImags = []
+           /* if (interval < ref.photos.length) {
               this.loading = false
               this.product.photo.push(base_url + options.fileName)
             } else {
               this.loading = false
               ref.addProduct()
               ref.presentToast("Images envoyées")
-            }
+            }*/
           }, error =>{
             alert(JSON.stringify(error))
           })

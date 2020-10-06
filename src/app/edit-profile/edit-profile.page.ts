@@ -420,7 +420,8 @@ export class EditProfilePage implements OnInit {
           this.profile1.photo = base_url + options.fileName
           this.updateProfile()
           this.loading = false
-          this.photos = []
+          this.photos = [],
+          this.dispImags = []
         }, error => {
           alert(JSON.stringify(error))
 

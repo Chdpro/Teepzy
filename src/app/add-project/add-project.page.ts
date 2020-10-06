@@ -198,15 +198,16 @@ export class AddProjectPage implements OnInit {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-      this.filePath.resolveNativePath(imageData).then((nativepath) => {
-        if (this.photos.length < 4) {
-          this.photos.push(nativepath)
-        } else if (this.photos.length > 5) {
-          this.presentToast('Vous ne pouvez pas sélectionner plus de 4 images')
+      if (this.dispImags.length == 0) {
+        this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
+        this.filePath.resolveNativePath(imageData).then((nativepath) => {
+          if (this.photos.length == 0) {
+            this.photos.push(nativepath)
+          } 
+        })
+        }else if (this.dispImags.length > 1) {
+          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
         }
-        alert(this.photos)
-      })
 
     }, (err) => {
       // Handle error
@@ -219,10 +220,8 @@ export class AddProjectPage implements OnInit {
   uploadImage() {
     var ref = this;
     this.loading = true
-    let interval = 0
     if (ref.photos.length > 0) {
       for (let index = 0; index < ref.photos.length; index++) {
-         interval++
         const fileTransfer = ref.transfer.create()
         let options: FileUploadOptions = {
           fileKey: "avatar",
@@ -236,14 +235,19 @@ export class AddProjectPage implements OnInit {
         fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
           this.project.photo.push(base_url + options.fileName) 
           this.loading = false
-          if (interval < ref.photos.length) {
+          this.addProject()
+          this.photos = [],
+          this.dispImags = []
+          /*if (interval < ref.photos.length) {
             this.loading = false
             this.project.photo.push(base_url + options.fileName)
           } else {
             this.loading = false
             ref.addProject()
             ref.presentToast("Images envoyées")
-          }
+          }*/
+        }, error =>{
+          alert(JSON.stringify(error))
         })
       }
   
@@ -329,7 +333,7 @@ export class AddProjectPage implements OnInit {
   addProject(){
     this.loading = true
     this.tags.length > 0 ? this.project.tags = this.tags : null
-    this.photos.length > 0? this.uploadImage() : null
+    //this.photos.length > 0? this.uploadImage() : null
     this.contactService.addProject(this.project).subscribe(res =>{
       console.log(res);
       this.loading = false

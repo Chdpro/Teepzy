@@ -98,7 +98,7 @@
                 <ion-col *ngIf="!post?.image_url && !post?.video_url" [ngStyle]="{'background': post?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
                 'font-weight': post?.image_url ? '800': '100' }">
                   <div>
-                    <img *ngIf="post?.userPhoto_url != null " class="img" [src]="post?.userPhoto_url" alt="">
+                    <img *ngIf="post?.userPhoto_url" class="img" [src]="post?.userPhoto_url" alt="">
                   </div>
   
                   <div>

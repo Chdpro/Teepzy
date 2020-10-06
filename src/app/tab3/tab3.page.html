@@ -65,8 +65,7 @@
       (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime, m?.connectedUsersInfo?.photo, m?.connectedUsers.length, m?.name, m?.connectedUsers[0])">
       <ion-item *ngIf="m?.connectedUsers.length == 1">
         <div *ngIf="!m?.connectedUsersInfo?.photo" class="round-img-post">
-          {{m?.connectedUsersInfo?.prenom | slice:0:1| uppercase}}
-          {{m?.connectedUsersInfo?.nom | slice:0:1 | uppercase}}
+          {{m?.connectedUsersInfo?.pseudoIntime | slice:0:1| uppercase}}
         </div>
         <img *ngIf="m?.connectedUsersInfo?.photo" [src]="m?.connectedUsersInfo?.photo" alt="">
         <ion-label [ngStyle]="{ 'padding-bottom':  m?.lastMessage.length == 0 ? '14px': '0' }">

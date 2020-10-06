@@ -146,7 +146,7 @@ export class ProfilePage implements OnInit {
   }
 
   goToDetailProduct(product){
-    this.router.navigate(['/detail-product', { product: product}])
+    this.router.navigate(['/detail-produit',product])
 
   }
 

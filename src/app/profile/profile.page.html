@@ -91,13 +91,18 @@
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                     <button mat-button class="rs-button" *ngFor="let rs of user?.socialsAmical"
-                      [matMenuTriggerFor]="menu1">
+                    (click)="tooltip.toggle()"
+                    #tooltip="matTooltip"
+                    [matTooltip]="rs?.url"
+                    matTooltipPosition="left"
+                    aria-tooltip="Button that displays and hides a tooltip triggered by other buttons"
+                    >
                       <mat-card class="rs-card">
                         <ion-icon class="rs-btn" [name]="rs?.icon"></ion-icon>
                       </mat-card>
-                      <mat-menu #menu1="matMenu">
+                      <!--mat-menu #menu1="matMenu">
                         <button mat-menu-item>{{rs?.url}}</button>
-                      </mat-menu>
+                      </mat-menu-->
                     </button>
                   </div>
 
@@ -199,8 +204,8 @@
                     <ion-row>
                       <ion-col size="4">
                         <div>
-                          <img *ngIf="lt?.userPhoto_url != null" class="img-teepz" [src]="lt?.userPhoto_url" alt="">
-                          <div *ngIf="lt?.userPhoto_url == null" class="round-img-post">
+                          <img *ngIf="lt?.userPhoto_url" class="img-teepz" [src]="lt?.userPhoto_url" alt="">
+                          <div *ngIf="lt?.userPhoto_url == null || lt?.userPhoto_url == ''" class="round-img-post">
                             {{lt?.userPseudo | slice:0:1| uppercase}}
                           </div>
                         </div>
@@ -303,7 +308,7 @@
               </h2>
             </ion-col>
             <ion-col size="6" *ngFor="let p of listProducts" (click)="goToDetailProduct(p)">
-              <ion-card [ngStyle]="{'background-image':  p?.photo != '' ? 'url(' + p?.photo + ')' : ''}">
+              <ion-card [ngStyle]="{'background-image':  p?.photo[0] != '' ? 'url(' + p?.photo[0] + ')' : ''}">
                 <ion-card-header>
                   <ion-card-subtitle *ngIf="p?.photo?.length > 1"> 1/{{p?.photo?.length}} </ion-card-subtitle>
                   <ion-card-title class="price">{{p?.price}} € </ion-card-title>
@@ -366,10 +371,10 @@
                     <ion-row>
                       <ion-col size="4">
                         <div>
-                          <img *ngIf="lt?.userPhoto_url != null" class="img-teepz" [src]="lt?.userPhoto_url" alt="">
+                          <img *ngIf="lt?.userPhoto_url" class="img-teepz" [src]="lt?.userPhoto_url" alt="">
 
-                          <div *ngIf="lt?.userPhoto_url == null" class="round-img-post">
-                            {{lt?.userPseudo | slice:0:1| uppercase}} {{lt?.nom | slice:0:1 | uppercase}}
+                          <div *ngIf="lt?.userPhoto_url == null || lt?.userPhoto_url == ''" class="round-img-post">
+                            {{lt?.userPseudo | slice:0:1| uppercase}}
                           </div>
                         </div>
                       </ion-col>
@@ -413,6 +418,11 @@
 
             </ion-col>
 
+            <ion-col size="12" *ngIf="listTeepz?.length == 0">
+              <span class="msg">
+                Aucun Teepz ajouté
+              </span>
+            </ion-col>
           </ion-row>
         </ion-grid>
       </mat-tab>

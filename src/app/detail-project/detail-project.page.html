@@ -56,10 +56,10 @@
 
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide 
-    *ngFor="let p of project?.photo"
+ 
     [ngStyle]="{
-          'color': p == '#fff' && p == ''? 'black' : 'white', 
-          'background-image':  p != '' ? 'url(' + p + ')' : '',
+          'color': project?.photo[0] == '#fff' && project?.photo[0] == ''? 'black' : 'white', 
+          'background-image':  project?.photo[0] != '' ? 'url(' + project?.photo[0] + ')' : '',
           'background-color': 'black',
           'background-position': 'center center', 
           'background-size': 'cover', 

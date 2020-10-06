@@ -31,10 +31,10 @@
         #clickHoverMenuTrigger="matMenuTrigger" (onLongPressing)="onLongPressing()">
 
         <ion-col *ngIf="message?.userId !== userId" size="2">
-          <div *ngIf="photo == null" class="round-img-post">
+          <div *ngIf="photo == null || photo == ''" class="round-img-post">
             {{message?.pseudo | slice:0:1| uppercase}}
           </div>
-          <img *ngIf="photo !== null " [src]="photo" alt="">
+          <img *ngIf="photo" [src]="photo" alt="">
 
         </ion-col>
 
