@@ -236,16 +236,9 @@ export class AddProjectPage implements OnInit {
           this.project.photo.push(base_url + options.fileName) 
           this.loading = false
           this.addProject()
-          this.photos = [],
+         // this.photos = [],
           this.dispImags = []
-          /*if (interval < ref.photos.length) {
-            this.loading = false
-            this.project.photo.push(base_url + options.fileName)
-          } else {
-            this.loading = false
-            ref.addProject()
-            ref.presentToast("Images envoyées")
-          }*/
+        
         }, error =>{
           alert(JSON.stringify(error))
         })

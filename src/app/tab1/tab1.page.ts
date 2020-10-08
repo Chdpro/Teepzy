@@ -68,6 +68,8 @@ export class Tab1Page implements OnInit {
 
   users = []
 
+  loading = false
+
   video_url = '../../assets/img/test.mp4'
   isPlaying = false
   slideOpts = {
@@ -444,6 +446,7 @@ export class Tab1Page implements OnInit {
 
   getPosts(userId) {
     this.timeCall = 1
+    this.loading = true
     this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
       if (res['data'] != null) {
@@ -456,10 +459,12 @@ export class Tab1Page implements OnInit {
           this.checkFavorite(favorite, e)
         });
       }
+      this.loading = false
 
       this.timeCall = 0
 
     }, error => {
+      this.loading = false
       console.log(error)
     })
   }

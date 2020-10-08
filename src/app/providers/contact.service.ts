@@ -156,15 +156,26 @@ export class ContactService {
     let url = 'users/addProject';
     return this.http.post(base_url + url, JSON.stringify(project), httpOptionsJson);
   }
+  
+  deleteProject(projectId): Observable<any> {
+    let url = 'users/deleteProject/' + projectId;
+    return this.http.delete(base_url + url, httpOptionsJson);
+  }
 
   addProduct(product): Observable<any> {
     let url = 'users/addProduct';
     return this.http.post(base_url + url, JSON.stringify(product), httpOptionsJson);
   }
 
+  deleteProduct(productId): Observable<any> {
+    let url = 'users/deleteProduct/' + productId;
+    return this.http.delete(base_url + url, httpOptionsJson);
+  }
+
+
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
 
   getPost(idTeepz): Observable<any> {

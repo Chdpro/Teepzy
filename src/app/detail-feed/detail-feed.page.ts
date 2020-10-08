@@ -79,6 +79,7 @@ export class DetailFeedPage implements OnInit {
 
   previousRoute = ''
 
+
   constructor(private authService: AuthService,
     private toasterController: ToastController,
     private socialSharing: SocialSharing,
@@ -209,6 +210,26 @@ export class DetailFeedPage implements OnInit {
   }
 
 
+  getMyPosts(userId) {
+    this.contactService.teepZ(userId).subscribe(res => {
+      console.log(res)
+      let listTeepz = res['data'];
+      this.dataPasse.sendPosts(listTeepz)
+    }, error => {
+      console.log(error)
+    })
+  }
+
+  getMyFavoritePosts(userId) {
+    this.contactService.favorites(userId).subscribe(res => {
+      console.log(res)
+      let listFavorites = res['data'];
+      this.dataPasse.sendFavorite(listFavorites)
+    }, error => {
+      console.log(error)
+    })
+  }
+
 
   delete() {
     this.post.postId ? this.deleteRePost() : this.deletePost()
@@ -220,7 +241,10 @@ export class DetailFeedPage implements OnInit {
   deletePost() {
     this.contactService.deletePost(this.post._id).subscribe(res => {
       console.log(res)
+      this.getMyPosts(this.userId)
+      this.getMyFavoritePosts(this.userId)
       this.presentToast('Post supprimé')
+
     }, error => {
       console.log(error)
       this.presentToast('Oops! une erreur est survenue')
@@ -231,6 +255,8 @@ export class DetailFeedPage implements OnInit {
   deleteRePost() {
     this.contactService.deleteRePost(this.post._id).subscribe(res => {
       console.log(res)
+      this.getMyPosts(this.userId)
+      this.getMyFavoritePosts(this.userId)
       this.presentToast('Post supprimé')
     }, error => {
       console.log(error)

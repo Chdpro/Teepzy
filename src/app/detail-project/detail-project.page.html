@@ -8,18 +8,16 @@
         <ion-col size="6">
 
         </ion-col>
-        <ion-col *ngIf="previousRoute == 'mesTeepz'">
-          <div *ngIf="!showSearch" class="example-button-container">
-            <button (click)="presentPostEditModal()" class="btn-icon" mat-mini-fab
+        <ion-col>
+          <div class="example-button-container">
+            <!--button (click)="presentPostEditModal()" class="btn-icon" mat-mini-fab
               aria-label="Example icon button with a home icon">
               <mat-icon>create</mat-icon>
-            </button>
+            </button-->
 
             <button (click)="presentAlertConfirm()" style="text-align: center;" mat-mini-fab
               aria-label="Example icon button with a home icon">
-              <ion-menu-button autoHide="false">
                 <mat-icon>delete</mat-icon>
-              </ion-menu-button>
             </button>
           </div>
         </ion-col>
@@ -58,8 +56,8 @@
     <ion-slide 
  
     [ngStyle]="{
-          'color': project?.photo[0] == '#fff' && project?.photo[0] == ''? 'black' : 'white', 
-          'background-image':  project?.photo[0] != '' ? 'url(' + project?.photo[0] + ')' : '',
+          'color': project?.photo ? 'black' : 'white', 
+          'background-image':  project?.photo? 'url(' + project?.photo + ')' : '',
           'background-color': 'black',
           'background-position': 'center center', 
           'background-size': 'cover', 
@@ -102,7 +100,7 @@
       </div>
 <div class="description-text">
 
-  <div style="float: left;">
+  <div class="desc-text" style="float: left;">
     {{project?.description}}
   </div>
 

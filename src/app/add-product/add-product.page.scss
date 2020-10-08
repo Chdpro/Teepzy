@@ -60,8 +60,11 @@
 
 .add-photo{
     border-radius: 14px;
-    width: 100%;
-    height: 100%;
+    max-width:230px;
+    max-height:230px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -99,5 +102,5 @@ mat-form-field{
 
 ion-fab{
     position: absolute;
-    margin-top: 4px;
+    margin-top: 45px;
 }

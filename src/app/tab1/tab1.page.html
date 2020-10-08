@@ -58,10 +58,14 @@
 
   <ion-slides pager="false" (ionSlideDidChange)="slideChanged($event)" [options]="slideOpts">
 
-    <ion-slide *ngIf="listPosts?.length == 0">
+    <ion-slide *ngIf="listPosts?.length == 0 && !loading">
       <span style="color: #ea4e4f;">
         Aucune publication pour l'instant
       </span>
+    </ion-slide>
+
+    <ion-slide *ngIf="loading && listPosts?.length == 0">
+      <ion-spinner color="primary"  name="dots"></ion-spinner>
     </ion-slide>
     <ion-slide (click)="next()" *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
       [ngClass]="{'ion-slide-img': p?.image_url != '', 'ion-slide-no-img': p?.image_url == ''}" [ngStyle]="{

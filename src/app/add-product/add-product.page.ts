@@ -255,16 +255,8 @@ export class AddProductPage implements OnInit {
             this.loading = false
             this.product.photo.push(base_url + options.fileName)
             this.addProduct()
-            this.photos = [],
+            //this.photos = [],
             this.dispImags = []
-           /* if (interval < ref.photos.length) {
-              this.loading = false
-              this.product.photo.push(base_url + options.fileName)
-            } else {
-              this.loading = false
-              ref.addProduct()
-              ref.presentToast("Images envoyées")
-            }*/
           }, error =>{
             alert(JSON.stringify(error))
           })

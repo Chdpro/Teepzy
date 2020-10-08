@@ -12,6 +12,12 @@ video{
 
 }
 
+ion-spinner{
+ 
+    width: 129px;
+    height: 75px;
+
+  }
 .userPseudo-bg{
     background: rgba(0, 0, 0, 0.18);
     border-radius: 60px;
@@ -91,8 +97,6 @@ img{
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%; 
     border: solid 1px #ea4e50;
-    padding-top: 14px;
-    padding-left: 20px;
     text-align: left;
     font-size: 18px;
     float: right;

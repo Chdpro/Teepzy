@@ -338,7 +338,7 @@
             </ion-col>
             <ion-col size="12">
               <mat-paginator *ngIf="listTeepz?.length > 0" [length]="listTeepz?.length" [pageSize]="pageSize"
-                (page)="pageEvent = getPaginatorDataTeepzr($event)">
+                (page)="pageEvent = getPaginatorData($event)">
               </mat-paginator>
             </ion-col>
             <ion-col size="6" *ngFor="let lt of listTeepz | slice: lowValue : highValue  ;trackBy: trackByFn "

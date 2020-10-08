@@ -24,13 +24,13 @@
                 <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
               </ion-col>
               <ion-col size="12" *ngIf="dispImags?.length == 0">
-                <img class="add-photo" src="../../assets/img/neutral.jpg" alt="">
+                <img class="add-photo"  src="../../assets/img/neutral.jpg" alt="">
               </ion-col>
             </ion-row>
 
 
             <!-- fab placed to the bottom end -->
-            <ion-fab *ngIf="dispImags?.length <= 4" (click)="selectImage(p)" vertical="center"
+            <ion-fab *ngIf="dispImags?.length == 0" (click)="selectImage(p)" vertical="center"
               horizontal="center" slot="fixed">
               <ion-fab-button color="light">
                 <ion-icon name="add"></ion-icon>

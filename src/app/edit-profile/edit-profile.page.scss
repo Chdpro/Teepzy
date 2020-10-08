@@ -28,6 +28,9 @@ ion-title{
 .round-img-profile{
   height: 114px;
   width: 114px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%; 
@@ -42,6 +45,7 @@ ion-title{
 .round-img{
   height: 125px;
   width: 125px;
+
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%; 
@@ -87,8 +91,9 @@ ion-title{
 }
 
 .round-img-profile{
-  width: 123px;
-  height: 123px;
+  max-width: 123px;
+  max-height: 123px;
+ 
   border-radius: 100%;
   border: solid 1px #ffffff;
   display: block;

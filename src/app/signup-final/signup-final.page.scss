@@ -1,6 +1,9 @@
 img{
-    width: 123px;
-    height: 123px;
+    max-width: 123px;
+    max-height: 123px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     border-radius: 177px;
     border: solid 3px #ea4e50;
     display: block;

@@ -13,6 +13,31 @@ ion-toolbar{
 }
 
 
+
+strong{
+
+    padding: 19px;
+    background: #00000066;
+    color: white;
+    border-radius: 30px;
+
+}
+
+ion-label{
+    color: #b03020;
+}
+
+ion-chip{
+    background: #f0f8ffe0;
+}
+
+.desc-text{
+    float: left;
+    padding: 8px;
+    background: #0b0e1069;
+    border-radius: 68px;
+}
+
 .round-img{
     height: 64px;
     width: 64px;

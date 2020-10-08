@@ -84,9 +84,9 @@
               <ion-row>
                 <ion-col size="4">
                   <div>
-                    <!--img *ngIf="lt?.userPhoto_url != ''" class="round-img-post" [src]="lt?.userPhoto_url"
-                      alt=""-->
-                    <div class="round-img-post2">
+                    <img *ngIf="lt?.userPhoto_url" class="round-img-post" [src]="lt?.userPhoto_url"
+                      alt="">
+                    <div *ngIf="lt?.userPhoto_url =='' || lt?.userPhoto_url == null" class="round-img-post2">
                       {{lt?.userPseudo | slice:0:1| uppercase}}
                     </div>
                   </div>
@@ -154,10 +154,10 @@
 
               <div *ngFor="let c of users | slice: lowValueT : highValueT  ;trackBy: trackByFn ">
                 <ion-item>
-                  <div *ngIf="c?.photo == null" class="round-img-post">
+                  <div *ngIf="c?.photo == null || c?.photo == ''" class="round-img-post">
                     {{c?.pseudoIntime | slice:0:1| uppercase}}
                   </div>
-                  <img *ngIf="c?.photo !== null" class="round-img-user" [src]="c?.photo" alt="">
+                  <img *ngIf="c?.photo" class="round-img-user" [src]="c?.photo" alt="">
                   <ion-label class="p-seudo">
                     <span>
                       {{ c?.pseudoIntime }}
@@ -176,10 +176,10 @@
                 <div *ngFor="let c of listTeepzrsToInvite | slice: lowValueT : highValueT  ;trackBy: trackByFn ">
 
                   <ion-item>
-                    <div *ngIf="c?.photo == null" class="round-img-post">
+                    <div *ngIf="c?.photo == null || c?.photo == ''" class="round-img-post">
                       {{c?.pseudoIntime | slice:0:1| uppercase}} 
                     </div>
-                    <img *ngIf="c?.photo !== null" class="round-img-user" [src]="c?.photo" alt="">
+                    <img *ngIf="c?.photo" class="round-img-user" [src]="c?.photo" alt="">
 
                     <ion-label class="p-seudo"> {{ c?.pseudoIntime }}
                       <p>
