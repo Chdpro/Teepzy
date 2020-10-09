@@ -166,6 +166,10 @@ export class ProfilePage implements OnInit {
   }
 
 
+  goToMembers(){
+    this.router.navigate(['/friends'])
+  }
+
   trackByFn(index, item) {
     return index; // or item.id
   }

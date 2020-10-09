@@ -99,6 +99,10 @@ const routes: Routes = [
     path: 'detail-produit',
     loadChildren: () => import('./detail-produit/detail-produit.module').then( m => m.DetailProduitPageModule)
   },
+  {
+    path: 'friends',
+    loadChildren: () => import('./friends/friends.module').then( m => m.FriendsPageModule)
+  },
 
 ];
 @NgModule({

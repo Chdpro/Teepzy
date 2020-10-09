@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewChildren, AfterViewInit } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
-import { ToastController, MenuController } from '@ionic/angular';
+import { ToastController, MenuController, ActionSheetController, NavController } from '@ionic/angular';
 import * as moment from 'moment';
 import { MatTabGroup, MatTab } from '@angular/material';
 import { Socket } from 'ngx-socket-io';
@@ -19,7 +19,7 @@ export class Tab2Page implements OnInit {
   invitations = []
   invitationsSms = []
   notifications = []
-
+  links = []
   loading = false
 
   @ViewChild('tabGroup', { static: true }) tabGroup: MatTabGroup;
@@ -41,7 +41,9 @@ export class Tab2Page implements OnInit {
     private menuCtrl: MenuController,
     private toastController: ToastController,
     private socket: Socket,
-    private router: Router
+    private router: Router,
+    public actionSheetController:ActionSheetController,
+    public navCtrl: NavController
   ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -58,6 +60,7 @@ export class Tab2Page implements OnInit {
     this.userId = localStorage.getItem('teepzyUserId');
     this.socket.emit('online', this.userId );
     this.listInvitations()
+    this.listLinks()
     this.listNotifications()
   }
   swipe2(e: TouchEvent, when: string): void {
@@ -164,6 +167,19 @@ export class Tab2Page implements OnInit {
     })
   }
 
+  listLinks() {
+    let invitation = {
+      idReceiver: this.userId
+    }
+    this.contactService.listLinksPeople(invitation).subscribe(res => {
+      console.log(res)
+      this.links = res['data']
+    }, error => {
+      console.log(error)
+
+    })
+  }
+
   listInvitationsViaSms() {
     let invitation = {
       idReceiver: this.userId
@@ -220,12 +236,135 @@ export class Tab2Page implements OnInit {
     })
   }
 
+  deleteLink(p){
+    let invitation = {
+      idInvitation: p._id,
+    }
+    this.contactService.closeLinkPeople(invitation).subscribe(res =>{
+      console.log(res)
+      this.presentToast('Relation réfusée')
+      this.listLinks()
+    }, error =>{
+      console.log(error)
+      this.presentToast('Oops! une erreur est survenue')
+    })
+  }
+
+  refuseLink(p){
+    let invitation = {
+      idInvitation: p._id,
+    }
+    this.contactService.refuseLinkPeople(invitation).subscribe(res =>{
+      console.log(res)
+      this.presentToast('Relation réfusée')
+      this.listLinks()
+    }, error =>{
+      console.log(error)
+      this.presentToast('Oops! une erreur est survenue')
+    
+    })
+  }
+  acceptLink(p){
+    let invitation = {
+      idInvitation: p._id,
+    }
+    this.contactService.acceptLinkPeople(invitation).subscribe(res =>{
+      console.log(res)
+      this.listLinks()
+    this.createChatRoom(p)
+    }, error =>{
+      console.log(error)
+      
+    })
+  }
+
+
+
+  gotoChatRoom(roomId, pseudo, photo, roomLength, roomName, connectedUserId, roomUserId) {
+    this.socket.connect();
+    this.navCtrl.navigateForward("/chat", 
+    { state: {roomId: roomId,pseudo: pseudo,
+       photo: photo, roomLength: roomLength, roomName, connectedUserId: connectedUserId, userId: roomUserId } });
+    // this.router.navigateByUrl('/chat')
+
+  }
+
+  createChatRoom(p) {
+    this.loading = true
+    let chatRoom = {
+      name: '',
+      connectedUsers: [],
+      userId: ''
+    }
+  
+    chatRoom.connectedUsers[0] = p.senderId
+    chatRoom.userId = this.userId
+    chatRoom.name != '' ? null : chatRoom.name = 'Entre nous deux'
+    this.contactService.initChatRoom(chatRoom).subscribe(res => {
+      console.log(res)
+      let room = res['data']
+      if (res['status'] == 200) {
+        this.loading = false
+        console.log(res['status'])
+        this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, 
+          room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
+      } else {
+        this.presentToast('Cette discussion existe déjà')
+        this.loading = false
+      }
+    }, error => {
+      this.loading = false
+      this.presentToast('Oops! une erreur est survenue')
+      console.log(error)
+    })
+  }
+
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
       duration: 4000
     });
     toast.present();
+  }
+
+
+  async presentActionSheet(link) {
+    console.log(link)
+    const actionSheet = await this.actionSheetController.create({
+      header: "Accepter la mise en relation",
+      cssClass: 'my-custom-class',
+      buttons: [
+        {
+          text: 'Accepter',
+          icon: 'checkmark',
+          handler: () => {
+           this.acceptLink(link)
+          }
+        },
+        {
+        text: 'Supprimer',
+        icon: 'trash',
+        handler: () => {
+          this.deleteLink(link)
+        }
+      },
+      {
+        text: 'Refuser',
+        icon: 'remove-circle',
+        handler: () => {
+          this.refuseLink(link)
+        }
+      }
+      ,{
+        text: 'Annuler',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 
   async showToast(msg) {

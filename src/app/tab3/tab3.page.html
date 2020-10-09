@@ -62,7 +62,9 @@
     </ion-refresher>
 
     <div *ngFor="let m of rooms| filter:search ;trackBy: trackByFn "
-      (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime, m?.connectedUsersInfo?.photo, m?.connectedUsers.length, m?.name, m?.connectedUsers[0])">
+      (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
+       m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
+        m?.name, m?.connectedUsers[0], m?.userId)">
       <ion-item *ngIf="m?.connectedUsers.length == 1">
         <div *ngIf="!m?.connectedUsersInfo?.photo" class="round-img-post">
           {{m?.connectedUsersInfo?.pseudoIntime | slice:0:1| uppercase}}

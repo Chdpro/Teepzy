@@ -3,6 +3,7 @@ import { ModalController, ToastController, NavParams, MenuController } from '@io
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { Globals } from '../globals';
+import { typeAccount } from '../constant/constant';
 
 @Component({
   selector: 'app-link-sheet',
@@ -11,6 +12,8 @@ import { Globals } from '../globals';
 })
 export class LinkSheetPage implements OnInit {
 
+  placeholder = 'Bonjour! ,Je te link avec'
+  placeholder_Link_userPseudo = ''
   userId = ''
   user:any
   users = []
@@ -55,6 +58,7 @@ export class LinkSheetPage implements OnInit {
     this.publication.userId = post.userId
     this.matches = post.matches
     this.userId = localStorage.getItem('teepzyUserId');
+    this.placeholder_Link_userPseudo = post.userPseudo
     this.getUserInfo(this.userId)
     this.getUsersToMatch()
     this.getTeepzr()
@@ -118,7 +122,6 @@ export class LinkSheetPage implements OnInit {
     let invitation = {
       idSender:this.publication.userId,
       idReceiver: linkedUserId,
-      typeLink: 'PRO',
       linkerId: this.userId,
       message: this.message
     }
@@ -127,7 +130,8 @@ export class LinkSheetPage implements OnInit {
     }else{
       this.contactService.linkPeoples(invitation).subscribe(res => {
         console.log(res)
-        this.presentToast('Vous avez linké ce post')
+        //this.presentToast('Vous avez linké ce post')
+        this.dismiss()
       }, error => {
         this.presentToast('Oops! une erreur est survenue')
         console.log(error)

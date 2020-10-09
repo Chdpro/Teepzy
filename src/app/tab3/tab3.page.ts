@@ -114,13 +114,13 @@ export class Tab3Page implements OnInit {
     this.router.navigateByUrl('/search')
   }
 
-  gotoChatRoom(roomId, pseudo, photo, roomLength, roomName, connectedUserId) {
+  gotoChatRoom(roomId, pseudo, photo, roomLength, roomName, connectedUserId, userId) {
     console.log(roomId, pseudo, photo)
     this.socket.connect();
     this.socket.emit('set-nickname', this.nickname);
     this.navCtrl.navigateForward("/chat", 
     { state: { nickname: this.nickname, roomId: roomId,pseudo: pseudo,
-       photo: photo, roomLength: roomLength, roomName, connectedUserId: connectedUserId } });
+       photo: photo, roomLength: roomLength, roomName, connectedUserId: connectedUserId, userId: userId } });
     // this.router.navigateByUrl('/chat')
 
   }

@@ -327,7 +327,6 @@ export class ContactsPage implements OnInit {
 
 
   sendInvitationToJoinCircle(idReceiver) {
-   let typeLink = this.userInfo['typeCircle']
     this.loading = true
     let invitation = {
       idSender: this.userId,

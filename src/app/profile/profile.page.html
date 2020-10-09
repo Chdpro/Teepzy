@@ -42,7 +42,7 @@
       <span>{{user?.localisation}}</span>
     </div>
     <div>
-      <mat-card class="card-banner">{{relationsCount || '0' }} Teepzer <span *ngIf="relationsCount?.length > 1">s</span>
+      <mat-card (click)="goToMembers()" class="card-banner">{{relationsCount || '0' }} Teepzer <span *ngIf="relationsCount?.length > 1">s</span>
       </mat-card>
     </div>
   </div>

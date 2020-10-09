@@ -474,6 +474,9 @@ export class AddPostPage implements OnInit {
       console.log(res)
       this.listPosts = res['data']
       this.dataPass.sendPosts(this.listPosts);
+      this.dismiss()
+      this.presentToast('Demande publiée')
+
     }, error => {
       console.log(error)
     })
@@ -486,11 +489,10 @@ export class AddPostPage implements OnInit {
     //this.photos.length > 0 ? this.uploadImage() : null
     this.contactService.addPost(this.post).subscribe(res => {
       console.log(res);
-      this.loading = false
       if (res['status'] == 200) {
         this.getPosts(this.post.userId)
-        this.presentToast('Demande publiée')
-        this.dismiss()
+        this.loading = false
+
       }
     }, error => {
       console.log(error)

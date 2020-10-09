@@ -161,7 +161,7 @@ export class Tab1Page implements OnInit {
     public actionSheetController: ActionSheetController,
     private videoPlayer: VideoPlayer,
     private contactService: ContactService) {
-      this.menuCtrl.enable(true, 'first');
+    this.menuCtrl.enable(true, 'first');
     this.menuCtrl.swipeGesture(true);
     this.global = globals;
     this.subscription = this.dataPass.getPosts().subscribe(list => {
@@ -214,7 +214,7 @@ export class Tab1Page implements OnInit {
 
   }
 
- 
+
 
   dismiss() {
     // using the injected ModalController this page
@@ -260,26 +260,32 @@ export class Tab1Page implements OnInit {
   }
 
   playVideo(videoUrl?: any) {
-    console.log(videoUrl)
-    const nativeElement = this.videoPlayers.nativeElement;
-    // const inView = this.isElementInViewPort(nativeElement);
-    if (videoUrl) {
-      this.currentPlaying = nativeElement;
-      this.currentPlaying.muted = false;
-      this.currentPlaying.play();
-    } else {
-      this.currentPlaying = nativeElement;
-      this.currentPlaying.muted = true;
-      this.currentPlaying.pause();
+    let nativeElement
+    if (this.videoPlayers) {
+      nativeElement = this.videoPlayers.nativeElement
+      // const inView = this.isElementInViewPort(nativeElement);
+      if (videoUrl) {
+        this.currentPlaying = nativeElement;
+        this.currentPlaying.muted = false;
+        this.currentPlaying.play();
+      } else {
+        this.currentPlaying = nativeElement;
+        this.currentPlaying.muted = true;
+        this.currentPlaying.pause();
+      }
     }
+
   }
 
   stopVideo() {
-    const nativeElement = this.videoPlayers.nativeElement;
-    this.currentPlaying = nativeElement;
-    this.currentPlaying.muted = true;
-    this.currentPlaying.pause();
-    this.currentPlaying = null
+    if (this.videoPlayers) {
+      const nativeElement = this.videoPlayers.nativeElement;
+      this.currentPlaying = nativeElement;
+      this.currentPlaying.muted = true;
+      this.currentPlaying.pause();
+      this.currentPlaying = null
+    }
+
   }
 
 
@@ -359,6 +365,7 @@ export class Tab1Page implements OnInit {
 
 
   addFavorite(postId) {
+    console.log(postId)
     let favoris = {
       userId: this.userId,
       postId: postId,
@@ -517,7 +524,7 @@ export class Tab1Page implements OnInit {
           },
         )
       }
-    //  console.log(this.listPosts)
+      //console.log(this.listPosts)
 
     })
   }

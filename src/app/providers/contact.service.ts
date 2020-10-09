@@ -30,7 +30,7 @@ export class ContactService {
 
   inviteToJoinCircle(invitation): Observable<any> {
     let url = 'users/inviteToJoinCircle';
-    return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
+    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
 
@@ -41,9 +41,31 @@ export class ContactService {
 
   linkPeoples(invitation): Observable<any> {
     let url = 'users/linkPeople';
-    return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
+    console.log(JSON.stringify(invitation))
+    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
+
+  listLinksPeople(invitation): Observable<any> {
+    let url = 'users/linksPeoples';
+    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
+  }
+
+  refuseLinkPeople(invitation): Observable<any> {
+    let url = 'users/refuseLinkPeople';
+    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
+  }
+
+
+  acceptLinkPeople(invitation): Observable<any> {
+    let url = 'users/acceptLinkPeople';
+    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
+  }
+
+  closeLinkPeople(invitation): Observable<any> {
+    let url = 'users/closeLinkPeople';
+    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
+  }
 
   acceptInvitation(invitation): Observable<any> {
     let url = 'users/acceptToJoinCircle';
@@ -156,7 +178,7 @@ export class ContactService {
     let url = 'users/addProject';
     return this.http.post(base_url + url, JSON.stringify(project), httpOptionsJson);
   }
-  
+
   deleteProject(projectId): Observable<any> {
     let url = 'users/deleteProject/' + projectId;
     return this.http.delete(base_url + url, httpOptionsJson);
@@ -175,9 +197,15 @@ export class ContactService {
 
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
+  checkInMyCircle(check): Observable<any> {
+    let url = 'users/checkInMycircle';
+    return this.http.post(local_url + url,JSON.stringify(check), httpOptionsJson);
+  }
+
+  
   getPost(idTeepz): Observable<any> {
     let url = 'users/posts/' + idTeepz;
     return this.http.get(base_url + url, httpOptionsJson);
@@ -238,7 +266,7 @@ export class ContactService {
 
   addFavorite(favorite): Observable<any> {
     let url = 'users/addFavorite';
-    return this.http.post(base_url + url, favorite, httpOptionsJson);
+    return this.http.post(local_url + url, favorite, httpOptionsJson);
   }
 
   addMessageFavorite(favorite): Observable<any> {
@@ -250,12 +278,19 @@ export class ContactService {
 
   getCircleMembers(id): Observable<any> {
     let url = 'users/circle/' + id;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
+
+
+  removeMemberFromCircle(member): Observable<any> {
+    let url = 'users/removeFromCircle';
+    return this.http.post(local_url + url, JSON.stringify(member), httpOptionsJson);
+  }
+  
 
   initChatRoom(room): Observable<any> {
     let url = 'chat/';
-    return this.http.post(base_url + url, room, httpOptionsJson);
+    return this.http.post(local_url + url, room, httpOptionsJson);
   }
 
   mChatRooms(id): Observable<any> {

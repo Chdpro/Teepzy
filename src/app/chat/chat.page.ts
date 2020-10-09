@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { NavController, NavParams, ToastController, MenuController } from '@ionic/angular';
+import { NavController, NavParams, ToastController, MenuController, AlertController } from '@ionic/angular';
 import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
@@ -8,6 +8,7 @@ import { state } from '@angular/animations';
 import { AuthService } from '../providers/auth.service';
 import { MatMenuTrigger } from '@angular/material';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { typeAccount } from '../constant/constant';
 
 @Component({
   selector: 'app-chat',
@@ -27,7 +28,8 @@ export class ChatPage implements OnInit {
     roomLength: 0,
     name: '',
     connectedUserId: '',
-    online: false
+    online: false,
+    userId:''
   }
   user: any
   photo = ''
@@ -53,6 +55,7 @@ export class ChatPage implements OnInit {
 
   }
 
+  isInMyCircle =  true
   menu = false
   subscription: Subscription;
   @ViewChild('clickHoverMenuTrigger', null) clickHoverMenuTrigger: MatMenuTrigger
@@ -66,6 +69,8 @@ export class ChatPage implements OnInit {
     private authService: AuthService,
     private clipboard: Clipboard,
     private menuCtrl: MenuController,
+    private alertCtrl: AlertController,
+    private toastController:ToastController,
     private toastCtrl: ToastController) {
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false);
@@ -76,6 +81,8 @@ export class ChatPage implements OnInit {
     this.stateO.name = state.roomName
     this.stateO.roomLength = state.roomLength
     this.stateO.connectedUserId = state.connectedUserId
+    this.stateO.userId = state.userId
+
     this.coonectSocket()
     this.getMessagesBySocket().subscribe(message => {
       console.log(message)
@@ -103,6 +110,7 @@ export class ChatPage implements OnInit {
     this.message.roomId = state.roomId
     this.photo = state.photo
     console.log(state)
+    this.checkUserInMyCircle(this.userId, this.stateO.connectedUserId)
     this.getMessages(state.roomId)
   }
 
@@ -131,6 +139,99 @@ export class ChatPage implements OnInit {
 
   getRoom(){
 
+  }
+
+
+  checkUserInMyCircle(userId, connectedUserId){
+      if (userId == connectedUserId) {
+        let check = {
+          userId: connectedUserId,
+          connectedUserId: userId 
+        }
+        this.contactService.checkInMyCircle(check).subscribe(res =>{
+          console.log(res)
+          res['data'] == false ? this.isInMyCircle = false : this.isInMyCircle = true
+        }, error =>{
+          console.log(error)
+        })
+      } else {
+        let check = {
+          userId: userId,
+          connectedUserId: connectedUserId 
+        }
+        this.contactService.checkInMyCircle(check).subscribe(res =>{
+          console.log(res)
+          res['data'] == false ? this.isInMyCircle = false : this.isInMyCircle = true
+        }, error =>{
+          console.log(error)
+        })
+      }
+  }
+
+  async presentAlertConfirm() {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'my-custom-class',
+      header: 'Envoyer une invitation?',
+      message: 'Si vous envoyez une invitation, vous deviendrez probablement amis',
+      buttons: [
+        {
+          text: 'Non',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Oui',
+          handler: () => {
+            this.sendInvitationToJoinCircle()
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+
+  sendInvitationToJoinCircle() {
+    this.loading = true
+    if (this.userId == this.stateO.connectedUserId) {
+      let invitation = {
+        idSender: this.stateO.connectedUserId,
+        idReceiver: this.stateO.userId,
+        typeLink: typeAccount.pseudoIntime
+      }
+      console.log(invitation)
+
+      this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
+        console.log(res)
+        this.presentToast('Invitation envoyée')
+        this.isInMyCircle = true
+        this.socket.emit('notification', 'notification');
+        this.loading = false
+      }, error => {
+        this.presentToast('Invitation non envoyée')
+        this.loading = false
+      })
+    } else {
+      let invitation = {
+        idSender: this.stateO.userId,
+        idReceiver: this.stateO.connectedUserId,
+        typeLink: typeAccount.pseudoIntime
+      }
+      console.log(invitation)
+      this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
+        console.log(res)
+        this.presentToast('Invitation envoyée')
+        this.isInMyCircle = true
+        this.socket.emit('notification', 'notification');
+        this.loading = false
+      }, error => {
+        this.presentToast('Invitation non envoyée')
+        this.loading = false
+      })
+    }
   }
 
 
@@ -314,6 +415,13 @@ export class ChatPage implements OnInit {
   }
 
 
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 4000
+    });
+    toast.present();
+  }
 
 
   scrollToBottom(): void {
@@ -325,4 +433,6 @@ export class ChatPage implements OnInit {
     this.socket.removeAllListeners('message');
     //this.socket.removeAllListeners('users-changed');
   }
+
+
 }

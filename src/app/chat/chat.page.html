@@ -14,6 +14,7 @@
       <strong style="font-size: 18px;" *ngIf="stateO?.roomLength > 1"> {{stateO?.name}} </strong>
     </ion-title>
     <small style="margin-left: 23px;" *ngIf="stateO?.online">En ligne</small>
+    <ion-icon *ngIf="!isInMyCircle" (click)="presentAlertConfirm()"  class="invitation-add" name="add-outline"></ion-icon>
   </ion-toolbar>
 </ion-header>
 

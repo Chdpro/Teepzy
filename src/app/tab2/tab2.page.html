@@ -164,8 +164,22 @@
               </ion-label>
             </ion-item>
           </div>
+
+          <div>
+            <ion-item *ngFor="let i of links;trackBy: trackByFn " (click)="presentActionSheet(i)">
+              <div class="round-img-post">
+                {{i?.pseudo | slice:0:1| uppercase}}
+              </div>
+              <ion-label><b> {{i?.pseudo}} </b><br> <span style="font-size: 11px;">
+                  {{time(i?.createdAt) }} </span>  <span style="float: right;">Mise en relation</span> <br>
+                <div class="example-button-row">
+              
+                </div>
+              </ion-label>
+            </ion-item>
+          </div>
   
-        <div *ngIf="invitations?.length == 0 && invitationsSms.length == 0" class="empty-msg">
+        <div *ngIf="invitations?.length == 0 && links?.length == 0 && invitationsSms?.length == 0" class="empty-msg">
           <span class="material-icons drafts">
             drafts
           </span><br>

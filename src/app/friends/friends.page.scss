@@ -5,13 +5,14 @@ ion-toolbar{
     height: 68px;
     margin-bottom: -22px;
 }
-ion-checkbox{
-    margin-top: -29px;
+.mat-header-btn{
+    margin-top: -22px;
+    float: right;
 }
 
 ion-slide{
     border-radius: 40px 40px 1px 0px;
-} 
+}
 .material-icons{
     color: #ea4e50;
 }
@@ -53,13 +54,6 @@ ion-slide{
     display: block;
     margin-right: 12px;
     color: #000000;
-}
-
-ion-icon{
-    margin-right: 27px;
-    margin-top: -21px;
-    font-size: 24px;
-
 }
 
 b{

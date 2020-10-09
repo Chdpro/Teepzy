@@ -56,7 +56,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-slides pager="false" (ionSlideDidChange)="slideChanged($event)" [options]="slideOpts">
+  <ion-slides pager="false" [options]="slideOpts">
 
     <ion-slide *ngIf="listPosts?.length == 0 && !loading">
       <span style="color: #ea4e4f;">
