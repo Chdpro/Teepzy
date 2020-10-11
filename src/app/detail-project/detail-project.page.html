@@ -15,7 +15,7 @@
               <mat-icon>create</mat-icon>
             </button-->
 
-            <button (click)="presentAlertConfirm()" style="text-align: center;" mat-mini-fab
+            <button *ngIf="showDeleteBtn" (click)="presentAlertConfirm()" style="text-align: center;" mat-mini-fab
               aria-label="Example icon button with a home icon">
                 <mat-icon>delete</mat-icon>
             </button>

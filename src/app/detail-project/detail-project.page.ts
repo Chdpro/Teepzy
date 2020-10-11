@@ -22,6 +22,7 @@ export class DetailProjectPage implements OnInit {
 
   listProjects = []
   userId = ''
+  showDeleteBtn = false
 
   constructor(
     private menuCtrl: MenuController,
@@ -46,9 +47,9 @@ export class DetailProjectPage implements OnInit {
     this.project.description = project.description
     this.project.tags = tags
     this.userId = localStorage.getItem('teepzyUserId')
-    console.log(tags)
-    console.log(project)
-    console.log(this.project)
+    this.userId === project.userId ? this.showDeleteBtn = true: this.showDeleteBtn = false
+
+   
   }
 
 

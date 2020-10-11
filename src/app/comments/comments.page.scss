@@ -119,6 +119,8 @@ mat-icon{
 .mat-img{
     width: 121px;
     border-radius: 21px;
+    border-top-left-radius: 21px !important;
+    border-top-right-radius: 21px !important;
     height: 100%;
 }
 .mat-res{

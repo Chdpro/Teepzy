@@ -82,6 +82,7 @@ export class ChatPage implements OnInit {
     this.stateO.roomLength = state.roomLength
     this.stateO.connectedUserId = state.connectedUserId
     this.stateO.userId = state.userId
+    console.log(this.stateO.roomLength)
 
     this.coonectSocket()
     this.getMessagesBySocket().subscribe(message => {
@@ -346,6 +347,7 @@ export class ChatPage implements OnInit {
       console.log(res)
       this.loading = false
       let roomInitiatorId = res['data']['userId']
+      console.log(roomInitiatorId)
       this.getChatRoomUserInitiator(roomInitiatorId)
       this.messages = res['data']['messages']
     }, error => {
@@ -369,6 +371,7 @@ export class ChatPage implements OnInit {
     this.authService.myInfos(id).subscribe(res => {
       console.log(res)
       this.roomInitiator = res['data']
+     // console.log(this.roomInitiator)
   //    this.message.pseudo = this.user.pseudoPro
     }, error => {
       console.log(error)

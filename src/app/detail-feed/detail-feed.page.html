@@ -51,7 +51,7 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
   
-    <ion-slides pager="true" [options]="slideOpts">
+    <ion-slides *ngIf="post" pager="true" [options]="slideOpts">
       <ion-slide 
         [ngClass]="{'ion-slide-img': post?.image_url != '', 'ion-slide-no-img': post?.image_url == ''}" [ngStyle]="{
           'color': post?.backgroundColor == '#fff' && post?.image_url == ''? 'black' : 'white', 
@@ -115,27 +115,30 @@
                   <small>
                     {{post?.circle || '' }}
                   </small>
-                  <span *ngIf="time(post?.createdAt) != 'il y a un mois'">
-                    <span *ngIf="time(post?.createdAt) != 'il y a un jour'">
-                      <span *ngIf="time(post?.createdAt) != 'il y a une minute'">
-                        <span class="time" *ngIf="time(post?.createdAt) != 'il y a une heure'">
-                          {{time(post?.createdAt) }}
+                  <span *ngIf="post?.createdAt">
+                    <span *ngIf="time(post?.createdAt) != 'il y a un mois'">
+                      <span *ngIf="time(post?.createdAt) != 'il y a un jour'">
+                        <span *ngIf="time(post?.createdAt) != 'il y a une minute'">
+                          <span class="time" *ngIf="time(post?.createdAt) != 'il y a une heure'">
+                            {{time(post?.createdAt) }}
+                          </span>
                         </span>
                       </span>
                     </span>
+                    <span class="time" *ngIf="time(post?.createdAt) == 'il y a une minute'">
+                      il y a 1 minute
+                    </span>
+                    <span class="time" *ngIf="time(post?.createdAt) == 'il y a une heure'">
+                      il y a 1 heure
+                    </span>
+                    <span class="time" *ngIf="time(post?.createdAt) == 'il y a un jour'">
+                      il y a 1 jour
+                    </span>
+                    <span class="time" *ngIf="time(post?.createdAt) == 'il y a un mois'">
+                      il y a 1 mois
+                    </span>
                   </span>
-                  <span class="time" *ngIf="time(post?.createdAt) == 'il y a une minute'">
-                    il y a 1 minute
-                  </span>
-                  <span class="time" *ngIf="time(post?.createdAt) == 'il y a une heure'">
-                    il y a 1 heure
-                  </span>
-                  <span class="time" *ngIf="time(post?.createdAt) == 'il y a un jour'">
-                    il y a 1 jour
-                  </span>
-                  <span class="time" *ngIf="time(post?.createdAt) == 'il y a un mois'">
-                    il y a 1 mois
-                  </span>
+            
                 </ion-col>
   
               </ion-row>

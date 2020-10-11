@@ -155,6 +155,7 @@ export class SearchPage implements OnInit {
     this.contactService.searchTeepZrs(this.search).subscribe(res =>{
       this.loading = false
       this.usersNotInCircles = res['users']
+      console.log(this.usersNotInCircles)
       this.usersNotInCircles.forEach(e => {
         let invitation = { idSender: this.search.userId, idReceiver: e['_id'] }
         this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
@@ -183,15 +184,35 @@ export class SearchPage implements OnInit {
     })
   }
 
+
+  goToDetailProject(project){
+    this.router.navigate(['/detail-project',project])
+
+  }
+
+  goToDetailProduct(product){
+    this.router.navigate(['/detail-produit',product])
+
+  }
+  
   searchOnMatches(){
     this.loading = true
     this.contactService.SearchOnMatch(this.search).subscribe(res =>{
       console.log(res);
       this.loading = false
-      this.users = res['users']
+      //this.users = res['users']
       this.products = res['products']
       this.projects = res['projects']
       this.posts = res['posts']
+    }, error =>{
+      this.loading = false
+      console.log(error)
+    })
+
+    this.contactService.SearchInCircleOnMatch(this.search).subscribe(res =>{
+      console.log(res);
+      this.loading = false
+      this.users = res['users']
     }, error =>{
       this.loading = false
       console.log(error)

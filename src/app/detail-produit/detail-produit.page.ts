@@ -14,21 +14,23 @@ export class DetailProduitPage implements OnInit {
 
   product = {
     _id: '',
-    nom:'',
-    photo:'',
-    description:'',
+    nom: '',
+    photo: '',
+    description: '',
     price: '',
-    tags: []
+    tags: [],
   }
   userId = ''
 
   listProducts = []
 
+  showDeleteBtn = false
+
   constructor(
     private menuCtrl: MenuController,
     private route: ActivatedRoute,
-    private alertController:AlertController,
-    private toastController:ToastController,
+    private alertController: AlertController,
+    private toastController: ToastController,
     private contactService: ContactService,
     private authService: AuthService,
     private dataPasse: DatapasseService,
@@ -36,19 +38,19 @@ export class DetailProduitPage implements OnInit {
   ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
-   }
+  }
 
   ngOnInit() {
     let product = this.route.snapshot.paramMap['params']
     let tags = product.tags.split(',')
     this.product._id = product._id
-    this.product.nom = product.nom 
+    this.product.nom = product.nom
     this.product.photo = product.photo
     this.product.description = product.description
     this.product.tags = tags
     this.product.price = product.price
     this.userId = localStorage.getItem('teepzyUserId')
-
+    this.userId === product.userId ? this.showDeleteBtn = true: this.showDeleteBtn = false
     console.log(tags)
     console.log(product)
   }
@@ -83,12 +85,12 @@ export class DetailProduitPage implements OnInit {
 
   }
 
-  delete(id){
-    this.contactService.deleteProduct(id).subscribe(res =>{
+  delete(id) {
+    this.contactService.deleteProduct(id).subscribe(res => {
       console.log(res)
       this.presentToast('Produit supprimé')
       this.getUserInfo(this.userId)
-    }, error =>{
+    }, error => {
       console.log(error)
     })
   }

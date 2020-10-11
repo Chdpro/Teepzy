@@ -4,11 +4,10 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>
-      <strong style="font-size: 18px;" *ngIf="stateO?.roomLength == 1 &&stateO?.connectedUserId !== userId">
+      <strong style="font-size: 18px;" *ngIf="stateO?.roomLength == 1 && stateO?.connectedUserId !== userId">
         {{stateO?.pseudo}} </strong>
       <strong style="font-size: 18px;" *ngIf="stateO?.roomLength == 1 && stateO?.connectedUserId === userId">
-        <span *ngIf="roomInitiator?.typeCircle == 'PRO'"> {{roomInitiator?.pseudoPro}} </span>
-        <span *ngIf="roomInitiator?.typeCircle == 'AMICAL'"> {{roomInitiator?.pseudoIntime}} </span>
+        <span> {{roomInitiator?.pseudoIntime}} </span>
       </strong>
 
       <strong style="font-size: 18px;" *ngIf="stateO?.roomLength > 1"> {{stateO?.name}} </strong>

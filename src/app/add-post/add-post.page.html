@@ -4,7 +4,7 @@
       <ion-toolbar [style.background-color]="post?.backgroundColor">
         <ion-icon class="arrow-back-btn" (click)="dismiss()" name="arrow-back-outline"></ion-icon>
         <div class="example-button-container">
-          <ion-button color="secondary" style="margin-top: 1px;" (click)="addPost()"
+          <ion-button color="secondary" style="margin-top: 1px;" (click)="addPostUsingPermission()"
             [disabled]="contentMsg.errors?.required" expand="block" shape="round">
             <span *ngIf="!loading">
               Publier
