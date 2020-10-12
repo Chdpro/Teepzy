@@ -89,7 +89,7 @@ img{
     border-radius: 50px;
 }
 
-.img-media, .pseudo-media{
+.pseudo-media{
     height: 54px;
     width: 54px;
 
@@ -101,6 +101,18 @@ img{
     font-size: 18px;
     float: right;
 
+}
+
+.img-media{
+    height: 54px;
+    width: 54px;
+
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%; 
+    border: solid 1px #ea4e50;
+    font-size: 18px;
+    float: right;
 }
 
 .check-btn{

@@ -170,7 +170,7 @@
             <span>MATCH</span>
             <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
               <img class="match-image" *ngIf="m?.photo" [src]="m?.photo" alt="">
-              <div class="match-pseudo" *ngIf="m?.photo == null || m?.photo"
+              <div class="match-pseudo" *ngIf="m?.photo == null || m?.photo == ''"
                 [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
                 {{m?.pseudoIntime | slice:0:1| uppercase}}
               </div>
