@@ -58,17 +58,26 @@
               {{n?.icon_name}}
             </span>
 
-            <div class="round-img-post">
+            <div class="round-img-post" *ngIf="userId != n?.fromId && n?.retourLink == false">
               {{n?.pseudoIntime | slice:0:1| uppercase}}
             </div>
-            <ion-label><b *ngIf="userId != n?.fromId"> {{n?.pseudoIntime}} </b> <b *ngIf="userId == n?.fromId">
+
+            <div class="round-img-post" *ngIf="userId != n?.fromId && n?.retourLink == true">
+              {{n?.linkerUserPseudo | slice:0:1| uppercase}}
+            </div>
+            <ion-label><b *ngIf="userId != n?.fromId && n?.retourLink == false"> {{n?.pseudoIntime}} </b> 
+              <b *ngIf="userId != n?.fromId && n?.retourLink == true">
+                {{n?.linkerUserPseudo}}
+              </b>
+              <b *ngIf="userId == n?.fromId">
                 Vous </b><br>
               <strong>
-                <span *ngIf="userId != n?.fromId">a</span> <span *ngIf="userId == n?.fromId">avez</span>
+                <span *ngIf="userId != n?.fromId"></span> <span *ngIf="userId == n?.fromId">avez</span>
 
 
                 <span *ngIf="n?.icon_name !== 'message'">
                   {{n?.message}}
+                  <span>@{{n?.pseudoIntime}}</span>
                 </span>
                 <span *ngIf="n?.icon_name === 'message' && n?.fromId !== userId">
                   un nouveau message

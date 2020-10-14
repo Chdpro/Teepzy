@@ -125,7 +125,8 @@ export class LinkSheetPage implements OnInit {
       idSender:this.publication.userId,
       idReceiver: linkedUserId,
       linkerId: this.userId,
-      message: this.message
+      message: this.message,
+      postId: this.publication._id
     }
     if (this.userId == this.publication.userId) {
       this.presentToast("Vous ne pouvez pas linker cette publication parce que vous en êtes l'auteur")

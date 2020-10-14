@@ -268,6 +268,9 @@ export class Tab2Page implements OnInit {
   acceptLink(p){
     let invitation = {
       idInvitation: p._id,
+      idReceiver: p.idReceiver, 
+      idSender: p.idSender,
+      postId: p.postId 
     }
     this.contactService.acceptLinkPeople(invitation).subscribe(res =>{
       console.log(res)
