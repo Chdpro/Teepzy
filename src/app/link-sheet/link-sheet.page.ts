@@ -20,7 +20,8 @@ export class LinkSheetPage implements OnInit {
   usersMatch = []
   usersSelected = []
   publication = {
-    userId:''
+    userId:'',
+    _id:''
   }
   match = true
   loading = false
@@ -56,6 +57,7 @@ export class LinkSheetPage implements OnInit {
     let post = this.navParams.data;
     console.log(post)
     this.publication.userId = post.userId
+    this.publication._id = post._id
     this.matches = post.matches
     this.userId = localStorage.getItem('teepzyUserId');
     this.placeholder_Link_userPseudo = post.userPseudo

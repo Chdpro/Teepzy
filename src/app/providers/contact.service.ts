@@ -48,7 +48,7 @@ export class ContactService {
 
   listLinksPeople(invitation): Observable<any> {
     let url = 'users/linksPeoples';
-    return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
+    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
   refuseLinkPeople(invitation): Observable<any> {
@@ -290,6 +290,11 @@ export class ContactService {
   removeMemberFromCircle(member): Observable<any> {
     let url = 'users/removeFromCircle';
     return this.http.post(base_url + url, JSON.stringify(member), httpOptionsJson);
+  }
+  
+  removeRoom(roomId): Observable<any> {
+    let url = 'chat/deleteRoom/' + roomId;
+    return this.http.delete(local_url + url, httpOptionsJson);
   }
   
 

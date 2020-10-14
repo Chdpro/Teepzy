@@ -15,7 +15,7 @@
             aria-label="Example icon button with a home icon">
             <mat-icon>account_circle</mat-icon>
           </button-->
-      
+
           </div>
         </ion-col>
       </ion-row>
@@ -59,26 +59,31 @@
             </span>
 
             <div class="round-img-post">
-              {{n?.pseudoIntime | slice:0:1| uppercase}} 
+              {{n?.pseudoIntime | slice:0:1| uppercase}}
             </div>
             <ion-label><b *ngIf="userId != n?.fromId"> {{n?.pseudoIntime}} </b> <b *ngIf="userId == n?.fromId">
                 Vous </b><br>
               <strong>
                 <span *ngIf="userId != n?.fromId">a</span> <span *ngIf="userId == n?.fromId">avez</span>
-              
-                
+
+
                 <span *ngIf="n?.icon_name !== 'message'">
                   {{n?.message}}
                 </span>
-                <span *ngIf="n?.icon_name === 'message' && n?.fromId !== userId" >
+                <span *ngIf="n?.icon_name === 'message' && n?.fromId !== userId">
                   un nouveau message
                 </span>
 
-                <span *ngIf="n?.icon_name === 'message' && n?.fromId === userId" >
+                <span *ngIf="n?.icon_name === 'message' && n?.fromId === userId">
                   répondu à votre message
                 </span>
               </strong>
             </ion-label>
+            <span class="see-icon" *ngIf="n?.icon_name == 'link'" (click)="goToDetailTeepz(n?.postId)">
+              <button mat-button>
+                <ion-icon name="eye-outline"></ion-icon>
+              </button>
+            </span>
           </ion-item>
 
 
@@ -145,40 +150,40 @@
         </div>
 
         <div>
-            <ion-item *ngFor="let i of invitationsSms;trackBy: trackByFn ">
-              <div class="round-img-post">
-                {{i?.pseudo | slice:0:1| uppercase}}
-              </div>
-              <ion-label><b> {{i?.pseudo}} </b><br> <span style="font-size: 11px;">
-                  {{time(i?.createdAt) }} </span> <br>
-                <div class="example-button-row">
-                  <button class="btn-accent" (click)="acceptInvitation(i)" mat-raised-button color="accent">
-                    <span *ngIf="!loading">
-                      Accepter
-                    </span>
-                    <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-  
-  
-                  </button>
-                </div>
-              </ion-label>
-            </ion-item>
-          </div>
+          <ion-item *ngFor="let i of invitationsSms;trackBy: trackByFn ">
+            <div class="round-img-post">
+              {{i?.pseudo | slice:0:1| uppercase}}
+            </div>
+            <ion-label><b> {{i?.pseudo}} </b><br> <span style="font-size: 11px;">
+                {{time(i?.createdAt) }} </span> <br>
+              <div class="example-button-row">
+                <button class="btn-accent" (click)="acceptInvitation(i)" mat-raised-button color="accent">
+                  <span *ngIf="!loading">
+                    Accepter
+                  </span>
+                  <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
 
-          <div>
-            <ion-item *ngFor="let i of links;trackBy: trackByFn " (click)="presentActionSheet(i)">
-              <div class="round-img-post">
-                {{i?.pseudo | slice:0:1| uppercase}}
+
+                </button>
               </div>
-              <ion-label><b> {{i?.pseudo}} </b><br> <span style="font-size: 11px;">
-                  {{time(i?.createdAt) }} </span>  <span style="float: right;">Mise en relation</span> <br>
-                <div class="example-button-row">
-              
-                </div>
-              </ion-label>
-            </ion-item>
-          </div>
-  
+            </ion-label>
+          </ion-item>
+        </div>
+
+        <div>
+          <ion-item *ngFor="let i of links;trackBy: trackByFn " (click)="presentActionSheet(i)">
+            <div class="round-img-post">
+              {{i?.pseudo | slice:0:1| uppercase}}
+            </div>
+            <ion-label><b> {{i?.pseudo}} </b><br> <span style="font-size: 11px;">
+                {{time(i?.createdAt) }} </span> <span style="float: right;">Mise en relation</span> <br>
+              <div class="example-button-row">
+
+              </div>
+            </ion-label>
+          </ion-item>
+        </div>
+
         <div *ngIf="invitations?.length == 0 && links?.length == 0 && invitationsSms?.length == 0" class="empty-msg">
           <span class="material-icons drafts">
             drafts

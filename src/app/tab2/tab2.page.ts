@@ -264,6 +264,7 @@ export class Tab2Page implements OnInit {
     
     })
   }
+
   acceptLink(p){
     let invitation = {
       idInvitation: p._id,
@@ -328,10 +329,14 @@ export class Tab2Page implements OnInit {
   }
 
 
+  goToDetailTeepz(idTeepz) {
+    this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'search' }])
+  }
+
   async presentActionSheet(link) {
     console.log(link)
     const actionSheet = await this.actionSheetController.create({
-      header: "Accepter la mise en relation",
+      header: link.message,
       cssClass: 'my-custom-class',
       buttons: [
         {
@@ -342,10 +347,10 @@ export class Tab2Page implements OnInit {
           }
         },
         {
-        text: 'Supprimer',
-        icon: 'trash',
+        text: 'Consulter',
+        icon: 'eye',
         handler: () => {
-          this.deleteLink(link)
+          this.goToDetailTeepz(link.postId)
         }
       },
       {
@@ -367,14 +372,6 @@ export class Tab2Page implements OnInit {
     await actionSheet.present();
   }
 
-  async showToast(msg) {
-    let toast = await this.toastController.create({
-      message: msg,
-      position: 'top',
-      duration: 2000
-    });
-    toast.present();
-  }
 
 
   ionViewWillLeave() {

@@ -46,8 +46,6 @@
       </ion-row>
     </ion-grid>
 
-
-
   </ion-toolbar>
 </ion-header>
 
@@ -65,9 +63,9 @@
     </ion-slide>
 
     <ion-slide *ngIf="loading && listPosts?.length == 0">
-      <ion-spinner color="primary"  name="dots"></ion-spinner>
+      <ion-spinner color="primary" name="dots"></ion-spinner>
     </ion-slide>
-    <ion-slide (click)="next()" *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
+    <ion-slide *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
       [ngClass]="{'ion-slide-img': p?.image_url != '', 'ion-slide-no-img': p?.image_url == ''}" [ngStyle]="{
         'color': p?.backgroundColor == '#fff' && p?.image_url == ''? 'black' : 'white', 
         'background-image':  p?.image_url != '' ? 'url(' + p?.image_url + ')' : '',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavController, ModalController, MenuController } from '@ionic/angular';
+import { NavController, ModalController, MenuController, ToastController } from '@ionic/angular';
 import { Socket } from 'ngx-socket-io';
 import { ContactService } from '../providers/contact.service';
 import { CircleMembersPage } from '../circle-members/circle-members.page';
@@ -27,6 +27,7 @@ export class Tab3Page implements OnInit {
     public modalController: ModalController,
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
+    private toastController: ToastController,
     private socket: Socket) { 
       this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -79,8 +80,14 @@ export class Tab3Page implements OnInit {
     })
   }
 
-  getTheOtherUser(){
-    
+  removeRoom(roomId){
+    this.contactService.removeRoom(roomId).subscribe(res => {
+      console.log(res);
+      this.showToast("Conversation Supprimée")
+      this.getChatRooms()
+    }, error => {
+      console.log(error)
+    })
   }
 
   getChatRooms() {
@@ -93,6 +100,16 @@ export class Tab3Page implements OnInit {
       console.log(error)
       this.loading = false
     })
+  }
+
+
+  async showToast(msg) {
+    let toast = await this.toastController.create({
+      message: msg,
+      position: 'top',
+      duration: 2000
+    });
+    toast.present();
   }
 
 

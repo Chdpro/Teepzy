@@ -39,7 +39,7 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic-native/video-player": "^5.28.0",
     "@ionic/angular": "^5.0.0",
-    "cordova-android": "^8.1.0",
+    "cordova-android": "^9.0.0",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-clipboard": "^1.3.0",
     "cordova-plugin-android-permissions": "^1.0.2",
@@ -132,8 +132,6 @@
       "cordova-plugin-filepath": {},
       "cordova-plugin-file-transfer": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }
