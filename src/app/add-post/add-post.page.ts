@@ -17,6 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-add-post',
@@ -76,7 +77,6 @@ export class AddPostPage implements OnInit {
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController,
     private mediaCapture: MediaCapture,
-    private imagePicker: ImagePicker,
     private androidPermissions: AndroidPermissions
   ) {
 
@@ -242,8 +242,8 @@ export class AddPostPage implements OnInit {
 
                 alert(data[0].fullPath)
                 this.storeMediaFiles(data)
-                // this.dispVideos.push(data[0].fullPath)
-
+                this.dispVideos.push(data[0].fullPath)
+                this.videos.push(data[0].fullPath)
               },
               (err: CaptureError) => {
                 alert(err)
@@ -293,7 +293,7 @@ export class AddPostPage implements OnInit {
       if (this.videos.length == 0 && this.photos.length == 0) {
         this.videos.push(nativepath)
       } else if (this.videos.length > 1 && this.photos.length > 0) {
-        this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
+        this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
       }
     }, error => {
     })
@@ -322,7 +322,7 @@ export class AddPostPage implements OnInit {
         if (this.videos.length == 0 && this.photos.length == 0) {
           this.videos.push(nativepath)
         } else if (this.videos.length > 1 && this.photos.length > 0) {
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs médias')
+          this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
         }
       }, error => {
       })
@@ -359,7 +359,7 @@ export class AddPostPage implements OnInit {
         if (this.photos.length == 0 && this.videos.length == 0) {
           this.photos.push(nativepath)
         } else if (this.photos.length > 1 && this.videos.length > 0) {
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs média')
+          this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
         }
       }, error => {
       })
@@ -446,7 +446,7 @@ export class AddPostPage implements OnInit {
           })
         }
       } else {
-        this.presentToast("La durée de la vidéo ne doit pas dépasser 15s")
+        this.presentToast(MESSAGES.VIDEO_LIMIT_ERROR)
         this.loading = false
 
       }
@@ -475,7 +475,7 @@ export class AddPostPage implements OnInit {
       this.listPosts = res['data']
       this.dataPass.sendPosts(this.listPosts);
       this.dismiss()
-      this.presentToast('Demande publiée')
+      this.presentToast(MESSAGES.ADD_FEED_OK)
 
     }, error => {
       console.log(error)
@@ -497,7 +497,7 @@ export class AddPostPage implements OnInit {
     }, error => {
       console.log(error)
       this.loading = false
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.ADD_FEED_ERROR)
 
     })
   }
@@ -505,7 +505,7 @@ export class AddPostPage implements OnInit {
   setBackgroundColor(color: string) {
     console.log(color)
     this.post.backgroundColor = color;
-    this.presentToast('couleur sélectionnée')
+    this.presentToast(MESSAGES.COLOR_CHOSED_OK)
   }
 
   dismiss() {

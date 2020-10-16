@@ -4,6 +4,7 @@ import { Globals } from '../globals';
 import { ContactService } from '../providers/contact.service';
 import { DatapasseService } from '../providers/datapasse.service';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-share-sheet',
@@ -68,10 +69,10 @@ export class ShareSheetPage implements OnInit {
     this.contactService.rePost(this.repost).subscribe(res => {
       console.log(res)
       this.getPosts(this.userId)
-      this.presentToast('Ce post a été publié')
+      this.presentToast(MESSAGES.SHARE_OK)
       this.dismiss()
     }, error => {
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.SHARE_ERROR)
       console.log(error)
     })
   }
@@ -115,25 +116,25 @@ export class ShareSheetPage implements OnInit {
             this.presentToast('Annulé')
           }
         }, {
-          text: 'Lorem ipsum',
+          text: 'Diffuse une fausse information',
           handler: () => {
-            let reason = 'Inaproprié'
+            let reason = 'Diffuse une fausse information'
             this.signaler(this.post['postId'], reason)
           }
         }
         ,
         {
-          text: 'Lorem ipsum',
+          text: 'Propos Illégaux',
           handler: () => {
-            let reason = 'Inaproprié'
+            let reason = 'Propos Illégaux'
             this.signaler(this.post['postId'], reason)
           }
         }
         ,
         {
-          text: 'Lorem ipsum2',
+          text: 'Proposition incitant à commettre un acte illégal',
           handler: () => {
-            let reason = 'Lorem ipsum2'
+            let reason = 'Proposition incitant à commettre un acte illégal'
             this.signaler(this.post['postId'], reason)
 
           }
@@ -154,9 +155,9 @@ export class ShareSheetPage implements OnInit {
     }
     this.contactService.spam(spam).subscribe(res => {
       console.log(res)
-      this.presentToast('Ce post a été signlé comme spam')
+      this.presentToast(MESSAGES.CENSURED_OK)
     }, error => {
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.CENSURED_ERROR)
       console.log(error)
     })
   }

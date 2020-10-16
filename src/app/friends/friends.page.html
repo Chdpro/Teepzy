@@ -1,6 +1,8 @@
 <ion-header class="ion-no-border">
   <ion-toolbar style="color: #ea4e50">
-    <ion-title>Mes amis</ion-title>
+    <ion-title *ngIf="!previousUrl">Mes amis</ion-title>
+    <ion-title *ngIf="previousUrl">Ses amis</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
@@ -33,7 +35,7 @@
       </strong> <b style="float: right;" class="time"> 
      
       </b><br>
-        <button class="mat-header-btn" mat-button [matMenuTriggerFor]="menu">
+        <button *ngIf="!previousUrl" class="mat-header-btn" mat-button [matMenuTriggerFor]="menu">
           <ion-icon name="ellipsis-horizontal"></ion-icon>
         </button>
         <mat-menu #menu="matMenu">

@@ -5,6 +5,7 @@ import { ContactService } from '../providers/contact.service';
 import { Socket } from 'ngx-socket-io';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription } from 'rxjs';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-circle-members',
@@ -67,16 +68,16 @@ export class CircleMembersPage implements OnInit {
       console.log(res)
       if (res['status'] == 200) {
         this.loading = false
-        this.presentToast('Une discussion créee')
+        this.presentToast(MESSAGES.ROOM_INITIATED_OK)
         this.getChatRooms()
         this.dismiss()
       } else {
-        this.presentToast('Cette discussion existe déjà')
+        this.presentToast(MESSAGES.ROOM_EXIST_OK)
         this.loading = false
       }
     }, error => {
       this.loading = false
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.ROOM_INITIATED_ERROR)
       console.log(error)
     })
   }

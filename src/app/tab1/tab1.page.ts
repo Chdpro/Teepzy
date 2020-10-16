@@ -11,7 +11,7 @@ import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import { Globals } from '../globals';
 import { DomSanitizer } from '@angular/platform-browser';
-import { typeAccount } from '../constant/constant';
+import { typeAccount, MESSAGES } from '../constant/constant';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
 
@@ -390,11 +390,21 @@ export class Tab1Page implements OnInit {
     this.contactService.removeFavorite(favoris).subscribe(res => {
       console.log(res)
       this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = false : null)
-      this.presentToast('Enlevés des favoris')
+      this.presentToast(MESSAGES.REMOVE_FAVORITE_OK)
     }, error => {
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.SERVER_ERROR)
       console.log(error)
     })
+  }
+
+
+  goToProfile(userId){
+    if (this.userId === userId) {
+    this.router.navigate(['/tabs/profile', { userId: userId }])
+    } else {
+    this.router.navigate(['/profile', { userId: userId, previousUrl: 'feed' }])
+    }
+
   }
 
   async presentLinkModal(post) {

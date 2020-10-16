@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import { ToastController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-friends',
@@ -12,14 +14,24 @@ export class FriendsPage implements OnInit {
   userId =''
   members = []
   loading = false
+  previousUrl = ''
   constructor(
     private contactService: ContactService,
-    private toastController:ToastController
+    private toastController:ToastController,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
+    this.previousUrl = this.route.snapshot.paramMap.get('previousUrl')
+    let uId = this.route.snapshot.paramMap.get('idUser')
+    if (!uId) {
     this.getUsersOfCircle()
+    } else {
+      this.userId = uId
+      this.getUsersOfCircle()
+
+    }    
   }
 
 
@@ -29,7 +41,7 @@ export class FriendsPage implements OnInit {
     }
     this.contactService.removeMemberFromCircle(member).subscribe(res =>{
       console.log(res)
-      this.presentToast('Un membre supprimé de votre cercle')
+      this.presentToast(MESSAGES.CIRCLE_MEMBER_DELETED_OK)
       this.getUsersOfCircle()
     }, error =>{
       console.log(error)

@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { DatapasseService } from '../providers/datapasse.service';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-edit-profile',
@@ -157,13 +158,13 @@ export class EditProfilePage implements OnInit {
     console.log(this.profile1.hobbies)
     this.authService.updateProfile(this.profile1).subscribe(res => {
       console.log(res)
-      this.presentToast('Profil mis à jour')
+      this.presentToast(MESSAGES.PROFILE_UPDATED_OK)
       this.getUserInfo(userId)
       this.loading = false
       this.router.navigate(['/tabs/profile'])
     }, error => {
       console.log(error)
-      this.presentToast('Oops! une erreur est survenue ')
+      this.presentToast(MESSAGES.PROFILE_UPDATED_ERROR)
       this.loading = false
 
     })
@@ -365,7 +366,7 @@ export class EditProfilePage implements OnInit {
           }
         })
       } else if (this.dispImags.length > 1) {
-        this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+        this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
       }
   
 

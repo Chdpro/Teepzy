@@ -11,6 +11,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { base_url } from 'src/config';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-add-product',
@@ -123,14 +124,14 @@ export class AddProductPage implements OnInit {
       this.contactService.addProduct(this.product).subscribe(res =>{
         console.log(res);
         this.loading = false
-        this.presentToast('Nouveau produit ajouté');
+        this.presentToast(MESSAGES.SHOP_CREATED_OK);
         let userId = localStorage.getItem('teepzyUserId')
         this.getProducts(userId)
         this.dismiss()
       }, error =>{
         console.log(error)
         this.loading = false
-        this.presentToast('Oops! une erreur est survenue')
+        this.presentToast(MESSAGES.SHOP_CREATED_ERROR)
       })
     }
   
@@ -225,7 +226,7 @@ export class AddProductPage implements OnInit {
           } 
         })
         }else if (this.dispImags.length > 1) {
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+          this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
         }
   
       }, (err) => {
@@ -293,7 +294,6 @@ export class AddProductPage implements OnInit {
             } else {
               this.loading = false
               ref.addProduct()
-              ref.presentToast("Images envoyées")
             }
           })
         } else {

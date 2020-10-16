@@ -3,6 +3,7 @@ import { AuthService } from '../providers/auth.service';
 import { Router } from '@angular/router';
 import { ToastController, LoadingController, MenuController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-login',
@@ -46,7 +47,7 @@ export class LoginPage implements OnInit {
       this.profileInfo = res['data']
       this.dismissLoading()
       if (this.retourUsr['status'] == 200) {
-        this.presentToast('Connexion réussie')
+        this.presentToast(MESSAGES.LOGIN_OK)
         localStorage.setItem('teepzyUserId', this.profileInfo['userI']['_id'])
         localStorage.setItem('teepzyToken', this.profileInfo['token'])
         localStorage.setItem('teepzyEmail', this.profileInfo['userI']['email'])
@@ -67,11 +68,11 @@ export class LoginPage implements OnInit {
     }, error => {
       console.log(error['status'])
       if (error['status'] === 404) {
-        this.presentToast('Mot de passe Incorrects')
+        this.presentToast(MESSAGES.LOGIN_INVALID)
         this.dismissLoading()
 
       } else {
-        this.presentToast('Oops! une erreur est survenue sur le serveur')
+        this.presentToast(MESSAGES.LOGIN_ERROR)
         this.dismissLoading()
       }
 

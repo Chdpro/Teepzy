@@ -3,11 +3,10 @@
     <ion-grid>
       <ion-row>
         <ion-col size="6">
-          <h3 style="margin-top: 9px;color: #ea4e50;font-size: 20px;" *ngIf="!showSearch">
-            <span>
+          <h3 style="margin-top: 9px;color: #ea4e50;font-size: 20px;">
+            <span (click)="goToProfile(userId)">
               @{{user?.pseudoIntime}}
             </span>
-            <!--ion-icon name="chevron-down-outline"></ion-icon-->
           </h3>
         </ion-col>
         <ion-col>
@@ -50,12 +49,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" [scrollY]="false">
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+  <ion-refresher slot="fixed"  [disabled]="false" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <ion-slides pager="false" [options]="slideOpts">
-
     <ion-slide *ngIf="listPosts?.length == 0 && !loading">
       <span style="color: #ea4e4f;">
         Aucune publication pour l'instant
@@ -74,6 +72,7 @@
         'background-size': 'cover', 
         'background-repeat': 'no-repeat'
       }" swipeAll (swipe)="swipeAll($event)" (swipeleft)="swipeLeft($event)" (swiperight)="swipeRight($event)">
+
 
       <div (click)="playVideo(p?.video_url)" class="post-txt">
         <div *ngIf="p?.video_url">
@@ -99,6 +98,7 @@
           </div>
         </div>
         <div class="header-slide" (click)="next()">
+
           <ion-grid>
             <ion-row class="infos">
               <ion-col size="12">
@@ -108,11 +108,11 @@
               </ion-col>
               <ion-col *ngIf="!p?.image_url && !p?.video_url" [ngStyle]="{'background': p?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
               'font-weight': p?.image_url ? '800': '100' }">
-                <div>
+                <div (click)="goToProfile(p?.userId)">
                   <img *ngIf="p?.userPhoto_url" class="img" [src]="p?.userPhoto_url" alt="">
                 </div>
 
-                <div>
+                <div (click)="goToProfile(p?.userId)">
                   <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class="round-img"
                     [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
                     {{p?.userPseudo | slice:0:1| uppercase}}
@@ -156,6 +156,7 @@
 
 
         </div>
+
         <p class="content" *ngIf="!p?.image_url && !p?.video_url"
           [ngStyle]="{'font-size': p?.content.length > 60 ? '17px' : '23px' }" (click)="next()">
           {{ p?.content }}
@@ -219,11 +220,11 @@
         <ion-grid>
           <ion-row [ngStyle]=" {'margin-top': !p?.image_url && !p?.video_url? '-111px' : '0'}">
             <ion-col *ngIf="p?.image_url|| p?.video_url">
-              <div style="float: right;">
+              <div (click)="goToProfile(p?.userId)" style="float: right;">
                 <img *ngIf="p?.userPhoto_url" class="img img-media" [src]="p?.userPhoto_url" alt="">
               </div>
 
-              <div style="float: right; color: #fff !important;" class="userPseudo-bg"
+              <div (click)="goToProfile(p?.userId)" style="float: right; color: #fff !important;" class="userPseudo-bg"
                 *ngIf="p?.image_url || p?.video_url">
                 <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class=" pseudo-media"
                   [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">

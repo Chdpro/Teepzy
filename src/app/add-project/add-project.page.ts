@@ -13,6 +13,7 @@ import { base_url } from 'src/config';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-add-project',
@@ -206,7 +207,7 @@ export class AddProjectPage implements OnInit {
           } 
         })
         }else if (this.dispImags.length > 1) {
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+          this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
         }
 
     }, (err) => {
@@ -299,7 +300,6 @@ export class AddProjectPage implements OnInit {
           } else {
             this.loading = false
             ref.addProject()
-            ref.presentToast("Images envoyées")
           }
         }, err =>{
           alert(JSON.stringify(err))
@@ -330,14 +330,14 @@ export class AddProjectPage implements OnInit {
     this.contactService.addProject(this.project).subscribe(res =>{
       console.log(res);
       this.loading = false
-      this.presentToast('Nouveau projet ajouté')
+      this.presentToast(MESSAGES.PROJECT_CREATED_OK)
       let userId = localStorage.getItem('teepzyUserId')
       this.getProjects(userId)
       this.dismiss()
     }, error =>{
       console.log(error)
       this.loading = false
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.PROJECT_CREATED_ERROR)
     })
   }
 

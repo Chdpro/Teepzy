@@ -102,12 +102,12 @@ export class CommentsPage implements OnInit {
       if (res['status'] == 200) {
         //this.presentToast('')
         this.commentC.comment = ''
-        this.presentToast('Vous avez répondu')
+       // this.presentToast('Vous avez répondu')
         this.getCommentsOfComment(this.commentId)
       }
     }, error =>{
       console.log(error)
-      this.presentToast('Oops! une erreur est survenue')
+      //this.presentToast('Oops! une erreur est survenue')
 
     })
 

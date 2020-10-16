@@ -13,7 +13,7 @@ import { Globals } from '../globals';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
 import { EditPostPage } from '../edit-post/edit-post.page';
 import { DatapasseService } from '../providers/datapasse.service';
-import { type } from '../constant/constant';
+import { type, MESSAGES } from '../constant/constant';
 
 
 @Component({
@@ -79,6 +79,7 @@ export class DetailFeedPage implements OnInit {
 
   previousRoute = ''
 
+  previousBackUrl = ''
 
   constructor(private authService: AuthService,
     private toasterController: ToastController,
@@ -109,6 +110,8 @@ export class DetailFeedPage implements OnInit {
     this.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.userId)
     let idTeepz = this.route.snapshot.paramMap.get('idTeepz')
+    this.previousBackUrl = this.route.snapshot.paramMap.get('previousBackUrl')
+    console.log(this.previousBackUrl)
     this.getAPost(idTeepz)
     this.getRepost(idTeepz)
 
@@ -243,11 +246,11 @@ export class DetailFeedPage implements OnInit {
       console.log(res)
       this.getMyPosts(this.userId)
       this.getMyFavoritePosts(this.userId)
-      this.presentToast('Post supprimé')
+      this.presentToast(MESSAGES.DELETE_FEED_OK)
 
     }, error => {
       console.log(error)
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.DELETE_FEED_ERROR)
     })
 
   }
@@ -257,10 +260,10 @@ export class DetailFeedPage implements OnInit {
       console.log(res)
       this.getMyPosts(this.userId)
       this.getMyFavoritePosts(this.userId)
-      this.presentToast('Post supprimé')
+      this.presentToast(MESSAGES.DELETE_FEED_OK)
     }, error => {
       console.log(error)
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.DELETE_FEED_ERROR)
     })
 
   }
@@ -371,9 +374,9 @@ export class DetailFeedPage implements OnInit {
         reposterId: post['reposterId'],
         favorite: false
       }
-      this.presentToast('Ajouté aux favoris')
+      this.presentToast(MESSAGES.FAVORITE_OK)
     }, error => {
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.FAVORITE_ERROR)
       console.log(error)
     })
   }
@@ -400,9 +403,9 @@ export class DetailFeedPage implements OnInit {
       }
 
 
-      this.presentToast('Enlevés des favoris')
+      this.presentToast(MESSAGES.REMOVE_FAVORITE_OK)
     }, error => {
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.REMOVE_FAVORITE_ERROR)
       console.log(error)
     })
   }

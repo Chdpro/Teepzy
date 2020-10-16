@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AddProjectPage } from '../add-project/add-project.page';
 import { ModalController, MenuController } from '@ionic/angular';
 import { AuthService } from '../providers/auth.service';
@@ -84,12 +84,15 @@ export class ProfilePage implements OnInit {
   lowValue: number = 0;
   highValue: number = 4;
 
+  previousUrl = ''
+
   constructor(private router: Router, private modalController: ModalController,
     private dataPass: DatapasseService,
     private contactService: ContactService,
     private socket: Socket,
     private menuCtrl: MenuController,
     public sanitizer: DomSanitizer,
+    public route: ActivatedRoute,
     private authService: AuthService) {
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false);
@@ -135,9 +138,19 @@ export class ProfilePage implements OnInit {
   ionViewWillEnter(){
     let userId = localStorage.getItem('teepzyUserId')
     this.socket.emit('online', userId );
-    this.getUserInfo(userId)
-    this.getMyPosts(userId)
-    this.getMyFavoritePosts(userId)
+    let idUser = this.route.snapshot.paramMap.get('userId')
+    this.previousUrl = this.route.snapshot.paramMap.get('previousUrl')
+    console.log(this.previousUrl)
+    if (!idUser) {
+      this.getUserInfo(userId)
+      this.getMyPosts(userId)
+      this.getMyFavoritePosts(userId)
+    }else{
+      this.getUserInfo(idUser)
+      this.getMyPosts(idUser)
+      this.getMyFavoritePosts(idUser)
+    }
+   
   }
 
   goToDetailProject(project){
@@ -157,7 +170,7 @@ export class ProfilePage implements OnInit {
 
 
   goToDetailMesTeepz(idTeepz) {
-    this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'mesTeepz' }])
+    this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'mesTeepz', previousBackUrl: this.previousUrl }])
     
   }
   goToDetailTeepz(idTeepz) {
@@ -167,7 +180,12 @@ export class ProfilePage implements OnInit {
 
 
   goToMembers(){
+    if (this.previousUrl == 'feed') {
+    this.router.navigate(['/friends', { previousUrl: 'feed',idUser: this.route.snapshot.paramMap.get('userId')  }])
+    } else {
     this.router.navigate(['/friends'])
+      
+    }
   }
 
   trackByFn(index, item) {

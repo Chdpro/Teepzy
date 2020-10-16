@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
-    <button class="mat-header-btn" mat-button [matMenuTriggerFor]="menu">
+    <button *ngIf="!previousUrl" class="mat-header-btn" mat-button [matMenuTriggerFor]="menu">
       <ion-icon name="ellipsis-horizontal"></ion-icon>
     </button>
     <mat-menu #menu="matMenu">

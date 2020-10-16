@@ -47,7 +47,10 @@
           </div>
           <span class="user_name">{{ message?.pseudo }}:</span><br>
           <span>{{ message?.text }}</span>
-          <div class="time">{{message?.createdAt | date:'dd.MM hh:mm'}}</div>
+          <div class="time">
+              {{message?.createdAt | slice:8:10}}.{{message?.createdAt | slice:5:7}}   
+              {{message?.createdAt | slice:11:13}}.{{message?.createdAt | slice:14:16}}
+          </div>
         </ion-col>
         <ion-col *ngIf="message?.userId !== userId" size="1">
 
@@ -67,7 +70,10 @@
 
           <span class="user_name">{{ message?.pseudo }}:</span><br>
           <span>{{ message?.text }}</span>
-          <div class="time">{{message?.createdAt | date:'dd.MM hh:mm'}}</div>
+          <div class="time">
+            {{message?.createdAt | slice:8:10}}.{{message?.createdAt | slice:5:7}}   
+            {{message?.createdAt | slice:11:13}}.{{message?.createdAt | slice:14:16}}
+          </div>
         </ion-col>
 
         <ion-col *ngIf="message?.userId == userId" size="2">
@@ -81,18 +87,18 @@
 
           <mat-menu #clickHoverMenu="matMenu">
          
-            <button (click)="addMessageToFavorite(message?._id)" mat-menu-item>
+            <!--button (click)="addMessageToFavorite(message?._id)" mat-menu-item>
               <mat-icon>start_border</mat-icon>
               <span>Important</span>
-            </button>
+            </butto-->
             <button (click)="replyto(message)" mat-menu-item>
               <mat-icon>reply</mat-icon>
               <span>Répondre</span>
             </button>
-            <button mat-menu-item>
+            <!--button mat-menu-item>
               <mat-icon>voicemail</mat-icon>
               <span>Transférer</span>
-            </button>
+            </button-->
             <button (click)="copyMessage(message?.text)" mat-menu-item>
               <mat-icon>file_copy</mat-icon>
               <span>Copier</span>
@@ -130,7 +136,7 @@
         </ion-item>
       </ion-col>
       <ion-col size="3">
-        <button ion-button clear color="primary" class="send-btn" (click)="sendMessage()" [disabled]="message === ''">
+        <button ion-button clear color="primary" class="send-btn" (click)="testDate()" [disabled]="message === ''">
           <ion-icon name="send"></ion-icon>
         </button>
       </ion-col>

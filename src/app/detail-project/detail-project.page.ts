@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-detail-project',
@@ -84,7 +85,7 @@ export class DetailProjectPage implements OnInit {
   delete(id){
     this.contactService.deleteProject(id).subscribe(res =>{
       console.log(res)
-      this.presentToast('Projet supprimé')
+      this.presentToast(MESSAGES.PROJECT_DELETED_OK)
       this.getUserInfo(this.userId)
     }, error =>{
       console.log(error)

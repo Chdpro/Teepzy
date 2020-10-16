@@ -8,6 +8,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { base_url } from 'src/config';
 import { ContactService } from '../providers/contact.service';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-signup-final',
@@ -89,7 +90,7 @@ export class SignupFinalPage implements OnInit {
         console.log(res)
         if (res['status'] == 200) {
           this.retourUsr = true
-          this.presentToast('Vous êtes bien connectés')
+          this.presentToast(MESSAGES.LOGIN_OK)
           localStorage.setItem('FinalStepCompleted', 'FinalStepCompleted')
           let user = {
             userId: this.user.userId,
@@ -104,7 +105,7 @@ export class SignupFinalPage implements OnInit {
         }
       }, error => {
         console.log(error)
-        this.presentToast('Oops! une erreur est survenue')
+        this.presentToast(MESSAGES.SERVER_ERROR)
       })
     }
     else {
@@ -157,7 +158,7 @@ export class SignupFinalPage implements OnInit {
     }, error => {
       console.log(error)
       this.loadingP = false
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.SERVER_ERROR)
 
     })
   }
@@ -230,7 +231,7 @@ export class SignupFinalPage implements OnInit {
           } 
         })
         }else if (this.dispImags.length > 1) {
-          this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+          this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
         }
     }, (err) => {
       // Handle error

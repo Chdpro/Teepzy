@@ -4,11 +4,10 @@ import { NavController, NavParams, ToastController, MenuController, AlertControl
 import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
-import { state } from '@angular/animations';
 import { AuthService } from '../providers/auth.service';
 import { MatMenuTrigger } from '@angular/material';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
-import { typeAccount } from '../constant/constant';
+import { typeAccount, MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-chat',
@@ -119,6 +118,9 @@ export class ChatPage implements OnInit {
     this.scrollToBottom();
   }
 
+  testDate(){
+    console.log(this.message.createdAt)
+  }
   replyto(msg) {
     this.message.isReply = true
     this.repliedMessage.pseudo = msg.pseudo;
@@ -173,7 +175,7 @@ export class ChatPage implements OnInit {
     const alert = await this.alertCtrl.create({
       cssClass: 'my-custom-class',
       header: 'Envoyer une invitation?',
-      message: 'Si vous envoyez une invitation, vous deviendrez probablement amis',
+      message: 'Envoyez votre invitation pour devenir des TeppZrs connectés .',
       buttons: [
         {
           text: 'Non',
@@ -207,12 +209,12 @@ export class ChatPage implements OnInit {
 
       this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
         console.log(res)
-        this.presentToast('Invitation envoyée')
+        this.presentToast(MESSAGES.INVITATION_SEND_OK)
         this.isInMyCircle = true
         this.socket.emit('notification', 'notification');
         this.loading = false
       }, error => {
-        this.presentToast('Invitation non envoyée')
+        this.presentToast(MESSAGES.INVITATION_SEND_ERROR)
         this.loading = false
       })
     } else {
@@ -224,12 +226,12 @@ export class ChatPage implements OnInit {
       console.log(invitation)
       this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
         console.log(res)
-        this.presentToast('Invitation envoyée')
+        this.presentToast(MESSAGES.INVITATION_SEND_OK)
         this.isInMyCircle = true
         this.socket.emit('notification', 'notification');
         this.loading = false
       }, error => {
-        this.presentToast('Invitation non envoyée')
+        this.presentToast(MESSAGES.INVITATION_SEND_ERROR)
         this.loading = false
       })
     }

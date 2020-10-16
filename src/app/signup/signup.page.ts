@@ -8,6 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal/ngx';
 import { isCordovaAvailable } from '../../common/is-cordova-available'
 import { oneSignalAppId, sender_id } from 'src/config';
+import { MESSAGES } from '../constant/constant';
 
 
 
@@ -231,10 +232,10 @@ export class SignupPage implements OnInit {
         alert(JSON.stringify(error))
         this.loading = false;
         if (error['status'] == 403) {
-          this.presentToast('Ce compte existe déjà. Vérifier email ou vos pseudos')
+          this.presentToast(MESSAGES.SIGNUP_EXIST_OK)
           this.dismissLoading()
         } else {
-          this.presentToast('Oops! une erreur est survenue sur le serveur')
+          this.presentToast(MESSAGES.SERVER_ERROR)
           alert(JSON.stringify(error))
           this.dismissLoading()
 
@@ -244,7 +245,7 @@ export class SignupPage implements OnInit {
 
     } else {
       this.loading = false;
-      this.presentToast('le mot de passe et la confirmation ne correspondent pas')
+      this.presentToast(MESSAGES.PASSWORD_NOT_MATCH)
       this.dismissLoading()
 
     }

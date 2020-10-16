@@ -4,6 +4,7 @@ import { MenuController, AlertController, ToastController } from '@ionic/angular
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-detail-produit',
@@ -88,7 +89,7 @@ export class DetailProduitPage implements OnInit {
   delete(id) {
     this.contactService.deleteProduct(id).subscribe(res => {
       console.log(res)
-      this.presentToast('Produit supprimé')
+      this.presentToast(MESSAGES.SHOP_DELETED_OK)
       this.getUserInfo(this.userId)
     }, error => {
       console.log(error)

@@ -6,6 +6,7 @@ import { MatTabGroup, MatTab } from '@angular/material';
 import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-tab2',
@@ -242,11 +243,11 @@ export class Tab2Page implements OnInit {
     }
     this.contactService.closeLinkPeople(invitation).subscribe(res =>{
       console.log(res)
-      this.presentToast('Relation réfusée')
+      this.presentToast(MESSAGES.LINK_DENIED_OK)
       this.listLinks()
     }, error =>{
       console.log(error)
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.SERVER_ERROR)
     })
   }
 
@@ -256,11 +257,11 @@ export class Tab2Page implements OnInit {
     }
     this.contactService.refuseLinkPeople(invitation).subscribe(res =>{
       console.log(res)
-      this.presentToast('Relation réfusée')
+      this.presentToast(MESSAGES.LINK_DENIED_OK)
       this.listLinks()
     }, error =>{
       console.log(error)
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.SERVER_ERROR)
     
     })
   }
@@ -313,12 +314,12 @@ export class Tab2Page implements OnInit {
         this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, 
           room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
       } else {
-        this.presentToast('Cette discussion existe déjà')
+        this.presentToast(MESSAGES.ROOM_EXIST_OK)
         this.loading = false
       }
     }, error => {
       this.loading = false
-      this.presentToast('Oops! une erreur est survenue')
+      this.presentToast(MESSAGES.SERVER_ERROR)
       console.log(error)
     })
   }

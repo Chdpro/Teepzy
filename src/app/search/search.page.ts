@@ -5,7 +5,7 @@ import { ToastController, AlertController, MenuController } from '@ionic/angular
 import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-import { typeAccount } from '../constant/constant';
+import { typeAccount, MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-search',
@@ -248,13 +248,13 @@ export class SearchPage implements OnInit {
     this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
       console.log(res)
       this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = true : null)
-      this.presentToast('Invitation envoyée')
+      this.presentToast(MESSAGES.INVITATION_SEND_OK)
       this.showModal = false
       this.socket.emit('notification', 'notification');
       console.log(this.listTeepzrsToInvite)
       this.loading = false
     }, error => {
-      this.presentToast('Invitation non envoyée')
+      this.presentToast(MESSAGES.INVITATION_SEND_ERROR)
       this.loading = false
       this.showModal = false
 
@@ -272,7 +272,7 @@ export class SearchPage implements OnInit {
 
     this.contactService.cancelToJoinCircle(invitation).subscribe(res => {
       if (res['status'] == 400) {
-        this.presentToast('Invitation non envoyée')
+        this.presentToast(MESSAGES.INVITATION_SEND_ERROR)
         this.loading = false
 
       } else {
@@ -284,7 +284,7 @@ export class SearchPage implements OnInit {
       }
       //  this.getTeepzr()
     }, error => {
-      this.presentToast('Invitation non envoyée')
+      this.presentToast(MESSAGES.INVITATION_SEND_ERROR)
       this.loading = false
 
     })

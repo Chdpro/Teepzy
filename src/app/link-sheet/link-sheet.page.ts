@@ -3,7 +3,7 @@ import { ModalController, ToastController, NavParams, MenuController } from '@io
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { Globals } from '../globals';
-import { typeAccount } from '../constant/constant';
+import { typeAccount, MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-link-sheet',
@@ -129,7 +129,7 @@ export class LinkSheetPage implements OnInit {
       postId: this.publication._id
     }
     if (this.userId == this.publication.userId) {
-      this.presentToast("Vous ne pouvez pas linker cette publication parce que vous en êtes l'auteur")
+      this.presentToast(MESSAGES.AUTHO_FEED_NO_MATCH_OK)
     }else{
       this.contactService.linkPeoples(invitation).subscribe(res => {
         console.log(res)
