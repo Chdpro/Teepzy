@@ -132,6 +132,8 @@
       "cordova-plugin-filepath": {},
       "cordova-plugin-file-transfer": {}
     },
-    "platforms": []
+    "platforms": [
+      "android"
+    ]
   }
 }

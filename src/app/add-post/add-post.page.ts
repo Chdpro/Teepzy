@@ -229,50 +229,12 @@ export class AddPostPage implements OnInit {
       result => {
         if (result.hasPermission) {
           // code
-
-          let options: CaptureVideoOptions = { limit: 1, duration: 15 }
-          this.mediaCapture.captureVideo(options)
-            .then(
-              (data: MediaFile[]) => {
-                // imageData is either a base64 encoded string or a file URI
-                // If it's base64 (DATA_URL):
-                // let base64Image = 'data:image/jpeg;base64,' + imageData;
-                // alert(data[0].fullPath)
-                // this.copyFileToLocalDir(data[0].fullPath);
-
-                alert(data[0].fullPath)
-                this.storeMediaFiles(data)
-                this.dispVideos.push(data[0].fullPath)
-                this.videos.push(data[0].fullPath)
-              },
-              (err: CaptureError) => {
-                alert(err)
-              }
-            );
+            this.recordVideo()
         } else {
           this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => {
             if (result.hasPermission) {
               // code
-
-              let options: CaptureVideoOptions = { limit: 1, duration: 15 }
-              this.mediaCapture.captureVideo(options)
-                .then(
-                  (data: MediaFile[]) => {
-                    // imageData is either a base64 encoded string or a file URI
-                    // If it's base64 (DATA_URL):
-                    // let base64Image = 'data:image/jpeg;base64,' + imageData;
-                    // alert(data[0].fullPath)
-                    // this.copyFileToLocalDir(data[0].fullPath);
-
-                    alert(data[0].fullPath)
-                    this.storeMediaFiles(data)
-                    // this.dispVideos.push(data[0].fullPath)
-
-                  },
-                  (err: CaptureError) => {
-                    alert(err)
-                  }
-                );
+              this.recordVideo()
             }
           });
         }
@@ -299,6 +261,70 @@ export class AddPostPage implements OnInit {
     })
   }
 
+
+
+  recordVideo() {
+    
+    let options: CaptureVideoOptions = { limit: 1, duration: 15 }
+    this.mediaCapture.captureVideo(options)
+      .then(
+        (data: MediaFile[]) => {
+          // imageData is either a base64 encoded string or a file URI
+          // If it's base64 (DATA_URL):
+          // let base64Image = 'data:image/jpeg;base64,' + imageData;
+          this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(data))
+          let videoPath = 'file://' + data
+          this.filePath.resolveNativePath(videoPath).then((nativepath) => {
+            if (this.videos.length == 0) {
+              this.videos.push(nativepath)
+            } else if (this.videos.length > 1) {
+              this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
+            }
+          }, error => {
+          })
+        },
+        (err: CaptureError) => {
+          console.error(err)
+        }
+      );
+
+
+  /*
+  let options: CaptureVideoOptions = { limit: 1, duration: 15 }
+  this.mediaCapture.captureVideo(options)
+    .then(
+      (data: MediaFile[]) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):
+        // let base64Image = 'data:image/jpeg;base64,' + imageData;
+        let videoPath = data[0].fullPath
+        let capturedFile = data[0]
+        let fileName = capturedFile.name;
+        let dir = capturedFile['localURL'].split('/');
+        dir.pop();
+        let fromDirectory = dir.join('/');
+        let toDirectory = this.file.dataDirectory;
+
+        alert('starting copy...')
+        if (this.videos.length == 0) {
+          this.file.copyFile(fromDirectory, fileName, toDirectory, fileName).then(res => {
+            // let url = res.nativeURL.replace(/^file:\/\//, '')
+            // this.dispVideos.push(url)
+            let path = this.file.dataDirectory + fileName
+            let url = path.replace(/^file:\/\//, '')
+            this.dispVideos.push(url)
+            this.videos.push(videoPath)
+            alert(JSON.stringify(this.dispVideos))
+          })
+        } else if (this.videos.length > 1) {
+          this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
+        }
+      },
+      (err: CaptureError) => {
+        console.error(err)
+      }
+    );*/
+}
 
 
   pickVideo(sourceType) {
