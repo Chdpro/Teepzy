@@ -39,9 +39,13 @@
           controls controlsList="nodownload"
           >
         </iframe-->
-          <div *ngIf="dispVideos?.length > 0">
+          <div *ngIf="dispVideos?.length > 0 && mediaFiles?.length == 0">
             <video #myVideo preload="metadata" controls="false">
               <source [src]="sanitizer.bypassSecurityTrustResourceUrl(dispVideos[0])" type="video/mp4">
+            </video>
+          </div>
+          <div *ngIf="dispVideos?.length == 0 && mediaFiles?.length > 0">
+            <video #myVideoCamera  *ngFor="let f of mediaFiles" (click)="playtakenVideo(f)" preload="metadata" controls="false">
             </video>
           </div>
 

@@ -16,6 +16,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { MESSAGES } from '../constant/constant';
+import { Storage } from '@ionic/storage';
+import { File } from '@ionic-native/file/ngx';
+
+
+const MEDIA_FILES_KEY = 'mediaFiles'
+
 
 @Component({
   selector: 'app-add-post',
@@ -56,6 +62,10 @@ export class AddPostPage implements OnInit {
 
 
   @ViewChild('myVideo', null) videoPlayers: ElementRef;
+  @ViewChild('myVideoCamera', null) myVideoCamera: ElementRef;
+
+  
+  mediaFiles = []
 
   currentPlaying = null
 
@@ -75,7 +85,9 @@ export class AddPostPage implements OnInit {
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController,
     private mediaCapture: MediaCapture,
-    private androidPermissions: AndroidPermissions
+    private androidPermissions: AndroidPermissions,
+    private storage: Storage,
+    private file: File
   ) {
 
     this.menuCtrl.close('first');
@@ -94,13 +106,14 @@ export class AddPostPage implements OnInit {
 
   }
 
+
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-     // console.log(res)
+      // console.log(res)
       this.user = res['data'];
       this.user['photo'] ? this.userPhoto[0] = this.user['photo'] : null
     }, error => {
-    //  console.log(error)
+      //  console.log(error)
     })
   }
 
@@ -227,7 +240,7 @@ export class AddPostPage implements OnInit {
       result => {
         if (result.hasPermission) {
           // code
-            this.recordVideo()
+          this.recordVideo()
         } else {
           this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => {
             if (result.hasPermission) {
@@ -243,26 +256,31 @@ export class AddPostPage implements OnInit {
   }
 
   storeMediaFiles(files) {
-    let mediafiles = []
-    mediafiles = mediafiles.concat(files)
-    alert(mediafiles[0].localURL)
-    this.dispVideos.push(mediafiles[0].localURL)
-    this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(mediafiles[0].localURL))
-    this.filePath.resolveNativePath(mediafiles[0].localURL).then((nativepath) => {
-      alert(nativepath)
-      if (this.videos.length == 0 && this.photos.length == 0) {
-        this.videos.push(nativepath)
-      } else if (this.videos.length > 1 && this.photos.length > 0) {
-        this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
+    this.storage.get(MEDIA_FILES_KEY).then(res => {
+      if (res) {
+        let arr = JSON.parse(res)
+        arr = arr.concat(files)
+      } else {
+        this.storage.set(MEDIA_FILES_KEY, JSON.stringify(files))
       }
-    }, error => {
+      this.mediaFiles = this.mediaFiles.concat(files)
     })
   }
 
 
+  playtakenVideo(myFile) {
+    if (this.myVideoCamera) {
+      let path = this.file.dataDirectory + myFile.name
+      let url = path.replace(/^file:\/\//, '')
+      let video = this.myVideoCamera.nativeElement;
+      video.src = url;
+      video.play()   
+    }
+
+  }
+
 
   recordVideo() {
-    
     let options: CaptureVideoOptions = { limit: 1, duration: 15 }
     this.mediaCapture.captureVideo(options)
       .then(
@@ -270,59 +288,30 @@ export class AddPostPage implements OnInit {
           // imageData is either a base64 encoded string or a file URI
           // If it's base64 (DATA_URL):
           // let base64Image = 'data:image/jpeg;base64,' + imageData;
-          this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(data))
-          let videoPath = 'file://' + data
-          this.filePath.resolveNativePath(videoPath).then((nativepath) => {
-            if (this.videos.length == 0) {
-              this.videos.push(nativepath)
-            } else if (this.videos.length > 1) {
-              this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
-            }
-          }, error => {
-          })
+          let videoPath = data[0].fullPath
+          let capturedFile = data[0]
+          let fileName = capturedFile.name;
+          let dir = capturedFile['localURL'].split('/');
+          dir.pop();
+          let fromDirectory = dir.join('/');
+          let toDirectory = this.file.dataDirectory;
+
+          if (this.videos.length == 0) {
+            this.file.copyFile(fromDirectory, fileName, toDirectory, fileName).then(res => {
+              this.storeMediaFiles([{ name: fileName, size: capturedFile.size }])
+              //   this.dispVideos.push(url)
+                this.videos.push(videoPath)
+            })
+          } else if (this.videos.length > 1) {
+            this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
+          }
         },
         (err: CaptureError) => {
           console.error(err)
         }
       );
+  }
 
-
-  /*
-  let options: CaptureVideoOptions = { limit: 1, duration: 15 }
-  this.mediaCapture.captureVideo(options)
-    .then(
-      (data: MediaFile[]) => {
-        // imageData is either a base64 encoded string or a file URI
-        // If it's base64 (DATA_URL):
-        // let base64Image = 'data:image/jpeg;base64,' + imageData;
-        let videoPath = data[0].fullPath
-        let capturedFile = data[0]
-        let fileName = capturedFile.name;
-        let dir = capturedFile['localURL'].split('/');
-        dir.pop();
-        let fromDirectory = dir.join('/');
-        let toDirectory = this.file.dataDirectory;
-
-        alert('starting copy...')
-        if (this.videos.length == 0) {
-          this.file.copyFile(fromDirectory, fileName, toDirectory, fileName).then(res => {
-            // let url = res.nativeURL.replace(/^file:\/\//, '')
-            // this.dispVideos.push(url)
-            let path = this.file.dataDirectory + fileName
-            let url = path.replace(/^file:\/\//, '')
-            this.dispVideos.push(url)
-            this.videos.push(videoPath)
-            alert(JSON.stringify(this.dispVideos))
-          })
-        } else if (this.videos.length > 1) {
-          this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
-        }
-      },
-      (err: CaptureError) => {
-        console.error(err)
-      }
-    );*/
-}
 
 
   pickVideo(sourceType) {
@@ -338,8 +327,6 @@ export class AddPostPage implements OnInit {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
-
-
       this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(videoData))
       let videoPath = 'file://' + videoData
       this.filePath.resolveNativePath(videoPath).then((nativepath) => {
@@ -350,9 +337,6 @@ export class AddPostPage implements OnInit {
         }
       }, error => {
       })
-
-
-
 
     }, (err) => {
       // Handle error
@@ -416,7 +400,7 @@ export class AddPostPage implements OnInit {
       }
     );
   }
-  
+
   uploadImage() {
     var ref = this;
     this.loading = true
@@ -490,19 +474,19 @@ export class AddPostPage implements OnInit {
 
   confirmBeforePosting() {
     this.showModal = true
-   // console.log(this.showModal)
+    // console.log(this.showModal)
   }
 
   getPosts(userId) {
     this.contactService.getPosts(userId).subscribe(res => {
-     // console.log(res)
+      // console.log(res)
       this.listPosts = res['data']
       this.dataPass.sendPosts(this.listPosts);
       this.dismiss()
       this.presentToast(MESSAGES.ADD_FEED_OK)
 
     }, error => {
-     // console.log(error)
+      // console.log(error)
     })
   }
 
@@ -512,14 +496,14 @@ export class AddPostPage implements OnInit {
     this.post.userPseudo = this.user.pseudoIntime
     //this.photos.length > 0 ? this.uploadImage() : null
     this.contactService.addPost(this.post).subscribe(res => {
-     // console.log(res);
+      // console.log(res);
       if (res['status'] == 200) {
         this.getPosts(this.post.userId)
         this.loading = false
 
       }
     }, error => {
-     // console.log(error)
+      // console.log(error)
       this.loading = false
       this.presentToast(MESSAGES.ADD_FEED_ERROR)
 
@@ -527,7 +511,7 @@ export class AddPostPage implements OnInit {
   }
 
   setBackgroundColor(color: string) {
-  //  console.log(color)
+    //  console.log(color)
     this.post.backgroundColor = color;
     this.presentToast(MESSAGES.COLOR_CHOSED_OK)
   }

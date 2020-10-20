@@ -60,6 +60,9 @@
         <edit-config file="*-Info.plist" mode="merge" target="NSContactsUsageDescription">
             <string> need to access to search contacts </string>
         </edit-config>
+        <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
+            <string>You can take photos</string>
+        </config-file>
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />

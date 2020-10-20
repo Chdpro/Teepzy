@@ -40,6 +40,7 @@ import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { IonicSwipeAllModule } from 'ionic-swipe-all';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { local_url, base_url } from 'src/config';
 import { Globals } from './globals';
@@ -71,6 +72,7 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     Ng2SearchPipeModule,
     EmojiPickerModule,
     IonicSwipeAllModule,
+    IonicStorageModule.forRoot(),
     SocketIoModule.forRoot(config)
   ],
   providers: [

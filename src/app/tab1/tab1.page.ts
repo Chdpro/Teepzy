@@ -577,23 +577,6 @@ export class Tab1Page implements OnInit {
     await actionSheet.present();
   }
 
-  playVideoHosted(video) {
-   // console.log('video')
-
-    if (video) {
-      this.isPlaying = true
-      this.videoPlayer.play(video).then(() => {
-     //   console.log('video completed');
-        this.isPlaying = false
-      }).catch(err => {
-       // console.log(err);
-       // alert(JSON.stringify(err))
-        this.isPlaying = false
-
-      });
-    }
-
-  }
 
   changeAccount(typeAccount) {
     let change = {
