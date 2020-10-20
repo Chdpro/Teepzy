@@ -9,14 +9,12 @@ import { DatapasseService } from '../providers/datapasse.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
-import { File } from '@ionic-native/file/ngx';
 import { base_url } from 'src/config';
 import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { MESSAGES } from '../constant/constant';
 
 @Component({
@@ -98,11 +96,11 @@ export class AddPostPage implements OnInit {
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.user = res['data'];
       this.user['photo'] ? this.userPhoto[0] = this.user['photo'] : null
     }, error => {
-      console.log(error)
+    //  console.log(error)
     })
   }
 
@@ -492,19 +490,19 @@ export class AddPostPage implements OnInit {
 
   confirmBeforePosting() {
     this.showModal = true
-    console.log(this.showModal)
+   // console.log(this.showModal)
   }
 
   getPosts(userId) {
     this.contactService.getPosts(userId).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.listPosts = res['data']
       this.dataPass.sendPosts(this.listPosts);
       this.dismiss()
       this.presentToast(MESSAGES.ADD_FEED_OK)
 
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
@@ -514,14 +512,14 @@ export class AddPostPage implements OnInit {
     this.post.userPseudo = this.user.pseudoIntime
     //this.photos.length > 0 ? this.uploadImage() : null
     this.contactService.addPost(this.post).subscribe(res => {
-      console.log(res);
+     // console.log(res);
       if (res['status'] == 200) {
         this.getPosts(this.post.userId)
         this.loading = false
 
       }
     }, error => {
-      console.log(error)
+     // console.log(error)
       this.loading = false
       this.presentToast(MESSAGES.ADD_FEED_ERROR)
 
@@ -529,7 +527,7 @@ export class AddPostPage implements OnInit {
   }
 
   setBackgroundColor(color: string) {
-    console.log(color)
+  //  console.log(color)
     this.post.backgroundColor = color;
     this.presentToast(MESSAGES.COLOR_CHOSED_OK)
   }

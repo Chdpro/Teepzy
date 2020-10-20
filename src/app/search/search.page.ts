@@ -79,7 +79,7 @@ export class SearchPage implements OnInit {
   }
 
   getPaginatorDataTeepzr(event) {
-    console.log(event);
+   // console.log(event);
     if (event.pageIndex === this.pageIndexT + 1) {
       this.lowValueT = this.lowValueT + this.pageSizeT;
       this.highValueT = this.highValueT + this.pageSizeT;
@@ -111,13 +111,13 @@ export class SearchPage implements OnInit {
           if (this.selectedTab <= 4) {
             this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
           }
-          console.log("Swipe left - INDEX: " + this.selectedTab);
+       //   console.log("Swipe left - INDEX: " + this.selectedTab);
         } else if (swipe === 'previous') {
           const isLast = this.selectedTab === 4;
           if (this.selectedTab >= 1) {
             this.selectedTab = this.selectedTab - 1;
           }
-          console.log("Swipe right — INDEX: " + this.selectedTab);
+         // console.log("Swipe right — INDEX: " + this.selectedTab);
         }
         // Do whatever you want with swipe
       }
@@ -129,7 +129,7 @@ export class SearchPage implements OnInit {
       //console.log(res)
       this.posts = res['data'];
     }, error =>{
-      console.log(error)
+     // console.log(error)
     })
   }
 
@@ -155,20 +155,20 @@ export class SearchPage implements OnInit {
     this.contactService.searchTeepZrs(this.search).subscribe(res =>{
       this.loading = false
       this.usersNotInCircles = res['users']
-      console.log(this.usersNotInCircles)
+      //console.log(this.usersNotInCircles)
       this.usersNotInCircles.forEach(e => {
         let invitation = { idSender: this.search.userId, idReceiver: e['_id'] }
         this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
           if (res['status'] == 201) {
             this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null :  this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'],  pseudoIntime: e['pseudoIntime'], circleMembersCount: e['circleMembersCount'], invited: true }) 
           } else {
-            console.log(this.listTeepzrsToInvite)
+       //     console.log(this.listTeepzrsToInvite)
             this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null : this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'],  pseudoIntime: e['pseudoIntime'], circleMembersCount: e['circleMembersCount'], invited: false })
           }
         })
       });
     }, error =>{
-      console.log(error)
+     // console.log(error)
       this.loading = false
     })
   }
@@ -176,10 +176,10 @@ export class SearchPage implements OnInit {
 
   getTeepzr() {
     this.contactService.teepZrs(this.search.userId).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.listTeepZrs = res['data']
     }, error => {
-      console.log(error)
+     // console.log(error)
 
     })
   }
@@ -198,7 +198,7 @@ export class SearchPage implements OnInit {
   searchOnMatches(){
     this.loading = true
     this.contactService.SearchOnMatch(this.search).subscribe(res =>{
-      console.log(res);
+     // console.log(res);
       this.loading = false
       //this.users = res['users']
       this.products = res['products']
@@ -206,16 +206,16 @@ export class SearchPage implements OnInit {
       this.posts = res['posts']
     }, error =>{
       this.loading = false
-      console.log(error)
+     // console.log(error)
     })
 
     this.contactService.SearchInCircleOnMatch(this.search).subscribe(res =>{
-      console.log(res);
+     // console.log(res);
       this.loading = false
       this.users = res['users']
     }, error =>{
       this.loading = false
-      console.log(error)
+     // console.log(error)
     })
   }
 
@@ -238,7 +238,7 @@ export class SearchPage implements OnInit {
 
 
   sendInvitationToJoinCircle(idReceiver) {
-    console.log(idReceiver)
+    //console.log(idReceiver)
     this.loading = true
     let invitation = {
       idSender: this.search.userId,
@@ -246,12 +246,12 @@ export class SearchPage implements OnInit {
       typeLink: typeAccount.pseudoIntime
     }
     this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
-      console.log(res)
+      //console.log(res)
       this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = true : null)
       this.presentToast(MESSAGES.INVITATION_SEND_OK)
       this.showModal = false
       this.socket.emit('notification', 'notification');
-      console.log(this.listTeepzrsToInvite)
+      //console.log(this.listTeepzrsToInvite)
       this.loading = false
     }, error => {
       this.presentToast(MESSAGES.INVITATION_SEND_ERROR)
@@ -277,7 +277,7 @@ export class SearchPage implements OnInit {
 
       } else {
         this.listTeepzrsToInvite.find((c, index) => c['_id'] == u._id ? c['invited'] = false : null)
-        console.log(this.listTeepzrsToInvite)
+        //console.log(this.listTeepzrsToInvite)
         this.presentToast('Invitation annulée')
         this.loading = false
 

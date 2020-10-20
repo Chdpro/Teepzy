@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
-import { ToastController, LoadingController, ActionSheetController, MenuController } from '@ionic/angular';
+import { ToastController, ActionSheetController, MenuController } from '@ionic/angular';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { FilePath } from '@ionic-native/file-path/ngx';
@@ -137,13 +137,13 @@ export class EditProfilePage implements OnInit {
           if (this.selectedTab <= 2) {
             this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
           }
-          console.log("Swipe left - INDEX: " + this.selectedTab);
+         // console.log("Swipe left - INDEX: " + this.selectedTab);
         } else if (swipe === 'previous') {
           const isLast = this.selectedTab === 2;
           if (this.selectedTab >= 1) {
             this.selectedTab = this.selectedTab - 1;
           }
-          console.log("Swipe right — INDEX: " + this.selectedTab);
+         // console.log("Swipe right — INDEX: " + this.selectedTab);
         }
         // Do whatever you want with swipe
       }
@@ -155,15 +155,15 @@ export class EditProfilePage implements OnInit {
     let userId = localStorage.getItem('teepzyUserId')
     // update profile 1
     this.tags.length > 0 ? this.profile1.hobbies = this.tags : null
-    console.log(this.profile1.hobbies)
+   // console.log(this.profile1.hobbies)
     this.authService.updateProfile(this.profile1).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.presentToast(MESSAGES.PROFILE_UPDATED_OK)
       this.getUserInfo(userId)
       this.loading = false
       this.router.navigate(['/tabs/profile'])
     }, error => {
-      console.log(error)
+     // console.log(error)
       this.presentToast(MESSAGES.PROFILE_UPDATED_ERROR)
       this.loading = false
 
@@ -205,16 +205,16 @@ export class EditProfilePage implements OnInit {
 
   getSocials() {
     this.contactService.getSocials().subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.socials = res
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.user = res['data'];
       this.dataPasse.send(this.user)
       this.profile1.pseudoIntime = this.user['pseudoIntime'];
@@ -234,7 +234,7 @@ export class EditProfilePage implements OnInit {
       this.user['photo'] ? this.profile1.photo = this.user['photo'] : null
 
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
@@ -440,7 +440,7 @@ export class EditProfilePage implements OnInit {
 
 
   shwModal() {
-    console.log(this.showModal)
+   // console.log(this.showModal)
     if (this.showModal === 'hidden') {
       this.showModal = 'visible'
 
@@ -453,11 +453,11 @@ export class EditProfilePage implements OnInit {
 
   swithEditModeB() {
     this.isEditableB ? this.isEditableB = false : this.isEditableB = true
-    console.log(this.isEditableB)
+  //  console.log(this.isEditableB)
   }
   swithEditModeH() {
     this.isEditableH ? this.isEditableH = false : this.isEditableH = true
-    console.log(this.isEditableH)
+    //console.log(this.isEditableH)
 
   }
 

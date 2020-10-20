@@ -3,7 +3,7 @@ import { ModalController, ToastController, NavParams, MenuController } from '@io
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { Globals } from '../globals';
-import { typeAccount, MESSAGES } from '../constant/constant';
+import { MESSAGES } from '../constant/constant';
 
 @Component({
   selector: 'app-link-sheet',
@@ -55,7 +55,7 @@ export class LinkSheetPage implements OnInit {
 
   ionViewWillEnter(){
     let post = this.navParams.data;
-    console.log(post)
+   // console.log(post)
     this.publication.userId = post.userId
     this.publication._id = post._id
     this.matches = post.matches
@@ -68,30 +68,30 @@ export class LinkSheetPage implements OnInit {
 
   getTeepzr() {
     this.contactService.getCircleMembers(this.userId).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.listTeepZrs = res['data']
     }, error => {
-      console.log(error)
+     // console.log(error)
 
     })
   }
 
 
   closeModalOnSwipeDown(event) {
-    console.log('close modal');
+   // console.log('close modal');
     this.dismiss()
   }
 
   addLink(link) {
-    console.log(this.usersSelected.includes(link['_id']))
+    //console.log(this.usersSelected.includes(link['_id']))
     if (this.usersSelected.includes(link['_id'])) {
       let l = this.deleteItemFromList(this.usersSelected, link['_id'])
       this.usersSelected = l
-      console.log(this.usersSelected)
+      //console.log(this.usersSelected)
 
     } else {
       this.usersSelected.push(link['_id'])
-      console.log(this.usersSelected)
+      //console.log(this.usersSelected)
 
     }
   }
@@ -132,12 +132,12 @@ export class LinkSheetPage implements OnInit {
       this.presentToast(MESSAGES.AUTHO_FEED_NO_MATCH_OK)
     }else{
       this.contactService.linkPeoples(invitation).subscribe(res => {
-        console.log(res)
+        //console.log(res)
         //this.presentToast('Vous avez linké ce post')
         this.dismiss()
       }, error => {
         this.presentToast('Oops! une erreur est survenue')
-        console.log(error)
+        //console.log(error)
       })
     }
  
@@ -166,13 +166,13 @@ export class LinkSheetPage implements OnInit {
           if (this.selectedTab <= 2) {
             this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
           }
-          console.log("Swipe left - INDEX: " + this.selectedTab);
+          //console.log("Swipe left - INDEX: " + this.selectedTab);
         } else if (swipe === 'previous') {
           const isLast = this.selectedTab === 2;
           if (this.selectedTab >= 1) {
             this.selectedTab = this.selectedTab - 1;
           }
-          console.log("Swipe right — INDEX: " + this.selectedTab);
+          //console.log("Swipe right — INDEX: " + this.selectedTab);
         }
         // Do whatever you want with swipe
       }
@@ -199,7 +199,7 @@ export class LinkSheetPage implements OnInit {
 
   getUsersToMatch() {
     this.contactService.getUsersMatch(this.userId).subscribe(res => {
-      console.log(res)
+      //console.log(res)
       this.users = res['data'];
       for (const u of this.users) {
         this.usersMatch.push({
@@ -212,16 +212,16 @@ export class LinkSheetPage implements OnInit {
         })
       }
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.user = res['data'];
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 

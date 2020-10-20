@@ -1,11 +1,11 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AlertController, ToastController, MenuController, ModalController, NavParams, ActionSheetController } from '@ionic/angular';
 import { AuthService } from '../providers/auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
 import { Subscription } from 'rxjs';
 import { base_url } from 'src/config';
-import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
@@ -85,7 +85,7 @@ export class EditPostPage implements OnInit {
     this.getUserInfo(this.userId)
    // let idTeepz = this.route.snapshot.paramMap.get('idTeepz')
     let post = this.navParams.data;
-    console.log(post['_id'])
+   // console.log(post['_id'])
     this.getAPost(post['_id'])
     this.getRepost(post['_id'])
   }
@@ -94,17 +94,17 @@ export class EditPostPage implements OnInit {
   
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.user = res['data'];
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
 
   getAPost(idTeepz) {
     this.contactService.getPost(idTeepz).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.poste = res['data'];
       this.post.content = this.poste.content
       this.post.backgroundColor = this.poste.backgroundColor
@@ -116,14 +116,14 @@ export class EditPostPage implements OnInit {
       this.post.video_url = this.poste.video_url
       this.dataPasse.send(this.poste)
     }, error => {
-      console.log(error)
+    //  console.log(error)
     })
 
   }
 
   getRepost(idTeepz) {
     this.contactService.getRePost(idTeepz).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       if (this.poste == null) {
         this.poste = res['data']
         this.post.content = this.poste.content
@@ -137,7 +137,7 @@ export class EditPostPage implements OnInit {
       }
 
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
@@ -172,21 +172,21 @@ export class EditPostPage implements OnInit {
 
   getMyPosts(userId) {
     this.contactService.teepZ(userId).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       let listTeepz = res['data'];
       this.dataPasse.sendPosts(listTeepz)
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
   getMyFavoritePosts(userId) {
     this.contactService.favorites(userId).subscribe(res => {
-      console.log(res)
+   //   console.log(res)
       let listFavorites = res['data'];
       this.dataPasse.sendFavorite(listFavorites)
     }, error => {
-      console.log(error)
+    //  console.log(error)
     })
   }
 
@@ -205,7 +205,7 @@ export class EditPostPage implements OnInit {
       backgroundColor: this.post.backgroundColor,
     }
     this.contactService.updatePost(post).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.loading = false
       this.presentToast('Post modifié')
       this.getAPost(this.post.postId)
@@ -214,7 +214,7 @@ export class EditPostPage implements OnInit {
       this.dismiss()
 
     }, error => {
-      console.log(error)
+     // console.log(error)
       this.loading = false
 
     })
@@ -231,14 +231,14 @@ export class EditPostPage implements OnInit {
       backgroundColor: this.post.backgroundColor,
     }
     this.contactService.updateRePost(post).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.loading = false
       this.presentToast('Post modifié')
       this.getMyFavoritePosts(this.userId)
       this.getMyPosts(this.userId)
       this.dismiss()
     }, error => {
-      console.log(error)
+     // console.log(error)
       this.loading = false
       this.presentToast('Oops! une erreur est survenue')
 
@@ -445,7 +445,7 @@ export class EditPostPage implements OnInit {
 
 
   setBackgroundColor(color: string) {
-    console.log(color)
+  //  console.log(color)
     this.post.backgroundColor = color;
     this.presentToast('couleur sélectionnée')
   }

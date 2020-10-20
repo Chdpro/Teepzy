@@ -59,6 +59,8 @@ export enum MESSAGES {
     ROOM_INITIATED_ERROR="Erreur lors de la création d'une conversation",
     ROOM_DELETED_OK="Conversation supprimée",
     ROOM_EXIST_OK="Cette conversation existe",
+    ROOM_UPDATE_OK="Une nouvelle personne ajoutée à la discussion",
+    ROOM_UPDATE_ERROR="Erreur lors de l'ajout d'une nouvelle personne ",
     ROOM_DELETED_ERROR="Erreur lors de la suppression de la conversation",
     PROFILE_UPDATED_OK="Profile mise à jour",
     PROFILE_UPDATED_ERROR="Erreur lors de la mise à jour du profile",

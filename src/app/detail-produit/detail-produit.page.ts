@@ -52,8 +52,8 @@ export class DetailProduitPage implements OnInit {
     this.product.price = product.price
     this.userId = localStorage.getItem('teepzyUserId')
     this.userId === product.userId ? this.showDeleteBtn = true: this.showDeleteBtn = false
-    console.log(tags)
-    console.log(product)
+   // console.log(tags)
+   // console.log(product)
   }
 
 
@@ -88,22 +88,22 @@ export class DetailProduitPage implements OnInit {
 
   delete(id) {
     this.contactService.deleteProduct(id).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.presentToast(MESSAGES.SHOP_DELETED_OK)
       this.getUserInfo(this.userId)
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-      console.log(res)
+   //   console.log(res)
       this.listProducts = res['products']
       this.dataPasse.sendProducts(this.listProducts)
       this.router.navigate(['/tabs/profile'])
     }, error => {
-      console.log(error)
+    //  console.log(error)
     })
   }
 

@@ -14,6 +14,7 @@ export class DatapasseService {
   private subjectProdut = new Subject<any>();  
   private subjectProject = new Subject<any>();  
   private subjectRoom = new Subject<any>();  
+  
 
   private subjectFavorite = new Subject<any>();  
 
@@ -42,6 +43,14 @@ export class DatapasseService {
     return this.subjectProdut.asObservable();  
   }
 
+  sendRoom(room) {  
+    this.subjectRoom.next(room);  
+  }
+
+  getRoom(): Observable<any> {  
+    return this.subjectRoom.asObservable();  
+  }
+
 
   getPosts(): Observable<any> {  
     return this.subjectPost.asObservable();  
@@ -56,7 +65,7 @@ export class DatapasseService {
   }
 
   send(data) {  
-    console.log(data)
+   // console.log(data)
     this.subjectRoom.next(data);  
   }  
 
@@ -65,7 +74,7 @@ export class DatapasseService {
   }
 
   sendFavorite(data) {  
-    console.log(data)
+   // console.log(data)
     this.subjectFavorite.next(data);  
   }  
 

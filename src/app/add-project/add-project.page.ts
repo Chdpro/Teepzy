@@ -87,7 +87,7 @@ export class AddProjectPage implements OnInit {
   maxLengthDescription(ev:Event){
     let desc = this.project.description
     this.project.description.length > 100 ? this.project.description =  desc.slice(0,99): null 
-    console.log(this.project.description.slice(0, 99))
+   // console.log(this.project.description.slice(0, 99))
   }
 
 
@@ -315,11 +315,11 @@ export class AddProjectPage implements OnInit {
 
   getProjects(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.listProjects = res['projects']
       this.dataPass.sendProjects(this.listProjects);  
     }, error =>{
-      console.log(error)
+     // console.log(error)
     })
   }
 
@@ -328,14 +328,14 @@ export class AddProjectPage implements OnInit {
     this.tags.length > 0 ? this.project.tags = this.tags : null
     //this.photos.length > 0? this.uploadImage() : null
     this.contactService.addProject(this.project).subscribe(res =>{
-      console.log(res);
+     // console.log(res);
       this.loading = false
       this.presentToast(MESSAGES.PROJECT_CREATED_OK)
       let userId = localStorage.getItem('teepzyUserId')
       this.getProjects(userId)
       this.dismiss()
     }, error =>{
-      console.log(error)
+      //console.log(error)
       this.loading = false
       this.presentToast(MESSAGES.PROJECT_CREATED_ERROR)
     })

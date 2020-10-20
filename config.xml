@@ -13,7 +13,7 @@
     <allow-intent href="geo:*" />
     <preference name="ScrollEnabled" value="false" />
     <preference name="android-targetSdkVersion" value="29" />
-    <preference name="android-buildToolsVersion" value="29.0.0" />
+    <preference name="android-buildToolsVersion" value="29.0.2" />
     <preference name="android-minSdkVersion" value="22" />
     <preference name="android-compileSdkVersion" value="29" />
     <preference name="android-targetSdkVersion" value="29" />

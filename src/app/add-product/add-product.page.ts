@@ -104,32 +104,32 @@ export class AddProductPage implements OnInit {
   
     getProducts(userId) {
       this.authService.myInfos(userId).subscribe(res => {
-        console.log(res)
+       // console.log(res)
         this.listProducts = res['products']
         this.dataPass.sendProducts(this.listProducts);  
       }, error =>{
-        console.log(error)
+        //console.log(error)
       })
     }
   
     maxLengthDescription(ev:Event){
       let desc = this.product.description
       this.product.description.length > 100 ? this.product.description =  desc.slice(0,99): null 
-      console.log(this.product.description.slice(0, 99))
+     // console.log(this.product.description.slice(0, 99))
     }
 
     addProduct(){
       this.loading = true
       this.tags.length > 0 ? this.product.tags = this.tags : null;
       this.contactService.addProduct(this.product).subscribe(res =>{
-        console.log(res);
+       // console.log(res);
         this.loading = false
         this.presentToast(MESSAGES.SHOP_CREATED_OK);
         let userId = localStorage.getItem('teepzyUserId')
         this.getProducts(userId)
         this.dismiss()
       }, error =>{
-        console.log(error)
+       // console.log(error)
         this.loading = false
         this.presentToast(MESSAGES.SHOP_CREATED_ERROR)
       })

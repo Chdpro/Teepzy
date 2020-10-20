@@ -27,7 +27,7 @@ import { AddPostPageModule } from './add-post/add-post.module';
 import { EmojiPickerModule } from 'ng-emoji-picker';
 import { MAT_DATE_LOCALE } from '@angular/material';
 import { DatapasseService } from './providers/datapasse.service';
-import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
+import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import { BottomSheetOverviewExampleSheetPageModule } from './bottom-sheet-overview-example-sheet/bottom-sheet-overview-example-sheet.module';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { CommentsPageModule } from './comments/comments.module';
@@ -46,6 +46,7 @@ import { Globals } from './globals';
 import { CircleMembersPageModule } from './circle-members/circle-members.module';
 import { ShareSheetPageModule } from './share-sheet/share-sheet.module';
 import { EditPostPageModule } from './edit-post/edit-post.module';
+import { AddPeopleRoomPageModule } from './add-people-room/add-people-room.module';
 const config: SocketIoConfig = { url: base_url, options: {} };
 
 @NgModule({
@@ -61,6 +62,7 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     EditPostPageModule,
     AddProductPageModule,
     AddProjectPageModule,
+    AddPeopleRoomPageModule,
     ShareSheetPageModule,
     CircleMembersPageModule,
     CommentsPageModule,
@@ -93,6 +95,7 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     Globals,
     VideoPlayer,
     MediaCapture,
+
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
     { 

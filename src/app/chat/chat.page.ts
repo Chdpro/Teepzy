@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { NavController, NavParams, ToastController, MenuController, AlertController } from '@ionic/angular';
+import { NavController, NavParams, ToastController, MenuController, AlertController, ModalController } from '@ionic/angular';
 import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
@@ -8,6 +8,8 @@ import { AuthService } from '../providers/auth.service';
 import { MatMenuTrigger } from '@angular/material';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { typeAccount, MESSAGES } from '../constant/constant';
+import { AddPeopleRoomPage } from '../add-people-room/add-people-room.page';
+import { DatapasseService } from '../providers/datapasse.service';
 
 @Component({
   selector: 'app-chat',
@@ -54,6 +56,8 @@ export class ChatPage implements OnInit {
 
   }
 
+  room:any
+  roomId = ''
   isInMyCircle =  true
   menu = false
   subscription: Subscription;
@@ -70,22 +74,32 @@ export class ChatPage implements OnInit {
     private menuCtrl: MenuController,
     private alertCtrl: AlertController,
     private toastController:ToastController,
+    private modalController: ModalController,
+    private dataPasse: DatapasseService,
     private toastCtrl: ToastController) {
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false);
       //this.nickname = this.navParams.data;
+      this.subscription = this.dataPasse.getRoom().subscribe(room => {
+      //  console.log(room)
+        if (room) {
+          this.stateO.name = room.name
+          this.stateO.roomLength = room.connectedUsers.length
+        }
+      });
     const state = this.router.getCurrentNavigation().extras.state
-    console.log(state)
+   // console.log(state)
     this.stateO.pseudo = state.pseudo
     this.stateO.name = state.roomName
     this.stateO.roomLength = state.roomLength
     this.stateO.connectedUserId = state.connectedUserId
     this.stateO.userId = state.userId
-    console.log(this.stateO.roomLength)
+    this.roomId = state.roomId
+   // console.log(this.stateO.roomLength)
 
     this.coonectSocket()
     this.getMessagesBySocket().subscribe(message => {
-      console.log(message)
+     // console.log(message)
       message['roomId'] == state.roomId ? this.messages.push(message) : null
     });
     this.deleteMessageFromSocket()
@@ -109,7 +123,7 @@ export class ChatPage implements OnInit {
     this.message.pseudo = state.pseudo
     this.message.roomId = state.roomId
     this.photo = state.photo
-    console.log(state)
+   // console.log(state)
     this.checkUserInMyCircle(this.userId, this.stateO.connectedUserId)
     this.getMessages(state.roomId)
   }
@@ -119,7 +133,7 @@ export class ChatPage implements OnInit {
   }
 
   testDate(){
-    console.log(this.message.createdAt)
+  //  console.log(this.message.createdAt)
   }
   replyto(msg) {
     this.message.isReply = true
@@ -136,7 +150,7 @@ export class ChatPage implements OnInit {
     this.repliedMessage.text = '';
     this.repliedMessage.userFromId = ''
     this.repliedMessage.messageId = ''
-    console.log(this.repliedMessage)
+   // console.log(this.repliedMessage)
   }
 
 
@@ -152,10 +166,10 @@ export class ChatPage implements OnInit {
           connectedUserId: userId 
         }
         this.contactService.checkInMyCircle(check).subscribe(res =>{
-          console.log(res)
+       //   console.log(res)
           res['data'] == false ? this.isInMyCircle = false : this.isInMyCircle = true
         }, error =>{
-          console.log(error)
+        //  console.log(error)
         })
       } else {
         let check = {
@@ -163,10 +177,10 @@ export class ChatPage implements OnInit {
           connectedUserId: connectedUserId 
         }
         this.contactService.checkInMyCircle(check).subscribe(res =>{
-          console.log(res)
+       //   console.log(res)
           res['data'] == false ? this.isInMyCircle = false : this.isInMyCircle = true
         }, error =>{
-          console.log(error)
+         // console.log(error)
         })
       }
   }
@@ -182,7 +196,7 @@ export class ChatPage implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
+        //    console.log('Confirm Cancel: blah');
           }
         }, {
           text: 'Oui',
@@ -205,10 +219,10 @@ export class ChatPage implements OnInit {
         idReceiver: this.stateO.userId,
         typeLink: typeAccount.pseudoIntime
       }
-      console.log(invitation)
+     // console.log(invitation)
 
       this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
-        console.log(res)
+     //   console.log(res)
         this.presentToast(MESSAGES.INVITATION_SEND_OK)
         this.isInMyCircle = true
         this.socket.emit('notification', 'notification');
@@ -223,9 +237,9 @@ export class ChatPage implements OnInit {
         idReceiver: this.stateO.connectedUserId,
         typeLink: typeAccount.pseudoIntime
       }
-      console.log(invitation)
+     // console.log(invitation)
       this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
-        console.log(res)
+     //   console.log(res)
         this.presentToast(MESSAGES.INVITATION_SEND_OK)
         this.isInMyCircle = true
         this.socket.emit('notification', 'notification');
@@ -241,11 +255,11 @@ export class ChatPage implements OnInit {
   sendMessage() {
     if (!this.message.isReply) {
       this.contactService.addMessage(this.message).subscribe(res => {
-        console.log(res)
+      //  console.log(res)
         this.socket.emit('add-message', this.message);
         this.message.text = '';
       }, error => {
-        console.log(error)
+       // console.log(error)
       })
     } else {
       this.message.FromMessagePseudo = this.repliedMessage.pseudo
@@ -253,17 +267,31 @@ export class ChatPage implements OnInit {
       this.message.userFromId = this.repliedMessage.userFromId
       this.message.FromMessageText = this.repliedMessage.text
       this.contactService.addReplyMessage(this.message).subscribe(res => {
-        console.log(res)
+      //  console.log(res)
         this.socket.emit('add-message', this.message);
         this.message.text = '';
         this.close()
       }, error => {
-        console.log(error)
+       // console.log(error)
       })
     }
 
   }
 
+  async presentAddPeopleModal(){
+      const modal = await this.modalController.create({
+        component: AddPeopleRoomPage,
+        cssClass: 'my-custom-class',
+        componentProps: {
+          connectedUsers: this.room.connectedUsers,
+          //messages: this.room.messages,
+          name: this.room.name,
+          userId: this.room.userId,
+          _id: this.roomId
+        }
+      });
+      return await modal.present();
+  }
 
 
   addMessageToFavorite(messageId) {
@@ -273,11 +301,11 @@ export class ChatPage implements OnInit {
       type: 'MESSAGE'
     }
     this.contactService.addMessageFavorite(favoris).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.showToast('Ajouté aux favoris')
     }, error => {
       this.showToast('Oops! une erreur est survenue')
-      console.log(error)
+    //  console.log(error)
     })
   }
 
@@ -285,18 +313,18 @@ export class ChatPage implements OnInit {
     let message = {
       messageId: messageId
     }
-    console.log(message)
+   // console.log(message)
     this.contactService.deleteMessage(message).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
     }, error => {
-      console.log(error)
+    //  console.log(error)
     })
   }
 
   coonectSocket() {
     this.socket.connect();
     this.socket.fromEvent('user-online').subscribe(notif => {
-      console.log(notif)
+    //  console.log(notif)
       notif['userId'] == this.stateO.connectedUserId ? this.stateO.online = true : null
     });
   }
@@ -304,7 +332,7 @@ export class ChatPage implements OnInit {
   disconnectUserSocket() {
     this.socket.connect();
     this.socket.fromEvent('user-outline').subscribe(notif => {
-      console.log(notif)
+     // console.log(notif)
       notif['userId'] == this.stateO.connectedUserId ? this.stateO.online = false : null
     });
   }
@@ -312,7 +340,7 @@ export class ChatPage implements OnInit {
   deleteMessageFromSocket() {
     this.socket.connect();
     this.socket.fromEvent('delete-message').subscribe(messageId => {
-      console.log(messageId)
+    //  console.log(messageId)
       if (this.checkAvailability(this.messages, messageId)) {
         let list = this.deleteObjectFromList(this.messages, messageId)
         this.messages = list
@@ -336,7 +364,7 @@ export class ChatPage implements OnInit {
 
 
   test(msg) {
-    console.log(msg)
+ //   console.log(msg)
   }
 
   onLongPressing() {
@@ -346,14 +374,14 @@ export class ChatPage implements OnInit {
   getMessages(id) {
     this.loading = true
     this.contactService.ChatRoomMessages(id).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.loading = false
       let roomInitiatorId = res['data']['userId']
-      console.log(roomInitiatorId)
+      this.room = res['data']
       this.getChatRoomUserInitiator(roomInitiatorId)
       this.messages = res['data']['messages']
     }, error => {
-      console.log(error)
+    //  console.log(error)
       this.loading = false
 
     })
@@ -371,22 +399,22 @@ export class ChatPage implements OnInit {
 
   getChatRoomUserInitiator(id) {
     this.authService.myInfos(id).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.roomInitiator = res['data']
      // console.log(this.roomInitiator)
   //    this.message.pseudo = this.user.pseudoPro
     }, error => {
-      console.log(error)
+    //  console.log(error)
     })
   }
 
   getUser() {
     this.authService.myInfos(this.userId).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.user = res['data']
       this.message.pseudo = this.user.pseudoIntime
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 

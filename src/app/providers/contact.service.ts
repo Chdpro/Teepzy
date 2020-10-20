@@ -41,14 +41,14 @@ export class ContactService {
 
   linkPeoples(invitation): Observable<any> {
     let url = 'users/linkPeople';
-    console.log(JSON.stringify(invitation))
-    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
+    //console.log(JSON.stringify(invitation))
+    return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
 
   listLinksPeople(invitation): Observable<any> {
     let url = 'users/linksPeoples';
-    return this.http.post(local_url + url, JSON.stringify(invitation), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
   refuseLinkPeople(invitation): Observable<any> {
@@ -85,7 +85,7 @@ export class ContactService {
 
   listNotification(id): Observable<any> {
     let url = 'users/notifications/' + id;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   checkInviteViaSms(check): Observable<any> {
@@ -301,6 +301,11 @@ export class ContactService {
   initChatRoom(room): Observable<any> {
     let url = 'chat/';
     return this.http.post(base_url + url, room, httpOptionsJson);
+  }
+
+  updateChatRoom(roomId,room): Observable<any> {
+    let url = 'chat/updateRoom/' + roomId;
+    return this.http.put(base_url + url, JSON.stringify(room), httpOptionsJson);
   }
 
   mChatRooms(id): Observable<any> {

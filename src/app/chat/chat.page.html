@@ -14,6 +14,7 @@
     </ion-title>
     <small style="margin-left: 23px;" *ngIf="stateO?.online">En ligne</small>
     <ion-icon *ngIf="!isInMyCircle" (click)="presentAlertConfirm()"  class="invitation-add" name="add-outline"></ion-icon>
+    <ion-icon [ngStyle]="{'margin-right': isInMyCircle ? '11px': '63px' }" (click)="presentAddPeopleModal()" class="people-add" name="person-add-outline"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
@@ -136,7 +137,7 @@
         </ion-item>
       </ion-col>
       <ion-col size="3">
-        <button ion-button clear color="primary" class="send-btn" (click)="testDate()" [disabled]="message === ''">
+        <button ion-button clear color="primary" class="send-btn" (click)="sendMessage()" [disabled]="message === ''">
           <ion-icon name="send"></ion-icon>
         </button>
       </ion-col>

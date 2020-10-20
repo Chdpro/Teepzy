@@ -99,7 +99,7 @@ export class DetailFeedPage implements OnInit {
     this.global = globals;
     this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
     this.subscription = this.dataPasse.get().subscribe(p => {
-      console.log(p)
+   //   console.log(p)
       if (p) {
         this.post = p
       }
@@ -111,7 +111,7 @@ export class DetailFeedPage implements OnInit {
     this.getUserInfo(this.userId)
     let idTeepz = this.route.snapshot.paramMap.get('idTeepz')
     this.previousBackUrl = this.route.snapshot.paramMap.get('previousBackUrl')
-    console.log(this.previousBackUrl)
+    //console.log(this.previousBackUrl)
     this.getAPost(idTeepz)
     this.getRepost(idTeepz)
 
@@ -125,7 +125,7 @@ export class DetailFeedPage implements OnInit {
 
   getAPost(idTeepz) {
     this.contactService.getPost(idTeepz).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       let post = res['data'];
       if (post) {
         let favorite = {
@@ -135,14 +135,14 @@ export class DetailFeedPage implements OnInit {
         this.checkFavorite(favorite, post)
       }
     }, error => {
-      console.log(error)
+    //  console.log(error)
     })
 
   }
 
   getRepost(idTeepz) {
     this.contactService.getRePost(idTeepz).subscribe(res => {
-      console.log(res)
+   //   console.log(res)
       this.post == null ?  this.post = res['data'] : null;
       if (this.post) {
         let favorite = {
@@ -152,7 +152,7 @@ export class DetailFeedPage implements OnInit {
         this.checkFavorite(favorite, this.post)
       }
     }, error => {
-      console.log(error)
+    //  console.log(error)
     })
   }
 
@@ -178,7 +178,7 @@ export class DetailFeedPage implements OnInit {
   connectSocket() {
     this.socket.connect();
     this.socket.fromEvent('user-notification').subscribe(notif => {
-      console.log(notif)
+      //console.log(notif)
     });
   }
 
@@ -215,21 +215,21 @@ export class DetailFeedPage implements OnInit {
 
   getMyPosts(userId) {
     this.contactService.teepZ(userId).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       let listTeepz = res['data'];
       this.dataPasse.sendPosts(listTeepz)
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
   getMyFavoritePosts(userId) {
     this.contactService.favorites(userId).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       let listFavorites = res['data'];
       this.dataPasse.sendFavorite(listFavorites)
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
@@ -243,13 +243,13 @@ export class DetailFeedPage implements OnInit {
 
   deletePost() {
     this.contactService.deletePost(this.post._id).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.getMyPosts(this.userId)
       this.getMyFavoritePosts(this.userId)
       this.presentToast(MESSAGES.DELETE_FEED_OK)
 
     }, error => {
-      console.log(error)
+     // console.log(error)
       this.presentToast(MESSAGES.DELETE_FEED_ERROR)
     })
 
@@ -257,12 +257,12 @@ export class DetailFeedPage implements OnInit {
 
   deleteRePost() {
     this.contactService.deleteRePost(this.post._id).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.getMyPosts(this.userId)
       this.getMyFavoritePosts(this.userId)
       this.presentToast(MESSAGES.DELETE_FEED_OK)
     }, error => {
-      console.log(error)
+     // console.log(error)
       this.presentToast(MESSAGES.DELETE_FEED_ERROR)
     })
 
@@ -270,7 +270,7 @@ export class DetailFeedPage implements OnInit {
 
 
   playVideo(videoUrl?: any) {
-    console.log(videoUrl)
+    //console.log(videoUrl)
     const nativeElement = this.videoPlayers.nativeElement;
     // const inView = this.isElementInViewPort(nativeElement);
     if (videoUrl) {
@@ -315,10 +315,10 @@ export class DetailFeedPage implements OnInit {
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-      console.log(res)
+      //console.log(res)
       this.user = res['data'];
     }, error => {
-      console.log(error)
+      //console.log(error)
     })
   }
 
@@ -360,7 +360,7 @@ export class DetailFeedPage implements OnInit {
     }
     this.contactService.addFavorite(favoris).subscribe(res => {
       this.socket.emit('notification', 'notification');
-      console.log(res)
+      //console.log(res)
       this.post = {
         _id: post['_id'],
         userId: post['userId'],
@@ -377,7 +377,7 @@ export class DetailFeedPage implements OnInit {
       this.presentToast(MESSAGES.FAVORITE_OK)
     }, error => {
       this.presentToast(MESSAGES.FAVORITE_ERROR)
-      console.log(error)
+      //console.log(error)
     })
   }
 
@@ -387,7 +387,7 @@ export class DetailFeedPage implements OnInit {
       postId: post._id
     }
     this.contactService.removeFavorite(favoris).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.post = {
         _id: post['_id'],
         userId: post['userId'],
@@ -406,7 +406,7 @@ export class DetailFeedPage implements OnInit {
       this.presentToast(MESSAGES.REMOVE_FAVORITE_OK)
     }, error => {
       this.presentToast(MESSAGES.REMOVE_FAVORITE_ERROR)
-      console.log(error)
+     // console.log(error)
     })
   }
 

@@ -42,15 +42,15 @@ export class ShareSheetPage implements OnInit {
 
 
   closeModalOnSwipeDown(event) {
-    console.log('close modal');
+    //console.log('close modal');
     this.dismiss()
   }
 
   sendShare() {
-    this.socialSharing.share('Bonjour,  ' + '<br>' + this.post['content'], 'TeepZy', null,
+    this.socialSharing.share('Bonjour,  je vous invite à rejoindre Teepzy', null,
       ' https://play.google.com/store/apps/details?id=com.teepzy.com').then(() => {
       }).catch((err) => {
-        alert(JSON.stringify(err))
+       // alert(JSON.stringify(err))
       });
   }
 
@@ -67,13 +67,14 @@ export class ShareSheetPage implements OnInit {
       includedCircles: this.post['includedCircles']
     }
     this.contactService.rePost(this.repost).subscribe(res => {
-      console.log(res)
+   //   console.log(res)
       this.getPosts(this.userId)
       this.presentToast(MESSAGES.SHARE_OK)
       this.dismiss()
     }, error => {
       this.presentToast(MESSAGES.SHARE_ERROR)
-      console.log(error)
+     
+     // console.log(error)
     })
   }
 
@@ -96,7 +97,7 @@ export class ShareSheetPage implements OnInit {
       this.timeCall = 0
 
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
@@ -154,11 +155,11 @@ export class ShareSheetPage implements OnInit {
       reason: reason
     }
     this.contactService.spam(spam).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.presentToast(MESSAGES.CENSURED_OK)
     }, error => {
       this.presentToast(MESSAGES.CENSURED_ERROR)
-      console.log(error)
+    //  console.log(error)
     })
   }
 

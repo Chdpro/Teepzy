@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { NavController, ModalController, ToastController, MenuController } from '@ionic/angular';
-import { ContactService } from '../providers/contact.service';
-import { Socket } from 'ngx-socket-io';
-import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription } from 'rxjs';
+import { NavController, ModalController, ToastController, MenuController, NavParams } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { ContactService } from '../providers/contact.service';
+import { DatapasseService } from '../providers/datapasse.service';
+import { Socket } from 'ngx-socket-io';
 import { MESSAGES } from '../constant/constant';
 
 @Component({
-  selector: 'app-circle-members',
-  templateUrl: './circle-members.page.html',
-  styleUrls: ['./circle-members.page.scss'],
+  selector: 'app-add-people-room',
+  templateUrl: './add-people-room.page.html',
+  styleUrls: ['./add-people-room.page.scss'],
 })
-export class CircleMembersPage implements OnInit {
+export class AddPeopleRoomPage implements OnInit {
+
   userId = ''
   members = []
   checkItems = {}
@@ -21,28 +22,38 @@ export class CircleMembersPage implements OnInit {
   chatRoom = {
     name: '',
     connectedUsers: [],
-    userId: ''
+    userId: '',
+    _id:''
   }
 
   loading = false
   rooms = []
 
+  
   subscription: Subscription
-  constructor(public navCtrl: NavController,
+  constructor(
+    public navCtrl: NavController,
     private router: Router,
     private contactService: ContactService,
     public modalController: ModalController,
     private toasterController: ToastController,
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
+    private navParams: NavParams,
     private socket: Socket) { 
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false);
     }
+ 
 
+ 
   ngOnInit() {
+    let room = this.navParams.data;
+   // console.log(room)
     this.userId = localStorage.getItem('teepzyUserId');
-    this.chatRoom.userId = this.userId
+    this.chatRoom.connectedUsers = room.connectedUsers
+    this.chatRoom.userId = room.userId
+    this.chatRoom._id = room._id
     this.getUsersOfCircle()
   }
 
@@ -50,34 +61,38 @@ export class CircleMembersPage implements OnInit {
   }
 
   addUserToCreateChatRoom(idUser) {
-    if (!this.membersToChatWith.includes(idUser)) {
+   // console.log(idUser, this.chatRoom.connectedUsers)
+    if (!this.membersToChatWith.includes(idUser) && !this.chatRoom.connectedUsers.includes(idUser) ) {
       this.membersToChatWith.push(idUser)
     } else {
       this.deleteItemFromList(this.membersToChatWith, idUser)
+      this.presentToast('Cette personne appartient déjà à cette discussion')
+
     }
    // console.log(this.membersToChatWith)
   }
 
 
 
-  createChatRoom() {
+  addPeopleToChatRoom() {
     this.loading = true
-    this.chatRoom.connectedUsers = this.membersToChatWith
-    this.chatRoom.name != '' ? null : this.chatRoom.name = 'Entre nous deux'
-    this.contactService.initChatRoom(this.chatRoom).subscribe(res => {
+    this.chatRoom.connectedUsers =  this.chatRoom.connectedUsers.concat(this.membersToChatWith)
+    //console.log(this.chatRoom.connectedUsers)
+    this.contactService.updateChatRoom(this.chatRoom._id,this.chatRoom).subscribe(res => {
      // console.log(res)
       if (res['status'] == 200) {
         this.loading = false
-        this.presentToast(MESSAGES.ROOM_INITIATED_OK)
-        this.getChatRooms()
+        this.presentToast(MESSAGES.ROOM_UPDATE_OK)
+        this.dataPasse.sendRoom(res['data'])
+        //this.getChatRooms()
         this.dismiss()
       } else {
-        this.presentToast(MESSAGES.ROOM_EXIST_OK)
+        this.presentToast(MESSAGES.ROOM_UPDATE_ERROR)
         this.loading = false
       }
     }, error => {
       this.loading = false
-      this.presentToast(MESSAGES.ROOM_INITIATED_ERROR)
+      this.presentToast(MESSAGES.ROOM_UPDATE_ERROR)
      // console.log(error)
     })
   }
@@ -99,7 +114,7 @@ export class CircleMembersPage implements OnInit {
 
   getUsersOfCircle() {
     this.contactService.getCircleMembers(this.userId).subscribe(res => {
-     // console.log(res);
+    //  console.log(res);
       this.members = res['data']
     }, error => {
      // console.log(error)

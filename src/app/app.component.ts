@@ -124,7 +124,7 @@ export class AppComponent {
 
   getUserInfo(userId, token) {
     this.authService.myInfos(userId).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.userInfo = res['data'];
       if (token && this.userInfo['isCompleted']) {
         this.socket.emit('online', userId );  
@@ -133,7 +133,7 @@ export class AppComponent {
           isOnline: true
         }
         this.contactService.getConnected(user).subscribe(res =>{
-          console.log(res)
+       //   console.log(res)
         })
          this.router.navigateByUrl('/tabs/tab1', {
            replaceUrl: true
@@ -153,7 +153,7 @@ export class AppComponent {
          )
         }
     }, error => {
-      console.log(error)
+     // console.log(error)
       if(!token){
         this.router.navigateByUrl('/debut', {
           replaceUrl: true
@@ -189,13 +189,13 @@ export class AppComponent {
   }
 
   ngOnDestroy(){
-    console.log('user has quit')
+  //  console.log('user has quit')
     let user = {
       userId: this.userId,
       isOnline: false
     }
     this.contactService.getConnected(user).subscribe(res =>{
-      console.log(res)
+    //  console.log(res)
     })
     this.socket.emit('disconnect', this.userId );
   }

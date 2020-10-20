@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
-import { Router, ActivatedRoute, RouterOutlet } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ToastController, LoadingController, MenuController, ActionSheetController } from '@ionic/angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
@@ -63,7 +63,7 @@ export class SignupFinalPage implements OnInit {
 
   ngOnInit() {
     let usr = this.route.snapshot.queryParamMap
-    console.log(usr['params'])
+   // console.log(usr['params'])
     this.user.photo = usr['params']['photo']
     this.user.userId = localStorage.getItem('teepzyUserId')
     this.getUserInfo(this.user.userId)
@@ -75,11 +75,11 @@ export class SignupFinalPage implements OnInit {
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.userInfo = res['data'];
       this.userInfo['photo'] ? this.dispImags[0] = this.userInfo['photo'] : null
     }, error => {
-      console.log(error)
+    //  console.log(error)
     })
   }
 
@@ -87,7 +87,7 @@ export class SignupFinalPage implements OnInit {
     if ((this.user.pseudoIntime != '')) {
       this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
       this.authService.update(this.user).subscribe(res => {
-        console.log(res)
+      //  console.log(res)
         if (res['status'] == 200) {
           this.retourUsr = true
           this.presentToast(MESSAGES.LOGIN_OK)
@@ -97,14 +97,14 @@ export class SignupFinalPage implements OnInit {
             isOnline: true
           }
           this.contactService.getConnected(user).subscribe(res => {
-            console.log(res)
+         //   console.log(res)
           })
           this.router.navigateByUrl('/contacts', {
             replaceUrl: true
           })
         }
       }, error => {
-        console.log(error)
+       // console.log(error)
         this.presentToast(MESSAGES.SERVER_ERROR)
       })
     }
@@ -118,7 +118,7 @@ export class SignupFinalPage implements OnInit {
     var offsetMs = dateObject.value.getTimezoneOffset() * 60000;
     let dte = new Date(dateObject.value.getTime() - offsetMs);
     this.user.birthday = dte.toISOString()
-    console.log(this.user.birthday)
+    //console.log(this.user.birthday)
 
   }
 
@@ -126,9 +126,9 @@ export class SignupFinalPage implements OnInit {
   check() {
     this.loadingA = true
     this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase().replace(/\s/g, '')
-    console.log(this.user.pseudoIntime)
+    //console.log(this.user.pseudoIntime)
     this.authService.check(this.user).subscribe(res => {
-      console.log(res)
+      //console.log(res)
       this.loadingA = false
 
       if (res['status'] == 201) {
@@ -137,7 +137,7 @@ export class SignupFinalPage implements OnInit {
         this.retourUsr = 404
       }
     }, error => {
-      console.log(error)
+     // console.log(error)
       this.loadingA = false
 
       this.presentToast('Oops! une erreur est survenue')
@@ -148,7 +148,7 @@ export class SignupFinalPage implements OnInit {
   checkP() {
     this.loadingP = true
     this.authService.check(this.user).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.loadingP = false
       if (res['status'] == 201) {
         this.retourUsrP = 201
@@ -156,7 +156,7 @@ export class SignupFinalPage implements OnInit {
         this.retourUsrP = 404
       }
     }, error => {
-      console.log(error)
+     // console.log(error)
       this.loadingP = false
       this.presentToast(MESSAGES.SERVER_ERROR)
 
@@ -308,7 +308,7 @@ export class SignupFinalPage implements OnInit {
       duration: 5000,
     }).then(a => {
       a.present().then(() => {
-        console.log('presented');
+       // console.log('presented');
         if (!this.loading) {
           a.dismiss().then(() => console.log('abort presenting'));
         }

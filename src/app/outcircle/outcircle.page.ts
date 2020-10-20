@@ -76,7 +76,7 @@ export class OutcirclePage implements OnInit {
 
 
   getPaginatorData(event) {
-    console.log(event);
+    //console.log(event);
     if (event.pageIndex === this.pageIndex + 1) {
       this.lowValue = this.lowValue + this.pageSize;
       this.highValue = this.highValue + this.pageSize;
@@ -97,7 +97,7 @@ export class OutcirclePage implements OnInit {
   getTeepzr() {
     this.loading = true
     this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
-      console.log(res)
+      //console.log(res)
       this.listTeepZrs = this.listSorter(res['data'])
       this.loading = false
       this.listTeepZrs.forEach(e => {
@@ -107,9 +107,9 @@ export class OutcirclePage implements OnInit {
         }
         this.checkInvitation(invitation, e)
       });
-      console.log(this.listTeepZrs)
+     // console.log(this.listTeepZrs)
     }, error => {
-      console.log(error)
+     // console.log(error)
       this.loading = false
       this.presentToast('Oops! Une erreur est survenue sur le serveur')
 
@@ -118,7 +118,7 @@ export class OutcirclePage implements OnInit {
 
   checkInvitation(invitation, e){
     this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       if (res['status'] == 201) {
         this.listTeepzrsToInvite.push(
           {
@@ -147,23 +147,23 @@ export class OutcirclePage implements OnInit {
   }
 
   sendInvitationToJoinCircle(idReceiver) {
-    console.log(idReceiver)
+    //console.log(idReceiver)
     this.loading = true
     let invitation = {
       idSender: this.userId,
       idReceiver: idReceiver
     }
     this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
-      console.log(res)
+      //console.log(res)
       this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = true : null)
       this.presentToast('Invitation envoyée')
-      console.log(this.listTeepzrsToInvite)
+      //console.log(this.listTeepzrsToInvite)
       //  this.getTeepzr()
       this.loading = false
     }, error => {
       this.presentToast('Invitation non envoyée')
       this.loading = false
-      alert(JSON.stringify(error))
+     // alert(JSON.stringify(error))
 
     })
   }

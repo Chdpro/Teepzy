@@ -42,7 +42,7 @@ export class LoginPage implements OnInit {
   auth() {
     this.presentLoading()
     this.authService.login(this.user).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.retourUsr = res;
       this.profileInfo = res['data']
       this.dismissLoading()
@@ -58,7 +58,7 @@ export class LoginPage implements OnInit {
           isOnline: true
         }
         this.contactService.getConnected(user).subscribe(res => {
-          console.log(res)
+       //   console.log(res)
         })
         localStorage.setItem('FinalStepCompleted', 'FinalStepCompleted')
         this.router.navigateByUrl('/contacts', {
@@ -66,7 +66,7 @@ export class LoginPage implements OnInit {
         })
       }
     }, error => {
-      console.log(error['status'])
+      //console.log(error['status'])
       if (error['status'] === 404) {
         this.presentToast(MESSAGES.LOGIN_INVALID)
         this.dismissLoading()
@@ -95,7 +95,7 @@ export class LoginPage implements OnInit {
       duration: 5000,
     }).then(a => {
       a.present().then(() => {
-        console.log('presented');
+        //console.log('presented');
         if (!this.loading) {
           a.dismiss().then(() => console.log('abort presenting'));
         }

@@ -103,6 +103,10 @@ const routes: Routes = [
     path: 'friends',
     loadChildren: () => import('./friends/friends.module').then( m => m.FriendsPageModule)
   },
+  {
+    path: 'add-people-room',
+    loadChildren: () => import('./add-people-room/add-people-room.module').then( m => m.AddPeopleRoomPageModule)
+  },
 
 ];
 @NgModule({

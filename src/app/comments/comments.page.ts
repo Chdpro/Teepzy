@@ -52,14 +52,14 @@ export class CommentsPage implements OnInit {
     this.connectSocket()
     let post = this.navParams.data;
     this.getCommentsOfPost(post['_id'])
-    console.log(post)
+   // console.log(post)
     this.userId = localStorage.getItem('teepzyUserId');
   }
 
 
   
   closeModalOnSwipeDown(event) {
-    console.log('close modal');
+   // console.log('close modal');
     this.dismiss()
   }
 
@@ -71,10 +71,10 @@ export class CommentsPage implements OnInit {
   getCommentsOfPost(postId) {
     this.postId = postId
     this.contactService.getCommentsOfPost(postId).subscribe(res => {
-      console.log(res);
+    //  console.log(res);
       this.listComments = res['data']
     }, error => {
-      console.log(error)
+   //   console.log(error)
     })
   }
 
@@ -82,7 +82,7 @@ export class CommentsPage implements OnInit {
     this.commentT.userId = this.userId
     this.commentT.postId = this.postId
     this.contactService.addCommentToPost(this.commentT).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       if (res['status'] == 200) {
         this.socket.emit('notification', 'notification');
         this.commentT.comment = ''
@@ -98,7 +98,7 @@ export class CommentsPage implements OnInit {
     this.commentC.userId = this.userId
     this.commentC.commentId = this.commentId
     this.contactService.addCommentToComment(this.commentC).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       if (res['status'] == 200) {
         //this.presentToast('')
         this.commentC.comment = ''
@@ -106,7 +106,7 @@ export class CommentsPage implements OnInit {
         this.getCommentsOfComment(this.commentId)
       }
     }, error =>{
-      console.log(error)
+     // console.log(error)
       //this.presentToast('Oops! une erreur est survenue')
 
     })
@@ -117,17 +117,17 @@ export class CommentsPage implements OnInit {
     this.showResPanel()
     this.commentId = commentId
     this.contactService.getCommentsOfComment(commentId).subscribe(res => {
-      console.log(res);
+     // console.log(res);
       this.listCommentsOfComment = res['data']
     }, error => {
-      console.log(error)
+    //  console.log(error)
     })
   }
 
 
 
   showResPanel() {
-    console.log('show panel')
+  //  console.log('show panel')
     this.showResponsePanel ? this.showResponsePanel = false : this.showResponsePanel = true
   }
 
@@ -149,7 +149,7 @@ export class CommentsPage implements OnInit {
 
   ionViewWillLeave() {
     this.socket.disconnect();
-    console.log('disconnected')
+   // console.log('disconnected')
     this.subscription?  this.subscription.unsubscribe() :  null
 
   }

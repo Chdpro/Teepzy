@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, ViewChildren, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import { ToastController, MenuController, ActionSheetController, NavController } from '@ionic/angular';
 import * as moment from 'moment';
-import { MatTabGroup, MatTab } from '@angular/material';
+import { MatTabGroup } from '@angular/material';
 import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -83,13 +83,13 @@ export class Tab2Page implements OnInit {
           if (this.selectedTab <= 2) {
             this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
           }
-          console.log("Swipe left - INDEX: " + this.selectedTab);
+       //   console.log("Swipe left - INDEX: " + this.selectedTab);
         } else if (swipe === 'previous') {
           const isLast = this.selectedTab === 2;
           if (this.selectedTab >= 1) {
             this.selectedTab = this.selectedTab - 1;
           }
-          console.log("Swipe right — INDEX: " + this.selectedTab);
+         // console.log("Swipe right — INDEX: " + this.selectedTab);
         }
         // Do whatever you want with swipe
       }
@@ -97,7 +97,7 @@ export class Tab2Page implements OnInit {
   }
 
   swipe(e: TouchEvent, when: string): void {
-    console.log('swipe up')
+  //  console.log('swipe up')
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     const time = new Date().getTime();
     if (when === 'start') {
@@ -125,26 +125,26 @@ export class Tab2Page implements OnInit {
   coonectSocket() {
     this.socket.connect();
     this.socket.fromEvent('user-notification').subscribe(notif => {
-      console.log(notif)
+    // console.log(notif)
       this.notifications.push(notif)
-      console.log(this.notifications)
+    //  console.log(this.notifications)
     });
   }
 
 
   doRefreshNotification(event) {
-    console.log('Begin async operation');
+  //  console.log('Begin async operation');
     setTimeout(() => {
-      console.log('Async operation has ended');
+    //  console.log('Async operation has ended');
       this.listNotifications()
       event.target.complete();
     }, 400);
   }
 
   doRefreshInvitation(event) {
-    console.log('Begin async operation');
+   // console.log('Begin async operation');
     setTimeout(() => {
-      console.log('Async operation has ended');
+     // console.log('Async operation has ended');
       this.listInvitations()
       event.target.complete();
     }, 400);
@@ -160,10 +160,10 @@ export class Tab2Page implements OnInit {
       idReceiver: this.userId
     }
     this.contactService.listInivtation(invitation).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.invitations = res['data']
     }, error => {
-      console.log(error)
+    //  console.log(error)
 
     })
   }
@@ -173,10 +173,10 @@ export class Tab2Page implements OnInit {
       idReceiver: this.userId
     }
     this.contactService.listLinksPeople(invitation).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.links = res['data']
     }, error => {
-      console.log(error)
+     // console.log(error)
 
     })
   }
@@ -186,10 +186,10 @@ export class Tab2Page implements OnInit {
       idReceiver: this.userId
     }
     this.contactService.listInivtationViaSms(invitation).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.invitationsSms = res['data']
     }, error => {
-      console.log(error)
+     // console.log(error)
 
     })
   }
@@ -197,12 +197,12 @@ export class Tab2Page implements OnInit {
   listNotifications() {
     this.loading = true
     this.contactService.listNotification(this.userId).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.notifications = res['data']
       this.loading = false
 
     }, error => {
-      console.log(error)
+     // console.log(error)
       this.loading = false
 
     })
@@ -227,12 +227,12 @@ export class Tab2Page implements OnInit {
     }
     this.loading = true
     this.contactService.acceptInvitation(invitation).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.loading = false
       this.listInvitations()
       this.presentToast('Vous désormais en contact')
     }, error => {
-      console.log(error)
+     // console.log(error)
       this.loading = false
     })
   }
@@ -242,11 +242,11 @@ export class Tab2Page implements OnInit {
       idInvitation: p._id,
     }
     this.contactService.closeLinkPeople(invitation).subscribe(res =>{
-      console.log(res)
+     // console.log(res)
       this.presentToast(MESSAGES.LINK_DENIED_OK)
       this.listLinks()
     }, error =>{
-      console.log(error)
+     // console.log(error)
       this.presentToast(MESSAGES.SERVER_ERROR)
     })
   }
@@ -256,11 +256,11 @@ export class Tab2Page implements OnInit {
       idInvitation: p._id,
     }
     this.contactService.refuseLinkPeople(invitation).subscribe(res =>{
-      console.log(res)
+     // console.log(res)
       this.presentToast(MESSAGES.LINK_DENIED_OK)
       this.listLinks()
     }, error =>{
-      console.log(error)
+     // console.log(error)
       this.presentToast(MESSAGES.SERVER_ERROR)
     
     })
@@ -274,11 +274,11 @@ export class Tab2Page implements OnInit {
       postId: p.postId 
     }
     this.contactService.acceptLinkPeople(invitation).subscribe(res =>{
-      console.log(res)
+     // console.log(res)
       this.listLinks()
     this.createChatRoom(p)
     }, error =>{
-      console.log(error)
+     // console.log(error)
       
     })
   }
@@ -306,11 +306,11 @@ export class Tab2Page implements OnInit {
     chatRoom.userId = this.userId
     chatRoom.name != '' ? null : chatRoom.name = 'Entre nous deux'
     this.contactService.initChatRoom(chatRoom).subscribe(res => {
-      console.log(res)
+      //console.log(res)
       let room = res['data']
       if (res['status'] == 200) {
         this.loading = false
-        console.log(res['status'])
+       // console.log(res['status'])
         this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, 
           room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
       } else {
@@ -320,7 +320,7 @@ export class Tab2Page implements OnInit {
     }, error => {
       this.loading = false
       this.presentToast(MESSAGES.SERVER_ERROR)
-      console.log(error)
+      //console.log(error)
     })
   }
 
@@ -338,7 +338,7 @@ export class Tab2Page implements OnInit {
   }
 
   async presentActionSheet(link) {
-    console.log(link)
+    //console.log(link)
     const actionSheet = await this.actionSheetController.create({
       header: link.message,
       cssClass: 'my-custom-class',
@@ -369,7 +369,7 @@ export class Tab2Page implements OnInit {
         icon: 'close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+      //    console.log('Cancel clicked');
         }
       }]
     });
@@ -380,7 +380,7 @@ export class Tab2Page implements OnInit {
 
   ionViewWillLeave() {
     this.socket.disconnect();
-    console.log('disconnected')
+    //console.log('disconnected')
     this.subscription?  this.subscription.unsubscribe() :  null
 
   }

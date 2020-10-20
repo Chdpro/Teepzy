@@ -40,22 +40,22 @@ export class FriendsPage implements OnInit {
       idCreator: this.userId, idMember: idMember
     }
     this.contactService.removeMemberFromCircle(member).subscribe(res =>{
-      console.log(res)
+     // console.log(res)
       this.presentToast(MESSAGES.CIRCLE_MEMBER_DELETED_OK)
       this.getUsersOfCircle()
     }, error =>{
-      console.log(error)
+     // console.log(error)
     })
   }
 
   getUsersOfCircle() {
     this.loading = true
     this.contactService.getCircleMembers(this.userId).subscribe(res => {
-      console.log(res);
+    //  console.log(res);
       this.members = res['data']
       this.loading = false
     }, error => {
-      console.log(error)
+    //  console.log(error)
       this.loading = false
 
     })

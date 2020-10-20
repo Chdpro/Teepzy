@@ -108,21 +108,21 @@ export class ProfilePage implements OnInit {
       }
     });
     this.subscription2 = this.dataPass.getProducts().subscribe(list => {
-      console.log(list)
+      //console.log(list)
       if (list.length > 0) {
         this.listProducts = list
       }
     });
 
     this.subscriptionFavorites = this.dataPass.getFavorite().subscribe(list => {
-      console.log(list)
+      //console.log(list)
       if (list.length > 0) {
         this.listFavorites = list
       }
     });
 
     this.subscriptionMyTeepz = this.dataPass.getPosts().subscribe(list => {
-      console.log(list)
+      //console.log(list)
       if (list.length > 0) {
         this.listTeepz = list
       }
@@ -140,7 +140,7 @@ export class ProfilePage implements OnInit {
     this.socket.emit('online', userId );
     let idUser = this.route.snapshot.paramMap.get('userId')
     this.previousUrl = this.route.snapshot.paramMap.get('previousUrl')
-    console.log(this.previousUrl)
+    //console.log(this.previousUrl)
     if (!idUser) {
       this.getUserInfo(userId)
       this.getMyPosts(userId)
@@ -193,7 +193,7 @@ export class ProfilePage implements OnInit {
   }
 
   getPaginatorData(event) {
-    console.log(event);
+    //console.log(event);
     if (event.pageIndex === this.pageIndex + 1) {
       this.lowValue = this.lowValue + this.pageSize;
       this.highValue = this.highValue + this.pageSize;
@@ -258,13 +258,13 @@ export class ProfilePage implements OnInit {
           if (this.selectedTab <= 4) {
             this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
           }
-          console.log("Swipe left - INDEX: " + this.selectedTab);
+      //    console.log("Swipe left - INDEX: " + this.selectedTab);
         } else if (swipe === 'previous') {
           const isLast = this.selectedTab === 4;
           if (this.selectedTab >= 1) {
             this.selectedTab = this.selectedTab - 1;
           }
-          console.log("Swipe right — INDEX: " + this.selectedTab);
+        //  console.log("Swipe right — INDEX: " + this.selectedTab);
         }
         // Do whatever you want with swipe
       }
@@ -273,40 +273,40 @@ export class ProfilePage implements OnInit {
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.user = res['data'];
       this.listProjects = res['projects']
       this.listProducts = res['products']
       this.relationsCount = res['relationsCount']
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
   getMyPosts(userId) {
     this.contactService.teepZ(userId).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.listTeepz = res['data'];
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
 
   getMyFavoritePosts(userId) {
     this.contactService.favorites(userId).subscribe(res => {
-      console.log(res)
+     // console.log(res)
       this.listFavorites = res['data'];
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
 
   doRefresh(event) {
-    console.log('Begin async operation');
+    //console.log('Begin async operation');
     setTimeout(() => {
-      console.log('Async operation has ended');
+      //console.log('Async operation has ended');
       let userId = localStorage.getItem('teepzyUserId')
       this.getUserInfo(userId)
       this.getMyFavoritePosts(userId)

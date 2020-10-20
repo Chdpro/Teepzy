@@ -32,7 +32,7 @@ export class Tab3Page implements OnInit {
       this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
       this.subscription = this.dataPasse.get().subscribe(list => {
-        console.log(list)
+       // console.log(list)
         if (list.length > 0) {
           this.rooms = list
         }
@@ -62,9 +62,9 @@ export class Tab3Page implements OnInit {
 
   
   doRefresh(event) {
-    console.log('Begin async operation');
+    //console.log('Begin async operation');
     setTimeout(() => {
-      console.log('Async operation has ended');
+      //console.log('Async operation has ended');
       this.getChatRooms()
       event.target.complete();
     }, 400);
@@ -73,31 +73,31 @@ export class Tab3Page implements OnInit {
 
   getUsersOfCircle() {
     this.contactService.getCircleMembers(this.userId).subscribe(res => {
-      console.log(res);
+      //console.log(res);
       this.members = res['data']
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
   removeRoom(roomId){
     this.contactService.removeRoom(roomId).subscribe(res => {
-      console.log(res);
+      //console.log(res);
       this.showToast("Conversation Supprimée")
       this.getChatRooms()
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
   getChatRooms() {
     this.loading = true
     this.contactService.mChatRooms(this.userId).subscribe(res => {
-      console.log(res);
+      //console.log(res);
       this.rooms = res['data']
       this.loading = false
     }, error => {
-      console.log(error)
+      //console.log(error)
       this.loading = false
     })
   }
@@ -132,7 +132,7 @@ export class Tab3Page implements OnInit {
   }
 
   gotoChatRoom(roomId, pseudo, photo, roomLength, roomName, connectedUserId, userId) {
-    console.log(roomId, pseudo, photo)
+    //console.log(roomId, pseudo, photo)
     this.socket.connect();
     this.socket.emit('set-nickname', this.nickname);
     this.navCtrl.navigateForward("/chat", 
@@ -144,7 +144,7 @@ export class Tab3Page implements OnInit {
 
   ionViewWillLeave() {
     this.socket.disconnect();
-    console.log('disconnected')
+    //console.log('disconnected')
     this.subscription?  this.subscription.unsubscribe() :  null
 
   }
