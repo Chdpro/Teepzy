@@ -84,22 +84,22 @@ export class DetailProjectPage implements OnInit {
 
   delete(id){
     this.contactService.deleteProject(id).subscribe(res =>{
-      console.log(res)
+    //  console.log(res)
       this.presentToast(MESSAGES.PROJECT_DELETED_OK)
       this.getUserInfo(this.userId)
     }, error =>{
-      console.log(error)
+     // console.log(error)
     })
   }
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
       this.listProjects = res['projects']
       this.dataPasse.sendProjects(this.listProjects)
       this.router.navigate(['/tabs/profile'])
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
