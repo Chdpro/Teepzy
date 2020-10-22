@@ -45,12 +45,12 @@ export class AuthService {
 
   changePassword(user): Observable<any> {
     let url = 'users/updatePass';
-    return this.http.post(local_url + url, user, httpOptionsJson);
+    return this.http.post(base_url + url, user, httpOptionsJson);
   }
 
   updateInfo(user): Observable<any> {
     let url = 'users/updateInfo';
-    return this.http.post(local_url + url, JSON.stringify(user), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(user), httpOptionsJson);
   }
 
   updateProfile(user): Observable<any> {

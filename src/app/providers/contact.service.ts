@@ -294,7 +294,7 @@ export class ContactService {
   
   removeRoom(roomId): Observable<any> {
     let url = 'chat/deleteRoom/' + roomId;
-    return this.http.delete(local_url + url, httpOptionsJson);
+    return this.http.delete(base_url + url, httpOptionsJson);
   }
   
 
@@ -351,12 +351,12 @@ export class ContactService {
 
   report(bug): Observable<any> {
     let url = 'users/reports/bug';
-    return this.http.post(local_url + url, JSON.stringify(bug), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(bug), httpOptionsJson);
   }
 
   suggest(suggestion): Observable<any> {
     let url = 'users/suggestion';
-    return this.http.post(local_url + url, JSON.stringify(suggestion), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(suggestion), httpOptionsJson);
   }
 
 }
