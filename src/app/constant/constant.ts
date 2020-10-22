@@ -26,6 +26,7 @@ export enum MESSAGES {
     LOGIN_OK = "Connexion réussie",
     LOGIN_INVALID = "Mot de passe ou email incorrect",
     LOGIN_ERROR = "Erreur lors de la connexion",
+    PASSWORD_NOT_CORRECT = "L'ancien mot de passe est incorrect",
     LOGOUT_OK = "Vous êtes déconnectés",
     SIGNUP_OK = "Inscription réussie",
     SIGNUP_INVALID = "Mot de passe ou email incorrect",
@@ -63,6 +64,7 @@ export enum MESSAGES {
     ROOM_UPDATE_ERROR="Erreur lors de l'ajout d'une nouvelle personne ",
     ROOM_DELETED_ERROR="Erreur lors de la suppression de la conversation",
     PROFILE_UPDATED_OK="Profile mise à jour",
+    PASSWORD_UPDATED_OK="Mot de passe mise à jour",
     PROFILE_UPDATED_ERROR="Erreur lors de la mise à jour du profile",
     PROJECT_CREATED_OK="Nouveau projet ajouté",
     PROJECT_DELETED_ERROR="Erreur lors de la suppression",
@@ -76,6 +78,9 @@ export enum MESSAGES {
     CIRCLE_MEMBER_DELETED_ERROR="Erreur lors de la suppression",
     AUTHO_FEED_NO_MATCH_OK="Vous ne pouvez pas linker cette publication parce que vous en êtes l'auteur",
     SERVER_ERROR="Oops! une erreur est survenue sur le serveur",
+    REPORT_OK="Bug signalé",
+    SUGGEST_OK="Suggestion envoyée",
+
 
 }
 

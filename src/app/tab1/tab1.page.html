@@ -166,7 +166,7 @@
         <div [ngStyle]="{'bottom': p?.image_url || p?.video_url ? '-30px' : '57px' }" class="match-img">
 
           <div style="display: flex;margin-top: 12px;" *ngIf="!p?.image_url && !p?.video_url">
-            <span>MATCH</span>
+            <span style="margin-right: 10px;">MATCHES</span>
             <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
               <img class="match-image" *ngIf="m?.photo" [src]="m?.photo" alt="">
               <div class="match-pseudo" *ngIf="m?.photo == null || m?.photo == ''"

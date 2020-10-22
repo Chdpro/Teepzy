@@ -16,7 +16,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { MESSAGES } from '../constant/constant';
-import { Storage } from '@ionic/storage';
 import { File } from '@ionic-native/file/ngx';
 
 
@@ -86,7 +85,6 @@ export class AddPostPage implements OnInit {
     private menuCtrl: MenuController,
     private mediaCapture: MediaCapture,
     private androidPermissions: AndroidPermissions,
-    private storage: Storage,
     private file: File
   ) {
 
@@ -256,15 +254,7 @@ export class AddPostPage implements OnInit {
   }
 
   storeMediaFiles(files) {
-    this.storage.get(MEDIA_FILES_KEY).then(res => {
-      if (res) {
-        let arr = JSON.parse(res)
-        arr = arr.concat(files)
-      } else {
-        this.storage.set(MEDIA_FILES_KEY, JSON.stringify(files))
-      }
       this.mediaFiles = this.mediaFiles.concat(files)
-    })
   }
 
 

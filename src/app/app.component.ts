@@ -184,6 +184,44 @@ export class AppComponent {
     })
 
   }
+
+  goToEditInfo(){
+    this.router.navigateByUrl('/edit-info')
+
+  }
+
+  goToEditPass(){
+    this.router.navigateByUrl('/edit-pass')
+
+  }
+
+  goToReport(){
+    this.router.navigateByUrl('/report-bug')
+
+  }
+
+  goToSuggest(){
+    this.router.navigateByUrl('/suggest')
+
+  }
+  goToAutorisations(){
+    this.router.navigateByUrl('/autorisation')
+  }
+
+  goToPrivacy(){
+    this.router.navigateByUrl('/privacy')
+  }
+
+
+  goToConditions(){
+    this.router.navigateByUrl('/conditions')
+  }
+
+  goToNotifications(){
+    this.router.navigateByUrl('/notifications')
+  }
+
+
   ngDoCheck(){
 
   }

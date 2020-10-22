@@ -16,15 +16,51 @@
       </ion-list-->
 
       <ion-item>
-          <img src="../assets/Teepzy-06.png" alt="">
+        <img src="../assets/Teepzy-06.png" alt="">
       </ion-item>
-      <ion-list >
-          <ion-item (click)="logout()">
-              <ion-icon name="log-out-outline"  slot="start"></ion-icon>
-            Déconnexion
-          </ion-item>
-        </ion-list>
+      <ion-list>
+        <ion-item (click)="goToNotifications()">
+          <span class="material-icons">
+            notifications_active
+          </span>
+          Notifications
+        </ion-item>
+        <ion-item (click)="goToPrivacy()">
+          <span class="material-icons">
+            security
+          </span>
+          Confidentialité
+        </ion-item>
+        <ion-item (click)="goToConditions()">
+          <ion-icon name="document-text-outline" slot="start"></ion-icon>
+          Conditions
+        </ion-item>
+        <ion-item (click)="goToAutorisations()">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          Autorisations
+        </ion-item>
+        <ion-item (click)="goToSuggest()">
+          <ion-icon name="receipt-outline" slot="start"></ion-icon>
+          Suggérer
+        </ion-item>
+        <ion-item (click)="goToReport()">
+          <ion-icon name="megaphone-outline" slot="start"></ion-icon>
+          Signaler un bug
+        </ion-item>
+        <ion-item (click)="goToEditPass()">
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          Changer mot de passe
+        </ion-item>
+        <ion-item (click)="goToEditInfo()">
+          <ion-icon name="create-outline" slot="start"></ion-icon>
+          Modifier mes infos
+        </ion-item>
+        <ion-item (click)="logout()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Déconnexion
+        </ion-item>
+      </ion-list>
     </ion-content>
   </ion-menu>
-<ion-router-outlet id="content1"></ion-router-outlet>
+  <ion-router-outlet id="content1"></ion-router-outlet>
 </ion-app>

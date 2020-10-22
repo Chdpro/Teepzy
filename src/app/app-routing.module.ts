@@ -107,6 +107,38 @@ const routes: Routes = [
     path: 'add-people-room',
     loadChildren: () => import('./add-people-room/add-people-room.module').then( m => m.AddPeopleRoomPageModule)
   },
+  {
+    path: 'edit-info',
+    loadChildren: () => import('./edit-info/edit-info.module').then( m => m.EditInfoPageModule)
+  },
+  {
+    path: 'edit-pass',
+    loadChildren: () => import('./edit-pass/edit-pass.module').then( m => m.EditPassPageModule)
+  },
+  {
+    path: 'report-bug',
+    loadChildren: () => import('./report-bug/report-bug.module').then( m => m.ReportBugPageModule)
+  },
+  {
+    path: 'suggest',
+    loadChildren: () => import('./suggest/suggest.module').then( m => m.SuggestPageModule)
+  },
+  {
+    path: 'autorisation',
+    loadChildren: () => import('./autorisation/autorisation.module').then( m => m.AutorisationPageModule)
+  },
+  {
+    path: 'privacy',
+    loadChildren: () => import('./privacy/privacy.module').then( m => m.PrivacyPageModule)
+  },
+  {
+    path: 'conditions',
+    loadChildren: () => import('./conditions/conditions.module').then( m => m.ConditionsPageModule)
+  },
+  {
+    path: 'notifications',
+    loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
+  },
 
 ];
 @NgModule({

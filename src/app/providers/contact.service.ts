@@ -349,4 +349,14 @@ export class ContactService {
     return this.http.post(base_url + url, JSON.stringify(sign), httpOptionsJson);
   }
 
+  report(bug): Observable<any> {
+    let url = 'users/reports/bug';
+    return this.http.post(local_url + url, JSON.stringify(bug), httpOptionsJson);
+  }
+
+  suggest(suggestion): Observable<any> {
+    let url = 'users/suggestion';
+    return this.http.post(local_url + url, JSON.stringify(suggestion), httpOptionsJson);
+  }
+
 }
