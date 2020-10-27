@@ -62,19 +62,6 @@ export class AddPostPage implements OnInit {
   currentPlaying = null
 
 
-  @ViewChild("video", null) video: ElementRef;
-  @ViewChild("c1", null) c1: ElementRef;
-  @ViewChild("ctx1", null) ctx1: any;
-  image = null;
-  cameraActive = false;
-  torchActive = false;
-  isRecording = false;
-  picture;
-  poste:any
-  vid;
-  width;
-  height;
-
   constructor(public modalController: ModalController,
     private toastController: ToastController,
     private authService: AuthService,
@@ -464,64 +451,6 @@ export class AddPostPage implements OnInit {
     }
 
   }
-
-  async presentModal(path) {
-    const modal = await this.modalController.create({
-      component: EditSnapPage,
-      cssClass: "my-custom-class",
-      componentProps: {
-        filePath: path,
-      },
-    });
-    return await modal.present();
-  }
-  async presentSnapModal() {
-    const modal = await this.modalController.create({
-      component: SnapPage,
-      cssClass: "my-custom-class",
-   
-    });
-    return await modal.present();
-  }
-
-  async presentActionSheet() {
-    const actionSheet = await this.actionSheetController.create({
-      header: "Prendre un média",
-      cssClass: "my-custom-class",
-      buttons: [
-        {
-          text: "Utiliser la caméra",
-          icon: "videocam",
-          handler: () => {
-            this.presentSnapModal()
-          },
-        },
-        {
-          text: "Choisir depuis gallerie",
-          icon: "grid",
-          handler: () => {
-            this.fileChooser
-              .open({ mime: "video/mp4" })
-              .then((uri) => {
-                this.presentModal(uri);
-              })
-              .catch((e) => console.log(e));
-          },
-        },
-        {
-          text: "Annuler",
-          icon: "close",
-          role: "cancel",
-          handler: () => {
-            console.log("Cancel clicked");
-          },
-        },
-      ],
-    });
-    await actionSheet.present();
-  }
-
-
 
   confirmBeforePosting() {
     this.showModal = true
