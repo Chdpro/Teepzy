@@ -210,14 +210,14 @@
                       <mat-grid-list cols="2" rowHeight="2:1">
                         <mat-grid-tile>
                           <div class="example-button-row">
-                            <button (click)="sendInvitationToJoinCircle(c?._id, 'AMICAL')" mat-button color="warn">
+                            <button (click)="sendInvitationToJoinCircle(c?._id)" mat-button color="warn">
                               Amical
                             </button>
                           </div>
                         </mat-grid-tile>
                         <mat-grid-tile>
                           <div class="example-button-row">
-                            <button (click)="sendInvitationToJoinCircle(c?._id, 'PRO')" mat-button
+                            <button (click)="sendInvitationToJoinCircle(c?._id)" mat-button
                               color="warn">Professionnel</button>
                           </div>
                         </mat-grid-tile>
@@ -284,7 +284,7 @@
                                 {{lt?.circle || '' }}
                               </small><br>
                               <span class="time"
-                                *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(p?.createdAt) == 'il y a un jour') ">
+                                *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(lt?.createdAt) == 'il y a un jour') ">
                                 {{time(lt?.createdAt) }}
                               </span>
                               <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">
@@ -351,7 +351,7 @@
                             </ion-col>
                             <ion-col size="12">
                               <span class="time"
-                              *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(p?.createdAt) == 'il y a un jour') ">
+                              *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(lt?.createdAt) == 'il y a un jour') ">
                               {{time(lt?.createdAt) }}
                             </span>
                             <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">
@@ -409,7 +409,7 @@
                             </ion-col>
                             <ion-col size="12">
                               <span class="time"
-                              *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(p?.createdAt) == 'il y a un jour') ">
+                              *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(lt?.createdAt) == 'il y a un jour') ">
                               {{time(lt?.createdAt) }}
                             </span>
                             <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">

@@ -30,7 +30,7 @@ export class Tab2Page implements OnInit {
   messages = [];
   currentUser = '';
 
-
+  showSearch =  false
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;

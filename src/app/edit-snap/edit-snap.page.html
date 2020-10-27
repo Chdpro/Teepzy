@@ -1,0 +1,43 @@
+<ion-content [fullscreen]="true" style="background: transparent !important;">
+  <video id="video" poster="{{imgSrc}}" loop muted webkit-playsinline>
+    <source [src]="srcV" types='video/mp4; codecs="h.264"'>
+  </video>
+  <!-- <ion-img *ngIf="isImage"  src="{{srcV}}" alt="image" style="height: 100%; width: 100%;"></ion-img> -->
+  <ion-icon  (click)="dismiss()" color="light"  style="width: 40px; height: 40px; float: right; right: 0; margin: 10px; position: absolute; z-index: 100;" name="close-outline"></ion-icon>
+  <ion-fab  (click)="changeVideo()" vertical="center" horizontal="center" slot="fixed">
+    <ion-fab-button >
+      <ion-icon  *ngIf="!isPlay" name="play"></ion-icon>
+      <ion-icon *ngIf="isPlay" name="pause"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+ 
+</ion-content>
+<ion-footer>
+  <form #newForm="ngForm" >
+  <ion-grid>
+      <ion-row>
+          <ion-col size="10"><ion-item>
+            <ion-label [hidden]="postText.errors?.required || postText.errors?.maxlength" position="floating" color="light">Texte du post</ion-label>
+            <ion-label *ngIf="
+            postText.invalid &&
+            (postText.dirty || postText.touched)
+          " position="floating"  color="danger">Texte du post est requis</ion-label>
+            <ion-label position="floating" *ngIf="
+            postText.invalid &&
+            (postText.dirty || postText.touched)
+          "  color="danger">Pas plus de 130 caractères</ion-label>
+            <ion-input type="text" color="light"
+            name="postText"
+            [(ngModel)]="post.text"
+            class="form-control"
+            maxlength="130"
+            required
+            #postText="ngModel"></ion-input>
+          </ion-item></ion-col>
+          <ion-col size="2"> <ion-button type="submit" color="sub" (click)="submit()" id="submit">
+            <ion-icon slot="icon-only" name="send"></ion-icon>
+          </ion-button></ion-col>
+      </ion-row>
+  </ion-grid>
+  </form>
+</ion-footer>

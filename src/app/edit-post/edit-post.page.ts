@@ -10,6 +10,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { DatapasseService } from '../providers/datapasse.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-post',
@@ -72,7 +73,9 @@ export class EditPostPage implements OnInit {
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
     private mediaCapture: MediaCapture,
-    private dataPasse: DatapasseService
+    private dataPasse: DatapasseService,
+    public sanitizer: DomSanitizer,
+
 
   ) { 
     this.menuCtrl.close('first');

@@ -47,7 +47,7 @@
   <ion-content [fullscreen]="true" [scrollY]="false">
   
   
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher slot="fixed">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
   
@@ -147,7 +147,7 @@
   
           </div>
           <p class="content" *ngIf="!post?.image_url && !post?.video_url"
-            [ngStyle]="{'font-size': post?.content.length > 60 ? '17px' : '23px' }" (click)="next()">
+            [ngStyle]="{'font-size': post?.content.length > 60 ? '17px' : '23px' }" >
             {{ post?.content }}
           </p>
   
@@ -172,7 +172,7 @@
   
             <div class="content-down" *ngIf="post?.image_url || post?.video_url"
               [ngStyle]="{'font-size': post?.content.length > 20 ? '14px' : '17px', 'color': 'white', 'font-weight': '800' }"
-              (click)="next()">
+              >
               <span style="color: #ffff;margin-left: 50px !important;" *ngIf="post?.image_url || post?.video_url">
                 <strong>
                   @{{post?.userPseudo}} -
@@ -180,7 +180,7 @@
                 <span *ngIf="time(post?.createdAt) != 'il y a un mois'">
                   <span *ngIf="time(post?.createdAt) != 'il y a un jour'">
                     <span *ngIf="time(post?.createdAt) != 'il y a une minute'">
-                      <span class="time" *ngIf="time(ppost?.createdAt) != 'il y a une heure'">
+                      <span class="time" *ngIf="time(post?.createdAt) != 'il y a une heure'">
                         {{time(post?.createdAt) }}
                       </span>
                     </span>
@@ -319,7 +319,7 @@
                 <span class="match-align" style="margin-left: 6px;" *ngFor="let m of post?.matches | slice:0:3;">
                   <img class="match-image" *ngIf="m?.photo !== null" [src]="m?.photo" alt="">
                   <div class="match-pseudo" *ngIf="m?.photo == null"
-                  [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                  [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">
                   {{m?.prenom | slice:0:1| uppercase}}
                 </div>
                 </span>
@@ -335,70 +335,7 @@
     </ion-slides>
   
     <input type="radio" *ngIf="shareLink" name="modal2" value="open" id="modal-open2" class="modal-radio" />
-    <div class="modal2" (click)="dismissShareSheet()" *ngIf="shareLink">
-      <label class="modal-label overlay">
-        <input type="radio" name="modal2" value="close" class="modal-radio" />
-      </label>
-      <div class="content">
-        <div class="top" style="margin-top: -32px;color: black; text-align: center;">
-          <h5>PARTAGER </h5>
-          <label (click)="showShareSheet()" class="modal-label close-btn">
-            <input type="radio" name="modal2" value="close" class="modal-radio" />
-          </label>
-        </div>
-        <span>
-          <!-- fab placed to the bottom end -->
-          <ion-fab (click)="presentAlertConfirm(post?._id)" style="margin-bottom: 53px;text-align: center;" vertical="bottom"
-            horizontal="start" slot="fixed">
-            <ion-fab-button color="primary">
-              <ion-icon style="color:white" name="flag-outline"></ion-icon>
-            </ion-fab-button>
-            <div class="text-share">
-              signaler
-            </div>
-          </ion-fab>
-  
-  
-          <!-- fab placed to the bottom end -->
-          <ion-fab (click)="sendShare(post)" class="rs-btn" vertical="bottom" horizontal="start" slot="fixed">
-            <ion-fab-button color="primary">
-              <ion-icon style="color:white" name="share-social-outline"></ion-icon>
-            </ion-fab-button>
-            <div style="    margin-left: -18px;" class="text-share">
-              Réseaux sociaux
-            </div>
-          </ion-fab>
-  
-  
-          <!-- fab placed to the bottom end -->
-          <ion-fab vertical="bottom" class="sv-btn" horizontal="end" slot="fixed">
-            <ion-fab-button color="primary">
-              <span style="color: #ffff;" class="material-icons">
-                save_alt
-              </span>
-            </ion-fab-button>
-            <div class="text-share">
-              Enregistrer
-            </div>
-          </ion-fab>
-  
-  
-          <!-- fab placed to the bottom end -->
-          <ion-fab (click)="rePost(post)" vertical="bottom" style="margin-bottom: 53px;text-align: center;" horizontal="end"
-            slot="fixed">
-            <ion-fab-button color="primary">
-              <span style="color:white" class="material-icons">
-                redo
-              </span>
-            </ion-fab-button>
-            <div class="text-share">
-              Mon cercle
-            </div>
-          </ion-fab>
-        </span>
-      </div>
-    </div>
-  
+    
     <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
     <div class="modal" (click)="dismiss()" *ngIf="globals?.showBackground "
       [ngStyle]="{'opacity': globals?.showBackground == true ? '1' : '0' }">

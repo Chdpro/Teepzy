@@ -40,7 +40,8 @@ export class SignupPage implements OnInit {
 
   profile: any
 
-
+  hide:any
+  hideC:any
   showModal = 'hidden'
 
   public recaptchaVerifier: firebase.auth.RecaptchaVerifier;

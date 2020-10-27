@@ -12,7 +12,7 @@
   </ion-refresher>
   <span>
   <!-- fab placed to the bottom end -->
-  <ion-fab (click)="presentAlertConfirm(p?._id)" vertical="bottom" horizontal="start" slot="fixed">
+  <ion-fab (click)="presentAlertConfirm()" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="primary">
       <ion-icon style="color:white" name="flag-outline"></ion-icon>
     </ion-fab-button>
@@ -22,7 +22,7 @@
   </ion-fab>
 
   <!-- fab placed to the bottom end -->
-  <ion-fab (click)="sendShare(p)" class="rs-btn" vertical="bottom" horizontal="start" slot="fixed">
+  <ion-fab (click)="sendShare()" class="rs-btn" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="primary">
       <ion-icon style="color:white" name="share-social-outline"></ion-icon>
     </ion-fab-button>
@@ -44,7 +44,7 @@
   </ion-fab>
 
   <!-- fab placed to the bottom end -->
-  <ion-fab (click)="rePost(p)" vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab (click)="rePost()" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="primary">
       <span style="color:white" class="material-icons">
         redo

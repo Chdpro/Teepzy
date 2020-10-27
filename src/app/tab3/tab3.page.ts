@@ -21,6 +21,7 @@ export class Tab3Page implements OnInit {
   subscription: Subscription;
   loading =  false
 
+  showSearch = false
   constructor(public navCtrl: NavController,
     private router: Router,
     private contactService: ContactService,

@@ -23,21 +23,6 @@
         </ion-col>
       </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <span *ngIf="showSearch" style="display: flex;">
-            <button (click)="showSearch = false" style="font-size: 29px;" mat-button>
-              <ion-icon name="arrow-back-outline"></ion-icon>
-            </button>
-            <form style="margin-top: 72px; margin-bottom: -41px;" class="example-form">
-              <mat-form-field class="example-full-width search-input mat-form-field">
-                <mat-label>Rechercher</mat-label>
-                <input [(ngModel)]="search" name="search" matInput placeholder="Taper pour filtrer">
-              </mat-form-field>
-            </form>
-          </span>
-        </ion-col>
-      </ion-row>
     </ion-grid>
 
 
@@ -101,7 +86,7 @@
     {{product?.description}}
   </div>
 
-  <div class="content-down" style="font-size: 14px;color: white;font-weight: 800;" (click)="next()">
+  <div class="content-down" style="font-size: 14px;color: white;font-weight: 800;">
     <span>
       <ion-chip color="primary" *ngFor="let t of product?.tags">
         <ion-label>{{t}}</ion-label>

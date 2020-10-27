@@ -1,0 +1,59 @@
+<ion-content force-overscroll="false">
+  
+
+  <!-- <ion-fab style="background-color: transparent !important;" vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button style="background-color: transparent !important;" color="light"> -->
+      <ion-icon  (click)="closeCamera()" color="light"  style="width: 40px; height: 40px; float: right; margin: 10px;" name="close-outline"></ion-icon>
+    <!-- </ion-fab-button>
+  </ion-fab> -->
+  <!-- <ion-fab (click)="switchCamera()" style="background-color: transparent !important;" vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button style="background-color: transparent !important;" color="light">
+      <ion-icon style="width: 40px; height: 40px;" name="camera-reverse-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+
+  <ion-icon appLongPress id="captureI" (press)="takeVideoRecord()" (pressUp)="stopVideoRecode()" (click)="takePicture()" color="light" class="centerBtn" name="ellipse-outline">
+  
+</ion-icon>
+<ion-fab id="centerBtn" class="middle-bottom" color="danger"   slot="fixed">
+  <ion-fab-button    color="danger" class="takePhotoButton">
+  </ion-fab-button>
+</ion-fab>
+  <ion-icon *ngIf="isFlash === 1" (click)="onFlash()"  color="light" class="flash-style" name="flash-sharp"></ion-icon>
+  <ion-icon *ngIf="isFlash === 2" (click)="offFlash()" color="light" class="flash-style" name="flash-off-sharp"></ion-icon>
+  <i  *ngIf="isFlash === 3" (click)="autoFlash()" class="material-icons flash-style" style="color: white;">flash_auto</i>
+  <ion-icon (click)="switchCamera()" color="light" class="reverse-style" name="camera-reverse-sharp"></ion-icon>
+  
+  <!-- <ion-fab   vertical="bottom" horizontal="center" slot="fixed"  class="middle-bottom">
+    <ion-fab-button #captureI id="captureI"  color="light" class="takePhotoButton">
+      <ion-icon style="width: 40px; height: 40px;" name="aperture-outline"></ion-icon>  
+    </ion-fab-button>
+  </ion-fab> -->
+  <!-- <ion-fab *ngIf="isRecording" (click)="stopVideoRecode()" vertical="bottom" horizontal="center"  class="middle-bottom">
+    <ion-fab-button color="light" class="takePhotoButton">
+      <ion-icon color="danger" style="width: 40px; height: 40px;" name="stop-outline"></ion-icon>  
+    </ion-fab-button>
+  </ion-fab> -->
+  
+
+<div style="justify-content: center;">
+<ion-chip *ngIf="isRecording" style="margin: 10px; align-self: center;">
+  <ion-icon name="radio-button-on-outline" color="danger"></ion-icon>
+  <ion-label>{{time | async}}</ion-label>
+</ion-chip>
+</div>
+
+<!-- <section *ngIf="srcV" >
+  <video  #video [src]="srcV" controls="true" style="width: 100%;" hidden ></video>
+</section>
+<div *ngIf="srcV">
+  <div id="container"> 
+      <canvas #c1 width="300" height="200" style="z-index:1"></canvas>
+      <a style="z-index:2; position:absolute; top:2%; left:5%;font-size: 40px;background-color: transparent;border:none;"><i class="fa fa-close"></i></a>
+      <a style="z-index:2; position:absolute; top:40%; left:40%;font-size: 52px;background-color: orange;border-radius: 40px;color: white;padding: 15px;padding-left: 22px;" (click)="changeVideo()"><i class="fa fa-play"></i></a>
+      <a style="z-index:2; position:absolute; bottom:5%; right:6%;font-size: 22px;background-color: orange;border-radius: 22px;color: white;padding: 10px;padding-right: 12px;"><i class="fa fa-send"></i></a>
+  </div>
+</div> -->
+
+
+</ion-content>

@@ -21,7 +21,7 @@
         <img class="round-img-profile" [src]="user?.photo" alt="">
       </div>
       <div class="round-img" *ngIf="user?.photo == null || user?.photo == ''"
-        [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+       >
         {{user?.pseudoIntime | slice:0:1| uppercase}} 
       </div>
       <!--span (click)="switchProfile()" *ngIf="isProProfile" class="material-icons toggle_o">
@@ -42,7 +42,7 @@
       <span>{{user?.localisation}}</span>
     </div>
     <div>
-      <mat-card (click)="goToMembers()" class="card-banner">{{relationsCount || '0' }} Teepzer <span *ngIf="relationsCount?.length > 1">s</span>
+      <mat-card (click)="goToMembers()" class="card-banner">{{relationsCount || '0' }} Teepzer <span *ngIf="relationsCount > 1">s</span>
       </mat-card>
     </div>
   </div>

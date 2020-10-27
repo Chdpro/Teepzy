@@ -1,0 +1,38 @@
+ion-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 2;
+    transform: translateX(-50%) translateY(-50%);
+  }
+  
+  ion-button {
+    font-weight: bold;
+    position: absolute;
+  }
+  ion-fab {
+    position: absolute;
+  }
+  ion-footer {
+    position: absolute;
+    bottom: 0;
+    z-index: 100;
+  }
+  
+  ion-item {
+    --ion-background-color: transparent !important;
+  }
+  ion-button {
+    --ion-background-color: #fb394f !important;
+  }
+  #submit {
+    width: 55px;
+    height: 55px;
+  }
+  #submit::part(native) {
+    border-radius: 30px;
+  }

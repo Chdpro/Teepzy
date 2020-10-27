@@ -40,7 +40,7 @@ export class LinkSheetPage implements OnInit {
     private contactService: ContactService,
     private toasterController: ToastController,
     private authService: AuthService,
-    private globals: Globals,
+    public globals: Globals,
     private menuCtrl: MenuController,
     private navParams: NavParams) { 
       this.menuCtrl.close('first');

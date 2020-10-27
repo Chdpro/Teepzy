@@ -20,6 +20,9 @@ export class EditPassPage implements OnInit {
   userInfo: any
   userId =''
   loading = false
+
+  hide:any
+  
   constructor(private menuCtrl: MenuController,
     private authService: AuthService,
     private toasterController: ToastController

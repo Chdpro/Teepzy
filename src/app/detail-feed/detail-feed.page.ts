@@ -14,6 +14,7 @@ import { ShareSheetPage } from '../share-sheet/share-sheet.page';
 import { EditPostPage } from '../edit-post/edit-post.page';
 import { DatapasseService } from '../providers/datapasse.service';
 import { type, MESSAGES } from '../constant/constant';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -81,6 +82,11 @@ export class DetailFeedPage implements OnInit {
 
   previousBackUrl = ''
 
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400
+  };
+
   constructor(private authService: AuthService,
     private toasterController: ToastController,
     private socialSharing: SocialSharing,
@@ -88,9 +94,10 @@ export class DetailFeedPage implements OnInit {
     private menuCtrl: MenuController,
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
+    public sanitizer: DomSanitizer,
     private socket: Socket,
     private router: Router,
-    private globals: Globals,
+    public globals: Globals,
     public route: ActivatedRoute,
     private dataPasse: DatapasseService,
     private contactService: ContactService) {

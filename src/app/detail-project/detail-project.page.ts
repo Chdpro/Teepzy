@@ -5,6 +5,7 @@ import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
 import { MESSAGES } from '../constant/constant';
+import { Globals } from '../globals';
 
 @Component({
   selector: 'app-detail-project',
@@ -25,6 +26,11 @@ export class DetailProjectPage implements OnInit {
   userId = ''
   showDeleteBtn = false
 
+    slideOpts = {
+    initialSlide: 1,
+    speed: 400
+  };
+  
   constructor(
     private menuCtrl: MenuController,
     private route: ActivatedRoute,
@@ -33,7 +39,9 @@ export class DetailProjectPage implements OnInit {
     private contactService: ContactService,
     private authService: AuthService,
     private dataPasse: DatapasseService,
-    private router:Router
+    private router:Router,
+    public globals: Globals,
+
   ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);

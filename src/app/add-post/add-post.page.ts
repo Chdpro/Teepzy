@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import {
   ModalController, ToastController, AlertController,
-  ActionSheetController, MenuController, Platform
+  ActionSheetController, MenuController
 } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
@@ -17,7 +17,10 @@ import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ion
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { MESSAGES } from '../constant/constant';
 import { File } from '@ionic-native/file/ngx';
-
+import { Router } from '@angular/router';
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { EditSnapPage } from '../edit-snap/edit-snap.page';
+import { SnapPage } from '../snap/snap.page';
 
 const MEDIA_FILES_KEY = 'mediaFiles'
 
@@ -26,6 +29,7 @@ const MEDIA_FILES_KEY = 'mediaFiles'
   selector: 'app-add-post',
   templateUrl: './add-post.page.html',
   styleUrls: ['./add-post.page.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AddPostPage implements OnInit {
 
@@ -39,36 +43,37 @@ export class AddPostPage implements OnInit {
     userPseudo: ''
   }
 
-
-
   loading = false
   showModal = false
   user: any
   listPosts = []
-
   photos: any = [];
   filesName = new Array();
   dispImags = []
   userPhoto = []
-
   videos: any = [];
   videoFilesName = new Array();
   dispVideos = []
-
   testVideos = ['../../assets/test.mp4']
-
   subscription: Subscription;
-
-
   @ViewChild('myVideo', null) videoPlayers: ElementRef;
   @ViewChild('myVideoCamera', null) myVideoCamera: ElementRef;
-
-  
   mediaFiles = []
-
   currentPlaying = null
 
 
+  @ViewChild("video", null) video: ElementRef;
+  @ViewChild("c1", null) c1: ElementRef;
+  @ViewChild("ctx1", null) ctx1: any;
+  image = null;
+  cameraActive = false;
+  torchActive = false;
+  isRecording = false;
+  picture;
+  poste:any
+  vid;
+  width;
+  height;
 
   constructor(public modalController: ModalController,
     private toastController: ToastController,
@@ -85,11 +90,14 @@ export class AddPostPage implements OnInit {
     private menuCtrl: MenuController,
     private mediaCapture: MediaCapture,
     private androidPermissions: AndroidPermissions,
-    private file: File
-  ) {
+    private file: File,
+    private fileChooser: FileChooser,
+    public router: Router,
 
+  ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
+
   }
 
   ngOnInit() {
@@ -103,7 +111,6 @@ export class AddPostPage implements OnInit {
     this.socket.emit('online', this.post.userId);
 
   }
-
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
@@ -458,7 +465,61 @@ export class AddPostPage implements OnInit {
 
   }
 
+  async presentModal(path) {
+    const modal = await this.modalController.create({
+      component: EditSnapPage,
+      cssClass: "my-custom-class",
+      componentProps: {
+        filePath: path,
+      },
+    });
+    return await modal.present();
+  }
+  async presentSnapModal() {
+    const modal = await this.modalController.create({
+      component: SnapPage,
+      cssClass: "my-custom-class",
+   
+    });
+    return await modal.present();
+  }
 
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      header: "Prendre un média",
+      cssClass: "my-custom-class",
+      buttons: [
+        {
+          text: "Utiliser la caméra",
+          icon: "videocam",
+          handler: () => {
+            this.presentSnapModal()
+          },
+        },
+        {
+          text: "Choisir depuis gallerie",
+          icon: "grid",
+          handler: () => {
+            this.fileChooser
+              .open({ mime: "video/mp4" })
+              .then((uri) => {
+                this.presentModal(uri);
+              })
+              .catch((e) => console.log(e));
+          },
+        },
+        {
+          text: "Annuler",
+          icon: "close",
+          role: "cancel",
+          handler: () => {
+            console.log("Cancel clicked");
+          },
+        },
+      ],
+    });
+    await actionSheet.present();
+  }
 
 
 

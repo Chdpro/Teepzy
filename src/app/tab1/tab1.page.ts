@@ -156,7 +156,7 @@ export class Tab1Page implements OnInit {
     private routerOutlet: IonRouterOutlet,
     private socket: Socket,
     private router: Router,
-    private globals: Globals,
+    public globals: Globals,
     public sanitizer: DomSanitizer,
     public actionSheetController: ActionSheetController,
     private videoPlayer: VideoPlayer,

@@ -18,6 +18,7 @@ export class LoginPage implements OnInit {
   }
   retoutUsr: any;
 
+  hideC:any
   loading = false;
   retourUsr: any
   profileInfo: any

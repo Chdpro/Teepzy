@@ -82,6 +82,13 @@
       <ion-col size="12">
         <div style="margin-left: 16px;margin-bottom: 2px;" id="recaptcha-container"></div>
       </ion-col>
+      <ion-col size="12">
+        <div class="condition">
+          En cliquant sur « S’inscrire », vous acceptez de fait nos Conditions Générales.
+          Vous découvrirez comment nous collectons, stockons, utilisons et partageons vos données en lisant notre Politique de confidentialité et de gestion de données personnelle .
+          Vous pouvez consulter notre Politique d'utilisation des cookies pour et autres technologies similaires. Vous recevrez peut-être des notifications par sms de notre part et vous pouvez à tout moment vous désabonner de l’ensemble de nos listes d'informations et de diffusion.          
+        </div>
+      </ion-col>
     </ion-row>
 
 
@@ -94,7 +101,7 @@
             || prenom.errors?.required 
             || email.errors?.required
             || phone.errors?.required
-            || selected == ''" (click)="signup()" mat-button>Suivant</button>
+            || selected == ''" (click)="signup()" mat-button>S'inscrire</button>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -171,9 +178,3 @@
 
 
 </ion-content>
-<!-- Footer without a border -->
-<!--ion-footer class="ion-no-border">
-  <ion-toolbar>
-
-  </ion-toolbar>
-</ion-footer-->

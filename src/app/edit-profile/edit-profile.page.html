@@ -17,7 +17,7 @@
       </div>
 
       <div *ngIf="dispImags?.length == 0" class="round-img"
-        [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+       >
         {{user?.pseudoIntime | slice:0:1| uppercase}}
       </div>
       <!-- fab placed to the bottom end -->
@@ -30,7 +30,7 @@
   </div>
   <div class=”mat-content” (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
     <mat-tab-group [(selectedIndex)]="selectedTab" mat-align-tabs="center">
-      <mat-tab (click)="switchTab2()" class="mat-tab-2" style=" margin-left: 128px;" [label]="'@' + user?.pseudoIntime">
+      <mat-tab class="mat-tab-2" style=" margin-left: 128px;" [label]="'@' + user?.pseudoIntime">
         <ion-grid>
           <ion-row>
             <ion-col>
@@ -219,95 +219,7 @@
     </mat-tab-group>
   </div>
 
-  <input class="modal-state" id="modal-2" type="checkbox" />
-  <div *ngIf="showModal == 'visible'" class="modal">
-    <label class="modal__bg" for="modal-2"></label>
-    <div class="modal__inner">
-      <label (click)="shwModal()" class="modal__close" for="modal-2"></label>
-      <h2 style="font-size: 20px;font-weight: 200;">Choisir un avatar</h2>
-      <mat-grid-list cols="2" rowHeight="2:1">
-        <mat-grid-tile>
-          <button (click)="choseAvatr('https://www.teepzy.com/1.png')" mat-button>
-            <img src="https://www.teepzy.com/1.png" alt="" />
-          </button>
-          <span *ngIf="user?.photo == 'https://www.teepzy.com/1.png' " class="material-icons check">
-            check
-          </span>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button (click)="choseAvatr('https://www.teepzy.com/2.png')" mat-button>
-            <img src="https://www.teepzy.com/2.png" alt="" />
-          </button>
-          <span *ngIf="user?.photo == 'https://www.teepzy.com/2.png'" class="material-icons check">
-            check
-          </span>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button (click)="choseAvatr('https://www.teepzy.com/3.png')" mat-button>
-            <img src="https://www.teepzy.com/3.png" alt="" />
-
-          </button>
-          <span *ngIf="user?.photo == 'https://www.teepzy.com/3.png' " class="material-icons check">
-            check
-          </span>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button (click)="choseAvatr('https://www.teepzy.com/4.png')" mat-button>
-            <img src="https://www.teepzy.com/4.png" alt="" />
-
-          </button>
-          <span *ngIf="user?.photo == 'https://www.teepzy.com/4.png' " class="material-icons check">
-            check
-          </span>
-
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button (click)="choseAvatr('https://www.teepzy.com/5.png')" mat-button>
-            <img src="https://www.teepzy.com/5.png" alt="" />
-
-          </button>
-          <span *ngIf="user?.photo == 'https://www.teepzy.com/5.png' " class="material-icons check">
-            check
-          </span>
-
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button (click)="choseAvatr('https://www.teepzy.com/6.png')" mat-button>
-            <img src="https://www.teepzy.com/6.png" alt="" />
-
-          </button>
-          <span *ngIf="user?.photo == 'https://www.teepzy.com/6.png' " class="material-icons check">
-            check
-          </span>
-        </mat-grid-tile>
-      </mat-grid-list>
-
-
-      <div>
-        <button (click)="selectImage()" class="mat-raised-btn" mat-raised-button>Choisir une photo</button>
-      </div>
-
-
-      <ion-row>
-
-        <ion-col size="2">
-
-        </ion-col>
-        <ion-col size="8">
-          <ion-button (click)="shwModal()" [disabled]="user?.photo == ''" expand="block" shape="round">
-            <label class="" for="modal-2">
-              Valider
-            </label>
-          </ion-button>
-
-        </ion-col>
-        <ion-col size="2">
-
-        </ion-col>
-      </ion-row>
-
-    </div>
-  </div>
+ 
 
 </ion-content>
 <!-- Footer without a border -->

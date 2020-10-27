@@ -17,6 +17,7 @@ import { typeAccount } from '../constant/constant';
 })
 export class ContactsPage implements OnInit {
 
+  pageEvent:any
   userInfo:any
   myContacts = []
   listTeepzrsToInvite = []

@@ -5,6 +5,7 @@ import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
 import { MESSAGES } from '../constant/constant';
+import { Globals } from '../globals';
 
 @Component({
   selector: 'app-detail-produit',
@@ -27,6 +28,11 @@ export class DetailProduitPage implements OnInit {
 
   showDeleteBtn = false
 
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400
+  };
+  
   constructor(
     private menuCtrl: MenuController,
     private route: ActivatedRoute,
@@ -35,6 +41,7 @@ export class DetailProduitPage implements OnInit {
     private contactService: ContactService,
     private authService: AuthService,
     private dataPasse: DatapasseService,
+    public globals: Globals,
     private router: Router
   ) {
     this.menuCtrl.close('first');

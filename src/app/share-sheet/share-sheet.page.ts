@@ -21,7 +21,7 @@ export class ShareSheetPage implements OnInit {
   listPosts = []
   
   constructor(private modalController: ModalController, 
-    private globals: Globals,
+    public globals: Globals,
     private navParams: NavParams,
     private contactService: ContactService,
     private toastController: ToastController,

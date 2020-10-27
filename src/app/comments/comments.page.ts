@@ -41,7 +41,7 @@ export class CommentsPage implements OnInit {
     private toasterController: ToastController,
     private dataPasse: DatapasseService,
     private socket: Socket,
-    private globals: Globals,
+    public globals: Globals,
     private menuCtrl: MenuController,
     private navParams: NavParams) {
       this.menuCtrl.close('first');

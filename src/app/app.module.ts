@@ -24,7 +24,6 @@ import { File } from '@ionic-native/file/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { AddPostPageModule } from './add-post/add-post.module';
-import { EmojiPickerModule } from 'ng-emoji-picker';
 import { MAT_DATE_LOCALE } from '@angular/material';
 import { DatapasseService } from './providers/datapasse.service';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
@@ -40,6 +39,18 @@ import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { IonicSwipeAllModule } from 'ionic-swipe-all';
+import {
+  CameraPreview,
+} from "@ionic-native/camera-preview/ngx";
+import { WebView } from "@ionic-native/ionic-webview/ngx";
+import { Media } from "@ionic-native/media/ngx";
+import { FileOpener } from "@ionic-native/file-opener/ngx";
+import {
+  StreamingMedia,
+} from "@ionic-native/streaming-media/ngx";
+import { VideoEditor } from "@ionic-native/video-editor/ngx";
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+
 
 import { local_url, base_url } from 'src/config';
 import { Globals } from './globals';
@@ -47,6 +58,9 @@ import { CircleMembersPageModule } from './circle-members/circle-members.module'
 import { ShareSheetPageModule } from './share-sheet/share-sheet.module';
 import { EditPostPageModule } from './edit-post/edit-post.module';
 import { AddPeopleRoomPageModule } from './add-people-room/add-people-room.module';
+import { EditSnapImgPageModule } from './edit-snap-img/edit-snap-img.module';
+import { EditSnapPageModule } from './edit-snap/edit-snap.module';
+import { SnapPageModule } from './snap/snap.module';
 const config: SocketIoConfig = { url: base_url, options: {} };
 
 @NgModule({
@@ -60,6 +74,9 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     HttpClientModule,
     AddPostPageModule,
     EditPostPageModule,
+    EditSnapImgPageModule,
+    EditSnapPageModule,
+    SnapPageModule,
     AddProductPageModule,
     AddProjectPageModule,
     AddPeopleRoomPageModule,
@@ -69,7 +86,6 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     LinkSheetPageModule,
     BottomSheetOverviewExampleSheetPageModule,
     Ng2SearchPipeModule,
-    EmojiPickerModule,
     IonicSwipeAllModule,
     SocketIoModule.forRoot(config)
   ],
@@ -89,6 +105,14 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     File,
     FilePath,
     SMS,
+    VideoEditor,
+    VideoPlayer,
+    CameraPreview,
+    StreamingMedia,
+    FileOpener,
+    FileChooser,
+    Media,
+    WebView,
     Contacts,
     OneSignal,
     Clipboard,

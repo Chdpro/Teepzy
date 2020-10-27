@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AddPostPageRoutingModule } from './add-post-routing.module';
+import { SnapPageRoutingModule } from './snap-routing.module';
 import { MaterialModule } from '../material.module';
 
-import { AddPostPage } from './add-post.page';
+import { SnapPage } from './snap.page';
 
 @NgModule({
   imports: [
@@ -15,9 +15,9 @@ import { AddPostPage } from './add-post.page';
     FormsModule,
     IonicModule,
     MaterialModule,
-    AddPostPageRoutingModule,
+    SnapPageRoutingModule
   ],
-  entryComponents: [AddPostPage],
-  declarations: [AddPostPage]
+  entryComponents:[SnapPage],
+  declarations: [SnapPage]
 })
-export class AddPostPageModule {}
+export class SnapPageModule {}

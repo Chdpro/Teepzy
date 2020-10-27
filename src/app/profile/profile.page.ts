@@ -49,6 +49,7 @@ export class ProfilePage implements OnInit {
   user: any
   relationsCount = 0
 
+  pageEvent:any
   slideOpts = {
     initialSlide: 1,
     slidesPerView: 3,

@@ -63,6 +63,10 @@ export class SearchPage implements OnInit {
     this.getTeepzr()
   }
 
+  trackByFn(index, item) {
+    return index; // or item.id
+  }
+
   time(date) {
     moment.locale('fr');
     return moment(date).fromNow()
