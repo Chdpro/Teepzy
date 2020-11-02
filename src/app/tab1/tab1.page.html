@@ -49,19 +49,92 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" [scrollY]="false">
-  <ion-refresher slot="fixed"  [disabled]="false" (ionRefresh)="doRefresh($event)">
+  <ion-refresher slot="fixed" [disabled]="false" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <ion-slides pager="false" [options]="slideOpts">
-    <ion-slide *ngIf="listPosts?.length == 0 && !loading">
+    <!--ion-slide *ngIf="listPosts?.length == 0 && !loading">
       <span style="color: #ea4e4f;">
         Aucune publication pour l'instant
       </span>
-    </ion-slide>
+    </ion-slide-->
 
     <ion-slide *ngIf="loading && listPosts?.length == 0">
       <ion-spinner color="primary" name="dots"></ion-spinner>
+    </ion-slide>
+
+      <ion-slide *ngFor="let t of tutos" [ngStyle]="{'color': 'black', 'background-color': t?.background}"
+      class="tuto-bg">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12">
+            <div class="header-slide">
+              <img class="slide3-img" *ngIf="t?.slide =='3'" src="../../assets/img/header.png" alt="">
+            </div>
+          </ion-col>
+          <ion-col size="12">
+            <div>
+              <span [ngStyle]="{'color': t?.slide =='3' || t?.slide =='6'?  '#ea4e50' : 'black'}">
+                {{t?.text_1}}
+              </span>
+              <span [ngStyle]="{'color': t?.slide =='1' || t?.slide == '2' || t?.slide == '4'||t?.slide == '5' ? '#ea4e50' : 'black'}"> {{t?.text_2}}</span>
+              <span [ngStyle]="{'color': t?.slide =='6' ? '#ea4e50' : 'black' }"> {{t?.text_3}} </span>
+              <span [ngStyle]="{'color': t?.slide =='4' || t?.slide =='5'? '#ea4e50' : 'black'}">
+                {{t?.text_4}}
+              </span>
+              <span>
+                {{t?.text_5}}
+              </span>
+              <span>
+                {{t?.text_6}}
+              </span>
+              <img class="img-tuto" [src]="t?.logo" alt="">
+
+            </div>
+          </ion-col>
+          <ion-col size="12">
+            <img class="img-tuto robot" [src]="t?.backgroundImg" alt="">
+            <img *ngIf="t?.slide =='3'" class="slide3-img foot" src="../../assets/img/foot.png" alt="">
+            <div class="group-add-icon" *ngIf="t?.slide =='4'">
+              <span class="material-icons">
+                group_add
+              </span>
+            </div>
+
+            <span class="icons" *ngIf="t?.slide =='6'">
+              <span class="group-icon">
+                <ion-icon style="font-size: 26px" name="chatbubble-outline"></ion-icon>
+
+              </span>
+              <span class="group-icon">
+                <ion-icon style="font-size: large;" name="star-outline"></ion-icon>
+
+              </span>
+              <span class="group-icon">
+                <span class="material-icons">
+                  redo
+                </span>
+              </span>
+            </span>
+            <span class="icons" *ngIf="t?.slide =='5'">
+              <span >
+                <img class="group-img img1" src="../../assets/img/tuto_img1.jpg" alt="">
+
+              </span>
+              <span >
+                <img class="group-img" src="../../assets/img/tuto_img2.jpg" alt="">
+              </span>
+              <span >
+               <img class="group-img img3" src="../../assets/img/tuto_img3.jpg" alt="">
+              </span>
+            </span>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+
+
     </ion-slide>
     <ion-slide (click)="nextWhenVideo()" *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
       [ngClass]="{'ion-slide-img': p?.image_url != '', 'ion-slide-no-img': p?.image_url == ''}" [ngStyle]="{

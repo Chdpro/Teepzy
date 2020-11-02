@@ -35,6 +35,60 @@ ion-toolbar{
     height: 68px;
     margin-bottom: -22px;
 }
+
+.icons{
+    display: inline-flex;
+}
+.group-add-icon{
+    background: aliceblue;
+    border-radius: 52px;
+    padding: 18px;
+    width: 76px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.img1{
+    margin-right: -13px;
+}
+.img3{
+    margin-left: -13px;
+}
+.group-img{
+    min-width: 69px !important;
+    max-height: 69px !important;
+}
+.group-icon{
+    background: aliceblue;
+    border-radius: 52px;
+    padding: 13px;
+    width: 65px;
+    margin-right: 8px !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.tuto-bg{
+    background-color: brown;
+    font-size: 27px;
+    font-weight: 500;
+}
+.slide3-img{
+    border: none;
+    width: 310px;
+    border-radius: initial;
+}
+.foot{
+    margin-top: 47px;
+}
+.robot{
+    width: 94px;
+}
+.img-tuto{
+    border-radius: initial;
+    border: none
+}
+
 .round-img{
     height: 64px;
     width: 64px;
@@ -57,6 +111,7 @@ ion-toolbar{
     -moz-border-radius: 100%; 
     border: solid 1px #ea4e50;
     background-color: rgba(255, 255, 255, 0.288);
+    padding-top: 2px;
 }
 
 img{

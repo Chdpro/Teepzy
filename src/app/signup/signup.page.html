@@ -84,10 +84,10 @@
       </ion-col>
       <ion-col size="12">
         <div class="condition">
-          En cliquant sur « S’inscrire », vous acceptez de fait nos Conditions Générales.
-          Vous découvrirez comment nous collectons, stockons, utilisons et partageons vos données en lisant notre Politique de confidentialité et de gestion de données personnelle .
-          Vous pouvez consulter notre Politique d'utilisation des cookies pour et autres technologies similaires. Vous recevrez peut-être des notifications par sms de notre part et vous pouvez à tout moment vous désabonner de l’ensemble de nos listes d'informations et de diffusion.          
-        </div>
+        En appuyant sur « Je m'inscris et j'accepte », 
+        Vous reconnaissez avoir lu notre <a routerLink="/privacy">Politique de confidentialité</a>
+       et acceptez nos <a routerLink="/conditions">Conditions d'utilisation de service </a>
+      </div>
       </ion-col>
     </ion-row>
 
@@ -101,7 +101,7 @@
             || prenom.errors?.required 
             || email.errors?.required
             || phone.errors?.required
-            || selected == ''" (click)="signup()" mat-button>S'inscrire</button>
+            || selected == ''" (click)="signup()" mat-button>Je m'inscris et j'accepte</button>
       </ion-col>
     </ion-row>
   </ion-grid>

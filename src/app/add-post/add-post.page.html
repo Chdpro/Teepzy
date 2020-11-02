@@ -4,7 +4,7 @@
       <ion-toolbar [style.background-color]="post?.backgroundColor">
         <ion-icon class="arrow-back-btn" (click)="dismiss()" name="arrow-back-outline"></ion-icon>
         <div class="example-button-container">
-          <ion-button color="secondary" style="margin-top: 1px;" (click)="addPostUsingPermission()"
+          <ion-button color="secondary" style="margin-top: 1px;" (click)="addPost()"
             [disabled]="contentMsg.errors?.required" expand="block" shape="round">
             <span *ngIf="!loading">
               Publier
@@ -30,30 +30,11 @@
       <ion-row>
         <ion-col size="12">
           <img *ngIf="dispImags?.length > 0" class="img-to-post" [src]="dispImags[0]" alt="">
-          <!--iframe 
-          [src]="sanitizer.bypassSecurityTrustResourceUrl(dispVideos[0])" 
-          allow="autoplay;" 
-          frameborder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen
-          controls controlsList="nodownload"
-          >
-        </iframe-->
-          <div *ngIf="dispVideos?.length > 0 && mediaFiles?.length == 0">
-            <video #myVideo preload="metadata" controls="false">
-              <source [src]="sanitizer.bypassSecurityTrustResourceUrl(dispVideos[0])" type="video/mp4">
-            </video>
-          </div>
-          <div *ngIf="dispVideos?.length == 0 && mediaFiles?.length > 0">
-            <video #myVideoCamera  *ngFor="let f of mediaFiles" (click)="playtakenVideo(f)" preload="metadata" controls="false">
-            </video>
-          </div>
-
         </ion-col>
 
         <ion-col>
           <form class="example-form">
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="">
               <mat-label [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">Tapez ce que vous
                 voulez</mat-label>
               <textarea [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }" matInput
@@ -95,7 +76,7 @@
             </ion-col>
             <ion-col size="4">
                 <span>
-                    <ion-fab (click)="presentActionSheet()" vertical="center" horizontal="center" slot="fixed">
+                    <ion-fab class="add" (click)="presentActionSheet()" vertical="center" horizontal="center" slot="fixed">
                         <ion-fab-button>
                           <ion-icon name="add"></ion-icon>
                         </ion-fab-button>

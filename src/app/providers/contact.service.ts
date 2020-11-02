@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, } from '@angular/common/http';
 import { base_url, test_url, local_url } from 'src/config';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { tuto } from '../data/tuto_data';
 
 
 const token = localStorage.getItem('teepzyToken')
@@ -22,6 +23,10 @@ export class ContactService {
 
   constructor(private http: HttpClient) { }
 
+  tutotxts(): Observable<any>{
+      return of(tuto);
+  
+  }
   inviteViaSms(invitation): Observable<any> {
     let url = 'users/SmsInvited';
     return this.http.post(base_url + url, invitation, httpOptionsJson);

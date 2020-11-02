@@ -20,7 +20,6 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { File } from '@ionic-native/file/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { AddPostPageModule } from './add-post/add-post.module';
@@ -43,13 +42,9 @@ import {
   CameraPreview,
 } from "@ionic-native/camera-preview/ngx";
 import { WebView } from "@ionic-native/ionic-webview/ngx";
-import { Media } from "@ionic-native/media/ngx";
 import { FileOpener } from "@ionic-native/file-opener/ngx";
-import {
-  StreamingMedia,
-} from "@ionic-native/streaming-media/ngx";
-import { VideoEditor } from "@ionic-native/video-editor/ngx";
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { Base64 } from '@ionic-native/base64/ngx';
 
 
 import { local_url, base_url } from 'src/config';
@@ -60,7 +55,8 @@ import { EditPostPageModule } from './edit-post/edit-post.module';
 import { AddPeopleRoomPageModule } from './add-people-room/add-people-room.module';
 import { EditSnapImgPageModule } from './edit-snap-img/edit-snap-img.module';
 import { EditSnapPageModule } from './edit-snap/edit-snap.module';
-import { SnapPageModule } from './snap/snap.module';
+import { UploadService } from './providers/upload.service';
+import { File } from '@ionic-native/file/ngx';
 const config: SocketIoConfig = { url: base_url, options: {} };
 
 @NgModule({
@@ -76,7 +72,6 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     EditPostPageModule,
     EditSnapImgPageModule,
     EditSnapPageModule,
-    SnapPageModule,
     AddProductPageModule,
     AddProjectPageModule,
     AddPeopleRoomPageModule,
@@ -102,24 +97,22 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     ImagePicker,
     Camera,
     FileTransfer,
-    File,
     FilePath,
     SMS,
-    VideoEditor,
+    File,
     VideoPlayer,
     CameraPreview,
-    StreamingMedia,
     FileOpener,
     FileChooser,
-    Media,
     WebView,
     Contacts,
     OneSignal,
     Clipboard,
     Globals,
+    Base64,
     VideoPlayer,
     MediaCapture,
-
+    UploadService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
     { 

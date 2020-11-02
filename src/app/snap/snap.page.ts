@@ -1,24 +1,14 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
-  ModalController, ToastController, AlertController,
-  ActionSheetController, MenuController, Platform, GestureController, Gesture
+  ModalController, MenuController, Platform,
 } from '@ionic/angular';
 import {
   CameraPreview,
   CameraPreviewPictureOptions,
 } from "@ionic-native/camera-preview/ngx";
 import { WebView } from "@ionic-native/ionic-webview/ngx";
-import { VideoPlayer } from "@ionic-native/video-player/ngx";
-import { Media, MediaObject } from "@ionic-native/media/ngx";
-import { FileOpener } from "@ionic-native/file-opener/ngx";
-import {
-  StreamingMedia,
-  StreamingVideoOptions,
-} from "@ionic-native/streaming-media/ngx";
-import { VideoEditor } from "@ionic-native/video-editor/ngx";
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { FilePath } from '@ionic-native/file-path/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { EditSnapPage } from '../edit-snap/edit-snap.page';
 import { EditSnapImgPage } from '../edit-snap-img/edit-snap-img.page';
@@ -28,7 +18,7 @@ import { EditSnapImgPage } from '../edit-snap-img/edit-snap-img.page';
   selector: 'app-snap',
   templateUrl: './snap.page.html',
   styleUrls: ['./snap.page.scss'],
-  encapsulation: ViewEncapsulation.None,
+ // encapsulation: ViewEncapsulation.None,
 
 })
 export class SnapPage implements OnInit {
@@ -50,19 +40,13 @@ export class SnapPage implements OnInit {
   isFlash;
 
   constructor(
-    private gestureCtrl: GestureController,
     private cameraPreview: CameraPreview,
-    private videoPlayer: VideoPlayer,
-    private media: Media,
     private router: Router,
-    private fileOpener: FileOpener,
-    private fPath: FilePath,
     private webview: WebView,
-    private streamingMedia: StreamingMedia,
-    private videoEditor: VideoEditor,
     private androidPermissions:AndroidPermissions,
     private modalController: ModalController,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private platform: Platform
   ) { 
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -70,6 +54,11 @@ export class SnapPage implements OnInit {
     this.captureI = document.getElementById("captureI");
     this.isFlash = 2;
     this.cameraPreview.setFlashMode(this.cameraPreview.FLASH_MODE.OFF);
+
+    // handle back button to go to feed page
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      router.navigate(['/tabs/tab1'])
+    });
   }
 
   ngOnInit() {
@@ -94,11 +83,9 @@ export class SnapPage implements OnInit {
       // start camera
       this.cameraPreview.startCamera(cameraPreviewOpts).then(
         (res) => {
-          console.log("OOOOOOOOOOOOOK", res);
           this.cameraActive = true;
         },
         (err) => {
-          console.log(err);
         }
       );
     });
@@ -112,6 +99,10 @@ export class SnapPage implements OnInit {
       this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE,
       this.androidPermissions.PERMISSION.READ_PHONE_STATE,
       this.androidPermissions.PERMISSION.WRITE_PHONE_STATE,
+      this.androidPermissions.PERMISSION.RECORD_AUDIO,
+      this.androidPermissions.PERMISSION.RECORD_VIDEO,
+      this.androidPermissions.PERMISSION.MODIFY_AUDIO_SETTINGS,
+
     ];
     return this.androidPermissions.requestPermissions(androidPermissionsList);
   }
@@ -149,8 +140,9 @@ export class SnapPage implements OnInit {
    */
   closeCamera() {
     this.cameraPreview.stopCamera();
-    this.dismiss()
     this.cameraActive = false;
+    this.router.navigate(['/tabs/tab1'])
+
   }
 
   takePicture() {
@@ -169,10 +161,11 @@ export class SnapPage implements OnInit {
       (imageData) => {
         this.picture = "data:image/jpeg;base64," + imageData;
         this.captureI.setAttribute("color", "light");
+        alert(imageData)
         this.presentModalImg(imageData);
       },
       (err) => {
-        console.log(err);
+       // console.log(err);
         // this.picture = "assets/img/test.jpg";
       }
     );
@@ -204,6 +197,8 @@ export class SnapPage implements OnInit {
           const pictures = "data:image/jpeg;base64," + base64PictureData;
           this.srcV = this.webview.convertFileSrc("file://" + filePath);
           this.captureI.setAttribute("color", "light");
+          this.dismiss()
+         // alert("file://" + filePath)
           this.presentModal("file://" + filePath, pictures);
         },
         (err) => {
@@ -220,19 +215,20 @@ export class SnapPage implements OnInit {
    * Take a picture
    */
   takeVideoRecord() {
-    this.captureI = document.getElementById("captureI");
-    console.log(this.captureI);
-    this.captureI.setAttribute("color", "danger");
-    const opt = {
-      cameraDirection: this.cameraPreview.CAMERA_DIRECTION.BACK,
-      width: window.screen.width,
-      height: window.screen.height,
-      quality: 100,
-      withFlash: false,
-    };
-    this.cameraPreview.startRecordVideo(opt);
-    this.isRecording = true;
-    this.startTimer();
+      this.captureI = document.getElementById("captureI");
+      console.log(this.captureI);
+      this.captureI.setAttribute("color", "danger");
+      const opt = {
+        cameraDirection: this.cameraPreview.CAMERA_DIRECTION.BACK,
+        width: window.screen.width,
+        height: window.screen.height,
+        quality: 100,
+        withFlash: false,
+        duration: 15
+      };
+      this.cameraPreview.startRecordVideo(opt);
+      this.isRecording = true;
+      this.startTimer();
   }
 
   /**
@@ -260,6 +256,7 @@ export class SnapPage implements OnInit {
       componentProps: {
         filePath: path,
         imgSrc: src,
+        page:"snap"
       },
     });
     return await modal.present();

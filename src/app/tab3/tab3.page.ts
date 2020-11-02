@@ -20,7 +20,7 @@ export class Tab3Page implements OnInit {
   rooms = []
   subscription: Subscription;
   loading =  false
-
+  search:any
   showSearch = false
   constructor(public navCtrl: NavController,
     private router: Router,

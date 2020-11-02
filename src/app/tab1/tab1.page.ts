@@ -22,56 +22,39 @@ import { ShareSheetPage } from '../share-sheet/share-sheet.page';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
-
-
   user: any
-
   listPosts = []
   posts = []
-
   userId = ''
-
   commentT = {
     userId: '',
     postId: '',
     comment: '',
   }
-
   commentC = {
     userId: '',
     commentId: '',
     comment: '',
   }
-
   listComments = []
   listCommentsOfComment = []
-
-
   postId = ''
   commentId = ''
-
-
   _MS_PER_DAY = 1000 * 60 * 60 * 24;
-
   showSearch = false
   showResponsePanel = false
-
-  search = ''
+  search:any
   subscription: Subscription;
   timeCall = 0
-
   repost: any
-
   publication: any
   linkModal = false
   shareLink = false
-
   users = []
-
   loading = false
-
   video_url = '../../assets/img/test.mp4'
   isPlaying = false
+  tutos = []
   slideOpts = {
     on: {
       beforeInit() {
@@ -135,17 +118,11 @@ export class Tab1Page implements OnInit {
 
   showBackground = false
   global: Globals;
-
   @ViewChild(IonSlides, null) slides: IonSlides;
-
   navigationSubscription;
-
   @ViewChild('videoPlayer', null) videoPlayers: ElementRef;
-
   currentPlaying = null
-
   currentIndex: Number = 0;
-
 
   constructor(private authService: AuthService,
     private toasterController: ToastController,
@@ -200,6 +177,12 @@ export class Tab1Page implements OnInit {
 
 
 
+  tutosTexts(){
+    this.contactService.tutotxts().subscribe(res =>{
+      this.tutos = res
+    //  console.log(this.tutos)
+    })
+  }
   swipeAll(event: any): any {
   }
 
@@ -485,6 +468,9 @@ export class Tab1Page implements OnInit {
           }
           this.checkFavorite(favorite, e)
         });
+      }else{
+        this.posts = []
+        this.tutosTexts()
       }
       this.loading = false
 
