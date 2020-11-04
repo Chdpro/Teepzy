@@ -221,7 +221,7 @@ export class AddPostPage implements OnInit {
       cssClass: "my-custom-class",
       buttons: [
         {
-          text: "Capture Video",
+          text: "Utiliser la caméra",
           icon: "videocam",
           handler: () => {
             this.dismiss()
@@ -233,8 +233,9 @@ export class AddPostPage implements OnInit {
           text: "Choisir depuis gallerie",
           icon: "grid",
           handler: () => {
+            //{ mime: "video/mp4" }
             this.fileChooser
-              .open({ mime: "video/mp4" })
+              .open()
               .then((uri) => {
                 this.dismiss()
                 alert(uri)

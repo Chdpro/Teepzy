@@ -46,7 +46,8 @@ export class SnapPage implements OnInit {
     private androidPermissions:AndroidPermissions,
     private modalController: ModalController,
     private menuCtrl: MenuController,
-    private platform: Platform
+    private platform: Platform,
+    
   ) { 
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -64,6 +65,7 @@ export class SnapPage implements OnInit {
   ngOnInit() {
     this.initCamera()
   }
+
 
 
 
