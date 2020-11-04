@@ -36,6 +36,7 @@
     "@ionic-native/file-transfer": "^5.27.0",
     "@ionic-native/image-picker": "^5.27.0",
     "@ionic-native/ionic-webview": "^5.29.0",
+    "@ionic-native/keyboard": "^5.29.0",
     "@ionic-native/media-capture": "^5.28.0",
     "@ionic-native/onesignal": "^5.27.0",
     "@ionic-native/sms": "^5.26.0",

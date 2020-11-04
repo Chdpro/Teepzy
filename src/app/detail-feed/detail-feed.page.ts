@@ -132,7 +132,7 @@ export class DetailFeedPage implements OnInit {
 
   getAPost(idTeepz) {
     this.contactService.getPost(idTeepz).subscribe(res => {
-     // console.log(res)
+      console.log(res)
       let post = res['data'];
       if (post) {
         let favorite = {

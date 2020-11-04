@@ -42,12 +42,12 @@ export class SearchPage implements OnInit {
   highValueT: number = 5;
 
   options: string[] = ['One', 'Two', 'Three'];
+  testVideos = ['https://api.teepzy.com/43107192329982330.mp4']
 
 
   constructor(private contactService: ContactService,
     public toastController: ToastController,
     private socket: Socket,
-    private alertController: AlertController,
     private router: Router,
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController

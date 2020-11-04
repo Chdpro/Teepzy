@@ -22,8 +22,11 @@ export class EditInfoPage implements OnInit {
   userInfo: any
   userId =''
   selected = '+33';
+  userPhone = ''
 
+  loadingA = false
   loading = false
+  retourUsr = 0
   constructor(private menuCtrl: MenuController,
     private authService: AuthService,
     private toasterController: ToastController
@@ -46,7 +49,8 @@ export class EditInfoPage implements OnInit {
       this.userInfo = res['data'];
       this.user.pseudoIntime = this.userInfo.pseudoIntime
       this.user.email = this.userInfo.email
-      this.user.phone = this.userInfo.phone
+      //this.user.phone = this.userInfo.phone
+      this.userPhone = this.userInfo.phone
       this.user.birthday = this.userInfo.birthday
     }, error => {
     //  console.log(error)
@@ -56,6 +60,7 @@ export class EditInfoPage implements OnInit {
 
   updateInfo() {
     this.loading = true
+    this.user.phone == ''? this.user.phone = this.userInfo.phone : this.user.phone = this.selected + this.user.phone
     this.authService.updateInfo(this.user).subscribe(res => {
       console.log(res)
       this.presentToast(MESSAGES.PROFILE_UPDATED_OK)
@@ -63,6 +68,29 @@ export class EditInfoPage implements OnInit {
     }, error => {
       console.log(error)
       this.loading = false
+
+    })
+  }
+
+
+  check() {
+    this.loadingA = true
+    this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase().replace(/\s/g, '')
+    //console.log(this.user.pseudoIntime)
+    this.authService.check(this.user).subscribe(res => {
+      //console.log(res)
+      this.loadingA = false
+
+      if (res['status'] == 201) {
+        this.retourUsr = 201
+      } else if (res['status'] == 404) {
+        this.retourUsr = 404
+      }
+    }, error => {
+     // console.log(error)
+      this.loadingA = false
+
+      this.presentToast('Oops! une erreur est survenue')
 
     })
   }

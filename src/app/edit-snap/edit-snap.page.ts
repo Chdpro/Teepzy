@@ -74,7 +74,9 @@ export class EditSnapPage implements OnInit {
       this.getBase64StringByFilePath(this.filePath)
     } else {
       alert('hello resolve native')
-      this.resolveNativePath(this.filePath)
+     // this.resolveNativePath(this.filePath)
+      this.videos.push(this.filePath)
+
     }
     this.poste.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.poste.userId)

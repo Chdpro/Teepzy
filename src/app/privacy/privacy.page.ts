@@ -9,7 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class PrivacyPage implements OnInit {
 
-  sanitizedURL = 'https://www.anthedesign.fr/'
+  sanitizedURL = 'https://teepzy.com/?page_id=2886'
 
   constructor(private menuCtrl: MenuController,
     public sanitizer: DomSanitizer,

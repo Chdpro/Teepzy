@@ -84,8 +84,6 @@ export class AddPostPage implements OnInit {
     private androidPermissions: AndroidPermissions,
     private fileChooser: FileChooser,
     public router: Router,
-    private uploadService:UploadService,
-    private cameraPreview: CameraPreview,
 
   ) {
     this.menuCtrl.close('first');

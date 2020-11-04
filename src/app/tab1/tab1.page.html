@@ -149,7 +149,7 @@
 
       <div (click)="playVideo(p?.video_url)" class="post-txt">
         <div *ngIf="p?.video_url">
-          <div>
+          <div class="video-container">
             <video #videoPlayer playsinline preload="metadata">
               <source [src]="sanitizer.bypassSecurityTrustResourceUrl(p?.video_url + '#t=0.5')" type="video/mp4" />
             </video>

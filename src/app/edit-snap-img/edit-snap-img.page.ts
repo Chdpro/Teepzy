@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { UploadService } from '../providers/upload.service';
 import { Base64 } from '@ionic-native/base64/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 @Component({
   selector: 'app-edit-snap-img',
@@ -54,7 +55,8 @@ export class EditSnapImgPage implements OnInit {
     private dataPass: DatapasseService,
     private uploadService: UploadService,
     private base64: Base64,
-    private fileNPath: FilePath
+    private fileNPath: FilePath,
+    private file: File
   ) { }
 
   ngOnInit() {
@@ -66,15 +68,22 @@ export class EditSnapImgPage implements OnInit {
     this.getUserInfo(this.poste.userId)
   }
 
+  
   resolveNativePath(fileUri) {
-    this.fileNPath.resolveNativePath(fileUri).then((nativepath) => {
-      alert("inside resolve native path")
-      this.convertToBase64(nativepath)
-    }, error => {
-      alert(JSON.stringify(error))
+    this.requestNecessaryPermissions().then(()=>{
+      this.file.resolveLocalFilesystemUrl(fileUri).then((entry) => {
+        alert("inside local file system path")
+        this.convertToBase64(entry)
+      }, error => {
+        alert(JSON.stringify(error))
+      })
+    }, err =>{
+      alert(JSON.stringify(err))
     })
+   
 
   }
+
 
   convertToBase64(filePath) {
     this.base64.encodeFile(filePath).then((base64File: string) => {

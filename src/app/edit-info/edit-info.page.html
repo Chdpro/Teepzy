@@ -1,8 +1,8 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
-        </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Modifier mes informations</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,32 +14,34 @@
       <ion-col>
         <form class="example-form">
           <mat-form-field class="example-full-width">
-            <input matInput #pseudo="ngModel" name="pseudo" [(ngModel)]="user.pseudoIntime" required
-              placeholder="Pseudo">
+            <mat-label>Pseudo</mat-label>
+            <input matInput type="text" #pseudo="ngModel" name="pseudo" [(ngModel)]="user.pseudoIntime"
+              (ngModelChange)="check()" placeholder="Entrer un Pseudo">
           </mat-form-field>
+          <div *ngIf="retourUsr == 404 && loadingA == false && user?.pseudoIntime != ''">
+            <span class="material-icons">
+              check
+            </span>
+          </div>
+          <span>
+
+          </span>
+          <span>
+            <ion-spinner *ngIf="loadingA" style="margin-left: 35px;" name="lines-small"></ion-spinner>
+
+          </span>
+
+          <div *ngIf="retourUsr == 201 && loadingA == false && user?.pseudoIntime != ''">
+            <span style="color: red;" class="material-icons">
+              close
+            </span>
+
+          </div>
           <mat-form-field class="example-full-width">
             <mat-label>Email</mat-label>
             <input matInput type="email" name="email" #email="ngModel" required [(ngModel)]="user.email"
               placeholder="Entrer votre email">
           </mat-form-field>
-          <span>
-            <!--mat-form-field class="code">
-
-              <!--mat-select [(ngModel)]="selected" name="code" required>
-                <mat-option *ngFor="let c of codes" [value]="c.dial_code">
-                  {{c.dial_code}} - ({{ c?.name }})
-                </mat-option>
-              </mat-select>
-            </mat-form-field-->
-            <mat-form-field class="phone">
-              <mat-label>Téléphone</mat-label>
-              <input matInput type="tel" name="phone" #phone="ngModel" required [(ngModel)]="user.phone"
-                placeholder="Entrer votre numero">
-            </mat-form-field>
-  
-         
-          </span>
-         
           <mat-form-field class="example-full-width">
             <mat-label>Date de naissance</mat-label>
             <input matInput [matDatepicker]="pickerEx" (click)="pickerEx.open()" (keydown)="false"
@@ -55,6 +57,30 @@
             </mat-hint>
 
           </mat-form-field>
+          <span>
+            <mat-form-field class="code">
+
+              <mat-select [(ngModel)]="selected" name="code" required>
+                <mat-option *ngFor="let c of codes" [value]="c.dial_code">
+                  {{c.dial_code}} - ({{ c?.name }})
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="phone">
+              <mat-label>Téléphone</mat-label>
+              <input matInput type="tel" name="phone" #phone="ngModel" required [(ngModel)]="user.phone"
+                placeholder="Entrer votre numero">
+            </mat-form-field>
+
+
+          </span>
+          <mat-hint class="phone-hint">
+
+            {{userPhone}}
+
+          </mat-hint>
+
+
 
         </form>
 
