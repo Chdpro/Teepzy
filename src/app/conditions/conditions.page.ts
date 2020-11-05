@@ -9,7 +9,7 @@ import { MenuController } from '@ionic/angular';
 })
 export class ConditionsPage implements OnInit {
 
-  sanitizedURL = 'https://teepzy.com/?page_id=3016 '
+  sanitizedURL = 'https://teepzy.com/conditions-generales-dutilisations/'
   constructor(private menuCtrl: MenuController,
     public sanitizer: DomSanitizer,
 

@@ -1,9 +1,6 @@
-<ion-content [fullscreen]="true" style="background: transparent !important;">
-  
-  <ion-img   src="{{srcV}}" alt="image" ></ion-img>
+<ion-content [fullscreen]="true">
+  <ion-img class="img-bg"  src="{{srcV}}" alt="image" ></ion-img>
   <ion-icon  (click)="dismiss()" color="light"  style="width: 40px; height: 40px; float: right; right: 0; margin: 10px; position: absolute; z-index: 100;" name="close-outline"></ion-icon>
- 
- 
 </ion-content>
 <ion-footer class="ion-no-border">
   <form #newForm="ngForm" >
@@ -33,7 +30,6 @@
             (click)="uploadBase64File()"
             id="submit">
             <ion-spinner *ngIf="loading" color="primary" name="dots"></ion-spinner>
-
             <ion-icon *ngIf="!loading" slot="icon-only" name="send"></ion-icon>
           </ion-button></ion-col>
       </ion-row>

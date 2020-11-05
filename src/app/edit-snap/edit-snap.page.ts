@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { ModalController, ToastController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
@@ -50,6 +50,10 @@ export class EditSnapPage implements OnInit {
   video: any;
   isVideo = true;
   loading = false
+  currentPlaying = null
+
+  @ViewChild('myVideo', null) videoPlayer: ElementRef;
+
   constructor(
     private webview: WebView,
     public modalController: ModalController,
@@ -69,15 +73,21 @@ export class EditSnapPage implements OnInit {
     this.srcV = this.webview.convertFileSrc(this.filePath);
     this.img = this.imgSrc;
     //this.videos.push(this.filePath)
-    if (this.page == 'snap') {
-      alert('hello base64')
-      this.getBase64StringByFilePath(this.filePath)
-    } else {
-      alert('hello resolve native')
-     // this.resolveNativePath(this.filePath)
-      this.videos.push(this.filePath)
-
+    if (this.videoPlayer.nativeElement.duration < 16) {
+      if (this.page == 'snap') {
+        //  alert('hello base64')
+          this.getBase64StringByFilePath(this.filePath)
+        } else {
+          //alert('hello resolve native')
+          //alert(this.filePath)
+         // this.resolveNativePath(this.filePath)
+          this.videos.push(this.filePath)
+    
+        }
+    }else{
+      this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
     }
+ 
     this.poste.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.poste.userId)
   }
@@ -87,12 +97,12 @@ export class EditSnapPage implements OnInit {
     return new Promise((resolve, reject) => {
       let fileName = fileURL.substring(fileURL.lastIndexOf('/') + 1);
       let filePath = fileURL.substring(0, fileURL.lastIndexOf("/") + 1);
-      alert(filePath)
-      alert(fileName)
+     // alert(filePath)
+     // alert(fileName)
       this.file.readAsDataURL(filePath, fileName).then(
         file64 => {
           console.log(file64); //base64url...
-          alert(file64)
+       //   alert(file64)
           this.fileBase64.base64video = file64
           resolve(file64);
         }).catch(err => {
@@ -113,12 +123,12 @@ export class EditSnapPage implements OnInit {
     this.loading = true
     this.fileBase64.videoName = (Math.random() * 100000000000000000).toString()
     this.uploadService.uploadFileInBase64(this.fileBase64).subscribe(res => {
-      alert(res)
+    //  alert(res)
       this.poste.video_url = base_url + this.fileBase64.videoName + '.mp4'
       this.loading = false
       this.addPost()
     }, error => {
-      alert(JSON.stringify(error))
+    //  alert(JSON.stringify(error))
       this.loading = false
 
     })
@@ -134,7 +144,7 @@ export class EditSnapPage implements OnInit {
         this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
       }
     }, error => {
-        alert(JSON.stringify(error))
+       // alert(JSON.stringify(error))
     })
 
   }
@@ -170,8 +180,31 @@ export class EditSnapPage implements OnInit {
     });
   }
 
+  playVideo(videoUrl?: any) {
+    let nativeElement
+    if (this.videoPlayer) {
+      nativeElement = this.videoPlayer.nativeElement
+      // const inView = this.isElementInViewPort(nativeElement);
+      if (videoUrl) {
+        this.currentPlaying = nativeElement;
+        this.currentPlaying.muted = false;
+        this.currentPlaying.play();
+        this.isPlay = false;
+
+      } else {
+        this.currentPlaying = nativeElement;
+        this.currentPlaying.muted = true;
+        this.currentPlaying.pause();
+        this.isPlay = true;
+
+      }
+    }
+
+  }
+
   changeVideo() {
-    this.video = document.getElementById("video");
+    this.video = document.getElementById("myVideo");
+    alert(this.video)
     if (this.video.paused) {
       this.video.play();
       this.isPlay = false;
@@ -201,11 +234,11 @@ export class EditSnapPage implements OnInit {
           this.poste.video_url = base_url + options.fileName;
           this.addPost()
           this.loading = false
-          alert("upload worked!!")
+  //        alert("upload worked!!")
 
         }, error => {
           this.loading = false
-          alert("video upload did not work!" + JSON.stringify(error))
+    //      alert("video upload did not work!" + JSON.stringify(error))
 
         })
       }

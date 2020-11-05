@@ -1,13 +1,15 @@
 <ion-content [fullscreen]="true" style="background: transparent !important;">
-  <video id="video" poster="{{imgSrc}}" loop muted webkit-playsinline>
-    <source [src]="srcV" types='video/mp4; codecs="h.264"'>
+  <video id="myVideo" poster="{{imgSrc}}" loop muted webkit-playsinline>
+    <source 
+    [src]="sanitizer.bypassSecurityTrustResourceUrl(srcV)"
+    types='video/mp4; codecs="h.264"'>
   </video>
   <!-- <ion-img *ngIf="isImage"  src="{{srcV}}" alt="image" style="height: 100%; width: 100%;"></ion-img> -->
   <ion-icon  (click)="dismiss()" color="light"  style="width: 40px; height: 40px; float: right; right: 0; margin: 10px; position: absolute; z-index: 100;" name="close-outline"></ion-icon>
   <ion-fab  (click)="changeVideo()" vertical="center" horizontal="center" slot="fixed">
     <ion-fab-button >
-      <ion-icon  *ngIf="!isPlay" name="play"></ion-icon>
-      <ion-icon *ngIf="isPlay" name="pause"></ion-icon>
+      <ion-icon class="play-pause"  *ngIf="!isPlay" name="play"></ion-icon>
+      <ion-icon class="play-pause" *ngIf="isPlay" name="pause"></ion-icon>
     </ion-fab-button>
   </ion-fab>
  
@@ -38,7 +40,7 @@
           <ion-col size="2"> <ion-button type="submit" [disabled]="postText?.errors?.required || postText?.errors?.maxlength" color="sub" (click)="uploadWithPost()" id="submit">
             <ion-spinner *ngIf="loading" color="primary" name="dots"></ion-spinner>
 
-            <ion-icon *ngIf="!loading" slot="icon-only" name="send"></ion-icon>
+            <ion-icon color="primary" *ngIf="!loading" slot="icon-only" name="send"></ion-icon>
           </ion-button></ion-col>
       </ion-row>
   </ion-grid>

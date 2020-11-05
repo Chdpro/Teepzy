@@ -12,6 +12,8 @@ import { BehaviorSubject } from 'rxjs';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { EditSnapPage } from '../edit-snap/edit-snap.page';
 import { EditSnapImgPage } from '../edit-snap-img/edit-snap-img.page';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
 
 
 @Component({
@@ -47,7 +49,8 @@ export class SnapPage implements OnInit {
     private modalController: ModalController,
     private menuCtrl: MenuController,
     private platform: Platform,
-    
+    private camera : Camera,
+    private filePath: FilePath
   ) { 
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -63,10 +66,40 @@ export class SnapPage implements OnInit {
   }
 
   ngOnInit() {
-    this.initCamera()
+    //this.initCamera()
+    this.takeImage()
   }
 
 
+
+  takeImage() {
+    this.requestNecessaryPermissions().then(() =>{
+      const options: CameraOptions = {
+        quality: 100,
+        sourceType: this.camera.PictureSourceType.CAMERA,
+        destinationType: this.camera.DestinationType.FILE_URI,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      }
+      this.camera.getPicture(options).then((imageData) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):
+        // let base64Image = 'data:image/jpeg;base64,' + imageData;
+        //this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
+        this.filePath.resolveNativePath(imageData).then((nativepath) => {
+            this.dismiss()
+            this.presentModalImg(nativepath, imageData)
+        }, error => {
+        })
+      }, (err) => {
+        // Handle error
+  
+      });
+    }, error =>{
+      console.log(error)
+    })
+  
+  }
 
 
   initCamera(){
@@ -163,8 +196,8 @@ export class SnapPage implements OnInit {
       (imageData) => {
         this.picture = "data:image/jpeg;base64," + imageData;
         this.captureI.setAttribute("color", "light");
-        alert(imageData)
-        this.presentModalImg(imageData);
+      //  alert(imageData)
+        this.presentModalImg(imageData, );
       },
       (err) => {
        // console.log(err);
@@ -264,12 +297,13 @@ export class SnapPage implements OnInit {
     return await modal.present();
   }
 
-  async presentModalImg(path) {
+  async presentModalImg(path, imgData?:any) {
     const modal = await this.modalController.create({
       component: EditSnapImgPage,
       cssClass: "my-custom-class",
       componentProps: {
         filePath: path,
+        imageData: imgData
       },
     });
     return await modal.present();

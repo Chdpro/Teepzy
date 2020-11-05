@@ -14,6 +14,8 @@
       <ion-col>
         <iframe width="350" height="600" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
           [src]="sanitizer.bypassSecurityTrustResourceUrl(sanitizedURL)"></iframe>
+          <div id="loadingMessage">Loading...</div>
+
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -36,9 +36,10 @@ export class AppComponent {
 
 
   ) {
-    this.sideMenu();
 
     this.initializeApp();
+    this.sideMenu();
+    this.oneSignale()
 
     const event = fromEvent(document, 'backbutton');
     event.subscribe(async () => {
@@ -68,7 +69,6 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.backgroundColorByHexString("#ffffff");
       this.splashScreen.hide();
-      this.oneSignale()
     });
   }
 

@@ -9,7 +9,14 @@ video {
     z-index: 2;
     transform: translateX(-50%) translateY(-50%);
   }
+
+  ion-icon{
+    color: #ea4e50;
+  }
   
+  .play-pause{
+    color: white;
+  }
   ion-button {
     font-weight: bold;
     position: absolute;

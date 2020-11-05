@@ -17,6 +17,7 @@ import { EditSnapPage } from '../edit-snap/edit-snap.page';
 import { CameraPreview, CameraPreviewPictureOptions } from '@ionic-native/camera-preview/ngx';
 import { SnapPage } from '../snap/snap.page';
 import { UploadService } from '../providers/upload.service';
+import { EditSnapImgPage } from '../edit-snap-img/edit-snap-img.page';
 
 const MEDIA_FILES_KEY = 'mediaFiles'
 
@@ -133,14 +134,16 @@ export class AddPostPage implements OnInit {
 
   addPostUsingPermission() {
     this.androidPermissions
-    .checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+    .checkPermission(this.androidPermissions
+      .PERMISSION.READ_EXTERNAL_STORAGE).then(
       result => {
         if (result.hasPermission) {
           // code
           this.addPost()
         } else {
           this.androidPermissions
-          .requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+          .requestPermission(this.androidPermissions
+            .PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
             if (result.hasPermission) {
               // code
               this.addPost()
@@ -150,7 +153,9 @@ export class AddPostPage implements OnInit {
       },
       err => {
         alert(err)
-        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+        this.androidPermissions.
+        requestPermission(this.androidPermissions.
+          PERMISSION.READ_EXTERNAL_STORAGE)
       }
     );
   }
@@ -201,6 +206,17 @@ export class AddPostPage implements OnInit {
   }
 
 
+  async presentModalImg(path, imgData?:any) {
+    const modal = await this.modalController.create({
+      component: EditSnapImgPage,
+      cssClass: "my-custom-class",
+      componentProps: {
+        filePath: path,
+        imageData: imgData
+      },
+    });
+    return await modal.present();
+  }
 
   async presentModal(path, pics?: any) {
     const modal = await this.modalController.create({
@@ -230,17 +246,31 @@ export class AddPostPage implements OnInit {
           },
         },
         {
-          text: "Choisir depuis gallerie",
+          text: "Choisir une vidéo depuis gallerie",
           icon: "grid",
           handler: () => {
             //{ mime: "video/mp4" }
             this.fileChooser
-              .open()
+              .open({ mime: "video/mp4" })
               .then((uri) => {
                 this.dismiss()
-                alert(uri)
                 const pictures = "data:image/jpeg;base64," + uri;
                 this.presentModal(uri, pictures);
+              })
+              .catch((e) => console.log(e));
+          },
+        },
+        {
+          text: "Choisir une image depuis gallerie",
+          icon: "images",
+          handler: () => {
+            //{ mime: "video/mp4" }
+            this.fileChooser
+              .open({ mime: "image/jpeg" })
+              .then((uri) => {
+                this.dismiss()
+                const pictures = uri;
+                this.presentModalImg(uri, pictures);
               })
               .catch((e) => console.log(e));
           },

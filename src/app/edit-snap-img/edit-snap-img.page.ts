@@ -20,6 +20,8 @@ import { File } from '@ionic-native/file/ngx';
 })
 export class EditSnapImgPage implements OnInit {
   @Input() filePath: string;
+  @Input() imageData: string;
+
   srcV;
   post: any;
   photos = []
@@ -55,44 +57,26 @@ export class EditSnapImgPage implements OnInit {
     private dataPass: DatapasseService,
     private uploadService: UploadService,
     private base64: Base64,
-    private fileNPath: FilePath,
-    private file: File
   ) { }
 
   ngOnInit() {
-    this.srcV = "data:image/jpeg;base64," + this.filePath;
+    this.srcV = (<any>window).Ionic.WebView.convertFileSrc(this.imageData)
+    //this.srcV = "data:image/jpeg;base64," + this.filePath;
+   // this.fileBase64.base64image = "data:image/jpeg;base64," + this.imageData
     this.photos.push(this.filePath)
-    // this.fileBase64.base64image = this.srcV
-    this.resolveNativePath(this.filePath)
     this.poste.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.poste.userId)
   }
 
   
-  resolveNativePath(fileUri) {
-    this.requestNecessaryPermissions().then(()=>{
-      this.file.resolveLocalFilesystemUrl(fileUri).then((entry) => {
-        alert("inside local file system path")
-        this.convertToBase64(entry)
-      }, error => {
-        alert(JSON.stringify(error))
-      })
-    }, err =>{
-      alert(JSON.stringify(err))
-    })
-   
-
-  }
-
-
   convertToBase64(filePath) {
     this.base64.encodeFile(filePath).then((base64File: string) => {
       //console.log(base64File);
-      alert("inside base64 convertor")
+    //  alert("inside base64 convertor")
       this.fileBase64.base64image = base64File
     }, (err) => {
       console.log(err);
-      alert(JSON.stringify(err))
+     // alert(JSON.stringify(err))
     });
   }
 
@@ -104,7 +88,6 @@ export class EditSnapImgPage implements OnInit {
       this.poste.image_url = base_url + this.fileBase64.imageName + ".jpeg"
       this.addPost()
       this.loading = false
-
     }, error => {
       console.log(error)
       this.loading = false
@@ -141,7 +124,7 @@ export class EditSnapImgPage implements OnInit {
     if (ref.photos.length > 0) {
       for (let index = 0; index < ref.photos.length; index++) {
         // interval++
-        alert("inside loop of upload")
+        //alert("inside loop of upload")
         const fileTransfer = ref.transfer.create()
         let options: FileUploadOptions = {
           fileKey: "avatar",
@@ -155,11 +138,11 @@ export class EditSnapImgPage implements OnInit {
           this.poste.image_url = base_url + options.fileName;
           this.addPost()
           this.loading = false
-          alert("upload worked!!")
+        //  alert("upload worked!!")
 
         }, error => {
           this.loading = false
-          alert("Not worked" + JSON.stringify(error))
+        //  alert("Not worked" + JSON.stringify(error))
 
         })
       }

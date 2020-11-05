@@ -1,16 +1,48 @@
+
 video{
-    position: fixed;
-    top: 50%;
-    left: 50%;
     min-width: 100%;
     min-height: 100%;
-    width: auto;
-    height: auto;
-   /* z-index: -100;*/
+    width: fit-content;
+    position: absolute;
+    top: 50%;
+    left: 50%;
     transform: translateX(-50%) translateY(-50%);
-    vertical-align: middle;
+  }
+  
+  .featured_video{
+    z-index: 44;
+      position: relative;
+      float: right;
+      margin-top: 22px;
+      color: white;
+      bottom: 0;
+      margin-right: 15px;
+  }
 
-}
+
+.video-container {
+    height: 200px;
+      width: inherit;
+      max-width: 163px;
+      overflow: hidden;
+      position: relative;
+      margin-left: -14px;
+      border-radius: 30px 31px 0px 0px;
+      top: -126px;
+  }
+  
+
+.video-container-s {
+    height: 200px;
+      width: 154px;
+      overflow: hidden;
+      position: relative;
+      border-radius: 30px 31px 0px 0px;
+      top: -126px;
+      margin-left: -15px;
+      margin-right: -6px;
+  }
+  
 
 .carousel{
     height: 79px;
@@ -304,3 +336,48 @@ ion-slides {
 }
   
 
+
+// responsive design
+
+ /* On screens that are 992px or less, set the background color to blue */
+ @media screen and (min-width: 361px) and (max-width: 411px) {
+    .video-container{
+      width: 189px;
+      max-width: 192px;
+    }
+  
+    .video-container-s{
+      width: 189px;
+      max-width: 192px;
+    }
+  }
+  
+  @media screen and (min-width: 411px) and (max-width: 415px) {
+    .video-container{
+      width: 190px;
+      max-width: 190px;
+    }
+  
+    .video-container-s{
+      width: 179px;
+      max-width: 179px;
+    }
+  }
+  
+  /* On screens that are 992px or less, set the background color to blue */
+  @media screen and (min-width: 320px) and (max-width: 359px) {
+    .video-container{
+      width: 144px;
+      max-width: 144px;
+    }
+  
+    .video-container-s{
+      width: 135px;
+      max-width: 135px;
+    }
+  
+  
+  }
+  
+  
+  

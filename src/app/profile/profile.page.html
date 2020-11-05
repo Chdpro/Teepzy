@@ -189,13 +189,15 @@
 
                     {{lt?.content}}
                   </p>
-                  <div *ngIf="lt?.video_url">
-                    <div>
+                  
+
+                  <div class="video-container" *ngIf="lt?.video_url">
                       <video #videoPlayer playsinline preload="metadata">
-                        <source [src]="sanitizer.bypassSecurityTrustResourceUrl(lt?.video_url + '#t=0.5')"
-                          type="video/mp4" />
+                        <source [src]="sanitizer.bypassSecurityTrustResourceUrl(lt?.video_url + '#t=0.5')" type="video/mp4" />
                       </video>
-                    </div>
+                      <span class="material-icons featured_video">
+                        featured_video
+                        </span>
                   </div>
 
                 </mat-card-content>
@@ -356,14 +358,15 @@
 
                     {{lt?.content}}
                   </p>
-                  <div *ngIf="lt?.video_url">
-                    <div>
+                  <div class="video-container" *ngIf="lt?.video_url">
                       <video #videoPlayer playsinline preload="metadata">
-                        <source [src]="sanitizer.bypassSecurityTrustResourceUrl(lt?.video_url + '#t=0.5')"
-                          type="video/mp4" />
+                        <source [src]="sanitizer.bypassSecurityTrustResourceUrl(lt?.video_url + '#t=0.5')" type="video/mp4" />
                       </video>
-                    </div>
+                      <span class="material-icons featured_video">
+                        featured_video
+                        </span>
                   </div>
+
 
                 </mat-card-content>
                 <mat-card-actions>
