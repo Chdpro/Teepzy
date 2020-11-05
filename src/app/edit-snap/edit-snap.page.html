@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true" style="background: transparent !important;">
   <video id="myVideo" poster="{{imgSrc}}" loop muted webkit-playsinline>
     <source 
-    [src]="sanitizer.bypassSecurityTrustResourceUrl(srcV)"
+    [src]="srcV"
     types='video/mp4; codecs="h.264"'>
   </video>
   <!-- <ion-img *ngIf="isImage"  src="{{srcV}}" alt="image" style="height: 100%; width: 100%;"></ion-img> -->
