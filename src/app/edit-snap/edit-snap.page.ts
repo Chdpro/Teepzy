@@ -70,22 +70,24 @@ export class EditSnapPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.srcV = this.webview.convertFileSrc(this.filePath);
+    this.srcV = this.filePath
+    //this.webview.convertFileSrc(this.filePath);
+  // this.srcV = "/assets/test.mp4"
     this.img = this.imgSrc;
     //this.videos.push(this.filePath)
-    if (this.videoPlayer.nativeElement.duration < 16) {
+   if (this.videoPlayer.nativeElement.duration < 16) {
       if (this.page == 'snap') {
         //  alert('hello base64')
           this.getBase64StringByFilePath(this.filePath)
         } else {
           //alert('hello resolve native')
           //alert(this.filePath)
-         // this.resolveNativePath(this.filePath)
-          this.videos.push(this.filePath)
+          this.resolveNativePath(this.filePath)
+         // this.videos.push(this.filePath)
     
         }
     }else{
-      this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
+      this.presentToast(MESSAGES.VIDEO_LIMIT_ERROR)
     }
  
     this.poste.userId = localStorage.getItem('teepzyUserId');
@@ -136,7 +138,7 @@ export class EditSnapPage implements OnInit {
 
 
   resolveNativePath(videoData) {
-    let videoPath = videoData
+    let videoPath = 'file://' + videoData
     this.fileNPath.resolveNativePath(videoPath).then((nativepath) => {
       if (this.videos.length == 0) {
         this.videos.push(nativepath)
@@ -204,7 +206,6 @@ export class EditSnapPage implements OnInit {
 
   changeVideo() {
     this.video = document.getElementById("myVideo");
-    alert(this.video)
     if (this.video.paused) {
       this.video.play();
       this.isPlay = false;
