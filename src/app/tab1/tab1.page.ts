@@ -144,6 +144,7 @@ export class Tab1Page implements OnInit {
     this.subscription = this.dataPass.getPosts().subscribe(list => {
      // console.log(list)
       if (list.length > 0) {
+        this.tutos = []
         this.listPosts = list
       }
     });

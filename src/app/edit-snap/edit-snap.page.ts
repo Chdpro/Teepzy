@@ -70,41 +70,36 @@ export class EditSnapPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.srcV = this.filePath
+    this.srcV = (<any>window).Ionic.WebView.convertFileSrc(this.filePath)
     //this.webview.convertFileSrc(this.filePath);
-  // this.srcV = "/assets/test.mp4"
+    // this.srcV = "/assets/test.mp4"
     this.img = this.imgSrc;
-    //this.videos.push(this.filePath)
-   if (this.videoPlayer.nativeElement.duration < 16) {
-      if (this.page == 'snap') {
-        //  alert('hello base64')
-          this.getBase64StringByFilePath(this.filePath)
-        } else {
-          //alert('hello resolve native')
-          //alert(this.filePath)
-          this.resolveNativePath(this.filePath)
-         // this.videos.push(this.filePath)
-    
-        }
-    }else{
-      this.presentToast(MESSAGES.VIDEO_LIMIT_ERROR)
+    this.playVideo(this.srcV)
+    if (this.page == 'snap') {
+      this.getBase64StringByFilePath(this.filePath)
+    } else {
+      //this.resolveNativePath(this.filePath)
+      this.videos.push(this.filePath)
+
     }
- 
+  
     this.poste.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.poste.userId)
   }
+
+
 
 
   getBase64StringByFilePath(fileURL): Promise<string> {
     return new Promise((resolve, reject) => {
       let fileName = fileURL.substring(fileURL.lastIndexOf('/') + 1);
       let filePath = fileURL.substring(0, fileURL.lastIndexOf("/") + 1);
-     // alert(filePath)
-     // alert(fileName)
+      // alert(filePath)
+      // alert(fileName)
       this.file.readAsDataURL(filePath, fileName).then(
         file64 => {
           console.log(file64); //base64url...
-       //   alert(file64)
+          //   alert(file64)
           this.fileBase64.base64video = file64
           resolve(file64);
         }).catch(err => {
@@ -113,7 +108,7 @@ export class EditSnapPage implements OnInit {
     })
   }
 
-  uploadWithPost(){
+  uploadWithPost() {
     if (this.page == 'snap') {
       this.uploadBase64File()
     } else {
@@ -125,12 +120,12 @@ export class EditSnapPage implements OnInit {
     this.loading = true
     this.fileBase64.videoName = (Math.random() * 100000000000000000).toString()
     this.uploadService.uploadFileInBase64(this.fileBase64).subscribe(res => {
-    //  alert(res)
+      //  alert(res)
       this.poste.video_url = base_url + this.fileBase64.videoName + '.mp4'
       this.loading = false
       this.addPost()
     }, error => {
-    //  alert(JSON.stringify(error))
+      //  alert(JSON.stringify(error))
       this.loading = false
 
     })
@@ -138,15 +133,14 @@ export class EditSnapPage implements OnInit {
 
 
   resolveNativePath(videoData) {
-    let videoPath = 'file://' + videoData
-    this.fileNPath.resolveNativePath(videoPath).then((nativepath) => {
+    this.fileNPath.resolveNativePath(videoData).then((nativepath) => {
       if (this.videos.length == 0) {
         this.videos.push(nativepath)
       } else if (this.videos.length > 1) {
         this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
       }
     }, error => {
-       // alert(JSON.stringify(error))
+      // alert(JSON.stringify(error))
     })
 
   }
@@ -191,13 +185,13 @@ export class EditSnapPage implements OnInit {
         this.currentPlaying = nativeElement;
         this.currentPlaying.muted = false;
         this.currentPlaying.play();
-        this.isPlay = false;
+        this.isPlay = true;
 
       } else {
         this.currentPlaying = nativeElement;
         this.currentPlaying.muted = true;
         this.currentPlaying.pause();
-        this.isPlay = true;
+        this.isPlay = false;
 
       }
     }
@@ -219,33 +213,38 @@ export class EditSnapPage implements OnInit {
   uploadImage() {
     var ref = this;
     this.loading = true
-    if (ref.videos.length > 0) {
-      for (let index = 0; index < ref.videos.length; index++) {
-        // interval++
-        const fileTransfer = ref.transfer.create()
-        let options: FileUploadOptions = {
-          fileKey: "avatar",
-          fileName: (Math.random() * 100000000000000000) + '.mp4',
-          chunkedMode: false,
-          mimeType: "video/mp4",
-          headers: {},
+    if (this.videoPlayer.nativeElement.duration < 16) {
+      if (ref.videos.length > 0) {
+        for (let index = 0; index < ref.videos.length; index++) {
+          // interval++
+          const fileTransfer = ref.transfer.create()
+          let options: FileUploadOptions = {
+            fileKey: "avatar",
+            fileName: (Math.random() * 100000000000000000) + '.mp4',
+            chunkedMode: false,
+            mimeType: "video/mp4",
+            headers: {},
+          }
+          var serverUrl = base_url + 'upload-avatar'
+          fileTransfer.upload(ref.videos[index], serverUrl, options).then(() => {
+            this.poste.video_url = base_url + options.fileName;
+            this.addPost()
+            this.loading = false
+            //        alert("upload worked!!")
+  
+          }, error => {
+            this.loading = false
+            //      alert("video upload did not work!" + JSON.stringify(error))
+  
+          })
         }
-        var serverUrl = base_url + 'upload-avatar'
-        fileTransfer.upload(ref.videos[index], serverUrl, options).then(() => {
-          this.poste.video_url = base_url + options.fileName;
-          this.addPost()
-          this.loading = false
-  //        alert("upload worked!!")
-
-        }, error => {
-          this.loading = false
-    //      alert("video upload did not work!" + JSON.stringify(error))
-
-        })
+  
+  
       }
-
-
+    } else {
+      this.presentToast(MESSAGES.VIDEO_LIMIT_ERROR)
     }
+   
 
 
   }

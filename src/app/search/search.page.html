@@ -19,9 +19,8 @@
             (ngModelChange)="searchOn()" name="autoComplete" [matAutocomplete]="auto">
           <mat-icon class="search-icon" matSuffix>search</mat-icon>
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <span >
-              <mat-option *ngFor="let option of listTeepZrs |filter:search.searchValue "
-                [value]="option?.pseudoIntime">
+            <span>
+              <mat-option *ngFor="let option of listTeepZrs |filter:search.searchValue " [value]="option?.pseudoIntime">
                 @{{option?.pseudoIntime}}
               </mat-option>
             </span>
@@ -116,12 +115,12 @@
               {{lt?.content}}
             </p>
             <div class="video-container" *ngIf="lt?.video_url">
-                <video #videoPlayer playsinline preload="metadata">
-                  <source [src]="sanitizer.bypassSecurityTrustResourceUrl(lt?.video_url + '#t=0.5')" type="video/mp4" />
-                </video>
-                <span class="material-icons featured_video">
-                  featured_video
-                  </span>
+              <video #videoPlayer playsinline preload="metadata">
+                <source [src]="sanitizer.bypassSecurityTrustResourceUrl(lt?.video_url + '#t=0.5')" type="video/mp4" />
+              </video>
+              <span class="material-icons featured_video">
+                featured_video
+              </span>
             </div>
 
           </mat-card-content>
@@ -130,11 +129,9 @@
               <ion-row>
                 <ion-col size="4">
                   <div>
-                    <img *ngIf="lt?.userPhoto_url" class="round-img-post" [src]="lt?.userPhoto_url"
-                      alt="">
-                  
-                    
-                      <div *ngIf="lt?.userPhoto_url =='' || lt?.userPhoto_url == null" class="round-img-post2">
+                    <img *ngIf="lt?.userPhoto_url" class="round-img-post-miss" [src]="lt?.userPhoto_url" alt="">
+
+                    <div *ngIf="lt?.userPhoto_url =='' || lt?.userPhoto_url == null" class="round-img-post2">
                       {{lt?.userPseudo | slice:0:1| uppercase}}
                     </div>
                   </div>
@@ -192,7 +189,7 @@
             <mat-tab label="Personnes">
 
               <label>
-                Amis 
+                Amis
               </label><br>
               <h4 class="n-found" *ngIf="users?.length == 0 && !loading ">
                 Aucun résultat de recherche
@@ -225,7 +222,7 @@
 
                   <ion-item>
                     <div *ngIf="c?.photo == null || c?.photo == ''" class="round-img-post">
-                      {{c?.pseudoIntime | slice:0:1| uppercase}} 
+                      {{c?.pseudoIntime | slice:0:1| uppercase}}
                     </div>
                     <img *ngIf="c?.photo" class="round-img-user" [src]="c?.photo" alt="">
 
@@ -246,7 +243,7 @@
 
                   </ion-item>
 
-               
+
                 </div>
               </div>
 
@@ -274,29 +271,30 @@
                         <p [ngStyle]="{'margin-top': lt?.content.length < 25 ? '62px' : '0',
                          'background': lt?.image_url != ''? ' #00000042': '', 
                          'color': lt?.image_url != '' ? 'white' : '' }" class="mat-p">
-            
+
                           {{lt?.content}}
                         </p>
                         <div class="video-container-s" *ngIf="lt?.video_url">
-                            <video #videoPlayer playsinline preload="metadata">
-                              <source [src]="sanitizer.bypassSecurityTrustResourceUrl(lt?.video_url + '#t=0.5')" type="video/mp4" />
-                            </video>
-                            <span class="material-icons featured_video">
-                              featured_video
-                              </span>
+                          <video #videoPlayer playsinline preload="metadata">
+                            <source [src]="sanitizer.bypassSecurityTrustResourceUrl(lt?.video_url + '#t=0.5')"
+                              type="video/mp4" />
+                          </video>
+                          <span class="material-icons featured_video">
+                            featured_video
+                          </span>
                         </div>
-            
+
                       </mat-card-content>
                       <mat-card-actions>
                         <ion-grid>
                           <ion-row>
                             <ion-col size="4">
                               <div>
-                                <img *ngIf="lt?.userPhoto_url" class="round-img-post" [src]="lt?.userPhoto_url"
-                                  alt="">
-                              
-                                
-                                  <div *ngIf="lt?.userPhoto_url =='' || lt?.userPhoto_url == null" class="round-img-post2">
+                                <img *ngIf="lt?.userPhoto_url" class="round-img-post-miss" [src]="lt?.userPhoto_url" alt="">
+
+
+                                <div *ngIf="lt?.userPhoto_url =='' || lt?.userPhoto_url == null"
+                                  class="round-img-post2">
                                   {{lt?.userPseudo | slice:0:1| uppercase}}
                                 </div>
                               </div>
@@ -329,15 +327,15 @@
                               <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un mois'">
                                 il y a 1 mois
                               </span>
-            
+
                             </ion-col>
                           </ion-row>
                         </ion-grid>
-            
-            
+
+
                       </mat-card-actions>
                     </mat-card>
-            
+
                   </ion-col>
                   <ion-col size="12">
                     <h4 class="n-found" *ngIf="posts?.length == 0">
@@ -358,8 +356,7 @@
                       <mat-card-header>
                       </mat-card-header>
 
-                      <mat-card-content style="background: rgba(255, 255, 255, 0);"
-                      [ngStyle]="{
+                      <mat-card-content style="background: rgba(255, 255, 255, 0);" [ngStyle]="{
                         'background': 'url(' + lt?.photo + ')', 
                         'background-position': 'cover', 'background-size': '100%',
                         'background-repeat': 'no-repeat' }">
@@ -371,7 +368,7 @@
                               <div>
 
                                 <div class="round-img-post2">
-                                  {{lt?.nom | slice:0:1| uppercase}} 
+                                  {{lt?.nom | slice:0:1| uppercase}}
                                 </div>
                               </div>
                             </ion-col>
@@ -382,20 +379,20 @@
                               <small>
                                 {{lt?.circle || '' }}
                               </small>
-                       
+
 
                             </ion-col>
                             <ion-col size="12">
                               <span class="time"
-                              *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(lt?.createdAt) == 'il y a un jour') ">
-                              {{time(lt?.createdAt) }}
-                            </span>
-                            <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">
-                              il y a 1 heure
-                            </span>
-                            <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un jour'">
-                              il y a 1 jour
-                            </span>
+                                *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(lt?.createdAt) == 'il y a un jour') ">
+                                {{time(lt?.createdAt) }}
+                              </span>
+                              <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">
+                                il y a 1 heure
+                              </span>
+                              <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un jour'">
+                                il y a 1 jour
+                              </span>
                             </ion-col>
                           </ion-row>
                         </ion-grid>
@@ -422,38 +419,36 @@
                       <mat-card-header>
                       </mat-card-header>
 
-                      <mat-card-content style="background: rgba(255, 255, 255, 0);"
-                      [ngStyle]="{
+                      <mat-card-content style="background: rgba(255, 255, 255, 0);" [ngStyle]="{
              'background': 'url(' + lt?.photo + ')', 
              'background-position': 'cover', 'background-size': '100%',
-             'background-repeat': 'no-repeat' }"
-                      >
+             'background-repeat': 'no-repeat' }">
                       </mat-card-content>
                       <mat-card-actions>
                         <ion-grid>
                           <ion-row>
                             <ion-col size="2">
                               <div class="round-img-post2">
-                                {{lt?.nom | slice:0:1| uppercase}} 
+                                {{lt?.nom | slice:0:1| uppercase}}
                               </div>
                             </ion-col>
                             <ion-col size="12">
                               <strong>
                                 {{lt?.nom}}
                               </strong>
-                          
+
                             </ion-col>
                             <ion-col size="12">
                               <span class="time"
-                              *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(lt?.createdAt) == 'il y a un jour') ">
-                              {{time(lt?.createdAt) }}
-                            </span>
-                            <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">
-                              il y a 1 heure
-                            </span>
-                            <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un jour'">
-                              il y a 1 jour
-                            </span>
+                                *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(lt?.createdAt) == 'il y a un jour') ">
+                                {{time(lt?.createdAt) }}
+                              </span>
+                              <span class="time" *ngIf="time(lt?.createdAt) == 'il y a une heure'">
+                                il y a 1 heure
+                              </span>
+                              <span class="time" *ngIf="time(lt?.createdAt) == 'il y a un jour'">
+                                il y a 1 jour
+                              </span>
 
                             </ion-col>
                           </ion-row>

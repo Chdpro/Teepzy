@@ -18,6 +18,8 @@ import { CameraPreview, CameraPreviewPictureOptions } from '@ionic-native/camera
 import { SnapPage } from '../snap/snap.page';
 import { UploadService } from '../providers/upload.service';
 import { EditSnapImgPage } from '../edit-snap-img/edit-snap-img.page';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
 
 const MEDIA_FILES_KEY = 'mediaFiles'
 
@@ -85,7 +87,8 @@ export class AddPostPage implements OnInit {
     private androidPermissions: AndroidPermissions,
     private fileChooser: FileChooser,
     public router: Router,
-
+    private camera: Camera,
+    private filePath: FilePath
   ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -231,6 +234,51 @@ export class AddPostPage implements OnInit {
     return await modal.present();
   }
 
+  requestNecessaryPermissions() {
+    // Change this array to conform with the permissions you need
+    const androidPermissionsList = [
+      this.androidPermissions.PERMISSION.CAMERA,
+      this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE,
+      this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE,
+      this.androidPermissions.PERMISSION.READ_PHONE_STATE,
+      this.androidPermissions.PERMISSION.WRITE_PHONE_STATE,
+   
+
+    ];
+    return this.androidPermissions.requestPermissions(androidPermissionsList);
+  }
+
+  takeImage() {
+    this.requestNecessaryPermissions().then(() =>{
+      const options: CameraOptions = {
+        quality: 100,
+        sourceType: this.camera.PictureSourceType.CAMERA,
+        destinationType: this.camera.DestinationType.FILE_URI,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      }
+      this.camera.getPicture(options).then((imageData) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):
+        // let base64Image = 'data:image/jpeg;base64,' + imageData;
+        //this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
+        this.filePath.resolveNativePath(imageData).then((nativepath) => {
+            this.dismiss()
+            this.presentModalImg(nativepath, imageData)
+        }, error => {
+        })
+      }, (err) => {
+        // Handle error
+  
+      });
+    }, error =>{
+      console.log(error)
+    })
+  
+  }
+
+
+
   async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
       header: "Action",
@@ -238,11 +286,12 @@ export class AddPostPage implements OnInit {
       buttons: [
         {
           text: "Utiliser la caméra",
-          icon: "videocam",
+          icon: "camera",
           handler: () => {
             this.dismiss()
             //this.presentSnapModal()
-            this.router.navigate(["/snap"]);
+            //this.router.navigate(["/snap"]);
+            this.takeImage()
           },
         },
         {

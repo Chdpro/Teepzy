@@ -169,6 +169,7 @@ export class SearchPage implements OnInit {
        //     console.log(this.listTeepzrsToInvite)
             this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null : this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'],  pseudoIntime: e['pseudoIntime'], circleMembersCount: e['circleMembersCount'], invited: false })
           }
+          console.log(this.listTeepzrsToInvite)
         })
       });
     }, error =>{

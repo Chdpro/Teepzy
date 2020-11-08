@@ -20,15 +20,11 @@
       </ion-item>
       <ion-list>
         <ion-item (click)="goToNotifications()">
-          <span class="material-icons">
-            notifications_active
-          </span>
-          Notifications
+          <ion-icon name="notifications-outline" slot="start"></ion-icon>
+           Notifications
         </ion-item>
         <ion-item (click)="goToPrivacy()">
-          <span class="material-icons">
-            security
-          </span>
+          <ion-icon name="shield-checkmark-outline" slot="start"></ion-icon>
           Confidentialité
         </ion-item>
         <ion-item (click)="goToConditions()">
