@@ -17,6 +17,7 @@ import { typeAccount } from '../constant/constant';
 })
 export class ContactsPage implements OnInit {
 
+  term: any
   contact:any
   pageEvent:any
   userInfo:any

@@ -122,6 +122,18 @@ export class SignupFinalPage implements OnInit {
 
   }
 
+  requestNecessaryPermissions() {
+    // Change this array to conform with the permissions you need
+    const androidPermissionsList = [
+      this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE,
+      this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE,
+      this.androidPermissions.PERMISSION.READ_PHONE_STATE,
+      this.androidPermissions.PERMISSION.WRITE_PHONE_STATE,
+    ];
+    return this.androidPermissions.requestPermissions(androidPermissionsList);
+  }
+
+
 
   check() {
     this.loadingA = true
@@ -169,13 +181,13 @@ export class SignupFinalPage implements OnInit {
       buttons: [{
         text: 'Choisir dans votre galerie',
         handler: () => {
-          this.pickImageUsingPermission(this.camera.PictureSourceType.PHOTOLIBRARY);
+          this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
       },
       {
         text: 'Utiliser la Camera',
         handler: () => {
-          this.pickImageUsingPermission(this.camera.PictureSourceType.CAMERA);
+          this.pickImage(this.camera.PictureSourceType.CAMERA);
         }
       },
       {
@@ -188,108 +200,69 @@ export class SignupFinalPage implements OnInit {
   }
 
 
-  pickImageUsingPermission(sourceType) {
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
-      result => {
-        if (result.hasPermission) {
-          // code
-          this.pickImage(sourceType)
-        } else {
-          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
-            if (result.hasPermission) {
-              // code
-              this.pickImage(sourceType)
-            }
-          });
-        }
-      },
-      err => {
-        alert(err)
-        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
-      }
-    );
-  }
-
-
   pickImage(sourceType) {
-    const options: CameraOptions = {
-      quality: 100,
-      sourceType: sourceType,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
-    this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      // let base64Image = 'data:image/jpeg;base64,' + imageData;
-      if (this.dispImags.length == 0) {
-        this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-        this.filePath.resolveNativePath(imageData).then((nativepath) => {
-          if (this.photos.length == 0) {
-            this.photos.push(nativepath)
-          } 
-        })
-        }else if (this.dispImags.length > 1) {
-          this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
-        }
-    }, (err) => {
-      // Handle error
-    });
-  }
-
-  updateUsingPermission() {
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
-      result => {
-        if (result.hasPermission) {
-          // code
-          this.uploadImage()
-        } else {
-          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
-            if (result.hasPermission) {
-              // code
-              this.uploadImage()
-            }
-          });
-        }
-      },
-      err => {
-        alert(err)
-        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+    this.requestNecessaryPermissions().then(() =>{
+      const options: CameraOptions = {
+        quality: 100,
+        sourceType: sourceType,
+        destinationType: this.camera.DestinationType.FILE_URI,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
       }
-    );
+      this.camera.getPicture(options).then((imageData) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):
+        // let base64Image = 'data:image/jpeg;base64,' + imageData;
+        if (this.dispImags.length == 0) {
+          this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
+          this.filePath.resolveNativePath(imageData).then((nativepath) => {
+            if (this.photos.length == 0) {
+              this.photos.push(nativepath)
+            } 
+          })
+          }else if (this.dispImags.length > 1) {
+            this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
+          }
+      }, (err) => {
+        // Handle error
+      });
+    })
+ 
   }
 
 
   uploadImage() {
-    var ref = this;
-    this.loading = true
-    if (ref.photos.length > 0) {
-      for (let index = 0; index < ref.photos.length; index++) {
-        // interval++
-        const fileTransfer = ref.transfer.create()
-        let options: FileUploadOptions = {
-          fileKey: "avatar",
-          fileName: (Math.random() * 100000000000000000) + '.jpg',
-          chunkedMode: false,
-          mimeType: "image/jpeg",
-          headers: {},
+    this.requestNecessaryPermissions().then(() =>{
+      var ref = this;
+      this.loading = true
+      if (ref.photos.length > 0) {
+        for (let index = 0; index < ref.photos.length; index++) {
+          // interval++
+          const fileTransfer = ref.transfer.create()
+          let options: FileUploadOptions = {
+            fileKey: "avatar",
+            fileName: (Math.random() * 100000000000000000) + '.jpg',
+            chunkedMode: false,
+            mimeType: "image/jpeg",
+            headers: {},
+          }
+  
+          var serverUrl = base_url + 'upload-avatar'
+          this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
+          fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
+            this.user.photo = base_url + options.fileName;
+            this.loading = false;
+            this.updateUser()
+          }, error =>{
+            alert(JSON.stringify(error))
+          })
         }
-
-        var serverUrl = base_url + 'upload-avatar'
-        this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
-        fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-          this.user.photo = base_url + options.fileName;
-          this.loading = false;
-          this.updateUser()
-        }, error =>{
-          alert(JSON.stringify(error))
-        })
+      } else {
+        this.loading = false;
+        this.updateUser()
       }
-    } else {
-      this.loading = false;
-      this.updateUser()
-    }
+    })
+
 
   }
 

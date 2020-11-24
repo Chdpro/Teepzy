@@ -33,7 +33,7 @@
 <ion-content [fullscreen]="true" [scrollY]="false">
 
 
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+  <ion-refresher slot="fixed">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
@@ -100,7 +100,7 @@
 </div>
 
   <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
-  <div class="modal" (click)="dismiss()" *ngIf="globals?.showBackground "
+  <div class="modal" *ngIf="globals?.showBackground "
     [ngStyle]="{'opacity': globals?.showBackground == true ? '1' : '0' }">
 
   </div>

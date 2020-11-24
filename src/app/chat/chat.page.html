@@ -137,7 +137,7 @@
         </ion-item>
       </ion-col>
       <ion-col size="3">
-        <button ion-button clear color="primary" class="send-btn" (click)="sendMessage()" [disabled]="message === ''">
+        <button ion-button clear color="primary" class="send-btn" (click)="sendMessage()" [disabled]="message.text === ''">
           <ion-icon name="send"></ion-icon>
         </button>
       </ion-col>

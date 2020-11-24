@@ -28,19 +28,18 @@ export class AddPeopleRoomPage implements OnInit {
 
   loading = false
   rooms = []
-
+  search:any
   
   subscription: Subscription
   constructor(
     public navCtrl: NavController,
-    private router: Router,
     private contactService: ContactService,
     public modalController: ModalController,
     private toasterController: ToastController,
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
     private navParams: NavParams,
-    private socket: Socket) { 
+    ) { 
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false);
     }

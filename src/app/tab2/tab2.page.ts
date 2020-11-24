@@ -22,6 +22,7 @@ export class Tab2Page implements OnInit {
   notifications = []
   links = []
   loading = false
+  search:any
 
   @ViewChild('tabGroup', { static: true }) tabGroup: MatTabGroup;
   public selected: number;

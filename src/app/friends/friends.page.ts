@@ -15,6 +15,7 @@ export class FriendsPage implements OnInit {
   members = []
   loading = false
   previousUrl = ''
+  search:any
   constructor(
     private contactService: ContactService,
     private toastController:ToastController,
@@ -34,6 +35,10 @@ export class FriendsPage implements OnInit {
     }    
   }
 
+
+  trackByFn(index, item) {
+    return index; // or item.id
+  }
 
   removeFromCircle(idMember){
     let member = {

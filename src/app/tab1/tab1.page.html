@@ -188,7 +188,7 @@
 
                 <div (click)="goToProfile(p?.userId)">
                   <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class="round-img"
-                    [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                    [ngStyle]='{"color": p?.backgroundColor == "#fff" ? "black" : "white" }'>
                     {{p?.userPseudo | slice:0:1| uppercase}}
                   </div>
                 </div>
@@ -244,7 +244,7 @@
             <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
               <img class="match-image" *ngIf="m?.photo" [src]="m?.photo" alt="">
               <div class="match-pseudo" *ngIf="m?.photo == null || m?.photo == ''"
-                [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                [ngStyle]='{"color": p?.backgroundColor == "#fff" ? "black" : "white" }'>
                 {{m?.pseudoIntime | slice:0:1| uppercase}}
               </div>
 
@@ -301,7 +301,7 @@
               <div (click)="goToProfile(p?.userId)" style="float: right; color: #fff !important;" class="userPseudo-bg"
                 *ngIf="p?.image_url || p?.video_url">
                 <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class=" pseudo-media"
-                  [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                  [ngStyle]='{"color": p?.backgroundColor == "#fff" ? "black" : "white" }'>
                   {{p?.userPseudo | slice:0:1| uppercase}}
                 </div>
               </div>
@@ -405,7 +405,7 @@
               <span class="match-align" *ngFor="let m of p?.matches | slice:0:3;">
                 <img class="match-image" *ngIf="m?.photo" [src]="m?.photo" alt="">
                 <div class="match-pseudo" *ngIf="m?.photo == null || m?.photo ==''"
-                  [ngStyle]="{'color': p?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                  [ngStyle]='{"color": p?.backgroundColor == "#fff" ? "black" : "white" }'>
                   {{m?.prenom | slice:0:1| uppercase}}
                 </div>
               </span>

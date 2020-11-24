@@ -213,7 +213,7 @@
   
                 <div style="float: right;" *ngIf="post?.image_url || post?.video_url">
                   <div *ngIf="post?.userPhoto_url == '' || post?.userPhoto_url == null " class=" pseudo-media"
-                    [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">
+                    [ngStyle]='{"color": post?.backgroundColor == "#fff" ? "black" : "white" }'>
                     {{post?.userPseudo | slice:0:1| uppercase}}
                   </div>
                 </div>

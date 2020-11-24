@@ -132,6 +132,10 @@ export class ChatPage implements OnInit {
     this.scrollToBottom();
   }
 
+  trackByFn(index, item) {
+    return index; // or item.id
+  }
+  
   testDate(){
   //  console.log(this.message.createdAt)
   }

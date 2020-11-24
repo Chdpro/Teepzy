@@ -26,6 +26,7 @@ export class CircleMembersPage implements OnInit {
 
   loading = false
   rooms = []
+  search:any
 
   subscription: Subscription
   constructor(public navCtrl: NavController,

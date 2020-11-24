@@ -49,6 +49,7 @@ export class OutcirclePage implements OnInit {
   pageSize: number = 5;
   lowValue: number = 0;
   highValue: number = 5;
+  pageEvent:any
 
   term = ''
 

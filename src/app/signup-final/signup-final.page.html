@@ -77,7 +77,7 @@
             <mat-datepicker-toggle matSuffix [for]="pickerEx"></mat-datepicker-toggle>
             <mat-datepicker #pickerEx></mat-datepicker>
             <mat-hint>
-              <ion-datetime style="    margin-top: -5px;" [value]="user?.birthday" [dayShortNames]="customDayShortNames"
+              <ion-datetime style="    margin-top: -5px;" [value]="user?.birthday" 
                 displayFormat="DD MMM YYYY"
                 monthShortNames="janvier, fevrier, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, decemebre">
               </ion-datetime>
@@ -104,6 +104,6 @@
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <button style="float: right;" (click)="updateUsingPermission()" mat-button>Suivant</button>
+    <button style="float: right;" (click)="uploadImage()" mat-button>Suivant</button>
   </ion-toolbar>
 </ion-footer>

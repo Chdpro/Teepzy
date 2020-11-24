@@ -90,91 +90,23 @@
       </div>
       </ion-col>
     </ion-row>
-
-
-    <ion-row>
-      <ion-col class="footer-btn">
-        <button style="float: right;" 
-        [disabled]="nom.errors?.required 
-        || passwordId.errors?.required
-        || conf.errors?.required
-            || prenom.errors?.required 
-            || email.errors?.required
-            || phone.errors?.required
-            || selected == ''" (click)="signup()" mat-button>Je m'inscris et j'accepte</button>
-      </ion-col>
-    </ion-row>
   </ion-grid>
-
-  <!--input class="modal-state" id="modal-2" type="checkbox" />
-  <div class="modal">
-    <label class="modal__bg" for="modal-2"></label>
-    <div class="modal__inner">
-      <label class="modal__close" for="modal-2"></label>
-      <h2 style="font-size: 20px;font-weight: 200;">Choisir un avatar</h2>
-      <mat-grid-list cols="2" rowHeight="2:1">
-        <mat-grid-tile>
-          <button (click)="choseAvatr('https://www.teepzy.com/1.png')" mat-button>
-            <img src="https://www.teepzy.com/1.png" alt="" />
-          </button>
-          <span *ngIf="user?.photo == 'https://www.teepzy.com/1.png' "  class="material-icons check">
-              check
-            </span>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button (click)="choseAvatr('https://www.teepzy.com/2.png')" mat-button>
-            <img src="https://www.teepzy.com/2.png" alt="" />
-          </button>
-          <span *ngIf="user?.photo == 'https://www.teepzy.com/2.png'"  class="material-icons check">
-            check
-          </span>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button (click)="choseAvatr('https://www.teepzy.com/3.png')" mat-button>
-            <img src="https://www.teepzy.com/3.png" alt="" />
-
-          </button>
-          <span *ngIf="user?.photo == 'https://www.teepzy.com/3.png' "  class="material-icons check">
-            check
-          </span>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button (click)="choseAvatr('https://www.teepzy.com/4.png')" mat-button>
-            <img src="https://www.teepzy.com/4.png" alt="" />
-
-          </button>
-          <span *ngIf="user?.photo == 'https://www.teepzy.com/4.png' "  class="material-icons check">
-            check
-          </span>
-
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button (click)="choseAvatr('https://www.teepzy.com/5.png')" mat-button>
-            <img src="https://www.teepzy.com/5.png" alt="" />
-
-          </button>
-          <span *ngIf="user?.photo == 'https://www.teepzy.com/5.png' "  class="material-icons check">
-            check
-          </span>
-
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button (click)="choseAvatr('https://www.teepzy.com/6.png')" mat-button>
-            <img src="https://www.teepzy.com/6.png" alt="" />
-
-          </button>
-          <span *ngIf="user?.photo == 'https://www.teepzy.com/6.png' "  class="material-icons check">
-            check
-          </span>
-        </mat-grid-tile>
-      </mat-grid-list>
-
-
-   
-
-
-    </div>
-  </div-->
-
-
 </ion-content>
+<!-- Footer without a border -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+      <ion-row>
+          <ion-col class="footer-btn">
+            <button style="float: right;" 
+            [disabled]="nom.errors?.required 
+                || passwordId.errors?.required
+                || conf.errors?.required
+                || prenom.errors?.required 
+                || email.errors?.required
+                || phone.errors?.required
+                || selected == ''" 
+            (click)="signup()" mat-button>Je m'inscris et j'accepte</button>
+          </ion-col>
+        </ion-row>
+  </ion-toolbar>
+</ion-footer>

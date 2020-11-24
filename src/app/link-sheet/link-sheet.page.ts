@@ -35,6 +35,7 @@ export class LinkSheetPage implements OnInit {
   listTeepZrs = []
   matches = []
   checkItems = {}
+  filtre:any
 
   constructor(private modalController: ModalController, 
     private contactService: ContactService,

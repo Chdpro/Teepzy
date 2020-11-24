@@ -20,7 +20,7 @@
         </div>
   
         <div *ngIf="userPhoto?.length == 0" class="round-img-post"
-          [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">
+          [ngStyle]='{"color": post?.backgroundColor == "#fff" ? "black" : "white" }'>
           {{user?.prenom | slice:0:1| uppercase}} {{user?.nom | slice:0:1 | uppercase}}
         </div>
       </div>
