@@ -220,16 +220,12 @@ export class AddPostPage implements OnInit {
             // let base64Image = 'data:image/jpeg;base64,' + imageData;
             this.dispVideos.push(data[0].fullPath)
             let videoPath = data[0].fullPath
-            this.filePath.resolveNativePath(videoPath).then((nativepath) => {
-              if (this.videos.length == 0) {
-                this.videos.push(nativepath)
-              } else if (this.videos.length > 1) {
-                this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
-              }
-            }, error => {
-              alert(JSON.stringify(error))
-
-            })
+            if (this.videos.length == 0) {
+              this.videos.push(videoPath)
+            } else if (this.videos.length > 1) {
+              this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
+            }
+         
           },
           (err: CaptureError) => {
             console.error(err)
@@ -257,20 +253,13 @@ export class AddPostPage implements OnInit {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64 (DATA_URL):
         // let base64Image = 'data:image/jpeg;base64,' + imageData;
-    
-     
-          this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc('file://' + videoData))
+          this.dispVideos.push('file://' + videoData)
           let videoPath = 'file://' + videoData
-          alert(videoPath)
-          this.filePath.resolveNativePath(videoPath).then((nativepath) => {
-            if (this.videos.length == 0) {
-              this.videos.push(nativepath)
-            } else if (this.videos.length > 1) {
-              this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
-            }
-          }, error => {
-          })
-  
+          if (this.videos.length == 0) {
+            this.videos.push(videoPath)
+          } else if (this.videos.length > 1) {
+            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
+          }
       }, (err) => {
         // Handle error
   
