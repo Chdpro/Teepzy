@@ -15,6 +15,7 @@ import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVide
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { UploadService } from '../providers/upload.service';
 
 
 @Component({
@@ -58,6 +59,10 @@ export class AddPostPage implements OnInit {
   @ViewChild('myVideo', null) videoPlayers: ElementRef;
 
   currentPlaying = null
+  fileBase64 = {
+    base64image: '',
+    imageName: ''
+  }
 
 
 
@@ -77,7 +82,8 @@ export class AddPostPage implements OnInit {
     private mediaCapture: MediaCapture,
     private androidPermissions: AndroidPermissions,
     private fileChooser: FileChooser,
-    private webview: WebView,
+    private uploadService: UploadService,
+
 
 
   ) {
@@ -145,7 +151,7 @@ export class AddPostPage implements OnInit {
         text: 'Utiliser la Camera',
         icon: "camera",
         handler: () => {
-          this.pickImage(this.camera.PictureSourceType.CAMERA);
+          this.takeImage(this.camera.PictureSourceType.CAMERA);
         }
       },
       {
@@ -207,6 +213,29 @@ export class AddPostPage implements OnInit {
     })
   
   }
+  takeImage(sourceType) {
+    this.requestNecessaryPermissions().then(() =>{
+      const options: CameraOptions = {
+        quality: 100,
+        sourceType: sourceType,
+        destinationType: this.camera.DestinationType.FILE_URI,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      }
+      this.camera.getPicture(options).then((imageData) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):
+        this.fileBase64.base64image = 'data:image/jpeg;base64,' + imageData;
+        this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
+  
+      }, (err) => {
+        // Handle error
+  
+      });
+    })
+  
+  }
+
 
 
   takeVideo() {
@@ -266,6 +295,22 @@ export class AddPostPage implements OnInit {
       });
     })
  
+  }
+
+
+  uploadBase64File() {
+    this.loading = true
+    this.fileBase64.imageName = (Math.random() * 100000000000000000).toString()
+    this.uploadService.uploadFileInBase64(this.fileBase64).subscribe(res => {
+    //  alert(res)
+      this.post.image_url = base_url + this.fileBase64.imageName + '.mp4'
+      this.loading = false
+      this.addPost()
+    }, error => {
+    //  alert(JSON.stringify(error))
+      this.loading = false
+
+    })
   }
 
 
@@ -330,6 +375,8 @@ export class AddPostPage implements OnInit {
   
         }
       
+      }else if(this.fileBase64.base64image != '' && ref.photos.length == 0){
+          this.uploadBase64File()
       }
       else {
         this.addPost()
