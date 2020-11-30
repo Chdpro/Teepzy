@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AddPostPage } from '../add-post/add-post.page';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabs',
@@ -9,7 +10,11 @@ import { AddPostPage } from '../add-post/add-post.page';
 })
 export class TabsPage {
 
-  constructor(public modalController: ModalController) {}
+  constructor(public modalController: ModalController, private router: Router) {}
+
+  AddPostPage(){
+    this.router.navigate(['/add-post'])
+  }
 
   async presentModal() {
     const modal = await this.modalController.create({

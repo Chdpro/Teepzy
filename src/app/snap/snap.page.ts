@@ -14,20 +14,21 @@ import { EditSnapPage } from '../edit-snap/edit-snap.page';
 import { EditSnapImgPage } from '../edit-snap-img/edit-snap-img.page';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
+import { DatapasseService } from '../providers/datapasse.service';
 
 
 @Component({
   selector: 'app-snap',
   templateUrl: './snap.page.html',
   styleUrls: ['./snap.page.scss'],
- // encapsulation: ViewEncapsulation.None,
+  // encapsulation: ViewEncapsulation.None,
 
 })
 export class SnapPage implements OnInit {
 
 
   post = {
-    content:''
+    content: ''
   }
   // Camera preview variable
   picture;
@@ -45,13 +46,12 @@ export class SnapPage implements OnInit {
     private cameraPreview: CameraPreview,
     private router: Router,
     private webview: WebView,
-    private androidPermissions:AndroidPermissions,
+    private androidPermissions: AndroidPermissions,
     private modalController: ModalController,
     private menuCtrl: MenuController,
     private platform: Platform,
-    private camera : Camera,
-    private filePath: FilePath
-  ) { 
+    private dataPasse: DatapasseService
+  ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
 
@@ -66,43 +66,13 @@ export class SnapPage implements OnInit {
   }
 
   ngOnInit() {
-    //this.initCamera()
-    this.takeImage()
+    this.captureI = document.getElementById("captureI");
+    this.captureI.setAttribute("color", "light");
+    this.initCamera()
   }
 
 
-
-  takeImage() {
-    this.requestNecessaryPermissions().then(() =>{
-      const options: CameraOptions = {
-        quality: 100,
-        sourceType: this.camera.PictureSourceType.CAMERA,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE
-      }
-      this.camera.getPicture(options).then((imageData) => {
-        // imageData is either a base64 encoded string or a file URI
-        // If it's base64 (DATA_URL):
-        // let base64Image = 'data:image/jpeg;base64,' + imageData;
-        //this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-        this.filePath.resolveNativePath(imageData).then((nativepath) => {
-            this.dismiss()
-            this.presentModalImg(nativepath, imageData)
-        }, error => {
-        })
-      }, (err) => {
-        // Handle error
-  
-      });
-    }, error =>{
-      console.log(error)
-    })
-  
-  }
-
-
-  initCamera(){
+  initCamera() {
     this.requestNecessaryPermissions().then(() => {
       const cameraPreviewOpts = {
         x: 0,
@@ -180,42 +150,13 @@ export class SnapPage implements OnInit {
 
   }
 
-  takePicture() {
-    // picture options
-    this.captureI = document.getElementById("captureI");
-    console.log(this.captureI);
-    this.captureI.setAttribute("color", "danger");
-    const pictureOpts: CameraPreviewPictureOptions = {
-      width: 1280,
-      height: 1280,
-      quality: 100,
-    };
-
-    // take a picture
-    this.cameraPreview.takePicture(pictureOpts).then(
-      (imageData) => {
-        this.picture = "data:image/jpeg;base64," + imageData;
-        this.captureI.setAttribute("color", "light");
-      //  alert(imageData)
-        this.presentModalImg(imageData, );
-      },
-      (err) => {
-       // console.log(err);
-        // this.picture = "assets/img/test.jpg";
-      }
-    );
-  }
-
   /**
    * Switch the camera
    */
   switchCamera() {
     this.cameraPreview.switchCamera();
   }
-  /**
-   * Remove the user interface when snap is taken
-   */
-  closeTookSnap() {}
+
 
   stopVideoRecode() {
     this.captureI = document.getElementById("captureI");
@@ -232,9 +173,16 @@ export class SnapPage implements OnInit {
           const pictures = "data:image/jpeg;base64," + base64PictureData;
           this.srcV = this.webview.convertFileSrc("file://" + filePath);
           this.captureI.setAttribute("color", "light");
+          let video = {
+            file: "file://" + filePath,
+            filePath: filePath,
+            base64: pictures
+          }
+          this.dataPasse.sendVideo(video)
           this.dismiss()
-         // alert("file://" + filePath)
-          this.presentModal("file://" + filePath, pictures);
+
+          // alert("file://" + filePath)
+          //this.presentModal("file://" + filePath, pictures);
         },
         (err) => {
           console.log(err);
@@ -250,26 +198,26 @@ export class SnapPage implements OnInit {
    * Take a picture
    */
   takeVideoRecord() {
-      this.captureI = document.getElementById("captureI");
-      console.log(this.captureI);
-      this.captureI.setAttribute("color", "danger");
-      const opt = {
-        cameraDirection: this.cameraPreview.CAMERA_DIRECTION.BACK,
-        width: window.screen.width,
-        height: window.screen.height,
-        quality: 100,
-        withFlash: false,
-        duration: 15
-      };
-      this.cameraPreview.startRecordVideo(opt);
-      this.isRecording = true;
-      this.startTimer();
+    this.captureI = document.getElementById("captureI");
+    console.log(this.captureI);
+    this.captureI.setAttribute("color", "danger");
+    const opt = {
+      cameraDirection: this.cameraPreview.CAMERA_DIRECTION.BACK,
+      width: window.screen.width,
+      height: window.screen.height,
+      quality: 100,
+      withFlash: false,
+      duration: 15
+    };
+    this.cameraPreview.startRecordVideo(opt);
+    this.isRecording = true;
+    this.startTimer();
   }
 
   /**
    * Send a picture
    */
-  sendPicture() {}
+  sendPicture() { }
 
   onFlash() {
     this.cameraPreview.setFlashMode(this.cameraPreview.FLASH_MODE.ON);
@@ -291,13 +239,13 @@ export class SnapPage implements OnInit {
       componentProps: {
         filePath: path,
         imgSrc: src,
-        page:"snap"
+        page: "snap"
       },
     });
     return await modal.present();
   }
 
-  async presentModalImg(path, imgData?:any) {
+  async presentModalImg(path, imgData?: any) {
     const modal = await this.modalController.create({
       component: EditSnapImgPage,
       cssClass: "my-custom-class",

@@ -17,7 +17,7 @@ import { SnapPage } from './snap.page';
     MaterialModule,
     SnapPageRoutingModule
   ],
- // entryComponents:[SnapPage],
+  entryComponents:[SnapPage],
   declarations: [SnapPage]
 })
 export class SnapPageModule {}

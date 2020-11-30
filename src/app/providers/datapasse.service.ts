@@ -8,15 +8,14 @@ export class DatapasseService {
 
 
   private subject = new Subject<any>();  
-
   private subjectPost = new Subject<any>();  
-
   private subjectProdut = new Subject<any>();  
   private subjectProject = new Subject<any>();  
   private subjectRoom = new Subject<any>();  
-  
-
   private subjectFavorite = new Subject<any>();  
+
+  private subjectVideo = new Subject<any>();  
+
 
 
   constructor() { }  
@@ -73,6 +72,16 @@ export class DatapasseService {
     return this.subjectRoom.asObservable();  
   }
 
+  sendVideo(data) {  
+    // console.log(data)
+     this.subjectVideo.next(data);  
+   }  
+ 
+   getVideo(): Observable<any> {  
+     return this.subjectVideo.asObservable();  
+   }
+
+   
   sendFavorite(data) {  
    // console.log(data)
     this.subjectFavorite.next(data);  

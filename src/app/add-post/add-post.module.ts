@@ -17,7 +17,7 @@ import { AddPostPage } from './add-post.page';
     MaterialModule,
     AddPostPageRoutingModule,
   ],
-  entryComponents: [AddPostPage],
+//  entryComponents: [AddPostPage],
   declarations: [AddPostPage]
 })
 export class AddPostPageModule {}

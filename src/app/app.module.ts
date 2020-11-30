@@ -46,7 +46,6 @@ import { FileOpener } from "@ionic-native/file-opener/ngx";
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { Base64 } from '@ionic-native/base64/ngx';
 
-
 import { local_url, base_url } from 'src/config';
 import { Globals } from './globals';
 import { CircleMembersPageModule } from './circle-members/circle-members.module';
@@ -57,6 +56,7 @@ import { EditSnapImgPageModule } from './edit-snap-img/edit-snap-img.module';
 import { EditSnapPageModule } from './edit-snap/edit-snap.module';
 import { UploadService } from './providers/upload.service';
 import { File } from '@ionic-native/file/ngx';
+import { SnapPageModule } from './snap/snap.module';
 const config: SocketIoConfig = { url: base_url, options: {} };
 
 @NgModule({
@@ -68,8 +68,9 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    AddPostPageModule,
+   // AddPostPageModule,
     EditPostPageModule,
+    SnapPageModule,
     EditSnapImgPageModule,
     EditSnapPageModule,
     AddProductPageModule,

@@ -24,4 +24,9 @@ export class UploadService {
     return this.http.post(base_url + url, file, httpOptionsJson);
   }
 
+  upload(file): Observable<any> {
+    let url = 'uploadfile';
+    return this.http.post(base_url + url, file, httpOptionsJson);
+  }
+
 }

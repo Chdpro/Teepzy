@@ -8,14 +8,17 @@ import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { base_url } from 'src/config';
 import { Socket } from 'ngx-socket-io';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { typeAccount, MESSAGES } from '../constant/constant';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { HttpClientModule } from '@angular/common/http';
 import { UploadService } from '../providers/upload.service';
+import { Router } from '@angular/router';
+import { File } from '@ionic-native/file/ngx';
 
 
 @Component({
@@ -54,15 +57,11 @@ export class AddPostPage implements OnInit {
   testVideos = ['../../assets/test.mp4']
 
   subscription: Subscription;
-
-
+  imageData
   @ViewChild('myVideo', null) videoPlayers: ElementRef;
 
   currentPlaying = null
-  fileBase64 = {
-    base64image: '',
-    imageName: ''
-  }
+
 
 
 
@@ -82,9 +81,9 @@ export class AddPostPage implements OnInit {
     private mediaCapture: MediaCapture,
     private androidPermissions: AndroidPermissions,
     private fileChooser: FileChooser,
-    private uploadService: UploadService,
-
-
+    private webview: WebView,
+    private router: Router,
+    private file: File
 
   ) {
 
@@ -141,33 +140,33 @@ export class AddPostPage implements OnInit {
     const actionSheet = await this.actionSheetController.create({
       header: "Selectionner un média",
       buttons: [{
-        text: 'Choisir dans votre galerie',
+        text: 'Choisir une image',
         icon: "images",
         handler: () => {
           this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
       },
-      {
+     /* {
         text: 'Utiliser la Camera',
         icon: "camera",
         handler: () => {
           this.takeImage(this.camera.PictureSourceType.CAMERA);
         }
-      },
+      },*/
       {
         text: 'Choisir une vidéo',
         icon: "grid",
         handler: () => {
-          this.pickVideo(this.camera.PictureSourceType.PHOTOLIBRARY);
+          this.chooseVideo();
         }
       },
-      {
+      /*{
         text: 'Enregistrer une vidéo',
         icon: "videocam",
         handler: () => {
           this.takeVideo();
         }
-      },
+      },*/
       {
         text: 'Annuler',
         icon: "close",
@@ -182,7 +181,7 @@ export class AddPostPage implements OnInit {
 
 
   pickImage(sourceType) {
-    this.requestNecessaryPermissions().then(() =>{
+    this.requestNecessaryPermissions().then(() => {
       const options: CameraOptions = {
         quality: 100,
         sourceType: sourceType,
@@ -195,26 +194,27 @@ export class AddPostPage implements OnInit {
         // If it's base64 (DATA_URL):
         // let base64Image = 'data:image/jpeg;base64,' + imageData;
         this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-        this.userPhoto[0] == this.dispImags[0]
         this.filePath.resolveNativePath(imageData).then((nativepath) => {
           if (this.photos.length == 0) {
             this.photos.push(nativepath)
           } else if (this.photos.length > 1) {
-            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs images')
+            this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
           }
         }, error => {
           alert(JSON.stringify(error))
         })
-  
+
       }, (err) => {
         // Handle error
-  
+
       });
     })
-  
+
   }
+
+
   takeImage(sourceType) {
-    this.requestNecessaryPermissions().then(() =>{
+    this.requestNecessaryPermissions().then(() => {
       const options: CameraOptions = {
         quality: 100,
         sourceType: sourceType,
@@ -225,21 +225,34 @@ export class AddPostPage implements OnInit {
       this.camera.getPicture(options).then((imageData) => {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64 (DATA_URL):
-        this.fileBase64.base64image = 'data:image/jpeg;base64,' + imageData;
+        this.imageData = imageData;
         this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-  
+        this.filePath.resolveNativePath(imageData).then((nativepath) => {
+          if (this.photos.length == 0) {
+            this.photos.push(nativepath)
+          } else if (this.photos.length > 1) {
+            this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
+          }
+        }, error => {
+         // alert(JSON.stringify(error))
+        })
       }, (err) => {
         // Handle error
-  
+
       });
     })
-  
+
   }
 
-
+/*
+  play(myFile){
+    let video = this.videoPlayers.nativeElement
+    video.src = myFile.localURL
+  }
+*/
 
   takeVideo() {
-    this.requestNecessaryPermissions().then(() =>{
+    this.requestNecessaryPermissions().then(() => {
       let options: CaptureVideoOptions = { limit: 1, duration: 15 }
       this.mediaCapture.captureVideo(options)
         .then(
@@ -247,14 +260,25 @@ export class AddPostPage implements OnInit {
             // imageData is either a base64 encoded string or a file URI
             // If it's base64 (DATA_URL):
             // let base64Image = 'data:image/jpeg;base64,' + imageData;
-            this.dispVideos.push(data[0].fullPath)
-            let videoPath = data[0].fullPath
+            //this.dispVideos.push(data[0].fullPath)
+            // videoPath = data[0].localURL
+           /* let videoPath = data[0].fullPath
+            this.dispVideos[0] = this.sanitizer.bypassSecurityTrustUrl(data[0]['localURL']);
             if (this.videos.length == 0) {
               this.videos.push(videoPath)
             } else if (this.videos.length > 1) {
               this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
-            }
-         
+            }*/
+
+            let captureFile = data[0]
+            let fileName = captureFile.name
+            let dir = captureFile['localURL']
+            dir.pop()
+            let fromDirectory = dir.join('/');
+            let toDirectory = this.file.dataDirectory;
+            this.file.copyFile(fromDirectory,fileName,toDirectory,fileName).then(res =>{
+              
+            })
           },
           (err: CaptureError) => {
             console.error(err)
@@ -263,59 +287,13 @@ export class AddPostPage implements OnInit {
           }
         );
     })
-   
+
   }
 
-
- 
-
-  pickVideo(sourceType) {
-    this.requestNecessaryPermissions().then(() =>{
-      const options: CameraOptions = {
-        quality: 100,
-        sourceType: sourceType,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        mediaType: this.camera.MediaType.VIDEO,
-  
-      }
-      this.camera.getPicture(options).then((videoData) => {
-        // imageData is either a base64 encoded string or a file URI
-        // If it's base64 (DATA_URL):
-        // let base64Image = 'data:image/jpeg;base64,' + imageData;
-          this.dispVideos.push('file://' + videoData)
-          let videoPath = 'file://' + videoData
-          if (this.videos.length == 0) {
-            this.videos.push(videoPath)
-          } else if (this.videos.length > 1) {
-            this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
-          }
-      }, (err) => {
-        // Handle error
-  
-      });
-    })
- 
-  }
-
-
-  uploadBase64File() {
-    this.loading = true
-    this.fileBase64.imageName = (Math.random() * 100000000000000000).toString()
-    this.uploadService.uploadFileInBase64(this.fileBase64).subscribe(res => {
-    //  alert(res)
-      this.post.image_url = base_url + this.fileBase64.imageName + '.mp4'
-      this.loading = false
-      this.addPost()
-    }, error => {
-    //  alert(JSON.stringify(error))
-      this.loading = false
-
-    })
-  }
 
 
   uploadImage() {
-    this.requestNecessaryPermissions().then(()=>{
+    this.requestNecessaryPermissions().then(() => {
       var ref = this;
       this.loading = true
       if (ref.photos.length > 0 && ref.videos.length == 0) {
@@ -337,9 +315,6 @@ export class AddPostPage implements OnInit {
             this.loading = false
           }, error => {
             this.loading = false
-            alert(JSON.stringify(error))
-
-  
           })
         }
       } else if (ref.videos.length > 0 && ref.photos.length == 0) {
@@ -360,28 +335,24 @@ export class AddPostPage implements OnInit {
               this.post.video_url = base_url + options.fileName;
               this.addPost()
               this.loading = false
-    
+
             }, error => {
               this.loading = false
-              alert(JSON.stringify(error))
+            //  alert(JSON.stringify(error))
 
-             // alert("video upload did not work!" + JSON.stringify(error))
-    
+              // alert("video upload did not work!" + JSON.stringify(error))
+
             })
           }
-        }else{
+        } else {
           this.presentToast(MESSAGES.VIDEO_LIMIT_ERROR)
           this.loading = false
-  
         }
-      
-      }else if(this.fileBase64.base64image != '' && ref.photos.length == 0){
-          this.uploadBase64File()
       }
       else {
         this.addPost()
         this.loading = false
-  
+
       }
     })
 
@@ -389,20 +360,20 @@ export class AddPostPage implements OnInit {
 
 
 
-  chooseVideo(){
-      this.requestNecessaryPermissions().then(()=>{
-        this.fileChooser
+  chooseVideo() {
+    this.requestNecessaryPermissions().then(() => {
+      this.fileChooser
         .open({ mime: "video/mp4" })
         .then((uri) => {
-          this.dismiss()
           //alert(uri)
           //const pictures = "data:image/jpeg;base64," + uri;
           //this.presentModal(uri, pictures);
-          this.dispVideos.push((<any>window).Ionic.WebView.convertFileSrc(uri))
+          this.dispVideos.push(this.webview.convertFileSrc(uri))
+
           this.videos.push(uri)
         })
         .catch((e) => console.log(e));
-      })
+    })
   }
 
 
@@ -431,7 +402,7 @@ export class AddPostPage implements OnInit {
       if (res['status'] == 200) {
         this.getPosts(this.post.userId)
         this.loading = false
-        this.dismiss()
+        this.router.navigate(['/tabs/tab1'])
       }
     }, error => {
       // console.log(error)
