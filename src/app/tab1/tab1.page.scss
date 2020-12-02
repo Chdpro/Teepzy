@@ -12,6 +12,34 @@ video{
 
 }
 
+.swipe-btn{
+    z-index: 200;
+    position: fixed;
+    margin-top: 62%;
+    width: 40%;
+    margin: 214px auto;
+
+}
+
+.example-button-row-tuto{
+    float: right;
+    position: fixed;
+    right: 0;
+    width: 100%;
+    bottom: 10px;
+}
+
+.left-btn{
+    float: left;
+    position: relative;
+    background: #cfcfcf00 !important;
+}
+.right-btn{
+    float: right;
+    position: relative;
+    left: 217px;
+    background: #cfcfcf00 !important;
+}
 ion-spinner{
  
     width: 129px;

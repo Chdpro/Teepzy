@@ -203,7 +203,7 @@ export class Tab2Page implements OnInit {
       this.loading = false
 
     }, error => {
-     // console.log(error)
+      console.log(error)
       this.loading = false
 
     })

@@ -48,37 +48,60 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" [scrollY]="false">
+<ion-content (swipe)="swipeEvents($event)" [fullscreen]="true" [scrollY]="false">
   <ion-refresher slot="fixed" [disabled]="false" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-slides pager="false" [options]="slideOpts">
-    <!--ion-slide *ngIf="listPosts?.length == 0 && !loading">
+  <ion-slides pager="false" [options]="slideOpts" #slides (ionSlideWillChange)="doCheck()">
+    <ion-slide *ngIf="listPosts?.length == 0 && !loading && isTutoSkip == 'YES'">
       <span style="color: #ea4e4f;">
         Aucune publication pour l'instant
       </span>
-    </ion-slide-->
+    </ion-slide>
 
     <ion-slide *ngIf="loading && listPosts?.length == 0">
       <ion-spinner color="primary" name="dots"></ion-spinner>
     </ion-slide>
 
+
       <ion-slide *ngFor="let t of tutos" [ngStyle]="{'color': 'black', 'background-color': t?.background}"
       class="tuto-bg">
-      <ion-grid>
+      <ion-grid *ngIf="isTutoSkip !== 'YES'">
         <ion-row>
+          <div class="swipe-btn">
+            <button (click)="swipePrev()" *ngIf="!disablePrevBtn" class="left-btn" mat-button>
+              <span class="material-icons">
+                arrow_back_ios
+              </span>
+            </button>
+
+            <button (click)="swipeNext()" *ngIf="!disableNextBtn" class="right-btn" mat-button>
+              <span class="material-icons">
+                arrow_forward_ios
+              </span>
+            </button>
+
+            <div  (click)="skipTuto()" class="example-button-row-tuto">
+                <button *ngIf="!disableNextBtn" mat-raised-button>Passer</button>
+                <button *ngIf="disableNextBtn" mat-raised-button>Terminer</button>
+
+            </div>
+          </div>
           <ion-col size="12">
             <div class="header-slide">
               <img class="slide3-img" *ngIf="t?.slide =='3'" src="../../assets/img/header.png" alt="">
             </div>
           </ion-col>
           <ion-col size="12">
+
             <div>
               <span [ngStyle]="{'color': t?.slide =='3' || t?.slide =='6'?  '#ea4e50' : 'black'}">
                 {{t?.text_1}}
               </span>
-              <span [ngStyle]="{'color': t?.slide =='1' || t?.slide == '2' || t?.slide == '4'||t?.slide == '5' ? '#ea4e50' : 'black'}"> {{t?.text_2}}</span>
+              <span
+                [ngStyle]="{'color': t?.slide =='1' || t?.slide == '2' || t?.slide == '4'||t?.slide == '5' ? '#ea4e50' : 'black'}">
+                {{t?.text_2}}</span>
               <span [ngStyle]="{'color': t?.slide =='6' ? '#ea4e50' : 'black' }"> {{t?.text_3}} </span>
               <span [ngStyle]="{'color': t?.slide =='4' || t?.slide =='5'? '#ea4e50' : 'black'}">
                 {{t?.text_4}}
@@ -118,27 +141,28 @@
               </span>
             </span>
             <span class="icons" *ngIf="t?.slide =='5'">
-              <span >
+              <span>
                 <img class="group-img img1" src="../../assets/img/tuto_img1.jpg" alt="">
 
               </span>
-              <span >
+              <span>
                 <img class="group-img" src="../../assets/img/tuto_img2.jpg" alt="">
               </span>
-              <span >
-               <img class="group-img img3" src="../../assets/img/tuto_img3.jpg" alt="">
+              <span>
+                <img class="group-img img3" src="../../assets/img/tuto_img3.jpg" alt="">
               </span>
             </span>
           </ion-col>
-
         </ion-row>
       </ion-grid>
 
 
     </ion-slide>
+   
+  
+
     <ion-slide (click)="nextWhenVideo()" *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
-      [ngClass]="{'ion-slide-img': p?.image_url != '', 'ion-slide-no-img': p?.image_url == ''}" 
-      [ngStyle]="{
+      [ngClass]="{'ion-slide-img': p?.image_url != '', 'ion-slide-no-img': p?.image_url == ''}" [ngStyle]="{
         'color': p?.backgroundColor == '#fff' && p?.image_url == ''? 'black' : 'white', 
         'background-image':  p?.image_url != '' ? 'url(' + p?.image_url + ')' : '',
         'background-color': p?.image_url == '' ? p?.backgroundColor : 'black',

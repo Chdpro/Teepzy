@@ -43,7 +43,7 @@ export class Tab1Page implements OnInit {
   _MS_PER_DAY = 1000 * 60 * 60 * 24;
   showSearch = false
   showResponsePanel = false
-  search:any
+  search: any
   subscription: Subscription;
   timeCall = 0
   repost: any
@@ -124,6 +124,14 @@ export class Tab1Page implements OnInit {
   currentPlaying = null
   currentIndex: Number = 0;
 
+
+  @ViewChild('slides', null) ionSlides: IonSlides;
+
+  disablePrevBtn = true;
+  disableNextBtn = false;
+
+  isTutoSkip = ""
+
   constructor(private authService: AuthService,
     private toasterController: ToastController,
     private dataPass: DatapasseService,
@@ -136,15 +144,13 @@ export class Tab1Page implements OnInit {
     public globals: Globals,
     public sanitizer: DomSanitizer,
     public actionSheetController: ActionSheetController,
-    private videoPlayer: VideoPlayer,
     private contactService: ContactService) {
     this.menuCtrl.enable(true, 'first');
     this.menuCtrl.swipeGesture(true);
     this.global = globals;
     this.subscription = this.dataPass.getPosts().subscribe(list => {
-     // console.log(list)
+      // console.log(list)
       if (list.length > 0) {
-        this.tutos = []
         this.listPosts = list
       }
     });
@@ -159,7 +165,9 @@ export class Tab1Page implements OnInit {
     this.socket.emit('online', this.userId);
     this.getUserInfo(this.userId)
     this.getPosts(this.userId)
-  //  console.log(this.dataPass.get())
+    this.isTutoSkip = localStorage.getItem("isTutoSkip")
+
+    //  console.log(this.dataPass.get())
   }
 
   ngOnDestroy() {
@@ -168,32 +176,59 @@ export class Tab1Page implements OnInit {
     }
   }
 
+  skipTuto(){
+    let iSskip = "YES"
+    localStorage.setItem('isTutoSkip', iSskip)
+    this.tutos = []
+    this.isTutoSkip = localStorage.getItem("isTutoSkip")
+  }
 
+  doCheck() {
+    let prom1 = this.ionSlides.isBeginning();
+    let prom2 = this.ionSlides.isEnd();
+  
+    Promise.all([prom1, prom2]).then((data) => {
+      data[0] ? this.disablePrevBtn = true : this.disablePrevBtn = false;
+      data[1] ? this.disableNextBtn = true : this.disableNextBtn = false;
+    });
+  }
+  
+
+  swipeEvents(event) {
+    console.log('swipe');
+    this.listPosts.length == 0 ? this.getPosts(this.userId) : null
+  }
   connectSocket() {
     this.socket.connect();
     this.socket.fromEvent('user-notification').subscribe(notif => {
-   //   console.log(notif)
+      //   console.log(notif)
     });
   }
 
 
 
-  tutosTexts(){
-    this.contactService.tutotxts().subscribe(res =>{
+  tutosTexts() {
+    this.contactService.tutotxts().subscribe(res => {
       this.tutos = res
-    //  console.log(this.tutos)
+      //  console.log(this.tutos)
     })
   }
   swipeAll(event: any): any {
   }
 
+  tutoSwipeLeft(event: any) {
+
+  }
+  tutoSwipeRight(event: any) {
+
+  }
   swipeLeft(event: any): any {
-   // console.log('Swipe Left', event);
+    // console.log('Swipe Left', event);
     this.stopVideo()
   }
 
   swipeRight(event: any): any {
-   // console.log('Swipe Right', event);
+    // console.log('Swipe Right', event);
     this.stopVideo()
 
   }
@@ -215,11 +250,11 @@ export class Tab1Page implements OnInit {
 
 
   getSlideIndex() {
-   // console.log(this.isElementInViewPort(this.videoPlayers.nativeElement))
+    // console.log(this.isElementInViewPort(this.videoPlayers.nativeElement))
     this.slides.getActiveIndex().then(
       (index) => {
         this.currentIndex = index;
-     //   console.log(this.currentIndex)
+        //   console.log(this.currentIndex)
       });
   }
 
@@ -229,14 +264,22 @@ export class Tab1Page implements OnInit {
 
   }
 
-  nextWhenVideo(){
+  public swipeNext(){
+    this.slides.slideNext();
+  }
+
+  public swipePrev(){
+    this.slides.slidePrev();
+  }
+
+  nextWhenVideo() {
     if (this.videoPlayers) {
       this.playVideo()
-      }else{
-        this.slides.slideNext();
-        //this.stopVideo()
-      }
- 
+    } else {
+      this.slides.slideNext();
+      //this.stopVideo()
+    }
+
   }
 
   public prev() {
@@ -284,7 +327,7 @@ export class Tab1Page implements OnInit {
 
 
   swipeEvent(event?: Event, videoUrl?: any) {
-   // console.log(videoUrl)
+    // console.log(videoUrl)
     this.playVideo()
   }
 
@@ -322,7 +365,7 @@ export class Tab1Page implements OnInit {
   doRefresh(event) {
     //console.log('Begin async operation');
     setTimeout(() => {
-     // console.log('Async operation has ended');
+      // console.log('Async operation has ended');
       this.getPosts(this.userId)
       event.target.complete();
     }, 400);
@@ -336,10 +379,10 @@ export class Tab1Page implements OnInit {
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-    //  console.log(res)
+      //  console.log(res)
       this.user = res['data'];
     }, error => {
-     // console.log(error)
+      // console.log(error)
     })
   }
 
@@ -359,7 +402,7 @@ export class Tab1Page implements OnInit {
 
 
   addFavorite(postId) {
- //   console.log(postId)
+    //   console.log(postId)
     let favoris = {
       userId: this.userId,
       postId: postId,
@@ -367,12 +410,12 @@ export class Tab1Page implements OnInit {
     }
     this.contactService.addFavorite(favoris).subscribe(res => {
       this.socket.emit('notification', 'notification');
-   //   console.log(res)
+      //   console.log(res)
       this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = true : null)
       this.presentToast('Ajouté aux favoris')
     }, error => {
       this.presentToast('Oops! une erreur est survenue')
-     // console.log(error)
+      // console.log(error)
     })
   }
 
@@ -382,21 +425,21 @@ export class Tab1Page implements OnInit {
       postId: postId
     }
     this.contactService.removeFavorite(favoris).subscribe(res => {
-    //  console.log(res)
+      //  console.log(res)
       this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = false : null)
       this.presentToast(MESSAGES.REMOVE_FAVORITE_OK)
     }, error => {
       this.presentToast(MESSAGES.SERVER_ERROR)
-    //  console.log(error)
+      //  console.log(error)
     })
   }
 
 
-  goToProfile(userId){
+  goToProfile(userId) {
     if (this.userId === userId) {
-    this.router.navigate(['/tabs/profile', { userId: userId }])
+      this.router.navigate(['/tabs/profile', { userId: userId }])
     } else {
-    this.router.navigate(['/profile', { userId: userId, previousUrl: 'feed' }])
+      this.router.navigate(['/profile', { userId: userId, previousUrl: 'feed' }])
     }
 
   }
@@ -461,7 +504,7 @@ export class Tab1Page implements OnInit {
     this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
       if (res['data'] != null) {
-        this.tutos = []
+        //this.tutos = []
         this.posts = res['data']
         this.posts.forEach(e => {
           let favorite = {
@@ -470,7 +513,7 @@ export class Tab1Page implements OnInit {
           }
           this.checkFavorite(favorite, e)
         });
-      }else{
+      } else {
         this.posts = []
         this.tutosTexts()
       }
@@ -480,7 +523,7 @@ export class Tab1Page implements OnInit {
 
     }, error => {
       this.loading = false
-     // console.log(error)
+      // console.log(error)
     })
   }
 
@@ -572,11 +615,11 @@ export class Tab1Page implements OnInit {
       userId: this.userId
     }
     this.contactService.changeAccount(change).subscribe(res => {
-   //   console.log(res)
+      //   console.log(res)
       this.presentToast('compte changé')
       this.getUserInfo(this.userId)
     }, error => {
-     // console.log(error)
+      // console.log(error)
     })
   }
 
