@@ -18,6 +18,15 @@
 
   <div class="item-wrapper" >
 
+    <ion-spinner *ngIf="loading" color="primary" name="dots"></ion-spinner>
+
+    <div *ngIf="!loading && members?.length == 0" class="empty-msg">
+      <span class="material-icons drafts">
+        people
+      </span><br>
+      <span>Aucun ami dans votre cercle</span>
+    </div>
+
     <ion-item *ngFor="let m of members| filter:search ;trackBy: trackByFn ">
       <div *ngIf="m?.photo =='' || m?.photo == null" class="round-img-post">
         {{m?.pseudoIntime | slice:0:1| uppercase}} 

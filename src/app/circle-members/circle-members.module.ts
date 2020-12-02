@@ -19,7 +19,7 @@ import { CircleMembersPage } from './circle-members.page';
     Ng2SearchPipeModule,
     CircleMembersPageRoutingModule
   ],
-  entryComponents: [CircleMembersPage],
+ // entryComponents: [CircleMembersPage],
   declarations: [CircleMembersPage]
 })
 export class CircleMembersPageModule {}

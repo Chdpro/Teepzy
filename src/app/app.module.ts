@@ -77,7 +77,7 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     AddProjectPageModule,
     AddPeopleRoomPageModule,
     ShareSheetPageModule,
-    CircleMembersPageModule,
+    //CircleMembersPageModule,
     CommentsPageModule,
     LinkSheetPageModule,
     BottomSheetOverviewExampleSheetPageModule,

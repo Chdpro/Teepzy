@@ -461,6 +461,7 @@ export class Tab1Page implements OnInit {
     this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
       if (res['data'] != null) {
+        this.tutos = []
         this.posts = res['data']
         this.posts.forEach(e => {
           let favorite = {

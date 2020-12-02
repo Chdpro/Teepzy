@@ -115,11 +115,7 @@ export class Tab3Page implements OnInit {
 
 
   async presentModal() {
-    const modal = await this.modalController.create({
-      component: CircleMembersPage,
-      cssClass: 'my-custom-class'
-    });
-    return await modal.present();
+    this.router.navigate(['/circle-members'])
   }
 
 

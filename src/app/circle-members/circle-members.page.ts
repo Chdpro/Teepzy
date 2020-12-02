@@ -69,9 +69,9 @@ export class CircleMembersPage implements OnInit {
      // console.log(res)
       if (res['status'] == 200) {
         this.loading = false
-        this.presentToast(MESSAGES.ROOM_INITIATED_OK)
+        this.presentToast(MESSAGES.ROOM_INITIATED_OK)        
         this.getChatRooms()
-        this.dismiss()
+       // this.dismiss()
       } else {
         this.presentToast(MESSAGES.ROOM_EXIST_OK)
         this.loading = false
@@ -88,7 +88,7 @@ export class CircleMembersPage implements OnInit {
      // console.log(res);
       this.rooms = res['data']
       this.dataPasse.send(this.rooms)
-
+      this.router.navigate(['/tabs/tab3'])
     }, error => {
     //  console.log(error)
     })
@@ -99,11 +99,15 @@ export class CircleMembersPage implements OnInit {
   }
 
   getUsersOfCircle() {
+    this.loading = true
     this.contactService.getCircleMembers(this.userId).subscribe(res => {
-     // console.log(res);
+      //console.log(res);
       this.members = res['data']
+      this.loading = false
     }, error => {
      // console.log(error)
+     this.loading = false
+
     })
   }
 
@@ -139,9 +143,7 @@ export class CircleMembersPage implements OnInit {
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
-    this.modalController.dismiss({
-      'dismissed': true
-    });
+    this.router.navigateByUrl('/tabs/tab3')
   }
 
 
