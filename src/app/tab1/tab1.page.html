@@ -65,27 +65,10 @@
 
     <ion-slide *ngFor="let t of tutos" [ngStyle]="{'color': 'black', 'background-color': t?.background}"
       class="tuto-bg">
+
+      
       <ion-grid *ngIf="isTutoSkip !== 'YES'">
         <ion-row>
-          <div class="swipe-btn">
-            <button (click)="swipePrev()" *ngIf="!disablePrevBtn" class="left-btn" mat-button>
-              <span class="material-icons">
-                arrow_back_ios
-              </span>
-            </button>
-
-            <button (click)="swipeNext()" *ngIf="!disableNextBtn" class="right-btn" mat-button>
-              <span class="material-icons">
-                arrow_forward_ios
-              </span>
-            </button>
-
-            <div (click)="skipTuto()" class="example-button-row-tuto">
-              <button *ngIf="!disableNextBtn" mat-raised-button>Passer</button>
-              <button *ngIf="disableNextBtn" mat-raised-button>Terminer</button>
-
-            </div>
-          </div>
           <ion-col size="12">
             <div class="header-slide">
               <img class="slide3-img" *ngIf="t?.slide =='3'" src="../../assets/img/header.png" alt="">
@@ -154,6 +137,25 @@
         </ion-row>
       </ion-grid>
 
+      <div class="swipe-btn">
+          <button (click)="swipePrev()" *ngIf="!disablePrevBtn" class="left-btn" mat-button>
+            <span class="material-icons">
+              arrow_back_ios
+            </span>
+          </button>
+
+          <button (click)="swipeNext()" *ngIf="!disableNextBtn" class="right-btn" mat-button>
+            <span class="material-icons">
+              arrow_forward_ios
+            </span>
+          </button>
+
+          <div (click)="skipTuto()" class="example-button-row-tuto">
+            <button *ngIf="!disableNextBtn" mat-raised-button>Passer</button>
+            <button *ngIf="disableNextBtn" mat-raised-button>Terminer</button>
+
+          </div>
+        </div>
 
     </ion-slide>
 

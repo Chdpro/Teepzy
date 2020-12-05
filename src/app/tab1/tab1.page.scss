@@ -107,10 +107,10 @@ ion-badge{
 
 .swipe-btn{
     z-index: 200;
-    position: fixed;
-    margin-top: 62%;
-    width: 40%;
-    margin: 214px auto;
+    position: absolute;
+    width: 23%;
+    top: 64%;
+
 
 }
 
@@ -124,14 +124,14 @@ ion-badge{
 
 .left-btn{
     float: left;
-    position: relative;
+    position: absolute;
+    right: 198%;
     background: #cfcfcf00 !important;
 }
 .right-btn{
-    float: right;
-    position: relative;
-    left: 217px;
     background: #cfcfcf00 !important;
+    position: absolute;
+    left: 200%;
 }
 ion-spinner{
  
