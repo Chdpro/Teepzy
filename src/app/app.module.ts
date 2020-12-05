@@ -22,7 +22,6 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
-import { AddPostPageModule } from './add-post/add-post.module';
 import { MAT_DATE_LOCALE } from '@angular/material';
 import { DatapasseService } from './providers/datapasse.service';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
@@ -48,7 +47,6 @@ import { Base64 } from '@ionic-native/base64/ngx';
 
 import { local_url, base_url } from 'src/config';
 import { Globals } from './globals';
-import { CircleMembersPageModule } from './circle-members/circle-members.module';
 import { ShareSheetPageModule } from './share-sheet/share-sheet.module';
 import { EditPostPageModule } from './edit-post/edit-post.module';
 import { AddPeopleRoomPageModule } from './add-people-room/add-people-room.module';

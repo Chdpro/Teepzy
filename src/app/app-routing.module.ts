@@ -155,10 +155,7 @@ const routes: Routes = [
     path: 'forgot-pass',
     loadChildren: () => import('./forgot-pass/forgot-pass.module').then( m => m.ForgotPassPageModule)
   },
-  {
-    path: 'feed',
-    loadChildren: () => import('./feed/feed.module').then( m => m.FeedPageModule)
-  },
+
 
 ];
 @NgModule({
