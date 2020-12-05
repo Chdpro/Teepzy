@@ -1,3 +1,88 @@
+ion-slide{
+    border-radius: 40px 40px 1px 0px;
+    height: -webkit-fill-available;
+    margin-top: 46px;
+}
+
+
+ion-content{
+    position: absolute;
+    display: block
+}
+
+
+
+.menu{
+    position: absolute;
+    top: 45%;
+    left: 77%;
+    z-index: 2;
+}
+
+.menu a{
+    display: block;
+    font-size: 38px !important;
+    padding: 10px;
+    text-shadow: 0 1px 6px black;
+
+
+}
+ion-icon{
+    text-shadow: 0 1px 6px black;
+}
+
+.photo-profile{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    left: 77%;
+    top: 33%;
+    z-index: 2;
+    border: 1px solid #ea4e50
+}
+
+.fixed-wrap{
+    position: absolute;
+    left: 78%;
+}
+.userInfo{
+    position: absolute;
+    z-index: 2;
+    color: white;
+    font-size: 18px;
+    right: 55px;
+    top: 285px;
+    line-height: 20px;
+    text-shadow: 0 1px 6px black;
+    width: 223px;
+    background: #00000070;
+    border-radius: 11%;
+    padding: 19px;
+
+}
+
+.match-txt{
+    font-size: 13px;
+}
+.filigrane{
+    position: absolute;
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 63px;
+    color: #fff;
+    height: 81px;
+    width: 81px;
+    right: 11px;
+    padding: 0px;
+    padding-top: 23px;
+    top: 100%;
+    border: 1px solid #ea4e50;
+    margin-right: -15px;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+
+// OLD CSS PROPERTIES
+
 video{
     position: fixed;
     top: 50%;
@@ -16,8 +101,8 @@ video{
 
 ion-badge{
     position: absolute;
-    bottom: 27px;
-    left: 2px;
+    left: 4px;
+    top: 3px
 }
 
 .swipe-btn{
@@ -183,14 +268,16 @@ img{
 .pseudo-media{
     height: 54px;
     width: 54px;
-
     border-radius: 100%;
     -webkit-border-radius: 100%;
-    -moz-border-radius: 100%; 
+    -moz-border-radius: 100%;
     border: solid 1px #ea4e50;
     padding-top: 13px;
     font-size: 18px;
     float: right;
+    position: absolute;
+    top: -67px;
+    left: 9px;
 
 }
 
@@ -226,19 +313,7 @@ img{
 ion-slides{
     height: -webkit-fill-available;
 }
-/*.ion-slide-no-img{
-    opacity: 0 !important;
 
-}*/
-ion-slide{
-    border-radius: 40px 40px 1px 0px;
-    height: -webkit-fill-available;
-}
-/*
-.ion-slide-img{
-    opacity: 1 !important;
-
-}*/
 
 
 mat-card-header{
@@ -246,6 +321,17 @@ mat-card-header{
 }
 .material-icons{
     color: #ea4e50;
+}
+.btn-icon{
+    font-size: 24px !important;
+
+}
+
+.mat-icon-btn{
+    font-size: 33px;
+    position: absolute;
+    right: 11px;
+    bottom: 8px;
 }
 
 .cancel-btn{
@@ -347,7 +433,7 @@ mat-card-title{
     width: 76%;
     display: block;
 }
-.btn-icon{
+.btn-icon-header{
     margin-right: 13px;
 }
 
@@ -371,6 +457,8 @@ ion-fab-button{
 
 ion-icon{
     color: #ea4e50;
+    font-size: 32px;
+    margin-top: -5px;
 }
 .content-down{
     margin-top: 25px;
@@ -382,7 +470,7 @@ ion-icon{
 
 }
 
-.filigrane{
+.filigrane-old{
     background: rgb(0 0 0 / 18%);
     padding-top: 21px;
     border-radius: 30px;
@@ -394,16 +482,15 @@ ion-icon{
 }
 .content{
     display: block;
-    margin-left: auto;
-    margin-right: auto;
     text-align: center;
     width: auto;
     height: auto;
-    margin-top: 127px;
     width: 224px;
     z-index: 1000;
-    position: relative;
-    margin-bottom: -57px;
+    position: absolute;
+    left: 53px;
+    margin-bottom: 3px;
+    margin-top: -53px;
 }
 
 .post-txt{
@@ -430,6 +517,14 @@ ion-icon{
     width: 54px;
     height: 54px;
     background: #cfcfcf;
+    margin-top: -5px;
+}
+
+.mat-button-i{
+    width: 54px;
+    height: 54px;
+    background: #cfcfcf;
+    margin-top: -5px;
 }
 .img-poster{
     width: 23%;

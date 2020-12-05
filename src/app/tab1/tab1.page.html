@@ -11,17 +11,15 @@
         </ion-col>
         <ion-col>
           <div *ngIf="!showSearch" class="example-button-container">
-            <button (click)="goToSearch()" class="btn-icon" mat-mini-fab
-              aria-label="Example icon button with a home icon">
-              <mat-icon>search</mat-icon>
+            <button class="btn-icon-header" (click)="goToSearch()" mat-mini-fab>
+              <mat-icon class="btn-icon">search</mat-icon>
             </button>
-            <button (click)="goToContacts()" class="btn-icon" mat-mini-fab
-              aria-label="Example icon button with a home icon">
-              <mat-icon>account_circle</mat-icon>
+            <button class="btn-icon-header" (click)="goToContacts()" mat-mini-fab>
+              <mat-icon class="btn-icon">account_circle</mat-icon>
             </button>
-            <button style="text-align: center;" mat-mini-fab aria-label="Example icon button with a home icon">
+            <button style="text-align: center;" mat-mini-fab>
               <ion-menu-button autoHide="false">
-                <mat-icon>settings</mat-icon>
+                <mat-icon class="btn-icon">settings</mat-icon>
               </ion-menu-button>
             </button>
           </div>
@@ -65,7 +63,7 @@
     </ion-slide>
 
 
-      <ion-slide *ngFor="let t of tutos" [ngStyle]="{'color': 'black', 'background-color': t?.background}"
+    <ion-slide *ngFor="let t of tutos" [ngStyle]="{'color': 'black', 'background-color': t?.background}"
       class="tuto-bg">
       <ion-grid *ngIf="isTutoSkip !== 'YES'">
         <ion-row>
@@ -82,9 +80,9 @@
               </span>
             </button>
 
-            <div  (click)="skipTuto()" class="example-button-row-tuto">
-                <button *ngIf="!disableNextBtn" mat-raised-button>Passer</button>
-                <button *ngIf="disableNextBtn" mat-raised-button>Terminer</button>
+            <div (click)="skipTuto()" class="example-button-row-tuto">
+              <button *ngIf="!disableNextBtn" mat-raised-button>Passer</button>
+              <button *ngIf="disableNextBtn" mat-raised-button>Terminer</button>
 
             </div>
           </div>
@@ -158,8 +156,8 @@
 
 
     </ion-slide>
-   
-  
+
+
 
     <ion-slide (click)="nextWhenVideo()" *ngFor="let p of listPosts | filter:search ;trackBy: trackByFn "
       [ngClass]="{'ion-slide-img': p?.image_url != '', 'ion-slide-no-img': p?.image_url == ''}" [ngStyle]="{
@@ -261,26 +259,66 @@
         </p>
 
 
-        <div [ngStyle]="{'bottom': p?.image_url || p?.video_url ? '0px' : '57px' }" class="match-img">
-
-          <div style="display: flex;margin-top: 12px;" *ngIf="!p?.image_url && !p?.video_url">
-            <span style="margin-right: 10px;">MATCHES</span>
-            <span style="margin-left: 6px;" *ngFor="let m of p?.matches | slice:0:3;">
-              <img class="match-image" *ngIf="m?.photo" [src]="m?.photo" alt="">
-              <div class="match-pseudo" *ngIf="m?.photo == null || m?.photo == ''"
-                [ngStyle]='{"color": p?.backgroundColor == "#fff" ? "black" : "white" }'>
-                {{m?.pseudoIntime | slice:0:1| uppercase}}
+        <div class="fixed-wrap"
+          [ngStyle]="{'margin-top': p?.image_url ? '-175px' : '-175px', 'margin-top': p?.video_url? '-185px': '-175px' }">
+          <div class="slidenav">
+            <div *ngIf="p?.image_url|| p?.video_url">
+              <div (click)="goToProfile(p?.userId)" style="float: right;">
+                <img *ngIf="p?.userPhoto_url" class="img img-media" [src]="p?.userPhoto_url" alt="">
               </div>
 
-            </span>
-            <span *ngIf="p?.matches?.length == 0"> 0</span>
-            <span *ngIf="p?.matches?.length > 3">
-              + {{p.matches?.length - 3}} </span> <br>
+              <div (click)="goToProfile(p?.userId)" style="float: right; color: #fff !important;" class="userPseudo-bg"
+                *ngIf="p?.image_url || p?.video_url">
+                <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class=" pseudo-media"
+                  [ngStyle]='{"color": p?.backgroundColor == "#fff" ? "black" : "white" }'>
+                  {{p?.userPseudo | slice:0:1| uppercase}}
+                </div>
+              </div>
+            </div>
+
+            <div class="menu">
+              <a (click)="presentCommentModal(p)">
+                <button mat-fab class="mat-button" color="primary">
+                  <ion-badge>{{p?.nbrComments}}</ion-badge>
+                  <ion-icon name="chatbubble-outline"></ion-icon>
+                </button>
+              </a>
+              <a (click)="removeFavorite(p?._id)" *ngIf="p?.favorite == true">
+                <button mat-fab class="mat-button-i" color="primary">
+                  <span class="material-icons mat-icon-btn">
+                    star
+                  </span>
+                </button>
+              </a>
+              <a (click)="addFavorite(p?._id)" *ngIf="p?.favorite !== true">
+                <button mat-fab class="mat-button-i" color="primary">
+                  <span class="material-icons mat-icon-btn">
+                    star_border
+                  </span>
+                </button>
+              </a>
+              <a (click)="presentShareModal(p)">
+                <button mat-fab class="mat-button-i" color="primary">
+                  <span class="material-icons mat-icon-btn">redo</span>
+                </button>
+              </a>
+              <a (click)="presentLinkModal(p, 'RECHERCHE')">
+                <button mat-fab class="mat-button-i" color="primary">
+                  <span class="material-icons mat-icon-btn">group_add </span>
+                </button>
+              </a>
+
+              <div (click)="presentLinkModal(p, 'MATCHES')" class="filigrane" style="font-weight: 800;font-size: 7px;">
+                <span class="match-txt">MATCHES</span>
+                <span style="margin-top: 6px;font-size: 13px;" *ngIf="p?.matches?.length == 0"> <br> 0</span>
+                <span style="margin-top: 6px;font-size: 13px;" *ngIf="p?.matches?.length > 3">+
+                  {{p.matches?.length - 3}} </span> <br>
+
+              </div>
+            </div>
           </div>
 
-          <div class="content-down" *ngIf="p?.image_url || p?.video_url"
-            [ngStyle]="{'font-size': p?.content.length > 20 ? '14px' : '17px', 'color': 'white', 'font-weight': '800' }"
-            (click)="next()">
+          <div *ngIf="p?.image_url || p?.video_url" class="userInfo">
             <span style="color: #ffff;margin-left: 50px !important;" *ngIf="p?.image_url || p?.video_url">
               <strong>
                 @{{p?.userPseudo}} -
@@ -308,136 +346,13 @@
               </span>
             </span><br>
 
-            <div style="float: left;margin-left: -8px;">
+            <div style="float: left;">
               {{ p?.content }}
             </div>
 
           </div>
         </div>
 
-        <ion-grid>
-          <ion-row>
-            <ion-col *ngIf="p?.image_url|| p?.video_url">
-              <div (click)="goToProfile(p?.userId)" style="float: right;">
-                <img *ngIf="p?.userPhoto_url" class="img img-media" [src]="p?.userPhoto_url" alt="">
-              </div>
-
-              <div (click)="goToProfile(p?.userId)" style="float: right; color: #fff !important;" class="userPseudo-bg"
-                *ngIf="p?.image_url || p?.video_url">
-                <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class=" pseudo-media"
-                  [ngStyle]='{"color": p?.backgroundColor == "#fff" ? "black" : "white" }'>
-                  {{p?.userPseudo | slice:0:1| uppercase}}
-                </div>
-              </div>
-
-            </ion-col>
-
-            <ion-col size="12">
-              <section>
-                <div class="example-button-row">
-                  <div class="example-flex-container">
-                    <div class="example-button-container " (click)="presentCommentModal(p)">
-                      <button mat-fab class="mat-button" color="primary"
-                        aria-label="Example icon button with a delete icon">
-                        <ion-badge>{{p?.nbrComments}}</ion-badge>
-                        <ion-icon style="font-size: 26px;margin-top: -3px;" name="chatbubble-outline"></ion-icon>
-                      </button>
-                    </div>
-
-                  </div>
-                </div>
-
-              </section>
-            </ion-col>
-            <ion-col size="12" *ngIf="p?.favorite == true">
-              <section>
-                <div class="example-button-row">
-                  <div class="example-flex-container">
-                    <div class="example-button-container" (click)="removeFavorite(p?._id)">
-                      <button mat-fab class="mat-button" color="primary"
-                        aria-label="Example icon button with a delete icon">
-                        <ion-icon style="    font-size: large;margin-top: -3px;" name="star"></ion-icon>
-                      </button>
-                    </div>
-
-                  </div>
-                </div>
-
-              </section>
-            </ion-col>
-            <ion-col size="12" *ngIf="p?.favorite != true">
-              <section>
-                <div class="example-button-row">
-                  <div class="example-flex-container">
-                    <div class="example-button-container" (click)="addFavorite(p?._id)">
-                      <button mat-fab class="mat-button" color="primary"
-                        aria-label="Example icon button with a delete icon">
-                        <ion-icon style="font-size: large;margin-top: -3px;" name="star-outline"></ion-icon>
-
-                      </button>
-                    </div>
-
-                  </div>
-                </div>
-
-              </section>
-            </ion-col>
-            <ion-col size="12">
-              <section>
-                <div class="example-button-row">
-                  <div class="example-flex-container">
-                    <div class="example-button-container">
-                      <button mat-fab color="primary" (click)="presentShareModal(p)" class="mat-button"
-                        aria-label="Example icon button with a delete icon">
-                        <span style="    margin-top: -4px;" class="material-icons">
-                          redo
-                        </span>
-                      </button>
-                    </div>
-
-                  </div>
-                </div>
-              </section>
-            </ion-col>
-            <ion-col size="12">
-              <section>
-                <div class="example-button-row">
-                  <div class="example-flex-container">
-                    <div class="example-button-container" (click)="presentLinkModal(p, 'RECHERCHE')">
-                      <button mat-fab color="primary" class="mat-button"
-                        aria-label="Example icon button with a delete icon">
-                        <span style="    margin-top: -4px;" class="material-icons">
-                          group_add
-                        </span>
-                      </button>
-                    </div>
-
-                  </div>
-                </div>
-
-              </section>
-            </ion-col>
-            <ion-col size="12">
-              <div (click)="presentLinkModal(p, 'MATCHES')" class="filigrane" style="float: right;font-weight: 800;font-size: 7px;"
-                *ngIf="p?.image_url || p?.video_url">
-                <span>MATCHES</span>
-                <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0"> <br> 0</span>
-                <span style="margin-top: 6px;" *ngIf="p?.matches?.length > 3">+ {{p.matches?.length - 3}} </span> <br>
-
-              </div>
-            </ion-col>
-            <!--ion-col *ngIf="p?.image_url || p?.video_url" size="12">
-              <span class="match-align" *ngFor="let m of p?.matches | slice:0:3;">
-                <img class="match-image" *ngIf="m?.photo" [src]="m?.photo" alt="">
-                <div class="match-pseudo" *ngIf="m?.photo == null || m?.photo ==''"
-                  [ngStyle]='{"color": p?.backgroundColor == "#fff" ? "black" : "white" }'>
-                  {{m?.prenom | slice:0:1| uppercase}}
-                </div>
-              </span>
-
-            </ion-col-->
-          </ion-row>
-        </ion-grid>
       </div>
 
 
