@@ -20,8 +20,8 @@ import { oneSignalAppId, sender_id } from 'src/config';
 })
 export class AppComponent {
   navigate: any;
-  userId =  ''
-  userInfo:any
+  userId = ''
+  userInfo: any
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -40,7 +40,6 @@ export class AppComponent {
     this.initializeApp();
     this.sideMenu();
     this.oneSignale()
-
     const event = fromEvent(document, 'backbutton');
     event.subscribe(async () => {
       // logic for navigation, modal, popover, menu closing
@@ -62,7 +61,7 @@ export class AppComponent {
     let token = localStorage.getItem('teepzyToken')
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
-    this.getUserInfo(this.userId, token)
+   // this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
@@ -104,16 +103,16 @@ export class AppComponent {
   private onPushReceived(payload: OSNotificationPayload) {
     // alert('Push opened: ' + payload.body)
   }
-  
-  oneSignale(){
+
+  oneSignale() {
     if (isCordovaAvailable) {
       this.oneSignal.startInit(oneSignalAppId, sender_id);
       this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
       this.oneSignal.handleNotificationReceived().subscribe(data => this.onPushReceived(data.payload));
-     this.oneSignal.handleNotificationOpened().subscribe(data => {
-      this.onPushOpened(data.notification.payload)
-      this.router.navigateByUrl('/tabs/tab2')
-     } );
+      this.oneSignal.handleNotificationOpened().subscribe(data => {
+        this.onPushOpened(data.notification.payload)
+        this.router.navigateByUrl('/tabs/tab2')
+      });
       this.oneSignal.endInit();
       // Then You Can Get Devices ID
       this.oneSignal.getIds().then(identity => {
@@ -124,46 +123,46 @@ export class AppComponent {
 
   getUserInfo(userId, token) {
     this.authService.myInfos(userId).subscribe(res => {
-     // console.log(res)
+      // console.log(res)
       this.userInfo = res['data'];
       if (token && this.userInfo['isCompleted']) {
-        this.socket.emit('online', userId );  
+        this.socket.emit('online', userId);
         let user = {
           userId: userId,
           isOnline: true
         }
-        this.contactService.getConnected(user).subscribe(res =>{
-       //   console.log(res)
+        this.contactService.getConnected(user).subscribe(res => {
+          //   console.log(res)
         })
-         this.router.navigateByUrl('/tabs/tab1', {
-           replaceUrl: true
-         }
-  
-         )
-        }else if(token && !this.userInfo['isCompleted']){
-          this.router.navigateByUrl('/signup-final', {
-            replaceUrl: true
-          }
-          )
-         }
-        else if(!token){
-         this.router.navigateByUrl('/debut', {
-           replaceUrl: true
-         }
-         )
+        this.router.navigateByUrl('/tabs/tab1', {
+          replaceUrl: true
         }
-    }, error => {
-     // console.log(error)
-      if(!token){
+
+        )
+      } else if (token && !this.userInfo['isCompleted']) {
+        this.router.navigateByUrl('/signup-final', {
+          replaceUrl: true
+        }
+        )
+      }
+      else if (!token) {
         this.router.navigateByUrl('/debut', {
           replaceUrl: true
         }
         )
-       }
+      }
+    }, error => {
+      // console.log(error)
+      if (!token) {
+        this.router.navigateByUrl('/debut', {
+          replaceUrl: true
+        }
+        )
+      }
     })
   }
 
-  
+
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
@@ -185,57 +184,57 @@ export class AppComponent {
 
   }
 
-  goToEditInfo(){
+  goToEditInfo() {
     this.router.navigateByUrl('/edit-info')
 
   }
 
-  goToEditPass(){
+  goToEditPass() {
     this.router.navigateByUrl('/edit-pass')
 
   }
 
-  goToReport(){
+  goToReport() {
     this.router.navigateByUrl('/report-bug')
 
   }
 
-  goToSuggest(){
+  goToSuggest() {
     this.router.navigateByUrl('/suggest')
 
   }
-  goToAutorisations(){
+  goToAutorisations() {
     this.router.navigateByUrl('/autorisation')
   }
 
-  goToPrivacy(){
+  goToPrivacy() {
     this.router.navigateByUrl('/privacy')
   }
 
 
-  goToConditions(){
+  goToConditions() {
     this.router.navigateByUrl('/conditions')
   }
 
-  goToNotifications(){
+  goToNotifications() {
     this.router.navigateByUrl('/notifications')
   }
 
 
-  ngDoCheck(){
+  ngDoCheck() {
 
   }
 
-  ngOnDestroy(){
-  //  console.log('user has quit')
+  ngOnDestroy() {
+    //  console.log('user has quit')
     let user = {
       userId: this.userId,
       isOnline: false
     }
-    this.contactService.getConnected(user).subscribe(res =>{
-    //  console.log(res)
+    this.contactService.getConnected(user).subscribe(res => {
+      //  console.log(res)
     })
-    this.socket.emit('disconnect', this.userId );
+    this.socket.emit('disconnect', this.userId);
   }
-  
+
 }

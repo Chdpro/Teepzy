@@ -14,6 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { typeAccount, MESSAGES } from '../constant/constant';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
+import { post } from 'selenium-webdriver/http';
 
 
 @Component({
@@ -444,7 +445,7 @@ export class Tab1Page implements OnInit {
 
   }
 
-  async presentLinkModal(post) {
+  async presentLinkModal(post, typeMatch) {
     if (this.globals.showBackground) {
       this.globals.showBackground = false;
     } else {
@@ -452,7 +453,7 @@ export class Tab1Page implements OnInit {
     }
     const modal = await this.modalController.create({
       component: LinkSheetPage,
-      componentProps: post,
+      componentProps: {post: post, typeMatch: typeMatch},
       backdropDismiss: false,
       showBackdrop: true,
       swipeToClose: true,
@@ -551,6 +552,7 @@ export class Tab1Page implements OnInit {
             createdAt: e['createdAt'],
             reposterId: e['reposterId'],
             matches: e['matches'],
+            nbrComments: e['nbrComments'],
             favorite: true
           },
         )
@@ -571,6 +573,7 @@ export class Tab1Page implements OnInit {
             createdAt: e['createdAt'],
             reposterId: e['reposterId'],
             matches: e['matches'],
+            nbrComments: e['nbrComments'],
             favorite: false
           },
         )

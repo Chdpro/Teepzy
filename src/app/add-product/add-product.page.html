@@ -25,7 +25,7 @@
               </ion-col>
             </ion-row>
 
-    
+
             <!-- fab placed to the bottom end -->
             <ion-fab (click)="selectImage()" vertical="center" horizontal="center" slot="fixed">
               <ion-fab-button color="light">
@@ -50,10 +50,8 @@
               placeholder="Prix">
           </mat-form-field>
           <mat-form-field class="example-full-width">
-            <textarea matInput name="description" #description="ngModel"
-            maxlength="100" rows="5"
-            (ngModelChange)="maxLengthDescription($event)"
-            required [(ngModel)]="product.description"
+            <textarea matInput name="description" #description="ngModel" maxlength="100" rows="5"
+              (ngModelChange)="maxLengthDescription($event)" required [(ngModel)]="product.description"
               placeholder="DESCRIPTION"></textarea>
           </mat-form-field>
           <span>
@@ -85,6 +83,14 @@
             </mat-chip-list>
           </mat-form-field>
 
+          <!-- Checkboxes in a List -->
+          <ion-list>
+            <ion-item >
+              <ion-label> Publier sur mon fil d'actualité </ion-label>
+              <ion-checkbox slot="end" name="OnFeed" [(ngModel)]="postOnFeed"></ion-checkbox>
+            </ion-item>
+          </ion-list>
+
         </form>
       </ion-col>
     </ion-row>
@@ -96,8 +102,7 @@
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <ion-button expand="block" class="save-btn" 
-    [disabled]="
+    <ion-button expand="block" class="save-btn" [disabled]="
           nom.errors?.required 
           || price.errors?.required
           || description.errors?.required

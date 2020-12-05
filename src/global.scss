@@ -26,6 +26,7 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 @import '~pretty-checkbox/src/pretty-checkbox.scss';
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
 
 
 .example-full-width{
@@ -148,6 +149,9 @@ iframe{
     outline: none !important;
     box-shadow: none !important;
   }
+  input:focus, textarea:focus, select:focus{
+    outline: none;
+}
   
   .modal, .modal2, .modal3{
     display: block !important;

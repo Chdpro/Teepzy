@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-grid>
+    <ion-grid class="ion-grid-header">
       <ion-row>
         <ion-col size="6">
           <h3 style="margin-top: 9px;color: #ea4e50;font-size: 20px;">
@@ -261,7 +261,7 @@
         </p>
 
 
-        <div [ngStyle]="{'bottom': p?.image_url || p?.video_url ? '-30px' : '57px' }" class="match-img">
+        <div [ngStyle]="{'bottom': p?.image_url || p?.video_url ? '0px' : '57px' }" class="match-img">
 
           <div style="display: flex;margin-top: 12px;" *ngIf="!p?.image_url && !p?.video_url">
             <span style="margin-right: 10px;">MATCHES</span>
@@ -316,7 +316,7 @@
         </div>
 
         <ion-grid>
-          <ion-row [ngStyle]=" {'margin-top': !p?.image_url && !p?.video_url? '-111px' : '0'}">
+          <ion-row>
             <ion-col *ngIf="p?.image_url|| p?.video_url">
               <div (click)="goToProfile(p?.userId)" style="float: right;">
                 <img *ngIf="p?.userPhoto_url" class="img img-media" [src]="p?.userPhoto_url" alt="">
@@ -339,6 +339,7 @@
                     <div class="example-button-container " (click)="presentCommentModal(p)">
                       <button mat-fab class="mat-button" color="primary"
                         aria-label="Example icon button with a delete icon">
+                        <ion-badge>{{p?.nbrComments}}</ion-badge>
                         <ion-icon style="font-size: 26px;margin-top: -3px;" name="chatbubble-outline"></ion-icon>
                       </button>
                     </div>
@@ -402,7 +403,7 @@
               <section>
                 <div class="example-button-row">
                   <div class="example-flex-container">
-                    <div class="example-button-container" (click)="presentLinkModal(p)">
+                    <div class="example-button-container" (click)="presentLinkModal(p, 'RECHERCHE')">
                       <button mat-fab color="primary" class="mat-button"
                         aria-label="Example icon button with a delete icon">
                         <span style="    margin-top: -4px;" class="material-icons">
@@ -417,7 +418,7 @@
               </section>
             </ion-col>
             <ion-col size="12">
-              <div class="filigrane" style="float: right;font-weight: 800;font-size: 7px;"
+              <div (click)="presentLinkModal(p, 'MATCHES')" class="filigrane" style="float: right;font-weight: 800;font-size: 7px;"
                 *ngIf="p?.image_url || p?.video_url">
                 <span>MATCHES</span>
                 <span style="margin-top: 6px;" *ngIf="p?.matches?.length == 0"> <br> 0</span>
@@ -425,7 +426,7 @@
 
               </div>
             </ion-col>
-            <ion-col *ngIf="p?.image_url || p?.video_url" size="12">
+            <!--ion-col *ngIf="p?.image_url || p?.video_url" size="12">
               <span class="match-align" *ngFor="let m of p?.matches | slice:0:3;">
                 <img class="match-image" *ngIf="m?.photo" [src]="m?.photo" alt="">
                 <div class="match-pseudo" *ngIf="m?.photo == null || m?.photo ==''"
@@ -434,7 +435,7 @@
                 </div>
               </span>
 
-            </ion-col>
+            </ion-col-->
           </ion-row>
         </ion-grid>
       </div>

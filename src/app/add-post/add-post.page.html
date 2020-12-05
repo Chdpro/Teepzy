@@ -21,11 +21,11 @@
     <div class="post-txt">
 
 
-      <div *ngIf="userPhoto?.length > 0">
-        <img *ngFor="let img of userPhoto" class="img" [src]="img" alt="">
+      <div *ngIf="user?.photo && user?.photo !== ''">
+        <img class="img" [src]="user?.photo" alt="">
       </div>
 
-      <div *ngIf="userPhoto?.length == 0" class="round-img-post"
+      <div *ngIf="user?.photo == null || user?.photo == ''" class="round-img-post"
         [ngStyle]='{"color": post?.backgroundColor == "#fff" ? "black" : "white" }'>
         {{user?.pseudoIntime | slice:0:1| uppercase}}
       </div>

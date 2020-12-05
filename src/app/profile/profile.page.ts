@@ -86,6 +86,7 @@ export class ProfilePage implements OnInit {
   highValue: number = 4;
 
   previousUrl = ''
+  isMyProfile = false
 
   constructor(private router: Router, private modalController: ModalController,
     private dataPass: DatapasseService,
@@ -146,10 +147,13 @@ export class ProfilePage implements OnInit {
       this.getUserInfo(userId)
       this.getMyPosts(userId)
       this.getMyFavoritePosts(userId)
+      this.isMyProfile = true
     }else{
       this.getUserInfo(idUser)
       this.getMyPosts(idUser)
       this.getMyFavoritePosts(idUser)
+      this.isMyProfile = false
+
     }
    
   }

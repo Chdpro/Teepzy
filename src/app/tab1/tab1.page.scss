@@ -12,6 +12,14 @@ video{
 
 }
 
+// badge css
+
+ion-badge{
+    position: absolute;
+    bottom: 27px;
+    left: 2px;
+}
+
 .swipe-btn{
     z-index: 200;
     position: fixed;
@@ -272,6 +280,7 @@ mat-card-header{
     border-radius: 100%;
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%;
+    top: 276px;
 }
 
 .match-image{
@@ -381,6 +390,7 @@ ion-icon{
     height: 54px;
     width: 54px;
     margin-right: -3px;
+    box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
 }
 .content{
     display: block;
@@ -565,10 +575,11 @@ ion-button{
 
 }
 
-ion-grid{
+.ion-grid-header{
     position: relative;
     bottom: 0;
 }
+
 
 
 //modal

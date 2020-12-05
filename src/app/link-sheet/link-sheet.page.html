@@ -11,7 +11,7 @@
   </ion-refresher>
   <div class="mat-content" (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
     <mat-tab-group [(selectedIndex)]="selectedTab" color="warn" mat-align-tabs="center">
-      <mat-tab label="Match">
+      <mat-tab *ngIf="typeMatch =='MATCHES'" label="Match">
         <div class="item-wrapper">
 
           <ion-item *ngFor="let m of matches| filter:filtre ;trackBy: trackByFn " (click)="addLink(m)">
@@ -39,7 +39,7 @@
           Aucun match pour ce post
         </div>
       </mat-tab>
-      <mat-tab label="Recherche">
+      <mat-tab *ngIf="typeMatch =='RECHERCHE'" label="Recherche">
 
         <div class="input-container">
           <input class="input-s" type="text" [(ngModel)]='filtre' placeholder="filtrer...">

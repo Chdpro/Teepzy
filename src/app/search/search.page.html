@@ -13,19 +13,24 @@
 
     <!--  tabs aprt -->
     <ion-row>
-      <ion-col>
-        <form class="example-form">
-          <input type="text" class="input-s" aria-label="Number" #searchValue="ngModel" [(ngModel)]='search.searchValue'
-            (ngModelChange)="searchOn()" name="autoComplete" [matAutocomplete]="auto">
-          <mat-icon class="search-icon" matSuffix>search</mat-icon>
+      <ion-col size="12">
+
+          <div class="search">
+            <span class="fa fa-search"></span>
+            <input placeholder="Rechercher" #searchValue="ngModel" [(ngModel)]='search.searchValue'
+              (ngModelChange)="searchOn()" name="autoComplete" [matAutocomplete]="auto">
+          </div>
+
+
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <span>
-              <mat-option *ngFor="let option of listTeepZrs |filter:search.searchValue " [value]="option?.pseudoIntime">
+              <mat-option *ngFor="let option of listTeepZrs |filter:search.searchValue "
+              [ngClass]="{'hide-autocomplete': !showAutocomplete}"
+               [value]="option?.pseudoIntime">
                 @{{option?.pseudoIntime}}
               </mat-option>
             </span>
           </mat-autocomplete>
-        </form>
 
       </ion-col>
       <!--ion-col size="12">
@@ -290,7 +295,8 @@
                           <ion-row>
                             <ion-col size="4">
                               <div>
-                                <img *ngIf="lt?.userPhoto_url" class="round-img-post-miss" [src]="lt?.userPhoto_url" alt="">
+                                <img *ngIf="lt?.userPhoto_url" class="round-img-post-miss" [src]="lt?.userPhoto_url"
+                                  alt="">
 
 
                                 <div *ngIf="lt?.userPhoto_url =='' || lt?.userPhoto_url == null"

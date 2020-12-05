@@ -151,6 +151,14 @@ const routes: Routes = [
     path: 'edit-snap-img',
     loadChildren: () => import('./edit-snap-img/edit-snap-img.module').then( m => m.EditSnapImgPageModule)
   },
+  {
+    path: 'forgot-pass',
+    loadChildren: () => import('./forgot-pass/forgot-pass.module').then( m => m.ForgotPassPageModule)
+  },
+  {
+    path: 'feed',
+    loadChildren: () => import('./feed/feed.module').then( m => m.FeedPageModule)
+  },
 
 ];
 @NgModule({

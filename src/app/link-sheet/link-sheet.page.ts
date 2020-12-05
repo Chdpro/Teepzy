@@ -36,6 +36,7 @@ export class LinkSheetPage implements OnInit {
   matches = []
   checkItems = {}
   filtre:any
+  typeMatch = ''
 
   constructor(private modalController: ModalController, 
     private contactService: ContactService,
@@ -55,8 +56,9 @@ export class LinkSheetPage implements OnInit {
   }
 
   ionViewWillEnter(){
-    let post = this.navParams.data;
-   // console.log(post)
+    let post = this.navParams.data['post'];
+    this.typeMatch = this.navParams.data['typeMatch'];
+   console.log(post)
     this.publication.userId = post.userId
     this.publication._id = post._id
     this.matches = post.matches

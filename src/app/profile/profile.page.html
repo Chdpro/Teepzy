@@ -42,7 +42,7 @@
       <span>{{user?.localisation}}</span>
     </div>
     <div>
-      <mat-card (click)="goToMembers()" class="card-banner">{{relationsCount || '0' }} Teepzer <span *ngIf="relationsCount > 1">s</span>
+      <mat-card (click)="goToMembers()" class="card-banner">{{relationsCount || '0' }} Teepzer <span *ngIf="relationsCount > 1" class="s-text" >s</span>
       </mat-card>
     </div>
   </div>
@@ -266,7 +266,7 @@
             <ion-col size="12">
               <h2>
                 Projets
-                <button (click)="presentAddProjectModal()" mat-button>
+                <button *ngIf="isMyProfile" (click)="presentAddProjectModal()" mat-button>
                   <span class="material-icons add-icon">
                     add
                   </span>
@@ -301,7 +301,7 @@
             <ion-col size="12">
               <h2>
                 E-Shop
-                <button (click)="presentAddProductModal()" mat-button>
+                <button *ngIf="isMyProfile" (click)="presentAddProductModal()" mat-button>
                   <span class="material-icons add-icon">
                     add
                   </span>

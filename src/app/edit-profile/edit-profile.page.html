@@ -83,13 +83,17 @@
                   <input matInput name="localisation2" [(ngModel)]="profile1.localisation" placeholder="LOCALISATION">
                 </mat-form-field>
 
-                <input matInput name="biolabel" [disabled]="!isEditableB" class="input-label"
+                <mat-form-field class="example-form-field">
+                  <mat-label></mat-label>
+                  <input matInput name="biolabel" [disabled]="!isEditableB" class="input-label"
                   [(ngModel)]="profile1.bioLabel">
-                <mat-icon class="edit-icon" (click)="swithEditModeB()" matSuffix>mode_edit</mat-icon>
-
+                  <button mat-button (click)="swithEditModeB()" matSuffix mat-icon-button aria-label="Clear" >
+                    <mat-icon class="mode_edit">mode_edit</mat-icon>
+                  </button>
+                </mat-form-field>
+          
                 <mat-form-field class="example-full-width">
                   <input matInput name="bio" [(ngModel)]="profile1.bio" placeholder="">
-
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
@@ -97,10 +101,14 @@
                   <input matInput name="siteweb2" [(ngModel)]="profile1.siteweb" placeholder="SITE WEB">
                 </mat-form-field>
 
-                <input matInput name="label" [disabled]="!isEditableH" class="input-label"
-                  [(ngModel)]="profile1.tagsLabel">
-                <mat-icon class="edit-icon" (click)="swithEditModeH()" matSuffix>mode_edit</mat-icon>
-
+                <mat-form-field>
+                    <input matInput name="label" [disabled]="!isEditableH" class="input-label"
+                    [(ngModel)]="profile1.tagsLabel">
+                  <button mat-button (click)="swithEditModeH()" matSuffix mat-icon-button aria-label="Clear" >
+                    <mat-icon class="mode_edit" >mode_edit</mat-icon>
+                  </button>
+                </mat-form-field>
+            
                 <mat-form-field class="example-chip-list">
 
                   <mat-chip-list #chipList aria-label="Fruit selection">

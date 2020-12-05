@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import { ToastController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MESSAGES } from '../constant/constant';
 
 @Component({
@@ -19,7 +19,8 @@ export class FriendsPage implements OnInit {
   constructor(
     private contactService: ContactService,
     private toastController:ToastController,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -64,6 +65,10 @@ export class FriendsPage implements OnInit {
       this.loading = false
 
     })
+  }
+
+  gotoProfile(idUser){
+    this.router.navigate(['/tabs/profile', { userId: idUser }])
   }
 
   async presentToast(msg) {

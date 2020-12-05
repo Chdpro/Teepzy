@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
@@ -21,17 +21,19 @@ import { MESSAGES } from '../constant/constant';
 export class AddProductPage implements OnInit {
 
 
+  postOnFeed = false
   title = 'E-shop'
   product = {
     userId: '',
     nom: '',
     photo: [],
-    tags : [],
+    tags: [],
     description: '',
     price: ''
   }
 
-  subscription: Subscription;  
+
+  subscription: Subscription;
   listProducts = []
   loading = false
 
@@ -42,14 +44,15 @@ export class AddProductPage implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags = [
-   
+
   ];
 
   photos: any = [];
   filesName = new Array();
   dispImags = []
   showModal = 'hidden'
-  constructor(private modalController: ModalController, 
+  user: any
+  constructor(private modalController: ModalController,
     private toasterController: ToastController,
     private authService: AuthService,
     private dataPass: DatapasseService,
@@ -60,250 +63,299 @@ export class AddProductPage implements OnInit {
     private menuCtrl: MenuController,
     private androidPermissions: AndroidPermissions,
     private contactService: ContactService) {
-      this.menuCtrl.close('first');
-      this.menuCtrl.swipeGesture(false);      
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
+  }
+
+  ngOnInit() {
+    let userId = localStorage.getItem('teepzyUserId')
+    this.product.userId = userId
+    this.getUserInfo(userId)
+  }
+
+  getUserInfo(userId) {
+    this.authService.myInfos(userId).subscribe(res => {
+      // console.log(res)
+      this.user = res['data'];
+    }, error => {
+      // console.log(error)
+    })
+  }
+
+
+  dismiss() {
+    // using the injected ModalController this page
+    // can "dismiss" itself and optionally pass back data
+    this.modalController.dismiss({
+      'dismissed': true
+    });
+  }
+
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.tags.push(value.trim());
     }
 
-    ngOnInit() {
-      let userId = localStorage.getItem('teepzyUserId')
-      this.product.userId = userId
-  
+    // Reset the input value
+    if (input) {
+      input.value = '';
     }
+  }
 
-    dismiss() {
-      // using the injected ModalController this page
-      // can "dismiss" itself and optionally pass back data
-      this.modalController.dismiss({
-        'dismissed': true
-      });
+
+  remove(tag): void {
+    const index = this.tags.indexOf(tag);
+    if (index >= 0) {
+      this.tags.splice(index, 1);
     }
+  }
 
-    
-    add(event: MatChipInputEvent): void {
-      const input = event.input;
-      const value = event.value;
-  
-      // Add our fruit
-      if ((value || '').trim()) {
-        this.tags.push(value.trim());
+  getProducts(userId) {
+    this.authService.myInfos(userId).subscribe(res => {
+      // console.log(res)
+      this.listProducts = res['products']
+      this.dataPass.sendProducts(this.listProducts);
+    }, error => {
+      //console.log(error)
+    })
+  }
+
+  maxLengthDescription(ev: Event) {
+    let desc = this.product.description
+    this.product.description.length > 100 ? this.product.description = desc.slice(0, 99) : null
+    // console.log(this.product.description.slice(0, 99))
+  }
+
+  addPost(post) {
+    this.contactService.addPost(post).subscribe(res => {
+      this.presentToast("Publié sur le fil d'actualité")
+    }, error => {
+      // this.presentToast(MESSAGES.ADD_FEED_ERROR)
+
+    })
+  }
+
+  addProduct() {
+    if (this.postOnFeed === true) {
+      let post = {
+        userId: this.product.userId,
+        content: this.product.description,
+        image_url: this.product.photo,
+        video_url: '',
+        userPhoto_url: this.user.photo,
+        backgroundColor: '#fff',
+        userPseudo: this.user.pseudoIntime
       }
-  
-      // Reset the input value
-      if (input) {
-        input.value = '';
-      }
-    }
-  
-  
-    remove(tag): void {
-      const index = this.tags.indexOf(tag);
-      if (index >= 0) {
-        this.tags.splice(index, 1);
-      }
-    }
-  
-    getProducts(userId) {
-      this.authService.myInfos(userId).subscribe(res => {
-       // console.log(res)
-        this.listProducts = res['products']
-        this.dataPass.sendProducts(this.listProducts);  
-      }, error =>{
-        //console.log(error)
-      })
-    }
-  
-    maxLengthDescription(ev:Event){
-      let desc = this.product.description
-      this.product.description.length > 100 ? this.product.description =  desc.slice(0,99): null 
-     // console.log(this.product.description.slice(0, 99))
-    }
 
-    addProduct(){
       this.loading = true
       this.tags.length > 0 ? this.product.tags = this.tags : null;
-      this.contactService.addProduct(this.product).subscribe(res =>{
-       // console.log(res);
+      this.contactService.addProduct(this.product).subscribe(res => {
+        // console.log(res);
+        this.loading = false
+        this.presentToast(MESSAGES.SHOP_CREATED_OK);
+        let userId = localStorage.getItem('teepzyUserId')
+        this.getProducts(userId)
+        this.addPost(post)
+        this.dismiss()
+      }, error => {
+        // console.log(error)
+        this.loading = false
+        this.presentToast(MESSAGES.SHOP_CREATED_ERROR)
+      })
+
+    } else {
+      this.loading = true
+      this.tags.length > 0 ? this.product.tags = this.tags : null;
+      this.contactService.addProduct(this.product).subscribe(res => {
+        // console.log(res);
         this.loading = false
         this.presentToast(MESSAGES.SHOP_CREATED_OK);
         let userId = localStorage.getItem('teepzyUserId')
         this.getProducts(userId)
         this.dismiss()
-      }, error =>{
-       // console.log(error)
+      }, error => {
+        // console.log(error)
         this.loading = false
         this.presentToast(MESSAGES.SHOP_CREATED_ERROR)
       })
     }
-  
 
-    pickImagePermission(sourceType) {
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
-        result => {
-          if (result.hasPermission) {
-            // code
-            this.pickImage(sourceType)
-          } else {
-            this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
-              if (result.hasPermission) {
-                // code
-                this.pickImage(sourceType)
-              }
-            });
-          }
-        },
-        err => {
-          alert(err)
-          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
-        }
-      );
-    }
-  
-    takeImagePermission(sourceType) {
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
-        result => {
-          if (result.hasPermission) {
-            // code
-            this.pickImage(sourceType)
-          } else {
-            this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => {
-              if (result.hasPermission) {
-                // code
-                this.pickImage(sourceType)
-              }
-            });
-          }
-        },
-        err => {
-          alert(err)
-          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE)
-        }
-      );
-    }
+  }
 
-    async selectImage() {
-      const actionSheet = await this.actionSheetController.create({
-        header: "Select Image source",
-        buttons: [{
-          text: 'Choisir dans votre galerie',
-          handler: () => {
-            this.pickImagePermission(this.camera.PictureSourceType.PHOTOLIBRARY);
-          }
-        },
-        {
-          text: 'Utiliser la Camera',
-          handler: () => {
-            this.takeImagePermission(this.camera.PictureSourceType.CAMERA);
-          }
-        },
-        {
-          text: 'Annuler',
-          role: 'cancel'
+
+  pickImagePermission(sourceType) {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.pickImage(sourceType)
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.pickImage(sourceType)
+            }
+          });
         }
-        ]
-      });
-      await actionSheet.present();
-    }
-  
-  
-  
-    pickImage(sourceType) {
-      const options: CameraOptions = {
-        quality: 100,
-        sourceType: sourceType,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
       }
-      this.camera.getPicture(options).then((imageData) => {
-        // imageData is either a base64 encoded string or a file URI
-        // If it's base64 (DATA_URL):
-        // let base64Image = 'data:image/jpeg;base64,' + imageData;
-        if (this.dispImags.length == 0) {
+    );
+  }
+
+  takeImagePermission(sourceType) {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
+      result => {
+        if (result.hasPermission) {
+          // code
+          this.pickImage(sourceType)
+        } else {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(result => {
+            if (result.hasPermission) {
+              // code
+              this.pickImage(sourceType)
+            }
+          });
+        }
+      },
+      err => {
+        alert(err)
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE)
+      }
+    );
+  }
+
+  async selectImage() {
+    const actionSheet = await this.actionSheetController.create({
+      header: "Select Image source",
+      buttons: [{
+        text: 'Choisir dans votre galerie',
+        handler: () => {
+          this.pickImagePermission(this.camera.PictureSourceType.PHOTOLIBRARY);
+        }
+      },
+      {
+        text: 'Utiliser la Camera',
+        handler: () => {
+          this.takeImagePermission(this.camera.PictureSourceType.CAMERA);
+        }
+      },
+      {
+        text: 'Annuler',
+        role: 'cancel'
+      }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+
+
+  pickImage(sourceType) {
+    const options: CameraOptions = {
+      quality: 100,
+      sourceType: sourceType,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      // let base64Image = 'data:image/jpeg;base64,' + imageData;
+      if (this.dispImags.length == 0) {
         this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
         this.filePath.resolveNativePath(imageData).then((nativepath) => {
           if (this.photos.length == 0) {
             this.photos.push(nativepath)
-          } 
-        })
-        }else if (this.dispImags.length > 1) {
-          this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
-        }
-  
-      }, (err) => {
-        // Handle error
-        alert(JSON.stringify(err))
-
-      });
-    }
-  
-  
-    uploadImage() {
-      var ref = this;
-      this.loading = true
-      if (ref.photos.length > 0) {
-        for (let index = 0; index < ref.photos.length; index++) {
-          const fileTransfer = ref.transfer.create()
-          let options: FileUploadOptions = {
-            fileKey: "avatar",
-            fileName: (Math.random() * 100000000000000000) + '.jpg',
-            chunkedMode: false,
-            mimeType: "image/jpeg",
-            headers: {},
           }
-          var serverUrl = base_url + 'upload-avatar'
-          this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
-          fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
+        })
+      } else if (this.dispImags.length > 1) {
+        this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
+      }
+
+    }, (err) => {
+      // Handle error
+      // alert(JSON.stringify(err))
+
+    });
+  }
+
+
+  uploadImage() {
+    var ref = this;
+    this.loading = true
+    if (ref.photos.length > 0) {
+      for (let index = 0; index < ref.photos.length; index++) {
+        const fileTransfer = ref.transfer.create()
+        let options: FileUploadOptions = {
+          fileKey: "avatar",
+          fileName: (Math.random() * 100000000000000000) + '.jpg',
+          chunkedMode: false,
+          mimeType: "image/jpeg",
+          headers: {},
+        }
+        var serverUrl = base_url + 'upload-avatar'
+        this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
+        fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
+          this.loading = false
+          this.product.photo.push(base_url + options.fileName)
+          this.addProduct()
+          //this.photos = [],
+          this.dispImags = []
+        }, error => {
+          alert(JSON.stringify(error))
+        })
+      }
+    }
+
+  }
+
+
+
+  uploadImages() {
+    var interval = 0;
+    var ref = this;
+
+    function InnerFunc() {
+      if (ref.photos.length > 0) {
+        const fileTransfer = ref.transfer.create()
+        let options: FileUploadOptions = {
+          fileKey: "photo",
+          fileName: (Math.random() * 100000000000000000) + '.jpg',
+          chunkedMode: false,
+          mimeType: "image/jpeg",
+          headers: {},
+
+        }
+
+        var serverUrl = base_url + 'upload-avatar'
+        fileTransfer.upload(ref.photos[interval], serverUrl, options).then((data) => {
+          interval++;
+          if (interval < ref.photos.length) {
             this.loading = false
             this.product.photo.push(base_url + options.fileName)
-            this.addProduct()
-            //this.photos = [],
-            this.dispImags = []
-          }, error =>{
-            alert(JSON.stringify(error))
-          })
-        }
-      }
-  
-    }
-
-
-
-    uploadImages() {
-      var interval = 0;
-      var ref = this;
-     
-      function InnerFunc() {
-        if (ref.photos.length) {
-          const fileTransfer = ref.transfer.create()
-          let options: FileUploadOptions = {
-            fileKey: "photo",
-            fileName: (Math.random() * 100000000000000000) + '.jpg',
-            chunkedMode: false,
-            mimeType: "image/jpeg",
-            headers: {},
-    
+            InnerFunc();
+          } else {
+            this.loading = false
+            ref.addProduct()
           }
-    
-          var serverUrl = base_url + 'upload-avatar'
-          fileTransfer.upload(ref.photos[interval], serverUrl, options).then((data) => {
-            interval++;
-            if (interval < ref.photos.length) {
-              this.loading = false
-              this.product.photo.push(base_url + options.fileName)
-              InnerFunc();
-            } else {
-              this.loading = false
-              ref.addProduct()
-            }
-          })
-        } else {
-          ref.addProduct()
-        }
-     
+        })
+      } else {
+        ref.addProduct()
       }
-      InnerFunc()
+
     }
-  
+    InnerFunc()
+  }
+
 
   uploadImagePermission() {
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
@@ -326,20 +378,20 @@ export class AddProductPage implements OnInit {
       }
     );
   }
-  
-  
-    async presentToast(msg) {
-      const toast = await this.toasterController.create({
-        message: msg,
-        duration: 4000
-      });
-      toast.present();
-    }
-  
 
-    ngOnDestroy() { 
-      this.subscription?  this.subscription.unsubscribe() :  null
-      //this.socket.removeAllListeners('message');
-      //this.socket.removeAllListeners('users-changed');
-    }
+
+  async presentToast(msg) {
+    const toast = await this.toasterController.create({
+      message: msg,
+      duration: 4000
+    });
+    toast.present();
+  }
+
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
+    //this.socket.removeAllListeners('message');
+    //this.socket.removeAllListeners('users-changed');
+  }
 }

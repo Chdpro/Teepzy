@@ -372,7 +372,7 @@ export class EditProfilePage implements OnInit {
 
     }, (err) => {
       // Handle error
-      alert(JSON.stringify(err))
+     // alert(JSON.stringify(err))
 
     });
   }

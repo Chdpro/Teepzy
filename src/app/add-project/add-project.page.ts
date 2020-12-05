@@ -22,6 +22,7 @@ import { MESSAGES } from '../constant/constant';
 })
 export class AddProjectPage implements OnInit {
 
+  postOnFeed = false
   title = 'Projets'
   project = {
     userId: '',
@@ -35,7 +36,7 @@ export class AddProjectPage implements OnInit {
   listProjects = []
   loading = false
 
-
+  user:any
   visible = true;
   selectable = true;
   removable = true;
@@ -73,6 +74,16 @@ export class AddProjectPage implements OnInit {
   ionViewWillEnter(){
 
   }
+
+  getUserInfo(userId) {
+    this.authService.myInfos(userId).subscribe(res => {
+      // console.log(res)
+      this.user = res['data'];
+    }, error => {
+      // console.log(error)
+    })
+  }
+
 
   dismiss() {
     // using the injected ModalController this page
@@ -212,7 +223,7 @@ export class AddProjectPage implements OnInit {
 
     }, (err) => {
       // Handle error
-      alert(err)
+     // alert(err)
 
     });
   }
@@ -323,22 +334,59 @@ export class AddProjectPage implements OnInit {
     })
   }
 
-  addProject(){
-    this.loading = true
-    this.tags.length > 0 ? this.project.tags = this.tags : null
-    //this.photos.length > 0? this.uploadImage() : null
-    this.contactService.addProject(this.project).subscribe(res =>{
-     // console.log(res);
-      this.loading = false
-      this.presentToast(MESSAGES.PROJECT_CREATED_OK)
-      let userId = localStorage.getItem('teepzyUserId')
-      this.getProjects(userId)
-      this.dismiss()
-    }, error =>{
-      //console.log(error)
-      this.loading = false
-      this.presentToast(MESSAGES.PROJECT_CREATED_ERROR)
+  addPost(post) {
+    this.contactService.addPost(post).subscribe(res => {
+      this.presentToast("Publié sur le fil d'actualité")
+    }, error => {
+     // this.presentToast(MESSAGES.ADD_FEED_ERROR)
+
     })
+  }
+  addProject(){
+    if (this.postOnFeed === true) {
+      let post = {
+        userId: this.project.userId,
+        content: this.project.description,
+        image_url: this.project.photo,
+        video_url: '',
+        userPhoto_url: this.user.photo,
+        backgroundColor: '#fff',
+        userPseudo: this.user.pseudoIntime
+      }
+      this.loading = true
+      this.tags.length > 0 ? this.project.tags = this.tags : null
+      //this.photos.length > 0? this.uploadImage() : null
+      this.contactService.addProject(this.project).subscribe(res =>{
+       // console.log(res);
+        this.loading = false
+        this.presentToast(MESSAGES.PROJECT_CREATED_OK)
+        let userId = localStorage.getItem('teepzyUserId')
+        this.getProjects(userId)
+        this.addPost(post)
+        this.dismiss()
+      }, error =>{
+        //console.log(error)
+        this.loading = false
+        this.presentToast(MESSAGES.PROJECT_CREATED_ERROR)
+      })
+    } else {
+      this.loading = true
+      this.tags.length > 0 ? this.project.tags = this.tags : null
+      //this.photos.length > 0? this.uploadImage() : null
+      this.contactService.addProject(this.project).subscribe(res =>{
+       // console.log(res);
+        this.loading = false
+        this.presentToast(MESSAGES.PROJECT_CREATED_OK)
+        let userId = localStorage.getItem('teepzyUserId')
+        this.getProjects(userId)
+        this.dismiss()
+      }, error =>{
+        //console.log(error)
+        this.loading = false
+        this.presentToast(MESSAGES.PROJECT_CREATED_ERROR)
+      })
+    }
+   
   }
 
   async presentToast(msg) {

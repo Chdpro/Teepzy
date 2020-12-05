@@ -24,7 +24,9 @@
       Aucun ami pour le moment
     </span>
       <ion-spinner *ngIf="loading && members?.length == 0" color="primary"  name="dots"></ion-spinner>
-    <ion-item *ngFor="let m of members| filter:search ;trackBy: trackByFn ">
+    <ion-item *ngFor="let m of members| filter:search ;trackBy: trackByFn "
+    (click)="gotoProfile(m?._id)"
+    >
       <div *ngIf="m?.photo =='' || m?.photo == null" class="round-img-post">
         {{m?.pseudoIntime | slice:0:1| uppercase}} 
       </div>

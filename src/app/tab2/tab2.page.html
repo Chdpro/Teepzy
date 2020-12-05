@@ -77,7 +77,7 @@
 
                 <span *ngIf="n?.icon_name !== 'message'">
                   {{n?.message}}
-                  <span>@{{n?.pseudoIntime}}</span>
+                  <br><span *ngIf="userId != n?.fromId" >@{{n?.pseudoIntime}}</span>
                 </span>
                 <span *ngIf="n?.icon_name === 'message' && n?.fromId !== userId">
                   un nouveau message

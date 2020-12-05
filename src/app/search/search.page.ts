@@ -44,6 +44,7 @@ export class SearchPage implements OnInit {
   options: string[] = ['One', 'Two', 'Three'];
   testVideos = ['https://api.teepzy.com/43107192329982330.mp4']
 
+  showAutocomplete = false;
 
   constructor(private contactService: ContactService,
     public toastController: ToastController,
@@ -226,6 +227,11 @@ export class SearchPage implements OnInit {
 
 
   searchOn(){
+    if (this.search.searchValue && this.search.searchValue.length > 1) {
+      this.showAutocomplete = true;
+    }else{
+      this.showAutocomplete = false;
+    }
     this.searchUsersNotInMyCircle()
     this.searchOnMatches()
     this.getPosts()

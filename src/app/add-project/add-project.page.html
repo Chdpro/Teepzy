@@ -19,19 +19,19 @@
           <div>
 
             <ion-row>
-       
+
               <ion-col size="12" *ngIf="dispImags?.length > 0">
                 <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
               </ion-col>
               <ion-col size="12" *ngIf="dispImags?.length == 0">
-                <img class="add-photo"  src="../../assets/img/neutral.jpg" alt="">
+                <img class="add-photo" src="../../assets/img/neutral.jpg" alt="">
               </ion-col>
             </ion-row>
 
 
             <!-- fab placed to the bottom end -->
-            <ion-fab *ngIf="dispImags?.length == 0" (click)="selectImage()" vertical="center"
-              horizontal="center" slot="fixed">
+            <ion-fab *ngIf="dispImags?.length == 0" (click)="selectImage()" vertical="center" horizontal="center"
+              slot="fixed">
               <ion-fab-button color="light">
                 <ion-icon name="add"></ion-icon>
               </ion-fab-button>
@@ -84,6 +84,13 @@
             </mat-chip-list>
           </mat-form-field>
 
+          <!-- Checkboxes in a List -->
+          <ion-list>
+            <ion-item>
+              <ion-label> Publier sur mon fil d'actualité </ion-label>
+              <ion-checkbox slot="end" name="OnFeed" [(ngModel)]="postOnFeed"></ion-checkbox>
+            </ion-item>
+          </ion-list>
 
         </form>
       </ion-col>
