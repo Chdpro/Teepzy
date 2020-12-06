@@ -22,7 +22,7 @@ import { MESSAGES } from '../constant/constant';
 })
 export class AddProjectPage implements OnInit {
 
-  postOnFeed = false
+  postOnFeed = true
   title = 'Projets'
   project = {
     userId: '',

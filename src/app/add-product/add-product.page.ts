@@ -21,7 +21,7 @@ import { MESSAGES } from '../constant/constant';
 export class AddProductPage implements OnInit {
 
 
-  postOnFeed = false
+  postOnFeed = true
   title = 'E-shop'
   product = {
     userId: '',
