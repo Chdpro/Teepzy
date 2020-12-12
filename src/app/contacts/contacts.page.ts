@@ -207,6 +207,7 @@ export class ContactsPage implements OnInit {
     }
     this.contacts.find(['*'], options).then((contacts) => {
       this.myContacts = contacts
+     // alert(JSON.stringify(this.myContacts[0]))
       for (const mC of this.myContacts) {
      
         let inviteViaSms = {
@@ -218,7 +219,7 @@ export class ContactsPage implements OnInit {
               {
                 givenName: mC.name.givenName,
                 familyName: mC.name.familyName,
-                phone: mC.phoneNumbers[0].value,
+                phone: mC.phoneNumbers,
                 invited: true
               }
             )
@@ -227,7 +228,7 @@ export class ContactsPage implements OnInit {
               {
                 givenName: mC.name.givenName,
                 familyName: mC.name.familyName,
-                phone: mC.phoneNumbers[0].value,
+                phone: mC.phoneNumbers,
                 invited: false
               }
             )
@@ -264,7 +265,12 @@ export class ContactsPage implements OnInit {
     //  console.log(res)
       this.listTeepZrs = res['data']
       this.listContacts.forEach(um => {
-        this.listTeepZrs.filter((x, index) => { x['phone'].replace(/\s/g, '').slice(-7) == um.phone.replace(/\s/g, '').slice(-7) ? list.push({ _id: x['_id'], prenom: um.givenName, nom: um.familyName, phone: x.phone, photo: x.photo }) : null })
+        this.listTeepZrs.filter((x, index) => { 
+          for (const p of um.phone) {
+            x['phone'].replace(/\s/g, '').slice(-7) == p.value.replace(/\s/g, '').slice(-7) ?
+            list.push({ _id: x['_id'], prenom: um.givenName, nom: um.familyName, phone: x.phone, photo: x.photo }) : null 
+          }
+        })
       });
       this.listTeepZrs = list
       this.listTeepZrs.forEach(e => {
@@ -304,7 +310,12 @@ export class ContactsPage implements OnInit {
     this.contactService.inviteViaSms(inviteViaSms).subscribe(res => {
     //  console.log(res)
       this.presentToast('Invitation envoyée')
-      this.listContacts.find((c, index) => c['phone'].replace(/\s/g, '') == phone.replace(/\s/g, '') ? c['invited'] = true : null)
+      this.listContacts.find((c, index) => {
+        let phones = c.phone
+        for (const p of phones) {
+         return p['value'].replace(/\s/g, '') == phone.replace(/\s/g, '') ? c['invited'] = true : null
+        }
+      } )
     }, error => {
       this.presentToast('Invitation non envoyée')
      // alert(JSON.stringify(error))
@@ -320,7 +331,12 @@ export class ContactsPage implements OnInit {
     this.contactService.deleteInviteViaSms(inviteViaSms).subscribe(res => {
      // console.log(res)
       this.presentToast('Invitation annulée')
-      this.listContacts.find((c, index) => c['phone'].replace(/\s/g, '') == phone.replace(/\s/g, '') ? c['invited'] = false : null)
+      this.listContacts.find((c, index) =>{
+      let phones = c.phone
+      for (const p of phones) {
+       return p['value'].replace(/\s/g, '') == phone.replace(/\s/g, '') ? c['invited'] = false : null
+      }
+    })
     }, error => {
       this.presentToast('Invitation non annulée')
     })

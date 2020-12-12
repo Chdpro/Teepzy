@@ -93,6 +93,18 @@ export class ContactService {
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
+  NbrUnreadNotifications(userId): Observable<any> {
+    let url = 'users/notifications/unreads/'+ userId;
+    return this.http.get(base_url + url, httpOptionsJson);
+  }
+
+  markReadNotifications(userId): Observable<any> {
+    let url = 'users/notifications/mark/'+ userId;
+    return this.http.get(base_url + url, httpOptionsJson);
+  }
+
+
+
   checkInviteViaSms(check): Observable<any> {
     let url = 'users/checkSmsInvitation';
     return this.http.post(base_url + url, check, httpOptionsJson);
@@ -326,6 +338,17 @@ export class ContactService {
   addMessage(message): Observable<any> {
     let url = 'chat/addMessage';
     return this.http.post(base_url + url, message, httpOptionsJson);
+  }
+
+  nrbrUnreadMessages(user): Observable<any> {
+    let url = 'chat/unreadMessages';
+    return this.http.post(local_url + url, user, httpOptionsJson);
+  }
+
+
+  markReadMessages(roomInfo): Observable<any> {
+    let url = 'chat/markMessageRead';
+    return this.http.post(local_url + url, roomInfo, httpOptionsJson);
   }
 
   addReplyMessage(message): Observable<any> {

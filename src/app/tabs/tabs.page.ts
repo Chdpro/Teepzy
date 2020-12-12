@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AddPostPage } from '../add-post/add-post.page';
 import { Router } from '@angular/router';
+import { ContactService } from '../providers/contact.service';
+import { Socket } from 'ngx-socket-io';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tabs',
@@ -10,9 +13,24 @@ import { Router } from '@angular/router';
 })
 export class TabsPage {
 
-  constructor(public modalController: ModalController, private router: Router) {}
+  userId = ''
+  nrbrNotifications = 0
+  nrbrMessages = 0
 
-  AddPostPage(){
+  constructor(
+    public modalController: ModalController,
+    private contactService: ContactService,
+    private socket: Socket,
+    private router: Router
+    ) {
+    this.userId = localStorage.getItem('teepzyUserId')
+    this.nbrUnreadNotifications()
+  }
+
+  ionViewWillEnter() {
+    this.nbrUnreadMessages()
+  }
+  AddPostPage() {
     this.router.navigate(['/add-post'])
   }
 
@@ -23,4 +41,34 @@ export class TabsPage {
     });
     return await modal.present();
   }
+
+  unreads(){
+    this.nbrUnreadMessages()
+    this.nbrUnreadNotifications()
+  }
+  nbrUnreadNotifications() {
+    this.contactService.NbrUnreadNotifications(this.userId).subscribe(res => {
+      this.nrbrNotifications = res['data']
+    }, error => {
+    //  console.log(error)
+    })
+  }
+
+  nbrUnreadMessages() {
+    let user = {currentUserOnlineId: this.userId}
+    this.contactService.nrbrUnreadMessages(user).subscribe(res => {
+      this.nrbrMessages = res['data']
+      console.log(res)
+    }, error => {
+      console.log(error)
+    })
+  }
+
+
+  ionViewWillLeave() {
+    this.socket.disconnect();
+  }
+
+  
+  
 }

@@ -74,7 +74,9 @@
           <div class="time">
             {{message?.createdAt | slice:8:10}}.{{message?.createdAt | slice:5:7}}   
             {{message?.createdAt | slice:11:13}}.{{message?.createdAt | slice:14:16}}
-          </div>
+          </div><br>
+          <ion-icon *ngIf="message?.isRead === true" class="read-icon" color="medium" name="checkmark-done-outline"></ion-icon>
+          <ion-icon *ngIf="message?.isRead !== true" class="read-icon" color="medium"  name="checkmark-outline"></ion-icon>
         </ion-col>
 
         <ion-col *ngIf="message?.userId == userId" size="2">

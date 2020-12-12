@@ -1,3 +1,19 @@
+.new-content{
+ height: 100%;  
+}
+
+ion-card{
+    height: 94%;
+    width: 100%;
+    position: relative;
+    right: 9px;
+    top: 139px;
+    margin-top: 120px;
+    background: aquamarine;
+    border-radius: 40px 40px 1px 0px;
+}
+
+
 ion-slide{
     border-radius: 40px 40px 1px 0px;
     height: -webkit-fill-available;
@@ -5,11 +21,15 @@ ion-slide{
 }
 
 
+
 ion-content{
     position: absolute;
     display: block
 }
 
+ion-content{
+    overflow-y: none;
+  }
 
 
 .menu{
@@ -829,6 +849,8 @@ ion-button{
         border-radius: 40px 40px 1px 0px;
         height: -webkit-fill-available;
     }
+
+ 
 }
 
   /* On screens that are 992px or less, set the background color to blue */
@@ -855,6 +877,7 @@ ion-button{
         height: -webkit-fill-available;
     }
   
+  
 }
 
   /* On screens that are 992px or less, set the background color to blue */
@@ -874,6 +897,7 @@ ion-button{
         border-radius: 40px 40px 1px 0px;
         height: -webkit-fill-available;
     }
+  
 }
 
   /* On screens that are 992px or less, set the background color to blue */
@@ -892,6 +916,7 @@ ion-button{
     border-radius: 40px 40px 1px 0px;
     height: -webkit-fill-available;
 }
+
  
 }
 
@@ -903,6 +928,7 @@ ion-button{
         border-radius: 40px 40px 1px 0px;
         height: -webkit-fill-available;
     }
+ 
  }
  
 @media screen and (width: 411px){
@@ -917,6 +943,7 @@ ion-button{
     border-radius: 40px 40px 1px 0px;
     height: -webkit-fill-available;
 }
+
    
 }
 
@@ -926,6 +953,7 @@ ion-button{
         border-radius: 40px 40px 1px 0px;
         height: -webkit-fill-available;
     }
+  
     .fixContainer{
     position: fixed;
     padding: 2em;

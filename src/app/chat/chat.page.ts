@@ -126,6 +126,7 @@ export class ChatPage implements OnInit {
    // console.log(state)
     this.checkUserInMyCircle(this.userId, this.stateO.connectedUserId)
     this.getMessages(state.roomId)
+    this.markMessagesRead(state.roomId, this.userId)
   }
 
   ionViewDidEnter(){
@@ -135,10 +136,23 @@ export class ChatPage implements OnInit {
   trackByFn(index, item) {
     return index; // or item.id
   }
+
+
   
-  testDate(){
+  markMessagesRead(roomId, userId){
+    let room = {
+      roomId: roomId,
+      currentUserOnlineId: userId
+    }
+    this.contactService.markReadMessages(room).subscribe( res =>{
+      console.log(res)
+    }, error =>{
+      console.log(error)
+    })    
   //  console.log(this.message.createdAt)
   }
+
+  
   replyto(msg) {
     this.message.isReply = true
     this.repliedMessage.pseudo = msg.pseudo;

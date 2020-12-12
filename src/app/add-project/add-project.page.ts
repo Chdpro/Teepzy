@@ -59,7 +59,6 @@ export class AddProjectPage implements OnInit {
     private transfer: FileTransfer,
     private menuCtrl: MenuController,
     private androidPermissions: AndroidPermissions,
-    private imagePicker: ImagePicker,
     private contactService: ContactService) { 
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false); 

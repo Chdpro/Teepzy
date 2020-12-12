@@ -64,6 +64,7 @@ export class Tab2Page implements OnInit {
     this.listInvitations()
     this.listLinks()
     this.listNotifications()
+    this.markNotificationsRead(this.userId)
   }
   swipe2(e: TouchEvent, when: string): void {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
@@ -151,6 +152,15 @@ export class Tab2Page implements OnInit {
     }, 400);
   }
 
+
+  markNotificationsRead(userId){
+    this.contactService.markReadNotifications(userId).subscribe( res =>{
+      console.log(res)
+    }, error =>{
+      console.log(error)
+    })    
+  //  console.log(this.message.createdAt)
+  }
 
   goToContacts() {
     this.router.navigate(['/contacts', { previousUrl: 'feeds' }])

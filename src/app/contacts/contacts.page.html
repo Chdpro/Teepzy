@@ -78,7 +78,13 @@
                 <ion-col size="2">
                 </ion-col>
                 <ion-col size="8">
-                  <ion-button *ngIf="listTeepzrsToInvite?.length > 0" style="margin-top: 71px;" (click)="goToFeed()" expand="block" shape="round">Valider
+                  <ion-button *ngIf="listTeepzrsToInvite?.length > 0" style="margin-top: 71px;" (click)="goToFeed()" expand="block" shape="round">
+                    <span *ngIf="previousRoute !== 'feeds'">
+                      Aller sur mon actualité
+                    </span>
+                    <span *ngIf="previousRoute == 'feeds'">
+                      Retour sur mon actualité
+                    </span>
                   </ion-button>
                 </ion-col>
                 <ion-col size="2">
@@ -106,17 +112,23 @@
                     {{c?.givenName | slice:0:1 }}
                   </div>
                   <ion-label> {{ c?.givenName }} <b> {{c?.familyName}} </b>
-                    <p>
-                      {{ c?.phone }}
+                    <p *ngFor="let ph of c?.phone">
+                      {{ ph?.value }}
                     </p>
                   </ion-label>
                   <div *ngIf="c?.invited  == false" (click)="sendShare(c?.phone)" class="example-button-container">
-                    <button mat-mini-fab disabled color="warn" aria-label="Example icon button with a home icon">
+                    <button mat-mini-fab  [matMenuTriggerFor]="menu" color="warn" aria-label="Example icon button with a home icon">
                       <span style=" margin-left: 6px;
                         margin-bottom: 14px;" class="material-icons">
                         send
                       </span>
                     </button>
+                    <mat-menu #menu="matMenu">
+                      <button *ngFor="let ph of c?.phone" (click)="sendShare(ph?.value)"  mat-menu-item>
+                        {{ ph?.value }}
+                      </button>
+                      <!--button mat-menu-item>Parametres</button-->
+                    </mat-menu>
                   </div>
                   <div *ngIf="c?.invited" (click)="dleteInvitationSmsFromServer(c?.phone)"
                     class="example-button-container">
@@ -139,7 +151,13 @@
 
                 </ion-col>
                 <ion-col size="8">
-                  <ion-button style="margin-top: 71px;" (click)="goToOutcircle()" expand="block" shape="round">Valider
+                  <ion-button style="margin-top: 71px;" (click)="goToOutcircle()" expand="block" shape="round">
+                    <span *ngIf="previousRoute !== 'feeds'">
+                      Aller sur mon actualité
+                    </span>
+                    <span *ngIf="previousRoute == 'feeds'">
+                      Retour sur mon actualité
+                    </span>
                   </ion-button>
 
                 </ion-col>
