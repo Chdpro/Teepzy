@@ -165,7 +165,7 @@
     'background-position': 'center center', 
     'background-size': 'cover', 
     'background-repeat': 'no-repeat'
-  }" swipeAll (swipe)="swipeAll($event)" (swipeleft)="swipeLeft($event)" (swiperight)="swipeRight($event)">
+  }"  (swipeleft)="swipeLeft($event)" (swiperight)="swipeRight($event)">
 
 
   <div (click)="playVideo(p?.video_url)" class="post-txt">

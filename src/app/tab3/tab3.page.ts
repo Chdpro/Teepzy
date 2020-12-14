@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { NavController, ModalController, MenuController, ToastController } from '@ionic/angular';
 import { Socket } from 'ngx-socket-io';
 import { ContactService } from '../providers/contact.service';
-import { CircleMembersPage } from '../circle-members/circle-members.page';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-tab3',
@@ -94,8 +94,9 @@ export class Tab3Page implements OnInit {
   getChatRooms() {
     this.loading = true
     this.contactService.mChatRooms(this.userId).subscribe(res => {
-      //console.log(res);
-      this.rooms = res['data']
+      console.log(res);
+      //this.rooms = res['data']
+      this.rooms = res['data'].sort((a, b) => moment(b.lastMessage[0].createdAt).unix() - moment(a.lastMessage[0].createdAt).unix());
       this.loading = false
     }, error => {
       //console.log(error)

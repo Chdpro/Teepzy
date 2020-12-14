@@ -196,7 +196,7 @@ export class Tab1Page implements OnInit {
   
 
   swipeEvents(event) {
-    console.log('swipe');
+    ///console.log('swipe');
     this.listPosts.length == 0 ? this.getPosts(this.userId) : null
   }
   connectSocket() {
@@ -214,15 +214,7 @@ export class Tab1Page implements OnInit {
       //  console.log(this.tutos)
     })
   }
-  swipeAll(event: any): any {
-  }
 
-  tutoSwipeLeft(event: any) {
-
-  }
-  tutoSwipeRight(event: any) {
-
-  }
   swipeLeft(event: any): any {
     // console.log('Swipe Left', event);
     this.stopVideo()

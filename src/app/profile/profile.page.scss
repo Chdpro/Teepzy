@@ -133,6 +133,10 @@ ion-card {
 .round-img-profile{
     max-width: 123px;
     max-height: 123px;
+    min-width: 123px;
+    min-height: 123px;
+    width: 123px;
+    height: 123px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -147,7 +151,6 @@ ion-card {
 .round-img{
     height: 114px;
     width: 114px;
-   
     border-radius: 100%;
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%; 
