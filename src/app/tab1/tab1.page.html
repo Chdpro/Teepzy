@@ -277,8 +277,10 @@
         <div class="menu">
           <a (click)="presentCommentModal(p)">
             <button mat-fab class="mat-button" color="primary">
-              <ion-badge>{{p?.nbrComments}}</ion-badge>
-              <ion-icon name="chatbubble-outline"></ion-icon>
+              <mat-icon [matBadge]="p?.nbrComments" matBadgeColor="warn">
+                <ion-icon name="chatbubble-outline"></ion-icon>
+              </mat-icon>
+
             </button>
           </a>
           <a (click)="removeFavorite(p?._id)" *ngIf="p?.favorite == true">

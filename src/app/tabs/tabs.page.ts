@@ -58,7 +58,6 @@ export class TabsPage {
     let user = {currentUserOnlineId: this.userId}
     this.contactService.nrbrUnreadMessages(user).subscribe(res => {
       this.nrbrMessages = res['data']
-      console.log(res)
     }, error => {
       console.log(error)
     })

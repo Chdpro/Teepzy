@@ -50,6 +50,7 @@ export class DetailProduitPage implements OnInit {
 
   ngOnInit() {
     let product = this.route.snapshot.paramMap['params']
+    console.log(product)
     let tags = product.tags.split(',')
     this.product._id = product._id
     this.product.nom = product.nom

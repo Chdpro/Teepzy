@@ -7,8 +7,10 @@
     </ion-tab-button>
 
     <ion-tab-button (click)="unreads()" tab="tab2">
-        <ion-badge>{{nrbrNotifications}}</ion-badge>
-      <ion-icon name="notifications"></ion-icon>
+        <mat-icon [matBadge]="nrbrNotifications" matBadgeColor="warn">
+          <ion-icon name="notifications"></ion-icon>
+        </mat-icon>
+
     </ion-tab-button>
 
     <ion-tab-button>
@@ -25,8 +27,9 @@
 
 
     <ion-tab-button (click)="unreads()" tab="tab3">
-        <ion-badge> {{nrbrMessages}} </ion-badge>
-      <ion-icon name="mail"></ion-icon>
+      <mat-icon [matBadge]="nrbrMessages" matBadgeColor="warn">
+        <ion-icon name="mail"></ion-icon>
+      </mat-icon>
     </ion-tab-button>
 
     <ion-tab-button (click)="unreads()" tab="profile">

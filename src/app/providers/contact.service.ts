@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, } from '@angular/common/http';
-import { base_url, test_url, local_url } from 'src/config';
+import { local_url, base_url } from 'src/config';
 import { Observable, of } from 'rxjs';
 import { tuto } from '../data/tuto_data';
 
@@ -178,7 +178,7 @@ export class ContactService {
 
   addPost(post): Observable<any> {
     let url = 'users/posts';
-    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
+    return this.http.post(local_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   rePost(post): Observable<any> {
@@ -193,7 +193,7 @@ export class ContactService {
 
   addProject(project): Observable<any> {
     let url = 'users/addProject';
-    return this.http.post(base_url + url, JSON.stringify(project), httpOptionsJson);
+    return this.http.post(local_url + url, JSON.stringify(project), httpOptionsJson);
   }
 
   deleteProject(projectId): Observable<any> {
@@ -342,13 +342,13 @@ export class ContactService {
 
   nrbrUnreadMessages(user): Observable<any> {
     let url = 'chat/unreadMessages';
-    return this.http.post(local_url + url, user, httpOptionsJson);
+    return this.http.post(base_url + url, user, httpOptionsJson);
   }
 
 
   markReadMessages(roomInfo): Observable<any> {
     let url = 'chat/markMessageRead';
-    return this.http.post(local_url + url, roomInfo, httpOptionsJson);
+    return this.http.post(base_url + url, roomInfo, httpOptionsJson);
   }
 
   addReplyMessage(message): Observable<any> {

@@ -237,9 +237,8 @@ export class ContactsPage implements OnInit {
           this.loading = false
         })
       }
+      alert(JSON.stringify(this.listContacts))
       this.getTeepzr()
-
-
     }, error => {
     })
   }

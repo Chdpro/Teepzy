@@ -28,7 +28,9 @@
 @import '~pretty-checkbox/src/pretty-checkbox.scss';
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
 
-
+.mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content{
+    right: 12px;
+}
 .example-full-width{
     width: 80%; 
 }

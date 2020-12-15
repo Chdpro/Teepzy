@@ -25,7 +25,8 @@ import {
   MatListModule,
   MatDialogModule,
   MatExpansionModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatBadgeModule
 } from "@angular/material";
  
 @NgModule({
@@ -55,7 +56,8 @@ import {
     MatProgressSpinnerModule,
     MatListModule,
     MatExpansionModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatBadgeModule
   ]
 })
 export class MaterialModule {}

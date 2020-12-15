@@ -67,7 +67,7 @@ export class AddProjectPage implements OnInit {
   ngOnInit() {
     let userId = localStorage.getItem('teepzyUserId')
     this.project.userId = userId
-
+    this.getUserInfo(userId)
   }
 
   ionViewWillEnter(){
@@ -76,7 +76,7 @@ export class AddProjectPage implements OnInit {
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-      // console.log(res)
+       //console.log(res)
       this.user = res['data'];
     }, error => {
       // console.log(error)
