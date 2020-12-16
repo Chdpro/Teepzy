@@ -13,6 +13,10 @@ ion-card{
     border-radius: 40px 40px 1px 0px;
 }
 
+.chatbubble{
+    margin-left: -5px;
+}
+
 
 ion-slide{
     border-radius: 40px 40px 1px 0px;
@@ -71,11 +75,11 @@ ion-icon{
     z-index: 2;
     color: white;
     font-size: 18px;
-    right: 55px;
+    right: 15px;
     top: 285px;
     line-height: 20px;
     text-shadow: 0 1px 6px black;
-    width: 223px;
+    width: 260px;
     background: #00000070;
     border-radius: 11%;
     padding: 19px;
@@ -83,19 +87,19 @@ ion-icon{
 }
 
 .match-txt{
-    font-size: 13px;
+    font-size: 8px;
 }
 .filigrane{
     position: absolute;
     background: rgba(0, 0, 0, 0.18);
     border-radius: 63px;
     color: #fff;
-    height: 81px;
-    width: 81px;
-    right: 11px;
+    height: 60px;
+    width: 60px;
+    right: 23px;
     padding: 0px;
-    padding-top: 23px;
-    top: 100%;
+    padding-top: 20px;
+    top: 105%;
     border: 1px solid #ea4e50;
     margin-right: -15px;
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);

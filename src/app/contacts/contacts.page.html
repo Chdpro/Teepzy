@@ -112,7 +112,7 @@
                   </div>
                   <ion-label> {{ c?.givenName }} <b> {{c?.familyName}} </b>
                     <p *ngFor="let ph of c?.phone">
-                      {{ ph?.value }}
+                      {{ ph }}
                     </p>
                   </ion-label>
                   <div *ngIf="c?.invited  == false" (click)="sendShare(c?.phone)" class="example-button-container">

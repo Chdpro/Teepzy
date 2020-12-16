@@ -145,7 +145,7 @@ export class AddProductPage implements OnInit {
       let post = {
         userId: this.product.userId,
         content: this.product.description,
-        image_url: this.product.photo,
+        image_url: this.product.photo[0],
         video_url: '',
         userPhoto_url: this.user.photo,
         backgroundColor: '#fff',

@@ -7,9 +7,11 @@
     </ion-tab-button>
 
     <ion-tab-button (click)="unreads()" tab="tab2">
-        <mat-icon [matBadge]="nrbrNotifications" matBadgeColor="warn">
+        <mat-icon *ngIf="nrbrNotifications !== 0" [matBadge]="nrbrNotifications" matBadgeColor="warn">
           <ion-icon name="notifications"></ion-icon>
         </mat-icon>
+        <ion-icon  *ngIf="nrbrNotifications == 0" name="notifications"></ion-icon>
+
 
     </ion-tab-button>
 
@@ -27,9 +29,11 @@
 
 
     <ion-tab-button (click)="unreads()" tab="tab3">
-      <mat-icon [matBadge]="nrbrMessages" matBadgeColor="warn">
+      <mat-icon *ngIf="nrbrMessages !== 0" [matBadge]="nrbrMessages" matBadgeColor="warn">
         <ion-icon name="mail"></ion-icon>
       </mat-icon>
+      <ion-icon *ngIf="nrbrMessages == 0" name="mail"></ion-icon>
+
     </ion-tab-button>
 
     <ion-tab-button (click)="unreads()" tab="profile">

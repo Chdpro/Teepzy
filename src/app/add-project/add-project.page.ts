@@ -346,7 +346,7 @@ export class AddProjectPage implements OnInit {
       let post = {
         userId: this.project.userId,
         content: this.project.description,
-        image_url: this.project.photo,
+        image_url: this.project.photo[0],
         video_url: '',
         userPhoto_url: this.user.photo,
         backgroundColor: '#fff',

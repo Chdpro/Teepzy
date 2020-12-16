@@ -277,9 +277,10 @@
         <div class="menu">
           <a (click)="presentCommentModal(p)">
             <button mat-fab class="mat-button" color="primary">
-              <mat-icon [matBadge]="p?.nbrComments" matBadgeColor="warn">
-                <ion-icon name="chatbubble-outline"></ion-icon>
+              <mat-icon *ngIf="p?.nbrComments !== 0" [matBadge]="p?.nbrComments" matBadgeColor="warn">
+                <ion-icon class="chatbubble" name="chatbubble-outline"></ion-icon>
               </mat-icon>
+              <ion-icon *ngIf="p?.nbrComments == 0" name="chatbubble-outline"></ion-icon>
 
             </button>
           </a>
@@ -310,8 +311,8 @@
 
           <div (click)="presentLinkModal(p, 'MATCHES')" class="filigrane" style="font-weight: 800;font-size: 7px;">
             <span class="match-txt">MATCHES</span>
-            <span style="margin-top: 6px;font-size: 13px;" *ngIf="p?.matches?.length == 0"> <br> 0</span>
-            <span style="margin-top: 6px;font-size: 13px;" *ngIf="p?.matches?.length > 3">+
+            <span style="margin-top: 6px;font-size: 8px;" *ngIf="p?.matches?.length == 0"> <br> 0</span>
+            <span style="margin-top: 6px;font-size: 8px;" *ngIf="p?.matches?.length > 3">+
               {{p.matches?.length - 3}} </span> <br>
 
           </div>
@@ -319,7 +320,7 @@
       </div>
 
       <div *ngIf="p?.image_url || p?.video_url" class="userInfo">
-        <span style="color: #ffff;margin-left: 50px !important;" *ngIf="p?.image_url || p?.video_url">
+        <span style="color: #ffff;margin-left: 25px !important;" *ngIf="p?.image_url || p?.video_url">
           <strong>
             @{{p?.userPseudo}} -
           </strong>
