@@ -1,0 +1,13 @@
+
+<ion-content>
+
+  <video #videoPlayer playsinline autoplay="autoplay" preload="metadata">
+    <source [src]="sanitizer.bypassSecurityTrustResourceUrl(video_url + '#t=0.5')" type="video/mp4" />
+  </video>
+
+  <div class="btn-wrapper">
+    <ion-button color="primary" (click)="done()" class="call_to_fill_btn">
+      Ok compris
+    </ion-button>
+  </div>
+</ion-content>

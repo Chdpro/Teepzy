@@ -13,8 +13,16 @@
       <strong style="font-size: 18px;" *ngIf="stateO?.roomLength > 1"> {{stateO?.name}} </strong>
     </ion-title>
     <small style="margin-left: 23px;" *ngIf="stateO?.online">En ligne</small>
-    <ion-icon *ngIf="!isInMyCircle" (click)="presentAlertConfirm()"  class="invitation-add" name="add-outline"></ion-icon>
-    <ion-icon [ngStyle]="{'margin-right': isInMyCircle ? '11px': '63px' }" (click)="presentAddPeopleModal()" class="people-add" name="person-add-outline"></ion-icon>
+    <ion-icon *ngIf="!isInMyCircle && stateO?.roomLength == 0" (click)="presentAlertConfirm()"  class="invitation-add" name="add-outline"></ion-icon>
+    <!--ion-icon *ngIf="stateO?.roomLength > 0" (click)="presentAddInvitationModal()"  class="invitation-add" name="add-outline">
+
+    </ion-icon-->
+    <ion-icon *ngIf="stateO?.roomLength > 1"  (click)="presentAddInvitationModal()" class="peoples" name="people-outline">
+
+    </ion-icon>
+    <ion-icon [ngStyle]="{'margin-right': isInMyCircle ? '11px': '63px' }" (click)="presentAddPeopleModal()" class="people-add" name="person-add-outline">
+
+    </ion-icon>
   </ion-toolbar>
 </ion-header>
 

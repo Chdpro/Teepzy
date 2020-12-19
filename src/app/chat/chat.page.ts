@@ -5,11 +5,12 @@ import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
-import { MatMenuTrigger } from '@angular/material';
+import { MatMenuTrigger, MatBottomSheet } from '@angular/material';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { typeAccount, MESSAGES } from '../constant/constant';
 import { AddPeopleRoomPage } from '../add-people-room/add-people-room.page';
 import { DatapasseService } from '../providers/datapasse.service';
+import { GroupInvitationPage } from '../group-invitation/group-invitation.page';
 
 @Component({
   selector: 'app-chat',
@@ -65,7 +66,7 @@ export class ChatPage implements OnInit {
   // used for scrolling the pane
   @ViewChild('scrollMe', null) private myScrollContainer: ElementRef;
 
-  constructor(private navCtrl: NavController,
+  constructor(private _bottomSheet: MatBottomSheet,
     private socket: Socket,
     private router: Router,
     private contactService: ContactService,
@@ -81,7 +82,6 @@ export class ChatPage implements OnInit {
       this.menuCtrl.swipeGesture(false);
       //this.nickname = this.navParams.data;
       this.subscription = this.dataPasse.getRoom().subscribe(room => {
-      //  console.log(room)
         if (room) {
           this.stateO.name = room.name
           this.stateO.roomLength = room.connectedUsers.length
@@ -99,20 +99,13 @@ export class ChatPage implements OnInit {
 
     this.coonectSocket()
     this.getMessagesBySocket().subscribe(message => {
-     // console.log(message)
+      console.log(message)
       message['roomId'] == state.roomId ? this.messages.push(message) : null
     });
     this.deleteMessageFromSocket()
     this.disconnectUserSocket()
 
-    /*this.getUsers().subscribe(data => {
-      let user = data['user'];
-      if (data['event'] === 'left') {
-        this.showToast('User left: ' + user);
-      } else {
-        this.showToast('User joined: ' + user);
-      }
-    });*/
+ 
   }
 
   ngOnInit() {
@@ -137,8 +130,7 @@ export class ChatPage implements OnInit {
     return index; // or item.id
   }
 
-
-  
+ 
   markMessagesRead(roomId, userId){
     let room = {
       roomId: roomId,
@@ -312,6 +304,18 @@ export class ChatPage implements OnInit {
   }
 
 
+  async presentAddInvitationModal(){
+    const modal = await this.modalController.create({
+      component: GroupInvitationPage,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        roomId: this.roomId
+      }
+    });
+    return await modal.present();
+}
+
+
   addMessageToFavorite(messageId) {
     let favoris = {
       userId: this.userId,
@@ -342,7 +346,7 @@ export class ChatPage implements OnInit {
   coonectSocket() {
     this.socket.connect();
     this.socket.fromEvent('user-online').subscribe(notif => {
-    //  console.log(notif)
+      console.log(notif)
       notif['userId'] == this.stateO.connectedUserId ? this.stateO.online = true : null
     });
   }

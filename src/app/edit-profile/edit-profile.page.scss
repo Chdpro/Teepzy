@@ -1,6 +1,20 @@
 ion-title{
     font-weight: bolder;
 }
+.call_to_fill{
+  position: fixed;
+  z-index: 10000;
+  top: -16px;
+}
+
+.call_to_fill_btn{
+  position: fixed;
+  z-index: 100020;
+  top: 92%;
+  /* float: right; */
+  left: 122px;
+}
+
 .mode_edit{
   font-size: 22px !important;
 }

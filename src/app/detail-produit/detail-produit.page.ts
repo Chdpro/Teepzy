@@ -42,7 +42,7 @@ export class DetailProduitPage implements OnInit {
     private authService: AuthService,
     private dataPasse: DatapasseService,
     public globals: Globals,
-    private router: Router
+    private router: Router,
   ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -110,6 +110,7 @@ export class DetailProduitPage implements OnInit {
       this.listProducts = res['products']
       this.dataPasse.sendProducts(this.listProducts)
       this.router.navigate(['/tabs/profile'])
+
     }, error => {
     //  console.log(error)
     })

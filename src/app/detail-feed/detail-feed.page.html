@@ -208,11 +208,11 @@
             <ion-row [ngStyle]=" {'margin-top': !post?.image_url && !post?.video_url? '-111px' : '0'}">
               <ion-col *ngIf="post?.image_url|| post?.video_url">
                 <div style="float: right;">
-                  <img *ngIf="post?.userPhoto_url != null " class="img img-media" [src]="post?.userPhoto_url" alt="">
+                  <img  *ngIf="post?.userPhoto_url"  class="img img-media" [src]="post?.userPhoto_url" alt="">
                 </div>
   
                 <div style="float: right;" *ngIf="post?.image_url || post?.video_url">
-                  <div *ngIf="post?.userPhoto_url == '' || post?.userPhoto_url == null " class=" pseudo-media"
+                  <div *ngIf="post?.userPhoto_url == '' || post?.userPhoto_url == null" class=" pseudo-media"
                     [ngStyle]='{"color": post?.backgroundColor == "#fff" ? "black" : "white" }'>
                     {{post?.userPseudo | slice:0:1| uppercase}}
                   </div>

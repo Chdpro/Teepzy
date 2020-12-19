@@ -232,12 +232,15 @@ export class EditProfilePage implements OnInit {
       this.profile1.hobbies = this.user['hobbies'];
       //this.user['photo'] ? this.dispImags[0] = this.user['photo'] : null
       this.user['photo'] ? this.profile1.photo = this.user['photo'] : null
-
+      this.profile1['isAllProfileCompleted'] = this.user['isAllProfileCompleted'] 
     }, error => {
      // console.log(error)
     })
   }
 
+  done(){
+    this.profile1['isAllProfileCompleted'] = true
+  }
 
   add(event: MatChipInputEvent): void {
     const input = event.input;

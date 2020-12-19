@@ -18,8 +18,15 @@ export enum typeAccount {
 
 export enum type {
     POST = "POST",
-    MESSAGE = "MESSAGE"
+    MESSAGE = "MESSAGE",
 
+}
+
+export enum Icon {
+    GRADE = "grade",
+    CHAT_BUBBLE = "chat_bubble",
+    DYNAMIC_FEED =  "dynamic_feed",
+    SHARE = "redo"
 }
 
 export enum MESSAGES {
@@ -39,7 +46,7 @@ export enum MESSAGES {
     REMOVE_FAVORITE_ERROR = "Erreur de la suppression des favoris",
     REMOVE_FAVORITE_OK = "Enlevé des favoris",
     FAVORITE_ERROR = "Erreur lors de la mise en favoris",
-    SHARE_OK = "Ce post a été bien signalé",
+    SHARE_OK = "Ce post a été bien partagé",
     SHARE_ERROR ="Erreur lors du partage d'un post dans votre cercle",
     CENSURED_OK ="Ce post a été signalé",
     CENSURED_ERROR = "Erreur lors du signalement",

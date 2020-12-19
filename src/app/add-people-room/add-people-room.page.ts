@@ -48,7 +48,7 @@ export class AddPeopleRoomPage implements OnInit {
  
   ngOnInit() {
     let room = this.navParams.data;
-   // console.log(room)
+    console.log(room)
     this.userId = localStorage.getItem('teepzyUserId');
     this.chatRoom.connectedUsers = room.connectedUsers
     this.chatRoom.userId = room.userId
@@ -112,7 +112,7 @@ export class AddPeopleRoomPage implements OnInit {
   }
 
   getUsersOfCircle() {
-    this.contactService.getCircleMembers(this.userId).subscribe(res => {
+    this.contactService.getMembersNotInRooms(this.chatRoom._id ).subscribe(res => {
     //  console.log(res);
       this.members = res['data']
     }, error => {
@@ -120,15 +120,6 @@ export class AddPeopleRoomPage implements OnInit {
     })
   }
 
-
-  /* getUsers() {
-    this.contactService.AllTeepZrs(this.userId).subscribe(res => {
-      console.log(res);
-      this.members = res['data']
-    }, error => {
-      console.log(error)
-    })
-  }*/
 
 
   deleteItemFromList(list, i) {

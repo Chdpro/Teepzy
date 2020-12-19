@@ -25,7 +25,6 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { MAT_DATE_LOCALE } from '@angular/material';
 import { DatapasseService } from './providers/datapasse.service';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
-import { BottomSheetOverviewExampleSheetPageModule } from './bottom-sheet-overview-example-sheet/bottom-sheet-overview-example-sheet.module';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { CommentsPageModule } from './comments/comments.module';
 import { LinkSheetPageModule } from './link-sheet/link-sheet.module';
@@ -55,7 +54,8 @@ import { EditSnapPageModule } from './edit-snap/edit-snap.module';
 import { UploadService } from './providers/upload.service';
 import { File } from '@ionic-native/file/ngx';
 import { SnapPageModule } from './snap/snap.module';
-const config: SocketIoConfig = { url: base_url, options: {} };
+import { GroupInvitationPageModule } from './group-invitation/group-invitation.module';
+const config: SocketIoConfig = { url: local_url, options: {} };
 
 @NgModule({
   declarations: [AppComponent],
@@ -68,6 +68,7 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     HttpClientModule,
    // AddPostPageModule,
     EditPostPageModule,
+    GroupInvitationPageModule,
     SnapPageModule,
     EditSnapImgPageModule,
     EditSnapPageModule,
@@ -78,7 +79,6 @@ const config: SocketIoConfig = { url: base_url, options: {} };
     //CircleMembersPageModule,
     CommentsPageModule,
     LinkSheetPageModule,
-    BottomSheetOverviewExampleSheetPageModule,
     Ng2SearchPipeModule,
     IonicSwipeAllModule,
     SocketIoModule.forRoot(config)

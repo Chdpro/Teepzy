@@ -6,7 +6,7 @@ import { MatTabGroup } from '@angular/material';
 import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { MESSAGES } from '../constant/constant';
+import { MESSAGES, Icon } from '../constant/constant';
 
 @Component({
   selector: 'app-tab2',
@@ -208,7 +208,7 @@ export class Tab2Page implements OnInit {
   listNotifications() {
     this.loading = true
     this.contactService.listNotification(this.userId).subscribe(res => {
-    //  console.log(res)
+   //   console.log(res)
       this.notifications = res['data']
       this.loading = false
 
@@ -219,6 +219,12 @@ export class Tab2Page implements OnInit {
     })
   }
 
+  goToPost(idTeepz, icon_name){
+    //console.log(idTeepz, icon_name)
+    if (icon_name == Icon.CHAT_BUBBLE || icon_name == Icon.DYNAMIC_FEED || icon_name == Icon.GRADE || icon_name == Icon.SHARE) {
+    this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'mesTeepz' }])
+    }
+  }
   time(date) {
     moment.locale('fr');
     return moment(date).fromNow()

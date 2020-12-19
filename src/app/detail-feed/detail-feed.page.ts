@@ -118,7 +118,7 @@ export class DetailFeedPage implements OnInit {
     this.getUserInfo(this.userId)
     let idTeepz = this.route.snapshot.paramMap.get('idTeepz')
     this.previousBackUrl = this.route.snapshot.paramMap.get('previousBackUrl')
-    //console.log(this.previousBackUrl)
+    console.log(this.previousBackUrl)
     this.getAPost(idTeepz)
     this.getRepost(idTeepz)
 

@@ -37,16 +37,20 @@ export class ContactsPage implements OnInit {
     },
 
     {
-     name:  {givenName: 'Ridy',  familyName: 'FRANCE'},
+      name: { givenName: 'Ridy', familyName: 'FRANCE' },
       phoneNumbers: [{ value: '+330663534043' }, { value: '+33 06 63 53 40 43' }, { value: '+33 06 63 53 40 42' }],
     },
 
     {
-     name: { givenName: 'Deborah', familyName: 'Houeha'},
+      name: { givenName: 'Deborah', familyName: 'Houeha' },
       phoneNumbers: [{ value: '+22990980000' }, { value: '+229 90 98 00 00' }],
     },
     {
-     name: { givenName: 'Claudia', familyName: 'Houeha'},
+      name: { givenName: 'Deborah', familyName: 'Houeha' },
+      phoneNumbers: [{ value: '+22990980000' }, { value: '+229 90 98 00 00' }],
+    },
+    {
+      name: { givenName: 'Claudia', familyName: 'Houeha' },
       phoneNumbers: [{ value: '+22966889545' }, { value: '+229 66 88 95 45' }],
 
     }
@@ -88,7 +92,6 @@ export class ContactsPage implements OnInit {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
     this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
-    // console.log(this.previousRoute)
   }
 
   ngOnInit() {
@@ -96,11 +99,6 @@ export class ContactsPage implements OnInit {
     this.userPhone = localStorage.getItem('teepzyPhone')
     this.connectSocket()
     this.loadContacts()
-    //this.getUniques(this.contactsTest[2].phone)
-    let a = '66 77 23 27'
-    let b = '+22966772327'
-    //  console.log(a.replace(/\s/g, '').slice(-7) == b.replace(/\s/g, '').slice(-7) ? true : false)
-    //this.getTeepzr()
     this.getTeepzrOutCircle()
     this.getUserInfo(this.userId)
   }
@@ -189,6 +187,17 @@ export class ContactsPage implements OnInit {
     return uniqueChars;
   }
 
+  getUniquesOnContacts(myArray) {
+    let hash = Object.create(null);
+    let uniqueChars = [];
+    myArray.forEach((c) => {
+      var key = JSON.stringify(c);
+      hash[key] = (hash[key] || 0) + 1;
+        hash[key] >= 2 ? null :  uniqueChars.push(c);
+    });
+    return uniqueChars;
+  }
+
 
   loadContacts() {
     this.loading = true
@@ -197,30 +206,32 @@ export class ContactsPage implements OnInit {
       multiple: true,
       hasPhoneNumber: true
     }
-  //  this.myContacts = this.contactsTest
+    //  this.myContacts = this.contactsTest
 
-     this.contacts.find(['*'], options).then((contacts) => {
-       this.myContacts = contacts
-       for (const mC of this.myContacts) {
+    this.contacts.find(['*'], options).then((contacts) => {
+      this.myContacts = this.getUniquesOnContacts(contacts)
+      for (const mC of this.myContacts) {
         let inviteViaSms = {
           phone: mC.phoneNumbers[0].value,
         }
         this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
           if (res['status'] == 201) {
+            let phones = this.getUniques(mC.phoneNumbers)
             this.listContacts.push(
               {
                 givenName: mC.name.givenName,
                 familyName: mC.name.familyName,
-                phone: this.getUniques(mC.phoneNumbers),
+                phone:phones ,
                 invited: true
               }
             )
           } else {
+            let phones = this.getUniques(mC.phoneNumbers)
             this.listContacts.push(
               {
                 givenName: mC.name.givenName,
                 familyName: mC.name.familyName,
-                phone: this.getUniques(mC.phoneNumbers),
+                phone: phones,
                 invited: false
               }
             )
@@ -228,12 +239,12 @@ export class ContactsPage implements OnInit {
         }, error => {
           this.loading = false
         })
-  
-  
+
+
       }
       this.getTeepzr()
-     }, error => {
-     })
+    }, error => {
+    })
   }
 
 
@@ -253,10 +264,10 @@ export class ContactsPage implements OnInit {
 
   getTeepzr() {
     let list = []
-    alert(JSON.stringify(this.listContacts))
     this.contactService.teepZrs(this.userId).subscribe(res => {
       //  console.log(res)
       this.listTeepZrs = res['data']
+      this.listContacts = this.getUniquesOnContacts(this.listContacts)
       this.listContacts.forEach(um => {
         this.listTeepZrs.filter((x, index) => {
           for (const p of um.phone) {
@@ -265,7 +276,7 @@ export class ContactsPage implements OnInit {
           }
         })
       });
-      this.listTeepZrs = list
+      this.listTeepZrs = this.getUniquesOnContacts(list)
       this.listTeepZrs.forEach(e => {
         let invitation = { idSender: this.userId, idReceiver: e['_id'] }
         this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {

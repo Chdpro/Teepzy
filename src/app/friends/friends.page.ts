@@ -68,7 +68,7 @@ export class FriendsPage implements OnInit {
   }
 
   gotoProfile(idUser){
-    this.router.navigate(['/tabs/profile', { userId: idUser }])
+    this.router.navigate(['/tabs/profile', { userId: idUser, previousUrl: "friends" }])
   }
 
   async presentToast(msg) {

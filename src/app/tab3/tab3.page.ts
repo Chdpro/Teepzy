@@ -96,7 +96,12 @@ export class Tab3Page implements OnInit {
     this.contactService.mChatRooms(this.userId).subscribe(res => {
       console.log(res);
       //this.rooms = res['data']
-      this.rooms = res['data'].sort((a, b) => moment(b.lastMessage[0].createdAt).unix() - moment(a.lastMessage[0].createdAt).unix());
+      this.rooms = res['data'].sort((a, b) => {
+        if (a.lastMessage[0] && b.lastMessage[0]) {
+        moment(b.lastMessage[0].createdAt).unix() - moment(a.lastMessage[0].createdAt).unix()
+        }
+      }
+       );
       this.loading = false
     }, error => {
       //console.log(error)

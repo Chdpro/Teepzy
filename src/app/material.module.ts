@@ -26,7 +26,8 @@ import {
   MatDialogModule,
   MatExpansionModule,
   MatTooltipModule,
-  MatBadgeModule
+  MatBadgeModule,
+  MatBottomSheetModule
 } from "@angular/material";
  
 @NgModule({
@@ -57,7 +58,8 @@ import {
     MatListModule,
     MatExpansionModule,
     MatTooltipModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatBottomSheetModule
   ]
 })
 export class MaterialModule {}

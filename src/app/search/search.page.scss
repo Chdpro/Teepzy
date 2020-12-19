@@ -115,7 +115,8 @@ h4{
       height: 41px;
       width: 47px;
       border-radius: 100%;
-      -webkit-border-radius: 100%;
+      max-width: 115% !important;
+     /* -webkit-border-radius: 100%;*/
       -moz-border-radius: 100%;
       border: solid 1px #ea4d4f;
       text-align: center;
@@ -364,6 +365,9 @@ height: 99px;
   .video-container{
     width: 144px;
     max-width: 144px;
+  }
+  .round-img-post-miss{
+    max-width: 130%;
   }
 
   .video-container-s{

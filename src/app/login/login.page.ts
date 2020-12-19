@@ -62,9 +62,16 @@ export class LoginPage implements OnInit {
        //   console.log(res)
         })
         localStorage.setItem('FinalStepCompleted', 'FinalStepCompleted')
-        this.router.navigateByUrl('/contacts', {
-          replaceUrl: true
-        })
+        if (this.profileInfo['userI']['isAllProfileCompleted'] == true) {
+          this.router.navigateByUrl('/contacts', {
+            replaceUrl: true
+          })
+        } else {
+          this.router.navigateByUrl('/edit-profile', {
+            replaceUrl: true
+          })
+        }
+     
       }
     }, error => {
       //console.log(error['status'])

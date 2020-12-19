@@ -25,14 +25,14 @@
     </span>
       <ion-spinner *ngIf="loading && members?.length == 0" color="primary"  name="dots"></ion-spinner>
     <ion-item *ngFor="let m of members| filter:search ;trackBy: trackByFn "
-    (click)="gotoProfile(m?._id)"
+  
     >
-      <div *ngIf="m?.photo =='' || m?.photo == null" class="round-img-post">
+      <div *ngIf="m?.photo =='' || m?.photo == null"   (click)="gotoProfile(m?._id)" class="round-img-post">
         {{m?.pseudoIntime | slice:0:1| uppercase}} 
       </div>
-      <img *ngIf="m?.photo" [src]="m?.photo" alt="">
-      <ion-label><b> {{m?.pseudoIntime}} </b> <br>
-        <strong>
+      <img *ngIf="m?.photo"   (click)="gotoProfile(m?._id)" [src]="m?.photo" alt="">
+      <ion-label><b   (click)="gotoProfile(m?._id)"> {{m?.pseudoIntime}} </b> <br>
+        <strong   (click)="gotoProfile(m?._id)">
         {{m?.circleMembersCount}} contacts
       </strong> <b style="float: right;" class="time"> 
      

@@ -61,7 +61,7 @@ export class AppComponent {
     let token = localStorage.getItem('teepzyToken')
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
-   // this.getUserInfo(this.userId, token)
+    //this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
@@ -125,7 +125,7 @@ export class AppComponent {
     this.authService.myInfos(userId).subscribe(res => {
       // console.log(res)
       this.userInfo = res['data'];
-      if (token && this.userInfo['isCompleted']) {
+      if (token && this.userInfo['isCompleted'] && this.userInfo['isAllProfileCompleted']) {
         this.socket.emit('online', userId);
         let user = {
           userId: userId,
@@ -139,7 +139,13 @@ export class AppComponent {
         }
 
         )
-      } else if (token && !this.userInfo['isCompleted']) {
+      } else if (token && this.userInfo['isCompleted'] && !this.userInfo['isAllProfileCompleted']) {
+        this.router.navigateByUrl('/edit-profile', {
+          replaceUrl: true
+        }
+        )
+      }
+      else if (token && !this.userInfo['isCompleted']) {
         this.router.navigateByUrl('/signup-final', {
           replaceUrl: true
         }
@@ -148,13 +154,12 @@ export class AppComponent {
       else if (!token) {
         this.router.navigateByUrl('/debut', {
           replaceUrl: true
-        }
-        )
+        } )
       }
     }, error => {
       // console.log(error)
       if (!token) {
-        this.router.navigateByUrl('/debut', {
+        this.router.navigateByUrl('/tuto-video', {
           replaceUrl: true
         }
         )

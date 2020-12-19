@@ -58,7 +58,7 @@ export class LinkSheetPage implements OnInit {
   ionViewWillEnter(){
     let post = this.navParams.data['post'];
     this.typeMatch = this.navParams.data['typeMatch'];
-   console.log(post)
+  // console.log(post)
     this.publication.userId = post.userId
     this.publication._id = post._id
     this.matches = post.matches

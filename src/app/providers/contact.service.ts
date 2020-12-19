@@ -90,7 +90,7 @@ export class ContactService {
 
   listNotification(id): Observable<any> {
     let url = 'users/notifications/' + id;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
 
   NbrUnreadNotifications(userId): Observable<any> {
@@ -313,11 +313,21 @@ export class ContactService {
     let url = 'chat/deleteRoom/' + roomId;
     return this.http.delete(base_url + url, httpOptionsJson);
   }
+
+  getRoomMembers(roomId): Observable<any> {
+    let url = 'chat/members/'+ roomId;
+    return this.http.get(local_url + url, httpOptionsJson);
+  }
+
+  getMembersNotInRooms(room): Observable<any> {
+    let url = 'chat/nomembers';
+    return this.http.post(local_url + url, room, httpOptionsJson);
+  }
   
 
   initChatRoom(room): Observable<any> {
     let url = 'chat/';
-    return this.http.post(base_url + url, room, httpOptionsJson);
+    return this.http.post(local_url + url, room, httpOptionsJson);
   }
 
   updateChatRoom(roomId,room): Observable<any> {
@@ -337,7 +347,7 @@ export class ContactService {
 
   addMessage(message): Observable<any> {
     let url = 'chat/addMessage';
-    return this.http.post(base_url + url, message, httpOptionsJson);
+    return this.http.post(local_url + url, message, httpOptionsJson);
   }
 
   nrbrUnreadMessages(user): Observable<any> {
