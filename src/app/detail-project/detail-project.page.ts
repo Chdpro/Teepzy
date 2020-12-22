@@ -105,7 +105,7 @@ export class DetailProjectPage implements OnInit {
     //  console.log(res)
       this.listProjects = res['projects']
       this.dataPasse.sendProjects(this.listProjects)
-      this.router.navigate(['/tabs/profile'])
+      this.router.navigateByUrl('/tabs/profile')
       
     }, error => {
      // console.log(error)

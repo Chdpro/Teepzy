@@ -10,10 +10,14 @@ import { Router } from '@angular/router';
 export class TutoVideoPage implements OnInit {
 
   video_url = "../../assets/video/VID-20200802-WA0032.mp4"
+
   constructor(
     public sanitizer: DomSanitizer,
     private router: Router
-  ) { }
+  ) 
+  {
+
+  }
 
   ngOnInit() {
   }

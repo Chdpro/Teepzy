@@ -112,7 +112,11 @@ export class AddPeopleRoomPage implements OnInit {
   }
 
   getUsersOfCircle() {
-    this.contactService.getMembersNotInRooms(this.chatRoom._id ).subscribe(res => {
+    let o = {
+      roomId: this.chatRoom._id,
+      userId: this.userId
+    }
+    this.contactService.getMembersNotInRooms(o).subscribe(res => {
     //  console.log(res);
       this.members = res['data']
     }, error => {

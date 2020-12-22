@@ -99,6 +99,16 @@ export class ProfilePage implements OnInit {
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false);
             
+  
+    
+  }
+
+  ngOnInit() {
+  
+
+  }
+
+  subscriptions(){
     this.subscription = this.dataPass.getProjects().subscribe(list => {
       if (list.length > 0) {
         this.listProjects = list
@@ -129,15 +139,10 @@ export class ProfilePage implements OnInit {
         this.listTeepz = list
       }
     });
-
-    
-  }
-
-  ngOnInit() {
-
   }
 
   ionViewWillEnter(){
+    this.subscriptions()
     let userId = localStorage.getItem('teepzyUserId')
     this.socket.emit('online', userId );
     let idUser = this.route.snapshot.paramMap.get('userId')
@@ -355,5 +360,17 @@ export class ProfilePage implements OnInit {
     });
     return await modal.present();
   }
+
+  ionViewWillLeave() {
+    // this.socket.disconnect();
+     //console.log('disconnected')
+     this.subscription?  this.subscription.unsubscribe() :  null
+ 
+   }
+   ngOnDestroy() { 
+     this.subscription?  this.subscription.unsubscribe() :  null
+     //this.socket.removeAllListeners('message');
+     //this.socket.removeAllListeners('users-changed');
+   }
 
 }

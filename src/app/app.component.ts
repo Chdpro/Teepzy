@@ -46,6 +46,20 @@ export class AppComponent {
       this.navCtrl.pop(); // I have used for my case
     });
 
+    let m = {
+      isRead: false,
+      isReply: false,
+      ReadByRecipients: [],
+      userId: '5fbce58d63ad59001251fd20',
+      roomId: '5fc747a0c4a6ea00115545dd',
+      text: 'hello hey',
+      pseudo: 'christo',
+      createdAt: new Date(),
+    }
+    this.socket.emit('notification', m);
+
+    
+
     // Your web app's Firebase configuration
     var firebaseConfig = {
       apiKey: "AIzaSyAtsHTJJtzF_V4G2oz4_8n7O2MrTZ8q6UU",
@@ -154,7 +168,7 @@ export class AppComponent {
       else if (!token) {
         this.router.navigateByUrl('/debut', {
           replaceUrl: true
-        } )
+        })
       }
     }, error => {
       // console.log(error)
@@ -239,7 +253,8 @@ export class AppComponent {
     this.contactService.getConnected(user).subscribe(res => {
       //  console.log(res)
     })
-    this.socket.emit('disconnect', this.userId);
+   // this.socket.emit('notification', this.userId);
+    this.socket.removeAllListeners('message');
   }
 
 }

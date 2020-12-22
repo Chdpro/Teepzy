@@ -16,6 +16,7 @@ export class GroupInvitationPage implements OnInit {
   roomId = ''
   membersToSendInvitation = []
   loading = false
+  search:any
   constructor(private contactService: ContactService, 
     private modalController: ModalController,
     private toastController: ToastController,
@@ -24,12 +25,13 @@ export class GroupInvitationPage implements OnInit {
 
   ngOnInit() {
     this.roomId = this.navParams.data['roomId'];
-   console.log(this.roomId)
     this.userId = localStorage.getItem('teepzyUserId');
-
     this.getMembers()
   }
 
+  trackByFn(index, item) {
+    return index; // or item.id
+  }
 
   getMembers(){
     this.contactService.getRoomMembers(this.roomId).subscribe(res =>{

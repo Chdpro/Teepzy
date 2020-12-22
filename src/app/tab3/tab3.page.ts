@@ -146,7 +146,7 @@ export class Tab3Page implements OnInit {
   }
 
   ionViewWillLeave() {
-    this.socket.disconnect();
+   // this.socket.disconnect();
     //console.log('disconnected')
     this.subscription?  this.subscription.unsubscribe() :  null
 

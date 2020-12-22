@@ -109,7 +109,7 @@ export class DetailProduitPage implements OnInit {
    //   console.log(res)
       this.listProducts = res['products']
       this.dataPasse.sendProducts(this.listProducts)
-      this.router.navigate(['/tabs/profile'])
+      this.router.navigateByUrl('/tabs/profile')
 
     }, error => {
     //  console.log(error)
