@@ -94,7 +94,6 @@ export class ChatPage implements OnInit {
     this.stateO.connectedUserId = state.connectedUserId
     this.stateO.userId = state.userId
     this.roomId = state.roomId
-    this.socket.connect();
     this.coonectSocket()
     this.getMessagesBySocket().subscribe(message => {
       console.log(message)
@@ -260,14 +259,14 @@ export class ChatPage implements OnInit {
 
   sendMessage() {
     if (!this.message.isReply) {
-      /*  this.contactService.addMessage(this.message).subscribe(res => {
-      
+        this.contactService.addMessage(this.message).subscribe(res => {
+          this.socket.emit('notification', this.message);
+          this.message.text = '';
         }, error => {
           // console.log(error)
-        })*/
-      //  console.log(res)
-      this.socket.emit('notification', this.message);
-      this.message.text = '';
+        })
+       // console.log("hello send message")
+
 
     } else {
       this.message.FromMessagePseudo = this.repliedMessage.pseudo
@@ -353,12 +352,11 @@ export class ChatPage implements OnInit {
       // console.log(notif)
       notif['userId'] == this.stateO.connectedUserId ? this.stateO.online = false : null
     });
-    this.socket.disconnect();
+    //this.socket.disconnect();
 
   }
 
   deleteMessageFromSocket() {
-    this.socket.connect();
     this.socket.fromEvent('delete-message').subscribe(messageId => {
       //  console.log(messageId)
       if (this.checkAvailability(this.messages, messageId)) {

@@ -19,8 +19,8 @@ export class Tab3Page implements OnInit {
   members = []
   rooms = []
   subscription: Subscription;
-  loading =  false
-  search:any
+  loading = false
+  search: any
   showSearch = false
   constructor(public navCtrl: NavController,
     private router: Router,
@@ -29,24 +29,26 @@ export class Tab3Page implements OnInit {
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
     private toastController: ToastController,
-    private socket: Socket) { 
-      this.menuCtrl.close('first');
+    private socket: Socket) {
+    this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
-      this.subscription = this.dataPasse.get().subscribe(list => {
-       // console.log(list)
-        if (list.length > 0) {
-          this.rooms = list
-        }
-      });
-    }
+    this.socket.connect();
+
+    this.subscription = this.dataPasse.get().subscribe(list => {
+      // console.log(list)
+      if (list.length > 0) {
+        this.rooms = list
+      }
+    });
+  }
 
   ngOnInit() {
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
 
     this.userId = localStorage.getItem('teepzyUserId');
-    this.socket.emit('online', this.userId );
+    this.socket.emit('online', this.userId);
     this.getUsersOfCircle()
     this.getChatRooms()
 
@@ -61,7 +63,7 @@ export class Tab3Page implements OnInit {
   joinChat() {
   }
 
-  
+
   doRefresh(event) {
     //console.log('Begin async operation');
     setTimeout(() => {
@@ -77,17 +79,17 @@ export class Tab3Page implements OnInit {
       //console.log(res);
       this.members = res['data']
     }, error => {
-     // console.log(error)
+      // console.log(error)
     })
   }
 
-  removeRoom(roomId){
+  removeRoom(roomId) {
     this.contactService.removeRoom(roomId).subscribe(res => {
       //console.log(res);
       this.showToast("Conversation Supprimée")
       this.getChatRooms()
     }, error => {
-     // console.log(error)
+      // console.log(error)
     })
   }
 
@@ -98,10 +100,10 @@ export class Tab3Page implements OnInit {
       //this.rooms = res['data']
       this.rooms = res['data'].sort((a, b) => {
         if (a.lastMessage[0] && b.lastMessage[0]) {
-        moment(b.lastMessage[0].createdAt).unix() - moment(a.lastMessage[0].createdAt).unix()
+          moment(b.lastMessage[0].createdAt).unix() - moment(a.lastMessage[0].createdAt).unix()
         }
       }
-       );
+      );
       this.loading = false
     }, error => {
       //console.log(error)
@@ -136,23 +138,26 @@ export class Tab3Page implements OnInit {
 
   gotoChatRoom(roomId, pseudo, photo, roomLength, roomName, connectedUserId, userId) {
     //console.log(roomId, pseudo, photo)
-    this.socket.connect();
     this.socket.emit('set-nickname', this.nickname);
-    this.navCtrl.navigateForward("/chat", 
-    { state: { nickname: this.nickname, roomId: roomId,pseudo: pseudo,
-       photo: photo, roomLength: roomLength, roomName, connectedUserId: connectedUserId, userId: userId } });
+    this.navCtrl.navigateForward("/chat",
+      {
+        state: {
+          nickname: this.nickname, roomId: roomId, pseudo: pseudo,
+          photo: photo, roomLength: roomLength, roomName, connectedUserId: connectedUserId, userId: userId
+        }
+      });
     // this.router.navigateByUrl('/chat')
 
   }
 
   ionViewWillLeave() {
-   // this.socket.disconnect();
+    // this.socket.disconnect();
     //console.log('disconnected')
-    this.subscription?  this.subscription.unsubscribe() :  null
+    this.subscription ? this.subscription.unsubscribe() : null
 
   }
-  ngOnDestroy() { 
-    this.subscription?  this.subscription.unsubscribe() :  null
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
     //this.socket.removeAllListeners('message');
     //this.socket.removeAllListeners('users-changed');
   }

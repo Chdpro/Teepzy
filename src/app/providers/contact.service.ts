@@ -347,7 +347,7 @@ export class ContactService {
 
   addMessage(message): Observable<any> {
     let url = 'chat/addMessage';
-    return this.http.post(local_url + url, message, httpOptionsJson);
+    return this.http.post(base_url + url, message, httpOptionsJson);
   }
 
   nrbrUnreadMessages(user): Observable<any> {

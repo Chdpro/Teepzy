@@ -75,7 +75,7 @@ export class AppComponent {
     let token = localStorage.getItem('teepzyToken')
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
-    //this.getUserInfo(this.userId, token)
+    this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
@@ -254,7 +254,7 @@ export class AppComponent {
       //  console.log(res)
     })
    // this.socket.emit('notification', this.userId);
-    this.socket.removeAllListeners('message');
+   // this.socket.removeAllListeners('message');
   }
 
 }
