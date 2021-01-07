@@ -576,7 +576,7 @@ export class Tab1Page implements OnInit {
           },
         )
       }
-      //console.log(this.listPosts)
+      console.log(this.listPosts)
 
     })
   }

@@ -229,7 +229,7 @@ export class ContactService {
 
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
 
   checkInMyCircle(check): Observable<any> {

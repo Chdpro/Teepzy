@@ -502,7 +502,13 @@ export class DetailFeedPage implements OnInit {
           includedUsers: e['includedUsers'],
           createdAt: e['createdAt'],
           reposterId: e['reposterId'],
-          favorite: true
+          favorite: true,
+          nbrComments: e['nbrComments'],
+          favoriteCount: e['favoriteCount'],
+          repostCounts: e['repostCounts'],
+          matches: e['matches']
+
+      
         }
       } else {
         this.post = {
@@ -516,7 +522,12 @@ export class DetailFeedPage implements OnInit {
           includedUsers: e['includedUsers'],
           createdAt: e['createdAt'],
           reposterId: e['reposterId'],
-          favorite: false
+          favorite: false,
+          nbrComments: e['nbrComments'],
+          favoriteCount: e['favoriteCount'],
+          repostCounts: e['repostCounts'],
+          matches: e['matches']
+      
         }
       }
     })

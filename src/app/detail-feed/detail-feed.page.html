@@ -193,7 +193,7 @@
               </a>
               <a (click)="removeFavorite(post?._id)" *ngIf="post?.favorite == true">
                 <button mat-fab class="mat-button-i" color="primary">
-                  <mat-icon *ngIf="post?.favoriteCount > 0" [matBadge]="post?.favoriteCount" matBadgeColor="warn">
+                  <mat-icon *ngIf="post?.favoriteCount !== 0" [matBadge]="post?.favoriteCount" matBadgeColor="warn">
                   </mat-icon>
                   <span class="material-icons mat-icon-btn">
                     star
@@ -202,7 +202,7 @@
               </a>
               <a (click)="addFavorite(post?._id)" *ngIf="post?.favorite !== true">
                 <button mat-fab class="mat-button-i" color="primary">
-                  <mat-icon *ngIf="post?.favoriteCount > 0" [matBadge]="post?.favoriteCount" matBadgeColor="warn">
+                  <mat-icon *ngIf="post?.favoriteCount !== 0" [matBadge]="post?.favoriteCount" matBadgeColor="warn">
                   </mat-icon>
                   <span class="material-icons mat-icon-btn">
                     star_border
