@@ -15,8 +15,6 @@ import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVide
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
-import { HttpClientModule } from '@angular/common/http';
-import { UploadService } from '../providers/upload.service';
 import { Router } from '@angular/router';
 import { File } from '@ionic-native/file/ngx';
 
@@ -104,7 +102,10 @@ export class AddPostPage implements OnInit {
   }
 
 
-
+removeMedia(){
+  this.dispVideos = []
+  this.dispImags = []
+}
   requestNecessaryPermissions() {
     // Change this array to conform with the permissions you need
     const androidPermissionsList = [

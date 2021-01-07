@@ -30,6 +30,8 @@ export class AddProjectPage implements OnInit {
     photo: [],
     tags : [],
     description: '',
+    userPhoto_url:'',
+    userPseudo:''
   }
 
   subscription: Subscription;  
@@ -354,6 +356,8 @@ export class AddProjectPage implements OnInit {
       }
       this.loading = true
       this.tags.length > 0 ? this.project.tags = this.tags : null
+      this.project.userPhoto_url = this.user.photo
+      this.project.userPseudo = this.user.pseudoIntime
       //this.photos.length > 0? this.uploadImage() : null
       this.contactService.addProject(this.project).subscribe(res =>{
        // console.log(res);
@@ -372,6 +376,8 @@ export class AddProjectPage implements OnInit {
       this.loading = true
       this.tags.length > 0 ? this.project.tags = this.tags : null
       //this.photos.length > 0? this.uploadImage() : null
+      this.project.userPhoto_url = this.user.photo
+      this.project.userPseudo = this.user.pseudoIntime
       this.contactService.addProject(this.project).subscribe(res =>{
        // console.log(res);
         this.loading = false

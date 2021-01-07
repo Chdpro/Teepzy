@@ -1,6 +1,4 @@
-<ion-content color="success" class="content" style="background-color: #F0EFEF;"
-           
->
+<ion-content color="success" class="content" style="background-color: #F0EFEF;">
   <ion-refresher slot="fixed" (ionRefresh)="closeModalOnSwipeDown($event)">
     <!--ion-refresher-content></ion-refresher-content-->
   </ion-refresher>
@@ -114,8 +112,9 @@
 
       <ion-col size="9">
         <ion-item no-lines>
-          <ion-input type="text" placeholder="Ajouter un commentaire" name="comment" required #comment="ngModel"
-            [(ngModel)]="commentT.comment"></ion-input>
+          <ion-textarea #myInput cols="20" type="text" placeholder="Ajouter un commentaire" name="comment" required
+            #comment="ngModel" [(ngModel)]="commentT.comment" autosize>
+          </ion-textarea>
         </ion-item>
       </ion-col>
       <ion-col size="3">

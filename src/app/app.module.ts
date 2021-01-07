@@ -55,10 +55,11 @@ import { UploadService } from './providers/upload.service';
 import { File } from '@ionic-native/file/ngx';
 import { SnapPageModule } from './snap/snap.module';
 import { GroupInvitationPageModule } from './group-invitation/group-invitation.module';
-const config: SocketIoConfig = { url: local_url, options: { secure: true }};
+import { Autosize } from './components/autosize';
+const config: SocketIoConfig = { url: base_url, options: { secure: true }};
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,Autosize],
   entryComponents: [],
   imports: [
     BrowserModule, 

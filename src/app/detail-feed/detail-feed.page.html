@@ -51,6 +51,17 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
   
+    <ion-slides *ngIf="post == null"  pager="false" [options]="slideOpts">
+    <ion-slide *ngIf="!loading && post == null">
+        <ion-spinner color="primary" name="dots"></ion-spinner>
+      </ion-slide>
+
+        <ion-slide *ngIf="post == null" >
+            <span style="color: #ea4e4f;">
+               Publication supprimée
+            </span>
+          </ion-slide>
+    </ion-slides>
     <ion-slides *ngIf="post" pager="true" [options]="slideOpts">
       <ion-slide 
         [ngClass]="{'ion-slide-img': post?.image_url != '', 'ion-slide-no-img': post?.image_url == ''}" [ngStyle]="{
@@ -62,10 +73,10 @@
           'background-repeat': 'no-repeat'
         }">
   
-        <div (click)="playVideo(post?.video_url)" class="post-txt">
+        <div  class="post-txt">
           <div *ngIf="post?.video_url">
             <div>
-              <video #videoPlayer playsinline preload="metadata">
+              <video (click)="playVideo(post?.video_url)" #videoPlayer playsinline preload="metadata">
                 <source [src]="sanitizer.bypassSecurityTrustResourceUrl(post?.video_url  + '#t=0.5')" type="video/mp4" />
               </video>
               <ion-grid>
@@ -93,14 +104,14 @@
                     Vous avez partagé le teepz de
                   </span>
                 </ion-col>
-                <ion-col *ngIf="!post?.image_url && !post?.video_url" [ngStyle]="{'background': post?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
+                <ion-col  *ngIf="!post?.image_url && !post?.video_url" [ngStyle]="{'background': post?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
                 'font-weight': post?.image_url ? '800': '100' }">
-                  <div>
+                  <div (click)="goToProfile(post?.userId)">
                     <img *ngIf="post?.userPhoto_url && post?.userPhoto_url !==''" class="img" [src]="post?.userPhoto_url" alt="">
                   </div>
   
-                  <div>
-                    <div *ngIf="post?.userPhoto_url == '' || post?.userPhoto_url == null " class="round-img"
+                  <div (click)="goToProfile(post?.userId)">
+                    <div  *ngIf="post?.userPhoto_url == '' || post?.userPhoto_url == null " class="round-img"
                       [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">
                       {{post?.userPseudo | slice:0:1| uppercase}}
                     </div>
@@ -152,28 +163,81 @@
           </p>
   
   
-          <div [ngStyle]="{'bottom': post?.image_url || post?.video_url ? '-30px' : '57px' }" class="match-img">
-      
-            <div style="display: flex;margin-top: 12px;" *ngIf="!post?.image_url && !post?.video_url">
-              <span>MATCH</span>
-              <span style="margin-left: 6px;" *ngFor="let m of post?.matches | slice:0:3;">
-                <img class="match-image" *ngIf="m?.photo != null" [src]="m?.photo" alt="">
-                <div class="match-pseudo" *ngIf="m?.photo == null"
-                  [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">
-                  {{m?.prenom | slice:0:1| uppercase}}
+  
+          <div class="fixed-wrap"
+          [ngStyle]="{'margin-top': post?.image_url || post?.video_url ? '-133px' : '-194px' }">
+          <div class="slidenav">
+            <div *ngIf="post?.image_url|| post?.video_url">
+              <div (click)="goToProfile(post?.userId)" class="img-wrapper" style="float: right;">
+                <img *ngIf="post?.userPhoto_url" class="img img-media-detail" [src]="post?.userPhoto_url" alt="">
+              </div>
+
+              <div (click)="goToProfile(post?.userId)" style="float: right; color: #fff !important;" class="userPseudo-bg"
+                *ngIf="post?.image_url || post?.video_url">
+                <div *ngIf="post?.userPhoto_url == '' || post?.userPhoto_url == null " class=" pseudo-media"
+                  [ngStyle]='{"color":post?.image_url || post?.video_url ? "#00000" : "#ffff" }'>
+                  {{post?.userPseudo | slice:0:1| uppercase}}
                 </div>
-  
-              </span>
-              <span *ngIf="post?.matches?.length == 0"> 0</span>
-              <span *ngIf="post?.matches?.length > 3">
-                + {{post.matches?.length - 3}} 
-              </span> <br>
+              </div>
             </div>
-  
-            <div class="content-down" *ngIf="post?.image_url || post?.video_url"
-              [ngStyle]="{'font-size': post?.content.length > 20 ? '14px' : '17px', 'color': 'white', 'font-weight': '800' }"
-              >
-              <span style="color: #ffff;margin-left: 50px !important;" *ngIf="post?.image_url || post?.video_url">
+
+            <div class="menu">
+              <a (click)="presentCommentModal(post)">
+                <button mat-fab class="mat-button" color="primary">
+                  <mat-icon *ngIf="post?.nbrComments !== 0" [matBadge]="post?.nbrComments" matBadgeColor="warn">
+                    <ion-icon class="chatbubble" name="chatbubble-outline"></ion-icon>
+                  </mat-icon>
+                  <ion-icon *ngIf="post?.nbrComments == 0" name="chatbubble-outline"></ion-icon>
+
+                </button>
+              </a>
+              <a (click)="removeFavorite(post?._id)" *ngIf="post?.favorite == true">
+                <button mat-fab class="mat-button-i" color="primary">
+                  <mat-icon *ngIf="post?.favoriteCount > 0" [matBadge]="post?.favoriteCount" matBadgeColor="warn">
+                  </mat-icon>
+                  <span class="material-icons mat-icon-btn">
+                    star
+                  </span>
+                </button>
+              </a>
+              <a (click)="addFavorite(post?._id)" *ngIf="post?.favorite !== true">
+                <button mat-fab class="mat-button-i" color="primary">
+                  <mat-icon *ngIf="post?.favoriteCount > 0" [matBadge]="post?.favoriteCount" matBadgeColor="warn">
+                  </mat-icon>
+                  <span class="material-icons mat-icon-btn">
+                    star_border
+                  </span>
+                </button>
+              </a>
+              <a (click)="presentShareModal(post)">
+                <button mat-fab class="mat-button-i" color="primary">
+                  <mat-icon *ngIf="post?.repostCounts !== 0" [matBadge]="post?.repostCounts" matBadgeColor="warn">
+                  </mat-icon>
+                  <span class="material-icons mat-icon-btn">redo</span>
+                </button>
+              </a>
+              <a (click)="presentLinkModal(post, 'RECHERCHE')">
+                <button mat-fab class="mat-button-i" color="primary">
+                  <span class="material-icons mat-icon-btn">group_add </span>
+                </button>
+              </a>
+
+              <div (click)="presentLinkModal(post, 'MATCHES')" class="filigrane" style="font-weight: 800;font-size: 7px;">
+                <span class="match-txt">MATCHES</span>
+                <span style="margin-top: 6px;font-size: 8px;" *ngIf="post?.matches?.length == 0"> <br> 0</span>
+                <span style="margin-top: 6px;font-size: 8px;" *ngIf="post?.matches?.length > 3"><br>+
+                  {{post.matches?.length - 3}} </span> <br>
+                <span style="margin-top: 6px;font-size: 8px;"
+                  *ngIf="post?.matches?.length < 3 && post?.matches?.length > 0"><br>
+                  {{post.matches?.length}} </span> <br>
+
+              </div>
+            </div>
+          </div>
+
+
+          <div *ngIf="post?.image_url || post?.video_url" class="userInfo">
+              <span style="color: #ffff;margin-left: 25px !important;" *ngIf="post?.image_url || post?.video_url">
                 <strong>
                   @{{post?.userPseudo}} -
                 </strong>
@@ -199,133 +263,14 @@
                   il y a 1 mois
                 </span>
               </span><br>
-    
-              {{ post?.content }}
+  
+              <div style="float: left;margin-left: 21px;">
+                {{ post?.content }}
+              </div>
+  
             </div>
-          </div>
-  
-          <ion-grid>
-            <ion-row [ngStyle]=" {'margin-top': !post?.image_url && !post?.video_url? '-111px' : '0'}">
-              <ion-col *ngIf="post?.image_url|| post?.video_url">
-                <div style="float: right;">
-                  <img  *ngIf="post?.userPhoto_url"  class="img img-media" [src]="post?.userPhoto_url" alt="">
-                </div>
-  
-                <div style="float: right;" *ngIf="post?.image_url || post?.video_url">
-                  <div *ngIf="post?.userPhoto_url == '' || post?.userPhoto_url == null" class=" pseudo-media"
-                    [ngStyle]='{"color": post?.backgroundColor == "#fff" ? "black" : "white" }'>
-                    {{post?.userPseudo | slice:0:1| uppercase}}
-                  </div>
-                </div>
-  
-              </ion-col>
-  
-              <ion-col size="12">
-                <section>
-                  <div class="example-button-row">
-                    <div class="example-flex-container">
-                      <div class="example-button-container " (click)="presentCommentModal(post)">
-                        <button mat-fab class="mat-button" color="primary"
-                          aria-label="Example icon button with a delete icon">
-                          <ion-icon style="font-size: 26px;margin-top: -3px;" name="chatbubble-outline"></ion-icon>
-                        </button>
-                      </div>
-  
-                    </div>
-                  </div>
-  
-                </section>
-              </ion-col>
-              <ion-col size="12" *ngIf="post?.favorite == true">
-                <section>
-                  <div class="example-button-row">
-                    <div class="example-flex-container">
-                      <div class="example-button-container" (click)="removeFavorite(post)">
-                        <button mat-fab class="mat-button" color="primary"
-                          aria-label="Example icon button with a delete icon">
-                          <ion-icon style="    font-size: large;margin-top: -3px;" name="star"></ion-icon>
-                        </button>
-                      </div>
-  
-                    </div>
-                  </div>
-  
-                </section>
-              </ion-col>
-              <ion-col size="12" *ngIf="post?.favorite != true">
-                <section>
-                  <div class="example-button-row">
-                    <div class="example-flex-container">
-                      <div class="example-button-container" (click)="addFavorite(post)">
-                        <button mat-fab class="mat-button" color="primary"
-                          aria-label="Example icon button with a delete icon">
-                          <ion-icon style="font-size: large;margin-top: -3px;" name="star-outline"></ion-icon>
-  
-                        </button>
-                      </div>
-  
-                    </div>
-                  </div>
-  
-                </section>
-              </ion-col>
-              <ion-col size="12">
-                <section>
-                  <div class="example-button-row">
-                    <div class="example-flex-container">
-                      <div class="example-button-container">
-                        <button mat-fab color="primary" (click)="presentShareModal(post)" class="mat-button"
-                          aria-label="Example icon button with a delete icon">
-                          <span style="    margin-top: -4px;" class="material-icons">
-                            redo
-                          </span>
-                        </button>
-                      </div>
-  
-                    </div>
-                  </div>
-                </section>
-              </ion-col>
-              <ion-col size="12">
-                <section>
-                  <div class="example-button-row">
-                    <div class="example-flex-container">
-                      <div class="example-button-container" (click)="presentLinkModal(post)">
-                        <button mat-fab color="primary" class="mat-button"
-                          aria-label="Example icon button with a delete icon">
-                          <span style="    margin-top: -4px;" class="material-icons">
-                            group_add
-                          </span>
-                        </button>
-                      </div>
-  
-                    </div>
-                  </div>
-  
-                </section>
-              </ion-col>
-              <ion-col size="12">
-                <div class="filigrane" style="float: right;font-weight: 800;font-size: 7px;"
-                  *ngIf="post?.image_url || post?.video_url">
-                  <span>MATCHES</span>
-                  <span style="margin-top: 6px;" *ngIf="post?.matches?.length == 0"> <br> 0</span>
-                  <span style="margin-top: 6px;" *ngIf="post?.matches?.length > 3">+ {{post.matches?.length - 3}} </span> <br>
-                  <br>
-              
-                   </div>
-                  
-              </ion-col>
-              <ion-col size="12">
-                <span class="match-align" style="margin-left: 6px;" *ngFor="let m of post?.matches | slice:0:3;">
-                  <img class="match-image" *ngIf="m?.photo !== null" [src]="m?.photo" alt="">
-                  <div class="match-pseudo" *ngIf="m?.photo == null"
-                  [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">
-                  {{m?.prenom | slice:0:1| uppercase}}
-                </div>
-                </span>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
+        </div>
+
         </div>
   
   

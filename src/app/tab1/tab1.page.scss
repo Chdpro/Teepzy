@@ -39,7 +39,6 @@ ion-content{
 .menu{
     position: absolute;
     top: 45%;
-    left: 77%;
     z-index: 2;
     line-height: 10px;
 }
@@ -82,7 +81,7 @@ ion-icon{
     text-shadow: 0 1px 6px black;
     width: 260px;
     background: #00000070;
-    border-radius: 11%;
+    border-radius: 30px;
     padding: 19px;
 
 }
@@ -269,13 +268,17 @@ img{
 }
 
 .img{
-    height: 64px;
-    width: 64px;
-    border-radius: 177px;
-    border: solid 2px #ea4e50;
     display: block;
     margin-left: 8px;
     margin-right: 2px;
+
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border: solid 1px #ea4e50;
+    width: 54px;
+    height: 54px;
+    
 }
 .play-btn{
     font-size: 31px;
@@ -303,19 +306,29 @@ img{
     position: absolute;
     top: -57px;
     left: 9px;
+    background: rgba(0, 0, 0, 0.18);
+}
 
+.img-wrapper{
+    float: right;
+    position: absolute;
+    left: 11px;
+    width: 54px;
+    height: 54px;
+    top: -57px;
+    left: 2px;
 }
 
 .img-media{
-    height: 54px;
-    width: 54px;
-
     border-radius: 100%;
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%; 
     border: solid 1px #ea4e50;
     font-size: 18px;
-    float: right;
+    top: -57px;
+    left: 0px;
+    width: 54px;
+    height: 54px;
 }
 
 .check-btn{
@@ -405,7 +418,7 @@ mat-card-header{
 .prev-btn{
     float: right;
     position: absolute;
-    height: 22%;
+    height: 18%;
     right: 0;
     background: #f0f8ff00;
     color: #f0f8ff00;

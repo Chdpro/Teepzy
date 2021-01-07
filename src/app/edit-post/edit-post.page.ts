@@ -106,7 +106,11 @@ export class EditPostPage implements OnInit {
 
 
   getAPost(idTeepz) {
-    this.contactService.getPost(idTeepz).subscribe(res => {
+    let post = {
+      idPost: idTeepz,
+      userId: this.userId
+    }
+    this.contactService.getPost(post).subscribe(res => {
      // console.log(res)
       this.poste = res['data'];
       this.post.content = this.poste.content

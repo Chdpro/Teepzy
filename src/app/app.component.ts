@@ -58,7 +58,7 @@ export class AppComponent {
     }
     this.socket.emit('notification', m);
 
-    
+
 
     // Your web app's Firebase configuration
     var firebaseConfig = {
@@ -75,7 +75,7 @@ export class AppComponent {
     let token = localStorage.getItem('teepzyToken')
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
-    this.getUserInfo(this.userId, token)
+   // this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
@@ -173,11 +173,12 @@ export class AppComponent {
     }, error => {
       // console.log(error)
       if (!token) {
-        this.router.navigateByUrl('/tuto-video', {
+        this.router.navigateByUrl('/debut', {
           replaceUrl: true
         }
         )
       }
+
     })
   }
 
@@ -253,8 +254,8 @@ export class AppComponent {
     this.contactService.getConnected(user).subscribe(res => {
       //  console.log(res)
     })
-   // this.socket.emit('notification', this.userId);
-   // this.socket.removeAllListeners('message');
+    // this.socket.emit('notification', this.userId);
+    // this.socket.removeAllListeners('message');
   }
 
 }

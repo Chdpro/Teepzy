@@ -12,9 +12,7 @@ import { Router } from '@angular/router';
 import { Globals } from '../globals';
 import { DomSanitizer } from '@angular/platform-browser';
 import { typeAccount, MESSAGES } from '../constant/constant';
-import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
-import { post } from 'selenium-webdriver/http';
 
 
 @Component({
@@ -159,7 +157,10 @@ export class Tab1Page implements OnInit {
 
   ngOnInit() {
     this.connectSocket()
+ 
   }
+
+
 
   ionViewWillEnter() {
     this.userId = localStorage.getItem('teepzyUserId');
@@ -177,7 +178,7 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  skipTuto(){
+  skipTuto() {
     let iSskip = "YES"
     localStorage.setItem('isTutoSkip', iSskip)
     this.tutos = []
@@ -187,13 +188,13 @@ export class Tab1Page implements OnInit {
   doCheck() {
     let prom1 = this.ionSlides.isBeginning();
     let prom2 = this.ionSlides.isEnd();
-  
+
     Promise.all([prom1, prom2]).then((data) => {
       data[0] ? this.disablePrevBtn = true : this.disablePrevBtn = false;
       data[1] ? this.disableNextBtn = true : this.disableNextBtn = false;
     });
   }
-  
+
 
   swipeEvents(event) {
     ///console.log('swipe');
@@ -257,17 +258,17 @@ export class Tab1Page implements OnInit {
 
   }
 
-  public swipeNext(){
+  public swipeNext() {
     this.slides.slideNext();
   }
 
-  public swipePrev(){
+  public swipePrev() {
     this.slides.slidePrev();
   }
 
-  nextWhenVideo() {
+  nextWhenVideo(videoUrl) {
     if (this.videoPlayers) {
-      this.playVideo()
+      this.playVideo(videoUrl)
     } else {
       this.slides.slideNext();
       //this.stopVideo()
@@ -445,7 +446,7 @@ export class Tab1Page implements OnInit {
     }
     const modal = await this.modalController.create({
       component: LinkSheetPage,
-      componentProps: {post: post, typeMatch: typeMatch},
+      componentProps: { post: post, typeMatch: typeMatch },
       backdropDismiss: false,
       showBackdrop: true,
       swipeToClose: true,
@@ -496,6 +497,7 @@ export class Tab1Page implements OnInit {
     this.loading = true
     this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
+      console.log(res)
       if (res['data'] != null) {
         //this.tutos = []
         this.posts = res['data']
@@ -545,7 +547,9 @@ export class Tab1Page implements OnInit {
             reposterId: e['reposterId'],
             matches: e['matches'],
             nbrComments: e['nbrComments'],
-            favorite: true
+            favorite: true,
+            favoriteCount:e['favoriteCount'],
+            repostCounts: e['repostCounts']
           },
         )
 
@@ -566,7 +570,9 @@ export class Tab1Page implements OnInit {
             reposterId: e['reposterId'],
             matches: e['matches'],
             nbrComments: e['nbrComments'],
-            favorite: false
+            favorite: false,
+            favoriteCount: e['favoriteCount'],
+            repostCounts: e['repostCounts']
           },
         )
       }

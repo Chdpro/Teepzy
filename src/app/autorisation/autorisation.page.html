@@ -31,7 +31,9 @@
     <ion-row>
       <ion-col>
         <div>
-          <h5>Contacts</h5>
+          <h5>Contacts</h5> <span>
+            <ion-toggle name="n" [(ngModel)]="n" (click)="authOrNot()" color="primary"></ion-toggle>
+          </span>
           <p>
             Vos Contacts seront importés dans les serveurs de Teepzy, afin que vous et vos
             amis puissiez vous retrouver facilement, et bénéficier ainsi d'une meilleure expérience.
@@ -40,6 +42,7 @@
             </a>
 
           </p>
+
         </div>
         <mat-divider></mat-divider>
 

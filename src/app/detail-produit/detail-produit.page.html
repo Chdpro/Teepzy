@@ -67,7 +67,23 @@
 
         </div>
 
+        <div class="fixed-wrap">
+          <div class="slidenav">
+            <div>
+              <div (click)="goToProfile(product?.userId)" class="img-wrapper" >
+                <img *ngIf="product?.userPhoto_url" class="img img-media-detail" [src]="product?.userPhoto_url" alt="">
+              </div>
 
+              <div (click)="goToProfile(product?.userId)" style="float: right; color: #fff !important;" class="userPseudo-bg"
+               >
+                <div *ngIf="product?.userPhoto_url == '' || product?.userPhoto_url == null " class=" pseudo-media"
+                 >
+                  {{product?.userPseudo | slice:0:1| uppercase}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
 

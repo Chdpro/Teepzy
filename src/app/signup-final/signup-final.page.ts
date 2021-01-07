@@ -99,7 +99,7 @@ export class SignupFinalPage implements OnInit {
           this.contactService.getConnected(user).subscribe(res => {
          //   console.log(res)
           })
-          this.router.navigateByUrl('/edit-profile', {
+          this.router.navigateByUrl('/tuto-video', {
             replaceUrl: true
           })
         }

@@ -78,7 +78,7 @@
           <b *ngIf="m?.connectedUsersInfo._id == userId"> {{m?.userInitiator?.pseudoIntime}} </b>
           <b *ngIf="m?.connectedUsersInfo._id != userId"> {{m?.connectedUsersInfo?.pseudoIntime}} </b>
           <b *ngIf="m?.lastMessage.length > 0" style="float: right;" class="time">
-            {{m?.lastMessage[0].createdAt | date:'hh:MM' }}
+            {{m?.lastMessage[0].createdAt | slice:11:15 }}
           </b><br>
           <strong *ngIf="m?.lastMessage.length > 0">
             {{m?.lastMessage[0].text | slice:0:25}}...
@@ -106,9 +106,9 @@
         <ion-label  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
         m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
          m?.name, m?.connectedUsers[0], m?.userId)" [ngStyle]="{ 'padding-bottom':  m?.lastMessage.length == 0 ? '14px': '0' }">
-          <b> {{m?.name}} </b>
+          <b> {{m?.name | slice:0:15}} <span *ngIf="m?.name?.length > 16">...</span> </b>
           <b *ngIf="m?.lastMessage.length > 0" style="float: right;" class="time">
-            {{m?.lastMessage[0].createdAt | date:'hh:MM' }}
+            {{m?.lastMessage[0].createdAt | slice:11:15 }}
           </b><br>
           <strong *ngIf="m?.lastMessage.length > 0">
             {{m?.lastMessage[0].text | slice:0:25}}...

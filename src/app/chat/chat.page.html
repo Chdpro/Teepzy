@@ -40,10 +40,10 @@
         #clickHoverMenuTrigger="matMenuTrigger" (onLongPressing)="onLongPressing()">
 
         <ion-col *ngIf="message?.userId !== userId" size="2">
-          <div *ngIf="photo == null || photo == ''" class="round-img-post">
+          <div *ngIf="message?.userPhoto_url == null || message?.userPhoto_url == ''" class="round-img-post">
             {{message?.pseudo | slice:0:1| uppercase}}
           </div>
-          <img *ngIf="photo" [src]="photo" alt="">
+          <img *ngIf="message?.userPhoto_url" [src]="message?.userPhoto_url" alt="">
 
         </ion-col>
 
@@ -57,8 +57,8 @@
           <span class="user_name">{{ message?.pseudo }}:</span><br>
           <span>{{ message?.text }}</span>
           <div class="time">
-              {{message?.createdAt | slice:8:10}}.{{message?.createdAt | slice:5:7}}   
-              {{message?.createdAt | slice:11:13}}.{{message?.createdAt | slice:14:16}}
+              {{message?.createdAt | slice:0:1}}.{{message?.createdAt | slice:3:4}}    
+              {{message?.createdAt | slice:11:14}}
           </div>
         </ion-col>
         <ion-col *ngIf="message?.userId !== userId" size="1">
@@ -80,18 +80,18 @@
           <span class="user_name">{{ message?.pseudo }}:</span><br>
           <span>{{ message?.text }}</span>
           <div class="time">
-            {{message?.createdAt | slice:8:10}}.{{message?.createdAt | slice:5:7}}   
-            {{message?.createdAt | slice:11:13}}.{{message?.createdAt | slice:14:16}}
+            {{message?.createdAt | slice:0:2}}.{{message?.createdAt | slice:3:5}}    
+            {{message?.createdAt | slice:11:15}}
           </div><br>
           <ion-icon *ngIf="message?.isRead === true" class="read-icon" color="medium" name="checkmark-done-outline"></ion-icon>
           <ion-icon *ngIf="message?.isRead !== true" class="read-icon" color="medium"  name="checkmark-outline"></ion-icon>
         </ion-col>
 
         <ion-col *ngIf="message?.userId == userId" size="2">
-          <div *ngIf="!user?.photo" class="round-img-post">
+          <div *ngIf="!message?.userPhoto_url" class="round-img-post">
             {{user?.pseudoIntime | slice:0:1| uppercase}}
           </div>
-          <img *ngIf="user?.photo" [src]="user?.photo" alt="">
+          <img *ngIf="message?.userPhoto_url" [src]="message?.userPhoto_url" alt="">
 
         </ion-col>
         <ion-col size="12">
@@ -143,7 +143,9 @@
       </ion-col>
       <ion-col size="9">
         <ion-item no-lines>
-          <ion-input type="text" placeholder="Message" [(ngModel)]="message.text"></ion-input>
+          <ion-textarea #myInput cols="20" type="text" placeholder="Message" name="comment"
+          [(ngModel)]="message.text" autosize>
+        </ion-textarea>
         </ion-item>
       </ion-col>
       <ion-col size="3">

@@ -2,7 +2,6 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { ToastController, AlertController, IonSlides, MenuController, ModalController, IonRouterOutlet } from '@ionic/angular';
-import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { LinkSheetPage } from '../link-sheet/link-sheet.page';
@@ -87,9 +86,10 @@ export class DetailFeedPage implements OnInit {
     speed: 400
   };
 
+
+  loading: Boolean
   constructor(private authService: AuthService,
     private toasterController: ToastController,
-    private socialSharing: SocialSharing,
     public alertController: AlertController,
     private menuCtrl: MenuController,
     private modalController: ModalController,
@@ -101,12 +101,12 @@ export class DetailFeedPage implements OnInit {
     public route: ActivatedRoute,
     private dataPasse: DatapasseService,
     private contactService: ContactService) {
-      this.menuCtrl.close('first');
-      this.menuCtrl.swipeGesture(false);
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
     this.global = globals;
     this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
     this.subscription = this.dataPasse.get().subscribe(p => {
-   //   console.log(p)
+      //   console.log(p)
       if (p) {
         this.post = p
       }
@@ -129,9 +129,24 @@ export class DetailFeedPage implements OnInit {
 
   }
 
+  goToProfile(userId) {
+    console.log(userId)
+    if (this.userId === userId) {
+      this.router.navigate(['/tabs/profile', { userId: userId }])
+    } else {
+      this.router.navigate(['/profile', { userId: userId, previousUrl: 'feed' }])
+    }
+
+  }
 
   getAPost(idTeepz) {
-    this.contactService.getPost(idTeepz).subscribe(res => {
+
+    let post = {
+      idPost: idTeepz,
+      userId: this.userId
+    }
+    this.loading = true
+    this.contactService.getPost(post).subscribe(res => {
       console.log(res)
       let post = res['data'];
       if (post) {
@@ -140,17 +155,25 @@ export class DetailFeedPage implements OnInit {
           postId: post._id
         }
         this.checkFavorite(favorite, post)
+        this.loading = false
       }
     }, error => {
-    //  console.log(error)
+      //  console.log(error)
+      this.loading = false
+
     })
 
   }
 
   getRepost(idTeepz) {
-    this.contactService.getRePost(idTeepz).subscribe(res => {
-   //   console.log(res)
-      this.post == null ?  this.post = res['data'] : null;
+    let post = {
+      idPost: idTeepz,
+      userId: this.userId
+    }
+    this.loading = true
+    this.contactService.getRePost(post).subscribe(res => {
+      console.log(res)
+      this.post == null ? this.post = res['data'] : null;
       if (this.post) {
         let favorite = {
           userId: this.userId,
@@ -158,8 +181,11 @@ export class DetailFeedPage implements OnInit {
         }
         this.checkFavorite(favorite, this.post)
       }
+      this.loading = false
     }, error => {
-    //  console.log(error)
+      //  console.log(error)
+      this.loading = false
+
     })
   }
 
@@ -222,21 +248,21 @@ export class DetailFeedPage implements OnInit {
 
   getMyPosts(userId) {
     this.contactService.teepZ(userId).subscribe(res => {
-    //  console.log(res)
+      //  console.log(res)
       let listTeepz = res['data'];
       this.dataPasse.sendPosts(listTeepz)
     }, error => {
-     // console.log(error)
+      // console.log(error)
     })
   }
 
   getMyFavoritePosts(userId) {
     this.contactService.favorites(userId).subscribe(res => {
-    //  console.log(res)
+      //  console.log(res)
       let listFavorites = res['data'];
       this.dataPasse.sendFavorite(listFavorites)
     }, error => {
-     // console.log(error)
+      // console.log(error)
     })
   }
 
@@ -250,13 +276,13 @@ export class DetailFeedPage implements OnInit {
 
   deletePost() {
     this.contactService.deletePost(this.post._id).subscribe(res => {
-     // console.log(res)
+      // console.log(res)
       this.getMyPosts(this.userId)
       this.getMyFavoritePosts(this.userId)
       this.presentToast(MESSAGES.DELETE_FEED_OK)
 
     }, error => {
-     // console.log(error)
+      // console.log(error)
       this.presentToast(MESSAGES.DELETE_FEED_ERROR)
     })
 
@@ -264,12 +290,12 @@ export class DetailFeedPage implements OnInit {
 
   deleteRePost() {
     this.contactService.deleteRePost(this.post._id).subscribe(res => {
-     // console.log(res)
+      // console.log(res)
       this.getMyPosts(this.userId)
       this.getMyFavoritePosts(this.userId)
       this.presentToast(MESSAGES.DELETE_FEED_OK)
     }, error => {
-     // console.log(error)
+      // console.log(error)
       this.presentToast(MESSAGES.DELETE_FEED_ERROR)
     })
 
@@ -394,7 +420,7 @@ export class DetailFeedPage implements OnInit {
       postId: post._id
     }
     this.contactService.removeFavorite(favoris).subscribe(res => {
-     // console.log(res)
+      // console.log(res)
       this.post = {
         _id: post['_id'],
         userId: post['userId'],
@@ -413,11 +439,11 @@ export class DetailFeedPage implements OnInit {
       this.presentToast(MESSAGES.REMOVE_FAVORITE_OK)
     }, error => {
       this.presentToast(MESSAGES.REMOVE_FAVORITE_ERROR)
-     // console.log(error)
+      // console.log(error)
     })
   }
 
-  async presentLinkModal(post) {
+  async presentLinkModal(post, typeMatch) {
     if (this.globals.showBackground) {
       this.globals.showBackground = false;
     } else {
@@ -425,7 +451,7 @@ export class DetailFeedPage implements OnInit {
     }
     const modal = await this.modalController.create({
       component: LinkSheetPage,
-      componentProps: post,
+      componentProps: { post: post, typeMatch: typeMatch },
       backdropDismiss: false,
       showBackdrop: true,
       swipeToClose: true,
@@ -433,6 +459,7 @@ export class DetailFeedPage implements OnInit {
     });
     return await modal.present();
   }
+
 
 
   async presentCommentModal(post) {

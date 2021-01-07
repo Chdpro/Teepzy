@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonTabs,  } from '@ionic/angular';
 import { AddPostPage } from '../add-post/add-post.page';
 import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
+  private activeTab?: HTMLElement;
 
   userId = ''
   nrbrNotifications = 0
@@ -21,15 +22,44 @@ export class TabsPage {
     public modalController: ModalController,
     private contactService: ContactService,
     private socket: Socket,
-    private router: Router
+    private router: Router,
     ) {
     this.userId = localStorage.getItem('teepzyUserId')
     this.nbrUnreadNotifications()
   }
 
   ionViewWillEnter() {
+    this.propagateToActiveTab('ionViewWillEnter');
     this.nbrUnreadMessages()
+
   }
+
+  tabChange(tabsRef: IonTabs) {
+   // this.activeTab = tabsRef.outlet.activatedView.element;
+  }
+
+  ionViewWillLeave() {
+    this.propagateToActiveTab('ionViewWillLeave');
+    this.socket.disconnect();
+
+  }
+  
+  ionViewDidLeave() {
+    this.propagateToActiveTab('ionViewDidLeave');
+  }
+  
+
+  
+  ionViewDidEnter() {
+    this.propagateToActiveTab('ionViewDidEnter');
+  }
+  
+  private propagateToActiveTab(eventName: string) {    
+    if (this.activeTab) {
+      this.activeTab.dispatchEvent(new CustomEvent(eventName));
+    }
+  }
+
   AddPostPage() {
     this.router.navigate(['/add-post'])
   }
@@ -64,9 +94,6 @@ export class TabsPage {
   }
 
 
-  ionViewWillLeave() {
-    this.socket.disconnect();
-  }
 
   
   

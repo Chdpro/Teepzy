@@ -54,7 +54,7 @@
               <ion-col>
                 <strong>
                   {{project?.nom}}
-                </strong><br>
+                </strong>
 
               </ion-col>
 
@@ -65,6 +65,21 @@
         </div>
 
 
+        <div class="fixed-wrap">
+          <div class="slidenav">
+            <div>
+              <div (click)="goToProfile(project?.userId)" class="img-wrapper" >
+                <img *ngIf="project?.userPhoto_url" class="img img-media-detail" [src]="project?.userPhoto_url" alt="">
+              </div>
+
+              <div (click)="goToProfile(project?.userId)" style="float: right; color: #fff !important;" class="userPseudo-bg">
+                <div *ngIf="project?.userPhoto_url == '' || project?.userPhoto_url == null " class=" pseudo-media">
+                  {{project?.userPseudo | slice:0:1| uppercase}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
 

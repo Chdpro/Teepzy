@@ -1,9 +1,14 @@
 <ion-header translucent="true" class="ion-no-border">
   <ion-toolbar color="primary">
+
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>EDITER LE PROFIL</ion-title>
+    <span class="title-wrapper">
+      <ion-icon (click)="goToFeed()" *ngIf="previousRoute" name="arrow-back">
+      </ion-icon>
+      <ion-title>EDITER LE PROFIL</ion-title>
+    </span>
   </ion-toolbar>
 </ion-header>
 
@@ -16,8 +21,7 @@
         <img class="round-img-profile" *ngFor="let img of dispImags" [src]="img" alt="">
       </div>
 
-      <div *ngIf="dispImags?.length == 0" class="round-img"
-       >
+      <div *ngIf="dispImags?.length == 0" class="round-img">
         {{user?.pseudoIntime | slice:0:1| uppercase}}
       </div>
       <!-- fab placed to the bottom end -->
@@ -83,17 +87,27 @@
                   <input matInput name="localisation2" [(ngModel)]="profile1.localisation" placeholder="LOCALISATION">
                 </mat-form-field>
 
-                <mat-form-field class="example-form-field">
+                <mat-form-field  class="example-form-field">
                   <mat-label></mat-label>
-                  <input matInput name="biolabel" [disabled]="!isEditableB" class="input-label"
-                  [(ngModel)]="profile1.bioLabel">
-                  <button mat-button (click)="swithEditModeB()" matSuffix mat-icon-button aria-label="Clear" >
+                  <input matInput name="biolabel" placeholder="Cliquer ici pour modifier le titre de la rubrique" [disabled]="!isEditableB" class="input-label"
+                    [(ngModel)]="profile1.bioLabel">
+                  <button mat-button (click)="presentAlertConfirm()"  matSuffix mat-icon-button aria-label="Clear">
                     <mat-icon class="mode_edit">mode_edit</mat-icon>
                   </button>
+
+              
                 </mat-form-field>
-          
+                <button mat-button [matMenuTriggerFor]="menu"> <span class="material-icons">
+                    info
+                  </span></button>
+                <mat-menu style="padding-left: 12px;" #menu="matMenu">
+                  <span>
+                    Cliquer ici pour modifier le titre de la rubrique
+                  </span>
+                </mat-menu>
+
                 <mat-form-field class="example-full-width">
-                  <input matInput name="bio" [(ngModel)]="profile1.bio" placeholder="">
+                  <input matInput name="bio" [(ngModel)]="profile1.bio" placeholder="Ecrivez ici le contenu de la rubrique">
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
@@ -101,14 +115,23 @@
                   <input matInput name="siteweb2" [(ngModel)]="profile1.siteweb" placeholder="SITE WEB">
                 </mat-form-field>
 
-                <mat-form-field>
-                    <input matInput name="label" [disabled]="!isEditableH" class="input-label"
+                <mat-form-field >
+                  <input matInput name="label" [disabled]="!isEditableH" maxlength="15" placeholder="  Cliquer ici pour modifier le titre de la rubrique" class="input-label"
                     [(ngModel)]="profile1.tagsLabel">
-                  <button mat-button (click)="swithEditModeH()" matSuffix mat-icon-button aria-label="Clear" >
-                    <mat-icon class="mode_edit" >mode_edit</mat-icon>
+                  <button mat-button (click)="presentAlertConfirmH()"  matSuffix mat-icon-button aria-label="Clear">
+                    <mat-icon class="mode_edit">mode_edit</mat-icon>
                   </button>
                 </mat-form-field>
-            
+                <button mat-button [matMenuTriggerFor]="menu"> <span class="material-icons">
+                    info
+                  </span>
+                </button>
+                <mat-menu style="padding-left: 12px;" #menu="matMenu">
+                  <span>
+                    Cliquer ici pour modifier le titre de la rubrique
+                  </span>
+                </mat-menu>
+
                 <mat-form-field class="example-chip-list">
 
                   <mat-chip-list #chipList aria-label="Fruit selection">
@@ -138,11 +161,11 @@
           </ion-row>
         </ion-grid>
       </mat-tab>
-   
+
     </mat-tab-group>
   </div>
 
- 
+
   <img *ngIf="!profile1?.isAllProfileCompleted" class="call_to_fill" src="../../assets/img/fill_profile.png" alt="">
 
   <ion-button *ngIf="!profile1?.isAllProfileCompleted" (click)="done()" class="call_to_fill_btn" color="medium">

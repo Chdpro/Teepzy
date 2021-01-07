@@ -29,7 +29,9 @@ export class AddProductPage implements OnInit {
     photo: [],
     tags: [],
     description: '',
-    price: ''
+    price: '',
+    userPhoto_url:'',
+    userPseudo:''
   }
 
 
@@ -154,6 +156,8 @@ export class AddProductPage implements OnInit {
 
       this.loading = true
       this.tags.length > 0 ? this.product.tags = this.tags : null;
+      this.product.userPhoto_url = this.user.photo
+      this.product.userPseudo = this.user.pseudoIntime
       this.contactService.addProduct(this.product).subscribe(res => {
         // console.log(res);
         this.loading = false
@@ -171,6 +175,8 @@ export class AddProductPage implements OnInit {
     } else {
       this.loading = true
       this.tags.length > 0 ? this.product.tags = this.tags : null;
+      this.product.userPhoto_url = this.user.photo
+      this.product.userPseudo = this.user.pseudoIntime
       this.contactService.addProduct(this.product).subscribe(res => {
         // console.log(res);
         this.loading = false

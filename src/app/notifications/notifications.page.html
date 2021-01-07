@@ -14,9 +14,7 @@
         <span class="txt">
           Activer les Notifications
         </span>
-        <span class="material-icons">
-          done
-        </span>
+
       </ion-col>
     </ion-row>
     <ion-row>
@@ -25,9 +23,7 @@
           <h5>Suggestions d'amis</h5>
           <p>
             Recevez de temps en temps des Notifications pour vous suggérer de nouveaux amis
-            <span class="material-icons">
-              done
-            </span>
+      
           </p>
         </div>
         <mat-divider></mat-divider>
@@ -37,12 +33,12 @@
     <ion-row>
       <ion-col>
         <div>
-          <h5>Invitations</h5>
+          <h5>Invitations</h5> <span>
+            <ion-toggle [(ngModel)]="n2" name="n2" (click)="authInvitationOrNot()" color="primary"></ion-toggle>
+          </span>
           <p>
             Recevez des Notifications lorsque vous avez une Invitations à rejoindre un cercle d'amis
-            <span class="material-icons">
-              done
-            </span>
+
           </p>
 
         </div>
@@ -54,13 +50,15 @@
     <ion-row>
       <ion-col>
         <div>
-          <h5>Ajout à une conversation</h5>
+          <h5>Ajout à une conversation</h5>   
+            <span>
+            <ion-toggle [(ngModel)]="n" name="n" (click)="authConversationOrNot()" color="primary"></ion-toggle>
+          </span>
           <p>
             Recevez des Notifications lorsque vous êtes ajoutés à une conversation
-            <span class="material-icons">
-              done
-            </span>
+
           </p>
+     
         </div>
         <mat-divider></mat-divider>
 

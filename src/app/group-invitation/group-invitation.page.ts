@@ -17,6 +17,7 @@ export class GroupInvitationPage implements OnInit {
   membersToSendInvitation = []
   loading = false
   search:any
+  group:any
   constructor(private contactService: ContactService, 
     private modalController: ModalController,
     private toastController: ToastController,
@@ -27,6 +28,7 @@ export class GroupInvitationPage implements OnInit {
     this.roomId = this.navParams.data['roomId'];
     this.userId = localStorage.getItem('teepzyUserId');
     this.getMembers()
+    this.getRoom()
   }
 
   trackByFn(index, item) {
@@ -42,35 +44,15 @@ export class GroupInvitationPage implements OnInit {
     })
   }
 
-
-
-  sendInvitationToJoinCircle(idReceiver) {
-    this.loading = true
-    let invitation = {
-      idSender: this.userId,
-      idReceiver: idReceiver,
-      typeLink: typeAccount.pseudoIntime
-    }
-    this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
-      // console.log(res)
-      this.presentToast('Invitation envoyée')
-      this.socket.emit('notification', 'notification');
-      this.loading = false
-    }, error => {
-      // alert(JSON.stringify(error))
-      this.presentToast('Invitation non envoyée')
-      this.loading = false
+  getRoom(){
+    this.contactService.getChatRoom(this.roomId).subscribe(res =>{
+      console.log(res)
+      this.group = res['data']
+      //this.members = res['data']
+    }, error =>{
+      console.log(error)
     })
   }
-
-  addUserToSendInvitation(idUser) {
-     if (!this.membersToSendInvitation.includes(idUser) ) {
-       this.membersToSendInvitation.push(idUser)
-     } else {
-       this.deleteItemFromList(this.membersToSendInvitation, idUser)
-     }
-   }
-
 
   deleteItemFromList(list, i) {
     // get index of object with id:37
@@ -78,6 +60,23 @@ export class GroupInvitationPage implements OnInit {
     // remove object
     list.splice(removeIndex, 1);
     return list
+  }
+
+  deleteUserFromRoom(id){
+    let newConnectedUsers = this.deleteItemFromList(this.group.connectedUsers,  id)
+    console.log(newConnectedUsers)
+    let room = {
+      connectedUsers: newConnectedUsers,
+    }
+    console.log(room)
+    this.contactService.removeUserFromChatRoom(this.roomId,  room).subscribe(res =>{
+      console.log(res)
+      this.getMembers()
+      this.dismiss()
+      this.presentToast("Membre supprimé de la conversation")
+    }, error =>{
+      console.log(error)
+    })
   }
 
   dismiss() {

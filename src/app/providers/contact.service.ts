@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, } from '@angular/common/http';
-import { base_url, local_url } from 'src/config';
+import { local_url, base_url } from 'src/config';
 import { Observable, of } from 'rxjs';
 import { tuto } from '../data/tuto_data';
 
@@ -61,6 +61,21 @@ export class ContactService {
     return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
+
+  authorizeConversationNotifications(authorize): Observable<any> {
+    let url = 'users/authorizeConversationNotifications';
+    return this.http.post(base_url + url,JSON.stringify(authorize), httpOptionsJson);
+  }
+
+  authorizeInvitationNotifications(authorize): Observable<any> {
+    let url = 'users/authorizeInvitationNotifications';
+    return this.http.post(base_url + url,JSON.stringify(authorize), httpOptionsJson);
+  }
+
+  authorizeContacts(authorize): Observable<any> {
+    let url = 'users/authorizeContacts';
+    return this.http.post(base_url + url,JSON.stringify(authorize), httpOptionsJson);
+  }
 
   acceptLinkPeople(invitation): Observable<any> {
     let url = 'users/acceptLinkPeople';
@@ -223,9 +238,9 @@ export class ContactService {
   }
 
   
-  getPost(idTeepz): Observable<any> {
-    let url = 'users/posts/' + idTeepz;
-    return this.http.get(base_url + url, httpOptionsJson);
+  getPost(post): Observable<any> {
+    let url = 'users/posts/apost';
+    return this.http.post(local_url + url,post, httpOptionsJson);
   }
 
 
@@ -330,24 +345,34 @@ export class ContactService {
     return this.http.post(base_url + url, room, httpOptionsJson);
   }
 
+  getChatRoom(id): Observable<any> {
+    let url = 'chat/room/'+ id;
+    return this.http.get(base_url + url, httpOptionsJson);
+  }
+
   updateChatRoom(roomId,room): Observable<any> {
     let url = 'chat/updateRoom/' + roomId;
     return this.http.put(base_url + url, JSON.stringify(room), httpOptionsJson);
   }
 
+  removeUserFromChatRoom(roomId,room): Observable<any> {
+    let url = 'chat/removeUserRoom/' + roomId;
+    return this.http.put(base_url + url, JSON.stringify(room), httpOptionsJson);
+  }
+
   mChatRooms(id): Observable<any> {
     let url = 'chat/' + id;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
 
   ChatRoomMessages(id): Observable<any> {
     let url = 'chat/room/' + id;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
 
   addMessage(message): Observable<any> {
     let url = 'chat/addMessage';
-    return this.http.post(base_url + url, message, httpOptionsJson);
+    return this.http.post(local_url + url, message, httpOptionsJson);
   }
 
   nrbrUnreadMessages(user): Observable<any> {

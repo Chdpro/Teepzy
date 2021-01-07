@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
-import { ToastController, ActionSheetController, MenuController } from '@ionic/angular';
+import { ToastController, ActionSheetController, MenuController, AlertController } from '@ionic/angular';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { FilePath } from '@ionic-native/file-path/ngx';
@@ -9,7 +9,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { base_url } from 'src/config';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DatapasseService } from '../providers/datapasse.service';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { MESSAGES } from '../constant/constant';
@@ -90,8 +90,10 @@ export class EditProfilePage implements OnInit {
 
   isEditableB = false
   isEditableH = false
+  previousRoute = ''
 
-  constructor(private authService: AuthService,
+  constructor(
+    private authService: AuthService,
     private contactService: ContactService,
     private camera: Camera,
     private filePath: FilePath,
@@ -101,9 +103,13 @@ export class EditProfilePage implements OnInit {
     private router: Router,
     private dataPasse: DatapasseService,
     private androidPermissions: AndroidPermissions,
+    public route: ActivatedRoute,
+    private alertController: AlertController,
     private toasterController: ToastController) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
+    this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
+
   }
 
   ngOnInit() {
@@ -169,6 +175,10 @@ export class EditProfilePage implements OnInit {
 
     })
 
+  }
+
+  goToFeed(){
+    this.router.navigate(['/tabs/tab1'])
   }
 
 
@@ -240,6 +250,63 @@ export class EditProfilePage implements OnInit {
 
   done(){
     this.profile1['isAllProfileCompleted'] = true
+  }
+
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: "Etes vous sur de vouloir modifier le titre de la rubrique?",
+      message: '',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.presentToast('Annulé')
+          }
+        },
+
+        {
+          text: 'Confirmer',
+          handler: () => {
+            this.swithEditModeB()
+
+          }
+        }
+      ]
+    });
+    await alert.present();
+
+  }
+
+
+  async presentAlertConfirmH() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: "Etes vous sur de vouloir modifier le titre de la rubrique?",
+      message: '',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.presentToast('Annulé')
+          }
+        },
+
+        {
+          text: 'Confirmer',
+          handler: () => {
+            this.swithEditModeH()
+
+          }
+        }
+      ]
+    });
+    await alert.present();
+
   }
 
   add(event: MatChipInputEvent): void {

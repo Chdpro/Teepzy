@@ -1,5 +1,6 @@
 ion-title{
     color: #ea4e50;
+    margin-top: 3px;
 }
 ion-toolbar{
     height: 68px;
@@ -7,6 +8,10 @@ ion-toolbar{
 }
 ion-checkbox{
     margin-top: -29px;
+}
+
+.participants{
+    font-size: 15px;
 }
 
 ion-slide{
@@ -31,6 +36,11 @@ ion-slide{
 }
 .btn-icon{
     margin-right: 22px;
+
+}
+
+.close-btn{
+    margin-top: -58px;
 
 }
 

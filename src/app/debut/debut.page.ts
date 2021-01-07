@@ -22,15 +22,11 @@ export class DebutPage implements OnInit {
 
 
   goToSign(){
-    this.router.navigate(['/signup'], {
-      replaceUrl: true,
-    })
+    this.router.navigate(['/signup'])
   }
 
   goToLogin(){
-    this.router.navigate(['/login'], {
-      replaceUrl: true,
-    })
+    this.router.navigate(['/login'])
   }
 
 }

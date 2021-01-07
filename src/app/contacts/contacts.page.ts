@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 import { AuthService } from '../providers/auth.service';
 import { typeAccount } from '../constant/constant';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class ContactsPage implements OnInit {
   listTeepzrsToInviteOutCircle = []
   listContacts = []
   listTeepZrs = []
+  circleMembersId = []
   contactsTest = [
     {
       name: { givenName: 'Chris', familyName: 'Placktor', },
@@ -42,7 +44,7 @@ export class ContactsPage implements OnInit {
     },
 
     {
-      name: { givenName: 'Deborah', familyName: 'Houeha' },
+      name: { givenName: 'Debor', familyName: 'oueha' },
       phoneNumbers: [{ value: '+22990980000' }, { value: '+229 90 98 00 00' }],
     },
     {
@@ -97,10 +99,10 @@ export class ContactsPage implements OnInit {
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
+    this.getUsersOfCircle()
     this.connectSocket()
-    this.loadContacts()
-    this.getTeepzrOutCircle()
     this.getUserInfo(this.userId)
+    this.getTeepzrOutCircle()
   }
 
   connectSocket() {
@@ -193,7 +195,7 @@ export class ContactsPage implements OnInit {
     myArray.forEach((c) => {
       var key = JSON.stringify(c);
       hash[key] = (hash[key] || 0) + 1;
-        hash[key] >= 2 ? null :  uniqueChars.push(c);
+      hash[key] >= 2 ? null : uniqueChars.push(c);
     });
     return uniqueChars;
   }
@@ -207,8 +209,7 @@ export class ContactsPage implements OnInit {
       hasPhoneNumber: true
     }
     //  this.myContacts = this.contactsTest
-
-    this.contacts.find(['*'], options).then((contacts) => {
+   this.contacts.find(['*'], options).then((contacts) => {
       this.myContacts = this.getUniquesOnContacts(contacts)
       for (const mC of this.myContacts) {
         let inviteViaSms = {
@@ -221,7 +222,7 @@ export class ContactsPage implements OnInit {
               {
                 givenName: mC.name.givenName,
                 familyName: mC.name.familyName,
-                phone:phones ,
+                phone: phones,
                 invited: true
               }
             )
@@ -276,16 +277,17 @@ export class ContactsPage implements OnInit {
           }
         })
       });
+
       this.listTeepZrs = this.getUniquesOnContacts(list)
       this.listTeepZrs.forEach(e => {
         let invitation = { idSender: this.userId, idReceiver: e['_id'] }
         this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
           if (res['status'] == 201) {
             this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], invited: true })
-            //      console.log(this.listTeepzrsToInvite)
           } else {
+            if (!this.circleMembersId.includes(e['_id'].toString())) {
             this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], invited: false })
-            //    console.log(this.listTeepzrsToInvite)
+            }
           }
         })
       });
@@ -295,6 +297,35 @@ export class ContactsPage implements OnInit {
     })
   }
 
+
+  getUsersOfCircle() {
+    this.loading = true
+    this.contactService.getCircleMembers(this.userId).subscribe(res => {
+      let circleMembers = res['data']
+      for (const cm of circleMembers) {
+        this.circleMembersId.push(cm['_id'])
+      }
+      //console.log(this.circleMembersId);
+      this.loading = false
+    }, error => {
+     // console.log(error)
+     this.loading = false
+
+    })
+  }
+  getUniqueObject(values) {
+    console.log(values)
+    let list = []
+    var valueArr = values.map((item) => { return item.phone });
+    valueArr.some(function (item, idx) {
+      var isDuplicate = valueArr.indexOf(item) != idx;
+      if (!isDuplicate) {
+        list.push(item)
+      }
+    });
+    return list
+
+  }
 
   sendShare(c) {
     this.socialSharing.share('Bonjour,  ' + '<br>' + "Je vous invite à rejoindre Teepzy. Téléchargez à ce lien", 'TeepZy', null,
@@ -402,6 +433,9 @@ export class ContactsPage implements OnInit {
     this.authService.myInfos(userId).subscribe(res => {
       // console.log(res)
       this.userInfo = res['data'];
+      if (this.userInfo['isContactAuthorized'] == true ) {
+       this.loadContacts()   
+      }
     }, error => {
       // console.log(error)
     })

@@ -19,7 +19,10 @@ export class DetailProjectPage implements OnInit {
     nom:'',
     photo:'',
     description:'',
-    tags: []
+    tags: [],
+    userPhoto_url:'',
+    userPseudo:'',
+    userId:''
   }
 
   listProjects = []
@@ -55,6 +58,9 @@ export class DetailProjectPage implements OnInit {
     this.project.photo = project.photo
     this.project.description = project.description
     this.project.tags = tags
+    this.project.userPhoto_url = project.userPhoto_url
+    this.project.userPseudo = project.userPseudo
+    this.project.userId = project.userId
     this.userId = localStorage.getItem('teepzyUserId')
     this.userId === project.userId ? this.showDeleteBtn = true: this.showDeleteBtn = false
 
@@ -99,6 +105,16 @@ export class DetailProjectPage implements OnInit {
      // console.log(error)
     })
   }
+
+  goToProfile(userId) {
+    if (this.userId === userId) {
+      this.router.navigate(['/tabs/profile', { userId: userId }])
+    } else {
+      this.router.navigate(['/profile', { userId: userId, previousUrl: 'feed' }])
+    }
+
+  }
+
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {

@@ -21,6 +21,9 @@ export class DetailProduitPage implements OnInit {
     description: '',
     price: '',
     tags: [],
+    userPhoto_url:'',
+    userPseudo:'',
+    userId:''
   }
   userId = ''
 
@@ -58,6 +61,9 @@ export class DetailProduitPage implements OnInit {
     this.product.description = product.description
     this.product.tags = tags
     this.product.price = product.price
+    this.product.userPhoto_url = product.userPhoto_url
+    this.product.userPseudo = product.userPseudo
+    this.product.userId = product.userId
     this.userId = localStorage.getItem('teepzyUserId')
     this.userId === product.userId ? this.showDeleteBtn = true: this.showDeleteBtn = false
    // console.log(tags)
@@ -91,6 +97,16 @@ export class DetailProduitPage implements OnInit {
       ]
     });
     await alert.present();
+
+  }
+
+  goToProfile(userId) {
+    console.log(userId)
+    if (this.userId === userId) {
+      this.router.navigate(['/tabs/profile', { userId: userId }])
+    } else {
+      this.router.navigate(['/profile', { userId: userId, previousUrl: 'feed' }])
+    }
 
   }
 

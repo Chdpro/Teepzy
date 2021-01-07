@@ -1,4 +1,40 @@
+// user profile photo
 
+
+.fixed-wrap{
+    position: absolute;
+    left: 78%;
+    bottom: 104px
+}
+.img-wrapper{
+    float: right;
+    position: absolute;
+    left: 11px;
+    width: 54px;
+    height: 54px;
+    top: -57px;
+    left: 2px;
+}
+
+.img-media-detail{
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%; 
+    border: solid 1px #ea4e50;
+    font-size: 18px;
+    top: -57px;
+    left: 0px;
+    width: 54px;
+    height: 54px;
+}
+
+.userPseudo-bg{
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 60px;
+   
+}
+
+// other css properties
 ion-title{
     color: #ea4e50;
 }
@@ -276,7 +312,7 @@ ion-icon{
 }
 
 .header-slide{
-    width: 300px;
+    width: 357px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -284,7 +320,7 @@ ion-icon{
     margin-top: 36px;
     top: 0;
     position: fixed;
-    margin-left: 19px;
+    margin-left: -11px;
 }
 
 

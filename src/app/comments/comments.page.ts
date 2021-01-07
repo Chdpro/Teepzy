@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ModalController, NavParams, ToastController, MenuController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { Socket } from 'ngx-socket-io';
@@ -36,6 +36,8 @@ export class CommentsPage implements OnInit {
   showResponsePanel = false
   
   subscription: Subscription
+  @ViewChild('myInput', null) myInput: ElementRef;
+
   constructor(private modalController: ModalController, 
     private contactService: ContactService,
     private toasterController: ToastController,
@@ -57,6 +59,9 @@ export class CommentsPage implements OnInit {
   }
 
 
+  resize() {
+      this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
+  }
   
   closeModalOnSwipeDown(event) {
    // console.log('close modal');

@@ -88,7 +88,7 @@ export class CircleMembersPage implements OnInit {
      // console.log(res);
       this.rooms = res['data']
       this.dataPasse.send(this.rooms)
-      this.router.navigate(['/tabs/tab3'])
+      this.router.navigateByUrl('/tabs/tab3')
     }, error => {
     //  console.log(error)
     })

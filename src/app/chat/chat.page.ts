@@ -45,7 +45,8 @@ export class ChatPage implements OnInit {
     pseudo: '',
     messageRepliedId: '',
     isReply: false,
-    createdAt: new Date()
+    createdAt: '',
+    userPhoto_url:''
   }
 
   repliedMessage = {
@@ -53,7 +54,7 @@ export class ChatPage implements OnInit {
     text: '',
     userFromId: '',
     pseudo: '',
-    createdAt: new Date()
+    createdAt: ''
 
   }
 
@@ -258,7 +259,10 @@ export class ChatPage implements OnInit {
 
 
   sendMessage() {
-    if (!this.message.isReply) {
+    let currentTime = new Date()
+    this.message.userPhoto_url = this.user.photo
+    this.message.createdAt = currentTime.toLocaleDateString() + "T" + currentTime.getHours() + ":" + currentTime.getMinutes()
+   if (!this.message.isReply) {
         this.contactService.addMessage(this.message).subscribe(res => {
           this.socket.emit('notification', this.message);
           this.message.text = '';
@@ -273,6 +277,7 @@ export class ChatPage implements OnInit {
       this.message.messageRepliedId = this.repliedMessage.messageId
       this.message.userFromId = this.repliedMessage.userFromId
       this.message.FromMessageText = this.repliedMessage.text
+      this.message.userPhoto_url = this.user.photo
       this.contactService.addReplyMessage(this.message).subscribe(res => {
         //  console.log(res)
         this.socket.emit('add-message', this.message);

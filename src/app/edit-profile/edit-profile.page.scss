@@ -1,6 +1,13 @@
 ion-title{
     font-weight: bolder;
 }
+ion-icon{
+  font-size: 34px;
+}
+
+.title-wrapper{
+  display: flex;
+}
 .call_to_fill{
   position: fixed;
   z-index: 10000;

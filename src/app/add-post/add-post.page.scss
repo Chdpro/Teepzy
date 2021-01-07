@@ -11,6 +11,11 @@ height: 55%;
 width: 100%;
 }
 
+.close-btn{
+  font-size: 27px;
+  float: right;
+}
+
 video::-internal-media-controls-download-button {
 display:none;
 }

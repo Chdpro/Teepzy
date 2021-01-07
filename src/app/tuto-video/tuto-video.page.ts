@@ -14,17 +14,17 @@ export class TutoVideoPage implements OnInit {
   constructor(
     public sanitizer: DomSanitizer,
     private router: Router
-  ) 
-  {
+  ) {
 
   }
 
   ngOnInit() {
   }
 
-  done(){
-    this.router.navigate(['/debut'], {
+  done() {
+    this.router.navigate(['/edit-profile', { previousUrl: 'tuto' }], {
       replaceUrl: true,
+
     })
   }
 }
