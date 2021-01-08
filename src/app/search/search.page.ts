@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import * as moment from 'moment';
 import { ToastController, AlertController, MenuController } from '@ionic/angular';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { typeAccount, MESSAGES } from '../constant/constant';
@@ -48,7 +48,7 @@ export class SearchPage implements OnInit {
 
   constructor(private contactService: ContactService,
     public toastController: ToastController,
-    private socket: Socket,
+  //  private socket: Socket,
     private router: Router,
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController
@@ -59,7 +59,7 @@ export class SearchPage implements OnInit {
 
   ngOnInit() {
     this.search.userId = localStorage.getItem('teepzyUserId');
-    this.socket.emit('online', this.search.userId );
+   // this.socket.emit('online', this.search.userId );
     this.getPosts()
     this.getTeepzr()
   }
@@ -74,7 +74,7 @@ export class SearchPage implements OnInit {
   }
 
   connectSocket() {
-    this.socket.connect();
+  //  this.socket.connect();
   }
 
 
@@ -261,7 +261,7 @@ export class SearchPage implements OnInit {
       this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = true : null)
       this.presentToast(MESSAGES.INVITATION_SEND_OK)
       this.showModal = false
-      this.socket.emit('notification', 'notification');
+     // this.socket.emit('notification', 'notification');
       //console.log(this.listTeepzrsToInvite)
       this.loading = false
     }, error => {

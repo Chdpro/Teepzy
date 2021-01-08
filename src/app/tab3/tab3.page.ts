@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController, ModalController, MenuController, ToastController } from '@ionic/angular';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 import { ContactService } from '../providers/contact.service';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription } from 'rxjs';
@@ -26,13 +26,14 @@ export class Tab3Page implements OnInit {
     private router: Router,
     private contactService: ContactService,
     public modalController: ModalController,
+   // private socket: Socket,
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
     private toastController: ToastController,
-    private socket: Socket) {
+    ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
-    this.socket.connect();
+  //  this.socket.connect();
 
     this.subscription = this.dataPasse.get().subscribe(list => {
       // console.log(list)
@@ -48,7 +49,7 @@ export class Tab3Page implements OnInit {
   ionViewWillEnter() {
 
     this.userId = localStorage.getItem('teepzyUserId');
-    this.socket.emit('online', this.userId);
+   // this.socket.emit('online', this.userId);
     this.getUsersOfCircle()
     this.getChatRooms()
 
@@ -138,7 +139,7 @@ export class Tab3Page implements OnInit {
 
   gotoChatRoom(roomId, pseudo, photo, roomLength, roomName, connectedUserId, userId) {
     //console.log(roomId, pseudo, photo)
-    this.socket.emit('set-nickname', this.nickname);
+    //this.socket.emit('set-nickname', this.nickname);
     this.navCtrl.navigateForward("/chat",
       {
         state: {

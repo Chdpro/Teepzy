@@ -13,5 +13,5 @@ export const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export const base_url = 'https://api.teepzy.com/'
 export const local_url = 'http://localhost:5000/'
-export const test_url = 'http://192.168.0.102:5000/'
+export const test_url = 'http://127.0.0.1:5000/'
 

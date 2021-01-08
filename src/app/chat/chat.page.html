@@ -58,7 +58,7 @@
           <span>{{ message?.text }}</span>
           <div class="time">
               {{message?.createdAt | slice:0:1}}.{{message?.createdAt | slice:3:4}}    
-              {{message?.createdAt | slice:11:14}}
+              {{message?.createdAt | slice:11:16}}
           </div>
         </ion-col>
         <ion-col *ngIf="message?.userId !== userId" size="1">
@@ -81,14 +81,14 @@
           <span>{{ message?.text }}</span>
           <div class="time">
             {{message?.createdAt | slice:0:2}}.{{message?.createdAt | slice:3:5}}    
-            {{message?.createdAt | slice:11:15}}
+            {{message?.createdAt | slice:11:16}}
           </div><br>
           <ion-icon *ngIf="message?.isRead === true" class="read-icon" color="medium" name="checkmark-done-outline"></ion-icon>
           <ion-icon *ngIf="message?.isRead !== true" class="read-icon" color="medium"  name="checkmark-outline"></ion-icon>
         </ion-col>
 
         <ion-col *ngIf="message?.userId == userId" size="2">
-          <div *ngIf="!message?.userPhoto_url" class="round-img-post">
+          <div *ngIf="message?.userPhoto_url == null || message?.userPhoto_url == ''" class="round-img-post">
             {{user?.pseudoIntime | slice:0:1| uppercase}}
           </div>
           <img *ngIf="message?.userPhoto_url" [src]="message?.userPhoto_url" alt="">

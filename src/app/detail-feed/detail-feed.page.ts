@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { LinkSheetPage } from '../link-sheet/link-sheet.page';
 import { CommentsPage } from '../comments/comments.page';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Globals } from '../globals';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
@@ -95,7 +95,7 @@ export class DetailFeedPage implements OnInit {
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
     public sanitizer: DomSanitizer,
-    private socket: Socket,
+    //private socket: Socket,
     private router: Router,
     public globals: Globals,
     public route: ActivatedRoute,
@@ -209,10 +209,10 @@ export class DetailFeedPage implements OnInit {
 
 
   connectSocket() {
-    this.socket.connect();
+   /* this.socket.connect();
     this.socket.fromEvent('user-notification').subscribe(notif => {
       //console.log(notif)
-    });
+    });*/
   }
 
 
@@ -392,7 +392,7 @@ export class DetailFeedPage implements OnInit {
       type: type.POST
     }
     this.contactService.addFavorite(favoris).subscribe(res => {
-      this.socket.emit('notification', 'notification');
+    //  this.socket.emit('notification', 'notification');
       //console.log(res)
       this.post = {
         _id: post['_id'],

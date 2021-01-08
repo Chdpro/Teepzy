@@ -10,7 +10,7 @@ import { IonSlides } from '@ionic/angular';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { ContactService } from '../providers/contact.service';
 import * as moment from 'moment';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -91,7 +91,7 @@ export class ProfilePage implements OnInit {
   constructor(private router: Router, private modalController: ModalController,
     private dataPass: DatapasseService,
     private contactService: ContactService,
-    private socket: Socket,
+ //   private socket: Socket,
     private menuCtrl: MenuController,
     public sanitizer: DomSanitizer,
     public route: ActivatedRoute,
@@ -144,7 +144,7 @@ export class ProfilePage implements OnInit {
   ionViewWillEnter(){
     this.subscriptions()
     let userId = localStorage.getItem('teepzyUserId')
-    this.socket.emit('online', userId );
+   // this.socket.emit('online', userId );
     let idUser = this.route.snapshot.paramMap.get('userId')
     this.previousUrl = this.route.snapshot.paramMap.get('previousUrl')
     //console.log(this.previousUrl)

@@ -3,7 +3,7 @@ import { ContactService } from '../providers/contact.service';
 import { ToastController, MenuController, ActionSheetController, NavController } from '@ionic/angular';
 import * as moment from 'moment';
 import { MatTabGroup } from '@angular/material';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { MESSAGES, Icon } from '../constant/constant';
@@ -42,7 +42,7 @@ export class Tab2Page implements OnInit {
     private contactService: ContactService,
     private menuCtrl: MenuController,
     private toastController: ToastController,
-    private socket: Socket,
+  //  private socket: Socket,
     private router: Router,
     public actionSheetController:ActionSheetController,
     public navCtrl: NavController
@@ -60,7 +60,7 @@ export class Tab2Page implements OnInit {
 
   ionViewWillEnter(){
     this.userId = localStorage.getItem('teepzyUserId');
-    this.socket.emit('online', this.userId );
+    //this.socket.emit('online', this.userId );
     this.listInvitations()
     this.listLinks()
     this.listNotifications()
@@ -125,12 +125,12 @@ export class Tab2Page implements OnInit {
   }
 
   coonectSocket() {
-    this.socket.connect();
+    /*this.socket.connect();
     this.socket.fromEvent('user-notification').subscribe(notif => {
     // console.log(notif)
       this.notifications.push(notif)
     //  console.log(this.notifications)
-    });
+    });*/
   }
 
 
@@ -303,7 +303,7 @@ export class Tab2Page implements OnInit {
 
 
   gotoChatRoom(roomId, pseudo, photo, roomLength, roomName, connectedUserId, roomUserId) {
-    this.socket.connect();
+   // this.socket.connect();
     this.navCtrl.navigateForward("/chat", 
     { state: {roomId: roomId,pseudo: pseudo,
        photo: photo, roomLength: roomLength, roomName, connectedUserId: connectedUserId, userId: roomUserId } });
@@ -396,7 +396,7 @@ export class Tab2Page implements OnInit {
 
 
   ionViewWillLeave() {
-    this.socket.disconnect();
+ //   this.socket.disconnect();
     //console.log('disconnected')
     this.subscription?  this.subscription.unsubscribe() :  null
 

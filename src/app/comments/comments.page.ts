@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ModalController, NavParams, ToastController, MenuController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Globals } from '../globals';
 import { Subscription } from 'rxjs';
@@ -41,8 +41,7 @@ export class CommentsPage implements OnInit {
   constructor(private modalController: ModalController, 
     private contactService: ContactService,
     private toasterController: ToastController,
-    private dataPasse: DatapasseService,
-    private socket: Socket,
+//    private socket: Socket,
     public globals: Globals,
     private menuCtrl: MenuController,
     private navParams: NavParams) {
@@ -70,7 +69,7 @@ export class CommentsPage implements OnInit {
 
 
   connectSocket(){
-    this.socket.connect();
+   // this.socket.connect();
   }
 
   getCommentsOfPost(postId) {
@@ -89,7 +88,7 @@ export class CommentsPage implements OnInit {
     this.contactService.addCommentToPost(this.commentT).subscribe(res => {
      // console.log(res)
       if (res['status'] == 200) {
-        this.socket.emit('notification', 'notification');
+      //  this.socket.emit('notification', 'notification');
         this.commentT.comment = ''
         this.getCommentsOfPost(this.postId)
       }
@@ -153,7 +152,7 @@ export class CommentsPage implements OnInit {
 
 
   ionViewWillLeave() {
-    this.socket.disconnect();
+   // this.socket.disconnect();
    // console.log('disconnected')
     this.subscription?  this.subscription.unsubscribe() :  null
 
@@ -161,7 +160,7 @@ export class CommentsPage implements OnInit {
 
   ngOnDestroy() { 
     this.subscription?  this.subscription.unsubscribe() :  null
-    this.socket.removeAllListeners('message');
+  //  this.socket.removeAllListeners('message');
     //this.socket.removeAllListeners('users-changed');
   }
   

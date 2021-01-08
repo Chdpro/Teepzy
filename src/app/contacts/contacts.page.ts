@@ -5,10 +5,9 @@ import { ContactService } from '../providers/contact.service';
 import { ToastController, AlertController, MenuController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 import { AuthService } from '../providers/auth.service';
 import { typeAccount } from '../constant/constant';
-import { Observable } from 'rxjs';
 
 
 @Component({
@@ -86,7 +85,7 @@ export class ContactsPage implements OnInit {
     private socialSharing: SocialSharing,
     public router: Router,
     public route: ActivatedRoute,
-    private socket: Socket,
+  //  private socket: Socket,
     public alertController: AlertController,
     private authService: AuthService,
     private menuCtrl: MenuController,
@@ -106,7 +105,7 @@ export class ContactsPage implements OnInit {
   }
 
   connectSocket() {
-    this.socket.connect();
+    //this.socket.connect();
   }
 
 
@@ -390,7 +389,7 @@ export class ContactsPage implements OnInit {
       // console.log(res)
       this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = true : null)
       this.presentToast('Invitation envoyée')
-      this.socket.emit('notification', 'notification');
+      //this.socket.emit('notification', 'notification');
       this.loading = false
     }, error => {
       // alert(JSON.stringify(error))

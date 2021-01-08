@@ -7,7 +7,7 @@ import * as firebase from 'firebase';
 import { Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { ContactService } from './providers/contact.service';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 import { AuthService } from './providers/auth.service';
 import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal/ngx';
 import { isCordovaAvailable } from '../common/is-cordova-available'
@@ -30,7 +30,7 @@ export class AppComponent {
     private navCtrl: NavController,
     public toastController: ToastController,
     private contactService: ContactService,
-    private socket: Socket,
+  //  private socket: Socket,
     private authService: AuthService,
     private oneSignal: OneSignal,
 
@@ -45,20 +45,6 @@ export class AppComponent {
       // logic for navigation, modal, popover, menu closing
       this.navCtrl.pop(); // I have used for my case
     });
-
-    let m = {
-      isRead: false,
-      isReply: false,
-      ReadByRecipients: [],
-      userId: '5fbce58d63ad59001251fd20',
-      roomId: '5fc747a0c4a6ea00115545dd',
-      text: 'hello hey',
-      pseudo: 'christo',
-      createdAt: new Date(),
-    }
-    this.socket.emit('notification', m);
-
-
 
     // Your web app's Firebase configuration
     var firebaseConfig = {
@@ -75,7 +61,7 @@ export class AppComponent {
     let token = localStorage.getItem('teepzyToken')
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
-   // this.getUserInfo(this.userId, token)
+    this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
@@ -140,7 +126,7 @@ export class AppComponent {
       // console.log(res)
       this.userInfo = res['data'];
       if (token && this.userInfo['isCompleted'] && this.userInfo['isAllProfileCompleted']) {
-        this.socket.emit('online', userId);
+       // this.socket.emit('online', userId);
         let user = {
           userId: userId,
           isOnline: true

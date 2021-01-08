@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { NavController, NavParams, ToastController, MenuController, AlertController, ModalController } from '@ionic/angular';
-import { Socket } from 'ngx-socket-io';
+import { ToastController, MenuController, AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
-import { MatMenuTrigger, MatBottomSheet } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { typeAccount, MESSAGES } from '../constant/constant';
 import { AddPeopleRoomPage } from '../add-people-room/add-people-room.page';
 import { DatapasseService } from '../providers/datapasse.service';
 import { GroupInvitationPage } from '../group-invitation/group-invitation.page';
+import { Socket } from 'ng-socket-io';
 
 @Component({
   selector: 'app-chat',
@@ -68,8 +68,7 @@ export class ChatPage implements OnInit {
   // used for scrolling the pane
   @ViewChild('scrollMe', null) private myScrollContainer: ElementRef;
 
-  constructor(private _bottomSheet: MatBottomSheet,
-    private socket: Socket,
+  constructor(
     private router: Router,
     private contactService: ContactService,
     private authService: AuthService,
@@ -79,7 +78,9 @@ export class ChatPage implements OnInit {
     private toastController: ToastController,
     private modalController: ModalController,
     private dataPasse: DatapasseService,
-    private toastCtrl: ToastController) {
+    private socket: Socket
+    ) 
+    {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
     this.subscription = this.dataPasse.getRoom().subscribe(room => {
@@ -97,7 +98,7 @@ export class ChatPage implements OnInit {
     this.roomId = state.roomId
     this.coonectSocket()
     this.getMessagesBySocket().subscribe(message => {
-      console.log(message)
+     // console.log(message)
       message['roomId'] == state.roomId ? this.messages.push(message) : null
     });
     this.deleteMessageFromSocket()
@@ -133,7 +134,7 @@ export class ChatPage implements OnInit {
       currentUserOnlineId: userId
     }
     this.contactService.markReadMessages(room).subscribe(res => {
-      console.log(res)
+    //  console.log(res)
     }, error => {
       console.log(error)
     })
@@ -231,7 +232,7 @@ export class ChatPage implements OnInit {
         //   console.log(res)
         this.presentToast(MESSAGES.INVITATION_SEND_OK)
         this.isInMyCircle = true
-        this.socket.emit('notification', 'notification');
+     //   this.socket.emit('notification', 'notification');
         this.loading = false
       }, error => {
         this.presentToast(MESSAGES.INVITATION_SEND_ERROR)
@@ -248,7 +249,7 @@ export class ChatPage implements OnInit {
         //   console.log(res)
         this.presentToast(MESSAGES.INVITATION_SEND_OK)
         this.isInMyCircle = true
-        this.socket.emit('notification', 'notification');
+     //   this.socket.emit('notification', 'notification');
         this.loading = false
       }, error => {
         this.presentToast(MESSAGES.INVITATION_SEND_ERROR)
@@ -262,16 +263,10 @@ export class ChatPage implements OnInit {
     let currentTime = new Date()
     this.message.userPhoto_url = this.user.photo
     this.message.createdAt = currentTime.toLocaleDateString() + "T" + currentTime.getHours() + ":" + currentTime.getMinutes()
-   if (!this.message.isReply) {
-        this.contactService.addMessage(this.message).subscribe(res => {
-          this.socket.emit('notification', this.message);
-          this.message.text = '';
-        }, error => {
-          // console.log(error)
-        })
-       // console.log("hello send message")
-
-
+   // console.log(this.message)
+    if (!this.message.isReply) {
+       this.socket.emit('add-message', this.message);
+       this.message.text = '';
     } else {
       this.message.FromMessagePseudo = this.repliedMessage.pseudo
       this.message.messageRepliedId = this.repliedMessage.messageId
@@ -337,36 +332,33 @@ export class ChatPage implements OnInit {
     let message = {
       messageId: messageId
     }
-    // console.log(message)
-    this.contactService.deleteMessage(message).subscribe(res => {
-      //  console.log(res)
-    }, error => {
-      //  console.log(error)
-    })
+    this.socket.emit('message-to-delete', message);
   }
 
   coonectSocket() {
-    this.socket.fromEvent('user-online').subscribe(notif => {
+   /* this.socket.fromEvent('user-online').subscribe(notif => {
       console.log(notif)
       notif['userId'] == this.stateO.connectedUserId ? this.stateO.online = true : null
     });
+    */
   }
 
   disconnectUserSocket() {
-    this.socket.fromEvent('user-outline').subscribe(notif => {
+    /* this.socket.fromEvent('user-outline').subscribe(notif => {
       // console.log(notif)
       notif['userId'] == this.stateO.connectedUserId ? this.stateO.online = false : null
-    });
+    });*/
     //this.socket.disconnect();
 
   }
 
   deleteMessageFromSocket() {
     this.socket.fromEvent('delete-message').subscribe(messageId => {
-      //  console.log(messageId)
+      console.log(messageId)
       if (this.checkAvailability(this.messages, messageId)) {
         let list = this.deleteObjectFromList(this.messages, messageId)
         this.messages = list
+        console.log(this.messages)
       }
     });
   }
@@ -412,7 +404,7 @@ export class ChatPage implements OnInit {
   }
 
   getMessagesBySocket() {
-    let observable = new Observable(observer => {
+   let observable = new Observable(observer => {
       this.socket.on('message', (data) => {
         observer.next(data);
       });
@@ -442,12 +434,12 @@ export class ChatPage implements OnInit {
   }
 
   getUsers() {
-    let observable = new Observable(observer => {
+   /* let observable = new Observable(observer => {
       this.socket.on('users-changed', (data) => {
         observer.next(data);
       });
     });
-    return observable;
+    return observable;*/
   }
 
   copyMessage(text) {
@@ -457,13 +449,13 @@ export class ChatPage implements OnInit {
 
   }
   ionViewWillLeave() {
-    this.socket.disconnect();
+   // this.socket.disconnect();
     this.subscription ? this.subscription.unsubscribe() : null
 
   }
 
   async showToast(msg) {
-    const toast = await this.toastCtrl.create({
+    const toast = await this.toastController.create({
       message: msg,
       duration: 4000
     });
@@ -486,7 +478,7 @@ export class ChatPage implements OnInit {
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null
-    this.socket.removeAllListeners('message');
+  //  this.socket.removeAllListeners('message');
     //this.socket.removeAllListeners('users-changed');
   }
 

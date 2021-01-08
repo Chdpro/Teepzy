@@ -31,7 +31,7 @@ import { LinkSheetPageModule } from './link-sheet/link-sheet.module';
 import { AddProductPageModule } from './add-product/add-product.module';
 import { AddProjectPageModule } from './add-project/add-project.module';
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
@@ -44,7 +44,7 @@ import { FileOpener } from "@ionic-native/file-opener/ngx";
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { Base64 } from '@ionic-native/base64/ngx';
 
-import { local_url, base_url } from 'src/config';
+import { local_url, base_url, test_url } from 'src/config';
 import { Globals } from './globals';
 import { ShareSheetPageModule } from './share-sheet/share-sheet.module';
 import { EditPostPageModule } from './edit-post/edit-post.module';
@@ -56,7 +56,7 @@ import { File } from '@ionic-native/file/ngx';
 import { SnapPageModule } from './snap/snap.module';
 import { GroupInvitationPageModule } from './group-invitation/group-invitation.module';
 import { Autosize } from './components/autosize';
-const config: SocketIoConfig = { url: base_url, options: { secure: true }};
+const config: SocketIoConfig = { url: local_url, options: { }};
 
 @NgModule({
   declarations: [AppComponent,Autosize],

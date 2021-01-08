@@ -26,7 +26,8 @@ export enum Icon {
     GRADE = "grade",
     CHAT_BUBBLE = "chat_bubble",
     DYNAMIC_FEED =  "dynamic_feed",
-    SHARE = "redo"
+    SHARE = "redo",
+    MESSAGE = "message"
 }
 
 export enum MESSAGES {

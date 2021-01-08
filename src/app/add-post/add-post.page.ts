@@ -7,7 +7,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { base_url } from 'src/config';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 import { Subscription, Observable } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { typeAccount, MESSAGES } from '../constant/constant';
@@ -73,7 +73,7 @@ export class AddPostPage implements OnInit {
     private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
-    private socket: Socket,
+    //private socket: Socket,
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController,
     private mediaCapture: MediaCapture,
@@ -97,7 +97,7 @@ export class AddPostPage implements OnInit {
   ionViewWillEnter() {
     this.post.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.post.userId)
-    this.socket.emit('online', this.post.userId);
+    //this.socket.emit('online', this.post.userId);
 
   }
 

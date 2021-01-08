@@ -229,7 +229,7 @@ export class ContactService {
 
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   checkInMyCircle(check): Observable<any> {
@@ -240,7 +240,7 @@ export class ContactService {
   
   getPost(post): Observable<any> {
     let url = 'users/posts/apost';
-    return this.http.post(local_url + url,post, httpOptionsJson);
+    return this.http.post(base_url + url,post, httpOptionsJson);
   }
 
 
@@ -362,12 +362,12 @@ export class ContactService {
 
   mChatRooms(id): Observable<any> {
     let url = 'chat/' + id;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   ChatRoomMessages(id): Observable<any> {
     let url = 'chat/room/' + id;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   addMessage(message): Observable<any> {

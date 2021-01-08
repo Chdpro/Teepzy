@@ -3,8 +3,8 @@ import { ModalController, IonTabs,  } from '@ionic/angular';
 import { AddPostPage } from '../add-post/add-post.page';
 import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
-import { Socket } from 'ngx-socket-io';
-import { Observable } from 'rxjs';
+//import { Socket } from 'ngx-socket-io';
+//import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tabs',
@@ -21,7 +21,7 @@ export class TabsPage {
   constructor(
     public modalController: ModalController,
     private contactService: ContactService,
-    private socket: Socket,
+   // private socket: Socket,
     private router: Router,
     ) {
     this.userId = localStorage.getItem('teepzyUserId')
@@ -40,7 +40,7 @@ export class TabsPage {
 
   ionViewWillLeave() {
     this.propagateToActiveTab('ionViewWillLeave');
-    this.socket.disconnect();
+  //  this.socket.disconnect();
 
   }
   

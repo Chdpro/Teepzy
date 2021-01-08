@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import { NavParams, ModalController, ToastController } from '@ionic/angular';
-import { typeAccount } from '../constant/constant';
-import { Socket } from 'ngx-socket-io';
+//import { typeAccount } from '../constant/constant';
+//import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-group-invitation',
@@ -21,7 +21,7 @@ export class GroupInvitationPage implements OnInit {
   constructor(private contactService: ContactService, 
     private modalController: ModalController,
     private toastController: ToastController,
-    private socket: Socket,
+  //  private socket: Socket,
     private navParams: NavParams) { }
 
   ngOnInit() {

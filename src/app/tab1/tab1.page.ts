@@ -7,7 +7,7 @@ import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription } from 'rxjs';
 import { LinkSheetPage } from '../link-sheet/link-sheet.page';
 import { CommentsPage } from '../comments/comments.page';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import { Globals } from '../globals';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -138,7 +138,7 @@ export class Tab1Page implements OnInit {
     private menuCtrl: MenuController,
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
-    private socket: Socket,
+    //private socket: Socket,
     private router: Router,
     public globals: Globals,
     public sanitizer: DomSanitizer,
@@ -164,7 +164,7 @@ export class Tab1Page implements OnInit {
 
   ionViewWillEnter() {
     this.userId = localStorage.getItem('teepzyUserId');
-    this.socket.emit('online', this.userId);
+ //   this.socket.emit('online', this.userId);
     this.getUserInfo(this.userId)
     this.getPosts(this.userId)
     this.isTutoSkip = localStorage.getItem("isTutoSkip")
@@ -201,10 +201,10 @@ export class Tab1Page implements OnInit {
     this.listPosts.length == 0 ? this.getPosts(this.userId) : null
   }
   connectSocket() {
-    this.socket.connect();
+    /*this.socket.connect();
     this.socket.fromEvent('user-notification').subscribe(notif => {
       //   console.log(notif)
-    });
+    });*/
   }
 
 
@@ -403,7 +403,7 @@ export class Tab1Page implements OnInit {
       type: 'POST'
     }
     this.contactService.addFavorite(favoris).subscribe(res => {
-      this.socket.emit('notification', 'notification');
+    //  this.socket.emit('notification', 'notification');
       //   console.log(res)
       this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = true : null)
       this.presentToast('Ajouté aux favoris')
@@ -576,7 +576,7 @@ export class Tab1Page implements OnInit {
           },
         )
       }
-      console.log(this.listPosts)
+    //  console.log(this.listPosts)
 
     })
   }

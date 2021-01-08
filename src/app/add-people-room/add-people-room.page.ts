@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NavController, ModalController, ToastController, MenuController, NavParams } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
 import { DatapasseService } from '../providers/datapasse.service';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 import { MESSAGES } from '../constant/constant';
 
 @Component({

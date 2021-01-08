@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController, ModalController, ToastController, MenuController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
-import { Socket } from 'ngx-socket-io';
+//import { Socket } from 'ngx-socket-io';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription } from 'rxjs';
 import { MESSAGES } from '../constant/constant';
@@ -36,7 +36,8 @@ export class CircleMembersPage implements OnInit {
     private toasterController: ToastController,
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
-    private socket: Socket) { 
+    //private socket: Socket
+    ) { 
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false);
     }
@@ -64,6 +65,7 @@ export class CircleMembersPage implements OnInit {
   createChatRoom() {
     this.loading = true
     this.chatRoom.connectedUsers = this.membersToChatWith
+  //  this.chatRoom.connectedUsers.push(this.userId)
     this.chatRoom.name != '' ? null : this.chatRoom.name = 'Entre nous deux'
     this.contactService.initChatRoom(this.chatRoom).subscribe(res => {
      // console.log(res)
