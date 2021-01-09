@@ -46,7 +46,9 @@ export class ChatPage implements OnInit {
     messageRepliedId: '',
     isReply: false,
     createdAt: '',
-    userPhoto_url: ''
+    userPhoto_url: '',
+    timeStamp: 0
+
   }
 
   repliedMessage = {
@@ -262,7 +264,9 @@ export class ChatPage implements OnInit {
     let currentTime = new Date()
     this.message.userPhoto_url = this.user.photo
     this.message.createdAt = currentTime.toLocaleDateString() + "T" + currentTime.getHours() + ":" + currentTime.getMinutes()
-    // console.log(this.message)
+    let t = currentTime.toLocaleDateString().split('/').reverse().join('') + currentTime.getHours() + currentTime.getMinutes()
+    this.message.timeStamp = parseInt(t)
+    console.log(parseInt(t) )
     if (!this.message.isReply) {
       this.socket.emit('add-message', this.message);
       this.message.text = '';
@@ -272,6 +276,7 @@ export class ChatPage implements OnInit {
       this.message.userFromId = this.repliedMessage.userFromId
       this.message.FromMessageText = this.repliedMessage.text
       this.message.userPhoto_url = this.user.photo
+      this.message.timeStamp = parseInt(t)
       //  console.log(res)
       this.socket.emit('add-message', this.message);
       this.message.text = '';

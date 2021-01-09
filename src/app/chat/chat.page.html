@@ -57,7 +57,7 @@
           <span class="user_name">{{ message?.pseudo }}:</span><br>
           <span>{{ message?.text }}</span>
           <div class="time">
-              {{message?.createdAt | slice:0:1}}.{{message?.createdAt | slice:3:4}}    
+            {{message?.createdAt | slice:0:2}}.{{message?.createdAt | slice:3:5}}    
               {{message?.createdAt | slice:11:16}}
           </div>
         </ion-col>

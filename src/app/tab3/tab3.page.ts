@@ -31,14 +31,23 @@ export class Tab3Page implements OnInit {
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
     private toastController: ToastController,
-    ) {
+  ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
-  this.getNewRoomBySocket().subscribe(room => {
-     console.log(room)
-     room['userId'] == this.userId ? this.rooms.push(room) : null
-   });
-
+    this.getNewRoomBySocket().subscribe(room => {
+      console.log(room)
+      room['userId'] == this.userId ? this.rooms.push(room) : null
+    });
+    
+// Order rooms positions depending on timeStamp
+    this.getMessagesBySocket().subscribe(message => {
+      console.log(this.rooms)
+      for (const r of this.rooms) {
+        if (message['roomId'] == r['_id']) {
+          this.getChatRooms()
+      } 
+      }
+    });
     this.subscription = this.dataPasse.get().subscribe(list => {
       // console.log(list)
       if (list.length > 0) {
@@ -47,13 +56,33 @@ export class Tab3Page implements OnInit {
     });
   }
 
+  list = [
+    {
+      name: 'christian',
+      timestamp: 202101090955
+    },
+    {
+      name: 'linda',
+      timestamp: 202101091558
+    },
+    {
+      name: 'Kokou',
+      timestamp: 202101091554
+    }
+  ]
+
   ngOnInit() {
+    this.list.sort((a, b) => {
+      return b.timestamp - a.timestamp
+    })
+    console.log(this.list)
   }
+
 
   ionViewWillEnter() {
 
     this.userId = localStorage.getItem('teepzyUserId');
-   // this.socket.emit('online', this.userId);
+    // this.socket.emit('online', this.userId);
     this.getUsersOfCircle()
     this.getChatRooms()
 
@@ -64,8 +93,13 @@ export class Tab3Page implements OnInit {
     return index; // or item.id
   }
 
-
-  joinChat() {
+  getMessagesBySocket() {
+    let observable = new Observable(observer => {
+      this.socket.on('message', (data) => {
+        observer.next(data);
+      });
+    })
+    return observable;
   }
 
 
@@ -104,11 +138,9 @@ export class Tab3Page implements OnInit {
       console.log(res);
       //this.rooms = res['data']
       this.rooms = res['data'].sort((a, b) => {
-        if (a.lastMessage[0] && b.lastMessage[0]) {
-          moment(b.lastMessage[0].createdAt).unix() - moment(a.lastMessage[0].createdAt).unix()
-        }
-      }
-      );
+      return b.lastMessage[0].timeStamp - a.lastMessage[0].timeStamp
+    })
+    console.log(this.rooms)
       this.loading = false
     }, error => {
       //console.log(error)
