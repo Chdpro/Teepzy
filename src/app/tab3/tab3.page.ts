@@ -38,15 +38,20 @@ export class Tab3Page implements OnInit {
       console.log(room)
       room['userId'] == this.userId ? this.rooms.push(room) : null
     });
-    
-// Order rooms positions depending on timeStamp
+
+    // Order rooms positions depending on timeStamp
     this.getMessagesBySocket().subscribe(message => {
       console.log(this.rooms)
       for (const r of this.rooms) {
         if (message['roomId'] == r['_id']) {
-          this.getChatRooms()
-      } 
+          r['lastMessage'][0] = message
+        }
       }
+      let rs = this.rooms.sort((a, b) => {
+        return b.lastMessage[0].timeStamp - a.lastMessage[0].timeStamp
+      })
+      this.rooms = rs
+
     });
     this.subscription = this.dataPasse.get().subscribe(list => {
       // console.log(list)
@@ -138,9 +143,9 @@ export class Tab3Page implements OnInit {
       console.log(res);
       //this.rooms = res['data']
       this.rooms = res['data'].sort((a, b) => {
-      return b.lastMessage[0].timeStamp - a.lastMessage[0].timeStamp
-    })
-    console.log(this.rooms)
+        return b.lastMessage[0].timeStamp - a.lastMessage[0].timeStamp
+      })
+      console.log(this.rooms)
       this.loading = false
     }, error => {
       //console.log(error)
