@@ -4,8 +4,9 @@ import { NavController, ModalController, MenuController, ToastController } from 
 //import { Socket } from 'ngx-socket-io';
 import { ContactService } from '../providers/contact.service';
 import { DatapasseService } from '../providers/datapasse.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import * as moment from 'moment';
+import { Socket } from 'ng-socket-io';
 
 @Component({
   selector: 'app-tab3',
@@ -26,14 +27,17 @@ export class Tab3Page implements OnInit {
     private router: Router,
     private contactService: ContactService,
     public modalController: ModalController,
-   // private socket: Socket,
+    private socket: Socket,
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
     private toastController: ToastController,
     ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
-  //  this.socket.connect();
+  this.getNewRoomBySocket().subscribe(room => {
+     console.log(room)
+     room['userId'] == this.userId ? this.rooms.push(room) : null
+   });
 
     this.subscription = this.dataPasse.get().subscribe(list => {
       // console.log(list)
@@ -110,6 +114,15 @@ export class Tab3Page implements OnInit {
       //console.log(error)
       this.loading = false
     })
+  }
+
+  getNewRoomBySocket() {
+    let observable = new Observable(observer => {
+      this.socket.on('new-room', (data) => {
+        observer.next(data);
+      });
+    })
+    return observable;
   }
 
 

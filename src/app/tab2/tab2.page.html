@@ -53,7 +53,7 @@
 
         <div>
 
-          <ion-item *ngFor="let n of notifications?.reverse();trackBy: trackByFn " (click)="goToPost(n?.toId, n?.icon_name)">
+          <ion-item *ngFor="let n of notifications?.reverse();trackBy: trackByFn " (click)="goToElement(n?.toId, n?.icon_name, n?.roomId)">
             <span style="margin-right: 24px;" class="material-icons">
               {{n?.icon_name}}
             </span>

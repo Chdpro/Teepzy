@@ -46,7 +46,7 @@ export class ChatPage implements OnInit {
     messageRepliedId: '',
     isReply: false,
     createdAt: '',
-    userPhoto_url:''
+    userPhoto_url: ''
   }
 
   repliedMessage = {
@@ -79,8 +79,7 @@ export class ChatPage implements OnInit {
     private modalController: ModalController,
     private dataPasse: DatapasseService,
     private socket: Socket
-    ) 
-    {
+  ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
     this.subscription = this.dataPasse.getRoom().subscribe(room => {
@@ -134,7 +133,7 @@ export class ChatPage implements OnInit {
       currentUserOnlineId: userId
     }
     this.contactService.markReadMessages(room).subscribe(res => {
-    //  console.log(res)
+      //  console.log(res)
     }, error => {
       console.log(error)
     })
@@ -232,7 +231,7 @@ export class ChatPage implements OnInit {
         //   console.log(res)
         this.presentToast(MESSAGES.INVITATION_SEND_OK)
         this.isInMyCircle = true
-     //   this.socket.emit('notification', 'notification');
+        //   this.socket.emit('notification', 'notification');
         this.loading = false
       }, error => {
         this.presentToast(MESSAGES.INVITATION_SEND_ERROR)
@@ -249,7 +248,7 @@ export class ChatPage implements OnInit {
         //   console.log(res)
         this.presentToast(MESSAGES.INVITATION_SEND_OK)
         this.isInMyCircle = true
-     //   this.socket.emit('notification', 'notification');
+        //   this.socket.emit('notification', 'notification');
         this.loading = false
       }, error => {
         this.presentToast(MESSAGES.INVITATION_SEND_ERROR)
@@ -263,24 +262,20 @@ export class ChatPage implements OnInit {
     let currentTime = new Date()
     this.message.userPhoto_url = this.user.photo
     this.message.createdAt = currentTime.toLocaleDateString() + "T" + currentTime.getHours() + ":" + currentTime.getMinutes()
-   // console.log(this.message)
+    // console.log(this.message)
     if (!this.message.isReply) {
-       this.socket.emit('add-message', this.message);
-       this.message.text = '';
+      this.socket.emit('add-message', this.message);
+      this.message.text = '';
     } else {
       this.message.FromMessagePseudo = this.repliedMessage.pseudo
       this.message.messageRepliedId = this.repliedMessage.messageId
       this.message.userFromId = this.repliedMessage.userFromId
       this.message.FromMessageText = this.repliedMessage.text
       this.message.userPhoto_url = this.user.photo
-      this.contactService.addReplyMessage(this.message).subscribe(res => {
-        //  console.log(res)
-        this.socket.emit('add-message', this.message);
-        this.message.text = '';
-        this.close()
-      }, error => {
-        // console.log(error)
-      })
+      //  console.log(res)
+      this.socket.emit('add-message', this.message);
+      this.message.text = '';
+      this.close()
     }
 
   }
@@ -336,11 +331,11 @@ export class ChatPage implements OnInit {
   }
 
   coonectSocket() {
-   /* this.socket.fromEvent('user-online').subscribe(notif => {
-      console.log(notif)
-      notif['userId'] == this.stateO.connectedUserId ? this.stateO.online = true : null
-    });
-    */
+    /* this.socket.fromEvent('user-online').subscribe(notif => {
+       console.log(notif)
+       notif['userId'] == this.stateO.connectedUserId ? this.stateO.online = true : null
+     });
+     */
   }
 
   disconnectUserSocket() {
@@ -358,7 +353,6 @@ export class ChatPage implements OnInit {
       if (this.checkAvailability(this.messages, messageId)) {
         let list = this.deleteObjectFromList(this.messages, messageId)
         this.messages = list
-        console.log(this.messages)
       }
     });
   }
@@ -404,7 +398,7 @@ export class ChatPage implements OnInit {
   }
 
   getMessagesBySocket() {
-   let observable = new Observable(observer => {
+    let observable = new Observable(observer => {
       this.socket.on('message', (data) => {
         observer.next(data);
       });
@@ -434,12 +428,12 @@ export class ChatPage implements OnInit {
   }
 
   getUsers() {
-   /* let observable = new Observable(observer => {
-      this.socket.on('users-changed', (data) => {
-        observer.next(data);
-      });
-    });
-    return observable;*/
+    /* let observable = new Observable(observer => {
+       this.socket.on('users-changed', (data) => {
+         observer.next(data);
+       });
+     });
+     return observable;*/
   }
 
   copyMessage(text) {
@@ -449,7 +443,7 @@ export class ChatPage implements OnInit {
 
   }
   ionViewWillLeave() {
-   // this.socket.disconnect();
+    // this.socket.disconnect();
     this.subscription ? this.subscription.unsubscribe() : null
 
   }
@@ -478,7 +472,7 @@ export class ChatPage implements OnInit {
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null
-  //  this.socket.removeAllListeners('message');
+    //  this.socket.removeAllListeners('message');
     //this.socket.removeAllListeners('users-changed');
   }
 

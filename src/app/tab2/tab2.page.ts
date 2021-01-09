@@ -208,7 +208,7 @@ export class Tab2Page implements OnInit {
   listNotifications() {
     this.loading = true
     this.contactService.listNotification(this.userId).subscribe(res => {
-   //   console.log(res)
+      console.log(res)
       this.notifications = res['data']
       this.loading = false
 
@@ -219,10 +219,12 @@ export class Tab2Page implements OnInit {
     })
   }
 
-  goToPost(idTeepz, icon_name){
+  goToElement(idTeepz, icon_name, roomId){
     //console.log(idTeepz, icon_name)
     if (icon_name == Icon.CHAT_BUBBLE || icon_name == Icon.DYNAMIC_FEED || icon_name == Icon.GRADE || icon_name == Icon.SHARE) {
     this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'mesTeepz' }])
+    }else if (icon_name == Icon.MESSAGE){
+      this.gotoChatRoom(roomId)
     }
   }
   time(date) {
@@ -301,13 +303,25 @@ export class Tab2Page implements OnInit {
   }
 
 
-
-  gotoChatRoom(roomId, pseudo, photo, roomLength, roomName, connectedUserId, roomUserId) {
-   // this.socket.connect();
+  goToCHATfromInvitation(roomId, pseudo, photo, roomLength, roomName, connectedUserId, roomUserId){
     this.navCtrl.navigateForward("/chat", 
     { state: {roomId: roomId,pseudo: pseudo,
        photo: photo, roomLength: roomLength, roomName, connectedUserId: connectedUserId, userId: roomUserId } });
-    // this.router.navigateByUrl('/chat')
+
+  }
+
+  gotoChatRoom(roomId) {
+   this.contactService.getChatRoom(roomId).subscribe(res =>{
+     console.log(res)
+     let user = res['data']
+     this.navCtrl.navigateForward("/chat", 
+     { state: {roomId: roomId,pseudo: user.connectedUsersInfo.pseudoIntime,
+        photo: user.connectedUsersInfo.photo, roomLength: user.connectedUsers.length, connectedUserId: user.connectedUsers[0] , userId: user.userId } });
+ 
+   }, error =>{
+
+   })
+
 
   }
 
@@ -328,7 +342,7 @@ export class Tab2Page implements OnInit {
       if (res['status'] == 200) {
         this.loading = false
        // console.log(res['status'])
-        this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, 
+        this.goToCHATfromInvitation(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, 
           room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
       } else {
         this.presentToast(MESSAGES.ROOM_EXIST_OK)

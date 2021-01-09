@@ -105,7 +105,7 @@ export class ContactService {
 
   listNotification(id): Observable<any> {
     let url = 'users/notifications/' + id;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
 
   NbrUnreadNotifications(userId): Observable<any> {
@@ -342,12 +342,12 @@ export class ContactService {
 
   initChatRoom(room): Observable<any> {
     let url = 'chat/';
-    return this.http.post(base_url + url, room, httpOptionsJson);
+    return this.http.post(local_url + url, room, httpOptionsJson);
   }
 
   getChatRoom(id): Observable<any> {
     let url = 'chat/room/'+ id;
-    return this.http.get(base_url + url, httpOptionsJson);
+    return this.http.get(local_url + url, httpOptionsJson);
   }
 
   updateChatRoom(roomId,room): Observable<any> {
