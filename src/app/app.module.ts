@@ -56,7 +56,7 @@ import { File } from '@ionic-native/file/ngx';
 import { SnapPageModule } from './snap/snap.module';
 import { GroupInvitationPageModule } from './group-invitation/group-invitation.module';
 import { Autosize } from './components/autosize';
-const config: SocketIoConfig = { url: local_url, options: { }};
+const config: SocketIoConfig = { url: base_url, options: { }};
 
 @NgModule({
   declarations: [AppComponent,Autosize],
