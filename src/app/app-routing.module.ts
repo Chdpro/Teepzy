@@ -160,6 +160,10 @@ const routes: Routes = [
     path: 'tuto-video',
     loadChildren: () => import('./tuto-video/tuto-video.module').then( m => m.TutoVideoPageModule)
   },
+  {
+    path: 'feed',
+    loadChildren: () => import('./feed/feed.module').then( m => m.FeedPageModule)
+  },
 
 
 ];

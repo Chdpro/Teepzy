@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController, AlertController, ToastController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @Component({
   selector: 'app-autorisation',
@@ -11,13 +13,16 @@ import { AuthService } from '../providers/auth.service';
 export class AutorisationPage implements OnInit {
   
   n:Boolean = true
+  nPhoto:Boolean = true
   userId = ''
   user:any
   constructor(private menuCtrl: MenuController,
     private contactService: ContactService,
     private authService: AuthService,
     private alertController: AlertController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private diagnostic: Diagnostic,
+    private androidPermissions: AndroidPermissions
     ) {
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false);
@@ -34,6 +39,8 @@ export class AutorisationPage implements OnInit {
         //  console.log(res)
         this.user = res['data'];
         this.n = this.user.isContactAuthorized
+        this.nPhoto = this.user.isPhotoAuthorized
+
       }, error => {
         // console.log(error)
       })
@@ -70,6 +77,37 @@ export class AutorisationPage implements OnInit {
     }
     
 
+    async presentPhotoAlertConfirm() {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: "Etes-vous sûr ne pas vouloir autoriser?",
+        message: '',
+        buttons: [
+          {
+            text: 'Annuler',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: (blah) => {
+              this.nPhoto = true
+              this.presentToast('Annulé')
+            }
+          },
+  
+          {
+            text: 'Confirmer',
+            handler: () => {
+              this.nPhoto = false
+              this.authorizePhotoOrNot(this.nPhoto)
+  
+            }
+          }
+        ]
+      });
+      await alert.present();
+  
+    }
+    
+
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
@@ -80,6 +118,45 @@ export class AutorisationPage implements OnInit {
 
   test(){
     console.log(this.n)
+  }
+
+  requestNecessaryPermissions() {
+    // Change this array to conform with the permissions you need
+    const androidPermissionsList = [
+      this.androidPermissions.PERMISSION.READ_CONTACTS,
+      this.androidPermissions.PERMISSION.WRITE_CONTACTS,
+    ];
+    return this.androidPermissions.requestPermissions(androidPermissionsList);
+  }
+
+  authPhotoOrNot(){
+    if (this.nPhoto == true) {
+      this.presentPhotoAlertConfirm()
+    }else{
+      this.nPhoto = true
+      if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
+        this.requestNecessaryPermissions().then( ()=>{
+          this.diagnostic.requestContactsAuthorization
+        }, error =>{
+          this.requestNecessaryPermissions()
+        })
+      }
+     
+      this.authorizePhotoOrNot(this.nPhoto)
+    }
+  }
+  authorizePhotoOrNot(n:Boolean){
+    let authorize = {
+      userId: this.userId,
+      isPhotoAuthorized: n
+    }
+    this.contactService.authorizePhotos(authorize).subscribe(res =>{
+      console.log(res)
+      this.user =  res['data']
+      this.nPhoto = n
+    }, error =>{
+      console.log(error)
+    })
   }
 
     authOrNot(){

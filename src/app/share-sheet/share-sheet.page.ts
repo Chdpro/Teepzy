@@ -62,10 +62,12 @@ export class ShareSheetPage implements OnInit {
       userPhoto_url: this.post['userPhoto_url'],
       userPseudo: this.post['userPseudo'],
       content: this.post['content'],
-      image_url: this.post['image_url'],
+      image_url: this.post['image_url'] || '',
+      video_url: this.post['video_url'] || '',
       backgroundColor: this.post['backgroundColor'],
       includedCircles: this.post['includedCircles']
     }
+   // console.log(this.repost)
     this.contactService.rePost(this.repost).subscribe(res => {
    //   console.log(res)
       this.getPosts(this.userId)

@@ -10,7 +10,7 @@
         <span> {{roomInitiator?.pseudoIntime}} </span>
       </strong>
 
-      <strong style="font-size: 18px;" *ngIf="stateO?.roomLength > 1"> {{stateO?.name}} </strong>
+      <strong style="font-size: 18px;" *ngIf="stateO?.roomLength > 1"> {{stateO?.name | slice:0:15 }} <span *ngIf="stateO?.name?.length >= 15">...</span> </strong>
     </ion-title>
     <small style="margin-left: 23px;" *ngIf="stateO?.online">En ligne</small>
     <ion-icon *ngIf="!isInMyCircle && stateO?.roomLength == 0" (click)="presentAlertConfirm()"  class="invitation-add" name="add-outline"></ion-icon>

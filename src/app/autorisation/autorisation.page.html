@@ -20,6 +20,9 @@
       <ion-col>
         <div>
           <h5>Appareil photo</h5>
+          <span>
+            <ion-toggle name="nPhoto" [(ngModel)]="nPhoto" (click)="authPhotoOrNot()" color="primary"></ion-toggle>
+          </span>
           <p>
             Utilisez votre appareil photo pour prendre des photos, des vidéos
           </p>
@@ -48,7 +51,7 @@
 
       </ion-col>
     </ion-row>
-    <ion-row>
+    <!--ion-row>
       <ion-col>
         <div>
           <h5>Micro</h5>
@@ -59,7 +62,7 @@
         <mat-divider></mat-divider>
 
       </ion-col>
-    </ion-row>
+    </ion-row-->
   </ion-grid>
 
 </ion-content>

@@ -29,6 +29,7 @@ import {
   MatBadgeModule,
   MatBottomSheetModule
 } from "@angular/material";
+import { MatCarouselModule } from '@ngmodule/material-carousel';
  
 @NgModule({
   exports: [
@@ -59,7 +60,9 @@ import {
     MatExpansionModule,
     MatTooltipModule,
     MatBadgeModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatCarouselModule
+
   ]
 })
 export class MaterialModule {}

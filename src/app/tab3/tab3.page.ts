@@ -41,14 +41,15 @@ export class Tab3Page implements OnInit {
 
     // Order rooms positions depending on timeStamp
     this.getMessagesBySocket().subscribe(message => {
-      console.log(this.rooms)
       for (const r of this.rooms) {
         if (message['roomId'] == r['_id']) {
           r['lastMessage'][0] = message
         }
       }
       let rs = this.rooms.sort((a, b) => {
-        return b.lastMessage[0].timeStamp - a.lastMessage[0].timeStamp
+        if (b.lastMessage.length > 0 && a.lastMessage.length > 0) {
+          return b.lastMessage[0].timeStamp - a.lastMessage[0].timeStamp
+        }
       })
       this.rooms = rs
 
@@ -77,10 +78,7 @@ export class Tab3Page implements OnInit {
   ]
 
   ngOnInit() {
-    this.list.sort((a, b) => {
-      return b.timestamp - a.timestamp
-    })
-    console.log(this.list)
+
   }
 
 
@@ -139,18 +137,50 @@ export class Tab3Page implements OnInit {
 
   getChatRooms() {
     this.loading = true
+    let conversations = []
     this.contactService.mChatRooms(this.userId).subscribe(res => {
-      console.log(res);
-      //this.rooms = res['data']
-      this.rooms = res['data'].sort((a, b) => {
-        return b.lastMessage[0].timeStamp - a.lastMessage[0].timeStamp
+      let r = res['data']
+      for (const room of r) {
+        if (room['lastMessage'].length > 0) {
+          conversations.push({
+            connectedUsers: room.connectedUsers,
+            connectedUsersInfo: room.connectedUsersInfo,
+            lastMessage: room.lastMessage,
+            name: room.name,
+            userId: room.userId,
+            userInitiator: room.userInitiator,
+            _id: room._id,
+            countUnreadMessages: room.countUnreadMessages
+
+          })
+        } else {
+
+          let lastMessage = [{ timeStamp: room.createdAt.slice(0, 9).split('-').join('') + room.createdAt.slice(12, 16).split(':').join('') }]
+          conversations.push({
+            connectedUsers: room.connectedUsers,
+            connectedUsersInfo: room.connectedUsersInfo,
+            lastMessage: lastMessage,
+            name: room.name,
+            userId: room.userId,
+            userInitiator: room.userInitiator,
+            _id: room._id,
+            countUnreadMessages: room.countUnreadMessages
+
+          })
+        }
+      }
+      this.rooms = conversations.sort((a, b) => {
+        //console.log(b.lastMessage[0], a)
+        if (b.lastMessage.length > 0 && a.lastMessage.length > 0) {
+          return b.lastMessage[0].timeStamp - a.lastMessage[0].timeStamp
+        }
       })
-      console.log(this.rooms)
       this.loading = false
     }, error => {
       //console.log(error)
       this.loading = false
     })
+
   }
 
   getNewRoomBySocket() {

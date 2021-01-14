@@ -21,6 +21,7 @@ import { ShareSheetPage } from '../share-sheet/share-sheet.page';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
+
   user: any
   listPosts = []
   posts = []
@@ -43,7 +44,6 @@ export class Tab1Page implements OnInit {
   showSearch = false
   showResponsePanel = false
   search: any
-  subscription: Subscription;
   timeCall = 0
   repost: any
   publication: any
@@ -54,77 +54,17 @@ export class Tab1Page implements OnInit {
   video_url = '../../assets/img/test.mp4'
   isPlaying = false
   tutos = []
-  slideOpts = {
-    on: {
-      beforeInit() {
-        const swiper = this;
-        swiper.classNames.push(`${swiper.params.containerModifierClass}fade`);
-        const overwriteParams = {
-          slidesPerView: 1,
-          slidesPerColumn: 1,
-          slidesPerGroup: 1,
-          watchSlidesProgress: true,
-          spaceBetween: 0,
-          virtualTranslate: true,
-        };
-        swiper.params = Object.assign(swiper.params, overwriteParams);
-        swiper.params = Object.assign(swiper.originalParams, overwriteParams);
-      },
-      setTranslate() {
-        const swiper = this;
-        const { slides } = swiper;
-        for (let i = 0; i < slides.length; i += 1) {
-          const $slideEl = swiper.slides.eq(i);
-          const offset$$1 = $slideEl[0].swiperSlideOffset;
-          let tx = -offset$$1;
-          if (!swiper.params.virtualTranslate) tx -= swiper.translate;
-          let ty = 0;
-          if (!swiper.isHorizontal()) {
-            ty = tx;
-            tx = 0;
-          }
-          const slideOpacity = swiper.params.fadeEffect.crossFade
-            ? Math.max(1 - Math.abs($slideEl[0].progress), 0)
-            : 1 + Math.min(Math.max($slideEl[0].progress, -1), 0);
-          $slideEl
-            .css({
-              opacity: slideOpacity,
-            })
-            .transform(`translate3d(${tx}px, ${ty}px, 0px)`);
-        }
-      },
-      setTransition(duration) {
-        const swiper = this;
-        const { slides, $wrapperEl } = swiper;
-        slides.transition(duration);
-        if (swiper.params.virtualTranslate && duration !== 0) {
-          let eventTriggered = false;
-          slides.transitionEnd(() => {
-            if (eventTriggered) return;
-            if (!swiper || swiper.destroyed) return;
-            eventTriggered = true;
-            swiper.animating = false;
-            const triggerEvents = ['webkitTransitionEnd', 'transitionend'];
-            for (let i = 0; i < triggerEvents.length; i += 1) {
-              $wrapperEl.trigger(triggerEvents[i]);
-            }
-          });
-        }
-      },
-    }
-  }
-
-
   showBackground = false
   global: Globals;
-  @ViewChild(IonSlides, null) slides: IonSlides;
+  subscription: Subscription;
+
   navigationSubscription;
   @ViewChild('videoPlayer', null) videoPlayers: ElementRef;
+  @ViewChild('slides', null) ionSlides: IonSlides;
+  @ViewChild(IonSlides, null) slides: IonSlides;
+
   currentPlaying = null
   currentIndex: Number = 0;
-
-
-  @ViewChild('slides', null) ionSlides: IonSlides;
 
   disablePrevBtn = true;
   disableNextBtn = false;
@@ -171,6 +111,8 @@ export class Tab1Page implements OnInit {
 
     //  console.log(this.dataPass.get())
   }
+  ngAfterViewInit() {
+  }
 
   ngOnDestroy() {
     if (this.navigationSubscription) {
@@ -200,6 +142,8 @@ export class Tab1Page implements OnInit {
     ///console.log('swipe');
     this.listPosts.length == 0 ? this.getPosts(this.userId) : null
   }
+
+  
   connectSocket() {
     /*this.socket.connect();
     this.socket.fromEvent('user-notification').subscribe(notif => {
@@ -266,15 +210,6 @@ export class Tab1Page implements OnInit {
     this.slides.slidePrev();
   }
 
-  nextWhenVideo(videoUrl) {
-    if (this.videoPlayers) {
-      this.playVideo(videoUrl)
-    } else {
-      this.slides.slideNext();
-      //this.stopVideo()
-    }
-
-  }
 
   public prev() {
     this.slides.slidePrev();
@@ -297,12 +232,16 @@ export class Tab1Page implements OnInit {
       // const inView = this.isElementInViewPort(nativeElement);
       if (videoUrl) {
         this.currentPlaying = nativeElement;
-        this.currentPlaying.muted = false;
-        this.currentPlaying.play();
-      } else {
+        if (this.currentPlaying.muted === false) {
         this.currentPlaying = nativeElement;
         this.currentPlaying.muted = true;
         this.currentPlaying.pause();
+        }else{
+          this.currentPlaying = nativeElement;
+          this.currentPlaying.muted = false;
+          this.currentPlaying.play();
+        }
+        console.log(this.currentPlaying.muted)
       }
     }
 
@@ -310,6 +249,7 @@ export class Tab1Page implements OnInit {
 
   stopVideo() {
     if (this.videoPlayers) {
+      console.log(this.videoPlayers)
       const nativeElement = this.videoPlayers.nativeElement;
       this.currentPlaying = nativeElement;
       this.currentPlaying.muted = true;
@@ -321,8 +261,8 @@ export class Tab1Page implements OnInit {
 
 
   swipeEvent(event?: Event, videoUrl?: any) {
-    // console.log(videoUrl)
-    this.playVideo()
+  //  console.log(videoUrl)
+    this.playVideo(videoUrl)
   }
 
 
@@ -396,7 +336,7 @@ export class Tab1Page implements OnInit {
 
 
   addFavorite(postId) {
-    //   console.log(postId)
+    console.log(postId)
     let favoris = {
       userId: this.userId,
       postId: postId,
@@ -532,6 +472,8 @@ export class Tab1Page implements OnInit {
   checkFavorite(favorite, e) {
     this.contactService.checkFavorite(favorite).subscribe(res => {
       if (res['status'] == 201) {
+        let dateStamp = e['createdAt'].slice(0,10).split('-').join('')
+        let timeStamp = e['createdAt'].slice(11,19).split(':').join('')
         this.listPosts.push(
           {
             _id: e['_id'],
@@ -549,11 +491,14 @@ export class Tab1Page implements OnInit {
             nbrComments: e['nbrComments'],
             favorite: true,
             favoriteCount:e['favoriteCount'],
-            repostCounts: e['repostCounts']
+            repostCounts: e['repostCounts'],
+            dateTimeStamp: dateStamp + timeStamp
           },
         )
 
       } else {
+        let dateStamp = e['createdAt'].slice(0,10).split('-').join('')
+        let timeStamp = e['createdAt'].slice(11,19).split(':').join('')
 
         this.listPosts.push(
           {
@@ -572,12 +517,16 @@ export class Tab1Page implements OnInit {
             nbrComments: e['nbrComments'],
             favorite: false,
             favoriteCount: e['favoriteCount'],
-            repostCounts: e['repostCounts']
+            repostCounts: e['repostCounts'],
+            dateTimeStamp: dateStamp + timeStamp
+
           },
         )
       }
-    //  console.log(this.listPosts)
 
+      this.listPosts = this.listPosts.sort((a, b) => {
+        return b.dateTimeStamp - a.dateTimeStamp
+      })
     })
   }
 
@@ -641,4 +590,5 @@ export class Tab1Page implements OnInit {
     });
     toast.present();
   }
+
 }

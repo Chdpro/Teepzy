@@ -183,9 +183,9 @@
 
             <div class="menu">
               <a (click)="presentCommentModal(post)">
-                <button mat-fab class="mat-button" color="primary">
-                  <mat-icon *ngIf="post?.nbrComments !== 0" [matBadge]="post?.nbrComments" matBadgeColor="warn">
-                    <ion-icon class="chatbubble" name="chatbubble-outline"></ion-icon>
+                <button mat-fab class="mat-button" style="font-size: 28px !important" color="primary">
+                  <mat-icon *ngIf="post?.nbrComments !== 0" style="margin-top: -3px !important"  [matBadge]="post?.nbrComments" matBadgeColor="warn">
+                    <ion-icon class="chatbubble"    name="chatbubble-outline"></ion-icon>
                   </mat-icon>
                   <ion-icon *ngIf="post?.nbrComments == 0" name="chatbubble-outline"></ion-icon>
 

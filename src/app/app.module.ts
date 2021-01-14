@@ -56,7 +56,10 @@ import { File } from '@ionic-native/file/ngx';
 import { SnapPageModule } from './snap/snap.module';
 import { GroupInvitationPageModule } from './group-invitation/group-invitation.module';
 import { Autosize } from './components/autosize';
-const config: SocketIoConfig = { url: base_url, options: { }};
+import { MatCarouselModule } from '@ngmodule/material-carousel';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+
+const config: SocketIoConfig = { url: local_url, options: { }};
 
 @NgModule({
   declarations: [AppComponent,Autosize],
@@ -67,6 +70,7 @@ const config: SocketIoConfig = { url: base_url, options: { }};
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MatCarouselModule.forRoot(),
    // AddPostPageModule,
     EditPostPageModule,
     GroupInvitationPageModule,
@@ -109,6 +113,7 @@ const config: SocketIoConfig = { url: base_url, options: { }};
     OneSignal,
     Clipboard,
     Globals,
+    Diagnostic,
     Base64,
     VideoPlayer,
     MediaCapture,

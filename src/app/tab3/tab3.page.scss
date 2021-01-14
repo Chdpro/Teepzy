@@ -1,3 +1,7 @@
+.badge{
+    right: 63px;
+    bottom: -32px;
+}
 ion-title{
     color: #ea4e50;
 }
@@ -15,9 +19,11 @@ ion-slide{
     height: -webkit-fill-available;
   }
 .mat-header-btn{
-        margin-top: 47px;
-        margin-left: -51px;
-        font-size: 27px;
+    margin-top: 46px;
+    position: absolute;
+    font-size: 27px;
+    right: -30px;
+    float: right;
 }
 
 .example-button-container{
@@ -94,6 +100,8 @@ ion-spinner{
 .time{
     float: right;
     color: #ea4e50;
+    position: absolute;
+    right: 14px;
 }
 
 .round-img-post{

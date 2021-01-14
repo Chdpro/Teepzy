@@ -77,6 +77,11 @@ export class ContactService {
     return this.http.post(base_url + url,JSON.stringify(authorize), httpOptionsJson);
   }
 
+  authorizePhotos(authorize): Observable<any> {
+    let url = 'users/authorizePhotos';
+    return this.http.post(base_url + url,JSON.stringify(authorize), httpOptionsJson);
+  }
+
   acceptLinkPeople(invitation): Observable<any> {
     let url = 'users/acceptLinkPeople';
     return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);

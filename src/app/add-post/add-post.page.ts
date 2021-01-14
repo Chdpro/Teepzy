@@ -182,6 +182,7 @@ removeMedia(){
 
 
   pickImage(sourceType) {
+    if (this.user.isPhotoAuthorized === true) {
     this.requestNecessaryPermissions().then(() => {
       const options: CameraOptions = {
         quality: 100,
@@ -210,6 +211,9 @@ removeMedia(){
 
       });
     })
+    } else {
+      this.presentToast("Vous n'avez pas autorisé l'accès à la prise de photo")
+    }
 
   }
 
@@ -253,6 +257,7 @@ removeMedia(){
 */
 
   takeVideo() {
+
     this.requestNecessaryPermissions().then(() => {
       let options: CaptureVideoOptions = { limit: 1, duration: 15 }
       this.mediaCapture.captureVideo(options)
@@ -320,6 +325,7 @@ removeMedia(){
         }
       } else if (ref.videos.length > 0 && ref.photos.length == 0) {
         if (this.videoPlayers.nativeElement.duration < 16.5) {
+       //   alert("upload started")
           for (let index = 0; index < ref.videos.length; index++) {
             // interval++
             const fileTransfer = ref.transfer.create()
@@ -334,6 +340,7 @@ removeMedia(){
             this.filesName.push({ fileUrl: base_url + options.fileName, type: 'video' })
             fileTransfer.upload(ref.videos[index], serverUrl, options).then(() => {
               this.post.video_url = base_url + options.fileName;
+          //    alert("upload finished")
               this.addPost()
               this.loading = false
 
@@ -341,7 +348,7 @@ removeMedia(){
               this.loading = false
             //  alert(JSON.stringify(error))
 
-              // alert("video upload did not work!" + JSON.stringify(error))
+         //    alert("video upload did not work!" + JSON.stringify(error))
 
             })
           }
@@ -362,19 +369,23 @@ removeMedia(){
 
 
   chooseVideo() {
-    this.requestNecessaryPermissions().then(() => {
-      this.fileChooser
-        .open({ mime: "video/mp4" })
-        .then((uri) => {
-          //alert(uri)
-          //const pictures = "data:image/jpeg;base64," + uri;
-          //this.presentModal(uri, pictures);
-          this.dispVideos.push(this.webview.convertFileSrc(uri))
-
-          this.videos.push(uri)
-        })
-        .catch((e) => console.log(e));
-    })
+    if (this.user.isPhotoAuthorized === true) {
+      this.requestNecessaryPermissions().then(() => {
+        this.fileChooser
+          .open({ mime: "video/mp4" })
+          .then((uri) => {
+            //alert(uri)
+            //const pictures = "data:image/jpeg;base64," + uri;
+            //this.presentModal(uri, pictures);
+            this.dispVideos.push(this.webview.convertFileSrc(uri))
+  
+            this.videos.push(uri)
+          })
+          .catch((e) => console.log(e));
+      })
+    }else {
+      this.presentToast("Vous n'avez pas autorisé l'accès à la prise de photo")
+    }
   }
 
 

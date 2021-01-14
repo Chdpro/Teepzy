@@ -260,11 +260,20 @@ export class ChatPage implements OnInit {
   }
 
 
+  getCurrentTime(){
+    var date = new Date();
+    let d = date.toLocaleTimeString(navigator.language, {
+      hour: '2-digit',
+      minute:'2-digit'
+    });
+    return  d
+  }
+
   sendMessage() {
     let currentTime = new Date()
     this.message.userPhoto_url = this.user.photo
-    this.message.createdAt = currentTime.toLocaleDateString() + "T" + currentTime.getHours() + ":" + currentTime.getMinutes()
-    let t = currentTime.toLocaleDateString().split('/').reverse().join('') + currentTime.getHours() + currentTime.getMinutes()
+    this.message.createdAt = currentTime.toLocaleDateString() + "T" + this.getCurrentTime()
+    let t = currentTime.toLocaleDateString().split('/').reverse().join('') + this.getCurrentTime().split(':').join('')
     this.message.timeStamp = parseInt(t)
     console.log(parseInt(t) )
     if (!this.message.isReply) {

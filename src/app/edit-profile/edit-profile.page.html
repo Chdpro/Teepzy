@@ -45,7 +45,9 @@
                     <mat-select [(ngModel)]="media2" name="media2">
                       <mat-option *ngFor="let s of socials" [value]="s">
                         <ion-icon class="rs-btn" [name]="s.icon"></ion-icon>
-                        {{s.nom}}
+                        <span>
+                          {{s.nom}}
+                        </span>
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -116,7 +118,7 @@
                 </mat-form-field>
 
                 <mat-form-field >
-                  <input matInput name="label" [disabled]="!isEditableH" maxlength="15" placeholder="  Cliquer ici pour modifier le titre de la rubrique" class="input-label"
+                  <input matInput name="label" [disabled]="!isEditableH" maxlength="15" placeholder="" class="input-label"
                     [(ngModel)]="profile1.tagsLabel">
                   <button mat-button (click)="presentAlertConfirmH()"  matSuffix mat-icon-button aria-label="Clear">
                     <mat-icon class="mode_edit">mode_edit</mat-icon>
