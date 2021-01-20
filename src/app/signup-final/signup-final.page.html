@@ -26,7 +26,7 @@
         <form class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Pseudo</mat-label>
-            <input matInput type="text" name="pAmical" #pAmical="ngModel" [(ngModel)]="user.pseudoIntime"
+            <input matInput type="text" name="pAmical" #pAmical="ngModel" maxlength="10" [(ngModel)]="user.pseudoIntime"
               (ngModelChange)="check()" placeholder="Entrer un Pseudo">
           </mat-form-field>
           <div *ngIf="retourUsr == 404 && loadingA == false && user?.pseudoIntime != ''">

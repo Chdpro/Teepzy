@@ -90,7 +90,7 @@
     height: 60px;
     width: 60px;
     right: 23px;
-    padding: 0px;
+    padding-left: 1.5em;
     padding-top: 20px;
     top: 101%;
     border: 1px solid #ea4e50;
@@ -107,11 +107,29 @@
     z-index: 2;
     color: white;
     font-size: 18px;
-    right: 15px;
+    right: 10px;
+    left: -269px;
     top: 285px;
     line-height: 20px;
     text-shadow: 0 1px 6px black;
-    width: 260px;
+    width: 15em;
+    background: #00000070;
+    border-radius: 30px;
+    padding: 19px;
+
+}
+
+.userInfo-less-text{
+    position: absolute;
+    z-index: 2;
+    color: white;
+    font-size: 18px;
+    right: 10px;
+    left: -269px;
+    top: 208px;
+    line-height: 20px;
+    text-shadow: 0 1px 6px black;
+    width: 14em;
     background: #00000070;
     border-radius: 30px;
     padding: 19px;
@@ -127,14 +145,15 @@
 
 video{
     position: fixed;
-    top: 50%;
+    top: 64%;
     left: 50%;
     min-width: 100%;
     min-height: 100%;
     width: auto;
     height: auto;
-    z-index: -100;
+    z-index: 0;
     transform: translateX(-50%) translateY(-50%);
+    border-radius: 40px 40px 1px 0px;
 
  
 
@@ -180,27 +199,34 @@ img{
 }
 
 .img{
-    height: 64px;
-    width: 64px;
+    height: 3em;
+    width: 3em;
     border-radius: 177px;
     border: solid 2px #ea4e50;
     display: block;
     margin-left: 8px;
     margin-right: 2px;
 }
+
+.match-number{
+    font-size: 14px;
+    position: absolute;
+    left: 25px;
+    top: 27px;
+}
+
 .play-btn{
     font-size: 31px;
     font-weight: 100;
     top: 43%;
     position: fixed;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 28px;
     background: rgb(0 0 0 / 18%);;
     padding-left: 18px;
-    border-radius: 18px;
+    border-radius: 50px;
+    background: #fffff000 !important;
 }
-
 
 
 .check-btn{
@@ -220,19 +246,19 @@ img{
 
 }
 
-ion-slides{
+.ion-slide-wrapper{
     height: -webkit-fill-available;
 }
-/*.ion-slide-no-img{
+/*..ion-slide-no-img{
     opacity: 0 !important;
 
 }*/
-ion-slide{
+.ion-slide{
     border-radius: 40px 40px 1px 0px;
     height: -webkit-fill-available;
 }
 /*
-.ion-slide-img{
+..ion-slide-img{
     opacity: 1 !important;
 
 }*/
@@ -385,9 +411,10 @@ ion-icon{
     text-align: center;
     width: auto;
     height: auto;
-    width: 224px;
+    width: 11em;
     z-index: 1000;
-    position: relative;
+    position: absolute;
+    top: 10em;
 }
 
 .post-txt{
@@ -404,7 +431,7 @@ ion-icon{
     margin-left: auto;
     margin-right: auto;
     line-height: 27px;
-    margin-top: 36px;
+    margin-top: 6em;
     top: 0;
     position: fixed;
     margin-left: 19px;
@@ -810,7 +837,7 @@ ion-grid{
     }
   /* On screens that are 992px or less, set the background color to blue */
   @media screen and (max-width: 375px) {
-    ion-slide{
+    .ion-slide{
         border-radius: 40px 40px 1px 0px;
         height: -webkit-fill-available;
     }
@@ -829,7 +856,7 @@ ion-grid{
     .ion-textarea{
         margin-top: -13px;
     }
-    ion-slide{
+    .ion-slide{
         border-radius: 40px 40px 1px 0px;
         height: -webkit-fill-available;
     }
@@ -845,7 +872,7 @@ ion-grid{
     .fixContainer{
         top: 72%;
     }
-    ion-slide{
+    .ion-slide{
         border-radius: 40px 40px 1px 0px;
         height: -webkit-fill-available;
     }
@@ -868,7 +895,7 @@ ion-grid{
     .comment-form{
         margin-top: -142px;
     }
-    ion-slide{
+    .ion-slide{
         border-radius: 40px 40px 1px 0px;
         height: -webkit-fill-available;
     }
@@ -886,7 +913,7 @@ ion-grid{
  .fixContainer{
      top: 65%;
  }
- ion-slide{
+ .ion-slide{
     border-radius: 40px 40px 1px 0px;
     height: -webkit-fill-available;
 }
@@ -897,7 +924,7 @@ ion-grid{
     .fixContainer{
         top: 79%;
     }
-    ion-slide{
+    .ion-slide{
         border-radius: 40px 40px 1px 0px;
         height: -webkit-fill-available;
     }
@@ -915,7 +942,7 @@ ion-grid{
     top: 74%;
 
    }
-   ion-slide{
+   .ion-slide{
     border-radius: 40px 40px 1px 0px;
     height: -webkit-fill-available;
 }
@@ -933,7 +960,7 @@ ion-grid{
         top: 31px;
     }
 
-    ion-slide{
+    .ion-slide{
         border-radius: 40px 40px 1px 0px;
         height: -webkit-fill-available;
     }

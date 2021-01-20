@@ -80,7 +80,7 @@ export class AutorisationPage implements OnInit {
     async presentPhotoAlertConfirm() {
       const alert = await this.alertController.create({
         cssClass: 'my-custom-class',
-        header: "Etes-vous sûr ne pas vouloir autoriser?",
+        header: "Etes-vous sûr de ne pas vouloir autoriser?",
         message: '',
         buttons: [
           {
@@ -133,18 +133,10 @@ export class AutorisationPage implements OnInit {
     if (this.nPhoto == true) {
       this.presentPhotoAlertConfirm()
     }else{
-      this.nPhoto = true
-      if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
-        this.requestNecessaryPermissions().then( ()=>{
-          this.diagnostic.requestContactsAuthorization
-        }, error =>{
-          this.requestNecessaryPermissions()
-        })
-      }
-     
       this.authorizePhotoOrNot(this.nPhoto)
     }
   }
+
   authorizePhotoOrNot(n:Boolean){
     let authorize = {
       userId: this.userId,
@@ -164,9 +156,19 @@ export class AutorisationPage implements OnInit {
         this.presentAlertConfirm()
       }else{
         this.n = true
+        if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
+          this.requestNecessaryPermissions().then( ()=>{
+            this.diagnostic.requestContactsAuthorization()
+       //     this.diagnostic.requestRuntimePermission()
+          }, error =>{
+            this.requestNecessaryPermissions()
+          })
+        }
+       
         this.authorizeOrNot(this.n)
       }
     }
+
     authorizeOrNot(n:Boolean){
       let authorize = {
         userId: this.userId,

@@ -59,7 +59,7 @@ import { Autosize } from './components/autosize';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
-const config: SocketIoConfig = { url: local_url, options: { }};
+const config: SocketIoConfig = { url: base_url, options: { }};
 
 @NgModule({
   declarations: [AppComponent,Autosize],

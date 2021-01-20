@@ -102,6 +102,18 @@ export class ChatPage implements OnInit {
      // console.log(message)
       message['roomId'] == state.roomId ? this.messages.push(message) : null
     });
+    this.getRoomWhoseMessageIsReadBySocket().subscribe(roomId => {
+       console.log(roomId)
+      if (roomId == state.roomId) {
+        for (const message of this.messages) {
+          if (message.userId == this.userId && message.isRead === false) {
+            message.isRead = true
+          }
+        }
+     
+      } 
+    })
+  
     this.deleteMessageFromSocket()
     this.disconnectUserSocket()
   }
@@ -321,6 +333,14 @@ export class ChatPage implements OnInit {
     return await modal.present();
   }
 
+  getRoomWhoseMessageIsReadBySocket() {
+    let observable = new Observable(observer => {
+      this.socket.on('roomWhoseMessagesRead', (data) => {
+        observer.next(data);
+      });
+    })
+    return observable;
+  }
 
   addMessageToFavorite(messageId) {
     let favoris = {
@@ -403,6 +423,7 @@ export class ChatPage implements OnInit {
       this.room = res['data']
       this.getChatRoomUserInitiator(roomInitiatorId)
       this.messages = res['data']['messages']
+     // console.log(this.messages)
     }, error => {
       //  console.log(error)
       this.loading = false

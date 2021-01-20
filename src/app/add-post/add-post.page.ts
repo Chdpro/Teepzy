@@ -324,7 +324,7 @@ removeMedia(){
           })
         }
       } else if (ref.videos.length > 0 && ref.photos.length == 0) {
-        if (this.videoPlayers.nativeElement.duration < 16.5) {
+        if (this.videoPlayers.nativeElement.duration < 35) {
        //   alert("upload started")
           for (let index = 0; index < ref.videos.length; index++) {
             // interval++

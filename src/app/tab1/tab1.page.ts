@@ -85,7 +85,7 @@ export class Tab1Page implements OnInit {
     public actionSheetController: ActionSheetController,
     private contactService: ContactService) {
     this.menuCtrl.enable(true, 'first');
-    this.menuCtrl.swipeGesture(true);
+    this.menuCtrl.swipeGesture(false);
     this.global = globals;
     this.subscription = this.dataPass.getPosts().subscribe(list => {
       // console.log(list)
@@ -249,7 +249,7 @@ export class Tab1Page implements OnInit {
 
   stopVideo() {
     if (this.videoPlayers) {
-      console.log(this.videoPlayers)
+     // console.log(this.videoPlayers)
       const nativeElement = this.videoPlayers.nativeElement;
       this.currentPlaying = nativeElement;
       this.currentPlaying.muted = true;
@@ -262,7 +262,8 @@ export class Tab1Page implements OnInit {
 
   swipeEvent(event?: Event, videoUrl?: any) {
   //  console.log(videoUrl)
-    this.playVideo(videoUrl)
+   // this.playVideo(videoUrl)
+   this.stopVideo()
   }
 
 

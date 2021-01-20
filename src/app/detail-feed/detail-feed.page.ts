@@ -118,7 +118,7 @@ export class DetailFeedPage implements OnInit {
     this.getUserInfo(this.userId)
     let idTeepz = this.route.snapshot.paramMap.get('idTeepz')
     this.previousBackUrl = this.route.snapshot.paramMap.get('previousBackUrl')
-    console.log(this.previousBackUrl)
+  //  console.log(this.previousBackUrl)
     this.getAPost(idTeepz)
     this.getRepost(idTeepz)
 
@@ -498,6 +498,7 @@ export class DetailFeedPage implements OnInit {
           userPseudo: e['userPseudo'],
           content: e['content'],
           image_url: e['image_url'],
+          video_url: e['video_url'],
           backgroundColor: e['backgroundColor'],
           includedUsers: e['includedUsers'],
           createdAt: e['createdAt'],
@@ -518,6 +519,7 @@ export class DetailFeedPage implements OnInit {
           userPseudo: e['userPseudo'],
           content: e['content'],
           image_url: e['image_url'],
+          video_url: e['video_url'],
           backgroundColor: e['backgroundColor'],
           includedUsers: e['includedUsers'],
           createdAt: e['createdAt'],

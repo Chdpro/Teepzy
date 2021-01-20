@@ -180,25 +180,25 @@
       [hideOverlay]="true"
       (click)="stopVideo()"
     >
-    <div (click)="playVideo(p?.video_url)" (swipe)="swipeEvent($event,p?.video_url)" class="slide" [ngStyle]="{
+    <div (swipe)="swipeEvent($event,p?.video_url)" class="slide" [ngStyle]="{
       'color': p?.backgroundColor == '#fff' && p?.image_url == ''? 'black' : 'white', 
       'background-color': !p?.image_url && !p?.video_url ? p?.backgroundColor : '#ffffff00'}">
-      <div  *ngIf="p?.video_url">
-          <video #videoPlayer autoplay playsinline preload="metadata">
+      <div (click)="playVideo(p?.video_url)"   *ngIf="p?.video_url">
+          <video #videoPlayer playsinline preload="metadata">
               <source [src]="sanitizer.bypassSecurityTrustResourceUrl(p?.video_url + '#t=0.5')" type="video/mp4" />
             </video>
       </div> 
-          <ion-grid *ngIf="p?.video_url">
+          <ion-grid  *ngIf="p?.video_url">
             <ion-row>
               <ion-col>
   
               </ion-col>
               <ion-col>
-                <button *ngIf="currentPlaying?.muted" class="play-btn" mat-raised-button>
+                <button (click)="playVideo(p?.video_url)" *ngIf="currentPlaying?.muted" class="play-btn" mat-raised-button>
                   <ion-icon name="play-outline"></ion-icon>
                 </button>
 
-                <button *ngIf="!currentPlaying?.muted" class="play-btn" mat-raised-button>
+                <button  (click)="playVideo(p?.video_url)" *ngIf="!currentPlaying?.muted" class="play-btn" mat-raised-button>
                   <ion-icon name="pause-outline"></ion-icon>
                 </button>
               </ion-col>
@@ -276,7 +276,8 @@
     </p>
   
     <div class="fixed-wrap"
-    [ngStyle]="{'margin-top': p?.image_url ? '108px' : '108px', 'margin-top': p?.video_url? '80px': '108px' }">
+    [ngClass]="{'fixed-wrap-img': p?.image_url, 'fixed-wrap-video': p?.video_url, 'fixed-wrap-text': !p?.video_url && !p?.image_url}"
+    [ngStyle]="{'margin-top': p?.image_url ? '108px' : '108px', 'margin-top': p?.video_url? '91px': '108px' }">
     <div class="slidenav">
       <div *ngIf="p?.image_url|| p?.video_url">
         <div (click)="goToProfile(p?.userId)" class="img-wrapper" style="float: right;">
@@ -346,39 +347,49 @@
       </div>
     </div>
   
-    <div *ngIf="p?.image_url || p?.video_url" class="userInfo">
-      <span style="color: #ffff;margin-left: 25px !important;" *ngIf="p?.image_url || p?.video_url">
-        <strong>
-          @{{p?.userPseudo}} -
-        </strong>
-        <span *ngIf="time(p?.createdAt) != 'il y a un mois'">
-          <span *ngIf="time(p?.createdAt) != 'il y a un jour'">
-            <span *ngIf="time(p?.createdAt) != 'il y a une minute'">
-              <span class="time" *ngIf="time(p?.createdAt) != 'il y a une heure'">
-                {{time(p?.createdAt) }}
+    <ion-grid style="position: absolute;">
+      <ion-row>
+        <ion-col>
+          <div *ngIf="p?.image_url || p?.video_url"  [ngClass]="{'userInfo-less-text': p?.content?.length > 97,'userInfo': p?.content?.length < 97}" >
+            <span style="color: #ffff;margin-left: 25px !important;" *ngIf="p?.image_url || p?.video_url">
+              <strong>
+                @{{p?.userPseudo}} -
+              </strong>
+              <span *ngIf="time(p?.createdAt) != 'il y a un mois'">
+                <span *ngIf="time(p?.createdAt) != 'il y a un jour'">
+                  <span *ngIf="time(p?.createdAt) != 'il y a une minute'">
+                    <span class="time" *ngIf="time(p?.createdAt) != 'il y a une heure'">
+                      {{time(p?.createdAt) }}
+                    </span>
+                  </span>
+                </span>
               </span>
-            </span>
-          </span>
-        </span>
-        <span class="time" *ngIf="time(p?.createdAt) == 'il y a une minute'">
-          il y a 1 minute
-        </span>
-        <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
-          il y a 1 heure
-        </span>
-        <span class="time" *ngIf="time(p?.createdAt) == 'il y a un jour'">
-          il y a 1 jour
-        </span>
-        <span class="time" *ngIf="time(p?.createdAt) == 'il y a un mois'">
-          il y a 1 mois
-        </span>
-      </span><br>
-  
-      <div style="float: left;margin-left: 21px;">
-        {{ p?.content }}
-      </div>
-  
-    </div>
+              <span class="time" *ngIf="time(p?.createdAt) == 'il y a une minute'">
+                il y a 1 minute
+              </span>
+              <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
+                il y a 1 heure
+              </span>
+              <span class="time" *ngIf="time(p?.createdAt) == 'il y a un jour'">
+                il y a 1 jour
+              </span>
+              <span class="time" *ngIf="time(p?.createdAt) == 'il y a un mois'">
+                il y a 1 mois
+              </span>
+            </span><br>
+        
+            <div style="float: left;margin-left: 21px;">
+              {{ p?.content }}
+            </div>
+        
+          </div>
+        </ion-col>
+        <ion-col>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+   
   </div>
   
   

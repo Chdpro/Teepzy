@@ -51,7 +51,7 @@
               <textarea [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }" matInput
                 [(ngModel)]="post.content" name="contentMsg" required #contentMsg="ngModel" maxlength="130" rows="15"
                 (ngModelChange)="post.content = $event + ''" cols="60"
-                placeholder="Ex. Je recherche un graphiste..."></textarea>
+                placeholder="Ex. Je recherche un graphiste..."></textarea> 
             </mat-form-field>
             <span>
 

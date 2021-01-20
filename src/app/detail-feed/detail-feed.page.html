@@ -62,9 +62,10 @@
             </span>
           </ion-slide>
     </ion-slides>
-    <ion-slides *ngIf="post" pager="true" [options]="slideOpts">
-      <ion-slide 
-        [ngClass]="{'ion-slide-img': post?.image_url != '', 'ion-slide-no-img': post?.image_url == ''}" [ngStyle]="{
+    <div class="ion-slide-wrapper" *ngIf="post" >
+      <div class="ion-slide"
+        [ngClass]="{'ion-slide-img': post?.image_url != '', 'ion-slide-no-img': post?.image_url == ''}" 
+        [ngStyle]="{
           'color': post?.backgroundColor == '#fff' && post?.image_url == ''? 'black' : 'white', 
           'background-image':  post?.image_url != '' ? 'url(' + post?.image_url + ')' : '',
           'background-color': post?.image_url == '' ? post?.backgroundColor : 'black',
@@ -85,9 +86,14 @@
   
                   </ion-col>
                   <ion-col>
-                    <button  *ngIf="!currentPlaying" class="play-btn" mat-button>
-                      <ion-icon name="play-outline"></ion-icon>
-                    </button>
+                    
+                <button (click)="playVideo(post?.video_url)" *ngIf="currentPlaying?.muted" class="play-btn" mat-raised-button>
+                    <ion-icon name="play-outline"></ion-icon>
+                  </button>
+  
+                  <button  (click)="playVideo(post?.video_url)" *ngIf="!currentPlaying?.muted" class="play-btn" mat-raised-button>
+                    <ion-icon name="pause-outline"></ion-icon>
+                  </button>
                   </ion-col>
                   <ion-col>
   
@@ -165,7 +171,7 @@
   
   
           <div class="fixed-wrap"
-          [ngStyle]="{'margin-top': post?.image_url || post?.video_url ? '-133px' : '-194px' }">
+          [ngStyle]="{'margin-top': post?.image_url || post?.video_url ? '10em' : '10em' }">
           <div class="slidenav">
             <div *ngIf="post?.image_url|| post?.video_url">
               <div (click)="goToProfile(post?.userId)" class="img-wrapper" style="float: right;">
@@ -224,20 +230,20 @@
 
               <div (click)="presentLinkModal(post, 'MATCHES')" class="filigrane" style="font-weight: 800;font-size: 7px;">
                 <span class="match-txt">MATCHES</span>
-                <span style="margin-top: 6px;font-size: 8px;" *ngIf="post?.matches?.length == 0"> <br> 0</span>
-                <span style="margin-top: 6px;font-size: 8px;" *ngIf="post?.matches?.length > 3"><br>+
-                  {{post.matches?.length - 3}} </span> <br>
-                <span style="margin-top: 6px;font-size: 8px;"
+                <span class="match-number" *ngIf="post?.matches?.length == 0"> <br> 0</span>
+                <span class="match-number" *ngIf="post?.matches?.length > 3"><br>+
+                  {{p.matches?.length - 3}} </span> <br>
+                <span class="match-number"
                   *ngIf="post?.matches?.length < 3 && post?.matches?.length > 0"><br>
-                  {{post.matches?.length}} </span> <br>
-
+                  {{p.matches?.length}} </span> <br>
+        
               </div>
             </div>
           </div>
 
 
-          <div *ngIf="post?.image_url || post?.video_url" class="userInfo">
-              <span style="color: #ffff;margin-left: 25px !important;" *ngIf="post?.image_url || post?.video_url">
+          <div *ngIf="post?.image_url || post?.video_url" [ngClass]="{'userInfo-less-text': p?.content?.length > 97,'userInfo': p?.content?.length < 97}">
+              <span style="color: #ffff;margin-left: 4em !important;" *ngIf="post?.image_url || post?.video_url">
                 <strong>
                   @{{post?.userPseudo}} -
                 </strong>
@@ -274,10 +280,10 @@
         </div>
   
   
-      </ion-slide>
+      </div>
   
 
-    </ion-slides>
+    </div>
   
     <input type="radio" *ngIf="shareLink" name="modal2" value="open" id="modal-open2" class="modal-radio" />
     
