@@ -87,12 +87,10 @@
     }
 
     .people-add{
-
-    float: right;
-    margin-top: -27px;
-    margin-right: 69px;
-    font-size: 21px;
-
+        font-size: 21px;
+        position: absolute;
+        right: 16px;
+        top: 19px;
     }
 
     .read-icon{
@@ -102,8 +100,8 @@
     }
 
     .peoples{
-        margin-right: 56px;
-        font-size: 27px ;
-        float: right;
-    margin-top: -27px;
+    font-size: 26px;
+    position: absolute;
+    right: 49px;
+    top: 17px;
     }
