@@ -64,14 +64,14 @@
     <div *ngFor="let m of rooms| filter:search ;trackBy: trackByFn "
       >
       <ion-item *ngIf="m?.connectedUsers.length == 1">
-        <div  *ngIf="userId === m?.userId">
+        <div  *ngIf="userId !== m?.connectedUsers[0]">
             <div  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
             m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
              m?.name, m?.connectedUsers[0], m?.userId)" *ngIf="!m?.connectedUsersInfo?.photo" class="round-img-post">
               {{m?.connectedUsersInfo?.pseudoIntime | slice:0:1| uppercase}}
             </div>
         </div>
-        <div *ngIf="userId === m?.userId">
+        <div *ngIf="userId !==  m?.connectedUsers[0]">
           <img *ngIf="m?.connectedUsersInfo?.photo"  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
           m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
            m?.name, m?.connectedUsers[0], m?.userId)" [src]="m?.connectedUsersInfo?.photo" alt="">
@@ -80,7 +80,7 @@
 
          <!-- if user initiator is not me -->
 
-         <div  *ngIf="userId !== m?.userId">
+         <div  *ngIf="userId ===  m?.connectedUsers[0]">
 
           <div  (click)="gotoChatRoom(m?._id, m?.userInitiator?.pseudoIntime,
           m?.userInitiator?.photo, m?.connectedUsers.length,
@@ -88,7 +88,7 @@
             {{m?.userInitiator?.pseudoIntime | slice:0:1| uppercase}}
           </div>
          </div>
-        <div *ngIf="userId !== m?.m?.userId">
+        <div *ngIf="userId ===  m?.connectedUsers[0]">
           <img *ngIf="m?.userInitiator?.photo"  (click)="gotoChatRoom(m?._id, m?.userInitiator?.pseudoIntime,
           m?.userInitiator?.photo, m?.connectedUsers.length,
            m?.name, m?.connectedUsers[0], m?.userId)" [src]="m?.userInitiator?.photo" alt="">  
