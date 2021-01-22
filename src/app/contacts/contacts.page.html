@@ -115,7 +115,7 @@
                       {{ ph }}
                     </p>
                   </ion-label>
-                  <div *ngIf="c?.invited  == false" (click)="sendShare(c?.phone)" class="example-button-container">
+                  <div *ngIf="c?.invited  == false"  class="example-button-container">
                     <button mat-mini-fab  [matMenuTriggerFor]="menu" color="warn" aria-label="Example icon button with a home icon">
                       <span style=" margin-left: 6px;
                         margin-bottom: 14px;" class="material-icons">
@@ -123,8 +123,8 @@
                       </span>
                     </button>
                     <mat-menu #menu="matMenu">
-                      <button *ngFor="let ph of c?.phone" (click)="sendShare(ph?.value)"  mat-menu-item>
-                        {{ ph?.value }}
+                      <button *ngFor="let ph of c?.phone" (click)="sendShare(ph)"  mat-menu-item>
+                        {{ ph }}
                       </button>
                       <!--button mat-menu-item>Parametres</button-->
                     </mat-menu>

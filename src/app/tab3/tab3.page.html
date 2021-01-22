@@ -61,101 +61,104 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <div *ngFor="let m of rooms| filter:search ;trackBy: trackByFn "
-      >
-      <ion-item *ngIf="m?.connectedUsers.length == 1">
-        <div  *ngIf="userId !== m?.connectedUsers[0]">
+    
+      <ion-list  class="margin-bottom ion-no-padding">
+
+        <div *ngFor="let m of rooms| filter:search ;trackBy: trackByFn ">
+
+          <ion-item *ngIf="m?.connectedUsers.length == 1">
+            <div  *ngIf="userId !== m?.connectedUsers[0]">
+                <div  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
+                m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
+                 m?.name, m?.connectedUsers[0], m?.userId)" *ngIf="!m?.connectedUsersInfo?.photo" class="round-img-post">
+                  {{m?.connectedUsersInfo?.pseudoIntime | slice:0:1| uppercase}}
+                </div>
+            </div>
+            <div *ngIf="userId !==  m?.connectedUsers[0]">
+              <img *ngIf="m?.connectedUsersInfo?.photo"  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
+              m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
+               m?.name, m?.connectedUsers[0], m?.userId)" [src]="m?.connectedUsersInfo?.photo" alt="">
+      
+            </div>
+    
+             <!-- if user initiator is not me -->
+    
+             <div  *ngIf="userId ===  m?.connectedUsers[0]">
+    
+              <div  (click)="gotoChatRoom(m?._id, m?.userInitiator?.pseudoIntime,
+              m?.userInitiator?.photo, m?.connectedUsers.length,
+               m?.name, m?.connectedUsers[0], m?.userId)" *ngIf="!m?.userInitiator?.photo" class="round-img-post">
+                {{m?.userInitiator?.pseudoIntime | slice:0:1| uppercase}}
+              </div>
+             </div>
+            <div *ngIf="userId ===  m?.connectedUsers[0]">
+              <img *ngIf="m?.userInitiator?.photo"  (click)="gotoChatRoom(m?._id, m?.userInitiator?.pseudoIntime,
+              m?.userInitiator?.photo, m?.connectedUsers.length,
+               m?.name, m?.connectedUsers[0], m?.userId)" [src]="m?.userInitiator?.photo" alt="">  
+            </div>
+           
+            <ion-label  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
+            m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
+             m?.name, m?.connectedUsers[0], m?.userId)" [ngStyle]="{ 'padding-bottom':  m?.lastMessage.length == 0 ? '14px': '0' }">
+              <b *ngIf="m?.connectedUsersInfo._id == userId"> {{m?.userInitiator?.pseudoIntime}} </b>
+              <b *ngIf="m?.connectedUsersInfo._id != userId"> {{m?.connectedUsersInfo?.pseudoIntime}} </b>
+              <b *ngIf="m?.lastMessage.length > 0" style="float: right;" class="time">
+                {{m?.lastMessage[0].createdAt | slice:11:16 }}
+              </b><br>
+              <span *ngIf="m?.lastMessage.length > 0">
+                <span [ngClass]="{'isReadMessage':  m?.lastMessage[0].userId !== userId && m?.lastMessage[0].isRead === true, 'isNotReadMessage': m?.lastMessage[0].userId !== userId && m?.lastMessage[0].isRead === false}" >
+                    {{m?.lastMessage[0].text | slice:0:25}}...
+                </span>
+              </span>
+    
+            </ion-label>
+    
+            <mat-icon *ngIf="m?.countUnreadMessages !== 0" class="badge"  [matBadge]="m?.countUnreadMessages" matBadgeColor="warn">
+            </mat-icon>
+            <button class="mat-header-btn" mat-button [matMenuTriggerFor]="menu">
+              <ion-icon name="ellipsis-horizontal"></ion-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button (click)="removeRoom(m?._id)" mat-menu-item>Supprimer</button>
+            </mat-menu>
+          </ion-item>
+    
+          <ion-item *ngIf="m?.connectedUsers.length > 1">
             <div  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
             m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
-             m?.name, m?.connectedUsers[0], m?.userId)" *ngIf="!m?.connectedUsersInfo?.photo" class="round-img-post">
-              {{m?.connectedUsersInfo?.pseudoIntime | slice:0:1| uppercase}}
+             m?.name, m?.connectedUsers[0], m?.userId)" class="round-img-post">
+              {{m?.name | slice:0:1| uppercase}}
             </div>
+            <img *ngIf="m?.photo"  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
+            m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
+             m?.name, m?.connectedUsers[0], m?.userId)" [src]="m?.photo" alt="">
+            <ion-label  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
+            m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
+             m?.name, m?.connectedUsers[0], m?.userId)" [ngStyle]="{ 'padding-bottom':  m?.lastMessage.length == 0 ? '14px': '0' }">
+              <b> {{m?.name | slice:0:15}} <span *ngIf="m?.name?.length > 16">...</span> </b>
+              <b *ngIf="m?.lastMessage.length > 0" style="float: right;" class="time">
+                {{m?.lastMessage[0].createdAt | slice:11:16 }}
+              </b><br>
+              <span  *ngIf="m?.lastMessage.length > 0">
+                <span  [ngClass]="{'isReadMessage': m?.lastMessage[0].isRead === true, 'isNotReadMessage': m?.lastMessage[0].isRead === false}" >
+                    {{m?.lastMessage[0].text | slice:0:25}}...
+                </span>
+              </span>
+    
+            </ion-label>
+    
+            <mat-icon *ngIf="m?.countUnreadMessages !== 0" class="badge"  [matBadge]="m?.countUnreadMessages" matBadgeColor="warn">
+            </mat-icon>
+            <button class="mat-header-btn" mat-button [matMenuTriggerFor]="menu">
+              <ion-icon name="ellipsis-horizontal"></ion-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button (click)="removeRoom(m?._id)" mat-menu-item>Supprimer</button>
+            </mat-menu>
+    
+          </ion-item>
         </div>
-        <div *ngIf="userId !==  m?.connectedUsers[0]">
-          <img *ngIf="m?.connectedUsersInfo?.photo"  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
-          m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
-           m?.name, m?.connectedUsers[0], m?.userId)" [src]="m?.connectedUsersInfo?.photo" alt="">
-  
-        </div>
-
-         <!-- if user initiator is not me -->
-
-         <div  *ngIf="userId ===  m?.connectedUsers[0]">
-
-          <div  (click)="gotoChatRoom(m?._id, m?.userInitiator?.pseudoIntime,
-          m?.userInitiator?.photo, m?.connectedUsers.length,
-           m?.name, m?.connectedUsers[0], m?.userId)" *ngIf="!m?.userInitiator?.photo" class="round-img-post">
-            {{m?.userInitiator?.pseudoIntime | slice:0:1| uppercase}}
-          </div>
-         </div>
-        <div *ngIf="userId ===  m?.connectedUsers[0]">
-          <img *ngIf="m?.userInitiator?.photo"  (click)="gotoChatRoom(m?._id, m?.userInitiator?.pseudoIntime,
-          m?.userInitiator?.photo, m?.connectedUsers.length,
-           m?.name, m?.connectedUsers[0], m?.userId)" [src]="m?.userInitiator?.photo" alt="">  
-        </div>
-       
-        <ion-label  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
-        m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
-         m?.name, m?.connectedUsers[0], m?.userId)" [ngStyle]="{ 'padding-bottom':  m?.lastMessage.length == 0 ? '14px': '0' }">
-          <b *ngIf="m?.connectedUsersInfo._id == userId"> {{m?.userInitiator?.pseudoIntime}} </b>
-          <b *ngIf="m?.connectedUsersInfo._id != userId"> {{m?.connectedUsersInfo?.pseudoIntime}} </b>
-          <b *ngIf="m?.lastMessage.length > 0" style="float: right;" class="time">
-            {{m?.lastMessage[0].createdAt | slice:11:16 }}
-          </b><br>
-          <span *ngIf="m?.lastMessage.length > 0">
-            <span [ngClass]="{'isReadMessage':  m?.lastMessage[0].userId !== userId && m?.lastMessage[0].isRead === true, 'isNotReadMessage': m?.lastMessage[0].userId !== userId && m?.lastMessage[0].isRead === false}" >
-                {{m?.lastMessage[0].text | slice:0:25}}...
-            </span>
-          </span>
-
-        </ion-label>
-
-        <mat-icon *ngIf="m?.countUnreadMessages !== 0" class="badge"  [matBadge]="m?.countUnreadMessages" matBadgeColor="warn">
-        </mat-icon>
-        <button class="mat-header-btn" mat-button [matMenuTriggerFor]="menu">
-          <ion-icon name="ellipsis-horizontal"></ion-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button (click)="removeRoom(m?._id)" mat-menu-item>Supprimer</button>
-        </mat-menu>
-      </ion-item>
-
-      <ion-item *ngIf="m?.connectedUsers.length > 1">
-        <div  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
-        m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
-         m?.name, m?.connectedUsers[0], m?.userId)" class="round-img-post">
-          {{m?.name | slice:0:1| uppercase}}
-        </div>
-        <img *ngIf="m?.photo"  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
-        m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
-         m?.name, m?.connectedUsers[0], m?.userId)" [src]="m?.photo" alt="">
-        <ion-label  (click)="gotoChatRoom(m?._id, m?.connectedUsersInfo?.pseudoIntime,
-        m?.connectedUsersInfo?.photo, m?.connectedUsers.length,
-         m?.name, m?.connectedUsers[0], m?.userId)" [ngStyle]="{ 'padding-bottom':  m?.lastMessage.length == 0 ? '14px': '0' }">
-          <b> {{m?.name | slice:0:15}} <span *ngIf="m?.name?.length > 16">...</span> </b>
-          <b *ngIf="m?.lastMessage.length > 0" style="float: right;" class="time">
-            {{m?.lastMessage[0].createdAt | slice:11:16 }}
-          </b><br>
-          <span  *ngIf="m?.lastMessage.length > 0">
-            <span  [ngClass]="{'isReadMessage': m?.lastMessage[0].isRead === true, 'isNotReadMessage': m?.lastMessage[0].isRead === false}" >
-                {{m?.lastMessage[0].text | slice:0:25}}...
-            </span>
-          </span>
-
-        </ion-label>
-
-        <mat-icon *ngIf="m?.countUnreadMessages !== 0" class="badge"  [matBadge]="m?.countUnreadMessages" matBadgeColor="warn">
-        </mat-icon>
-        <button class="mat-header-btn" mat-button [matMenuTriggerFor]="menu">
-          <ion-icon name="ellipsis-horizontal"></ion-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button (click)="removeRoom(m?._id)" mat-menu-item>Supprimer</button>
-        </mat-menu>
-
-      </ion-item>
-
-    </div>
+    </ion-list>
 
 
 
