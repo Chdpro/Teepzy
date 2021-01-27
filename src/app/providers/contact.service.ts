@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, } from '@angular/common/http';
 import { local_url, base_url } from 'src/config';
-import { Observable, of } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import { tuto } from '../data/tuto_data';
+import { NetworkService, ConnectionStatus } from './network.service';
+import { OfflineManagerService } from './offline-manager.service';
+import { Storage } from '@ionic/storage';
+import { CACHE_KEYS } from '../constant/constant';
 
 
 const token = localStorage.getItem('teepzyToken')
@@ -15,13 +19,18 @@ const httpOptionsJson = {
   })
 };
 
+const API_STORAGE_KEY = 'specialkey';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, 
+    private networkService: NetworkService,
+    private storage: Storage,
+    private offlineManager: OfflineManagerService) { }
 
   tutotxts(): Observable<any>{
       return of(tuto);
@@ -234,7 +243,19 @@ export class ContactService {
 
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
-    return this.http.get(base_url + url, httpOptionsJson);
+
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      // Return the cached data from Storage
+     return from(this.getLocalData(CACHE_KEYS.FEEDS))
+    } else {
+      // Return real API data and store it locally
+      return this.http.get(base_url + url, httpOptionsJson);
+      //  this.setLocalData('users', res);
+    }
+  }
+
+  getContactsCached(key): Observable<any>{
+    return from(this.getLocalData(key))
   }
 
   checkInMyCircle(check): Observable<any> {
@@ -425,6 +446,50 @@ export class ContactService {
   suggest(suggestion): Observable<any> {
     let url = 'users/suggestion';
     return this.http.post(base_url + url, JSON.stringify(suggestion), httpOptionsJson);
+  }
+
+
+  // listOperation(agent): Observable<any> {
+  //   let url = 'transaction/transactions';
+  //   if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+  //     // Return the cached data from Storage
+  //     return from(this.getLocalData('transactions'));
+  //   } else {
+  //     // Return real API data and store it locally
+  //     return this.http.post(base_url + url, agent, httpOptionsJson);
+  //     //  this.setLocalData('users', res);
+  //   }
+  // }
+
+
+  // create(transaction): Observable<any> {
+  //   let url = 'transaction';
+  //   if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+  //     return from(this.offlineManager.storeRequest(base_url + url, 'POST', transaction));
+  //   } else {
+  //     return this.http.post(base_url + url, transaction, httpOptionsJson);
+  //   }
+  // }
+
+//  this.momoService.setLocalData('transactions', res);
+
+  // Save result of API requests
+  setLocalData(key, data) {
+    alert("setting new contacts to storage")
+    this.storage.set(`${API_STORAGE_KEY}-${key}`, data);
+  }
+
+  // Get cached API result
+  getLocalData(key): Promise<any> {
+    return  this.storage.get(`${API_STORAGE_KEY}-${key}`)
+    //  .then((val) => {
+    //  data = val
+    //  alert("In block" + JSON.stringify(val))
+    //  return data
+    // });
+    //alert("Out block" + JSON.stringify(data))
+
+    
   }
 
 }

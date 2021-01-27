@@ -77,9 +77,9 @@
         <div  class="post-txt">
           <div *ngIf="post?.video_url">
             <div>
-              <video (click)="playVideo(post?.video_url)" #videoPlayer playsinline preload="metadata">
+              <!--video (click)="playVideo(post?.video_url)" autoplay #videoPlayer playsinline preload="metadata">
                 <source [src]="sanitizer.bypassSecurityTrustResourceUrl(post?.video_url  + '#t=0.5')" type="video/mp4" />
-              </video>
+              </video-->
               <ion-grid>
                 <ion-row>
                   <ion-col>

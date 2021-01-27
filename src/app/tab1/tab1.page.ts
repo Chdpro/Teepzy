@@ -11,8 +11,9 @@ import { CommentsPage } from '../comments/comments.page';
 import { Router } from '@angular/router';
 import { Globals } from '../globals';
 import { DomSanitizer } from '@angular/platform-browser';
-import { typeAccount, MESSAGES } from '../constant/constant';
+import { typeAccount, MESSAGES, CACHE_KEYS } from '../constant/constant';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
+import { VgApiService } from '@videogular/ngx-videogular/core';
 
 
 @Component({
@@ -71,6 +72,14 @@ export class Tab1Page implements OnInit {
 
   isTutoSkip = ""
 
+  activeIndex = 0;
+  data;
+
+  api: VgApiService;
+
+  videoMuted = ''
+  videoUrl =''
+
   constructor(private authService: AuthService,
     private toasterController: ToastController,
     private dataPass: DatapasseService,
@@ -97,12 +106,7 @@ export class Tab1Page implements OnInit {
 
   ngOnInit() {
     this.connectSocket()
- 
-  }
 
-
-
-  ionViewWillEnter() {
     this.userId = localStorage.getItem('teepzyUserId');
  //   this.socket.emit('online', this.userId);
     this.getUserInfo(this.userId)
@@ -110,6 +114,12 @@ export class Tab1Page implements OnInit {
     this.isTutoSkip = localStorage.getItem("isTutoSkip")
 
     //  console.log(this.dataPass.get())
+ 
+  }
+
+
+
+  ionViewWillEnter() {
   }
   ngAfterViewInit() {
   }
@@ -259,10 +269,18 @@ export class Tab1Page implements OnInit {
 
   }
 
+  unMute(){
+    this.videoMuted = ''
+    this.onPlayerPause(this.api)
+
+  }
 
   swipeEvent(event?: Event, videoUrl?: any) {
-  //  console.log(videoUrl)
-   // this.playVideo(videoUrl)
+   // this.onPlayerPause(this.api)
+
+   const nativeElement = this.videoPlayers.nativeElement;
+   this.currentPlaying = nativeElement;
+   this.currentPlaying.play();
    this.stopVideo()
   }
 
@@ -310,6 +328,41 @@ export class Tab1Page implements OnInit {
 
   trackByFn(index, item) {
     return index; // or item.id
+  }
+
+
+  videoPlayerInit(data) {
+    this.data = data;
+
+    this.data.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.initVdo.bind(this));
+    //this.data.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
+  }
+
+  onPlayerReady(api: VgApiService) {
+    this.api = api;
+    this.api.getDefaultMedia().subscriptions.ended.subscribe(
+      () => {
+          // Set the video to the beginning
+          this.api.getDefaultMedia().currentTime = 0;
+          console.log(this.api.getDefaultMedia().currentTime)
+
+      }
+  );
+}
+
+onPlayerPause(api: VgApiService) {
+  this.api = api;
+  this.api.getDefaultMedia().subscriptions.ended.subscribe(
+    () => {
+        // Set the video to the beginning
+        this.api.getDefaultMedia().currentTime = 0;
+    }
+);
+}
+  
+
+  initVdo() {
+    this.data.play();
   }
 
   getUserInfo(userId) {
@@ -432,6 +485,9 @@ export class Tab1Page implements OnInit {
     return await modal.present();
   }
 
+  pauseOrPlay(video){
+    video.pause();
+}
 
   getPosts(userId) {
     this.timeCall = 1
@@ -439,6 +495,7 @@ export class Tab1Page implements OnInit {
     this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
       console.log(res)
+      this.contactService.setLocalData(CACHE_KEYS.FEEDS, res['data']);
       if (res['data'] != null) {
         //this.tutos = []
         this.posts = res['data']

@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Contacts } from '@ionic-native/contacts/ngx';
-import { SMS } from '@ionic-native/sms/ngx';
 import { ContactService } from '../providers/contact.service';
 import { ToastController, AlertController, MenuController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Router, ActivatedRoute } from '@angular/router';
 //import { Socket } from 'ngx-socket-io';
 import { AuthService } from '../providers/auth.service';
-import { typeAccount } from '../constant/constant';
+import { typeAccount, CACHE_KEYS } from '../constant/constant';
 
 
 @Component({
@@ -80,12 +79,13 @@ export class ContactsPage implements OnInit {
   selectedTab = 0
 
   previousRoute = ''
-  constructor(private contacts: Contacts, private sms: SMS,
+  constructor(private contacts: Contacts,
+    //private sms: SMS,
     public toastController: ToastController,
     private socialSharing: SocialSharing,
     public router: Router,
     public route: ActivatedRoute,
-  //  private socket: Socket,
+    //  private socket: Socket,
     public alertController: AlertController,
     private authService: AuthService,
     private menuCtrl: MenuController,
@@ -199,6 +199,56 @@ export class ContactsPage implements OnInit {
     return uniqueChars;
   }
 
+  getCachedContacts() {
+    this.contactService.getContactsCached(CACHE_KEYS.CONTACTS).subscribe(val =>{
+      let contacts = val
+      alert(contacts)
+      alert(JSON.stringify(contacts))
+     // alert(JSON.parse(contacts))
+      if (contacts) {
+         this.myContacts = this.getUniquesOnContacts(contacts)
+         alert(contacts)
+         alert(this.myContacts)
+         for (const mC of contacts) {
+           let inviteViaSms = {
+             phone: mC.phoneNumbers[0].value,
+           }
+           this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
+             if (res['status'] == 201) {
+               let phones = this.getUniques(mC.phoneNumbers)
+               this.listContacts.push(
+                 {
+                   givenName: mC.name.givenName,
+                   familyName: mC.name.familyName,
+                   phone: phones,
+                   invited: true
+                 }
+               )
+             } else {
+               let phones = this.getUniques(mC.phoneNumbers)
+               this.listContacts.push(
+                 {
+                   givenName: mC.name.givenName,
+                   familyName: mC.name.familyName,
+                   phone: phones,
+                   invited: false
+                 }
+               )
+             }
+           }, error => {
+             this.loading = false
+           })
+   
+   
+         }
+         this.getTeepzr()
+       } else {
+         this.loadContacts()
+       }
+    })
+   
+  }
+
 
   loadContacts() {
     this.loading = true
@@ -208,7 +258,7 @@ export class ContactsPage implements OnInit {
       hasPhoneNumber: true
     }
     //  this.myContacts = this.contactsTest
-   this.contacts.find(['*'], options).then((contacts) => {
+    this.contacts.find(['*'], options).then((contacts) => {
       this.myContacts = this.getUniquesOnContacts(contacts)
       for (const mC of this.myContacts) {
         let inviteViaSms = {
@@ -242,6 +292,7 @@ export class ContactsPage implements OnInit {
 
 
       }
+
       this.getTeepzr()
     }, error => {
     })
@@ -267,6 +318,7 @@ export class ContactsPage implements OnInit {
     this.contactService.teepZrs(this.userId).subscribe(res => {
       //  console.log(res)
       this.listTeepZrs = res['data']
+      this.contactService.setLocalData(CACHE_KEYS.CONTACTS, this.myContacts);
       this.listContacts = this.getUniquesOnContacts(this.listContacts)
       this.listContacts.forEach(um => {
         this.listTeepZrs.filter((x, index) => {
@@ -285,7 +337,7 @@ export class ContactsPage implements OnInit {
             this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], invited: true })
           } else {
             if (!this.circleMembersId.includes(e['_id'].toString())) {
-            this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], invited: false })
+              this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], invited: false })
             }
           }
         })
@@ -307,8 +359,8 @@ export class ContactsPage implements OnInit {
       //console.log(this.circleMembersId);
       this.loading = false
     }, error => {
-     // console.log(error)
-     this.loading = false
+      // console.log(error)
+      this.loading = false
 
     })
   }
@@ -432,8 +484,8 @@ export class ContactsPage implements OnInit {
     this.authService.myInfos(userId).subscribe(res => {
       // console.log(res)
       this.userInfo = res['data'];
-      if (this.userInfo['isContactAuthorized'] == true ) {
-       this.loadContacts()   
+      if (this.userInfo['isContactAuthorized'] == true) {
+        this.getCachedContacts()
       }
     }, error => {
       // console.log(error)

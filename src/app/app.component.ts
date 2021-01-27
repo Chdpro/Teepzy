@@ -12,6 +12,13 @@ import { AuthService } from './providers/auth.service';
 import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal/ngx';
 import { isCordovaAvailable } from '../common/is-cordova-available'
 import { oneSignalAppId, sender_id } from 'src/config';
+import { NetworkService } from './providers/network.service';
+import { OfflineManagerService } from './providers/offline-manager.service';
+
+export enum ConnectionStatus {
+  Online,
+  Offline
+}
 
 @Component({
   selector: 'app-root',
@@ -34,6 +41,8 @@ export class AppComponent {
     private authService: AuthService,
     private oneSignal: OneSignal,
 
+    private offlineManager: OfflineManagerService,
+    private networkService: NetworkService,
 
   ) {
 
@@ -61,13 +70,19 @@ export class AppComponent {
     let token = localStorage.getItem('teepzyToken')
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
-   // this.getUserInfo(this.userId, token)
+    this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.backgroundColorByHexString("#ffffff");
       this.splashScreen.hide();
+      this.networkService.onNetworkChange().subscribe((status: ConnectionStatus) => {
+        alert("network status:" + status )
+        if (status == ConnectionStatus.Online) {
+          this.offlineManager.checkForEvents().subscribe();
+        }
+      });
     });
   }
 
@@ -131,7 +146,7 @@ export class AppComponent {
           userId: userId,
           isOnline: true
         }
-        this.contactService.getConnected(user).subscribe(res => {
+        this.contactService.getConnected(user).subscribe(response => {
           //   console.log(res)
         })
         this.router.navigateByUrl('/tabs/tab1', {

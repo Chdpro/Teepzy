@@ -58,6 +58,14 @@ import { GroupInvitationPageModule } from './group-invitation/group-invitation.m
 import { Autosize } from './components/autosize';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { OfflineManagerService } from './providers/offline-manager.service';
+import { NetworkService } from './providers/network.service';
+import { Network } from '@ionic-native/network/ngx';
+import { IonicStorageModule } from '@ionic/storage';
+import {VgCoreModule} from '@videogular/ngx-videogular/core';
+import {VgControlsModule} from '@videogular/ngx-videogular/controls';
+import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
+import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
 
 const config: SocketIoConfig = { url: base_url, options: { }};
 
@@ -71,6 +79,11 @@ const config: SocketIoConfig = { url: base_url, options: { }};
     BrowserAnimationsModule,
     HttpClientModule,
     MatCarouselModule.forRoot(),
+    IonicStorageModule.forRoot(),
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
    // AddPostPageModule,
     EditPostPageModule,
     GroupInvitationPageModule,
@@ -81,6 +94,10 @@ const config: SocketIoConfig = { url: base_url, options: { }};
     AddProjectPageModule,
     AddPeopleRoomPageModule,
     ShareSheetPageModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
     //CircleMembersPageModule,
     CommentsPageModule,
     LinkSheetPageModule,
@@ -118,6 +135,9 @@ const config: SocketIoConfig = { url: base_url, options: { }};
     VideoPlayer,
     MediaCapture,
     UploadService,
+    OfflineManagerService,
+    NetworkService,
+    Network,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
     { 

@@ -154,13 +154,13 @@ removeMedia(){
           this.takeImage(this.camera.PictureSourceType.CAMERA);
         }
       },*/
-      {
+      /*{
         text: 'Choisir une vidéo',
         icon: "grid",
         handler: () => {
           this.chooseVideo();
         }
-      },
+      }*/,
       /*{
         text: 'Enregistrer une vidéo',
         icon: "videocam",
@@ -399,6 +399,8 @@ removeMedia(){
       console.log(res)
       this.listPosts = res['data']
       this.dataPass.sendPosts(this.listPosts);
+      this.router.navigate(['/tabs/tab1'])
+
     }, error => {
       console.log(error)
     })
@@ -414,7 +416,6 @@ removeMedia(){
       if (res['status'] == 200) {
         this.getPosts(this.post.userId)
         this.loading = false
-        this.router.navigate(['/tabs/tab1'])
       }
     }, error => {
       // console.log(error)

@@ -118,13 +118,14 @@ ion-slides{
 
 
 //@at-root
-video{
+vg-player video{
+    
     position: absolute;
     top: 0;
     left:0;
     overflow: hidden;
-    z-index: -1; /* for accessing the video by click */
-    width: 100%;
+    z-index: 6; /* for accessing the video by click */
+    height: auto;
 }
 
 .slide{
@@ -145,6 +146,7 @@ video{
     padding-left: 18px;
     border-radius: 50px;
     background: #fffff000 !important;
+    z-index: 9;
 }
 
 .arrow-click{

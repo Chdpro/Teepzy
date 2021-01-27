@@ -22,6 +22,13 @@ export enum type {
 
 }
 
+
+export enum CACHE_KEYS {
+    CONTACTS = "MY_CONTACTS",
+    FEEDS = "FEEDS",
+
+}
+
 export enum Icon {
     GRADE = "grade",
     CHAT_BUBBLE = "chat_bubble",

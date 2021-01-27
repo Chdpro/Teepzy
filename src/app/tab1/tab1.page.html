@@ -178,35 +178,24 @@
       [image]="sanitizer.bypassSecurityTrustStyle('url(' + p?.image_url + ')')"
       overlayColor="#00000040"
       [hideOverlay]="true"
-      (click)="stopVideo()"
-    >
+      (click)="playVideo(p?.video_url)"
+      >
     <div (swipe)="swipeEvent($event,p?.video_url)" class="slide" [ngStyle]="{
       'color': p?.backgroundColor == '#fff' && p?.image_url == ''? 'black' : 'white', 
       'background-color': !p?.image_url && !p?.video_url ? p?.backgroundColor : '#ffffff00'}">
-      <div (click)="playVideo(p?.video_url)"   *ngIf="p?.video_url">
-          <video #videoPlayer playsinline preload="metadata">
+      <!--div (click)="playVideo(p?.video_url)"   *ngIf="p?.video_url">
+          <video #videoPlayer muted autoplay oncanplay="this.play()" onloadedmetadata="this.muted = true"
+           preload="metadata">
               <source [src]="sanitizer.bypassSecurityTrustResourceUrl(p?.video_url + '#t=0.5')" type="video/mp4" />
             </video>
-      </div> 
-          <ion-grid  *ngIf="p?.video_url">
-            <ion-row>
-              <ion-col>
-  
-              </ion-col>
-              <ion-col>
-                <button (click)="playVideo(p?.video_url)" *ngIf="currentPlaying?.muted" class="play-btn" mat-raised-button>
-                  <ion-icon name="play-outline"></ion-icon>
-                </button>
-
-                <button  (click)="playVideo(p?.video_url)" *ngIf="!currentPlaying?.muted" class="play-btn" mat-raised-button>
-                  <ion-icon name="pause-outline"></ion-icon>
-                </button>
-              </ion-col>
-              <ion-col>
-  
-              </ion-col>
-            </ion-row>
-          </ion-grid>
+      </div--> 
+      <!--vg-player  (onPlayerReady)="onPlayerReady($event)" *ngIf="p?.video_url">
+        <vg-overlay-play (click)="unMute()"></vg-overlay-play>
+        <video [vgMedia]="videoPlayer"  [muted]="videoMuted"  #videoPlayer id="singleVideo" preload="auto" crossorigin>
+          <source [src]="p?.video_url" type="video/mp4">
+        </video>
+      </vg-player-->
+    
      <!--div  *ngIf="!p?.image_url && !p?.video_url">
        {{p?.content}}
      </div-->
