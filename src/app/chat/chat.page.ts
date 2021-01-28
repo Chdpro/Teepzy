@@ -6,7 +6,7 @@ import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { MatMenuTrigger } from '@angular/material';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
-import { typeAccount, MESSAGES } from '../constant/constant';
+import { typeAccount, MESSAGES, CACHE_KEYS } from '../constant/constant';
 import { AddPeopleRoomPage } from '../add-people-room/add-people-room.page';
 import { DatapasseService } from '../providers/datapasse.service';
 import { GroupInvitationPage } from '../group-invitation/group-invitation.page';
@@ -423,6 +423,8 @@ export class ChatPage implements OnInit {
       this.room = res['data']
       this.getChatRoomUserInitiator(roomInitiatorId)
       this.messages = res['data']['messages']
+      this.contactService.setLocalData(CACHE_KEYS.CHAT  + id, res);
+
      // console.log(this.messages)
     }, error => {
       //  console.log(error)

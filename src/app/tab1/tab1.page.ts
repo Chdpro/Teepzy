@@ -11,10 +11,10 @@ import { CommentsPage } from '../comments/comments.page';
 import { Router } from '@angular/router';
 import { Globals } from '../globals';
 import { DomSanitizer } from '@angular/platform-browser';
-import { typeAccount, MESSAGES, CACHE_KEYS } from '../constant/constant';
+import { typeAccount, MESSAGES, CACHE_KEYS, Offline } from '../constant/constant';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
 import { VgApiService } from '@videogular/ngx-videogular/core';
-import { DOCUMENT } from '@angular/common';
+import { NetworkService } from '../providers/network.service';
 
 
 @Component({
@@ -88,8 +88,8 @@ export class Tab1Page implements OnInit {
     private menuCtrl: MenuController,
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
-    //private socket: Socket,
     private router: Router,
+    private networkService: NetworkService,
     public globals: Globals,
     public sanitizer: DomSanitizer,
     public actionSheetController: ActionSheetController,
@@ -116,7 +116,11 @@ export class Tab1Page implements OnInit {
     this.userId = localStorage.getItem('teepzyUserId');
  //   this.socket.emit('online', this.userId);
     this.getUserInfo(this.userId)
-    this.getPosts(this.userId)
+    if (this.networkService.networkStatus() === Offline) {
+    this.getFeedFromLocal()      
+    } else {
+      this.getPosts(this.userId)
+    }
     this.isTutoSkip = localStorage.getItem("isTutoSkip")
  
   }
@@ -485,7 +489,6 @@ onPlayerPause(api: VgApiService) {
     this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
       console.log(res)
-      this.contactService.setLocalData(CACHE_KEYS.FEEDS, res['data']);
       if (res['data'] != null) {
         //this.tutos = []
         this.posts = res['data']
@@ -507,6 +510,14 @@ onPlayerPause(api: VgApiService) {
     }, error => {
       this.loading = false
       // console.log(error)
+      
+    })
+  }
+
+  getFeedFromLocal(){
+    this.contactService.feedsFromLocal().subscribe(listPosts =>{
+      this.listPosts = listPosts
+     // console.log(listPosts)
     })
   }
 
@@ -575,6 +586,9 @@ onPlayerPause(api: VgApiService) {
       this.listPosts = this.listPosts.sort((a, b) => {
         return b.dateTimeStamp - a.dateTimeStamp
       })
+
+      this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
+    }, error =>{
     })
   }
 

@@ -7,6 +7,7 @@ import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { Socket } from 'ng-socket-io';
+import { CACHE_KEYS } from '../constant/constant';
 
 @Component({
   selector: 'app-tab3',
@@ -140,6 +141,7 @@ export class Tab3Page implements OnInit {
     let conversations = []
     this.contactService.mChatRooms(this.userId).subscribe(res => {
       let r = res['data']
+      this.contactService.setLocalData(CACHE_KEYS.ROOMS, res)
       for (const room of r) {
         if (room['lastMessage'].length > 0) {
           conversations.push({

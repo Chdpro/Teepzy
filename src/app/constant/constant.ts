@@ -26,8 +26,15 @@ export enum type {
 export enum CACHE_KEYS {
     CONTACTS = "MY_CONTACTS",
     FEEDS = "FEEDS",
+    FEEDS_CHECK = "FEEDS_CHECK",
     NOTIFICATIONS = "NOTIFICATIONS",
     PROFILE = "PROFILE",
+    CHAT = "CHAT",
+    ROOMS = "ROOMS",
+    INVITATION_SMS = "INVITATION_SMS",
+    INVITATIONS = "INVITATIONS",
+    LINKS = "LINKS",
+
 
 
 }

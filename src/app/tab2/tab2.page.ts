@@ -174,6 +174,8 @@ export class Tab2Page implements OnInit {
     this.contactService.listInivtation(invitation).subscribe(res => {
     //  console.log(res)
       this.invitations = res['data']
+      this.contactService.setLocalData(CACHE_KEYS.INVITATIONS, res)
+
     }, error => {
     //  console.log(error)
 
@@ -187,6 +189,8 @@ export class Tab2Page implements OnInit {
     this.contactService.listLinksPeople(invitation).subscribe(res => {
      // console.log(res)
       this.links = res['data']
+      this.contactService.setLocalData(CACHE_KEYS.LINKS, res)
+
     }, error => {
      // console.log(error)
 
@@ -200,6 +204,8 @@ export class Tab2Page implements OnInit {
     this.contactService.listInivtationViaSms(invitation).subscribe(res => {
      // console.log(res)
       this.invitationsSms = res['data']
+      this.contactService.setLocalData(CACHE_KEYS.INVITATION_SMS, res)
+
     }, error => {
      // console.log(error)
 
@@ -211,7 +217,7 @@ export class Tab2Page implements OnInit {
     this.contactService.listNotification(this.userId).subscribe(res => {
       console.log(res)
       this.notifications = res['data']
-      this.contactService.setLocalData(CACHE_KEYS.NOTIFICATIONS, res['data'])
+      this.contactService.setLocalData(CACHE_KEYS.NOTIFICATIONS, res)
       this.loading = false
 
     }, error => {

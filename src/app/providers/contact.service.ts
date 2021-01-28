@@ -61,7 +61,14 @@ export class ContactService {
 
   listLinksPeople(invitation): Observable<any> {
     let url = 'users/linksPeoples';
-    return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
+    if (this.networkService.networkStatus() === Offline) {
+      // Return the cached data from Storage
+     return from(this.getLocalData(CACHE_KEYS.LINKS))
+    } else {
+      // Return real API data and store it locally
+      return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
+      //  this.setLocalData('users', res);
+    }
   }
 
   refuseLinkPeople(invitation): Observable<any> {
@@ -107,12 +114,26 @@ export class ContactService {
 
   listInivtation(invitation): Observable<any> {
     let url = 'users/invitations';
-    return this.http.post(base_url + url, invitation, httpOptionsJson);
+    if (this.networkService.networkStatus() === Offline) {
+      // Return the cached data from Storage
+     return from(this.getLocalData(CACHE_KEYS.INVITATIONS))
+    } else {
+      // Return real API data and store it locally
+      return this.http.post(base_url + url, invitation, httpOptionsJson);
+      //  this.setLocalData('users', res);
+    }
   }
 
   listInivtationViaSms(invitation): Observable<any> {
     let url = 'users/invitationsSms';
-    return this.http.post(base_url + url, invitation, httpOptionsJson);
+    if (this.networkService.networkStatus() === Offline) {
+      // Return the cached data from Storage
+     return from(this.getLocalData(CACHE_KEYS.INVITATION_SMS))
+    } else {
+      // Return real API data and store it locally
+      return this.http.post(base_url + url, invitation, httpOptionsJson);
+      //  this.setLocalData('users', res);
+    }
   }
 
 
@@ -334,6 +355,10 @@ export class ContactService {
     return this.http.post(base_url + url, check, httpOptionsJson);
   }
 
+  feedsFromLocal(): Observable<any> {
+   return from(this.getLocalData(CACHE_KEYS.FEEDS_CHECK))
+  }
+
   addFavorite(favorite): Observable<any> {
     let url = 'users/addFavorite';
     return this.http.post(base_url + url, favorite, httpOptionsJson);
@@ -395,12 +420,26 @@ export class ContactService {
 
   mChatRooms(id): Observable<any> {
     let url = 'chat/' + id;
-    return this.http.get(base_url + url, httpOptionsJson);
+    if (this.networkService.networkStatus() === Offline) {
+      // Return the cached data from Storage
+     return from(this.getLocalData(CACHE_KEYS.ROOMS))
+    } else {
+      // Return real API data and store it locally
+      return this.http.get(base_url + url, httpOptionsJson);
+      //  this.setLocalData('users', res);
+    }
   }
 
   ChatRoomMessages(id): Observable<any> {
     let url = 'chat/room/' + id;
-    return this.http.get(base_url + url, httpOptionsJson);
+    if (this.networkService.networkStatus() === Offline) {
+      // Return the cached data from Storage
+     return from(this.getLocalData(CACHE_KEYS.CHAT +  id))
+    } else {
+      // Return real API data and store it locally
+      return this.http.get(base_url + url, httpOptionsJson);
+      //  this.setLocalData('users', res);
+    }
   }
 
   addMessage(message): Observable<any> {
