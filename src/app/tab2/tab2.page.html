@@ -42,6 +42,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
+
   <div class="mat-content" (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
     <mat-tab-group [(selectedIndex)]="selectedTab" color="warn" mat-align-tabs="center">
       <mat-tab label="TOUS">

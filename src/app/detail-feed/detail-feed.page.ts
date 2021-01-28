@@ -73,7 +73,7 @@ export class DetailFeedPage implements OnInit {
   global: Globals;
   navigationSubscription;
 
-  currentPlaying = null
+  currentPlaying = true
   @ViewChild('videoPlayer', null) videoPlayers: ElementRef;
 
 
@@ -302,28 +302,23 @@ export class DetailFeedPage implements OnInit {
   }
 
 
+
   playVideo(videoUrl?: any) {
-    //console.log(videoUrl)
-    const nativeElement = this.videoPlayers.nativeElement;
-    // const inView = this.isElementInViewPort(nativeElement);
     if (videoUrl) {
-      this.currentPlaying = nativeElement;
-      this.currentPlaying.muted = false;
-      this.currentPlaying.play();
-    } else {
-      this.currentPlaying = nativeElement;
-      this.currentPlaying.muted = true;
-      this.currentPlaying.pause();
-    }
+      if (this.currentPlaying) {
+        this.videoPlayers.nativeElement = document.getElementById(videoUrl)
+        const nativeElement = this.videoPlayers.nativeElement
+        nativeElement.pause() 
+        this.currentPlaying = false
+      } else {
+      this.videoPlayers.nativeElement = document.getElementById(videoUrl)
+      const nativeElement = this.videoPlayers.nativeElement
+      nativeElement.play() 
+      this.currentPlaying = true
+      }
+      }
   }
 
-  stopVideo() {
-    const nativeElement = this.videoPlayers.nativeElement;
-    this.currentPlaying = nativeElement;
-    this.currentPlaying.muted = true;
-    this.currentPlaying.pause();
-    this.currentPlaying = null
-  }
 
 
   dismiss() {

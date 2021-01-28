@@ -103,7 +103,7 @@ export class ChatPage implements OnInit {
       message['roomId'] == state.roomId ? this.messages.push(message) : null
     });
     this.getRoomWhoseMessageIsReadBySocket().subscribe(roomId => {
-       console.log(roomId)
+     //  console.log(roomId)
       if (roomId == state.roomId) {
         for (const message of this.messages) {
           if (message.userId == this.userId && message.isRead === false) {

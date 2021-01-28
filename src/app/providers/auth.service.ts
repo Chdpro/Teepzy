@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient,} from '@angular/common/http';
+import { HttpHeaders, HttpClient, } from '@angular/common/http';
 import { base_url, test_url, local_url } from 'src/config';
-import { Observable, of } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import { codes } from '../data/code';
+import { Storage } from '@ionic/storage';
+import { CACHE_KEYS } from '../constant/constant';
+import { NetworkService } from './network.service';
 
 
 const httpOptionsJson = {
@@ -19,12 +22,18 @@ const httpOptionsUrlEncoded = {
   })
 };
 
+const API_STORAGE_KEY = 'specialkey';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient,
+    private networkService: NetworkService,
+    private storage: Storage, ) { }
 
   login(user): Observable<any> {
     let url = 'users/authenticate';
@@ -64,7 +73,7 @@ export class AuthService {
   }
 
 
-  listCodes(): Observable<any>{
+  listCodes(): Observable<any> {
     return of(codes);
   }
 
@@ -78,10 +87,38 @@ export class AuthService {
   myInfos(id) {
     let url = 'users/user/' + id
     return this.http.get(base_url + url, httpOptionsJson)
+
+    // if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+    //   // Return the cached data from Storage
+    //   return from(this.getLocalData(CACHE_KEYS.PROFILE))
+    // } else {
+    //   // Return real API data and store it locally
+    //   return this.http.get(base_url + url, httpOptionsJson)
+    //   //  this.setLocalData('users', res);
+    // }
   }
 
 
-    
+
+  // Save result of API requests
+  setLocalData(key, data) {
+    alert("setting new contacts to storage")
+    this.storage.set(`${API_STORAGE_KEY}-${key}`, data);
+  }
+
+  // Get cached API result
+  getLocalData(key): Promise<any> {
+    return this.storage.get(`${API_STORAGE_KEY}-${key}`)
+    //  .then((val) => {
+    //  data = val
+    //  alert("In block" + JSON.stringify(val))
+    //  return data
+    // });
+    //alert("Out block" + JSON.stringify(data))
+
+
+  }
+
 
 }
 

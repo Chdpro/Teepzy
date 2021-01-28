@@ -6,7 +6,7 @@ import { MatTabGroup } from '@angular/material';
 //import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { MESSAGES, Icon } from '../constant/constant';
+import { MESSAGES, Icon, CACHE_KEYS } from '../constant/constant';
 
 @Component({
   selector: 'app-tab2',
@@ -49,6 +49,7 @@ export class Tab2Page implements OnInit {
   ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
+
   }
 
 
@@ -210,6 +211,7 @@ export class Tab2Page implements OnInit {
     this.contactService.listNotification(this.userId).subscribe(res => {
       console.log(res)
       this.notifications = res['data']
+      this.contactService.setLocalData(CACHE_KEYS.NOTIFICATIONS, res['data'])
       this.loading = false
 
     }, error => {

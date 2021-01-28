@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, QueryList, Inject } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
 import { ToastController, AlertController, IonSlides, MenuController, ModalController, IonRouterOutlet, ActionSheetController } from '@ionic/angular';
@@ -14,6 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { typeAccount, MESSAGES, CACHE_KEYS } from '../constant/constant';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
 import { VgApiService } from '@videogular/ngx-videogular/core';
+import { DOCUMENT } from '@angular/common';
 
 
 @Component({
@@ -105,21 +106,19 @@ export class Tab1Page implements OnInit {
   }
 
   ngOnInit() {
-    this.connectSocket()
-
-    this.userId = localStorage.getItem('teepzyUserId');
- //   this.socket.emit('online', this.userId);
-    this.getUserInfo(this.userId)
-    this.getPosts(this.userId)
-    this.isTutoSkip = localStorage.getItem("isTutoSkip")
-
-    //  console.log(this.dataPass.get())
  
   }
 
 
 
   ionViewWillEnter() {
+    this.connectSocket()
+    this.userId = localStorage.getItem('teepzyUserId');
+ //   this.socket.emit('online', this.userId);
+    this.getUserInfo(this.userId)
+    this.getPosts(this.userId)
+    this.isTutoSkip = localStorage.getItem("isTutoSkip")
+ 
   }
   ngAfterViewInit() {
   }
@@ -235,27 +234,6 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  playVideo(videoUrl?: any) {
-    let nativeElement
-    if (this.videoPlayers) {
-      nativeElement = this.videoPlayers.nativeElement
-      // const inView = this.isElementInViewPort(nativeElement);
-      if (videoUrl) {
-        this.currentPlaying = nativeElement;
-        if (this.currentPlaying.muted === false) {
-        this.currentPlaying = nativeElement;
-        this.currentPlaying.muted = true;
-        this.currentPlaying.pause();
-        }else{
-          this.currentPlaying = nativeElement;
-          this.currentPlaying.muted = false;
-          this.currentPlaying.play();
-        }
-        console.log(this.currentPlaying.muted)
-      }
-    }
-
-  }
 
   stopVideo() {
     if (this.videoPlayers) {
@@ -270,18 +248,30 @@ export class Tab1Page implements OnInit {
   }
 
   unMute(){
-    this.videoMuted = ''
-    this.onPlayerPause(this.api)
+      const nativeElement = this.videoPlayers.nativeElement;
+      if (!this.isElementInViewPort(nativeElement)) {
+        this.videoMuted = ''
+        this.videoPlayers.nativeElement.pause()
+      }
+      
+    
+  //  this.onPlayerPause(this.api)
 
   }
 
   swipeEvent(event?: Event, videoUrl?: any) {
+    if (videoUrl) {
+    this.videoPlayers.nativeElement = document.getElementById(videoUrl)
+    const nativeElement = this.videoPlayers.nativeElement
+    nativeElement.pause() 
+    }
    // this.onPlayerPause(this.api)
-
-   const nativeElement = this.videoPlayers.nativeElement;
-   this.currentPlaying = nativeElement;
-   this.currentPlaying.play();
-   this.stopVideo()
+  //  const nativeElement = this.videoPlayers.nativeElement;
+  //  console.log(this.isElementInViewPort(nativeElement))
+  //  if (this.isElementInViewPort(nativeElement)) {
+  //   this.videoMuted = ''
+  //   this.videoPlayers.nativeElement.pause()
+  // }
   }
 
 

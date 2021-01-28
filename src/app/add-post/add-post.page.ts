@@ -111,8 +111,6 @@ removeMedia(){
     const androidPermissionsList = [
       this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE,
       this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE,
-      this.androidPermissions.PERMISSION.READ_PHONE_STATE,
-      this.androidPermissions.PERMISSION.WRITE_PHONE_STATE,
     ];
     return this.androidPermissions.requestPermissions(androidPermissionsList);
   }

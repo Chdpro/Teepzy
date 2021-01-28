@@ -13,7 +13,6 @@ import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal/ngx';
 import { isCordovaAvailable } from '../common/is-cordova-available'
 import { oneSignalAppId, sender_id } from 'src/config';
 import { NetworkService } from './providers/network.service';
-import { OfflineManagerService } from './providers/offline-manager.service';
 
 export enum ConnectionStatus {
   Online,
@@ -40,10 +39,6 @@ export class AppComponent {
   //  private socket: Socket,
     private authService: AuthService,
     private oneSignal: OneSignal,
-
-    private offlineManager: OfflineManagerService,
-    private networkService: NetworkService,
-
   ) {
 
     this.initializeApp();
@@ -75,14 +70,14 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.backgroundColorByHexString("#ffffff");
+      this.statusBar.backgroundColorByHexString("#ea4d5075");
       this.splashScreen.hide();
-      this.networkService.onNetworkChange().subscribe((status: ConnectionStatus) => {
-        alert("network status:" + status )
-        if (status == ConnectionStatus.Online) {
-          this.offlineManager.checkForEvents().subscribe();
-        }
-      });
+    //   this.networkService.onNetworkChange().subscribe((status: ConnectionStatus) => {
+    //  //   alert("network status:" + status )
+    //     if (status == ConnectionStatus.Online) {
+    //       this.offlineManager.checkForEvents().subscribe();
+    //     }
+    //   });
     });
   }
 

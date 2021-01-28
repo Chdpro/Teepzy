@@ -7,6 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 //import { Socket } from 'ngx-socket-io';
 import { AuthService } from '../providers/auth.service';
 import { typeAccount, CACHE_KEYS } from '../constant/constant';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
 
 @Component({
@@ -20,6 +22,7 @@ export class ContactsPage implements OnInit {
   contact: any
   pageEvent: any
   userInfo: any
+  n:Boolean = true
   myContacts = []
   listTeepzrsToInvite = []
   listTeepzrsToInviteOutCircle = []
@@ -85,10 +88,12 @@ export class ContactsPage implements OnInit {
     private socialSharing: SocialSharing,
     public router: Router,
     public route: ActivatedRoute,
+    private androidPermissions: AndroidPermissions,
     //  private socket: Socket,
     public alertController: AlertController,
     private authService: AuthService,
     private menuCtrl: MenuController,
+    private diagnostic: Diagnostic,
     private contactService: ContactService) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -99,15 +104,29 @@ export class ContactsPage implements OnInit {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
     this.getUsersOfCircle()
-    this.connectSocket()
+    if (this.previousRoute) {
+      this.getCachedContacts()
+    } else {
     this.getUserInfo(this.userId)
+    }
     this.getTeepzrOutCircle()
   }
 
-  connectSocket() {
-    //this.socket.connect();
+  getCachedContacts(){
+    this.contactService.getContactsCached(CACHE_KEYS.CONTACTS).subscribe(val =>{
+      this.listContacts = JSON.parse(val)
+      this.getTeepzr()
+    })
   }
 
+  requestNecessaryPermissions() {
+    // Change this array to conform with the permissions you need
+    const androidPermissionsList = [
+      this.androidPermissions.PERMISSION.WRITE_CONTACTS,
+      this.androidPermissions.PERMISSION.READ_CONTACTS,
+    ];
+    return this.androidPermissions.requestPermissions(androidPermissionsList);
+  }
 
   trackByFn(index, item) {
     return index; // or item.id
@@ -199,105 +218,76 @@ export class ContactsPage implements OnInit {
     return uniqueChars;
   }
 
-  getCachedContacts() {
-    this.contactService.getContactsCached(CACHE_KEYS.CONTACTS).subscribe(val =>{
-      let contacts = val
-      alert(contacts)
-      alert(JSON.stringify(contacts))
-     // alert(JSON.parse(contacts))
-      if (contacts) {
-         this.myContacts = this.getUniquesOnContacts(contacts)
-         alert(contacts)
-         alert(this.myContacts)
-         for (const mC of contacts) {
-           let inviteViaSms = {
-             phone: mC.phoneNumbers[0].value,
-           }
-           this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
-             if (res['status'] == 201) {
-               let phones = this.getUniques(mC.phoneNumbers)
-               this.listContacts.push(
-                 {
-                   givenName: mC.name.givenName,
-                   familyName: mC.name.familyName,
-                   phone: phones,
-                   invited: true
-                 }
-               )
-             } else {
-               let phones = this.getUniques(mC.phoneNumbers)
-               this.listContacts.push(
-                 {
-                   givenName: mC.name.givenName,
-                   familyName: mC.name.familyName,
-                   phone: phones,
-                   invited: false
-                 }
-               )
-             }
-           }, error => {
-             this.loading = false
-           })
-   
-   
-         }
-         this.getTeepzr()
-       } else {
-         this.loadContacts()
-       }
-    })
-   
-  }
 
 
   loadContacts() {
-    this.loading = true
-    let options = {
-      filter: '',
-      multiple: true,
-      hasPhoneNumber: true
-    }
-    //  this.myContacts = this.contactsTest
-    this.contacts.find(['*'], options).then((contacts) => {
-      this.myContacts = this.getUniquesOnContacts(contacts)
-      for (const mC of this.myContacts) {
-        let inviteViaSms = {
-          phone: mC.phoneNumbers[0].value,
-        }
-        this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
-          if (res['status'] == 201) {
-            let phones = this.getUniques(mC.phoneNumbers)
-            this.listContacts.push(
-              {
-                givenName: mC.name.givenName,
-                familyName: mC.name.familyName,
-                phone: phones,
-                invited: true
-              }
-            )
-          } else {
-            let phones = this.getUniques(mC.phoneNumbers)
-            this.listContacts.push(
-              {
-                givenName: mC.name.givenName,
-                familyName: mC.name.familyName,
-                phone: phones,
-                invited: false
-              }
-            )
-          }
-        }, error => {
-          this.loading = false
-        })
-
-
+    this.requestNecessaryPermissions().then(()=>{
+      this.loading = true
+      let options = {
+        filter: '',
+        multiple: true,
+        hasPhoneNumber: true
       }
-
-      this.getTeepzr()
-    }, error => {
+      //  this.myContacts = this.contactsTest
+      this.contacts.find(['*'], options).then((contacts) => {
+        this.myContacts = this.getUniquesOnContacts(contacts)
+        for (const mC of this.myContacts) {
+          let inviteViaSms = {
+            phone: mC.phoneNumbers[0].value,
+          }
+          this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
+            if (res['status'] == 201) {
+              let phones = this.getUniques(mC.phoneNumbers)
+              this.listContacts.push(
+                {
+                  givenName: mC.name.givenName,
+                  familyName: mC.name.familyName,
+                  phone: phones,
+                  invited: true
+                }
+              )
+            } else {
+              let phones = this.getUniques(mC.phoneNumbers)
+              this.listContacts.push(
+                {
+                  givenName: mC.name.givenName,
+                  familyName: mC.name.familyName,
+                  phone: phones,
+                  invited: false
+                }
+              )
+            }
+          }, error => {
+            this.loading = false
+          })
+  
+  
+        }
+  
+        this.getTeepzr()
+      }, error => {
+      })
+    }, error =>{
+      if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
+       this.authorizeOrNot(this.n)
+      }
     })
+    
   }
 
+  authorizeOrNot(n:Boolean){
+    let authorize = {
+      userId: this.userId,
+      isContactAuthorized: n
+    }
+    this.contactService.authorizeContacts(authorize).subscribe(res =>{
+      console.log(res)
+      this.userInfo =  res['data']
+      this.n = n
+    }, error =>{
+      console.log(error)
+    })
+  }
 
   goToOutcircle() {
     if (this.previousRoute) {
@@ -318,7 +308,7 @@ export class ContactsPage implements OnInit {
     this.contactService.teepZrs(this.userId).subscribe(res => {
       //  console.log(res)
       this.listTeepZrs = res['data']
-      this.contactService.setLocalData(CACHE_KEYS.CONTACTS, this.myContacts);
+      this.contactService.setLocalData(CACHE_KEYS.CONTACTS, JSON.stringify(this.listContacts));
       this.listContacts = this.getUniquesOnContacts(this.listContacts)
       this.listContacts.forEach(um => {
         this.listTeepZrs.filter((x, index) => {
@@ -484,8 +474,9 @@ export class ContactsPage implements OnInit {
     this.authService.myInfos(userId).subscribe(res => {
       // console.log(res)
       this.userInfo = res['data'];
+      this.contactService.setLocalData(CACHE_KEYS.PROFILE, res['data'])
       if (this.userInfo['isContactAuthorized'] == true) {
-        this.getCachedContacts()
+        this.loadContacts()
       }
     }, error => {
       // console.log(error)

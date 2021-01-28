@@ -189,12 +189,12 @@
               <source [src]="sanitizer.bypassSecurityTrustResourceUrl(p?.video_url + '#t=0.5')" type="video/mp4" />
             </video>
       </div--> 
-      <!--vg-player  (onPlayerReady)="onPlayerReady($event)" *ngIf="p?.video_url">
+      <vg-player  (onPlayerReady)="onPlayerReady($event)" *ngIf="p?.video_url">
         <vg-overlay-play (click)="unMute()"></vg-overlay-play>
-        <video [vgMedia]="videoPlayer"  [muted]="videoMuted"  #videoPlayer id="singleVideo" preload="auto" crossorigin>
+        <video [vgMedia]="videoPlayer"  [muted]="videoMuted"  #videoPlayer [id]="p?.video_url" preload="auto" crossorigin>
           <source [src]="p?.video_url" type="video/mp4">
         </video>
-      </vg-player-->
+      </vg-player>
     
      <!--div  *ngIf="!p?.image_url && !p?.video_url">
        {{p?.content}}

@@ -26,8 +26,14 @@ export enum type {
 export enum CACHE_KEYS {
     CONTACTS = "MY_CONTACTS",
     FEEDS = "FEEDS",
+    NOTIFICATIONS = "NOTIFICATIONS",
+    PROFILE = "PROFILE",
+
 
 }
+
+export const Online = true
+export const Offline = false
 
 export enum Icon {
     GRADE = "grade",

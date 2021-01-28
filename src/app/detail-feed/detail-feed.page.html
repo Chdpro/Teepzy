@@ -77,9 +77,9 @@
         <div  class="post-txt">
           <div *ngIf="post?.video_url">
             <div>
-              <!--video (click)="playVideo(post?.video_url)" autoplay #videoPlayer playsinline preload="metadata">
+              <video (click)="playVideo(post?.video_url)" [id]="post?.video_url" autoplay #videoPlayer playsinline preload="metadata">
                 <source [src]="sanitizer.bypassSecurityTrustResourceUrl(post?.video_url  + '#t=0.5')" type="video/mp4" />
-              </video-->
+              </video>
               <ion-grid>
                 <ion-row>
                   <ion-col>
@@ -87,13 +87,8 @@
                   </ion-col>
                   <ion-col>
                     
-                <button (click)="playVideo(post?.video_url)" *ngIf="currentPlaying?.muted" class="play-btn" mat-raised-button>
-                    <ion-icon name="play-outline"></ion-icon>
-                  </button>
+                    <ion-icon (click)="playVideo(post?.video_url)" *ngIf="currentPlaying === false" class="play-btn" name="play"></ion-icon>
   
-                  <button  (click)="playVideo(post?.video_url)" *ngIf="!currentPlaying?.muted" class="play-btn" mat-raised-button>
-                    <ion-icon name="pause-outline"></ion-icon>
-                  </button>
                   </ion-col>
                   <ion-col>
   
