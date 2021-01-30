@@ -488,19 +488,17 @@ onPlayerPause(api: VgApiService) {
     this.loading = true
     this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
-      console.log(res)
+      
       if (res['data'] != null) {
-        //this.tutos = []
-        this.posts = res['data']
-        this.posts.forEach(e => {
-          let favorite = {
-            userId: this.userId,
-            postId: e['_id'],
-          }
-          this.checkFavorite(favorite, e)
-        });
+        this.listPosts = res['data']
+        console.log(this.listPosts)
+        this.listPosts = this.listPosts.sort((a, b) => {
+        return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
+       })
+
+      this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
       } else {
-        this.posts = []
+        this.listPosts = []
         this.tutosTexts()
       }
       this.loading = false
@@ -528,69 +526,69 @@ onPlayerPause(api: VgApiService) {
 
 
 
-  checkFavorite(favorite, e) {
-    this.contactService.checkFavorite(favorite).subscribe(res => {
-      if (res['status'] == 201) {
-        let dateStamp = e['createdAt'].slice(0,10).split('-').join('')
-        let timeStamp = e['createdAt'].slice(11,19).split(':').join('')
-        this.listPosts.push(
-          {
-            _id: e['_id'],
-            userId: e['userId'],
-            userPhoto_url: e['userPhoto_url'],
-            userPseudo: e['userPseudo'],
-            content: e['content'],
-            image_url: e['image_url'],
-            video_url: e['video_url'],
-            backgroundColor: e['backgroundColor'],
-            includedUsers: e['includedUsers'],
-            createdAt: e['createdAt'],
-            reposterId: e['reposterId'],
-            matches: e['matches'],
-            nbrComments: e['nbrComments'],
-            favorite: true,
-            favoriteCount:e['favoriteCount'],
-            repostCounts: e['repostCounts'],
-            dateTimeStamp: dateStamp + timeStamp
-          },
-        )
+  // checkFavorite(favorite, e) {
+  //   this.contactService.checkFavorite(favorite).subscribe(res => {
+  //     if (res['status'] == 201) {
+  //       let dateStamp = e['createdAt'].slice(0,10).split('-').join('')
+  //       let timeStamp = e['createdAt'].slice(11,19).split(':').join('')
+  //       this.listPosts.push(
+  //         {
+  //           _id: e['_id'],
+  //           userId: e['userId'],
+  //           userPhoto_url: e['userPhoto_url'],
+  //           userPseudo: e['userPseudo'],
+  //           content: e['content'],
+  //           image_url: e['image_url'],
+  //           video_url: e['video_url'],
+  //           backgroundColor: e['backgroundColor'],
+  //           includedUsers: e['includedUsers'],
+  //           createdAt: e['createdAt'],
+  //           reposterId: e['reposterId'],
+  //           matches: e['matches'],
+  //           nbrComments: e['nbrComments'],
+  //           favorite: true,
+  //           favoriteCount:e['favoriteCount'],
+  //           repostCounts: e['repostCounts'],
+  //           dateTimeStamp: dateStamp + timeStamp
+  //         },
+  //       )
 
-      } else {
-        let dateStamp = e['createdAt'].slice(0,10).split('-').join('')
-        let timeStamp = e['createdAt'].slice(11,19).split(':').join('')
+  //     } else {
+  //       let dateStamp = e['createdAt'].slice(0,10).split('-').join('')
+  //       let timeStamp = e['createdAt'].slice(11,19).split(':').join('')
 
-        this.listPosts.push(
-          {
-            _id: e['_id'],
-            userId: e['userId'],
-            userPhoto_url: e['userPhoto_url'],
-            userPseudo: e['userPseudo'],
-            content: e['content'],
-            image_url: e['image_url'],
-            video_url: e['video_url'],
-            backgroundColor: e['backgroundColor'],
-            includedUsers: e['includedUsers'],
-            createdAt: e['createdAt'],
-            reposterId: e['reposterId'],
-            matches: e['matches'],
-            nbrComments: e['nbrComments'],
-            favorite: false,
-            favoriteCount: e['favoriteCount'],
-            repostCounts: e['repostCounts'],
-            dateTimeStamp: dateStamp + timeStamp
+  //       this.listPosts.push(
+  //         {
+  //           _id: e['_id'],
+  //           userId: e['userId'],
+  //           userPhoto_url: e['userPhoto_url'],
+  //           userPseudo: e['userPseudo'],
+  //           content: e['content'],
+  //           image_url: e['image_url'],
+  //           video_url: e['video_url'],
+  //           backgroundColor: e['backgroundColor'],
+  //           includedUsers: e['includedUsers'],
+  //           createdAt: e['createdAt'],
+  //           reposterId: e['reposterId'],
+  //           matches: e['matches'],
+  //           nbrComments: e['nbrComments'],
+  //           favorite: false,
+  //           favoriteCount: e['favoriteCount'],
+  //           repostCounts: e['repostCounts'],
+  //           dateTimeStamp: dateStamp + timeStamp
 
-          },
-        )
-      }
+  //         },
+  //       )
+  //     }
 
-      this.listPosts = this.listPosts.sort((a, b) => {
-        return b.dateTimeStamp - a.dateTimeStamp
-      })
+  //     this.listPosts = this.listPosts.sort((a, b) => {
+  //       return b.dateTimeStamp - a.dateTimeStamp
+  //     })
 
-      this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
-    }, error =>{
-    })
-  }
+  //     this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
+  //   }, error =>{
+  //   })
+  // }
 
 
   async changePseudo() {

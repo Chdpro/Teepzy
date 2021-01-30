@@ -277,7 +277,7 @@ export class ContactService {
      return from(this.getLocalData(CACHE_KEYS.FEEDS))
     } else {
       // Return real API data and store it locally
-      return this.http.get(base_url + url, httpOptionsJson);
+      return this.http.get(local_url + url, httpOptionsJson);
       //  this.setLocalData('users', res);
     }
   }

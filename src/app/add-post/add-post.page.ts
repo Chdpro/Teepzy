@@ -152,13 +152,13 @@ removeMedia(){
           this.takeImage(this.camera.PictureSourceType.CAMERA);
         }
       },*/
-      /*{
+      {
         text: 'Choisir une vidéo',
         icon: "grid",
         handler: () => {
           this.chooseVideo();
         }
-      }*/,
+      },
       /*{
         text: 'Enregistrer une vidéo',
         icon: "videocam",

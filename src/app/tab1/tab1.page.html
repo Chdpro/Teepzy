@@ -326,8 +326,7 @@
         <div (click)="presentLinkModal(p, 'MATCHES')" class="filigrane" style="font-weight: 800;font-size: 7px;">
           <span class="match-txt">MATCHES</span>
           <span class="match-number" *ngIf="p?.matches?.length == 0"> <br> 0</span>
-          <span class="match-number" *ngIf="p?.matches?.length > 3"><br>+
-            {{p.matches?.length - 3}} </span> <br>
+       
           <span class="match-number"
             *ngIf="p?.matches?.length < 3 && p?.matches?.length > 0"><br>
             {{p.matches?.length}} </span> <br>
