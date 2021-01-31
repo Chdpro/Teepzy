@@ -24,7 +24,7 @@
 
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <span>
-              <mat-option *ngFor="let option of listTeepZrs |filter:search.searchValue "
+              <mat-option *ngFor="let option of listTeepZrs |myFilter:search.searchValue: ['pseudoIntime'] "
               [ngClass]="{'hide-autocomplete': !showAutocomplete}"
                [value]="option?.pseudoIntime">
                 @{{option?.pseudoIntime}}
@@ -200,9 +200,7 @@
                 Aucun résultat de recherche
               </h4>
               <ion-spinner *ngIf="loading" color="primary" name="dots"></ion-spinner>
-
-
-              <div *ngFor="let c of users | slice: lowValueT : highValueT  ;trackBy: trackByFn ">
+              <div *ngFor="let c of users | slice: lowValueT : highValueT  ;trackBy: trackByFn " (click)="goToProfile(c?._id)">
                 <ion-item>
                   <div *ngIf="c?.photo == null || c?.photo == ''" class="round-img-post">
                     {{c?.pseudoIntime | slice:0:1| uppercase}}
@@ -223,7 +221,7 @@
                 <label>
                   Ajouter des amis
                 </label>
-                <div *ngFor="let c of listTeepzrsToInvite | slice: lowValueT : highValueT  ;trackBy: trackByFn ">
+                <div *ngFor="let c of listTeepzrsToInvite | slice: lowValueT : highValueT  ;trackBy: trackByFn " (click)="goToProfile(c?._id)">
 
                   <ion-item>
                     <div *ngIf="c?.photo == null || c?.photo == ''" class="round-img-post">

@@ -86,7 +86,7 @@ export class AuthService {
 
   myInfos(id) {
     let url = 'users/user/' + id
-    return this.http.get(base_url + url, httpOptionsJson)
+    return this.http.get(local_url + url, httpOptionsJson)
 
     // if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
     //   // Return the cached data from Storage

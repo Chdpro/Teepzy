@@ -14,14 +14,14 @@ import { typeAccount, MESSAGES } from '../constant/constant';
 })
 export class SearchPage implements OnInit {
 
-  
+
   private swipeCoord?: [number, number];
   private swipeTime?: number;
   selectedTab = 0
 
   search = {
     searchValue: '',
-    userId:''
+    userId: ''
   }
 
   listTeepZrs = []
@@ -34,7 +34,7 @@ export class SearchPage implements OnInit {
   listTeepzrsToInvite = []
   loading = false
 
-  showModal =  false
+  showModal = false
 
   pageIndexT: number = 0;
   pageSizeT: number = 5;
@@ -48,18 +48,18 @@ export class SearchPage implements OnInit {
 
   constructor(private contactService: ContactService,
     public toastController: ToastController,
-  //  private socket: Socket,
+    //  private socket: Socket,
     private router: Router,
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController
-    ) { 
-      this.menuCtrl.close('first');
-      this.menuCtrl.swipeGesture(false);
-    }
+  ) {
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
+  }
 
   ngOnInit() {
     this.search.userId = localStorage.getItem('teepzyUserId');
-   // this.socket.emit('online', this.search.userId );
+    // this.socket.emit('online', this.search.userId );
     this.getPosts()
     this.getTeepzr()
   }
@@ -74,7 +74,7 @@ export class SearchPage implements OnInit {
   }
 
   connectSocket() {
-  //  this.socket.connect();
+    //  this.socket.connect();
   }
 
 
@@ -84,7 +84,7 @@ export class SearchPage implements OnInit {
   }
 
   getPaginatorDataTeepzr(event) {
-   // console.log(event);
+    // console.log(event);
     if (event.pageIndex === this.pageIndexT + 1) {
       this.lowValueT = this.lowValueT + this.pageSizeT;
       this.highValueT = this.highValueT + this.pageSizeT;
@@ -116,120 +116,129 @@ export class SearchPage implements OnInit {
           if (this.selectedTab <= 4) {
             this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
           }
-       //   console.log("Swipe left - INDEX: " + this.selectedTab);
+          //   console.log("Swipe left - INDEX: " + this.selectedTab);
         } else if (swipe === 'previous') {
           const isLast = this.selectedTab === 4;
           if (this.selectedTab >= 1) {
             this.selectedTab = this.selectedTab - 1;
           }
-         // console.log("Swipe right — INDEX: " + this.selectedTab);
+          // console.log("Swipe right — INDEX: " + this.selectedTab);
         }
         // Do whatever you want with swipe
       }
     }
   }
 
-  getPosts(){
-    this.contactService.getPosts(this.search.userId).subscribe(res =>{
+  getPosts() {
+    this.contactService.getPosts(this.search.userId).subscribe(res => {
       //console.log(res)
       this.posts = res['data'];
-    }, error =>{
-     // console.log(error)
+    }, error => {
+      // console.log(error)
     })
   }
 
 
 
-  dismissConfirmModal(){
+  dismissConfirmModal() {
     if (this.showModal) {
+
       this.showModal = false
     } else {
       this.showModal = true
     }
-  
+
   }
 
   checkAvailability(arr, val) {
-    return arr.some(function(arrVal) {
-        return val === arrVal['_id'];
+    return arr.some(function (arrVal) {
+      return val === arrVal['_id'];
     });
-}
+  }
 
-  searchUsersNotInMyCircle(){
+  searchUsersNotInMyCircle() {
     this.loading = true
-    this.contactService.searchTeepZrs(this.search).subscribe(res =>{
+    this.contactService.searchTeepZrs(this.search).subscribe(res => {
       this.loading = false
       this.usersNotInCircles = res['users']
+      this.listTeepzrsToInvite = []
       //console.log(this.usersNotInCircles)
       this.usersNotInCircles.forEach(e => {
         let invitation = { idSender: this.search.userId, idReceiver: e['_id'] }
         this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
           if (res['status'] == 201) {
-            this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null :  this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'],  pseudoIntime: e['pseudoIntime'], circleMembersCount: e['circleMembersCount'], invited: true }) 
+            this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null : this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], pseudoIntime: e['pseudoIntime'], circleMembersCount: e['circleMembersCount'], invited: true })
           } else {
-       //     console.log(this.listTeepzrsToInvite)
-            this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null : this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'],  pseudoIntime: e['pseudoIntime'], circleMembersCount: e['circleMembersCount'], invited: false })
+            //     console.log(this.listTeepzrsToInvite)
+            this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null : this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], pseudoIntime: e['pseudoIntime'], circleMembersCount: e['circleMembersCount'], invited: false })
           }
           console.log(this.listTeepzrsToInvite)
         })
       });
-    }, error =>{
-     // console.log(error)
+    }, error => {
+      // console.log(error)
       this.loading = false
     })
   }
-  
+
 
   getTeepzr() {
     this.contactService.teepZrs(this.search.userId).subscribe(res => {
-     // console.log(res)
+      // console.log(res)
       this.listTeepZrs = res['data']
+      console.log(this.listTeepZrs)
     }, error => {
-     // console.log(error)
+      // console.log(error)
 
     })
   }
 
 
-  goToDetailProject(project){
-    this.router.navigate(['/detail-project',project])
+  goToDetailProject(project) {
+    this.router.navigate(['/detail-project', project])
 
   }
 
-  goToDetailProduct(product){
-    this.router.navigate(['/detail-produit',product])
+  goToProfile(userId) {
+    this.router.navigate(['/profile', { userId: userId, previousUrl: 'feed' }])
 
   }
-  
-  searchOnMatches(){
+
+  goToDetailProduct(product) {
+    this.router.navigate(['/detail-produit', product])
+
+  }
+
+  searchOnMatches() {
     this.loading = true
-    this.contactService.SearchOnMatch(this.search).subscribe(res =>{
-     // console.log(res);
+    this.contactService.SearchOnMatch(this.search).subscribe(res => {
+      // console.log(res);
       this.loading = false
       //this.users = res['users']
       this.products = res['products']
       this.projects = res['projects']
       this.posts = res['posts']
-    }, error =>{
+    }, error => {
       this.loading = false
-     // console.log(error)
+      // console.log(error)
     })
 
-    this.contactService.SearchInCircleOnMatch(this.search).subscribe(res =>{
-     // console.log(res);
+    this.contactService.SearchInCircleOnMatch(this.search).subscribe(res => {
+      // console.log(res);
       this.loading = false
       this.users = res['users']
-    }, error =>{
+      console.log(this.users)
+    }, error => {
       this.loading = false
-     // console.log(error)
+      // console.log(error)
     })
   }
 
 
-  searchOn(){
+  searchOn() {
     if (this.search.searchValue && this.search.searchValue.length > 1) {
       this.showAutocomplete = true;
-    }else{
+    } else {
       this.showAutocomplete = false;
     }
     this.searchUsersNotInMyCircle()
@@ -261,7 +270,7 @@ export class SearchPage implements OnInit {
       this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = true : null)
       this.presentToast(MESSAGES.INVITATION_SEND_OK)
       this.showModal = false
-     // this.socket.emit('notification', 'notification');
+      // this.socket.emit('notification', 'notification');
       //console.log(this.listTeepzrsToInvite)
       this.loading = false
     }, error => {
