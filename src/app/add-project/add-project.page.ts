@@ -12,7 +12,6 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { base_url } from 'src/config';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { MESSAGES } from '../constant/constant';
 
 @Component({

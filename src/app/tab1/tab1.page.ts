@@ -97,10 +97,10 @@ export class Tab1Page implements OnInit {
     this.menuCtrl.enable(true, 'first');
     this.menuCtrl.swipeGesture(false);
     this.global = globals;
-    this.subscription = this.dataPass.getPosts().subscribe(list => {
+    this.subscription = this.dataPass.getPosts().subscribe(post => {
       // console.log(list)
-      if (list.length > 0) {
-        this.listPosts = list
+      if (post) {
+        this.listPosts.push(post)
       }
     });
   }

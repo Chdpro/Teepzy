@@ -8,10 +8,10 @@ import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { base_url } from 'src/config';
 //import { Socket } from 'ngx-socket-io';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
-import { typeAccount, MESSAGES } from '../constant/constant';
-import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import { MESSAGES } from '../constant/constant';
+import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
@@ -59,7 +59,7 @@ export class AddPostPage implements OnInit {
   @ViewChild('myVideo', null) videoPlayers: ElementRef;
 
   currentPlaying = null
-
+  createdPost
 
 
 
@@ -219,7 +219,7 @@ removeMedia(){
   takeImage(sourceType) {
     this.requestNecessaryPermissions().then(() => {
       const options: CameraOptions = {
-        quality: 100,
+        quality: 40,
         sourceType: sourceType,
         destinationType: this.camera.DestinationType.FILE_URI,
         encodingType: this.camera.EncodingType.JPEG,
@@ -392,17 +392,6 @@ removeMedia(){
     console.log(this.showModal)
   }
 
-  getPosts(userId) {
-    this.contactService.getPosts(userId).subscribe(res => {
-      console.log(res)
-      this.listPosts = res['data']
-      this.dataPass.sendPosts(this.listPosts);
-      this.router.navigate(['/tabs/tab1'])
-
-    }, error => {
-      console.log(error)
-    })
-  }
 
   addPost() {
     this.loading = true
@@ -411,8 +400,12 @@ removeMedia(){
     //this.photos.length > 0 ? this.uploadImage() : null
     this.contactService.addPost(this.post).subscribe(res => {
       // console.log(res);
+
       if (res['status'] == 200) {
-        this.getPosts(this.post.userId)
+     //   this.getPosts(this.post.userId)
+        this.createdPost = res['data']
+       this.dataPass.sendPosts(this.createdPost);
+        this.router.navigate(['/tabs/tab1'])
         this.loading = false
       }
     }, error => {
