@@ -488,10 +488,9 @@ onPlayerPause(api: VgApiService) {
     this.loading = true
     this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
-      
       if (res['data'] != null) {
         this.listPosts = res['data']
-        console.log(this.listPosts)
+        console.log(res)
         this.listPosts = this.listPosts.sort((a, b) => {
         return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
        })

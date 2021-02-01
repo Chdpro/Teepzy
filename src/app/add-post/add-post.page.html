@@ -5,7 +5,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <div class="example-button-container">
-      <ion-button color="secondary" style="margin-top: 1px;" (click)="uploadImage()"
+      <ion-button color="secondary" style="margin-top: 1px;" (click)="addPost()"
         [disabled]="contentMsg.errors?.required" expand="block" shape="round">
         <span *ngIf="!loading">
           Publier

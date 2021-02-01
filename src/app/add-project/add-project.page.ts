@@ -200,7 +200,7 @@ export class AddProjectPage implements OnInit {
 
   pickImage(sourceType) {
     const options: CameraOptions = {
-      quality: 100,
+      quality: 40,
       sourceType: sourceType,
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
