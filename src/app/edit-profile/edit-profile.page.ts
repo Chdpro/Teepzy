@@ -178,7 +178,9 @@ export class EditProfilePage implements OnInit {
   }
 
   goToFeed(){
-    this.router.navigate(['/tabs/tab1'])
+    this.router.navigateByUrl('/tabs/tab1', {
+      replaceUrl: true
+    })
   }
 
 

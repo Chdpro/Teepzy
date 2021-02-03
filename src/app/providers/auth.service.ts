@@ -4,7 +4,6 @@ import { base_url, test_url, local_url } from 'src/config';
 import { Observable, of, from } from 'rxjs';
 import { codes } from '../data/code';
 import { Storage } from '@ionic/storage';
-import { CACHE_KEYS } from '../constant/constant';
 import { NetworkService } from './network.service';
 
 
@@ -86,7 +85,7 @@ export class AuthService {
 
   myInfos(id) {
     let url = 'users/user/' + id
-    return this.http.get(local_url + url, httpOptionsJson)
+    return this.http.get(base_url + url, httpOptionsJson)
 
     // if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
     //   // Return the cached data from Storage

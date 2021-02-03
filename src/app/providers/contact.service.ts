@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, } from '@angular/common/http';
-import { local_url, base_url } from 'src/config';
+import { base_url, local_url } from 'src/config';
 import { Observable, of, from } from 'rxjs';
 import { tuto } from '../data/tuto_data';
 import { NetworkService } from './network.service';
@@ -199,12 +199,12 @@ export class ContactService {
 
   checkInvitationTeepzr(check): Observable<any> {
     let url = 'users/checkInvitation';
-    return this.http.post(local_url + url, check, httpOptionsJson);
+    return this.http.post(base_url + url, check, httpOptionsJson);
   }
 
     teepZrs(userId): Observable<any> {
     let url = 'users/teepzr/' + userId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   AllTeepZrs(userId): Observable<any> {
@@ -214,7 +214,7 @@ export class ContactService {
 
   searchTeepZrs(search): Observable<any> {
     let url = 'users/teepzrto';
-    return this.http.post(local_url + url, search, httpOptionsJson);
+    return this.http.post(base_url + url, search, httpOptionsJson);
   }
 
   teepZ(userId): Observable<any> {
@@ -235,7 +235,7 @@ export class ContactService {
 
   addPost(post): Observable<any> {
     let url = 'users/posts';
-    return this.http.post(local_url + url, JSON.stringify(post), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   rePost(post): Observable<any> {
@@ -277,7 +277,7 @@ export class ContactService {
      return from(this.getLocalData(CACHE_KEYS.FEEDS))
     } else {
       // Return real API data and store it locally
-      return this.http.get(local_url + url, httpOptionsJson);
+      return this.http.get(base_url + url, httpOptionsJson);
       //  this.setLocalData('users', res);
     }
   }
@@ -320,7 +320,7 @@ export class ContactService {
 
   SearchInCircleOnMatch(search?: any) {
     let url = 'users/searchTeepzrsInCircle';
-    return this.http.post(local_url + url, JSON.stringify(search), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(search), httpOptionsJson);
   }
 
 

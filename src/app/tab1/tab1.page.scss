@@ -78,7 +78,7 @@
     margin-top: 47px;
 }
 .robot{
-    width: 94px;
+    width: 21%;
 }
 .img-tuto{
     border-radius: initial;
@@ -554,6 +554,34 @@ ion-icon {
  
   
 }
+
+
+  /* On screens that are 992px or less, set the background color to blue */
+  @media screen and (width: 412px){
+  
+    ion-slide{
+        border-radius: 40px 40px 1px 0px;
+        height: -webkit-fill-available;
+    }
+    .slide{
+        height: -webkit-fill-available;
+        border-radius: 40px 40px 0 0;
+      
+      }
+      .fixed-wrap-video{
+        top: 1em !important;
+    }
+  
+    .fixed-wrap-img{
+      margin-top: 125px !important;
+  }
+  .fixed-wrap-text{
+    margin-top: 125px !important;
+}
+ 
+  
+}
+
 
   /* On screens that are 992px or less, set the background color to blue */
   @media screen and (width: 411px) , screen and (height: 823px){

@@ -18,11 +18,12 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 })
 export class ContactsPage implements OnInit {
 
+  minus = 0
   term: any
   contact: any
   pageEvent: any
   userInfo: any
-  n:Boolean = true
+  n: Boolean = true
   myContacts = []
   listTeepzrsToInvite = []
   listTeepzrsToInviteOutCircle = []
@@ -41,7 +42,7 @@ export class ContactsPage implements OnInit {
 
     {
       name: { givenName: 'Ridy', familyName: 'FRANCE' },
-      phoneNumbers: [{ value: '+330663534043' }, { value: '+33 06 63 53 40 43' }, { value: '+33 06 63 53 40 42' }],
+      phoneNumbers: [{ value: '+330663534044' }, { value: '+33 06 63 53 40 44' }, { value: '+33 06 63 53 40 46' }],
     },
 
     {
@@ -107,16 +108,21 @@ export class ContactsPage implements OnInit {
     if (this.previousRoute) {
       this.getCachedContacts()
     } else {
-    this.getUserInfo(this.userId)
+      this.getUserInfo(this.userId)
     }
     this.getTeepzrOutCircle()
   }
 
-  getCachedContacts(){
-    this.contactService.getContactsCached(CACHE_KEYS.CONTACTS).subscribe(val =>{
+  getCachedContacts() {
+    this.contactService.getContactsCached(CACHE_KEYS.CONTACTS).subscribe(val => {
       this.listContacts = JSON.parse(val)
       this.getTeepzr()
+      setTimeout(() => {
+        
+      }, 3000);
+      
     })
+
   }
 
   requestNecessaryPermissions() {
@@ -221,7 +227,7 @@ export class ContactsPage implements OnInit {
 
 
   loadContacts() {
-    this.requestNecessaryPermissions().then(()=>{
+    this.requestNecessaryPermissions().then(() => {
       this.loading = true
       let options = {
         filter: '',
@@ -260,31 +266,31 @@ export class ContactsPage implements OnInit {
           }, error => {
             this.loading = false
           })
-  
-  
+
+
         }
-  
+
         this.getTeepzr()
       }, error => {
       })
-    }, error =>{
+    }, error => {
       if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
-       this.authorizeOrNot(this.n)
+        this.authorizeOrNot(this.n)
       }
     })
-    
+
   }
 
-  authorizeOrNot(n:Boolean){
+  authorizeOrNot(n: Boolean) {
     let authorize = {
       userId: this.userId,
       isContactAuthorized: n
     }
-    this.contactService.authorizeContacts(authorize).subscribe(res =>{
+    this.contactService.authorizeContacts(authorize).subscribe(res => {
       console.log(res)
-      this.userInfo =  res['data']
+      this.userInfo = res['data']
       this.n = n
-    }, error =>{
+    }, error => {
       console.log(error)
     })
   }
@@ -310,6 +316,7 @@ export class ContactsPage implements OnInit {
       this.listTeepZrs = res['data']
       this.contactService.setLocalData(CACHE_KEYS.CONTACTS, JSON.stringify(this.listContacts));
       this.listContacts = this.getUniquesOnContacts(this.listContacts)
+      console.log('loading...')
       this.listContacts.forEach(um => {
         this.listTeepZrs.filter((x, index) => {
           for (const p of um.phone) {
@@ -330,12 +337,20 @@ export class ContactsPage implements OnInit {
               this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], invited: false })
             }
           }
+        }, error => {
+
         })
       });
+      if (this.listTeepzrsToInvite.length == 0) {
+        this.listTeepzrsToInvite.length = 1
+        this.minus = 1
+      }  
+
     }, error => {
-      // console.log(error)
+      console.log(error)
 
     })
+    
   }
 
 
