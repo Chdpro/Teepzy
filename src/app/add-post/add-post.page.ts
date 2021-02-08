@@ -344,7 +344,10 @@ removeMedia(){
 
             }, error => {
               this.loading = false
-            //  alert(JSON.stringify(error))
+             // alert(JSON.stringify(error))
+              if(error['code'] == 1){
+                this.presentToast("Taille de vidéo dépassée")
+              }
 
          //    alert("video upload did not work!" + JSON.stringify(error))
 
@@ -412,6 +415,7 @@ removeMedia(){
       // console.log(error)
       this.loading = false
       this.presentToast(MESSAGES.ADD_FEED_ERROR)
+      
 
     })
   }

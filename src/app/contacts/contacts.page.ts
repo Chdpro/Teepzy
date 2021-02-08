@@ -116,10 +116,12 @@ export class ContactsPage implements OnInit {
   getCachedContacts() {
     this.contactService.getContactsCached(CACHE_KEYS.CONTACTS).subscribe(val => {
       this.listContacts = JSON.parse(val)
-      this.getTeepzr()
-      setTimeout(() => {
-        
-      }, 3000);
+      if(this.listContacts !== null){
+        this.getTeepzr()
+      }else{
+        this.listContacts = []
+        this.getUserInfo(this.userId)
+      }
       
     })
 
@@ -316,7 +318,6 @@ export class ContactsPage implements OnInit {
       this.listTeepZrs = res['data']
       this.contactService.setLocalData(CACHE_KEYS.CONTACTS, JSON.stringify(this.listContacts));
       this.listContacts = this.getUniquesOnContacts(this.listContacts)
-      console.log('loading...')
       this.listContacts.forEach(um => {
         this.listTeepZrs.filter((x, index) => {
           for (const p of um.phone) {
@@ -343,6 +344,7 @@ export class ContactsPage implements OnInit {
       });
       if (this.listTeepzrsToInvite.length == 0) {
         this.listTeepzrsToInvite.length = 1
+        this.highValueT = this.highValueT - 1
         this.minus = 1
       }  
 

@@ -52,7 +52,7 @@
 
               <div
                 *ngFor="let c of listTeepzrsToInvite |filter:contact | slice: lowValueT : highValueT  ;trackBy: trackByFn ">
-                <div *ngIf="listTeepzrsToInvite?.length > 1">
+                <div *ngIf="listTeepzrsToInvite?.length > 1 && c?.phone">
 
                   <ion-item *ngIf="c?.phone !== userPhone">
                     <div class="round-img-post">

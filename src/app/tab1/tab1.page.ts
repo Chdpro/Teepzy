@@ -102,6 +102,10 @@ export class Tab1Page implements OnInit {
       if (post) {
         this.listPosts.push(post)
       }
+    //  console.log(this.listPosts)
+      this.listPosts = this.listPosts.sort((a, b) => {
+        return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
+       })
     });
   }
 

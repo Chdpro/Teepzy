@@ -10,8 +10,8 @@
 
 <ion-content>
 
-  <video #videoPlayer playsinline autoplay="autoplay" preload="metadata">
-    <source [src]="sanitizer.bypassSecurityTrustResourceUrl(video_url + '#t=0.5')" type="video/mp4" />
+  <video #videoPlayer autoplay preload="auto" crossorigin>
+    <source [src]="sanitizer.bypassSecurityTrustResourceUrl(video_url+ '#t=0.5')" type="video/mp4" />
   </video>
 
  

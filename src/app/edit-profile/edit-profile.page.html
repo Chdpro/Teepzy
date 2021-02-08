@@ -147,7 +147,7 @@
                       <mat-icon (click)="add($event)" style="    width: 30px;
                     height: 18px;" matChipRemove>add_circle</mat-icon>
                     </mat-chip>
-                    <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    <input [matChipInputFor]="chipList"  placeholder="Ecrivez ici le contenu de la rubrique" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                       [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
                   </mat-chip-list>
                 </mat-form-field>
