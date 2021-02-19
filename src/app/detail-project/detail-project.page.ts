@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController, AlertController, ToastController } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
@@ -120,9 +120,12 @@ export class DetailProjectPage implements OnInit {
     this.authService.myInfos(userId).subscribe(res => {
     //  console.log(res)
       this.listProjects = res['projects']
-      this.dataPasse.sendProjects(this.listProjects)
-      this.router.navigateByUrl('/tabs/profile')
-      
+      let navigationExtras: NavigationExtras = {
+        state: {
+          listProjects: this.listProjects
+        }
+      };
+      this.router.navigate(['/tabs/profile'], navigationExtras);
     }, error => {
      // console.log(error)
     })

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NavController, ModalController, MenuController, ToastController } from '@ionic/angular';
 //import { Socket } from 'ngx-socket-io';
 import { ContactService } from '../providers/contact.service';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Subscription, Observable } from 'rxjs';
-import * as moment from 'moment';
 import { Socket } from 'ng-socket-io';
 import { CACHE_KEYS } from '../constant/constant';
 
@@ -31,12 +30,22 @@ export class Tab3Page implements OnInit {
     private socket: Socket,
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
+    public route: ActivatedRoute,
     private toastController: ToastController,
   ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
+    this.subscription = this.dataPasse.getRoom().subscribe(room => {
+      if (room) {
+        this.rooms.push(room)
+      }
+    });
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.rooms = this.router.getCurrentNavigation().extras.state.rooms;
+      }
+    });
     this.getNewRoomBySocket().subscribe(room => {
-      console.log(room)
       room['userId'] == this.userId ? this.rooms.push(room) : null
     });
 
@@ -126,14 +135,28 @@ export class Tab3Page implements OnInit {
     })
   }
 
-  removeRoom(roomId) {
-    this.contactService.removeRoom(roomId).subscribe(res => {
+  removeRoom(room) {
+    if (this.userId === room['userId']) {
+    this.contactService.removeRoomByInitiator(room._id).subscribe(res => {
       //console.log(res);
       this.showToast("Conversation Supprimée")
       this.getChatRooms()
     }, error => {
       // console.log(error)
+      this.showToast("Oops! une erreur est survenue")
+
     })
+    } else if (this.userId === room['connectedUsers'][0]) {
+      this.contactService.removeRoomByConnectedUser(room._id).subscribe(res => {
+        //console.log(res);
+        this.showToast("Conversation Supprimée")
+        this.getChatRooms()
+      }, error => {
+        // console.log(error)
+        this.showToast("Oops! une erreur est survenue")
+      })  
+    }
+
   }
 
   getChatRooms() {
@@ -152,7 +175,9 @@ export class Tab3Page implements OnInit {
             userId: room.userId,
             userInitiator: room.userInitiator,
             _id: room._id,
-            countUnreadMessages: room.countUnreadMessages
+            countUnreadMessages: room.countUnreadMessages,
+            isRoomArchiveByInitiator: room.isRoomArchiveByInitiator,
+            isRoomArchiveByConnectedUser: room.isRoomArchiveByConnectedUser
 
           })
         } else {
@@ -166,7 +191,9 @@ export class Tab3Page implements OnInit {
             userId: room.userId,
             userInitiator: room.userInitiator,
             _id: room._id,
-            countUnreadMessages: room.countUnreadMessages
+            countUnreadMessages: room.countUnreadMessages,
+            isRoomArchiveByInitiator: room.isRoomArchiveByInitiator,
+            isRoomArchiveByConnectedUser: room.isRoomArchiveByConnectedUser
 
           })
         }

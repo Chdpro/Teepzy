@@ -5,6 +5,14 @@ ion-icon{
   font-size: 34px;
 }
 
+.social-chip{
+  display: inherit !important;
+}
+.social-chip-main{
+  padding: 21px;
+}
+
+
 .title-wrapper{
   display: flex;
 }
@@ -50,20 +58,21 @@ ion-icon{
 }
 
 .round-img-profile{
-  height: 114px;
-  width: 114px;
+  max-width: 123px;
+  max-height: 123px;
+  min-width: 123px;
+  min-height: 123px;
+  width: 123px;
+  height: 123px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 100%;
-  -webkit-border-radius: 100%;
-  -moz-border-radius: 100%; 
   border: solid 1px #ffffff;
-  text-align: center;
-  font-size: 18px;
   display: block;
   margin-left: auto;
   margin-right: auto;
+
 }
 
 .round-img{

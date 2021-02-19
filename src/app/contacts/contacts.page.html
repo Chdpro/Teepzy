@@ -5,6 +5,10 @@
 </ion-header>
 
 <ion-content>
+    <ion-refresher slot="fixed" [disabled]="false" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+    
   <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
   <div *ngIf="listTeepzrsToInvite?.length == 0 && listContacts?.length !== myContacts?.length" class="modal">
     <label class="modal-label overlay">
@@ -82,7 +86,7 @@
                 <ion-col size="8">
                   <ion-button *ngIf="listTeepzrsToInvite?.length > 0" style="margin-top: 71px;" (click)="goToFeed()" expand="block" shape="round">
                     <span *ngIf="previousRoute !== 'feeds'">
-                      Aller sur mon actualité
+                      Mon profile
                     </span>
                     <span *ngIf="previousRoute == 'feeds'">
                       Retour sur mon actualité
@@ -155,7 +159,7 @@
                 <ion-col size="8">
                   <ion-button style="margin-top: 71px;" (click)="goToOutcircle()" expand="block" shape="round">
                     <span *ngIf="previousRoute !== 'feeds'">
-                      Aller sur mon actualité
+                      Mon profile
                     </span>
                     <span *ngIf="previousRoute == 'feeds'">
                       Retour sur mon actualité

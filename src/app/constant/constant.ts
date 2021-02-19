@@ -75,7 +75,7 @@ export enum MESSAGES {
     DELETE_FEED_OK="Vous avez supprimés le post",
     DELETE_FEED_ERROR="Erreur lors de la suppression",
     ADD_FEED_ERROR="Erreur lors de la publication d'un post",
-    VIDEO_LIMIT_ERROR ="La durée de la vidéo ne peut dépasser 15s",
+    VIDEO_LIMIT_ERROR ="La durée de la vidéo ne peut dépasser 35s",
     MEDIA_LIMIT_ERROR ="Vous ne pouvez pas sélectionner pluisieurs médias",
     COLOR_CHOSED_OK = "Couleur choisie",
     LINK_DENIED_OK="Demande refusée",

@@ -12,8 +12,6 @@ import { BehaviorSubject } from 'rxjs';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { EditSnapPage } from '../edit-snap/edit-snap.page';
 import { EditSnapImgPage } from '../edit-snap-img/edit-snap-img.page';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
 import { DatapasseService } from '../providers/datapasse.service';
 
 

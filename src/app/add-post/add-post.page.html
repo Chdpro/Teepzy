@@ -5,13 +5,16 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <div class="example-button-container">
-      <ion-button color="secondary" style="margin-top: 1px;" (click)="uploadImage()"
+      <ion-button *ngIf="!loading" color="secondary" style="margin-top: 1px;" (click)="addPost()"
         [disabled]="contentMsg.errors?.required" expand="block" shape="round">
-        <span *ngIf="!loading">
+        <span >
           Publier
         </span>
-        <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
       </ion-button>
+      <ion-button *ngIf="loading" color="secondary" style="margin-top: 1px;"
+      [disabled]="contentMsg.errors?.required" expand="block" shape="round">
+      <ion-spinner name="dots"></ion-spinner>
+    </ion-button>
     </div>
   </ion-toolbar>
 </ion-header>

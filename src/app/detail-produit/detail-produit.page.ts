@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MenuController, AlertController, ToastController } from '@ionic/angular';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { MenuController, AlertController, ToastController, NavController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
@@ -26,11 +26,8 @@ export class DetailProduitPage implements OnInit {
     userId:''
   }
   userId = ''
-
   listProducts = []
-
   showDeleteBtn = false
-
   slideOpts = {
     initialSlide: 1,
     speed: 400
@@ -46,6 +43,7 @@ export class DetailProduitPage implements OnInit {
     private dataPasse: DatapasseService,
     public globals: Globals,
     private router: Router,
+    private navController: NavController
   ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -86,7 +84,6 @@ export class DetailProduitPage implements OnInit {
             this.presentToast('Annulé')
           }
         },
-
         {
           text: 'Oui',
           handler: () => {
@@ -122,13 +119,15 @@ export class DetailProduitPage implements OnInit {
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-   //   console.log(res)
       this.listProducts = res['products']
-      this.dataPasse.sendProducts(this.listProducts)
-      this.router.navigateByUrl('/tabs/profile')
-
+     // this.dataPasse.sendProducts(this.listProducts)
+     let navigationExtras: NavigationExtras = {
+      state: {
+        listProducts: this.listProducts
+      }
+    };
+    this.router.navigate(['/tabs/profile'], navigationExtras);
     }, error => {
-    //  console.log(error)
     })
   }
 

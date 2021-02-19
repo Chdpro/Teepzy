@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { NavController, ModalController, ToastController, MenuController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 //import { Socket } from 'ngx-socket-io';
@@ -68,15 +68,35 @@ export class CircleMembersPage implements OnInit {
   //  this.chatRoom.connectedUsers.push(this.userId)
     this.chatRoom.name != '' ? null : this.chatRoom.name = 'Entre nous deux'
     this.contactService.initChatRoom(this.chatRoom).subscribe(res => {
-     // console.log(res)
-      if (res['status'] == 200) {
+      console.log(res)
+     let room = res['data']
+      if (res['status'] == 200) { 
         this.loading = false
-        this.presentToast(MESSAGES.ROOM_INITIATED_OK)        
+        this.presentToast(MESSAGES.ROOM_INITIATED_OK) 
         this.getChatRooms()
+        this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime,room.connectedUsersInfo.photo,room.connectedUsers.length, room.name,room.connectedUsers[0],room.userId)
+
        // this.dismiss()
-      } else {
+      } else if (res['status'] == 403) {
         this.presentToast(MESSAGES.ROOM_EXIST_OK)
-        this.loading = false
+        if (this.userId === room.connectedUsers[0]) {
+          console.log("cu")
+          this.contactService.restoreRoomByConnectedUser(room._id).subscribe(()=>{
+            this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime,room.connectedUsersInfo.photo,room.connectedUsers.length, room.name,room.connectedUsers[0],room.userId)
+            this.loading = false
+          }, error =>{
+
+          })
+        }else if(this.userId === room.userId){
+          console.log("init")
+          this.contactService.restoreRoomByInitiator(room._id).subscribe(()=>{
+            this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime,room.connectedUsersInfo.photo,room.connectedUsers.length, room.name,room.connectedUsers[0],room.userId)
+            this.loading = false
+          }, error =>{
+            
+          })
+        }
+       
       }
     }, error => {
       this.loading = false
@@ -85,12 +105,28 @@ export class CircleMembersPage implements OnInit {
     })
   }
 
+  gotoChatRoom(roomId, pseudo, photo, roomLength, roomName, connectedUserId, userId) {
+    this.navCtrl.navigateForward("/chat",
+      {
+        state: {
+          roomId: roomId, pseudo: pseudo,
+          photo: photo, roomLength: roomLength, roomName, connectedUserId: connectedUserId, userId: userId
+        }
+      });
+    // this.router.navigateByUrl('/chat')
+
+  }
   getChatRooms() {
     this.contactService.mChatRooms(this.userId).subscribe(res => {
-     // console.log(res);
       this.rooms = res['data']
       this.dataPasse.send(this.rooms)
-      this.router.navigateByUrl('/tabs/tab3')
+      //this.router.navigateByUrl('/tabs/tab3')
+      let navigationExtras: NavigationExtras = {
+        state: {
+          rooms: this.rooms
+        }
+      };
+      this.router.navigate(['/tabs/tab3'], navigationExtras);
     }, error => {
     //  console.log(error)
     })

@@ -242,8 +242,8 @@ export class EditProfilePage implements OnInit {
       //this.user['tags'] ? this.tags1 = this.user['tags'] : null;
       this.user['hobbies'] ? this.tags = this.user['hobbies'] : null;
       this.profile1.hobbies = this.user['hobbies'];
-      //this.user['photo'] ? this.dispImags[0] = this.user['photo'] : null
-      this.user['photo'] ? this.profile1.photo = this.user['photo'] : null
+      this.user['photo'] ? this.dispImags[0] = this.user['photo'] : null
+      //this.user['photo'] ? this.profile1.photo = this.user['photo'] : null
       this.profile1['isAllProfileCompleted'] = this.user['isAllProfileCompleted'] 
     }, error => {
      // console.log(error)

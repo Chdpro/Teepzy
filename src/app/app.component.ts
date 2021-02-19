@@ -7,12 +7,10 @@ import * as firebase from 'firebase';
 import { Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { ContactService } from './providers/contact.service';
-//import { Socket } from 'ngx-socket-io';
 import { AuthService } from './providers/auth.service';
 import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal/ngx';
 import { isCordovaAvailable } from '../common/is-cordova-available'
 import { oneSignalAppId, sender_id } from 'src/config';
-import { NetworkService } from './providers/network.service';
 
 export enum ConnectionStatus {
   Online,
@@ -65,19 +63,13 @@ export class AppComponent {
     let token = localStorage.getItem('teepzyToken')
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
-    this.getUserInfo(this.userId, token)
+    //this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.backgroundColorByHexString("#ea4d5075");
       this.splashScreen.hide();
-    //   this.networkService.onNetworkChange().subscribe((status: ConnectionStatus) => {
-    //  //   alert("network status:" + status )
-    //     if (status == ConnectionStatus.Online) {
-    //       this.offlineManager.checkForEvents().subscribe();
-    //     }
-    //   });
     });
   }
 

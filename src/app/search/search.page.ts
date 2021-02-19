@@ -48,7 +48,6 @@ export class SearchPage implements OnInit {
 
   constructor(private contactService: ContactService,
     public toastController: ToastController,
-    //  private socket: Socket,
     private router: Router,
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController
@@ -131,10 +130,10 @@ export class SearchPage implements OnInit {
 
   getPosts() {
     this.contactService.getPosts(this.search.userId).subscribe(res => {
-      //console.log(res)
+      console.log(res)
       this.posts = res['data'];
     }, error => {
-      // console.log(error)
+       console.log(error)
     })
   }
 
@@ -260,7 +259,7 @@ export class SearchPage implements OnInit {
   sendInvitationToJoinCircle(idReceiver) {
     //console.log(idReceiver)
     this.loading = true
-    let invitation = {
+    let invitation = {  
       idSender: this.search.userId,
       idReceiver: idReceiver,
       typeLink: typeAccount.pseudoIntime
@@ -270,8 +269,6 @@ export class SearchPage implements OnInit {
       this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = true : null)
       this.presentToast(MESSAGES.INVITATION_SEND_OK)
       this.showModal = false
-      // this.socket.emit('notification', 'notification');
-      //console.log(this.listTeepzrsToInvite)
       this.loading = false
     }, error => {
       this.presentToast(MESSAGES.INVITATION_SEND_ERROR)

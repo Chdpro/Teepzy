@@ -271,7 +271,6 @@ export class ContactService {
 
   getPosts(userId): Observable<any> {
     let url = 'users/posts/all/' + userId;
-
     if (this.networkService.networkStatus() === Offline) {
       // Return the cached data from Storage
      return from(this.getLocalData(CACHE_KEYS.FEEDS))
@@ -382,9 +381,24 @@ export class ContactService {
     return this.http.post(base_url + url, JSON.stringify(member), httpOptionsJson);
   }
   
-  removeRoom(roomId): Observable<any> {
-    let url = 'chat/deleteRoom/' + roomId;
-    return this.http.delete(base_url + url, httpOptionsJson);
+  removeRoomByInitiator(roomId): Observable<any> {
+    let url = 'chat/deleteRoomInitiator/' + roomId;
+    return this.http.put(base_url + url, httpOptionsJson);
+  }
+
+
+  removeRoomByConnectedUser(roomId): Observable<any> {
+    let url = 'chat/deleteRoomConnectedUser/' + roomId;
+    return this.http.put(base_url + url, httpOptionsJson);
+  }
+
+  restoreRoomByConnectedUser(roomId): Observable<any> {
+    let url = 'chat/restoreRoomConnectedUser/' + roomId;
+    return this.http.put(base_url + url, httpOptionsJson);
+  }
+  restoreRoomByInitiator(roomId): Observable<any> {
+    let url = 'chat/restoreRoomInitiator/' + roomId;
+    return this.http.put(base_url + url, httpOptionsJson);
   }
 
   getRoomMembers(roomId): Observable<any> {
@@ -430,14 +444,14 @@ export class ContactService {
     }
   }
 
-  ChatRoomMessages(id): Observable<any> {
-    let url = 'chat/room/' + id;
+  ChatRoomMessages(obj): Observable<any> {
+    let url = 'chat/room/messages';
     if (this.networkService.networkStatus() === Offline) {
       // Return the cached data from Storage
-     return from(this.getLocalData(CACHE_KEYS.CHAT +  id))
+     return from(this.getLocalData(CACHE_KEYS.CHAT +  obj.roomId))
     } else {
       // Return real API data and store it locally
-      return this.http.get(base_url + url, httpOptionsJson);
+      return this.http.post(base_url + url, obj, httpOptionsJson);
       //  this.setLocalData('users', res);
     }
   }

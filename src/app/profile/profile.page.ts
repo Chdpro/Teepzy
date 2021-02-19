@@ -58,6 +58,8 @@ export class ProfilePage implements OnInit {
 
   isProProfile = true
   subscription: Subscription;
+  subscriptionProject: Subscription;
+  subscriptionProduct: Subscription;
   subscription2: Subscription;
   subscriptionFavorites: Subscription;
   subscriptionMyTeepz: Subscription;
@@ -98,9 +100,12 @@ export class ProfilePage implements OnInit {
     private authService: AuthService) {
       this.menuCtrl.close('first');
       this.menuCtrl.swipeGesture(false);
-            
-  
-    
+      this.route.queryParams.subscribe(params => {
+        if (this.router.getCurrentNavigation().extras.state) {
+          this.listProducts = this.router.getCurrentNavigation().extras.state.listProducts;
+          this.listProjects = this.router.getCurrentNavigation().extras.state.listProjects;
+        }
+      });
   }
 
   ngOnInit() {
@@ -109,20 +114,22 @@ export class ProfilePage implements OnInit {
   }
 
   subscriptions(){
-    this.subscription = this.dataPass.getProjects().subscribe(list => {
-      if (list.length > 0) {
-        this.listProjects = list
-      }
-    });
     this.subscription = this.dataPass.get().subscribe(u => {
       if (u) {
         this.user = u
       }
     });
+
     this.subscription2 = this.dataPass.getProducts().subscribe(list => {
       //console.log(list)
       if (list.length > 0) {
         this.listProducts = list
+      }
+    });
+
+    this.subscription = this.dataPass.getProjects().subscribe(list => {
+      if (list.length > 0) {
+        this.listProjects = list
       }
     });
 
@@ -144,10 +151,8 @@ export class ProfilePage implements OnInit {
   ionViewWillEnter(){
     this.subscriptions()
     let userId = localStorage.getItem('teepzyUserId')
-   // this.socket.emit('online', userId );
     let idUser = this.route.snapshot.paramMap.get('userId')
     this.previousUrl = this.route.snapshot.paramMap.get('previousUrl')
-    //console.log(this.previousUrl)
     if (!idUser) {
       this.getUserInfo(userId)
       this.getMyPosts(userId)
@@ -283,22 +288,18 @@ export class ProfilePage implements OnInit {
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-     // console.log(res)
       this.user = res['data'];
       this.listProjects = res['projects']
       this.listProducts = res['products']
       this.relationsCount = res['relationsCount']
     }, error => {
-     // console.log(error)
     })
   }
 
   getMyPosts(userId) {
     this.contactService.teepZ(userId).subscribe(res => {
-     // console.log(res)
       this.listTeepz = res['data'];
     }, error => {
-     // console.log(error)
     })
   }
 
@@ -362,15 +363,11 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewWillLeave() {
-    // this.socket.disconnect();
-     //console.log('disconnected')
      this.subscription?  this.subscription.unsubscribe() :  null
  
    }
    ngOnDestroy() { 
      this.subscription?  this.subscription.unsubscribe() :  null
-     //this.socket.removeAllListeners('message');
-     //this.socket.removeAllListeners('users-changed');
    }
 
 }

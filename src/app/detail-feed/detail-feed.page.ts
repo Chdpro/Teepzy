@@ -95,7 +95,6 @@ export class DetailFeedPage implements OnInit {
     private modalController: ModalController,
     private routerOutlet: IonRouterOutlet,
     public sanitizer: DomSanitizer,
-    //private socket: Socket,
     private router: Router,
     public globals: Globals,
     public route: ActivatedRoute,
@@ -106,7 +105,6 @@ export class DetailFeedPage implements OnInit {
     this.global = globals;
     this.previousRoute = this.route.snapshot.paramMap.get('previousUrl')
     this.subscription = this.dataPasse.get().subscribe(p => {
-      //   console.log(p)
       if (p) {
         this.post = p
       }
@@ -118,7 +116,6 @@ export class DetailFeedPage implements OnInit {
     this.getUserInfo(this.userId)
     let idTeepz = this.route.snapshot.paramMap.get('idTeepz')
     this.previousBackUrl = this.route.snapshot.paramMap.get('previousBackUrl')
-  //  console.log(this.previousBackUrl)
     this.getAPost(idTeepz)
     this.getRepost(idTeepz)
 
@@ -208,13 +205,7 @@ export class DetailFeedPage implements OnInit {
   }
 
 
-  connectSocket() {
-   /* this.socket.connect();
-    this.socket.fromEvent('user-notification').subscribe(notif => {
-      //console.log(notif)
-    });*/
-  }
-
+  
 
 
   async presentAlertConfirm() {

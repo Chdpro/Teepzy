@@ -35,6 +35,7 @@ export class TabsPage {
   }
 
   tabChange(tabsRef: IonTabs) {
+//tabsRef.outlet.activatedRoute
    // this.activeTab = tabsRef.outlet.activatedView.element;
   }
 

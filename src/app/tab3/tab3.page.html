@@ -84,7 +84,6 @@
              <!-- if user initiator is not me -->
     
              <div  *ngIf="userId ===  m?.connectedUsers[0]">
-    
               <div  (click)="gotoChatRoom(m?._id, m?.userInitiator?.pseudoIntime,
               m?.userInitiator?.photo, m?.connectedUsers.length,
                m?.name, m?.connectedUsers[0], m?.userId)" *ngIf="!m?.userInitiator?.photo" class="round-img-post">
@@ -119,7 +118,7 @@
               <ion-icon name="ellipsis-horizontal"></ion-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button (click)="removeRoom(m?._id)" mat-menu-item>Supprimer</button>
+              <button (click)="removeRoom(m)" mat-menu-item>Supprimer</button>
             </mat-menu>
           </ion-item>
     

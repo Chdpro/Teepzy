@@ -416,7 +416,11 @@ export class ChatPage implements OnInit {
 
   getMessages(id) {
     this.loading = true
-    this.contactService.ChatRoomMessages(id).subscribe(res => {
+    let obj = {
+      roomId: id,
+      userId: this.userId
+    }
+    this.contactService.ChatRoomMessages(obj).subscribe(res => {
       //  console.log(res)
       this.loading = false
       let roomInitiatorId = res['data']['userId']

@@ -260,7 +260,7 @@
   
       </div>
       <p class="content" *ngIf="!p?.image_url && !p?.video_url"
-      [ngStyle]="{'font-size': p?.content.length > 60 ? '17px' : '23px' }" >
+      [ngStyle]="{'font-size': p?.content?.length > 60 ? '17px' : '23px' }" >
       {{ p?.content }}
     </p>
   

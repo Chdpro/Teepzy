@@ -99,7 +99,7 @@ export class SignupFinalPage implements OnInit {
           this.contactService.getConnected(user).subscribe(res => {
          //   console.log(res)
           })
-          this.router.navigateByUrl('/tuto-video', {
+          this.router.navigateByUrl('/contacts', {
             replaceUrl: true
           })
         }
@@ -232,6 +232,7 @@ export class SignupFinalPage implements OnInit {
 
 
   uploadImage() {
+    this.presentLoading()
     this.requestNecessaryPermissions().then(() =>{
       var ref = this;
       this.loading = true

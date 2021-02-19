@@ -85,7 +85,10 @@ export class AddPostPage implements OnInit {
 
   ) {
 
-    this.menuCtrl.enable(false);
+    //this.menuCtrl.enable(false);
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
+
 
   }
 
@@ -152,13 +155,13 @@ removeMedia(){
           this.takeImage(this.camera.PictureSourceType.CAMERA);
         }
       },*/
-      {
+     /* {
         text: 'Choisir une vidéo',
         icon: "grid",
         handler: () => {
           this.chooseVideo();
         }
-      },
+      },*/
       /*{
         text: 'Enregistrer une vidéo',
         icon: "videocam",
@@ -344,11 +347,6 @@ removeMedia(){
 
             }, error => {
               this.loading = false
-             // alert(JSON.stringify(error))
-              if(error['code'] == 1){
-                this.presentToast("Taille de vidéo dépassée")
-              }
-
          //    alert("video upload did not work!" + JSON.stringify(error))
 
             })
@@ -400,19 +398,14 @@ removeMedia(){
     this.loading = true
     this.post.userPhoto_url = this.user.photo
     this.post.userPseudo = this.user.pseudoIntime
-    //this.photos.length > 0 ? this.uploadImage() : null
     this.contactService.addPost(this.post).subscribe(res => {
-      // console.log(res);
-
       if (res['status'] == 200) {
-     //   this.getPosts(this.post.userId)
         this.createdPost = res['data']
        this.dataPass.sendPosts(this.createdPost);
         this.router.navigate(['/tabs/tab1'])
         this.loading = false
       }
     }, error => {
-      // console.log(error)
       this.loading = false
       this.presentToast(MESSAGES.ADD_FEED_ERROR)
       

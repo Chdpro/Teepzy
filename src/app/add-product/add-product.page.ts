@@ -153,7 +153,6 @@ export class AddProductPage implements OnInit {
         backgroundColor: '#fff',
         userPseudo: this.user.pseudoIntime
       }
-
       this.loading = true
       this.tags.length > 0 ? this.product.tags = this.tags : null;
       this.product.userPhoto_url = this.user.photo

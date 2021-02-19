@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { LinkSheetPage } from '../link-sheet/link-sheet.page';
 import { CommentsPage } from '../comments/comments.page';
 //import { Socket } from 'ngx-socket-io';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Globals } from '../globals';
 import { DomSanitizer } from '@angular/platform-browser';
 import { typeAccount, MESSAGES, CACHE_KEYS, Offline } from '../constant/constant';
@@ -113,6 +113,7 @@ export class Tab1Page implements OnInit {
  
   }
 
+  
 
 
   ionViewWillEnter() {
@@ -491,6 +492,7 @@ onPlayerPause(api: VgApiService) {
     this.timeCall = 1
     this.loading = true
     this.contactService.getPosts(userId).subscribe(res => {
+      console.log(res)
       this.listPosts = []
       if (res['data'] != null) {
         this.listPosts = res['data']
@@ -510,7 +512,7 @@ onPlayerPause(api: VgApiService) {
 
     }, error => {
       this.loading = false
-      // console.log(error)
+       console.log(error)
       
     })
   }

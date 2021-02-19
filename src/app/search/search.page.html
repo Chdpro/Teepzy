@@ -221,7 +221,7 @@
                 <label>
                   Ajouter des amis
                 </label>
-                <div *ngFor="let c of listTeepzrsToInvite | slice: lowValueT : highValueT  ;trackBy: trackByFn " (click)="goToProfile(c?._id)">
+                <div *ngFor="let c of listTeepzrsToInvite | slice: lowValueT : highValueT  ;trackBy: trackByFn ">
 
                   <ion-item>
                     <div *ngIf="c?.photo == null || c?.photo == ''" class="round-img-post">

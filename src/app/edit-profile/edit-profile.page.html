@@ -42,7 +42,7 @@
                 <span>
                   <mat-form-field class="rs-input-left">
                     <mat-label>MES APPLIS</mat-label>
-                    <mat-select [(ngModel)]="media2" name="media2">
+                    <mat-select [(ngModel)]="media2"  (ngModelChange)="media2" name="media2">
                       <mat-option *ngFor="let s of socials" [value]="s">
                         <ion-icon class="rs-btn" [name]="s.icon"></ion-icon>
                         <span>
@@ -53,12 +53,14 @@
                   </mat-form-field>
 
                   <mat-form-field class="rs-input-right">
-                    <mat-label>URL</mat-label>
-                    <input matInput [(ngModel)]="rs_url2" name="rs_url2" placeholder="URL">
+                    
+                    <mat-label *ngIf="media2?.icon !== 'logo-whatsapp'" >PSEUDO</mat-label>
+                    <mat-label *ngIf="media2?.icon === 'logo-whatsapp'" >NUMERO</mat-label>
+                    <input matInput [(ngModel)]="rs_url2" name="rs_url2" [placeholder]="media2?.icon !== 'logo-whatsapp'? 'PSEUDO': 'NUMERO'">
                   </mat-form-field>
                   <span style="margin-bottom: 12px;">
-                    <ion-chip *ngFor="let so of socialsAdde2">
-                      <ion-label color="primary">
+                    <ion-chip class="social-chip-main" *ngFor="let so of socialsAdde2">
+                      <ion-label class="social-chip"color="primary">
                         <ion-icon class="rs-btn" [name]="so?.icon"></ion-icon>
                         {{so?.nom}}
                       </ion-label>
