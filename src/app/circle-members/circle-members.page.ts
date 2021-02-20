@@ -121,12 +121,12 @@ export class CircleMembersPage implements OnInit {
       this.rooms = res['data']
       this.dataPasse.send(this.rooms)
       //this.router.navigateByUrl('/tabs/tab3')
-      let navigationExtras: NavigationExtras = {
-        state: {
-          rooms: this.rooms
-        }
-      };
-      this.router.navigate(['/tabs/tab3'], navigationExtras);
+      // let navigationExtras: NavigationExtras = {
+      //   state: {
+      //     rooms: this.rooms
+      //   }
+      // };
+      // this.router.navigate(['/tabs/tab3'], navigationExtras);
     }, error => {
     //  console.log(error)
     })

@@ -44,7 +44,8 @@
                     <mat-label>MES APPLIS</mat-label>
                     <mat-select [(ngModel)]="media2"  (ngModelChange)="media2" name="media2">
                       <mat-option *ngFor="let s of socials" [value]="s">
-                        <ion-icon class="rs-btn" [name]="s.icon"></ion-icon>
+                        <ion-icon  *ngIf="s.nom !== 'tiktok'" class="rs-btn" [name]="s.icon"></ion-icon>
+                        <img class="tiktok-logo" *ngIf="s.nom === 'tiktok'" [src]="s.icon" alt="">
                         <span>
                           {{s.nom}}
                         </span>

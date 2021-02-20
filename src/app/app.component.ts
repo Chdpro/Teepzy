@@ -44,7 +44,6 @@ export class AppComponent {
     this.oneSignale()
     const event = fromEvent(document, 'backbutton');
     event.subscribe(async () => {
-      // logic for navigation, modal, popover, menu closing
       this.navCtrl.pop(); // I have used for my case
     });
 

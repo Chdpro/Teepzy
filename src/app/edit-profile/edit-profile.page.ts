@@ -217,7 +217,7 @@ export class EditProfilePage implements OnInit {
 
   getSocials() {
     this.contactService.getSocials().subscribe(res => {
-     // console.log(res)
+      console.log(res)
       this.socials = res
     }, error => {
      // console.log(error)

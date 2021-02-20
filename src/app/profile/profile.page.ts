@@ -10,7 +10,6 @@ import { IonSlides } from '@ionic/angular';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { ContactService } from '../providers/contact.service';
 import * as moment from 'moment';
-//import { Socket } from 'ngx-socket-io';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({

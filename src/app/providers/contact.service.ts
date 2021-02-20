@@ -176,7 +176,7 @@ export class ContactService {
 
   deletePost(postId): Observable<any> {
     let url = 'users/post/' + postId;
-    return this.http.delete(base_url + url, httpOptionsJson);
+    return this.http.delete(local_url + url, httpOptionsJson);
   }
 
 

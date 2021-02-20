@@ -55,13 +55,11 @@ export class Tab2Page implements OnInit {
 
 
   ngOnInit() {
-    this.coonectSocket()
   }
 
 
   ionViewWillEnter(){
     this.userId = localStorage.getItem('teepzyUserId');
-    //this.socket.emit('online', this.userId );
     this.listInvitations()
     this.listLinks()
     this.listNotifications()
@@ -125,14 +123,6 @@ export class Tab2Page implements OnInit {
     }
   }
 
-  coonectSocket() {
-    /*this.socket.connect();
-    this.socket.fromEvent('user-notification').subscribe(notif => {
-    // console.log(notif)
-      this.notifications.push(notif)
-    //  console.log(this.notifications)
-    });*/
-  }
 
 
   doRefreshNotification(event) {
@@ -156,11 +146,10 @@ export class Tab2Page implements OnInit {
 
   markNotificationsRead(userId){
     this.contactService.markReadNotifications(userId).subscribe( res =>{
-      console.log(res)
+     // console.log(res)
     }, error =>{
-      console.log(error)
+     // console.log(error)
     })    
-  //  console.log(this.message.createdAt)
   }
 
   goToContacts() {
@@ -257,7 +246,7 @@ export class Tab2Page implements OnInit {
     //  console.log(res)
       this.loading = false
       this.listInvitations()
-      this.presentToast('Vous désormais en contact')
+      this.presentToast('Vous êtes désormais en contact')
     }, error => {
      // console.log(error)
       this.loading = false
