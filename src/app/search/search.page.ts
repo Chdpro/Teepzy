@@ -58,7 +58,6 @@ export class SearchPage implements OnInit {
 
   ngOnInit() {
     this.search.userId = localStorage.getItem('teepzyUserId');
-    // this.socket.emit('online', this.search.userId );
     this.getPosts()
     this.getTeepzr()
   }
@@ -72,18 +71,11 @@ export class SearchPage implements OnInit {
     return moment(date).fromNow()
   }
 
-  connectSocket() {
-    //  this.socket.connect();
-  }
-
-
-
   goToDetailTeepz(idTeepz) {
     this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'search' }])
   }
 
   getPaginatorDataTeepzr(event) {
-    // console.log(event);
     if (event.pageIndex === this.pageIndexT + 1) {
       this.lowValueT = this.lowValueT + this.pageSizeT;
       this.highValueT = this.highValueT + this.pageSizeT;
@@ -109,7 +101,6 @@ export class SearchPage implements OnInit {
         && Math.abs(direction[0]) > 30 // Long enough
         && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) { // Horizontal enough
         const swipe = direction[0] < 0 ? 'next' : 'previous';
-        console.info(swipe);
         if (swipe === 'next') {
           const isFirst = this.selectedTab === 0;
           if (this.selectedTab <= 4) {
@@ -161,21 +152,17 @@ export class SearchPage implements OnInit {
       this.loading = false
       this.usersNotInCircles = res['users']
       this.listTeepzrsToInvite = []
-      //console.log(this.usersNotInCircles)
       this.usersNotInCircles.forEach(e => {
         let invitation = { idSender: this.search.userId, idReceiver: e['_id'] }
         this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
           if (res['status'] == 201) {
             this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null : this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], pseudoIntime: e['pseudoIntime'], circleMembersCount: e['circleMembersCount'], invited: true })
           } else {
-            //     console.log(this.listTeepzrsToInvite)
             this.checkAvailability(this.listTeepzrsToInvite, e['_id']) ? null : this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], pseudoIntime: e['pseudoIntime'], circleMembersCount: e['circleMembersCount'], invited: false })
           }
-          console.log(this.listTeepzrsToInvite)
         })
       });
     }, error => {
-      // console.log(error)
       this.loading = false
     })
   }
@@ -185,7 +172,7 @@ export class SearchPage implements OnInit {
     this.contactService.teepZrs(this.search.userId).subscribe(res => {
       // console.log(res)
       this.listTeepZrs = res['data']
-      console.log(this.listTeepZrs)
+   //   console.log(this.listTeepZrs)
     }, error => {
       // console.log(error)
 
@@ -211,7 +198,7 @@ export class SearchPage implements OnInit {
   searchOnMatches() {
     this.loading = true
     this.contactService.SearchOnMatch(this.search).subscribe(res => {
-      // console.log(res);
+     // console.log(res);
       this.loading = false
       //this.users = res['users']
       this.products = res['products']
@@ -219,17 +206,17 @@ export class SearchPage implements OnInit {
       this.posts = res['posts']
     }, error => {
       this.loading = false
-      // console.log(error)
+     //  console.log(error)
     })
 
     this.contactService.SearchInCircleOnMatch(this.search).subscribe(res => {
-      // console.log(res);
+   //   console.log(res);
       this.loading = false
       this.users = res['users']
-      console.log(this.users)
+    //  console.log(this.users)
     }, error => {
       this.loading = false
-      // console.log(error)
+     // console.log(error)
     })
   }
 

@@ -161,15 +161,12 @@ export class EditProfilePage implements OnInit {
     let userId = localStorage.getItem('teepzyUserId')
     // update profile 1
     this.tags.length > 0 ? this.profile1.hobbies = this.tags : null
-   // console.log(this.profile1.hobbies)
     this.authService.updateProfile(this.profile1).subscribe(res => {
-     // console.log(res)
       this.presentToast(MESSAGES.PROFILE_UPDATED_OK)
       this.getUserInfo(userId)
       this.loading = false
       this.router.navigate(['/tabs/profile'])
     }, error => {
-     // console.log(error)
       this.presentToast(MESSAGES.PROFILE_UPDATED_ERROR)
       this.loading = false
 
@@ -238,12 +235,10 @@ export class EditProfilePage implements OnInit {
       this.profile1.socialsAmical = this.user['socialsAmical'];
       this.profile1.tagsLabel = this.user['tagsLabel'];
       this.profile1.bioLabel  = this.user['bioLabel'];
-      //this.profile1.tags = this.user['tags'];
-      //this.user['tags'] ? this.tags1 = this.user['tags'] : null;
       this.user['hobbies'] ? this.tags = this.user['hobbies'] : null;
       this.profile1.hobbies = this.user['hobbies'];
       this.user['photo'] ? this.dispImags[0] = this.user['photo'] : null
-      //this.user['photo'] ? this.profile1.photo = this.user['photo'] : null
+      this.user['photo'] ? this.profile1.photo  = this.user['photo'] : null
       this.profile1['isAllProfileCompleted'] = this.user['isAllProfileCompleted'] 
     }, error => {
      // console.log(error)
@@ -376,13 +371,13 @@ export class EditProfilePage implements OnInit {
       buttons: [{
         text: 'Choisir dans votre galerie',
         handler: () => {
-          this.pickImagePermission(this.camera.PictureSourceType.PHOTOLIBRARY);
+          this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
       },
       {
         text: 'Utiliser la Camera',
         handler: () => {
-          this.pickImagePermission(this.camera.PictureSourceType.CAMERA);
+          this.pickImage(this.camera.PictureSourceType.CAMERA);
         }
       },
       {
@@ -395,27 +390,7 @@ export class EditProfilePage implements OnInit {
   }
 
 
-  pickImagePermission(sourceType) {
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
-      result => {
-        if (result.hasPermission) {
-          // code
-          this.pickImage(sourceType)
-        } else {
-          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
-            if (result.hasPermission) {
-              // code
-              this.pickImage(sourceType)
-            }
-          });
-        }
-      },
-      err => {
-        alert(err)
-        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
-      }
-    );
-  }
+
 
   pickImage(sourceType) {
     const options: CameraOptions = {
@@ -443,33 +418,7 @@ export class EditProfilePage implements OnInit {
   
 
     }, (err) => {
-      // Handle error
-     // alert(JSON.stringify(err))
-
     });
-  }
-
-
-  updateProfileUsingPermission() {
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
-      result => {
-        if (result.hasPermission) {
-          // code
-          this.uploadImage()
-        } else {
-          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
-            if (result.hasPermission) {
-              // code
-              this.uploadImage()
-            }
-          });
-        }
-      },
-      err => {
-        alert(err)
-        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
-      }
-    );
   }
 
 
@@ -496,7 +445,6 @@ export class EditProfilePage implements OnInit {
           //this.photos = [],
           this.dispImags = []
         }, error => {
-          alert(JSON.stringify(error))
 
         })
       }

@@ -73,14 +73,11 @@ export class CircleMembersPage implements OnInit {
       if (res['status'] == 200) { 
         this.loading = false
         this.presentToast(MESSAGES.ROOM_INITIATED_OK) 
-        this.getChatRooms()
+        this.dataPasse.sendRoom(res['data'])
         this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime,room.connectedUsersInfo.photo,room.connectedUsers.length, room.name,room.connectedUsers[0],room.userId)
-
-       // this.dismiss()
       } else if (res['status'] == 403) {
-        this.presentToast(MESSAGES.ROOM_EXIST_OK)
         if (this.userId === room.connectedUsers[0]) {
-          console.log("cu")
+          this.dataPasse.sendRoom(res['data'])
           this.contactService.restoreRoomByConnectedUser(room._id).subscribe(()=>{
             this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime,room.connectedUsersInfo.photo,room.connectedUsers.length, room.name,room.connectedUsers[0],room.userId)
             this.loading = false
@@ -89,6 +86,7 @@ export class CircleMembersPage implements OnInit {
           })
         }else if(this.userId === room.userId){
           console.log("init")
+          this.dataPasse.sendRoom(res['data'])
           this.contactService.restoreRoomByInitiator(room._id).subscribe(()=>{
             this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime,room.connectedUsersInfo.photo,room.connectedUsers.length, room.name,room.connectedUsers[0],room.userId)
             this.loading = false
@@ -116,21 +114,7 @@ export class CircleMembersPage implements OnInit {
     // this.router.navigateByUrl('/chat')
 
   }
-  getChatRooms() {
-    this.contactService.mChatRooms(this.userId).subscribe(res => {
-      this.rooms = res['data']
-      this.dataPasse.send(this.rooms)
-      //this.router.navigateByUrl('/tabs/tab3')
-      // let navigationExtras: NavigationExtras = {
-      //   state: {
-      //     rooms: this.rooms
-      //   }
-      // };
-      // this.router.navigate(['/tabs/tab3'], navigationExtras);
-    }, error => {
-    //  console.log(error)
-    })
-  }
+
 
   trackByFn(index, item) {
     return index; // or item.id

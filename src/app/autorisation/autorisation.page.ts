@@ -29,6 +29,10 @@ export class AutorisationPage implements OnInit {
     }
    
     ngOnInit() {
+      this.diagnostic.permission.READ_EXTERNAL_STORAGE
+      this.diagnostic.permission.WRITE_EXTERNAL_STORAGE
+      this.diagnostic.permission.READ_CONTACTS
+      this.diagnostic.permission.READ_PHONE_STATE
       this.userId = localStorage.getItem('teepzyUserId');
       this.getUserInfo(this.userId)
     }

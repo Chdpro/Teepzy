@@ -176,14 +176,14 @@ export class ContactService {
 
   deletePost(postId): Observable<any> {
     let url = 'users/post/' + postId;
-    return this.http.delete(local_url + url, httpOptionsJson);
+    return this.http.delete(base_url + url, httpOptionsJson);
   }
 
-
+    
   deleteRePost(postId): Observable<any> {
     let url = 'users/repost/' + postId;
     return this.http.delete(base_url + url, httpOptionsJson);
-  }
+  }    
 
 
   updateRePost(post): Observable<any> {
