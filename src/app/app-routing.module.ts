@@ -136,18 +136,7 @@ const routes: Routes = [
     path: 'notifications',
     loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
   },
-  {
-    path: 'snap',
-    loadChildren: () => import('./snap/snap.module').then( m => m.SnapPageModule)
-  },
-  {
-    path: 'edit-snap',
-    loadChildren: () => import('./edit-snap/edit-snap.module').then( m => m.EditSnapPageModule)
-  },
-  {
-    path: 'edit-snap-img',
-    loadChildren: () => import('./edit-snap-img/edit-snap-img.module').then( m => m.EditSnapImgPageModule)
-  },
+
   {
     path: 'forgot-pass',
     loadChildren: () => import('./forgot-pass/forgot-pass.module').then( m => m.ForgotPassPageModule)
@@ -163,6 +152,10 @@ const routes: Routes = [
   {
     path: 'feed',
     loadChildren: () => import('./feed/feed.module').then( m => m.FeedPageModule)
+  },
+  {
+    path: 'permissions',
+    loadChildren: () => import('./permissions/permissions.module').then( m => m.PermissionsPageModule)
   },
 
 

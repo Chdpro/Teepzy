@@ -4,10 +4,8 @@ import { ContactService } from '../providers/contact.service';
 import { ToastController, AlertController, MenuController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Router, ActivatedRoute } from '@angular/router';
-//import { Socket } from 'ngx-socket-io';
 import { AuthService } from '../providers/auth.service';
 import { typeAccount, CACHE_KEYS, MESSAGES } from '../constant/constant';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
 
@@ -88,7 +86,6 @@ export class ContactsPage implements OnInit {
     private socialSharing: SocialSharing,
     public router: Router,
     public route: ActivatedRoute,
-    private androidPermissions: AndroidPermissions,
     public alertController: AlertController,
     private authService: AuthService,
     private menuCtrl: MenuController,
@@ -103,6 +100,9 @@ export class ContactsPage implements OnInit {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
     this.getUsersOfCircle()
+    if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
+      this.router.navigate(['/permissions'])
+    }
     if (this.previousRoute) {
       this.getCachedContacts()
     } else {
@@ -134,14 +134,7 @@ export class ContactsPage implements OnInit {
     }, 400);
   }
 
-  requestNecessaryPermissions() {
-    // Change this array to conform with the permissions you need
-    const androidPermissionsList = [
-      this.androidPermissions.PERMISSION.WRITE_CONTACTS,
-      this.androidPermissions.PERMISSION.READ_CONTACTS,
-    ];
-    return this.androidPermissions.requestPermissions(androidPermissionsList);
-  }
+
 
   trackByFn(index, item) {
     return index; // or item.id
@@ -274,7 +267,6 @@ export class ContactsPage implements OnInit {
   }
 
   loadContacts() {
-    this.requestNecessaryPermissions().then(() => {
       this.loading = true
       let options = {
         filter: '',
@@ -319,12 +311,11 @@ export class ContactsPage implements OnInit {
 
         this.getTeepzr()
       }, error => {
+        if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
+          this.authorizeOrNot(this.n)
+        }
       })
-    }, error => {
-      if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
-        this.authorizeOrNot(this.n)
-      }
-    })
+    
 
   }
 

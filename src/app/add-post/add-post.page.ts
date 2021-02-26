@@ -73,11 +73,9 @@ export class AddPostPage implements OnInit {
     private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
-    //private socket: Socket,
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController,
     private mediaCapture: MediaCapture,
-    private androidPermissions: AndroidPermissions,
     private fileChooser: FileChooser,
     private webview: WebView,
     private router: Router,
@@ -109,14 +107,6 @@ removeMedia(){
   this.dispVideos = []
   this.dispImags = []
 }
-  requestNecessaryPermissions() {
-    // Change this array to conform with the permissions you need
-    const androidPermissionsList = [
-      this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE,
-      this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE,
-    ];
-    return this.androidPermissions.requestPermissions(androidPermissionsList);
-  }
 
 
   getUserInfo(userId) {
@@ -184,7 +174,6 @@ removeMedia(){
 
   pickImage(sourceType) {
     if (this.user.isPhotoAuthorized === true) {
-    this.requestNecessaryPermissions().then(() => {
       const options: CameraOptions = {
         quality: 100,
         sourceType: sourceType,
@@ -211,7 +200,6 @@ removeMedia(){
         // Handle error
 
       });
-    })
     } else {
       this.presentToast("Vous n'avez pas autorisé l'accès à la prise de photo")
     }
@@ -220,7 +208,6 @@ removeMedia(){
 
 
   takeImage(sourceType) {
-    this.requestNecessaryPermissions().then(() => {
       const options: CameraOptions = {
         quality: 40,
         sourceType: sourceType,
@@ -246,37 +233,14 @@ removeMedia(){
         // Handle error
 
       });
-    })
 
   }
-
-/*
-  play(myFile){
-    let video = this.videoPlayers.nativeElement
-    video.src = myFile.localURL
-  }
-*/
 
   takeVideo() {
-
-    this.requestNecessaryPermissions().then(() => {
       let options: CaptureVideoOptions = { limit: 1, duration: 15 }
       this.mediaCapture.captureVideo(options)
         .then(
           (data: MediaFile[]) => {
-            // imageData is either a base64 encoded string or a file URI
-            // If it's base64 (DATA_URL):
-            // let base64Image = 'data:image/jpeg;base64,' + imageData;
-            //this.dispVideos.push(data[0].fullPath)
-            // videoPath = data[0].localURL
-           /* let videoPath = data[0].fullPath
-            this.dispVideos[0] = this.sanitizer.bypassSecurityTrustUrl(data[0]['localURL']);
-            if (this.videos.length == 0) {
-              this.videos.push(videoPath)
-            } else if (this.videos.length > 1) {
-              this.presentToast('Vous ne pouvez pas sélectionner pluisieurs videos')
-            }*/
-
             let captureFile = data[0]
             let fileName = captureFile.name
             let dir = captureFile['localURL']
@@ -284,7 +248,6 @@ removeMedia(){
             let fromDirectory = dir.join('/');
             let toDirectory = this.file.dataDirectory;
             this.file.copyFile(fromDirectory,fileName,toDirectory,fileName).then(res =>{
-              
             })
           },
           (err: CaptureError) => {
@@ -293,14 +256,12 @@ removeMedia(){
 
           }
         );
-    })
 
   }
 
 
 
   uploadImage() {
-    this.requestNecessaryPermissions().then(() => {
       var ref = this;
       this.loading = true
       if (ref.photos.length > 0 && ref.videos.length == 0) {
@@ -361,7 +322,6 @@ removeMedia(){
         this.loading = false
 
       }
-    })
 
   }
 
@@ -369,7 +329,6 @@ removeMedia(){
 
   chooseVideo() {
     if (this.user.isPhotoAuthorized === true) {
-      this.requestNecessaryPermissions().then(() => {
         this.fileChooser
           .open({ mime: "video/mp4" })
           .then((uri) => {
@@ -381,7 +340,6 @@ removeMedia(){
             this.videos.push(uri)
           })
           .catch((e) => console.log(e));
-      })
     }else {
       this.presentToast("Vous n'avez pas autorisé l'accès à la prise de photo")
     }

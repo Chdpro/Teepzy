@@ -1,0 +1,42 @@
+
+<ion-content [scrollY]="false">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <h2>
+            Ajoutez des personnes que vous souhaitez dans votre cercle
+        </h2>
+      </ion-col>
+
+      <ion-col size="12">
+          <p>
+              Teepzy utilise les numéros de téléphone de votre carnet d'adresses pour vous aider à choisir, ajouter des personnes à votre cercle
+          </p>
+        </ion-col>
+        <ion-col size="12">
+          <img src="../../assets/information.png" alt="">
+          </ion-col>
+          <ion-col size="12">
+              <p>
+                  Autorisez l'accès à vos contacts et à vos images/vidéos pour profiter pleinement de toutes les fonctionnalités de Teepzy.
+              </p>
+              <p>
+                Nous ne sauvegardons pas ni vos contacts ni vos images ou vidéos sur nos serveurs
+              </p>
+              <p>
+                Nous n'enverrons pas de spams à votre cercle et n'ajouterons personne automatiquement
+              </p>
+              <p>
+                Consultez notre  <a routerLink="/privacy">
+                  Politique de confidentialité
+                </a> pour en savoir plus
+              </p>
+            </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<ion-footer>
+    <ion-button (click)="requestPermissions()" expand="full">Continuer</ion-button>
+</ion-footer>

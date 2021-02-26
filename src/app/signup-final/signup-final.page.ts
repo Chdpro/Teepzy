@@ -55,7 +55,6 @@ export class SignupFinalPage implements OnInit {
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
     private contactService: ContactService,
-    private androidPermissions: AndroidPermissions
   ) {
 
 
@@ -63,7 +62,6 @@ export class SignupFinalPage implements OnInit {
 
   ngOnInit() {
     let usr = this.route.snapshot.queryParamMap
-   // console.log(usr['params'])
     this.user.photo = usr['params']['photo']
     this.user.userId = localStorage.getItem('teepzyUserId')
     this.getUserInfo(this.user.userId)
@@ -99,7 +97,7 @@ export class SignupFinalPage implements OnInit {
           this.contactService.getConnected(user).subscribe(res => {
          //   console.log(res)
           })
-          this.router.navigateByUrl('/contacts', {
+          this.router.navigateByUrl('/permissions', {
             replaceUrl: true
           })
         }
@@ -122,16 +120,7 @@ export class SignupFinalPage implements OnInit {
 
   }
 
-  requestNecessaryPermissions() {
-    // Change this array to conform with the permissions you need
-    const androidPermissionsList = [
-      this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE,
-      this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE,
-      this.androidPermissions.PERMISSION.READ_PHONE_STATE,
-      this.androidPermissions.PERMISSION.WRITE_PHONE_STATE,
-    ];
-    return this.androidPermissions.requestPermissions(androidPermissionsList);
-  }
+
 
 
 
@@ -201,7 +190,6 @@ export class SignupFinalPage implements OnInit {
 
 
   pickImage(sourceType) {
-    this.requestNecessaryPermissions().then(() =>{
       const options: CameraOptions = {
         quality: 100,
         sourceType: sourceType,
@@ -226,14 +214,12 @@ export class SignupFinalPage implements OnInit {
       }, (err) => {
         // Handle error
       });
-    })
  
   }
 
 
   uploadImage() {
     this.presentLoading()
-    this.requestNecessaryPermissions().then(() =>{
       var ref = this;
       this.loading = true
       if (ref.photos.length > 0) {
@@ -262,7 +248,6 @@ export class SignupFinalPage implements OnInit {
         this.loading = false;
         this.updateUser()
       }
-    })
 
 
   }

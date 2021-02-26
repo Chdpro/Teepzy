@@ -49,11 +49,8 @@ import { Globals } from './globals';
 import { ShareSheetPageModule } from './share-sheet/share-sheet.module';
 import { EditPostPageModule } from './edit-post/edit-post.module';
 import { AddPeopleRoomPageModule } from './add-people-room/add-people-room.module';
-import { EditSnapImgPageModule } from './edit-snap-img/edit-snap-img.module';
-import { EditSnapPageModule } from './edit-snap/edit-snap.module';
 import { UploadService } from './providers/upload.service';
 import { File } from '@ionic-native/file/ngx';
-import { SnapPageModule } from './snap/snap.module';
 import { GroupInvitationPageModule } from './group-invitation/group-invitation.module';
 import { Autosize } from './components/autosize';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
@@ -86,9 +83,6 @@ const config: SocketIoConfig = { url: base_url, options: { }};
    // AddPostPageModule,
     EditPostPageModule,
     GroupInvitationPageModule,
-    SnapPageModule,
-    EditSnapImgPageModule,
-    EditSnapPageModule,
     AddProductPageModule,
     AddProjectPageModule,
     AddPeopleRoomPageModule,

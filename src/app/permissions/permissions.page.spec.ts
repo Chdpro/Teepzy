@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { EditSnapPage } from './edit-snap.page';
+import { PermissionsPage } from './permissions.page';
 
-describe('EditSnapPage', () => {
-  let component: EditSnapPage;
-  let fixture: ComponentFixture<EditSnapPage>;
+describe('PermissionsPage', () => {
+  let component: PermissionsPage;
+  let fixture: ComponentFixture<PermissionsPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditSnapPage ],
+      declarations: [ PermissionsPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EditSnapPage);
+    fixture = TestBed.createComponent(PermissionsPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

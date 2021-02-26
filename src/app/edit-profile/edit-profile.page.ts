@@ -31,8 +31,8 @@ export class EditProfilePage implements OnInit {
     hobbies: [],
     bio: 'bio',
     photo: '',
-    tagsLabel:'Hobbies',
-    bioLabel:'Biographie'
+    tagsLabel: 'Hobbies',
+    bioLabel: 'Biographie'
   }
 
 
@@ -102,7 +102,6 @@ export class EditProfilePage implements OnInit {
     private menuCtrl: MenuController,
     private router: Router,
     private dataPasse: DatapasseService,
-    private androidPermissions: AndroidPermissions,
     public route: ActivatedRoute,
     private alertController: AlertController,
     private toasterController: ToastController) {
@@ -143,13 +142,13 @@ export class EditProfilePage implements OnInit {
           if (this.selectedTab <= 2) {
             this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
           }
-         // console.log("Swipe left - INDEX: " + this.selectedTab);
+          // console.log("Swipe left - INDEX: " + this.selectedTab);
         } else if (swipe === 'previous') {
           const isLast = this.selectedTab === 2;
           if (this.selectedTab >= 1) {
             this.selectedTab = this.selectedTab - 1;
           }
-         // console.log("Swipe right — INDEX: " + this.selectedTab);
+          // console.log("Swipe right — INDEX: " + this.selectedTab);
         }
         // Do whatever you want with swipe
       }
@@ -174,7 +173,7 @@ export class EditProfilePage implements OnInit {
 
   }
 
-  goToFeed(){
+  goToFeed() {
     this.router.navigateByUrl('/tabs/tab1', {
       replaceUrl: true
     })
@@ -217,13 +216,13 @@ export class EditProfilePage implements OnInit {
       console.log(res)
       this.socials = res
     }, error => {
-     // console.log(error)
+      // console.log(error)
     })
   }
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-    //  console.log(res)
+      //  console.log(res)
       this.user = res['data'];
       this.dataPasse.send(this.user)
       this.profile1.pseudoIntime = this.user['pseudoIntime'];
@@ -234,18 +233,18 @@ export class EditProfilePage implements OnInit {
       this.user['socialsAmical'] ? this.socialsAdde2 = this.user['socialsAmical'] : null;
       this.profile1.socialsAmical = this.user['socialsAmical'];
       this.profile1.tagsLabel = this.user['tagsLabel'];
-      this.profile1.bioLabel  = this.user['bioLabel'];
+      this.profile1.bioLabel = this.user['bioLabel'];
       this.user['hobbies'] ? this.tags = this.user['hobbies'] : null;
       this.profile1.hobbies = this.user['hobbies'];
       this.user['photo'] ? this.dispImags[0] = this.user['photo'] : null
-      this.user['photo'] ? this.profile1.photo  = this.user['photo'] : null
-      this.profile1['isAllProfileCompleted'] = this.user['isAllProfileCompleted'] 
+      this.user['photo'] ? this.profile1.photo = this.user['photo'] : null
+      this.profile1['isAllProfileCompleted'] = this.user['isAllProfileCompleted']
     }, error => {
-     // console.log(error)
+      // console.log(error)
     })
   }
 
-  done(){
+  done() {
     this.profile1['isAllProfileCompleted'] = true
   }
 
@@ -415,7 +414,7 @@ export class EditProfilePage implements OnInit {
       } else if (this.dispImags.length > 1) {
         this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
       }
-  
+
 
     }, (err) => {
     });
@@ -460,7 +459,6 @@ export class EditProfilePage implements OnInit {
 
 
   shwModal() {
-   // console.log(this.showModal)
     if (this.showModal === 'hidden') {
       this.showModal = 'visible'
 
@@ -473,12 +471,9 @@ export class EditProfilePage implements OnInit {
 
   swithEditModeB() {
     this.isEditableB ? this.isEditableB = false : this.isEditableB = true
-  //  console.log(this.isEditableB)
   }
   swithEditModeH() {
     this.isEditableH ? this.isEditableH = false : this.isEditableH = true
-    //console.log(this.isEditableH)
-
   }
 
   async presentToast(msg) {
