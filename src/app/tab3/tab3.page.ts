@@ -136,6 +136,7 @@ export class Tab3Page implements OnInit {
   }
 
   removeRoom(room) {
+    console.log(room)
     if (this.userId === room['userId']) {
     this.contactService.removeRoomByInitiator(room._id).subscribe(res => {
       //console.log(res);
@@ -146,7 +147,7 @@ export class Tab3Page implements OnInit {
       this.showToast("Oops! une erreur est survenue")
 
     })
-    } else if (this.userId === room['connectedUsers'][0]) {
+    } else if (room['connectedUsers'].includes(this.userId)) {
       this.contactService.removeRoomByConnectedUser(room._id).subscribe(res => {
         //console.log(res);
         this.showToast("Conversation Supprimée")

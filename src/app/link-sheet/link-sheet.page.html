@@ -75,8 +75,9 @@
 <ion-footer *ngIf="usersSelected.length > 0" class="ion-no-border">
   <ion-toolbar>
     <form *ngIf="usersSelected.length > 0" class="example-form">
-      <input class="input-m" type="text" name="msg" [placeholder]="placeholder + ' ' + placeholder_Link_userPseudo" [(ngModel)]="message">
-    </form>
+      <ion-textarea class="input-m" type="text" name="msg" [placeholder]="placeholder + ' ' + placeholder_Link_userPseudo" [(ngModel)]="message" autosize>  
+      </ion-textarea>
+      </form>
 
     <ion-button *ngIf="usersSelected.length > 0" (click)="linkPeople()" expand="full">
       <span *ngIf="loading == false ">ENVOYER</span>

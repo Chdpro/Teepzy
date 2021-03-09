@@ -11,6 +11,7 @@ import { AuthService } from './providers/auth.service';
 import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal/ngx';
 import { isCordovaAvailable } from '../common/is-cordova-available'
 import { oneSignalAppId, sender_id } from 'src/config';
+import { PERMISSION } from './constant/constant';
 
 export enum ConnectionStatus {
   Online,
@@ -26,6 +27,15 @@ export class AppComponent {
   navigate: any;
   userId = ''
   userInfo: any
+
+  androidPermissionsList = [
+    PERMISSION.WRITE_EXTERNAL_STORAGE,
+    PERMISSION.READ_EXTERNAL_STORAGE,
+    PERMISSION.READ_CONTACTS,
+    PERMISSION.WRITE_CONTACTS,
+    PERMISSION.CAMERA,
+  ];
+  androidPermissionListVerified = []
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -34,7 +44,7 @@ export class AppComponent {
     private navCtrl: NavController,
     public toastController: ToastController,
     private contactService: ContactService,
-  //  private socket: Socket,
+    //  private socket: Socket,
     private authService: AuthService,
     private oneSignal: OneSignal,
   ) {
@@ -62,7 +72,7 @@ export class AppComponent {
     let token = localStorage.getItem('teepzyToken')
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
-    this.getUserInfo(this.userId, token)
+    //this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
@@ -127,7 +137,7 @@ export class AppComponent {
       // console.log(res)
       this.userInfo = res['data'];
       if (token && this.userInfo['isCompleted'] && this.userInfo['isAllProfileCompleted']) {
-       // this.socket.emit('online', userId);
+        // this.socket.emit('online', userId);
         let user = {
           userId: userId,
           isOnline: true
@@ -135,16 +145,42 @@ export class AppComponent {
         this.contactService.getConnected(user).subscribe(response => {
           //   console.log(res)
         })
-        this.router.navigateByUrl('/tabs/tab1', {
-          replaceUrl: true
+        for (const apl of this.androidPermissionsList) {
+          let storedPermission = localStorage.getItem(apl)
+          if (storedPermission === null || storedPermission === "null") {
+            this.router.navigateByUrl('/permissions', {
+              replaceUrl: true
+            })
+          } else if (storedPermission) {
+            this.androidPermissionListVerified.push(apl)
+            if (this.androidPermissionListVerified.length === this.androidPermissionsList.length) {
+              this.router.navigateByUrl('/tabs/tab1', {
+                replaceUrl: true
+              }
+              )
+            }
+          }
         }
 
-        )
       } else if (token && this.userInfo['isCompleted'] && !this.userInfo['isAllProfileCompleted']) {
-        this.router.navigateByUrl('/edit-profile', {
-          replaceUrl: true
+        for (const apl of this.androidPermissionsList) {
+          let storedPermission = localStorage.getItem(apl)
+          if (storedPermission === null || storedPermission === "null") {
+            this.router.navigateByUrl('/permissions', {
+              replaceUrl: true
+            })
+          } else if (storedPermission) {
+            this.androidPermissionListVerified.push(apl)
+            if (this.androidPermissionListVerified.length === this.androidPermissionsList.length) {
+              this.router.navigateByUrl('/edit-profile', {
+                replaceUrl: true
+              }
+              )
+            }
+          }
         }
-        )
+
+
       }
       else if (token && !this.userInfo['isCompleted']) {
         this.router.navigateByUrl('/signup-final', {

@@ -74,7 +74,7 @@ export class CircleMembersPage implements OnInit {
         this.loading = false
         this.presentToast(MESSAGES.ROOM_INITIATED_OK) 
         this.dataPasse.sendRoom(res['data'])
-        this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime,room.connectedUsersInfo.photo,room.connectedUsers.length, room.name,room.connectedUsers[0],room.userId)
+        room['connectedUsers'].length > 1 ? this.gotoChatWhenGroupRoom(room._id,room.connectedUsers.length, room.name,room.userId) :this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime,room.connectedUsersInfo.photo,room.connectedUsers.length, room.name,room.connectedUsers[0],room.userId)
       } else if (res['status'] == 403) {
         if (this.userId === room.connectedUsers[0]) {
           this.dataPasse.sendRoom(res['data'])
@@ -103,12 +103,22 @@ export class CircleMembersPage implements OnInit {
     })
   }
 
-  gotoChatRoom(roomId, pseudo, photo, roomLength, roomName, connectedUserId, userId) {
+  gotoChatRoom(roomId, pseudo?:string, photo?:string, roomLength?:any, roomName?:any, connectedUserId?:string, userId?:string) {
     this.navCtrl.navigateForward("/chat",
       {
         state: {
           roomId: roomId, pseudo: pseudo,
           photo: photo, roomLength: roomLength, roomName, connectedUserId: connectedUserId, userId: userId
+        }
+      });
+  }
+
+  gotoChatWhenGroupRoom(roomId, roomLength?:any, roomName?:any, userId?:string) {
+    this.navCtrl.navigateForward("/chat",
+      {
+        state: {
+          roomId: roomId, pseudo: '',
+          photo: '', roomLength: roomLength, roomName, connectedUserId: '', userId: userId
         }
       });
     // this.router.navigateByUrl('/chat')

@@ -50,6 +50,14 @@ export enum Icon {
     MESSAGE = "message"
 }
 
+export enum PERMISSION {
+    WRITE_EXTERNAL_STORAGE = "WRITE_EXTERNAL_STORAGE",
+    READ_EXTERNAL_STORAGE = "READ_EXTERNAL_STORAGE",
+    READ_CONTACTS =  "READ_CONTACTS",
+    WRITE_CONTACTS = "WRITE_CONTACTS",
+    CAMERA = "CAMERA"
+}
+
 export enum MESSAGES {
     LOGIN_OK = "Connexion réussie",
     LOGIN_INVALID = "Mot de passe ou email incorrect",

@@ -5,8 +5,9 @@ import { ToastController, AlertController, MenuController } from '@ionic/angular
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../providers/auth.service';
-import { typeAccount, CACHE_KEYS, MESSAGES } from '../constant/constant';
+import { typeAccount, CACHE_KEYS, MESSAGES, PERMISSION } from '../constant/constant';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 
 @Component({
@@ -90,6 +91,7 @@ export class ContactsPage implements OnInit {
     private authService: AuthService,
     private menuCtrl: MenuController,
     private diagnostic: Diagnostic,
+    private androidPermissions: AndroidPermissions,
     private contactService: ContactService) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -99,10 +101,8 @@ export class ContactsPage implements OnInit {
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
+    this.CheckPermissions()
     this.getUsersOfCircle()
-    if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
-      this.router.navigate(['/permissions'])
-    }
     if (this.previousRoute) {
       this.getCachedContacts()
     } else {
@@ -111,16 +111,63 @@ export class ContactsPage implements OnInit {
     this.getTeepzrOutCircle()
   }
 
+
+  CheckPermissions() {
+    const androidPermissionsList = [
+      {
+        key: PERMISSION.WRITE_EXTERNAL_STORAGE,
+        value: this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE,
+      },
+      {
+        key: PERMISSION.READ_EXTERNAL_STORAGE,
+        value: this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE
+      },
+      {
+        key: PERMISSION.READ_CONTACTS,
+        value: this.androidPermissions.PERMISSION.READ_CONTACTS
+      },
+      {
+        key: PERMISSION.WRITE_CONTACTS,
+        value: this.androidPermissions.PERMISSION.WRITE_CONTACTS
+      },
+      {
+        key: PERMISSION.CAMERA,
+        value: this.androidPermissions.PERMISSION.CAMERA
+      },
+    ];
+    let checkContactRefuse = localStorage.getItem('ContactRefuseCounter')
+    let checkStorageRefuse = localStorage.getItem('StorageRefuseCounter')
+    let checkCamRefuse = localStorage.getItem('CamRefuseCounter')
+
+
+    for (const apl of androidPermissionsList) {
+      this.androidPermissions.checkPermission(apl.value).then(success => {
+        if (success.hasPermission) {
+          localStorage.setItem(apl.key, apl.key)
+          // permission granted
+        } else if (success.hasPermission === false && 
+          (checkContactRefuse === "2" || checkStorageRefuse === "2" || checkCamRefuse === "2")) {
+          //   this.router.navigate(['/permissions'])
+        } else {
+          this.router.navigate(['/permissions'])
+        }
+      },
+        err => {
+          this.router.navigate(['/permissions'])
+        })
+    }
+  }
+
   getCachedContacts() {
     this.contactService.getContactsCached(CACHE_KEYS.CONTACTS).subscribe(val => {
       this.listContacts = JSON.parse(val)
-      if(this.listContacts !== null){
+      if (this.listContacts !== null) {
         this.getTeepzr()
-      }else{
+      } else {
         this.listContacts = []
         this.getUserInfo(this.userId)
       }
-      
+
     })
 
   }
@@ -227,7 +274,7 @@ export class ContactsPage implements OnInit {
   }
 
 
-  loadContactsTest(){
+  loadContactsTest() {
     this.myContacts = this.getUniquesOnContacts(this.contactsTest)
     for (const mC of this.myContacts) {
       let inviteViaSms = {
@@ -267,55 +314,55 @@ export class ContactsPage implements OnInit {
   }
 
   loadContacts() {
-      this.loading = true
-      let options = {
-        filter: '',
-        multiple: true,
-        hasPhoneNumber: true
-      }
-      //  this.myContacts = this.contactsTest
-      this.contacts.find(['*'], options).then((contacts) => {
-        this.myContacts = this.getUniquesOnContacts(contacts)
-        for (const mC of this.myContacts) {
-          let inviteViaSms = {
-            phone: mC.phoneNumbers[0].value,
+    this.loading = true
+    let options = {
+      filter: '',
+      multiple: true,
+      hasPhoneNumber: true
+    }
+    //  this.myContacts = this.contactsTest
+    this.contacts.find(['*'], options).then((contacts) => {
+      this.myContacts = this.getUniquesOnContacts(contacts)
+      for (const mC of this.myContacts) {
+        let inviteViaSms = {
+          phone: mC.phoneNumbers[0].value,
+        }
+        this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
+          if (res['status'] == 201) {
+            let phones = this.getUniques(mC.phoneNumbers)
+            this.listContacts.push(
+              {
+                givenName: mC.name.givenName,
+                familyName: mC.name.familyName,
+                phone: phones,
+                invited: true
+              }
+            )
+          } else {
+            let phones = this.getUniques(mC.phoneNumbers)
+            this.listContacts.push(
+              {
+                givenName: mC.name.givenName,
+                familyName: mC.name.familyName,
+                phone: phones,
+                invited: false
+              }
+            )
           }
-          this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
-            if (res['status'] == 201) {
-              let phones = this.getUniques(mC.phoneNumbers)
-              this.listContacts.push(
-                {
-                  givenName: mC.name.givenName,
-                  familyName: mC.name.familyName,
-                  phone: phones,
-                  invited: true
-                }
-              )
-            } else {
-              let phones = this.getUniques(mC.phoneNumbers)
-              this.listContacts.push(
-                {
-                  givenName: mC.name.givenName,
-                  familyName: mC.name.familyName,
-                  phone: phones,
-                  invited: false
-                }
-              )
-            }
-          }, error => {
-            this.loading = false
-          })
+        }, error => {
+          this.loading = false
+        })
 
 
-        }
+      }
 
-        this.getTeepzr()
-      }, error => {
-        if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
-          this.authorizeOrNot(this.n)
-        }
-      })
-    
+      this.getTeepzr()
+    }, error => {
+      if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
+        this.authorizeOrNot(this.n)
+      }
+    })
+
 
   }
 
@@ -350,7 +397,7 @@ export class ContactsPage implements OnInit {
   getTeepzr() {
     let list = []
     this.contactService.teepZrs(this.userId).subscribe(res => {
-        console.log(res)
+      console.log(res)
       this.listTeepZrs = res['data']
       this.contactService.setLocalData(CACHE_KEYS.CONTACTS, JSON.stringify(this.listContacts));
       this.listContacts = this.getUniquesOnContacts(this.listContacts)
@@ -382,13 +429,13 @@ export class ContactsPage implements OnInit {
         this.listTeepzrsToInvite.length = 1
         this.highValueT = this.highValueT - 1
         this.minus = 1
-      }  
+      }
 
     }, error => {
       console.log(error)
 
     })
-    
+
   }
 
 
@@ -485,7 +532,7 @@ export class ContactsPage implements OnInit {
       for (const c of this.listTeepzrsToInvite) {
         if (c !== undefined) {
           c['_id'] == idReceiver ? c['invited'] = true : null
-          }
+        }
       }
       this.presentToast(MESSAGES.INVITATION_SEND_OK)
       this.loading = false

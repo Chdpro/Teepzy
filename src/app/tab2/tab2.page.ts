@@ -7,6 +7,7 @@ import { MatTabGroup } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { MESSAGES, Icon, CACHE_KEYS } from '../constant/constant';
+import { DatapasseService } from '../providers/datapasse.service';
 
 @Component({
   selector: 'app-tab2',
@@ -22,7 +23,7 @@ export class Tab2Page implements OnInit {
   notifications = []
   links = []
   loading = false
-  search:any
+  search: any
 
   @ViewChild('tabGroup', { static: true }) tabGroup: MatTabGroup;
   public selected: number;
@@ -31,7 +32,7 @@ export class Tab2Page implements OnInit {
   messages = [];
   currentUser = '';
 
-  showSearch =  false
+  showSearch = false
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
@@ -42,9 +43,9 @@ export class Tab2Page implements OnInit {
     private contactService: ContactService,
     private menuCtrl: MenuController,
     private toastController: ToastController,
-  //  private socket: Socket,
     private router: Router,
-    public actionSheetController:ActionSheetController,
+    private dataPasse: DatapasseService,
+    public actionSheetController: ActionSheetController,
     public navCtrl: NavController
   ) {
     this.menuCtrl.close('first');
@@ -58,7 +59,7 @@ export class Tab2Page implements OnInit {
   }
 
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.listInvitations()
     this.listLinks()
@@ -84,13 +85,13 @@ export class Tab2Page implements OnInit {
           if (this.selectedTab <= 2) {
             this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
           }
-       //   console.log("Swipe left - INDEX: " + this.selectedTab);
+          //   console.log("Swipe left - INDEX: " + this.selectedTab);
         } else if (swipe === 'previous') {
           const isLast = this.selectedTab === 2;
           if (this.selectedTab >= 1) {
             this.selectedTab = this.selectedTab - 1;
           }
-         // console.log("Swipe right — INDEX: " + this.selectedTab);
+          // console.log("Swipe right — INDEX: " + this.selectedTab);
         }
         // Do whatever you want with swipe
       }
@@ -98,7 +99,7 @@ export class Tab2Page implements OnInit {
   }
 
   swipe(e: TouchEvent, when: string): void {
-  //  console.log('swipe up')
+    //  console.log('swipe up')
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     const time = new Date().getTime();
     if (when === 'start') {
@@ -126,30 +127,30 @@ export class Tab2Page implements OnInit {
 
 
   doRefreshNotification(event) {
-  //  console.log('Begin async operation');
+    //  console.log('Begin async operation');
     setTimeout(() => {
-    //  console.log('Async operation has ended');
+      //  console.log('Async operation has ended');
       this.listNotifications()
       event.target.complete();
     }, 400);
   }
 
   doRefreshInvitation(event) {
-   // console.log('Begin async operation');
+    // console.log('Begin async operation');
     setTimeout(() => {
-     // console.log('Async operation has ended');
+      // console.log('Async operation has ended');
       this.listInvitations()
       event.target.complete();
     }, 400);
   }
 
 
-  markNotificationsRead(userId){
-    this.contactService.markReadNotifications(userId).subscribe( res =>{
-     // console.log(res)
-    }, error =>{
-     // console.log(error)
-    })    
+  markNotificationsRead(userId) {
+    this.contactService.markReadNotifications(userId).subscribe(res => {
+      // console.log(res)
+    }, error => {
+      // console.log(error)
+    })
   }
 
   goToContacts() {
@@ -161,12 +162,12 @@ export class Tab2Page implements OnInit {
       idReceiver: this.userId
     }
     this.contactService.listInivtation(invitation).subscribe(res => {
-    //  console.log(res)
+      //  console.log(res)
       this.invitations = res['data']
       this.contactService.setLocalData(CACHE_KEYS.INVITATIONS, res)
 
     }, error => {
-    //  console.log(error)
+      //  console.log(error)
 
     })
   }
@@ -176,12 +177,12 @@ export class Tab2Page implements OnInit {
       idReceiver: this.userId
     }
     this.contactService.listLinksPeople(invitation).subscribe(res => {
-     // console.log(res)
+      // console.log(res)
       this.links = res['data']
       this.contactService.setLocalData(CACHE_KEYS.LINKS, res)
 
     }, error => {
-     // console.log(error)
+      // console.log(error)
 
     })
   }
@@ -191,12 +192,12 @@ export class Tab2Page implements OnInit {
       idReceiver: this.userId
     }
     this.contactService.listInivtationViaSms(invitation).subscribe(res => {
-     // console.log(res)
+      // console.log(res)
       this.invitationsSms = res['data']
       this.contactService.setLocalData(CACHE_KEYS.INVITATION_SMS, res)
 
     }, error => {
-     // console.log(error)
+      // console.log(error)
 
     })
   }
@@ -216,14 +217,34 @@ export class Tab2Page implements OnInit {
     })
   }
 
-  goToElement(idTeepz, icon_name, roomId){
+  goToElement(idTeepz, icon_name, roomId) {
     //console.log(idTeepz, icon_name)
     if (icon_name == Icon.CHAT_BUBBLE || icon_name == Icon.DYNAMIC_FEED || icon_name == Icon.GRADE || icon_name == Icon.SHARE) {
-    this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'mesTeepz' }])
-    }else if (icon_name == Icon.MESSAGE){
-      this.gotoChatRoom(roomId)
+      this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'mesTeepz' }])
+    } else if (icon_name == Icon.MESSAGE) {
+      this.gotoChatRoomBy(roomId)
     }
   }
+
+  gotoChatRoomBy(roomId) {
+    this.contactService.getChatRoom(roomId).subscribe(res => {
+      console.log(res)
+      let user = res['data']
+      this.navCtrl.navigateForward("/chat",
+        {
+          state: {
+            roomId: roomId, pseudo: user.connectedUsersInfo.pseudoIntime,
+            photo: user.connectedUsersInfo.photo, roomLength: user.connectedUsers.length, connectedUserId: user.connectedUsers[0], userId: user.userId
+          }
+        });
+
+    }, error => {
+
+    })
+
+
+  }
+
   time(date) {
     moment.locale('fr');
     return moment(date).fromNow()
@@ -243,84 +264,65 @@ export class Tab2Page implements OnInit {
     }
     this.loading = true
     this.contactService.acceptInvitation(invitation).subscribe(res => {
-    //  console.log(res)
+      //  console.log(res)
       this.loading = false
       this.listInvitations()
       this.presentToast('Vous êtes désormais en contact')
     }, error => {
-     // console.log(error)
+      // console.log(error)
       this.loading = false
     })
   }
 
-  deleteLink(p){
+  deleteLink(p) {
     let invitation = {
       idInvitation: p._id,
     }
-    this.contactService.closeLinkPeople(invitation).subscribe(res =>{
-     // console.log(res)
+    this.contactService.closeLinkPeople(invitation).subscribe(res => {
+      // console.log(res)
       this.presentToast(MESSAGES.LINK_DENIED_OK)
       this.listLinks()
-    }, error =>{
-     // console.log(error)
+    }, error => {
+      // console.log(error)
       this.presentToast(MESSAGES.SERVER_ERROR)
     })
   }
 
-  refuseLink(p){
+  refuseLink(p) {
     let invitation = {
       idInvitation: p._id,
     }
-    this.contactService.refuseLinkPeople(invitation).subscribe(res =>{
-     // console.log(res)
+    this.contactService.refuseLinkPeople(invitation).subscribe(res => {
+      // console.log(res)
       this.presentToast(MESSAGES.LINK_DENIED_OK)
       this.listLinks()
-    }, error =>{
-     // console.log(error)
+    }, error => {
+      // console.log(error)
       this.presentToast(MESSAGES.SERVER_ERROR)
-    
+
     })
   }
 
-  acceptLink(p){
+  acceptLink(p) {
     let invitation = {
       idInvitation: p._id,
-      idReceiver: p.idReceiver, 
-      idSender: p.idSender,
-      postId: p.postId 
+      idReceiver: this.userId,
+      idSender: p.senderId,
+      postId: p.postId
     }
-    this.contactService.acceptLinkPeople(invitation).subscribe(res =>{
-     // console.log(res)
+    console.log(invitation)
+    this.contactService.acceptLinkPeople(invitation).subscribe(res => {
+      // console.log(res)
       this.listLinks()
-    this.createChatRoom(p)
-    }, error =>{
-     // console.log(error)
-      
+      this.createChatRoom(p)
+    }, error => {
+      // console.log(error)
+
     })
   }
 
 
-  goToCHATfromInvitation(roomId, pseudo, photo, roomLength, roomName, connectedUserId, roomUserId){
-    this.navCtrl.navigateForward("/chat", 
-    { state: {roomId: roomId,pseudo: pseudo,
-       photo: photo, roomLength: roomLength, roomName, connectedUserId: connectedUserId, userId: roomUserId } });
 
-  }
-
-  gotoChatRoom(roomId) {
-   this.contactService.getChatRoom(roomId).subscribe(res =>{
-     console.log(res)
-     let user = res['data']
-     this.navCtrl.navigateForward("/chat", 
-     { state: {roomId: roomId,pseudo: user.connectedUsersInfo.pseudoIntime,
-        photo: user.connectedUsersInfo.photo, roomLength: user.connectedUsers.length, connectedUserId: user.connectedUsers[0] , userId: user.userId } });
- 
-   }, error =>{
-
-   })
-
-
-  }
 
   createChatRoom(p) {
     this.loading = true
@@ -329,7 +331,7 @@ export class Tab2Page implements OnInit {
       connectedUsers: [],
       userId: ''
     }
-  
+
     chatRoom.connectedUsers[0] = p.senderId
     chatRoom.userId = this.userId
     chatRoom.name != '' ? null : chatRoom.name = 'Entre nous deux'
@@ -338,12 +340,28 @@ export class Tab2Page implements OnInit {
       let room = res['data']
       if (res['status'] == 200) {
         this.loading = false
-       // console.log(res['status'])
-        this.goToCHATfromInvitation(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, 
-          room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
-      } else {
-        this.presentToast(MESSAGES.ROOM_EXIST_OK)
-        this.loading = false
+        this.dataPasse.sendRoom(res['data'])
+        this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
+      } else if (res['status'] == 403) {
+        if (this.userId === room.connectedUsers[0]) {
+          this.dataPasse.sendRoom(res['data'])
+          this.contactService.restoreRoomByConnectedUser(room._id).subscribe(() => {
+            this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
+            this.loading = false
+          }, error => {
+
+          })
+        } else if (this.userId === room.userId) {
+          console.log("init")
+          this.dataPasse.sendRoom(res['data'])
+          this.contactService.restoreRoomByInitiator(room._id).subscribe(() => {
+            this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
+            this.loading = false
+          }, error => {
+
+          })
+        }
+
       }
     }, error => {
       this.loading = false
@@ -351,6 +369,21 @@ export class Tab2Page implements OnInit {
       //console.log(error)
     })
   }
+
+
+
+  gotoChatRoom(roomId, pseudo, photo, roomLength, roomName, connectedUserId, userId) {
+    this.navCtrl.navigateForward("/chat",
+      {
+        state: {
+          roomId: roomId, pseudo: pseudo,
+          photo: photo, roomLength: roomLength, roomName, connectedUserId: connectedUserId, userId: userId
+        }
+      });
+    // this.router.navigateByUrl('/chat')
+
+  }
+
 
   async presentToast(msg) {
     const toast = await this.toastController.create({
@@ -375,31 +408,31 @@ export class Tab2Page implements OnInit {
           text: 'Accepter',
           icon: 'checkmark',
           handler: () => {
-           this.acceptLink(link)
+            this.acceptLink(link)
           }
         },
         {
-        text: 'Consulter',
-        icon: 'eye',
-        handler: () => {
-          this.goToDetailTeepz(link.postId)
+          text: 'Consulter',
+          icon: 'eye',
+          handler: () => {
+            this.goToDetailTeepz(link.postId)
+          }
+        },
+        {
+          text: 'Refuser',
+          icon: 'remove-circle',
+          handler: () => {
+            this.refuseLink(link)
+          }
         }
-      },
-      {
-        text: 'Refuser',
-        icon: 'remove-circle',
-        handler: () => {
-          this.refuseLink(link)
-        }
-      }
-      ,{
-        text: 'Annuler',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-      //    console.log('Cancel clicked');
-        }
-      }]
+        , {
+          text: 'Annuler',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            //    console.log('Cancel clicked');
+          }
+        }]
     });
     await actionSheet.present();
   }
@@ -407,13 +440,13 @@ export class Tab2Page implements OnInit {
 
 
   ionViewWillLeave() {
- //   this.socket.disconnect();
+    //   this.socket.disconnect();
     //console.log('disconnected')
-    this.subscription?  this.subscription.unsubscribe() :  null
+    this.subscription ? this.subscription.unsubscribe() : null
 
   }
-  ngOnDestroy() { 
-    this.subscription?  this.subscription.unsubscribe() :  null
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
     //this.socket.removeAllListeners('message');
     //this.socket.removeAllListeners('users-changed');
   }
