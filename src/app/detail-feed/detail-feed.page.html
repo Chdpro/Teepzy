@@ -229,14 +229,14 @@
              
                 <span class="match-number"
                   *ngIf="post?.matches?.length < 3 && post?.matches?.length > 0"><br>
-                  {{p.matches?.length}} </span> <br>
+                  {{post.matches?.length}} </span> <br>
         
               </div>
             </div>
           </div>
 
 
-          <div *ngIf="post?.image_url || post?.video_url" [ngClass]="{'userInfo-less-text': p?.content?.length > 97,'userInfo': p?.content?.length < 97}">
+          <div *ngIf="post?.image_url || post?.video_url" [ngClass]="{'userInfo-less-text': post?.content?.length > 97,'userInfo': post?.content?.length < 97}">
               <span style="color: #ffff;margin-left: 4em !important;" *ngIf="post?.image_url || post?.video_url">
                 <strong>
                   @{{post?.userPseudo}} -

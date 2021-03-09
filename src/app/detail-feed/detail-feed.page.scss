@@ -127,7 +127,7 @@
     font-size: 18px;
     right: 10px;
     left: -269px;
-    top: 208px;
+    top: 178px;
     line-height: 20px;
     text-shadow: 0 1px 6px black;
     width: 14em;
@@ -920,6 +920,25 @@ ion-grid{
  
 }
 
+
+@media screen and (width: 384px) {
+    .userInfo{
+        position: absolute;
+        z-index: 2;
+        color: white;
+        font-size: 18px;
+        right: 10px;
+        left: -269px;
+        top: 266px;
+        line-height: 20px;
+        text-shadow: 0 1px 6px black;
+        width: 15em;
+        background: #00000070;
+        border-radius: 30px;
+        padding: 19px;
+    
+    }
+ }
 @media screen and (width: 375px) {
     .fixContainer{
         top: 79%;
