@@ -39,6 +39,7 @@
     "@ionic-native/ionic-webview": "^5.29.0",
     "@ionic-native/keyboard": "^5.29.0",
     "@ionic-native/media-capture": "^5.28.0",
+    "@ionic-native/native-geocoder": "^5.31.1",
     "@ionic-native/network": "^5.30.0",
     "@ionic-native/onesignal": "^5.27.0",
     "@ionic-native/sms": "^5.26.0",
@@ -96,6 +97,7 @@
     "codelyzer": "^5.0.0",
     "com-badrit-base64": "^0.2.0",
     "cordova-android": "^9.0.0",
+    "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-camera-preview": "^0.12.1",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-file-opener2": "^3.0.5",
@@ -103,6 +105,7 @@
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-ionic-webview": "^4.2.1",
     "cordova-plugin-media": "^5.0.3",
+    "cordova-plugin-nativegeocoder": "^3.4.1",
     "cordova-plugin-network-information": "^2.0.2",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
@@ -166,7 +169,8 @@
       "cordova.plugins.diagnostic": {
         "ANDROIDX_VERSION": "1.+"
       },
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-nativegeocoder": {}
     },
     "platforms": [
       "android"

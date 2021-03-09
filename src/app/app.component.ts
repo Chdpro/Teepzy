@@ -12,6 +12,10 @@ import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal/ngx';
 import { isCordovaAvailable } from '../common/is-cordova-available'
 import { oneSignalAppId, sender_id } from 'src/config';
 import { PERMISSION } from './constant/constant';
+import { Socket } from 'ng-socket-io';
+import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
+
+
 
 export enum ConnectionStatus {
   Online,
@@ -27,6 +31,7 @@ export class AppComponent {
   navigate: any;
   userId = ''
   userInfo: any
+  address: any
 
   androidPermissionsList = [
     PERMISSION.WRITE_EXTERNAL_STORAGE,
@@ -44,9 +49,10 @@ export class AppComponent {
     private navCtrl: NavController,
     public toastController: ToastController,
     private contactService: ContactService,
-    //  private socket: Socket,
+    private socket: Socket,
     private authService: AuthService,
     private oneSignal: OneSignal,
+    private nativeGeocoder: NativeGeocoder,
   ) {
 
     this.initializeApp();
@@ -72,7 +78,8 @@ export class AppComponent {
     let token = localStorage.getItem('teepzyToken')
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
-    this.getUserInfo(this.userId, token)
+    this.getPosition()
+    //this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
@@ -205,6 +212,10 @@ export class AppComponent {
     })
   }
 
+  getOnline() {
+    let user = { userId: this.userId, onlineDate: new Date(), adress: this.address }
+    this.socket.emit('online', user);
+  }
 
   async presentToast(msg) {
     const toast = await this.toastController.create({
@@ -213,6 +224,34 @@ export class AppComponent {
     });
     toast.present();
   }
+  public pos: any;
+
+  public getPosition() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.pos = position;
+      this.getAddress(this.pos.coords.latitude, this.pos.coords.longitude)
+    });
+  }
+
+  // geocoder options
+  nativeGeocoderOptions: NativeGeocoderOptions = {
+    useLocale: true,
+    maxResults: 5
+  };
+
+  // get address using coordinates
+  getAddress(lat, long) {
+    this.nativeGeocoder.reverseGeocode(lat, long, this.nativeGeocoderOptions)
+      .then((res: NativeGeocoderResult[]) => {
+        this.address = res[0]
+        this.getOnline()
+      })
+      .catch((error: any) => {
+        //   alert('Error getting location' + JSON.stringify(error));
+      });
+
+  }
+
 
 
   logout() {
@@ -277,7 +316,6 @@ export class AppComponent {
     this.contactService.getConnected(user).subscribe(res => {
       //  console.log(res)
     })
-    // this.socket.emit('notification', this.userId);
     // this.socket.removeAllListeners('message');
   }
 

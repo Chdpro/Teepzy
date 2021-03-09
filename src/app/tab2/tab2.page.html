@@ -55,11 +55,11 @@
               {{n?.icon_name}}
             </span>
 
-            <div class="round-img-post" *ngIf="userId != n?.fromId && n?.retourLink == false">
+            <div class="round-img-post" *ngIf='userId != n?.fromId && n?.retourLink == false'>
               {{n?.pseudoIntime | slice:0:1| uppercase}}
             </div>
 
-            <div class="round-img-post" *ngIf="userId != n?.fromId && n?.retourLink == true">
+            <div class="round-img-post" *ngIf='userId != n?.fromId && n?.retourLink == true'>
               {{n?.linkerUserPseudo | slice:0:1| uppercase}}
             </div>
             <ion-label><b *ngIf="userId != n?.fromId && n?.retourLink == false"> {{n?.pseudoIntime}} </b> 
@@ -136,7 +136,7 @@
         </ion-refresher>
         <div>
           <ion-item *ngFor="let i of invitations;trackBy: trackByFn ">
-            <div class="round-img-post">
+            <div class='round-img-post'>
               {{i?.pseudo | slice:0:1| uppercase}}
             </div>
             <ion-label><b> {{i?.pseudo}} </b><br> <span style="font-size: 11px;">

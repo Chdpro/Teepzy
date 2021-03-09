@@ -18,6 +18,7 @@ export class GroupInvitationPage implements OnInit {
   loading = false
   search:any
   group:any
+  previousUrl = ''
   constructor(private contactService: ContactService, 
     private modalController: ModalController,
     private toastController: ToastController,

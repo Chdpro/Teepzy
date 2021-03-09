@@ -51,7 +51,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-slides *ngIf="listPosts?.length == 0" pager="false" [options]="slideOpts" #slides (ionSlideWillChange)="doCheck()">
+  <ion-slides *ngIf="listPosts?.length == 0" pager="false" #slides (ionSlideWillChange)="doCheck()">
     <ion-slide *ngIf="listPosts?.length == 0 && !loading && isTutoSkip == 'YES'">
       <span style="color: #ea4e4f;">
         Aucune publication pour l'instant
@@ -272,7 +272,7 @@
   </p>
 
   <div class="fixed-wrap"
-  [ngStyle]="{'margin-top': p?.image_url ? '133px' : '133px', 'margin-top': p?.video_url? '-155px': '133px' }">
+  [ngStyle]="{'margin-top': p?.image_url ? '133px' : '133px'}">
   <div class="slidenav">
     <div *ngIf="p?.image_url|| p?.video_url">
       <div (click)="goToProfile(p?.userId)" class="img-wrapper" style="float: right;">

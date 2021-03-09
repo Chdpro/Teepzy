@@ -58,12 +58,13 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { NetworkService } from './providers/network.service';
 import { Network } from '@ionic-native/network/ngx';
 import { IonicStorageModule } from '@ionic/storage';
+import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import {VgCoreModule} from '@videogular/ngx-videogular/core';
 import {VgControlsModule} from '@videogular/ngx-videogular/controls';
 import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
 import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
 import { CacheModule } from "ionic-cache-observable";
-const config: SocketIoConfig = { url: base_url, options: { }};
+const config: SocketIoConfig = { url: local_url, options: { }};
 
 @NgModule({
   declarations: [AppComponent,Autosize],
@@ -131,6 +132,7 @@ const config: SocketIoConfig = { url: base_url, options: { }};
     UploadService,
     NetworkService,
     Network,
+    NativeGeocoder,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
     { 

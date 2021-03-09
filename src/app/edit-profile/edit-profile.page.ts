@@ -32,7 +32,8 @@ export class EditProfilePage implements OnInit {
     bio: 'bio',
     photo: '',
     tagsLabel: 'Hobbies',
-    bioLabel: 'Biographie'
+    bioLabel: 'Biographie',
+    isAllProfileCompleted: false
   }
 
 
