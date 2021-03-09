@@ -72,7 +72,7 @@ export class AppComponent {
     let token = localStorage.getItem('teepzyToken')
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
-    //this.getUserInfo(this.userId, token)
+    this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
