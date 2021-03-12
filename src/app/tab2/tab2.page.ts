@@ -402,7 +402,7 @@ export class Tab2Page implements OnInit {
     //console.log(link)
     const actionSheet = await this.actionSheetController.create({
       header: link.message,
-      cssClass: 'my-custom-class',
+      cssClass: 'my-link-sheet-class',
       buttons: [
         {
           text: 'Accepter',

@@ -4,7 +4,6 @@ import { local_url, test_url, base_url } from 'src/config';
 import { Observable, of, from } from 'rxjs';
 import { codes } from '../data/code';
 import { Storage } from '@ionic/storage';
-import { NetworkService } from './network.service';
 
 
 const httpOptionsJson = {
@@ -31,7 +30,6 @@ export class AuthService {
 
 
   constructor(private http: HttpClient,
-    private networkService: NetworkService,
     private storage: Storage, ) { }
 
   login(user): Observable<any> {
