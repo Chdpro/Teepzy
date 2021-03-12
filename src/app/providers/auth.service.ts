@@ -112,8 +112,6 @@ export class AuthService {
     //  return data
     // });
     //alert("Out block" + JSON.stringify(data))
-
-
   }
 
 
