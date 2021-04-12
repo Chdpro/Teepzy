@@ -26,7 +26,7 @@ export class CircleMembersPage implements OnInit {
 
   loading = false
   rooms = []
-  search:any
+  search: any
 
   subscription: Subscription
   constructor(public navCtrl: NavController,
@@ -37,10 +37,10 @@ export class CircleMembersPage implements OnInit {
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
     //private socket: Socket
-    ) { 
-      this.menuCtrl.close('first');
-      this.menuCtrl.swipeGesture(false);
-    }
+  ) {
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
+  }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
@@ -57,7 +57,6 @@ export class CircleMembersPage implements OnInit {
     } else {
       this.deleteItemFromList(this.membersToChatWith, idUser)
     }
-   // console.log(this.membersToChatWith)
   }
 
 
@@ -65,45 +64,43 @@ export class CircleMembersPage implements OnInit {
   createChatRoom() {
     this.loading = true
     this.chatRoom.connectedUsers = this.membersToChatWith
-  //  this.chatRoom.connectedUsers.push(this.userId)
     this.chatRoom.name != '' ? null : this.chatRoom.name = 'Entre nous deux'
     this.contactService.initChatRoom(this.chatRoom).subscribe(res => {
       console.log(res)
-     let room = res['data']
-      if (res['status'] == 200) { 
+      let room = res['data']
+      if (res['status'] == 200) {
         this.loading = false
-        this.presentToast(MESSAGES.ROOM_INITIATED_OK) 
+        this.presentToast(MESSAGES.ROOM_INITIATED_OK)
         this.dataPasse.sendRoom(res['data'])
-        room['connectedUsers'].length > 1 ? this.gotoChatWhenGroupRoom(room._id,room.connectedUsers.length, room.name,room.userId) :this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime,room.connectedUsersInfo.photo,room.connectedUsers.length, room.name,room.connectedUsers[0],room.userId)
+        room['connectedUsers'].length > 1 ? this.gotoChatWhenGroupRoom(room._id, room.connectedUsers.length, room.name, room.userId) : this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
       } else if (res['status'] == 403) {
         if (this.userId === room.connectedUsers[0]) {
           this.dataPasse.sendRoom(res['data'])
-          this.contactService.restoreRoomByConnectedUser(room._id).subscribe(()=>{
-            this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime,room.connectedUsersInfo.photo,room.connectedUsers.length, room.name,room.connectedUsers[0],room.userId)
+          this.contactService.restoreRoomByConnectedUser(room._id).subscribe(() => {
+            this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
             this.loading = false
-          }, error =>{
+          }, error => {
 
           })
-        }else if(this.userId === room.userId){
-          console.log("init")
+        } else if (this.userId === room.userId) {
           this.dataPasse.sendRoom(res['data'])
-          this.contactService.restoreRoomByInitiator(room._id).subscribe(()=>{
-            this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime,room.connectedUsersInfo.photo,room.connectedUsers.length, room.name,room.connectedUsers[0],room.userId)
+          this.contactService.restoreRoomByInitiator(room._id).subscribe(() => {
+            this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
             this.loading = false
-          }, error =>{
-            
+          }, error => {
+
           })
         }
-       
+
       }
     }, error => {
       this.loading = false
       this.presentToast(MESSAGES.ROOM_INITIATED_ERROR)
-     // console.log(error)
+      // console.log(error)
     })
   }
 
-  gotoChatRoom(roomId, pseudo?:string, photo?:string, roomLength?:any, roomName?:any, connectedUserId?:string, userId?:string) {
+  gotoChatRoom(roomId, pseudo?: string, photo?: string, roomLength?: any, roomName?: any, connectedUserId?: string, userId?: string) {
     this.navCtrl.navigateForward("/chat",
       {
         state: {
@@ -113,7 +110,7 @@ export class CircleMembersPage implements OnInit {
       });
   }
 
-  gotoChatWhenGroupRoom(roomId, roomLength?:any, roomName?:any, userId?:string) {
+  gotoChatWhenGroupRoom(roomId, roomLength?: any, roomName?: any, userId?: string) {
     this.navCtrl.navigateForward("/chat",
       {
         state: {
@@ -137,8 +134,8 @@ export class CircleMembersPage implements OnInit {
       this.members = res['data']
       this.loading = false
     }, error => {
-     // console.log(error)
-     this.loading = false
+      // console.log(error)
+      this.loading = false
 
     })
   }

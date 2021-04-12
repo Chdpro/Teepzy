@@ -64,7 +64,7 @@ import {VgControlsModule} from '@videogular/ngx-videogular/controls';
 import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
 import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
 import { CacheModule } from "ionic-cache-observable";
-const config: SocketIoConfig = { url: local_url, options: { }};
+const config: SocketIoConfig = { url: base_url, options: { }};
 
 @NgModule({
   declarations: [AppComponent,Autosize],
