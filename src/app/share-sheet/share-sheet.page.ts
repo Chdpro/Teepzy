@@ -13,14 +13,14 @@ import { MESSAGES } from '../constant/constant';
 })
 export class ShareSheetPage implements OnInit {
 
-  post:any
-  repost:any
+  post: any
+  repost: any
   userId = ''
   posts = []
   timeCall = 0
   listPosts = []
-  
-  constructor(private modalController: ModalController, 
+
+  constructor(private modalController: ModalController,
     public globals: Globals,
     private navParams: NavParams,
     private contactService: ContactService,
@@ -30,10 +30,10 @@ export class ShareSheetPage implements OnInit {
     private socialSharing: SocialSharing,
     private menuCtrl: MenuController
 
-    ) { 
-      this.menuCtrl.close('first');
-      this.menuCtrl.swipeGesture(false);
-    }
+  ) {
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
+  }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
@@ -47,10 +47,10 @@ export class ShareSheetPage implements OnInit {
   }
 
   sendShare() {
-    this.socialSharing.share('Bonjour,  je vous invite à rejoindre Teepzy', null,
-      ' https://play.google.com/store/apps/details?id=com.teepzy.com').then(() => {
+    this.socialSharing.share("Bonjour,  je t'invite à me rejoindre sur Teepzy et partager les bons plans et conseils. Télécharge Teepzy via", null,
+      ' https://play.google.com/store/apps/details?id=bsd.teepzy.com').then(() => {
       }).catch((err) => {
-       // alert(JSON.stringify(err))
+        // alert(JSON.stringify(err))
       });
   }
 
@@ -67,16 +67,12 @@ export class ShareSheetPage implements OnInit {
       backgroundColor: this.post['backgroundColor'],
       includedCircles: this.post['includedCircles']
     }
-   // console.log(this.repost)
     this.contactService.rePost(this.repost).subscribe(res => {
-   //   console.log(res)
       this.getPosts(this.userId)
       this.presentToast(MESSAGES.SHARE_OK)
       this.dismiss()
     }, error => {
       this.presentToast(MESSAGES.SHARE_ERROR)
-     
-     // console.log(error)
     })
   }
 
@@ -99,7 +95,7 @@ export class ShareSheetPage implements OnInit {
       this.timeCall = 0
 
     }, error => {
-     // console.log(error)
+      // console.log(error)
     })
   }
 
@@ -157,11 +153,11 @@ export class ShareSheetPage implements OnInit {
       reason: reason
     }
     this.contactService.spam(spam).subscribe(res => {
-    //  console.log(res)
+      //  console.log(res)
       this.presentToast(MESSAGES.CENSURED_OK)
     }, error => {
       this.presentToast(MESSAGES.CENSURED_ERROR)
-    //  console.log(error)
+      //  console.log(error)
     })
   }
 
@@ -225,7 +221,7 @@ export class ShareSheetPage implements OnInit {
     this.modalController.dismiss({
       'dismissed': true
     });
-    this.globals .showBackground = false;
+    this.globals.showBackground = false;
   }
 
 
