@@ -8,7 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ForgotPassPage implements OnInit {
 
-  sanitizedURL = 'https://teepzy.com/conditions-generales-dutilisations/'
+  sanitizedURL = 'https://teepzy.com/reset-password-app/'
   constructor(
     public sanitizer: DomSanitizer,
   ) { }

@@ -275,17 +275,10 @@ export class AddProductPage implements OnInit {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
-      if (this.dispImags.length == 0) {
-        this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
+      this.dispImags[0] = (<any>window).Ionic.WebView.convertFileSrc(imageData)
         this.filePath.resolveNativePath(imageData).then((nativepath) => {
-          if (this.photos.length == 0) {
-            this.photos.push(nativepath)
-          }
+            this.photos[0] = nativepath
         })
-      } else if (this.dispImags.length > 1) {
-        this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
-      }
-
     }, (err) => {
       // Handle error
       // alert(JSON.stringify(err))

@@ -73,11 +73,11 @@ export class SignupFinalPage implements OnInit {
 
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(res => {
-    //  console.log(res)
+      //  console.log(res)
       this.userInfo = res['data'];
       this.userInfo['photo'] ? this.dispImags[0] = this.userInfo['photo'] : null
     }, error => {
-    //  console.log(error)
+      //  console.log(error)
     })
   }
 
@@ -85,7 +85,7 @@ export class SignupFinalPage implements OnInit {
     if ((this.user.pseudoIntime != '')) {
       this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
       this.authService.update(this.user).subscribe(res => {
-      //  console.log(res)
+        //  console.log(res)
         if (res['status'] == 200) {
           this.retourUsr = true
           this.presentToast(MESSAGES.LOGIN_OK)
@@ -95,14 +95,14 @@ export class SignupFinalPage implements OnInit {
             isOnline: true
           }
           this.contactService.getConnected(user).subscribe(res => {
-         //   console.log(res)
+            //   console.log(res)
           })
           this.router.navigateByUrl('/permissions', {
             replaceUrl: true
           })
         }
       }, error => {
-       // console.log(error)
+        // console.log(error)
         this.presentToast(MESSAGES.SERVER_ERROR)
       })
     }
@@ -138,7 +138,7 @@ export class SignupFinalPage implements OnInit {
         this.retourUsr = 404
       }
     }, error => {
-     // console.log(error)
+      // console.log(error)
       this.loadingA = false
 
       this.presentToast('Oops! une erreur est survenue')
@@ -149,7 +149,7 @@ export class SignupFinalPage implements OnInit {
   checkP() {
     this.loadingP = true
     this.authService.check(this.user).subscribe(res => {
-     // console.log(res)
+      // console.log(res)
       this.loadingP = false
       if (res['status'] == 201) {
         this.retourUsrP = 201
@@ -157,7 +157,7 @@ export class SignupFinalPage implements OnInit {
         this.retourUsrP = 404
       }
     }, error => {
-     // console.log(error)
+      // console.log(error)
       this.loadingP = false
       this.presentToast(MESSAGES.SERVER_ERROR)
 
@@ -190,64 +190,58 @@ export class SignupFinalPage implements OnInit {
 
 
   pickImage(sourceType) {
-      const options: CameraOptions = {
-        quality: 100,
-        sourceType: sourceType,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE
-      }
-      this.camera.getPicture(options).then((imageData) => {
-        // imageData is either a base64 encoded string or a file URI
-        // If it's base64 (DATA_URL):
-        // let base64Image = 'data:image/jpeg;base64,' + imageData;
-        if (this.dispImags.length == 0) {
-          this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-          this.filePath.resolveNativePath(imageData).then((nativepath) => {
-            if (this.photos.length == 0) {
-              this.photos.push(nativepath)
-            } 
-          })
-          }else if (this.dispImags.length > 1) {
-            this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
-          }
-      }, (err) => {
-        // Handle error
-      });
- 
+    const options: CameraOptions = {
+      quality: 100,
+      sourceType: sourceType,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    this.camera.getPicture(options).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      // let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.dispImags[0] = (<any>window).Ionic.WebView.convertFileSrc(imageData)
+      this.filePath.resolveNativePath(imageData).then((nativepath) => {
+        this.photos[0] = nativepath
+      })
+    }, (err) => {
+      // Handle error
+    });
+
   }
 
 
   uploadImage() {
     this.presentLoading()
-      var ref = this;
-      this.loading = true
-      if (ref.photos.length > 0) {
-        for (let index = 0; index < ref.photos.length; index++) {
-          // interval++
-          const fileTransfer = ref.transfer.create()
-          let options: FileUploadOptions = {
-            fileKey: "avatar",
-            fileName: (Math.random() * 100000000000000000) + '.jpg',
-            chunkedMode: false,
-            mimeType: "image/jpeg",
-            headers: {},
-          }
-  
-          var serverUrl = base_url + 'upload-avatar'
-          this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
-          fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-            this.user.photo = base_url + options.fileName;
-            this.loading = false;
-            this.updateUser()
-          }, error =>{
-            alert(JSON.stringify(error))
-          })
+    var ref = this;
+    this.loading = true
+    if (ref.photos.length > 0) {
+      for (let index = 0; index < ref.photos.length; index++) {
+        // interval++
+        const fileTransfer = ref.transfer.create()
+        let options: FileUploadOptions = {
+          fileKey: "avatar",
+          fileName: (Math.random() * 100000000000000000) + '.jpg',
+          chunkedMode: false,
+          mimeType: "image/jpeg",
+          headers: {},
         }
-      } else {
-        this.loading = false;
-        this.updateUser()
+
+        var serverUrl = base_url + 'upload-avatar'
+        this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
+        fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
+          this.user.photo = base_url + options.fileName;
+          this.loading = false;
+          this.updateUser()
+        }, error => {
+          alert(JSON.stringify(error))
+        })
       }
+    } else {
+      this.loading = false;
+      this.updateUser()
+    }
 
 
   }
@@ -267,7 +261,7 @@ export class SignupFinalPage implements OnInit {
       duration: 5000,
     }).then(a => {
       a.present().then(() => {
-       // console.log('presented');
+        // console.log('presented');
         if (!this.loading) {
           a.dismiss().then(() => console.log('abort presenting'));
         }
