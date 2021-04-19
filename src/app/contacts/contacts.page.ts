@@ -469,15 +469,15 @@ export class ContactsPage implements OnInit {
   }
 
   sendShare(c) {
-    this.socialSharing.share('Bonjour,  ' + '<br>' + "Je vous invite à rejoindre Teepzy. Téléchargez à ce lien", 'TeepZy', null,
-      ' https://play.google.com/store/apps/details?id=com.teepzy.com').then(() => {
-        this.sendInvitationSmsToServer(c)
-      }).catch((err) => {
-      });
+    this.socialSharing.share("Bonjour,  je t'invite à me rejoindre sur Teepzy et partager les bons plans et conseils. Télécharge Teepzy via", null,
+    ' https://play.google.com/store/apps/details?id=bsd.teepzy.com').then(() => {
+      this.sendInvitationSmsToServer(c)
+    }).catch((err) => {
+      // alert(JSON.stringify(err))
+    });
   }
 
-
-
+  
   sendInvitationSmsToServer(phone) {
     let inviteViaSms = {
       senderId: this.userId,
