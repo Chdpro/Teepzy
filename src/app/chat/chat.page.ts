@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { ToastController, MenuController, AlertController, ModalController } from '@ionic/angular';
+import { ToastController, MenuController, AlertController, ModalController, IonContent } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
@@ -70,6 +70,9 @@ export class ChatPage implements OnInit {
   // used for scrolling the pane
   @ViewChild('scrollMe', null) private myScrollContainer: ElementRef;
 
+  @ViewChild('content', null) private content: any;
+
+
   constructor(
     private router: Router,
     private contactService: ContactService,
@@ -99,21 +102,21 @@ export class ChatPage implements OnInit {
     this.roomId = state.roomId
     this.coonectSocket()
     this.getMessagesBySocket().subscribe(message => {
-     // console.log(message)
+      // console.log(message)
       message['roomId'] == state.roomId ? this.messages.push(message) : null
     });
     this.getRoomWhoseMessageIsReadBySocket().subscribe(roomId => {
-     //  console.log(roomId)
+      //  console.log(roomId)
       if (roomId == state.roomId) {
         for (const message of this.messages) {
           if (message.userId == this.userId && message.isRead === false) {
             message.isRead = true
           }
         }
-     
-      } 
+
+      }
     })
-  
+
     this.deleteMessageFromSocket()
     this.disconnectUserSocket()
   }
@@ -130,16 +133,22 @@ export class ChatPage implements OnInit {
     this.checkUserInMyCircle(this.userId, this.stateO.connectedUserId)
     this.getMessages(state.roomId)
     this.markMessagesRead(state.roomId, this.userId)
+    // this.scrollToBottomOnInit();
+
   }
 
-  ionViewDidEnter() {
-    this.scrollToBottom();
+
+  ionViewWillEnter() {
+    this.scrollToBottomOnInit();
   }
 
   trackByFn(index, item) {
     return index; // or item.id
   }
 
+  scrollToBottomOnInit() {
+    this.content.scrollToBottom(300);
+  }
 
   markMessagesRead(roomId, userId) {
     let room = {
@@ -272,13 +281,13 @@ export class ChatPage implements OnInit {
   }
 
 
-  getCurrentTime(){
+  getCurrentTime() {
     var date = new Date();
     let d = date.toLocaleTimeString(navigator.language, {
       hour: '2-digit',
-      minute:'2-digit'
+      minute: '2-digit'
     });
-    return  d
+    return d
   }
 
   sendMessage() {
@@ -287,7 +296,7 @@ export class ChatPage implements OnInit {
     this.message.createdAt = currentTime.toLocaleDateString() + "T" + this.getCurrentTime()
     let t = currentTime.toLocaleDateString().split('/').reverse().join('') + this.getCurrentTime().split(':').join('')
     this.message.timeStamp = parseInt(t)
-    console.log(parseInt(t) )
+    console.log(parseInt(t))
     if (!this.message.isReply) {
       this.socket.emit('add-message', this.message);
       this.message.text = '';
@@ -427,9 +436,7 @@ export class ChatPage implements OnInit {
       this.room = res['data']
       this.getChatRoomUserInitiator(roomInitiatorId)
       this.messages = res['data']['messages']
-      this.contactService.setLocalData(CACHE_KEYS.CHAT  + id, res);
-
-     // console.log(this.messages)
+      this.contactService.setLocalData(CACHE_KEYS.CHAT + id, res);
     }, error => {
       //  console.log(error)
       this.loading = false
