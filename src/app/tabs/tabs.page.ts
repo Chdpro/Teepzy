@@ -3,6 +3,7 @@ import { ModalController, IonTabs,  } from '@ionic/angular';
 import { AddPostPage } from '../add-post/add-post.page';
 import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
+import { Socket } from 'ng-socket-io';
 //import { Socket } from 'ngx-socket-io';
 //import { Observable } from 'rxjs';
 
@@ -21,6 +22,7 @@ export class TabsPage {
   constructor(
     public modalController: ModalController,
     private contactService: ContactService,
+    private socket: Socket,
    // private socket: Socket,
     private router: Router,
     ) {
@@ -73,9 +75,15 @@ export class TabsPage {
     return await modal.present();
   }
 
+  getOnline() {
+    let user = { userId: this.userId, onlineDate: new Date(), adress: {} }
+    this.socket.emit('online', user);
+  }
+
   unreads(){
     this.nbrUnreadMessages()
     this.nbrUnreadNotifications()
+    this.getOnline()
   }
   nbrUnreadNotifications() {
     this.contactService.NbrUnreadNotifications(this.userId).subscribe(res => {

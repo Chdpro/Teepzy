@@ -433,6 +433,11 @@ export class ContactsPage implements OnInit {
 
     }, error => {
       console.log(error)
+      if (this.listTeepzrsToInvite.length == 0) {
+        this.listTeepzrsToInvite.length = 1
+        this.highValueT = this.highValueT - 1
+        this.minus = 1
+      }
 
     })
 

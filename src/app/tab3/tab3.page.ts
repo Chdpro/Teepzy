@@ -205,7 +205,6 @@ export class Tab3Page implements OnInit {
           return b.lastMessage[0].timeStamp - a.lastMessage[0].timeStamp
         }
       })
-      console.log(this.rooms)
       this.loading = false
     }, error => {
       //console.log(error)

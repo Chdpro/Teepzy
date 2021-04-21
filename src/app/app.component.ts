@@ -214,6 +214,7 @@ export class AppComponent {
 
   getOnline() {
     let user = { userId: this.userId, onlineDate: new Date(), adress: this.address }
+    console.log(user)
     this.socket.emit('online', user);
   }
 
