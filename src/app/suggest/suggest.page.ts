@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController, ToastController } from '@ionic/angular';
+import { MenuController, ToastController, NavController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { MESSAGES } from '../constant/constant';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-suggest',
@@ -20,10 +21,15 @@ export class SuggestPage implements OnInit {
   loading = false
  constructor(private menuCtrl: MenuController,
    private contactService : ContactService,
-   private toasterController: ToastController
+   private toasterController: ToastController,
+   private navCtrl: NavController
  ) {
    this.menuCtrl.close('first');
    this.menuCtrl.swipeGesture(false);
+   const event = fromEvent(document, 'backbutton');
+   event.subscribe(async () => {
+     this.navCtrl.pop(); // I have used for my case
+   });
  }
 
  ngOnInit() {

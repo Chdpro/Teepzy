@@ -150,6 +150,7 @@
 
 
                 </button>
+                
               </div>
             </ion-label>
           </ion-item>
@@ -171,6 +172,7 @@
 
 
                 </button>
+
               </div>
             </ion-label>
           </ion-item>
@@ -182,7 +184,9 @@
               {{i?.pseudo | slice:0:1| uppercase}}
             </div>
             <ion-label><b> {{i?.pseudo}} </b><br> <span style="font-size: 11px;">
-                {{time(i?.createdAt) }} </span> <span style="float: right;">Mise en relation</span> <br>
+                {{time(i?.createdAt) }} </span> 
+                <button style="float: right;" mat-raised-button>Mise en relation</button>
+               <br>
               <div class="example-button-row">
 
               </div>

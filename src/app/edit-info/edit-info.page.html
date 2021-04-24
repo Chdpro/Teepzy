@@ -38,6 +38,14 @@
 
           </div>
           <mat-form-field class="example-full-width">
+            <mat-label>Prénoms</mat-label>
+            <input matInput type="text" #prenom="ngModel" name="prenom" [(ngModel)]="user.prenom" placeholder="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Nom</mat-label>
+            <input matInput type="text" #nom="ngModel" name="nom" [(ngModel)]="user.nom" placeholder="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
             <mat-label>Email</mat-label>
             <input matInput type="email" name="email" #email="ngModel" required [(ngModel)]="user.email"
               placeholder="Entrer votre email">

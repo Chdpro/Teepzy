@@ -165,7 +165,9 @@ export class EditProfilePage implements OnInit {
       this.presentToast(MESSAGES.PROFILE_UPDATED_OK)
       this.getUserInfo(userId)
       this.loading = false
-      this.router.navigate(['/tabs/profile'])
+      this.router.navigateByUrl('/tabs/profile', {
+        replaceUrl: true
+      })
     }, error => {
       this.presentToast(MESSAGES.PROFILE_UPDATED_ERROR)
       this.loading = false

@@ -16,7 +16,9 @@ export class EditInfoPage implements OnInit {
     pseudoIntime: '',
     phone: '',
     email: '',
-    userId:''
+    userId:'',
+    nom:'',
+    prenom:''
   }
 
   userInfo: any
@@ -49,6 +51,8 @@ export class EditInfoPage implements OnInit {
       this.userInfo = res['data'];
       this.user.pseudoIntime = this.userInfo.pseudoIntime
       this.user.email = this.userInfo.email
+      this.user.prenom = this.userInfo.prenom
+      this.user.nom = this.userInfo.nom
       //this.user.phone = this.userInfo.phone
       this.userPhone = this.userInfo.phone
       this.user.birthday = this.userInfo.birthday

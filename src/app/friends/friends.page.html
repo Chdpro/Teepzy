@@ -1,8 +1,10 @@
 <ion-header class="ion-no-border">
   <ion-toolbar style="color: #ea4e50">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title *ngIf="!previousUrl">Mes amis</ion-title>
     <ion-title *ngIf="previousUrl">Ses amis</ion-title>
-
   </ion-toolbar>
 </ion-header>
 

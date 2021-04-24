@@ -23,7 +23,7 @@ export class TutoVideoPage implements OnInit {
   }
 
   done() {
-    this.router.navigate(['/edit-profile', { previousUrl: 'tuto' }], {
+    this.router.navigate(['/permissions', { previousUrl: 'tuto' }], {
       replaceUrl: true,
 
     })

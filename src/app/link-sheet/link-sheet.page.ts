@@ -12,7 +12,7 @@ import { MESSAGES } from '../constant/constant';
 })
 export class LinkSheetPage implements OnInit {
 
-  placeholder = 'Bonjour! ,Je te link avec'
+  placeholder = 'Bonjour! Je te link avec'
   placeholder_Link_userPseudo = ''
   userId = ''
   user:any

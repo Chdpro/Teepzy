@@ -97,7 +97,7 @@ export class SignupFinalPage implements OnInit {
           this.contactService.getConnected(user).subscribe(res => {
             //   console.log(res)
           })
-          this.router.navigateByUrl('/permissions', {
+          this.router.navigateByUrl('/tuto-video', {
             replaceUrl: true
           })
         }

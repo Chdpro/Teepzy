@@ -205,7 +205,6 @@ export class Tab2Page implements OnInit {
   listNotifications() {
     this.loading = true
     this.contactService.listNotification(this.userId).subscribe(res => {
-      console.log(res)
       this.notifications = res['data']
       this.contactService.setLocalData(CACHE_KEYS.NOTIFICATIONS, res)
       this.loading = false

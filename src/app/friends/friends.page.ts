@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, NavController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MESSAGES } from '../constant/constant';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-friends',
@@ -20,8 +21,14 @@ export class FriendsPage implements OnInit {
     private contactService: ContactService,
     private toastController:ToastController,
     private route: ActivatedRoute,
-    private router: Router
-  ) { }
+    private router: Router,
+    private navCtrl: NavController
+  ) { 
+    const event = fromEvent(document, 'backbutton');
+    event.subscribe(async () => {
+      this.navCtrl.pop(); // I have used for my case
+    });
+  }
 
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');

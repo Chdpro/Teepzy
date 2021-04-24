@@ -38,6 +38,13 @@
         <ion-grid>
           <ion-row>
             <ion-col>
+              <div class="required-text">
+                Les champs avec * devant sont obligatoires
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
               <form class="example-form">
                 <span>
                   <mat-form-field class="rs-input-left">
@@ -68,7 +75,6 @@
                       <mat-icon class="mat-con-cancel" (click)="remove3(so)" *ngIf="removable2">cancel</mat-icon>
 
                     </ion-chip>
-                    <!--span *ngIf="socialsAdded?.length == 0" >Ajouter un média</span-->
                     <button [disabled]="rs_url2 == ''|| media2 == ''" (click)="addSocialProfile2()"
                       class="shadow-none mat-add-circle" mat-button>
                       <span class="material-icons">
@@ -84,12 +90,15 @@
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
                   <mat-label>MÉTIER</mat-label>
-                  <input matInput name="metier2" [(ngModel)]="profile1.metier" placeholder="MÉTIER">
+                  <input matInput name="metier2" #metier="ngModel"  maxlength="50" [(ngModel)]="profile1.metier" placeholder="MÉTIER" (ngModelChange)="profile1.metier = $event + ''" required>
                 </mat-form-field>
+                <div class="limitCounter">
+                    {{profile1?.metier.length}} / 50
+                  </div>
 
                 <mat-form-field class="example-full-width">
                   <mat-label>LOCALISATION</mat-label>
-                  <input matInput name="localisation2" [(ngModel)]="profile1.localisation" placeholder="LOCALISATION">
+                  <input matInput name="localisation2" #localisation="ngModel" [(ngModel)]="profile1.localisation" required placeholder="LOCALISATION">
                 </mat-form-field>
 
                 <mat-form-field  class="example-form-field">
@@ -112,7 +121,7 @@
                 </mat-menu>
 
                 <mat-form-field class="example-full-width">
-                  <input matInput name="bio" [(ngModel)]="profile1.bio" placeholder="Ecrivez ici le contenu de la rubrique">
+                  <input matInput name="bio" #bio="ngModel" [(ngModel)]="profile1.bio" required placeholder="Ecrivez ici le contenu de la rubrique">
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
@@ -150,17 +159,11 @@
                       <mat-icon (click)="add($event)" style="    width: 30px;
                     height: 18px;" matChipRemove>add_circle</mat-icon>
                     </mat-chip>
-                    <input [matChipInputFor]="chipList"  placeholder="Ecrivez ici le contenu de la rubrique" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    <input [matChipInputFor]="chipList" required  placeholder="Ecrivez ici le contenu de la rubrique *" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                       [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
                   </mat-chip-list>
                 </mat-form-field>
 
-                <!--span *ngIf="socialsAdded?.length == 0" >Ajouter un média</span-->
-                <!--button [disabled]="tags.length == 0" (click)="add($event)" class=" mat-add-circle" mat-button>
-                  <span class="material-icons">
-                    add_circle
-                  </span>
-                </button-->
               </form>
             </ion-col>
           </ion-row>
@@ -183,7 +186,7 @@
 <ion-footer class="ion-no-border">
   <ion-toolbar>
 
-    <ion-button (click)="uploadImage()" expand="full">
+    <ion-button (click)="uploadImage()"  [disabled]="tags?.length === 0 || metier.errors?.required || bio.errors?.required || localisation.errors?.required" expand="full">
       <span *ngIf="loading == false">ENREGISTRER</span>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>

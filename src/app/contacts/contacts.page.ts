@@ -470,7 +470,6 @@ export class ContactsPage implements OnInit {
       }
     });
     return list
-
   }
 
   sendShare(c) {
