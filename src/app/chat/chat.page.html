@@ -13,7 +13,7 @@
       <strong style="font-size: 18px;" *ngIf="stateO?.roomLength > 1"> {{stateO?.name | slice:0:15 }} <span *ngIf="stateO?.name?.length >= 15">...</span> </strong>
     </ion-title>
     <small style="margin-left: 23px;" *ngIf="stateO?.online">En ligne</small>
-    <ion-icon *ngIf="!isInMyCircle && stateO?.roomLength == 0" (click)="presentAlertConfirm()"  class="invitation-add" name="add-outline"></ion-icon>
+    <ion-icon *ngIf="!isInMyCircle && stateO?.roomLength == 1" (click)="presentAlertConfirm()"  class="invitation-add" name="add-outline"></ion-icon>
     <!--ion-icon *ngIf="stateO?.roomLength > 0" (click)="presentAddInvitationModal()"  class="invitation-add" name="add-outline">
 
     </ion-icon-->
@@ -30,15 +30,15 @@
 
   <div #scrollMe id="messages-container" style="overflow: auto; height: 100%;">
 
-    <ion-grid>
+    <ion-grid class="message-wrapper">
 
       <ion-spinner *ngIf="loading" color="primary" name="dots"></ion-spinner>
 
 
 
-      <ion-row *ngFor="let message of messages;trackBy: trackByFn" [matMenuTriggerFor]="clickHoverMenu"
+      <ion-row *ngFor="let message of messages;let last = last;trackBy: trackByFn" [matMenuTriggerFor]="clickHoverMenu"
         #clickHoverMenuTrigger="matMenuTrigger" (onLongPressing)="onLongPressing()">
-
+        {{last ? scrollToBottom() : ''}}
         <ion-col *ngIf="message?.userId !== userId" size="2">
           <div *ngIf="message?.userPhoto_url == null || message?.userPhoto_url == ''" class="round-img-post">
             {{message?.pseudo | slice:0:1| uppercase}}

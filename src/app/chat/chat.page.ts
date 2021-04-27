@@ -100,6 +100,7 @@ export class ChatPage implements OnInit {
     this.stateO.connectedUserId = state.connectedUserId
     this.stateO.userId = state.userId
     this.roomId = state.roomId
+
     this.coonectSocket()
     this.getMessagesBySocket().subscribe(message => {
       // console.log(message)

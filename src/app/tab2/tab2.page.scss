@@ -8,6 +8,11 @@ ion-toolbar{
 ion-slide{
     border-radius: 40px 40px 1px 0px;
 }
+.time{
+        float: right;
+        position: absolute;
+    right: 12px;
+}
 .material-icons{
     color: #ea4e50;
 }
@@ -42,6 +47,7 @@ ion-slide{
 
 .see-icon{
     margin-right: -35px;
+    margin-top: 32px;
 }
 .example-button-container{
     float: right;

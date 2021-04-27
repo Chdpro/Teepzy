@@ -62,10 +62,34 @@
             <div class="round-img-post" *ngIf='userId != n?.fromId && n?.retourLink == true'>
               {{n?.linkerUserPseudo | slice:0:1| uppercase}}
             </div>
-            <ion-label><b *ngIf="userId != n?.fromId && n?.retourLink == false"> {{n?.pseudoIntime}} </b> 
+            <ion-label>
+              <b *ngIf="userId != n?.fromId && n?.retourLink == false"> {{n?.pseudoIntime}} </b> 
               <b *ngIf="userId != n?.fromId && n?.retourLink == true">
                 {{n?.linkerUserPseudo}}
               </b>
+
+              <span *ngIf="time(n?.createdAt) != 'il y a un mois'">
+                  <span *ngIf="time(n?.createdAt) != 'il y a un jour'">
+                    <span *ngIf="time(n?.createdAt) != 'il y a une minute'">
+                      <span class="time" *ngIf="time(n?.createdAt) != 'il y a une heure'">
+                        {{time(n?.createdAt) }}
+                      </span>
+                    </span>
+                  </span>
+                </span>
+                <span class="time" *ngIf="time(n?.createdAt) == 'il y a une minute'">
+                  il y a 1 minute
+                </span>
+                <span class="time" *ngIf="time(n?.createdAt) == 'il y a une heure'">
+                  il y a 1 heure
+                </span>
+                <span class="time" *ngIf="time(n?.createdAt) == 'il y a un jour'">
+                  il y a 1 jour
+                </span>
+                <span class="time" *ngIf="time(n?.createdAt) == 'il y a un mois'">
+                  il y a 1 mois
+                </span>
+                
               <b *ngIf="userId == n?.fromId">
                 Vous </b><br>
               <strong>
@@ -90,7 +114,8 @@
                 <ion-icon name="eye-outline"></ion-icon>
               </button>
             </span>
-          </ion-item>
+
+              </ion-item>
 
 
           <div *ngIf="loading == false && notifications?.length == 0" class="empty-msg">
@@ -204,4 +229,11 @@
       </mat-tab>
     </mat-tab-group>
   </div>
+
+  <ion-infinite-scroll threshold="25%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

@@ -121,7 +121,7 @@ export class SearchPage implements OnInit {
 
   getPosts() {
     this.contactService.getPosts(this.search.userId).subscribe(res => {
-      console.log(res)
+      //console.log(res)
       this.posts = res['data'];
     }, error => {
        console.log(error)
@@ -172,7 +172,7 @@ export class SearchPage implements OnInit {
     this.contactService.teepZrs(this.search.userId).subscribe(res => {
       // console.log(res)
       this.listTeepZrs = res['data']
-   //   console.log(this.listTeepZrs)
+      console.log(this.listTeepZrs)
     }, error => {
       // console.log(error)
 
@@ -213,7 +213,7 @@ export class SearchPage implements OnInit {
    //   console.log(res);
       this.loading = false
       this.users = res['users']
-    //  console.log(this.users)
+     // console.log(this.users)
     }, error => {
       this.loading = false
      // console.log(error)

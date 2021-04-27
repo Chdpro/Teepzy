@@ -39,6 +39,8 @@ export class Tab2Page implements OnInit {
 
   selectedTab = 0
   subscription: Subscription
+  page = 1
+  maximumPages = 4
   constructor(
     private contactService: ContactService,
     private menuCtrl: MenuController,
@@ -202,13 +204,16 @@ export class Tab2Page implements OnInit {
     })
   }
 
-  listNotifications() {
+  listNotifications(event?) {
     this.loading = true
-    this.contactService.listNotification(this.userId).subscribe(res => {
-      this.notifications = res['data']
+    this.contactService.listNotification(this.userId, this.page).subscribe(res => {
+      this.notifications = [... res['data']]
       this.contactService.setLocalData(CACHE_KEYS.NOTIFICATIONS, res)
       this.loading = false
-
+      console.log(this.notifications)
+      if (event) {
+        event.target.complete()
+      }
     }, error => {
       console.log(error)
       this.loading = false
@@ -437,17 +442,20 @@ export class Tab2Page implements OnInit {
   }
 
 
+  loadData(event){
+    this.page++
+    this.listNotifications(event)
+    if (this.page === this.maximumPages) {
+      event.target.disabled = true
+    }
+  }
 
   ionViewWillLeave() {
-    //   this.socket.disconnect();
-    //console.log('disconnected')
     this.subscription ? this.subscription.unsubscribe() : null
 
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null
-    //this.socket.removeAllListeners('message');
-    //this.socket.removeAllListeners('users-changed');
   }
 
 }

@@ -81,7 +81,8 @@ export class Tab1Page implements OnInit {
   videoMuted = ''
   videoUrl =''
 
-  constructor(private authService: AuthService,
+  constructor(
+    private authService: AuthService,
     private toasterController: ToastController,
     private dataPass: DatapasseService,
     public alertController: AlertController,
@@ -93,7 +94,8 @@ export class Tab1Page implements OnInit {
     public globals: Globals,
     public sanitizer: DomSanitizer,
     public actionSheetController: ActionSheetController,
-    private contactService: ContactService) {
+    private contactService: ContactService
+    ) {
     this.menuCtrl.enable(true, 'first');
     this.menuCtrl.swipeGesture(false);
     this.global = globals;
