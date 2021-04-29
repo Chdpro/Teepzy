@@ -6,9 +6,35 @@ ion-title{
   height: -webkit-fill-available;
 }
 
+
+.round-img{
+  height: 64px;
+  width: 64px;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border: solid 1px #ea4e50;
+  padding-top: 18px;
+  padding-left: 25px;
+  text-align: left;
+  font-size: 18px;
+  float: right;
+  margin-right: 36px;
+  margin-top: -29px;
+  background: #e5e3e3;
+  margin-bottom: -33px;
+}
+
 .round-img-post{
-  height: 47px;
+  max-width: 47px;
+  max-height: 47px;
+  min-width: 47px;
+  min-height: 47px;
   width: 47px;
+  height: 47px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
@@ -58,11 +84,7 @@ mat-divider{
     float: right;
 }
 
-ion-button{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
+
 ion-label, b{
     color: #ea4e50;
 }

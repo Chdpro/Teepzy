@@ -134,21 +134,15 @@ export class ChatPage implements OnInit {
     this.checkUserInMyCircle(this.userId, this.stateO.connectedUserId)
     this.getMessages(state.roomId)
     this.markMessagesRead(state.roomId, this.userId)
-    // this.scrollToBottomOnInit();
 
   }
 
 
   ionViewWillEnter() {
-    this.scrollToBottomOnInit();
   }
 
   trackByFn(index, item) {
     return index; // or item.id
-  }
-
-  scrollToBottomOnInit() {
-    this.content.scrollToBottom(300);
   }
 
   markMessagesRead(roomId, userId) {

@@ -170,7 +170,7 @@
           </ion-col>
         </ion-row>
       </mat-tab>
-      <ng-template [ngIf]="previousRoute == 'feeds'">
+      <ng-template [ngIf]="previousRoute !== 'feeds'">
         <mat-tab label="Suggestions">
           <ion-grid>
             <ion-row>
@@ -207,15 +207,22 @@
             <ion-row>
               <ion-col size="6"
                 *ngFor="let c of listTeepzrsToInviteOutCircle |filter:term | slice: lowValue : highValue ;trackBy: trackByFn ">
-                <mat-card style="margin-top: 20px;">
-                  <img class="img-cl" [src]="c?.photo" alt="">
+                <mat-card style="margin-top: 20px;max-height: 180px; height: 180px;">
 
+                  <div (click)="goToProfile(p?.userId)" class="avatar">
+                    <img *ngIf="c?.photo" class="img-cl" [src]="c?.photo" alt="">
+                  </div>
+      
+                  <div (click)="goToProfile(p?.userId)">
+                    <div *ngIf="c?.photo == '' || c?.photo == null " class="round-img"
+                     >
+                      {{c?.pseudoIntime | slice:0:1| uppercase}}
+                    </div>
+                  </div>
                   <div class="cl-content">
-
-                    <strong>
-                      {{ c?.nom }}
-                      {{ c?.prenom }}
-                    </strong><br>
+                    <span>
+                      {{ c?.pseudoIntime }}
+                    </span><br>
                     <span>
                       {{ c?.circleMembersCount || '0' }} contact(s)
                     </span>

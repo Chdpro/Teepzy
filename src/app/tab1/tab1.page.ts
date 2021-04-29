@@ -126,6 +126,7 @@ export class Tab1Page implements OnInit {
     if (this.networkService.networkStatus() === Offline) {
     this.getFeedFromLocal()      
     } else {
+      this.getFeedFromLocal()
       this.getPosts(this.userId)
     }
     this.isTutoSkip = localStorage.getItem("isTutoSkip")
@@ -497,6 +498,7 @@ onPlayerPause(api: VgApiService) {
       this.listPosts = []
       if (res['data'] != null) {
         this.listPosts = res['data']
+        console.log(this.listPosts)
         this.listPosts = this.listPosts.sort((a, b) => {
         return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
        })
@@ -507,9 +509,7 @@ onPlayerPause(api: VgApiService) {
         this.tutosTexts()
       }
       this.loading = false
-
       this.timeCall = 0
-
     }, error => {
       this.loading = false
        console.log(error)
@@ -520,7 +520,7 @@ onPlayerPause(api: VgApiService) {
   getFeedFromLocal(){
     this.contactService.feedsFromLocal().subscribe(listPosts =>{
       this.listPosts = listPosts
-     // console.log(listPosts)
+      console.log(listPosts)
     })
   }
 

@@ -332,9 +332,9 @@ export class AddProjectPage implements OnInit {
       this.presentToast("Publié sur le fil d'actualité")
     }, error => {
      // this.presentToast(MESSAGES.ADD_FEED_ERROR)
-
     })
   }
+
   addProject(){
     if (this.postOnFeed === true) {
       let post = {

@@ -101,7 +101,7 @@ export class ContactsPage implements OnInit {
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
-    this.CheckPermissions()
+   // this.CheckPermissions()
     this.getUsersOfCircle()
     if (this.previousRoute) {
       this.getCachedContacts()
@@ -633,8 +633,9 @@ export class ContactsPage implements OnInit {
   getTeepzrOutCircle() {
     this.loading = true
     this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
-      //  console.log(res)
-      this.listTeepZrs = this.listSorter(res['data'])
+       // console.log(res)
+      this.listTeepZrs = res['data']
+      console.log(this.listTeepZrs)
       this.loading = false
       this.listTeepZrs.forEach(e => {
         let invitation = {
@@ -654,12 +655,13 @@ export class ContactsPage implements OnInit {
 
   checkInvitationOutCircle(invitation, e) {
     this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
-      // console.log(res)
+       console.log(res)
       if (res['status'] == 201) {
         this.listTeepzrsToInviteOutCircle.push(
           {
             _id: e['_id'],
             nom: e['nom'],
+            pseudoIntime: e['pseudoIntime'],
             prenom: e['prenom'],
             phone: e['phone'],
             photo: e['photo'],
@@ -675,6 +677,7 @@ export class ContactsPage implements OnInit {
             prenom: e['prenom'],
             phone: e['phone'],
             photo: e['photo'],
+            pseudoIntime: e['pseudoIntime'],
             invited: false
           },
         )
@@ -688,6 +691,14 @@ export class ContactsPage implements OnInit {
     return array;
   }
 
+  goToProfile(userId) {
+    if (this.userId === userId) {
+      this.router.navigate(['/tabs/profile', { userId: userId }])
+    } else {
+      this.router.navigate(['/profile', { userId: userId, previousUrl: 'feed' }])
+    }
+
+  }
 
   async presentToast(msg) {
     const toast = await this.toastController.create({
