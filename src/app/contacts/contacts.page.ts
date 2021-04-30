@@ -635,7 +635,6 @@ export class ContactsPage implements OnInit {
     this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
        // console.log(res)
       this.listTeepZrs = res['data']
-      console.log(this.listTeepZrs)
       this.loading = false
       this.listTeepZrs.forEach(e => {
         let invitation = {
@@ -655,7 +654,6 @@ export class ContactsPage implements OnInit {
 
   checkInvitationOutCircle(invitation, e) {
     this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
-       console.log(res)
       if (res['status'] == 201) {
         this.listTeepzrsToInviteOutCircle.push(
           {

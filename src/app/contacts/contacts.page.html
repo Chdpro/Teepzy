@@ -219,16 +219,16 @@
                       {{c?.pseudoIntime | slice:0:1| uppercase}}
                     </div>
                   </div>
-                  <div class="cl-content">
-                    <span>
+                  <div class="cl-content"  [ngStyle]='{"position": !c?.photo  ? "absolute" : "relative","top": !c?.photo  ? "45px" : "0"}'>
+                    <strong>
                       {{ c?.pseudoIntime }}
-                    </span><br>
+                    </strong><br>
                     <span>
                       {{ c?.circleMembersCount || '0' }} contact(s)
                     </span>
-                    <div style="font-size: 12px;">
+                    <!--div style="font-size: 12px;">
                       ({{c?.commonFriends || 0 }}) amis en commun
-                    </div>
+                    </div-->
                     <ion-button (click)="sendInvitationToJoinCircle(c?._id)" *ngIf="!loading && c?.invited == false"
                       size="small" shape="round">Ajouter</ion-button>
                     <ion-button *ngIf="!loading && c?.invited == true" size="small" color="light" shape="round">

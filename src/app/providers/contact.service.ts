@@ -176,13 +176,13 @@ export class ContactService {
 
   deletePost(postId): Observable<any> {
     let url = 'users/post/' + postId;
-    return this.http.delete(base_url + url, httpOptionsJson);
+    return this.http.put(base_url + url, httpOptionsJson);
   }
 
     
   deleteRePost(postId): Observable<any> {
     let url = 'users/repost/' + postId;
-    return this.http.delete(base_url + url, httpOptionsJson);
+    return this.http.put(base_url + url, httpOptionsJson);
   }    
 
 
@@ -358,6 +358,11 @@ export class ContactService {
    return from(this.getLocalData(CACHE_KEYS.FEEDS_CHECK))
   }
 
+
+  notificationsFromLocal(): Observable<any> {
+    return from(this.getLocalData(CACHE_KEYS.NOTIFICATIONS))
+   }
+ 
   addFavorite(favorite): Observable<any> {
     let url = 'users/addFavorite';
     return this.http.post(base_url + url, favorite, httpOptionsJson);

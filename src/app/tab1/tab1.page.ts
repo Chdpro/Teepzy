@@ -498,7 +498,6 @@ onPlayerPause(api: VgApiService) {
       this.listPosts = []
       if (res['data'] != null) {
         this.listPosts = res['data']
-        console.log(this.listPosts)
         this.listPosts = this.listPosts.sort((a, b) => {
         return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
        })
@@ -520,7 +519,6 @@ onPlayerPause(api: VgApiService) {
   getFeedFromLocal(){
     this.contactService.feedsFromLocal().subscribe(listPosts =>{
       this.listPosts = listPosts
-      console.log(listPosts)
     })
   }
 

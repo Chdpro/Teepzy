@@ -65,6 +65,7 @@ export class Tab2Page implements OnInit {
     this.userId = localStorage.getItem('teepzyUserId');
     this.listInvitations()
     this.listLinks()
+    this.getNotificationsFromLocal()
     this.listNotifications()
     this.markNotificationsRead(this.userId)
   }
@@ -210,7 +211,7 @@ export class Tab2Page implements OnInit {
       this.notifications = [... res['data']]
       this.contactService.setLocalData(CACHE_KEYS.NOTIFICATIONS, res)
       this.loading = false
-      console.log(this.notifications)
+      //console.log(this.notifications)
       if (event) {
         event.target.complete()
       }
@@ -218,6 +219,14 @@ export class Tab2Page implements OnInit {
       console.log(error)
       this.loading = false
 
+    })
+  }
+
+
+  getNotificationsFromLocal(){
+    this.contactService.notificationsFromLocal().subscribe(listNotifications =>{
+      this.listNotifications = listNotifications.data
+  //    console.log(listNotifications)
     })
   }
 
