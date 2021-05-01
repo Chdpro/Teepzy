@@ -170,7 +170,7 @@
           </ion-col>
         </ion-row>
       </mat-tab>
-      <ng-template [ngIf]="previousRoute !== 'feeds'">
+      <ng-template [ngIf]="previousRoute == 'feeds'">
         <mat-tab label="Suggestions">
           <ion-grid>
             <ion-row>
@@ -224,8 +224,8 @@
                       {{ c?.pseudoIntime }}
                     </strong><br>
                     <span>
-                      {{ c?.circleMembersCount || '0' }} contact(s)
-                    </span>
+                      {{ c?.circleMembersCount || '0' }} contact   <span class="s" *ngIf="c?.circleMembersCount > 1">s</span>
+                    </span><br>
                     <!--div style="font-size: 12px;">
                       ({{c?.commonFriends || 0 }}) amis en commun
                     </div-->

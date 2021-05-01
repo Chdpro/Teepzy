@@ -101,7 +101,7 @@ export class ContactsPage implements OnInit {
   ngOnInit() {
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
-   // this.CheckPermissions()
+    this.CheckPermissions()
     this.getUsersOfCircle()
     if (this.previousRoute) {
       this.getCachedContacts()
@@ -583,7 +583,7 @@ export class ContactsPage implements OnInit {
         this.loadContacts()
       }
     }, error => {
-      // console.log(error)
+     // console.log(error)
     })
   }
 
@@ -633,7 +633,7 @@ export class ContactsPage implements OnInit {
   getTeepzrOutCircle() {
     this.loading = true
     this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
-       // console.log(res)
+        console.log(res)
       this.listTeepZrs = res['data']
       this.loading = false
       this.listTeepZrs.forEach(e => {
@@ -658,11 +658,10 @@ export class ContactsPage implements OnInit {
         this.listTeepzrsToInviteOutCircle.push(
           {
             _id: e['_id'],
-            nom: e['nom'],
             pseudoIntime: e['pseudoIntime'],
-            prenom: e['prenom'],
             phone: e['phone'],
             photo: e['photo'],
+            circleMembersCount: e['circleMembersCount'],
             invited: true
           },
         )
@@ -671,11 +670,10 @@ export class ContactsPage implements OnInit {
         this.listTeepzrsToInviteOutCircle.push(
           {
             _id: e['_id'],
-            nom: e['nom'],
-            prenom: e['prenom'],
             phone: e['phone'],
             photo: e['photo'],
             pseudoIntime: e['pseudoIntime'],
+            circleMembersCount: e['circleMembersCount'],
             invited: false
           },
         )
