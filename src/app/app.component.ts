@@ -81,7 +81,7 @@ export class AppComponent {
     this.getPosition()
     this.getUserInfo(this.userId, token)
   }
-
+  
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.backgroundColorByHexString("#ea4d5075");
