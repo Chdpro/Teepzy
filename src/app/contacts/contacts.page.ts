@@ -321,6 +321,8 @@ export class ContactsPage implements OnInit {
       hasPhoneNumber: true
     }
     //  this.myContacts = this.contactsTest
+    this.myContacts = []
+    this.listContacts = []
     this.contacts.find(['*'], options).then((contacts) => {
       this.myContacts = this.getUniquesOnContacts(contacts)
       for (const mC of this.myContacts) {
@@ -580,6 +582,7 @@ export class ContactsPage implements OnInit {
       this.userInfo = res['data'];
       this.contactService.setLocalData(CACHE_KEYS.PROFILE, res['data'])
       if (this.userInfo['isContactAuthorized'] == true) {
+
         this.loadContacts()
       }
     }, error => {
@@ -631,11 +634,9 @@ export class ContactsPage implements OnInit {
   }
 
   getTeepzrOutCircle() {
-    this.loading = true
     this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
         console.log(res)
       this.listTeepZrs = res['data']
-      this.loading = false
       this.listTeepZrs.forEach(e => {
         let invitation = {
           idSender: this.userId,

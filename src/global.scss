@@ -98,6 +98,8 @@ ion-modal{
 
 iframe{
     overflow:hidden;
+    z-index: 10000;
+    position: absolute;
 }
 
 .my-custom-class {

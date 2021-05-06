@@ -209,11 +209,11 @@
                 *ngFor="let c of listTeepzrsToInviteOutCircle |filter:term | slice: lowValue : highValue ;trackBy: trackByFn ">
                 <mat-card style="margin-top: 20px;max-height: 180px; height: 180px;">
 
-                  <div (click)="goToProfile(p?.userId)" class="avatar">
+                  <div  class="avatar">
                     <img *ngIf="c?.photo" class="img-cl" [src]="c?.photo" alt="">
                   </div>
       
-                  <div (click)="goToProfile(p?.userId)">
+                  <div >
                     <div *ngIf="c?.photo == '' || c?.photo == null " class="round-img"
                      >
                       {{c?.pseudoIntime | slice:0:1| uppercase}}

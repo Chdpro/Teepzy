@@ -235,7 +235,6 @@ export class SignupFinalPage implements OnInit {
           this.loading = false;
           this.updateUser()
         }, error => {
-          alert(JSON.stringify(error))
         })
       }
     } else {

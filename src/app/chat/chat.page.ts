@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { ToastController, MenuController, AlertController, ModalController, IonContent } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ import { Socket } from 'ng-socket-io';
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
 })
-export class ChatPage implements OnInit {
+export class ChatPage implements OnInit, AfterViewChecked {
 
   loading = false
   messages = [];
@@ -151,7 +151,7 @@ export class ChatPage implements OnInit {
       currentUserOnlineId: userId
     }
     this.contactService.markReadMessages(room).subscribe(res => {
-      //  console.log(res)
+        console.log(res)
     }, error => {
       console.log(error)
     })
@@ -510,13 +510,17 @@ export class ChatPage implements OnInit {
 
 
   scrollToBottom(): void {
-    // method used to enable scrolling
+   let scrollTop = this.myScrollContainer.nativeElement.scrollTop
+    if (scrollTop === 0) {
     this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    }
+  }
+ 
+  ngAfterViewChecked(){
+    this.scrollToBottom()
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null
-    //  this.socket.removeAllListeners('message');
-    //this.socket.removeAllListeners('users-changed');
   }
 
 

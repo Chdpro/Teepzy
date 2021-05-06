@@ -56,9 +56,14 @@ ion-icon{
 
 .required-text{
   display: block;
-  margin-left: 15px;
+  text-align: center;
   color: #ea4e4f;
 }
+
+/*.req-input:after {
+  content:" *";
+  color: #ea4d4f;
+}*/
 
 .limitCounter{
   margin-top: -16px;

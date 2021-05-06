@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -11,9 +11,15 @@ export class ForgotPassPage implements OnInit {
   sanitizedURL = 'https://teepzy.com/reset-password-app/'
   constructor(
     public sanitizer: DomSanitizer,
+    private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
+  }
+
+
+  ngAfterViewInit() {
+    this.ref.detach()
   }
 
 }

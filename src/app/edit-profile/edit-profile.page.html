@@ -39,7 +39,7 @@
           <ion-row>
             <ion-col>
               <div class="required-text">
-                Les champs avec * devant sont obligatoires
+                Les champs avec * sont obligatoires
               </div>
             </ion-col>
           </ion-row>
@@ -89,7 +89,7 @@
                   <input matInput disabled name="nom2" [(ngModel)]="profile1.pseudoIntime" maxlength="10" placeholder="NOM">
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
-                  <mat-label>MÉTIER</mat-label>
+                  <mat-label class="req-input">MÉTIER</mat-label>
                   <input matInput name="metier2" #metier="ngModel"  maxlength="50" [(ngModel)]="profile1.metier" placeholder="MÉTIER" (ngModelChange)="profile1.metier = $event + ''" required>
                 </mat-form-field>
                 <div class="limitCounter">
@@ -98,12 +98,12 @@
 
                 <mat-form-field class="example-full-width">
                   <mat-label>LOCALISATION</mat-label>
-                  <input matInput name="localisation2" #localisation="ngModel" [(ngModel)]="profile1.localisation" required placeholder="LOCALISATION">
+                  <input matInput name="localisation2" #localisation="ngModel" [(ngModel)]="profile1.localisation" placeholder="LOCALISATION">
                 </mat-form-field>
 
                 <mat-form-field  class="example-form-field">
                   <mat-label></mat-label>
-                  <input matInput name="biolabel" placeholder="Cliquer ici pour modifier le titre de la rubrique" [disabled]="!isEditableB" class="input-label"
+                  <input matInput name="biolabel" placeholder="Cliquer ici pour modifier le titre de la rubrique" [disabled]="!isEditableB" class="input-label req-input"
                     [(ngModel)]="profile1.bioLabel">
                   <button mat-button (click)="presentAlertConfirm()"  matSuffix mat-icon-button aria-label="Clear">
                     <mat-icon class="mode_edit">mode_edit</mat-icon>
@@ -130,7 +130,7 @@
                 </mat-form-field>
 
                 <mat-form-field >
-                  <input matInput name="label" [disabled]="!isEditableH" maxlength="15" placeholder="" class="input-label"
+                  <input matInput name="label" [disabled]="!isEditableH" maxlength="15" placeholder="" class="input-label req-input"
                     [(ngModel)]="profile1.tagsLabel">
                   <button mat-button (click)="presentAlertConfirmH()"  matSuffix mat-icon-button aria-label="Clear">
                     <mat-icon class="mode_edit">mode_edit</mat-icon>
@@ -186,7 +186,7 @@
 <ion-footer class="ion-no-border">
   <ion-toolbar>
 
-    <ion-button (click)="uploadImage()"  [disabled]="tags?.length === 0 || metier.errors?.required || bio.errors?.required || localisation.errors?.required" expand="full">
+    <ion-button (click)="uploadImage()"  [disabled]="tags?.length === 0 || metier.errors?.required || bio.errors?.required" expand="full">
       <span *ngIf="loading == false">ENREGISTRER</span>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -13,6 +13,7 @@ export class PrivacyPage implements OnInit {
 
   constructor(private menuCtrl: MenuController,
     public sanitizer: DomSanitizer,
+    private ref: ChangeDetectorRef
 
   ) {
     this.menuCtrl.close('first');
@@ -22,7 +23,9 @@ export class PrivacyPage implements OnInit {
   ngOnInit() {
   }
 
-
+  ngAfterViewInit() {
+    this.ref.detach()
+  }
 
 
 }

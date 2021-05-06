@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MenuController } from '@ionic/angular';
 
@@ -12,6 +12,7 @@ export class ConditionsPage implements OnInit {
   sanitizedURL = 'https://teepzy.com/conditions-generales-dutilisations/'
   constructor(private menuCtrl: MenuController,
     public sanitizer: DomSanitizer,
+    private ref: ChangeDetectorRef
 
   ) {
     this.menuCtrl.close('first');
@@ -20,6 +21,10 @@ export class ConditionsPage implements OnInit {
  
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    this.ref.detach()
   }
 
 }

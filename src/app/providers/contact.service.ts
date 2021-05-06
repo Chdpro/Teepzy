@@ -204,7 +204,7 @@ export class ContactService {
 
     teepZrs(userId): Observable<any> {
     let url = 'users/teepzr/' + userId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   AllTeepZrs(userId): Observable<any> {
@@ -240,7 +240,7 @@ export class ContactService {
 
   rePost(post): Observable<any> {
     let url = 'users/reposts';
-    return this.http.post(local_url + url, JSON.stringify(post), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   addRePost(post): Observable<any> {
@@ -319,7 +319,7 @@ export class ContactService {
 
   SearchInCircleOnMatch(search?: any) {
     let url = 'users/searchTeepzrsInCircle';
-    return this.http.post(local_url + url, JSON.stringify(search), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(search), httpOptionsJson);
   }
 
 

@@ -77,6 +77,11 @@
     <form *ngIf="usersSelected.length > 0" class="example-form">
       <ion-textarea class="input-m" type="text" name="msg" [placeholder]="placeholder + ' ' + placeholder_Link_userPseudo"  (ngModelChange)="message = $event + ''" [(ngModel)]="message" maxlength="90"  autosize>  
       </ion-textarea>
+      <span class="limitCounter">
+        <div>
+          {{message?.length}} / 90
+        </div>
+      </span>
       </form>
 
     <ion-button *ngIf="usersSelected.length > 0" (click)="linkPeople()" expand="full">

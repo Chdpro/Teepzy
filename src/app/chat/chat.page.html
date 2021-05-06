@@ -38,7 +38,7 @@
 
       <ion-row *ngFor="let message of messages;let last = last;trackBy: trackByFn" [matMenuTriggerFor]="clickHoverMenu"
         #clickHoverMenuTrigger="matMenuTrigger" (onLongPressing)="onLongPressing()">
-        {{last ? scrollToBottom() : ''}}
+     
         <ion-col *ngIf="message?.userId !== userId" size="2">
           <div *ngIf="message?.userPhoto_url == null || message?.userPhoto_url == ''" class="round-img-post">
             {{message?.pseudo | slice:0:1| uppercase}}
