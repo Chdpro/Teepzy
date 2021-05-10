@@ -147,7 +147,6 @@ export class ContactsPage implements OnInit {
           // permission granted
         } else if (success.hasPermission === false && 
           (checkContactRefuse === "2" || checkStorageRefuse === "2" || checkCamRefuse === "2")) {
-          //   this.router.navigate(['/permissions'])
         } else {
           this.router.navigate(['/permissions'])
         }
@@ -308,8 +307,6 @@ export class ContactsPage implements OnInit {
       }, error => {
         this.loading = false
       })
-
-
     }
   }
 
@@ -323,6 +320,7 @@ export class ContactsPage implements OnInit {
     //  this.myContacts = this.contactsTest
     this.myContacts = []
     this.listContacts = []
+    this.listTeepzrsToInvite.length = 1
     this.contacts.find(['*'], options).then((contacts) => {
       this.myContacts = this.getUniquesOnContacts(contacts)
       for (const mC of this.myContacts) {
@@ -434,7 +432,6 @@ export class ContactsPage implements OnInit {
       }
 
     }, error => {
-      console.log(error)
       if (this.listTeepzrsToInvite.length == 0) {
         this.listTeepzrsToInvite.length = 1
         this.highValueT = this.highValueT - 1
@@ -500,7 +497,6 @@ export class ContactsPage implements OnInit {
       })
     }, error => {
       this.presentToast('Invitation non envoyée')
-      // alert(JSON.stringify(error))
     })
   }
 

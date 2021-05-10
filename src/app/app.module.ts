@@ -43,6 +43,7 @@ import { WebView } from "@ionic-native/ionic-webview/ngx";
 import { FileOpener } from "@ionic-native/file-opener/ngx";
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { Base64 } from '@ionic-native/base64/ngx';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 
 import { local_url, base_url, test_url } from 'src/config';
 import { Globals } from './globals';
@@ -133,6 +134,7 @@ const config: SocketIoConfig = { url: base_url, options: { }};
     NetworkService,
     Network,
     NativeGeocoder,
+    AppVersion,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
     { 

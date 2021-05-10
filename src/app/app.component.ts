@@ -14,7 +14,8 @@ import { oneSignalAppId, sender_id } from 'src/config';
 import { PERMISSION } from './constant/constant';
 import { Socket } from 'ng-socket-io';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
-
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 
 export enum ConnectionStatus {
@@ -32,6 +33,8 @@ export class AppComponent {
   userId = ''
   userInfo: any
   address: any
+
+  appV = ""
 
   androidPermissionsList = [
     PERMISSION.WRITE_EXTERNAL_STORAGE,
@@ -53,6 +56,10 @@ export class AppComponent {
     private authService: AuthService,
     private oneSignal: OneSignal,
     private nativeGeocoder: NativeGeocoder,
+    private appVersion: AppVersion,
+    private clipboard: Clipboard,
+
+
   ) {
 
     this.initializeApp();
@@ -76,12 +83,13 @@ export class AppComponent {
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     let token = localStorage.getItem('teepzyToken')
+    this.getAppVersion()
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
     this.getPosition()
-  //  this.getUserInfo(this.userId, token)
+    //this.getUserInfo(this.userId, token)
   }
-  
+
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.backgroundColorByHexString("#ea4d5075");
@@ -112,6 +120,25 @@ export class AppComponent {
   }
 
 
+  copyShare(text) {
+    this.clipboard.copy(text).then(res => {
+      this.showToast("lien TeepZy copié")
+    });
+
+  }
+  getAppVersion() {
+    this.appVersion.getVersionNumber().then((version) => {
+      this.appV = version
+    });
+  }
+
+  async showToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 4000
+    });
+    toast.present();
+  }
 
   private onPushOpened(payload: OSNotificationPayload) {
     // alert('Push received :' + payload.body)

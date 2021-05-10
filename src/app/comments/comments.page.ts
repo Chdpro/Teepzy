@@ -50,10 +50,8 @@ export class CommentsPage implements OnInit {
      }
 
   ngOnInit() {
-    this.connectSocket()
     let post = this.navParams.data;
     this.getCommentsOfPost(post['_id'])
-   // console.log(post)
     this.userId = localStorage.getItem('teepzyUserId');
   }
 
@@ -63,19 +61,14 @@ export class CommentsPage implements OnInit {
   }
   
   closeModalOnSwipeDown(event) {
-   // console.log('close modal');
     this.dismiss()
   }
 
 
-  connectSocket(){
-   // this.socket.connect();
-  }
-
   getCommentsOfPost(postId) {
     this.postId = postId
     this.contactService.getCommentsOfPost(postId).subscribe(res => {
-    //  console.log(res);
+     // console.log(res);
       this.listComments = res['data']
     }, error => {
    //   console.log(error)
@@ -86,9 +79,7 @@ export class CommentsPage implements OnInit {
     this.commentT.userId = this.userId
     this.commentT.postId = this.postId
     this.contactService.addCommentToPost(this.commentT).subscribe(res => {
-     // console.log(res)
       if (res['status'] == 200) {
-      //  this.socket.emit('notification', 'notification');
         this.commentT.comment = ''
         this.getCommentsOfPost(this.postId)
       }

@@ -31,47 +31,38 @@
               <p class="content-comment">
                 {{c?.comment}}
               </p>
-            
+
             </mat-card-content>
             <mat-card-actions>
 
               <button (click)="getCommentsOfComment(c?._id)" class="btn-icon answers" mat-button
                 aria-label="Example icon button with a home icon">
-                Voir les réponses( {{ listCommentsOfComment?.length || '0' }} )
+                Voir les réponses( {{ c?.listCommentsOfComment || 0 }} )
               </button>
             </mat-card-actions>
-            <div *ngIf="showResponsePanel">
-              <div *ngFor="let cc of listCommentsOfComment?.reverse();trackBy: trackByFn ">
-                <div *ngIf="cc?.commentId == c?._id" class="mat-res" style="display: inline-flex;">
+            <div>
+              <div *ngFor="let cc of listCommentsOfComment?.reverse();let i = index;trackBy: trackByFn ">
+                <div *ngIf="cc?.commentId == c?._id" class="mat-res" >
                   <div mat-card-avatar>
-                    <img mat-card-image *ngIf="cc?.userPhoto_url != null " class="mat-img" [src]="cc?.userPhoto" alt="">
-                    <div *ngIf="cc?.userPhoto_url == null " class="round-img">
+                    <img mat-card-image *ngIf="cc?.userPhoto" class="mat-img" [src]="cc?.userPhoto" alt="">
+                    <div *ngIf="cc?.userPhoto == null || cc?.userPhoto == '' " class="round-img">
                       {{cc?.userPseudo | slice:0:1| uppercase}}
                     </div>
                   </div>
-                  <mat-card-title style="margin-left: 17px;">{{cc?.userPseudo}}</mat-card-title><br>
-                  <div>
+                  <mat-card-title class="res-cmt-pseudo">{{cc?.userPseudo}}</mat-card-title>
+                  <br>
+                  <div style="margin-left: 43px;">
                     {{cc?.comment}}
                   </div>
 
                 </div>
               </div>
 
-              <div *ngIf="listCommentsOfComment?.length == 0" style="text-align: center;">
+              <div *ngIf="c?.listCommentsOfComment === 0" style="text-align: center;">
                 Aucune réponse
               </div>
             </div>
-            <span *ngIf="showResponsePanel" style="display: flex;margin-top: 16px;">
-              <!-- Textarea in an item with a placeholder -->
-              <ion-item class="ion-textarea2">
-                <ion-textarea matInput name="commentCc" required #commentCc="ngModel" [(ngModel)]="commentC.comment"
-                  placeholder="Répondre..."></ion-textarea>
-              </ion-item>
-              <button (click)="addCommentToComment()" [disabled]="commentCc.errors?.required"
-                style="font-size: 30px;margin-right: -5px;" mat-button>
-                <ion-icon name="send-outline"></ion-icon>
-              </button>
-            </span>
+          
           </mat-card>
 
         </ion-col>
@@ -105,7 +96,7 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-row class="message_row">
+    <ion-row *ngIf="!showResponsePanel" class="message_row">
 
       <ion-col size="9">
         <ion-item no-lines>
@@ -119,6 +110,21 @@
           [disabled]="comment.errors?.required">
           <ion-icon name="send"></ion-icon>
         </button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col *ngIf="showResponsePanel">
+        <span  style="display: flex;margin-top: 16px;">
+          <!-- Textarea in an item with a placeholder -->
+          <ion-item class="ion-textarea2">
+            <ion-textarea matInput name="commentCc" required #commentCc="ngModel" [(ngModel)]="commentC.comment"
+              placeholder="Répondre à ce commentaire..."></ion-textarea>
+          </ion-item>
+          <button (click)="addCommentToComment()" [disabled]="commentCc.errors?.required"
+            style="font-size: 30px;margin-top: -36px;" mat-button>
+            <ion-icon name="send-outline"></ion-icon>
+          </button>
+        </span>
       </ion-col>
     </ion-row>
   </ion-toolbar>

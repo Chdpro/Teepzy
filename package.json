@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "@ionic-native/android-permissions": "^5.26.0",
+    "@ionic-native/app-version": "^5.32.1",
     "@ionic-native/base64": "^5.29.0",
     "@ionic-native/camera": "^5.26.0",
     "@ionic-native/camera-preview": "^5.29.0",
@@ -98,6 +99,7 @@
     "com-badrit-base64": "^0.2.0",
     "cordova-android": "^9.0.0",
     "cordova-plugin-add-swift-support": "^2.0.2",
+    "cordova-plugin-app-version": "^0.1.12",
     "cordova-plugin-camera-preview": "^0.12.1",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-file-opener2": "^3.0.5",
@@ -170,7 +172,8 @@
         "ANDROIDX_VERSION": "1.+"
       },
       "cordova-plugin-network-information": {},
-      "cordova-plugin-nativegeocoder": {}
+      "cordova-plugin-nativegeocoder": {},
+      "cordova-plugin-app-version": {}
     },
     "platforms": [
       "android"

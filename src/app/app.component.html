@@ -12,12 +12,12 @@
       </ion-list-->
 
       <ion-item>
-        <img src="../assets/Teepzy-06.png" alt="">
+        <img class="logo" src="../assets/Teepzy-06.png" alt="">
       </ion-item>
       <ion-list>
         <ion-item (click)="goToNotifications()">
           <ion-icon name="notifications-outline" slot="start"></ion-icon>
-           Notifications
+          Notifications
         </ion-item>
         <ion-item (click)="goToPrivacy()">
           <ion-icon name="shield-checkmark-outline" slot="start"></ion-icon>
@@ -47,12 +47,21 @@
           <ion-icon name="create-outline" slot="start"></ion-icon>
           Modifier mes infos
         </ion-item>
+        <ion-item (click)="copyShare()">
+          <ion-icon name="share-social-outline" slot="start"></ion-icon>
+          Partager TeepZy
+        </ion-item>
         <ion-item (click)="logout()">
           <ion-icon name="log-out-outline" slot="start"></ion-icon>
           Déconnexion
         </ion-item>
       </ion-list>
+
+      <div class="appVersion">
+        {{appV}}
+      </div>
     </ion-content>
   </ion-menu>
+
   <ion-router-outlet id="content1" main></ion-router-outlet>
 </ion-app>
