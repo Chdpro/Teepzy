@@ -320,7 +320,7 @@ export class ContactsPage implements OnInit {
     //  this.myContacts = this.contactsTest
     this.myContacts = []
     this.listContacts = []
-    this.listTeepzrsToInvite.length = 1
+    this.listTeepzrsToInvite = []
     this.contacts.find(['*'], options).then((contacts) => {
       this.myContacts = this.getUniquesOnContacts(contacts)
       for (const mC of this.myContacts) {

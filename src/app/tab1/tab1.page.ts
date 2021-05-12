@@ -425,11 +425,12 @@ onPlayerPause(api: VgApiService) {
   }
 
 
-  goToProfile(userId) {
-    if (this.userId === userId) {
-      this.router.navigate(['/tabs/profile', { userId: userId }])
+  goToProfile(userId, reposterId) {
+    console.log(userId, reposterId)
+    if (this.userId === userId || this.userId === reposterId) {
+      this.router.navigate(['/tabs/profile', { userId: userId || reposterId }])
     } else {
-      this.router.navigate(['/profile', { userId: userId, previousUrl: 'feed' }])
+      this.router.navigate(['/profile', { userId: userId || reposterId , previousUrl: 'feed' }])
     }
 
   }
@@ -498,6 +499,7 @@ onPlayerPause(api: VgApiService) {
       this.listPosts = []
       if (res['data'] != null) {
         this.listPosts = res['data']
+        console.log(this.listPosts)
         this.listPosts = this.listPosts.sort((a, b) => {
         return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
        })
@@ -519,6 +521,7 @@ onPlayerPause(api: VgApiService) {
   getFeedFromLocal(){
     this.contactService.feedsFromLocal().subscribe(listPosts =>{
       this.listPosts = listPosts
+      console.log(this.listPosts)
     })
   }
 

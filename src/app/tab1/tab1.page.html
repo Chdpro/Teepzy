@@ -208,14 +208,19 @@
               <span *ngIf="p?.reposterId == userId" style="font-size: small;position: relative;margin-left: 68px;">
                 Vous avez partagé le teepz de
               </span>
+
+              <span *ngIf="p?.reposterId && p?.reposterId !== userId" style="font-size: small;position: relative;margin-left: 68px;">
+              <strong (click)="goToProfile(p?.userId, p?.reposterId)">  {{p?.reposterPseudo}} </strong> a partagé le teepz de
+              </span>
             </ion-col>
+            
             <ion-col *ngIf="!p?.image_url && !p?.video_url" [ngStyle]="{'background': p?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
         'font-weight': p?.image_url ? '800': '100' }">
-              <div (click)="goToProfile(p?.userId)" class="avatar">
+              <div (click)="goToProfile(p?.userId  || p?.fromId, p?.reposterId)" class="avatar">
                 <img *ngIf="p?.userPhoto_url" class="img" [src]="p?.userPhoto_url" alt="">
               </div>
   
-              <div (click)="goToProfile(p?.userId)">
+              <div (click)="goToProfile(p?.userId || p?.fromId,p?.reposterId)">
                 <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class="round-img"
                   [ngStyle]='{"color": p?.backgroundColor == "#fff" ? "black" : "white" }'>
                   {{p?.userPseudo | slice:0:1| uppercase}}
@@ -269,11 +274,11 @@
     [ngStyle]="{'margin-top': p?.image_url ? '108px' : '108px'}">
     <div class="slidenav">
       <div *ngIf="p?.image_url|| p?.video_url">
-        <div (click)="goToProfile(p?.userId)" class="img-wrapper" style="float: right;">
+        <div (click)="goToProfile(p?.userId || p?.fromId, p?.reposterId)" class="img-wrapper" style="float: right;">
           <img *ngIf="p?.userPhoto_url" class="img img-media" [src]="p?.userPhoto_url" alt="">
         </div>
   
-        <div (click)="goToProfile(p?.userId)" style="float: right; color: #fff !important;" class="userPseudo-bg"
+        <div (click)="goToProfile(p?.userId || p?.fromId, p?.reposterId)" style="float: right; color: #fff !important;" class="userPseudo-bg"
           *ngIf="p?.image_url || p?.video_url">
           <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class=" pseudo-media"
             [ngStyle]="{'color':p?.image_url || p?.video_url ? '#00000' : '#ffff' }">

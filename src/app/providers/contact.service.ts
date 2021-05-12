@@ -346,7 +346,7 @@ export class ContactService {
 
   getCommentsOfPost(postId): Observable<any> {
     let url = 'users/comments/all/' + postId;
-    return this.http.get(local_url + url, httpOptionsJson);
+    return this.http.get(base_url + url, httpOptionsJson);
   }
 
   checkFavorite(check): Observable<any> {

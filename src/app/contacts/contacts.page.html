@@ -48,14 +48,11 @@
           </mat-form-field>
         </form>
 
-        <mat-paginator *ngIf="listTeepzrsToInvite?.length > 1" [length]="listTeepzrsToInvite?.length"
-          [pageSize]="pageSizeT" (page)="pageEvent = getPaginatorDataTeepzr($event)">
-        </mat-paginator>
         <ion-spinner *ngIf="loading && listTeepzrsToInvite?.length ==  0 " color="primary" name="dots">
         </ion-spinner>
 
         <div
-          *ngFor="let c of listTeepzrsToInvite |filter:contact | slice: lowValueT : highValueT  ;trackBy: trackByFn ">
+          *ngFor="let c of listTeepzrsToInvite |filter:contact ;trackBy: trackByFn ">
           <div *ngIf="listTeepzrsToInvite?.length > 1 && c?.phone">
 
             <ion-item *ngIf="c?.phone !== userPhone">
@@ -72,7 +69,7 @@
                   Inviter
                 </span>
               </ion-button>
-              <button *ngIf="c?.invited" (click)="cancelInvitationToJoinCircle(c)" mat-stroked-button>Annuler</button>
+              <button *ngIf="c?.invited" class="cancel-btn" (click)="cancelInvitationToJoinCircle(c)" mat-button>Annuler</button>
 
             </ion-item>
           </div>

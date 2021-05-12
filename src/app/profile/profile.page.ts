@@ -48,7 +48,7 @@ export class ProfilePage implements OnInit {
   user: any
   relationsCount = 0
 
-  pageEvent:any
+  pageEvent: any
   slideOpts = {
     initialSlide: 1,
     slidesPerView: 3,
@@ -92,27 +92,27 @@ export class ProfilePage implements OnInit {
   constructor(private router: Router, private modalController: ModalController,
     private dataPass: DatapasseService,
     private contactService: ContactService,
- //   private socket: Socket,
+    //   private socket: Socket,
     private menuCtrl: MenuController,
     public sanitizer: DomSanitizer,
     public route: ActivatedRoute,
     private authService: AuthService) {
-      this.menuCtrl.close('first');
-      this.menuCtrl.swipeGesture(false);
-      this.route.queryParams.subscribe(params => {
-        if (this.router.getCurrentNavigation().extras.state) {
-          this.listProducts = this.router.getCurrentNavigation().extras.state.listProducts;
-          this.listProjects = this.router.getCurrentNavigation().extras.state.listProjects;
-        }
-      });
+    this.menuCtrl.close('first');
+    this.menuCtrl.swipeGesture(false);
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.listProducts = this.router.getCurrentNavigation().extras.state.listProducts;
+        this.listProjects = this.router.getCurrentNavigation().extras.state.listProjects;
+      }
+    });
   }
 
   ngOnInit() {
-  
+
 
   }
 
-  subscriptions(){
+  subscriptions() {
     this.subscription = this.dataPass.get().subscribe(u => {
       if (u) {
         this.user = u
@@ -147,33 +147,34 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.subscriptions()
     let userId = localStorage.getItem('teepzyUserId')
     let idUser = this.route.snapshot.paramMap.get('userId')
     this.previousUrl = this.route.snapshot.paramMap.get('previousUrl')
+    console.log(this.previousUrl)
     if (!idUser) {
       this.getUserInfo(userId)
       this.getMyPosts(userId)
       this.getMyFavoritePosts(userId)
       this.isMyProfile = true
-    }else{
+    } else {
       this.getUserInfo(idUser)
       this.getMyPosts(idUser)
       this.getMyFavoritePosts(idUser)
       this.isMyProfile = false
 
     }
-   
-  }
-
-  goToDetailProject(project){
-    this.router.navigate(['/detail-project',project])
 
   }
 
-  goToDetailProduct(product){
-    this.router.navigate(['/detail-produit',product])
+  goToDetailProject(project) {
+    this.router.navigate(['/detail-project', project])
+
+  }
+
+  goToDetailProduct(product) {
+    this.router.navigate(['/detail-produit', product])
 
   }
 
@@ -185,21 +186,24 @@ export class ProfilePage implements OnInit {
 
   goToDetailMesTeepz(idTeepz) {
     this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'mesTeepz', previousBackUrl: this.previousUrl }])
-    
+
   }
   goToDetailTeepz(idTeepz) {
     this.router.navigate(['/detail-feed', { idTeepz: idTeepz, previousUrl: 'mesFavorite' }])
-    
+
   }
 
 
-  goToMembers(){
-    if (this.previousUrl == 'feed') {
-    this.router.navigate(['/friends', { previousUrl: 'feed',idUser: this.route.snapshot.paramMap.get('userId')  }])
-    } else {
-    this.router.navigate(['/friends'])
-      
+  goToMembers() {
+    let userId = localStorage.getItem('teepzyUserId')
+    if (userId === this.user['_id']) {
+      if (this.previousUrl == 'feed') {
+        this.router.navigate(['/friends', { previousUrl: 'feed', idUser: this.route.snapshot.paramMap.get('userId') }])
+      } else {
+        this.router.navigate(['/friends'])
+      }
     }
+
   }
 
   trackByFn(index, item) {
@@ -272,13 +276,13 @@ export class ProfilePage implements OnInit {
           if (this.selectedTab <= 4) {
             this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
           }
-      //    console.log("Swipe left - INDEX: " + this.selectedTab);
+          //    console.log("Swipe left - INDEX: " + this.selectedTab);
         } else if (swipe === 'previous') {
           const isLast = this.selectedTab === 4;
           if (this.selectedTab >= 1) {
             this.selectedTab = this.selectedTab - 1;
           }
-        //  console.log("Swipe right — INDEX: " + this.selectedTab);
+          //  console.log("Swipe right — INDEX: " + this.selectedTab);
         }
         // Do whatever you want with swipe
       }
@@ -305,10 +309,10 @@ export class ProfilePage implements OnInit {
 
   getMyFavoritePosts(userId) {
     this.contactService.favorites(userId).subscribe(res => {
-     // console.log(res)
+      // console.log(res)
       this.listFavorites = res['data'];
     }, error => {
-     // console.log(error)
+      // console.log(error)
     })
   }
 
@@ -362,11 +366,11 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewWillLeave() {
-     this.subscription?  this.subscription.unsubscribe() :  null
- 
-   }
-   ngOnDestroy() { 
-     this.subscription?  this.subscription.unsubscribe() :  null
-   }
+    this.subscription ? this.subscription.unsubscribe() : null
+
+  }
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
+  }
 
 }

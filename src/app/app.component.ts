@@ -87,7 +87,7 @@ export class AppComponent {
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
     this.getPosition()
-    //this.getUserInfo(this.userId, token)
+   // this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
@@ -120,7 +120,8 @@ export class AppComponent {
   }
 
 
-  copyShare(text) {
+  copyShare() {
+    let text = "https://play.google.com/store/apps/details?id=bsd.teepzy.com"
     this.clipboard.copy(text).then(res => {
       this.showToast("lien TeepZy copié")
     });
