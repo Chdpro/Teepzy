@@ -150,6 +150,21 @@ export class ContactService {
     }
   }
 
+  listMentionNotifications(id, page): Observable<any> {
+    let url = `users/notifications_mentions/` + id + `?page=${page}&limit=30`;
+ // console.log(this.networkService.networkStatus())
+    if (this.networkService.networkStatus() === Offline) {
+      // Return the cached data from Storage
+     return from(this.getLocalData(CACHE_KEYS.NOTIFICATIONS_MENTION))
+    } else {
+      // Return real API data and store it locally
+      return this.http.get(local_url + url, httpOptionsJson);
+      //  this.setLocalData('users', res);
+    }
+  }
+
+  
+
   NbrUnreadNotifications(userId): Observable<any> {
     let url = 'users/notifications/unreads/'+ userId;
     return this.http.get(base_url + url, httpOptionsJson);
@@ -235,7 +250,7 @@ export class ContactService {
 
   addPost(post): Observable<any> {
     let url = 'users/posts';
-    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
+    return this.http.post(local_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   uploadBase64(image): Observable<any> {
@@ -366,6 +381,10 @@ export class ContactService {
 
   notificationsFromLocal(): Observable<any> {
     return from(this.getLocalData(CACHE_KEYS.NOTIFICATIONS))
+   }
+
+   mentionsFromLocal(): Observable<any> {
+    return from(this.getLocalData(CACHE_KEYS.NOTIFICATIONS_MENTION))
    }
  
   addFavorite(favorite): Observable<any> {

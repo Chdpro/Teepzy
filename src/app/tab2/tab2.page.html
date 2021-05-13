@@ -145,7 +145,56 @@
               </ion-item-->
 
 
-          <div class="empty-msg">
+          <ion-item *ngFor="let n of mentions?.reverse();trackBy: trackByFn " (click)="goToElement(n?.toId, n?.icon_name, n?.roomId)">
+            <span style="margin-right: 24px;" class="material-icons">
+              {{n?.icon_name}}
+            </span>
+
+            <div class="round-img-post" *ngIf='userId !== n?.fromId'>
+              {{n?.pseudoIntime | slice:0:1| uppercase}}
+            </div>
+       
+            <ion-label>
+              <b *ngIf="userId != n?.fromId"> {{n?.pseudoIntime}} </b> 
+            
+
+              <span *ngIf="time(n?.createdAt) != 'il y a un mois'">
+                  <span *ngIf="time(n?.createdAt) != 'il y a un jour'">
+                    <span *ngIf="time(n?.createdAt) != 'il y a une minute'">
+                      <span class="time" *ngIf="time(n?.createdAt) != 'il y a une heure'">
+                        {{time(n?.createdAt) }}
+                      </span>
+                    </span>
+                  </span>
+                </span>
+                <span class="time" *ngIf="time(n?.createdAt) == 'il y a une minute'">
+                  il y a 1 minute
+                </span>
+                <span class="time" *ngIf="time(n?.createdAt) == 'il y a une heure'">
+                  il y a 1 heure
+                </span>
+                <span class="time" *ngIf="time(n?.createdAt) == 'il y a un jour'">
+                  il y a 1 jour
+                </span>
+                <span class="time" *ngIf="time(n?.createdAt) == 'il y a un mois'">
+                  il y a 1 mois
+                </span>
+       
+              <strong>
+                <span>
+                  {{n?.message}}
+                </span>
+              </strong>
+            </ion-label>
+            <span class="see-icon" *ngIf="n?.type == 'MENTION'" (click)="goToDetailTeepz(n?.toId)">
+              <button mat-button>
+                <ion-icon name="eye-outline"></ion-icon>
+              </button>
+            </span>
+
+              </ion-item>
+
+          <div *ngIf="mentions.length === 0" class="empty-msg">
             <span class="material-icons drafts">
               record_voice_over
             </span><br>

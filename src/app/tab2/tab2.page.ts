@@ -21,6 +21,7 @@ export class Tab2Page implements OnInit {
   invitations = []
   invitationsSms = []
   notifications = []
+  mentions = []
   links = []
   loading = false
   search: any
@@ -67,6 +68,8 @@ export class Tab2Page implements OnInit {
     this.listLinks()
     this.getNotificationsFromLocal()
     this.listNotifications()
+    this.getMentionsFromLocal()
+    this.listMentionNotifications()
     this.markNotificationsRead(this.userId)
   }
   swipe2(e: TouchEvent, when: string): void {
@@ -222,11 +225,32 @@ export class Tab2Page implements OnInit {
     })
   }
 
+  listMentionNotifications(event?) {
+    this.loading = true
+    this.contactService.listMentionNotifications(this.userId, this.page).subscribe(res => {
+      this.mentions = [... res['data']]
+      console.log(this.mentions)
+      this.contactService.setLocalData(CACHE_KEYS.NOTIFICATIONS_MENTION, res)
+      this.loading = false
+    }, error => {
+      console.log(error)
+      this.loading = false
+
+    })
+  }
+
+
 
   getNotificationsFromLocal(){
     this.contactService.notificationsFromLocal().subscribe(listNotifications =>{
       this.listNotifications = listNotifications.data
   //    console.log(listNotifications)
+    })
+  }
+
+  getMentionsFromLocal(){
+    this.contactService.mentionsFromLocal().subscribe(listNotifications =>{
+      this.mentions = listNotifications.data
     })
   }
 
