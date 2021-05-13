@@ -238,6 +238,11 @@ export class ContactService {
     return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
+  uploadBase64(image): Observable<any> {
+    let url = 'upload-avatar-base64';
+    return this.http.post(base_url + url, image, httpOptionsJson);
+  }
+
   rePost(post): Observable<any> {
     let url = 'users/reposts';
     return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);

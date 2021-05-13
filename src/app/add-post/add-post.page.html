@@ -5,12 +5,18 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <div class="example-button-container">
-      <ion-button *ngIf="!loading" color="secondary" style="margin-top: 1px;" (click)="uploadImage()"
+      <!--ion-button *ngIf="!loading" color="secondary" style="margin-top: 1px;" (click)="uploadImage()"
         [disabled]="contentMsg.errors?.required" expand="block" shape="round">
         <span >
           Publier
         </span>
-      </ion-button>
+      </ion-button-->
+      <ion-button *ngIf="!loading" color="secondary" style="margin-top: 1px;" (click)="uploadCroppedImage()"
+      [disabled]="contentMsg.errors?.required" expand="block" shape="round">
+      <span >
+        Publier
+      </span>
+    </ion-button>
       <ion-button *ngIf="loading" color="secondary" style="margin-top: 1px;"
       [disabled]="contentMsg.errors?.required" expand="block" shape="round">
       <ion-spinner name="dots"></ion-spinner>
@@ -42,6 +48,29 @@
               <source [src]="dispVideos[0]" type="video/mp4">
             </video>
           </div>
+
+          <image-cropper
+              [imageBase64]="myImage"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="4 / 3"
+              format="png"
+              (imageCropped)="imageCropped($event)"
+              (imageLoaded)="imageLoaded()"
+              outputType="base64"
+          >
+        </image-cropper>
+
+
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Cropped Image</ion-card-title>
+            </ion-card-header>
+          
+            <ion-card-content>
+              <img alt="" [src]="croppedImage" />
+            </ion-card-content>
+          </ion-card>
+          
         </ion-col>
 
         <ion-col>
@@ -49,14 +78,13 @@
             <mat-form-field class="">
               <mat-label [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">Tapez ce que vous
                 voulez</mat-label>
-              <textarea [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }" matInput
+              <textarea [mention]="members" [mentionConfig]="{triggerChar:'@',maxItems:10,labelKey:'pseudoIntime'}" [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }" matInput
                 [(ngModel)]="post.content" name="contentMsg" required #contentMsg="ngModel" maxlength="130" rows="15"
                 (ngModelChange)="post.content = $event + ''" cols="60"
-                placeholder="Ex. Je recherche un graphiste..."></textarea> 
+                placeholder="Ex. Je recherche un graphiste...">
+              </textarea> 
             </mat-form-field>
             <span>
-
-
               <div class="limit-chars" *ngIf="post?.content.length == 130">
                 limite maximale de caractère à 130
               </div>

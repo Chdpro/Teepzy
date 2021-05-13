@@ -8,6 +8,8 @@ import { AddPostPageRoutingModule } from './add-post-routing.module';
 import { MaterialModule } from '../material.module';
 
 import { AddPostPage } from './add-post.page';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { MentionModule } from 'angular-mentions';
 
 @NgModule({
   imports: [
@@ -16,6 +18,8 @@ import { AddPostPage } from './add-post.page';
     IonicModule,
     MaterialModule,
     AddPostPageRoutingModule,
+    ImageCropperModule,
+    MentionModule
   ],
 //  entryComponents: [AddPostPage],
   declarations: [AddPostPage]

@@ -12,11 +12,11 @@ import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MESSAGES } from '../constant/constant';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Router } from '@angular/router';
 import { File } from '@ionic-native/file/ngx';
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 
 
 @Component({
@@ -61,8 +61,20 @@ export class AddPostPage implements OnInit {
   currentPlaying = null
   createdPost
 
+  myImage = ""
+  croppedImage = null
+  @ViewChild(ImageCropperComponent, {static: false}) angularCropper: ImageCropperComponent;
 
+  imageBase64 = {
+    imageName : "",
+    base64image:''
 
+  }
+
+  items: string[] = ["Noah", "Liam", "Mason", "Jacob" ]
+
+  userId = ''
+  members = []
   constructor(public modalController: ModalController,
     private toastController: ToastController,
     private authService: AuthService,
@@ -96,8 +108,10 @@ export class AddPostPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.userId = localStorage.getItem('teepzyUserId');
     this.post.userId = localStorage.getItem('teepzyUserId');
     this.getUserInfo(this.post.userId)
+    this.getUsersOfCircle()
     //this.socket.emit('online', this.post.userId);
 
   }
@@ -106,6 +120,17 @@ export class AddPostPage implements OnInit {
 removeMedia(){
   this.dispVideos = []
   this.dispImags = []
+}
+
+getUsersOfCircle() {
+  this.contactService.getCircleMembers(this.userId).subscribe(res => {
+    //console.log(res);
+    this.members = res['data']
+    console.log(this.members);
+  }, error => {
+    // console.log(error)
+
+  })
 }
 
 
@@ -135,7 +160,7 @@ removeMedia(){
         text: 'Choisir une image',
         icon: "images",
         handler: () => {
-          this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+          this.picImage(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
       },
      /* {
@@ -371,6 +396,73 @@ removeMedia(){
     })
   }
 
+
+
+  // Data url file select
+  picImage(sourceType) {
+    if (this.user.isPhotoAuthorized === true) {
+      const options: CameraOptions = {
+        quality: 100,
+        sourceType: sourceType,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      }
+      this.camera.getPicture(options).then((imageData) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):
+         this.myImage = 'data:image/jpeg;base64,' + imageData;
+      
+
+      }, (err) => {
+        // Handle error
+
+      });
+    } else {
+      this.presentToast("Vous n'avez pas autorisé l'accès à la prise de photo")
+    }
+
+  }
+
+
+  imageCropped(event: ImageCroppedEvent){
+    this.croppedImage = event.base64
+    this.imageBase64.base64image = this.croppedImage
+    this.imageBase64.imageName = (Math.random() * 100000000000000000) + '.jpg'
+  }
+
+  uploadCroppedImage(){
+    if (this.imageBase64.base64image) {
+      this.contactService.uploadBase64(this.imageBase64).subscribe(res =>{
+        console.log(res)
+        this.addPost()
+      }, error =>{
+        console.log(error)
+      })
+    } else{
+      this.addPost()
+    }
+  }
+
+  clear(){
+    this.angularCropper.imageBase64 = null
+    this.myImage = null;
+    this.croppedImage = null
+  }
+  save(){
+    this.angularCropper.crop()
+  }
+
+  rotateLeft(){ }
+  rotateRight(){}
+  flipVertical(){}
+  move(x,y){
+    this.angularCropper.cropper.x1 += x 
+    this.angularCropper.cropper.x2 += x 
+    this.angularCropper.cropper.y1 += y 
+    this.angularCropper.cropper.y2 += y 
+
+  }
 
   setBackgroundColor(color: string) {
     console.log(color)

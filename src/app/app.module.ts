@@ -66,6 +66,7 @@ import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
 import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
 import { CacheModule } from "ionic-cache-observable";
 const config: SocketIoConfig = { url: base_url, options: { }};
+import { MentionModule } from 'angular-mentions';
 
 @NgModule({
   declarations: [AppComponent,Autosize],
@@ -99,7 +100,8 @@ const config: SocketIoConfig = { url: base_url, options: { }};
     LinkSheetPageModule,
     Ng2SearchPipeModule,
     IonicSwipeAllModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    MentionModule
   ],
   providers: [
     StatusBar,
