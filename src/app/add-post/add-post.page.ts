@@ -428,13 +428,15 @@ getUsersOfCircle() {
   imageCropped(event: ImageCroppedEvent){
     this.croppedImage = event.base64
     this.imageBase64.base64image = this.croppedImage
-    this.imageBase64.imageName = (Math.random() * 100000000000000000) + '.jpg'
+    this.imageBase64.imageName =  (Math.random() * 100000000000000000) + '0'
   }
 
   uploadCroppedImage(){
     if (this.imageBase64.base64image) {
       this.contactService.uploadBase64(this.imageBase64).subscribe(res =>{
         console.log(res)
+        var serverUrl = base_url + 'upload-avatar-base64'
+        this.post.image_url = serverUrl + this.imageBase64.imageName
         this.addPost()
       }, error =>{
         console.log(error)

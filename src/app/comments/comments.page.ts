@@ -38,6 +38,7 @@ export class CommentsPage implements OnInit {
   subscription: Subscription
   @ViewChild('myInput', null) myInput: ElementRef;
 
+  members = []
   constructor(private modalController: ModalController, 
     private contactService: ContactService,
     private toasterController: ToastController,
@@ -53,7 +54,19 @@ export class CommentsPage implements OnInit {
     let post = this.navParams.data;
     this.getCommentsOfPost(post['_id'])
     this.userId = localStorage.getItem('teepzyUserId');
+    this.getUsersOfCircle()
   }
+
+  getUsersOfCircle() {
+    this.contactService.getCircleMembers(this.userId).subscribe(res => {
+      //console.log(res);
+      this.members = res['data']
+    }, error => {
+      // console.log(error)
+  
+    })
+  }
+  
 
 
   resize() {

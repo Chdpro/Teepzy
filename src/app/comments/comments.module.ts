@@ -8,6 +8,7 @@ import { CommentsPageRoutingModule } from './comments-routing.module';
 import { MaterialModule } from '../material.module';
 
 import { CommentsPage } from './comments.page';
+import { MentionModule } from 'angular-mentions';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { CommentsPage } from './comments.page';
     FormsModule,
     IonicModule,
     MaterialModule,
-    CommentsPageRoutingModule
+    CommentsPageRoutingModule,
+    MentionModule
   ],
   entryComponents: [CommentsPage],
   declarations: [CommentsPage]
