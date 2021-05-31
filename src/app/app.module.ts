@@ -33,7 +33,6 @@ import { AddProjectPageModule } from './add-project/add-project.module';
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
-import { VideoPlayer } from '@ionic-native/video-player/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { IonicSwipeAllModule } from 'ionic-swipe-all';
 import {
@@ -119,7 +118,6 @@ import { MentionModule } from 'angular-mentions';
     FilePath,
     SMS,
     File,
-    VideoPlayer,
     CameraPreview,
     FileOpener,
     FileChooser,
@@ -130,7 +128,6 @@ import { MentionModule } from 'angular-mentions';
     Globals,
     Diagnostic,
     Base64,
-    VideoPlayer,
     MediaCapture,
     UploadService,
     NetworkService,
@@ -150,7 +147,8 @@ import { MentionModule } from 'angular-mentions';
   //ionic cordova plugin remove cordova-plugin-media-capture
   //ionic cordova plugin remove cordova-plugin-camera
   //ionic cordova plugin remove https://github.com/moust/cordova-plugin-videoplayer.git
-  //ionic cordova plugin remove cordova-sms-plugin
+  //sudo ionic cordova plugin remove https://github.com/moust/cordova-plugin-videoplayer.git
+
 
   //ionic cordova plugin add cordova-plugin-file
   //ionic cordova plugin add cordova-plugin-file-transfer

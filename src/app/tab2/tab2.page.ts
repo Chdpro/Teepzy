@@ -250,7 +250,7 @@ export class Tab2Page implements OnInit {
 
   getMentionsFromLocal(){
     this.contactService.mentionsFromLocal().subscribe(listNotifications =>{
-      this.mentions = listNotifications.data
+     listNotifications ? this.mentions = listNotifications.data : null
     })
   }
 

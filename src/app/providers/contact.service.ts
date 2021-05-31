@@ -158,7 +158,7 @@ export class ContactService {
      return from(this.getLocalData(CACHE_KEYS.NOTIFICATIONS_MENTION))
     } else {
       // Return real API data and store it locally
-      return this.http.get(local_url + url, httpOptionsJson);
+      return this.http.get(base_url + url, httpOptionsJson);
       //  this.setLocalData('users', res);
     }
   }
@@ -250,7 +250,7 @@ export class ContactService {
 
   addPost(post): Observable<any> {
     let url = 'users/posts';
-    return this.http.post(local_url + url, JSON.stringify(post), httpOptionsJson);
+    return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   uploadBase64(image): Observable<any> {

@@ -1,0 +1,9 @@
+server error 
+
+     at processTicksAndRejections (internal/process/task_queues.js:84:21)
+[1] sleep 5s; node /usr/src/app/server.js exited with code 1
+[0] 15:M 27 May 2021 15:49:35.087 * 1 changes in 3600 seconds. Saving...
+[0] 15:M 27 May 2021 15:49:35.087 * Background saving started by pid 60
+[0] 60:C 27 May 2021 15:49:35.090 * DB saved on disk
+[0] 60:C 27 May 2021 15:49:35.090 * RDB: 0 MB of memory used by copy-on-write
+[0] 15:M 27 May 2021 15:49:35.188 * Background saving terminated with success

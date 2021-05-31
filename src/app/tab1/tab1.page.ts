@@ -481,6 +481,7 @@ onPlayerPause(api: VgApiService) {
       component: CommentsPage,
       componentProps: post,
       backdropDismiss: false,
+      cssClass: 'comment-class',
       showBackdrop: true,
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,

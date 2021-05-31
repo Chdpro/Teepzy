@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, } from '@angular/common/http';
-import { local_url, test_url, base_url } from 'src/config';
+import { base_url, test_url, local_url } from 'src/config';
 import { Observable, of, from } from 'rxjs';
 import { codes } from '../data/code';
 import { Storage } from '@ionic/storage';
