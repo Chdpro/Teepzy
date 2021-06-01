@@ -180,7 +180,8 @@
       "cordova-plugin-nativegeocoder": {
         "LOCATION_WHEN_IN_USE_DESCRIPTION": "Use geocoder service"
       },
-      "cordova-plugin-app-version": {}
+      "cordova-plugin-app-version": {},
+      "onesignal-cordova-plugin": {}
     },
     "platforms": [
       "android"

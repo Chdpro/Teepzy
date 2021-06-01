@@ -148,8 +148,10 @@ import { MentionModule } from 'angular-mentions';
   //ionic cordova plugin remove cordova-plugin-camera
   //ionic cordova plugin remove https://github.com/moust/cordova-plugin-videoplayer.git
   //sudo ionic cordova plugin remove https://github.com/moust/cordova-plugin-videoplayer.git
+//ionic cordova plugin remove onesignal-cordova-plugin
 
 
+//ionic cordova plugin add onesignal-cordova-plugin
   //ionic cordova plugin add cordova-plugin-file
   //ionic cordova plugin add cordova-plugin-file-transfer
   //ionic cordova plugin add cordova-plugin-filepath
