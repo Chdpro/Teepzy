@@ -389,7 +389,7 @@ export class ContactService {
  
   addFavorite(favorite): Observable<any> {
     let url = 'users/addFavorite';
-    return this.http.post(local_url + url, favorite, httpOptionsJson);
+    return this.http.post(base_url + url, favorite, httpOptionsJson);
   }
 
   addMessageFavorite(favorite): Observable<any> {
