@@ -11,7 +11,7 @@ import { CommentsPage } from '../comments/comments.page';
 import { Router } from '@angular/router';
 import { Globals } from '../globals';
 import { DomSanitizer } from '@angular/platform-browser';
-import { typeAccount, MESSAGES } from '../constant/constant';
+import { typeAccount, MESSAGES, CACHE_KEYS } from '../constant/constant';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
 
 
@@ -351,6 +351,7 @@ export class FeedPage implements OnInit {
     //  this.socket.emit('notification', 'notification');
       //   console.log(res)
       this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = true : null)
+      this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
       this.presentToast('Ajouté aux favoris')
     }, error => {
       this.presentToast('Oops! une erreur est survenue')
@@ -366,6 +367,7 @@ export class FeedPage implements OnInit {
     this.contactService.removeFavorite(favoris).subscribe(res => {
       //  console.log(res)
       this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = false : null)
+      this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
       this.presentToast(MESSAGES.REMOVE_FAVORITE_OK)
     }, error => {
       this.presentToast(MESSAGES.SERVER_ERROR)

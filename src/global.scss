@@ -108,7 +108,7 @@ iframe{
     height: 30% !important;
     top: 0;
     bottom: 0 !important;
-    border-radius: 39px 45px 1px 1px;
+    border-radius: 39px 45px 1px 1px !important;
     background: #F0EFEF;
 }
 
@@ -166,4 +166,8 @@ iframe{
 
  ion-content{
     position: relative;
+ }
+
+ .carousel{
+     display: -webkit-inline-flex !important;
  }

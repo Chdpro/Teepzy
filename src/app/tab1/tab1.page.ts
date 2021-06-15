@@ -79,7 +79,7 @@ export class Tab1Page implements OnInit {
   api: VgApiService;
 
   videoMuted = ''
-  videoUrl =''
+  videoUrl = ''
 
   constructor(
     private authService: AuthService,
@@ -95,7 +95,7 @@ export class Tab1Page implements OnInit {
     public sanitizer: DomSanitizer,
     public actionSheetController: ActionSheetController,
     private contactService: ContactService
-    ) {
+  ) {
     this.menuCtrl.enable(true, 'first');
     this.menuCtrl.swipeGesture(false);
     this.global = globals;
@@ -104,33 +104,33 @@ export class Tab1Page implements OnInit {
       if (post) {
         this.listPosts.push(post)
       }
-    //  console.log(this.listPosts)
+      //  console.log(this.listPosts)
       this.listPosts = this.listPosts.sort((a, b) => {
         return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
-       })
+      })
     });
   }
 
   ngOnInit() {
- 
+
   }
 
-  
+
 
 
   ionViewWillEnter() {
     this.connectSocket()
     this.userId = localStorage.getItem('teepzyUserId');
- //   this.socket.emit('online', this.userId);
+    //   this.socket.emit('online', this.userId);
     this.getUserInfo(this.userId)
     if (this.networkService.networkStatus() === Offline) {
-    this.getFeedFromLocal()      
+      this.getFeedFromLocal()
     } else {
       this.getFeedFromLocal()
       this.getPosts(this.userId)
     }
     this.isTutoSkip = localStorage.getItem("isTutoSkip")
- 
+
   }
   ngAfterViewInit() {
   }
@@ -164,7 +164,7 @@ export class Tab1Page implements OnInit {
     this.listPosts.length == 0 ? this.getPosts(this.userId) : null
   }
 
-  
+
   connectSocket() {
     /*this.socket.connect();
     this.socket.fromEvent('user-notification').subscribe(notif => {
@@ -249,7 +249,7 @@ export class Tab1Page implements OnInit {
 
   stopVideo() {
     if (this.videoPlayers) {
-     // console.log(this.videoPlayers)
+      // console.log(this.videoPlayers)
       const nativeElement = this.videoPlayers.nativeElement;
       this.currentPlaying = nativeElement;
       this.currentPlaying.muted = true;
@@ -259,31 +259,31 @@ export class Tab1Page implements OnInit {
 
   }
 
-  unMute(){
-      const nativeElement = this.videoPlayers.nativeElement;
-      if (!this.isElementInViewPort(nativeElement)) {
-        this.videoMuted = ''
-        this.videoPlayers.nativeElement.pause()
-      }
-      
-    
-  //  this.onPlayerPause(this.api)
+  unMute() {
+    const nativeElement = this.videoPlayers.nativeElement;
+    if (!this.isElementInViewPort(nativeElement)) {
+      this.videoMuted = ''
+      this.videoPlayers.nativeElement.pause()
+    }
+
+
+    //  this.onPlayerPause(this.api)
 
   }
 
   swipeEvent(event?: Event, videoUrl?: any) {
     if (videoUrl) {
-    this.videoPlayers.nativeElement = document.getElementById(videoUrl)
-    const nativeElement = this.videoPlayers.nativeElement
-    nativeElement.pause() 
+      this.videoPlayers.nativeElement = document.getElementById(videoUrl)
+      const nativeElement = this.videoPlayers.nativeElement
+      nativeElement.pause()
     }
-   // this.onPlayerPause(this.api)
-  //  const nativeElement = this.videoPlayers.nativeElement;
-  //  console.log(this.isElementInViewPort(nativeElement))
-  //  if (this.isElementInViewPort(nativeElement)) {
-  //   this.videoMuted = ''
-  //   this.videoPlayers.nativeElement.pause()
-  // }
+    // this.onPlayerPause(this.api)
+    //  const nativeElement = this.videoPlayers.nativeElement;
+    //  console.log(this.isElementInViewPort(nativeElement))
+    //  if (this.isElementInViewPort(nativeElement)) {
+    //   this.videoMuted = ''
+    //   this.videoPlayers.nativeElement.pause()
+    // }
   }
 
 
@@ -344,24 +344,24 @@ export class Tab1Page implements OnInit {
     this.api = api;
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
       () => {
-          // Set the video to the beginning
-          this.api.getDefaultMedia().currentTime = 0;
-          console.log(this.api.getDefaultMedia().currentTime)
-
-      }
-  );
-}
-
-onPlayerPause(api: VgApiService) {
-  this.api = api;
-  this.api.getDefaultMedia().subscriptions.ended.subscribe(
-    () => {
         // Set the video to the beginning
         this.api.getDefaultMedia().currentTime = 0;
-    }
-);
-}
-  
+        console.log(this.api.getDefaultMedia().currentTime)
+
+      }
+    );
+  }
+
+  onPlayerPause(api: VgApiService) {
+    this.api = api;
+    this.api.getDefaultMedia().subscriptions.ended.subscribe(
+      () => {
+        // Set the video to the beginning
+        this.api.getDefaultMedia().currentTime = 0;
+      }
+    );
+  }
+
 
   initVdo() {
     this.data.play();
@@ -399,9 +399,15 @@ onPlayerPause(api: VgApiService) {
       type: 'POST'
     }
     this.contactService.addFavorite(favoris).subscribe(res => {
-    //  this.socket.emit('notification', 'notification');
-      //   console.log(res)
-      this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = true : null)
+      this.listPosts.find((c, index) => {
+        if (c['_id'] === postId) {
+          c['favorite'] = true
+          c['favoriteCount'] = c['favoriteCount'] + 1 
+        }
+        return true
+      }
+      )
+      this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
       this.presentToast('Ajouté aux favoris')
     }, error => {
       this.presentToast('Oops! une erreur est survenue')
@@ -416,7 +422,16 @@ onPlayerPause(api: VgApiService) {
     }
     this.contactService.removeFavorite(favoris).subscribe(res => {
       //  console.log(res)
-      this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = false : null)
+      this.listPosts.find((c, index) => {
+        if (c['_id'] === postId) {
+          c['favorite'] = false
+          c['favoriteCount'] = c['favoriteCount'] - 1 
+        }
+        return true
+
+      })
+      
+      this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
       this.presentToast(MESSAGES.REMOVE_FAVORITE_OK)
     }, error => {
       this.presentToast(MESSAGES.SERVER_ERROR)
@@ -430,7 +445,7 @@ onPlayerPause(api: VgApiService) {
     if (this.userId === userId || this.userId === reposterId) {
       this.router.navigate(['/tabs/profile', { userId: userId || reposterId }])
     } else {
-      this.router.navigate(['/profile', { userId: userId || reposterId , previousUrl: 'feed' }])
+      this.router.navigate(['/profile', { userId: userId || reposterId, previousUrl: 'feed' }])
     }
 
   }
@@ -489,9 +504,9 @@ onPlayerPause(api: VgApiService) {
     return await modal.present();
   }
 
-  pauseOrPlay(video){
+  pauseOrPlay(video) {
     video.pause();
-}
+  }
 
   getPosts(userId) {
     this.timeCall = 1
@@ -502,10 +517,10 @@ onPlayerPause(api: VgApiService) {
         this.listPosts = res['data']
         console.log(this.listPosts)
         this.listPosts = this.listPosts.sort((a, b) => {
-        return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
-       })
+          return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
+        })
 
-      this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
+        this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
       } else {
         this.listPosts = []
         this.tutosTexts()
@@ -514,15 +529,16 @@ onPlayerPause(api: VgApiService) {
       this.timeCall = 0
     }, error => {
       this.loading = false
-       console.log(error)
-      
+      console.log(error)
+
     })
   }
 
-  getFeedFromLocal(){
-    this.contactService.feedsFromLocal().subscribe(listPosts =>{
+  getFeedFromLocal() {
+    this.contactService.feedsFromLocal().subscribe(listPosts => {
       this.listPosts = listPosts
       console.log(this.listPosts)
+      return listPosts
     })
   }
 
@@ -531,71 +547,6 @@ onPlayerPause(api: VgApiService) {
     return moment(date).fromNow()
   }
 
-
-
-  // checkFavorite(favorite, e) {
-  //   this.contactService.checkFavorite(favorite).subscribe(res => {
-  //     if (res['status'] == 201) {
-  //       let dateStamp = e['createdAt'].slice(0,10).split('-').join('')
-  //       let timeStamp = e['createdAt'].slice(11,19).split(':').join('')
-  //       this.listPosts.push(
-  //         {
-  //           _id: e['_id'],
-  //           userId: e['userId'],
-  //           userPhoto_url: e['userPhoto_url'],
-  //           userPseudo: e['userPseudo'],
-  //           content: e['content'],
-  //           image_url: e['image_url'],
-  //           video_url: e['video_url'],
-  //           backgroundColor: e['backgroundColor'],
-  //           includedUsers: e['includedUsers'],
-  //           createdAt: e['createdAt'],
-  //           reposterId: e['reposterId'],
-  //           matches: e['matches'],
-  //           nbrComments: e['nbrComments'],
-  //           favorite: true,
-  //           favoriteCount:e['favoriteCount'],
-  //           repostCounts: e['repostCounts'],
-  //           dateTimeStamp: dateStamp + timeStamp
-  //         },
-  //       )
-
-  //     } else {
-  //       let dateStamp = e['createdAt'].slice(0,10).split('-').join('')
-  //       let timeStamp = e['createdAt'].slice(11,19).split(':').join('')
-
-  //       this.listPosts.push(
-  //         {
-  //           _id: e['_id'],
-  //           userId: e['userId'],
-  //           userPhoto_url: e['userPhoto_url'],
-  //           userPseudo: e['userPseudo'],
-  //           content: e['content'],
-  //           image_url: e['image_url'],
-  //           video_url: e['video_url'],
-  //           backgroundColor: e['backgroundColor'],
-  //           includedUsers: e['includedUsers'],
-  //           createdAt: e['createdAt'],
-  //           reposterId: e['reposterId'],
-  //           matches: e['matches'],
-  //           nbrComments: e['nbrComments'],
-  //           favorite: false,
-  //           favoriteCount: e['favoriteCount'],
-  //           repostCounts: e['repostCounts'],
-  //           dateTimeStamp: dateStamp + timeStamp
-
-  //         },
-  //       )
-  //     }
-
-  //     this.listPosts = this.listPosts.sort((a, b) => {
-  //       return b.dateTimeStamp - a.dateTimeStamp
-  //     })
-
-  //     this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
-  //   }, error =>{
-  //   })
-  // }
 
 
   async changePseudo() {
@@ -659,3 +610,5 @@ onPlayerPause(api: VgApiService) {
   }
 
 }
+
+

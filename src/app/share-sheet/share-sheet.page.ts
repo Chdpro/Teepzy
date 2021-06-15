@@ -118,7 +118,7 @@ export class ShareSheetPage implements OnInit {
           text: 'Diffuse une fausse information',
           handler: () => {
             let reason = 'Diffuse une fausse information'
-            this.signaler(this.post['postId'], reason)
+            this.signaler(this.post['_id'], reason)
           }
         }
         ,
@@ -126,7 +126,7 @@ export class ShareSheetPage implements OnInit {
           text: 'Propos Illégaux',
           handler: () => {
             let reason = 'Propos Illégaux'
-            this.signaler(this.post['postId'], reason)
+            this.signaler(this.post['_id'], reason)
           }
         }
         ,
@@ -134,7 +134,7 @@ export class ShareSheetPage implements OnInit {
           text: 'Proposition incitant à commettre un acte illégal',
           handler: () => {
             let reason = 'Proposition incitant à commettre un acte illégal'
-            this.signaler(this.post['postId'], reason)
+            this.signaler(this.post['_id'], reason)
 
           }
         }
