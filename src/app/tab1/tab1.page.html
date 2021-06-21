@@ -158,7 +158,7 @@
 
 
   </ion-slides>
-  <mat-carousel [style.position]="fixed" timings="100ms ease-in" [autoplay]="false" interval="100" color="accent" maxWidth="auto" proportion="25"
+  <mat-carousel timings="100ms ease-in" [autoplay]="false" interval="100" color="accent" maxWidth="auto" proportion="25"
     [loop]="true" [hideArrows]="false" [hideIndicators]="true" [useKeyboard]="true" [useMouseWheel]="false"
     orientation="ltr">
     <mat-carousel-slide #matCarouselSlide *ngFor="let p of listPosts; trackBy: trackByFn "

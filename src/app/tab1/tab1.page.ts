@@ -346,7 +346,7 @@ export class Tab1Page implements OnInit {
       () => {
         // Set the video to the beginning
         this.api.getDefaultMedia().currentTime = 0;
-        console.log(this.api.getDefaultMedia().currentTime)
+     //   console.log(this.api.getDefaultMedia().currentTime)
 
       }
     );
@@ -392,7 +392,7 @@ export class Tab1Page implements OnInit {
 
 
   addFavorite(postId) {
-    console.log(postId)
+  //  console.log(postId)
     let favoris = {
       userId: this.userId,
       postId: postId,
@@ -440,12 +440,12 @@ export class Tab1Page implements OnInit {
   }
 
 
-  goToProfile(userId, reposterId) {
-    console.log(userId, reposterId)
-    if (this.userId === userId || this.userId === reposterId) {
-      this.router.navigate(['/tabs/profile', { userId: userId || reposterId }])
+  goToProfile(userId) {
+   // console.log(userId, reposterId)
+    if (this.userId === userId ) {
+      this.router.navigate(['/tabs/profile', { userId: userId }])
     } else {
-      this.router.navigate(['/profile', { userId: userId || reposterId, previousUrl: 'feed' }])
+      this.router.navigate(['/profile', { userId: userId, previousUrl: 'feed' }])
     }
 
   }
@@ -515,7 +515,7 @@ export class Tab1Page implements OnInit {
       this.listPosts = []
       if (res['data'] != null) {
         this.listPosts = res['data']
-        console.log(this.listPosts)
+    //    console.log(this.listPosts)
         this.listPosts = this.listPosts.sort((a, b) => {
           return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
         })
@@ -529,7 +529,7 @@ export class Tab1Page implements OnInit {
       this.timeCall = 0
     }, error => {
       this.loading = false
-      console.log(error)
+  //    console.log(error)
 
     })
   }
@@ -537,7 +537,7 @@ export class Tab1Page implements OnInit {
   getFeedFromLocal() {
     this.contactService.feedsFromLocal().subscribe(listPosts => {
       this.listPosts = listPosts
-      console.log(this.listPosts)
+  //    console.log(this.listPosts)
       return listPosts
     })
   }

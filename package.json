@@ -97,7 +97,7 @@
     "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
     "com-badrit-base64": "^0.2.0",
-    "cordova-android": "^9.0.0",
+    "cordova-android": "^9.1.0",
     "cordova-ios": "^6.2.0",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-app-version": "^0.1.12",
@@ -178,7 +178,6 @@
       "cordova-plugin-app-version": {}
     },
     "platforms": [
-      "android",
       "ios"
     ]
   }

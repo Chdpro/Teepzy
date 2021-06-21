@@ -570,14 +570,6 @@ export class ContactService {
   // Get cached API result
   getLocalData(key): Promise<any> {
     return  this.storage.get(`${API_STORAGE_KEY}-${key}`)
-    //  .then((val) => {
-    //  data = val
-    //  alert("In block" + JSON.stringify(val))
-    //  return data
-    // });
-    //alert("Out block" + JSON.stringify(data))
-
-    
   }
 
 }
