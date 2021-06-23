@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController, ToastController } from '@ionic/angular';
 import { AuthService } from '../providers/auth.service';
 import { MESSAGES } from '../constant/constant';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-info',
@@ -29,6 +30,7 @@ export class EditInfoPage implements OnInit {
   loadingA = false
   loading = false
   retourUsr = 0
+  subscription: Subscription
   constructor(private menuCtrl: MenuController,
     private authService: AuthService,
     private toasterController: ToastController
@@ -112,6 +114,10 @@ export class EditInfoPage implements OnInit {
     this.user.birthday = dte.toISOString()
     //console.log(this.user.birthday)
 
+  }
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
   }
 
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-debut',
@@ -9,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class DebutPage implements OnInit {
 
+  subscription: Subscription
+  
   constructor(
     private menuCtrl: MenuController,
     private router:Router

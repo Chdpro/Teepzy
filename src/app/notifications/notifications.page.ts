@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController, AlertController, ToastController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-notifications',
@@ -15,6 +16,7 @@ export class NotificationsPage implements OnInit {
   n2:Boolean = true
   userId = ''
   user:any
+  subscription: Subscription
   constructor(private menuCtrl: MenuController,
     private contactService: ContactService,
     private authService: AuthService,
@@ -32,7 +34,7 @@ export class NotificationsPage implements OnInit {
   
 
     getUserInfo(userId) {
-      this.authService.myInfos(userId).subscribe(res => {
+    this.subscription =  this.authService.myInfos(userId).subscribe(res => {
         //  console.log(res)
         this.user = res['data'];
         this.n = this.user.isConversationNotificationAuthorized
@@ -98,7 +100,7 @@ export class NotificationsPage implements OnInit {
         userId: this.userId,
         isConversationNotificationAuthorized: n
       }
-      this.contactService.authorizeConversationNotifications(authorize).subscribe(res =>{
+     this.subscription = this.contactService.authorizeConversationNotifications(authorize).subscribe(res =>{
         console.log(res)
         this.user =  res['data']
         this.n = n
@@ -154,7 +156,7 @@ export class NotificationsPage implements OnInit {
         userId: this.userId,
         isInvitationNotificationAuthorized: n
       }
-      this.contactService.authorizeInvitationNotifications(authorize).subscribe(res =>{
+      this.subscription = this.contactService.authorizeInvitationNotifications(authorize).subscribe(res =>{
         console.log(res)
         this.user =  res['data']
         this.n2 = n

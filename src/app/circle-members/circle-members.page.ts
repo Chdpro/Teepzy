@@ -65,7 +65,7 @@ export class CircleMembersPage implements OnInit {
     this.loading = true
     this.chatRoom.connectedUsers = this.membersToChatWith
     this.chatRoom.name != '' ? null : this.chatRoom.name = 'Entre nous deux'
-    this.contactService.initChatRoom(this.chatRoom).subscribe(res => {
+    this.subscription = this.contactService.initChatRoom(this.chatRoom).subscribe(res => {
       console.log(res)
       let room = res['data']
       if (res['status'] == 200) {
@@ -129,7 +129,7 @@ export class CircleMembersPage implements OnInit {
 
   getUsersOfCircle() {
     this.loading = true
-    this.contactService.getCircleMembers(this.userId).subscribe(res => {
+   this.subscription = this.contactService.getCircleMembers(this.userId).subscribe(res => {
       //console.log(res);
       this.members = res['data']
       this.loading = false
@@ -139,17 +139,6 @@ export class CircleMembersPage implements OnInit {
 
     })
   }
-
-
-  /* getUsers() {
-    this.contactService.AllTeepZrs(this.userId).subscribe(res => {
-      console.log(res);
-      this.members = res['data']
-    }, error => {
-      console.log(error)
-    })
-  }*/
-
 
   deleteItemFromList(list, i) {
     // get index of object with id:37
@@ -178,7 +167,5 @@ export class CircleMembersPage implements OnInit {
 
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null
-    //this.socket.removeAllListeners('message');
-    //this.socket.removeAllListeners('users-changed');
-  }
+ }
 }

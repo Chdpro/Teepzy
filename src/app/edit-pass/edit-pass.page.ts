@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MESSAGES } from '../constant/constant';
 import { ToastController, MenuController } from '@ionic/angular';
 import { AuthService } from '../providers/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-pass',
@@ -23,6 +24,7 @@ export class EditPassPage implements OnInit {
 
   hide:any
   
+  subscription: Subscription
   constructor(private menuCtrl: MenuController,
     private authService: AuthService,
     private toasterController: ToastController
@@ -39,7 +41,7 @@ export class EditPassPage implements OnInit {
 
 
   getUserInfo(userId) {
-    this.authService.myInfos(userId).subscribe(res => {
+   this.subscription = this.authService.myInfos(userId).subscribe(res => {
     //  console.log(res)
       this.userInfo = res['data'];
       
@@ -54,7 +56,7 @@ export class EditPassPage implements OnInit {
       email: this.userInfo.email,
       password: this.user.old,
     }
-    this.authService.login(user).subscribe(res =>{
+   this.subscription = this.authService.login(user).subscribe(res =>{
       console.log(res)
       if (res['status'] ==  200) {
         if (this.user.new === this.user.conf) {
@@ -81,7 +83,7 @@ export class EditPassPage implements OnInit {
 
   updatePass(user) {
     this.loading = true
-    this.authService.changePassword(user).subscribe(res => {
+   this.subscription = this.authService.changePassword(user).subscribe(res => {
       console.log(res)
       this.presentToast(MESSAGES.PASSWORD_UPDATED_OK)
       this.loading = false
@@ -93,6 +95,9 @@ export class EditPassPage implements OnInit {
     })
   }
 
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
+  }
 
 
   async presentToast(msg) {

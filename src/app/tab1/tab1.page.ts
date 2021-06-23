@@ -119,7 +119,6 @@ export class Tab1Page implements OnInit {
 
 
   ionViewWillEnter() {
-    this.connectSocket()
     this.userId = localStorage.getItem('teepzyUserId');
     //   this.socket.emit('online', this.userId);
     this.getUserInfo(this.userId)
@@ -139,6 +138,8 @@ export class Tab1Page implements OnInit {
     if (this.navigationSubscription) {
       this.navigationSubscription.unsubscribe();
     }
+    this.subscription ? this.subscription.unsubscribe() : null
+
   }
 
   skipTuto() {
@@ -164,13 +165,6 @@ export class Tab1Page implements OnInit {
     this.listPosts.length == 0 ? this.getPosts(this.userId) : null
   }
 
-
-  connectSocket() {
-    /*this.socket.connect();
-    this.socket.fromEvent('user-notification').subscribe(notif => {
-      //   console.log(notif)
-    });*/
-  }
 
 
 
@@ -277,13 +271,6 @@ export class Tab1Page implements OnInit {
       const nativeElement = this.videoPlayers.nativeElement
       nativeElement.pause()
     }
-    // this.onPlayerPause(this.api)
-    //  const nativeElement = this.videoPlayers.nativeElement;
-    //  console.log(this.isElementInViewPort(nativeElement))
-    //  if (this.isElementInViewPort(nativeElement)) {
-    //   this.videoMuted = ''
-    //   this.videoPlayers.nativeElement.pause()
-    // }
   }
 
 
@@ -335,9 +322,7 @@ export class Tab1Page implements OnInit {
 
   videoPlayerInit(data) {
     this.data = data;
-
     this.data.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.initVdo.bind(this));
-    //this.data.getDefaultMedia().subscriptions.ended.subscribe(this.nextVideo.bind(this));
   }
 
   onPlayerReady(api: VgApiService) {
@@ -346,7 +331,7 @@ export class Tab1Page implements OnInit {
       () => {
         // Set the video to the beginning
         this.api.getDefaultMedia().currentTime = 0;
-     //   console.log(this.api.getDefaultMedia().currentTime)
+        //   console.log(this.api.getDefaultMedia().currentTime)
 
       }
     );
@@ -392,7 +377,7 @@ export class Tab1Page implements OnInit {
 
 
   addFavorite(postId) {
-  //  console.log(postId)
+    //  console.log(postId)
     let favoris = {
       userId: this.userId,
       postId: postId,
@@ -402,7 +387,7 @@ export class Tab1Page implements OnInit {
       this.listPosts.find((c, index) => {
         if (c['_id'] === postId) {
           c['favorite'] = true
-          c['favoriteCount'] = c['favoriteCount'] + 1 
+          c['favoriteCount'] = c['favoriteCount'] + 1
         }
         return true
       }
@@ -425,12 +410,12 @@ export class Tab1Page implements OnInit {
       this.listPosts.find((c, index) => {
         if (c['_id'] === postId) {
           c['favorite'] = false
-          c['favoriteCount'] = c['favoriteCount'] - 1 
+          c['favoriteCount'] = c['favoriteCount'] - 1
         }
         return true
 
       })
-      
+
       this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
       this.presentToast(MESSAGES.REMOVE_FAVORITE_OK)
     }, error => {
@@ -441,8 +426,8 @@ export class Tab1Page implements OnInit {
 
 
   goToProfile(userId) {
-   // console.log(userId, reposterId)
-    if (this.userId === userId ) {
+    // console.log(userId, reposterId)
+    if (this.userId === userId) {
       this.router.navigate(['/tabs/profile', { userId: userId }])
     } else {
       this.router.navigate(['/profile', { userId: userId, previousUrl: 'feed' }])
@@ -511,11 +496,11 @@ export class Tab1Page implements OnInit {
   getPosts(userId) {
     this.timeCall = 1
     this.loading = true
-    this.contactService.getPosts(userId).subscribe(res => {
+   this.subscription = this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
       if (res['data'] != null) {
         this.listPosts = res['data']
-    //    console.log(this.listPosts)
+        //    console.log(this.listPosts)
         this.listPosts = this.listPosts.sort((a, b) => {
           return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
         })
@@ -529,15 +514,15 @@ export class Tab1Page implements OnInit {
       this.timeCall = 0
     }, error => {
       this.loading = false
-  //    console.log(error)
+      //    console.log(error)
 
     })
   }
 
   getFeedFromLocal() {
-    this.contactService.feedsFromLocal().subscribe(listPosts => {
+  this.subscription = this.contactService.feedsFromLocal().subscribe(listPosts => {
       this.listPosts = listPosts
-  //    console.log(this.listPosts)
+      //    console.log(this.listPosts)
       return listPosts
     })
   }

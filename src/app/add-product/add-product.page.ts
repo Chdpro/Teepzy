@@ -30,12 +30,13 @@ export class AddProductPage implements OnInit {
     tags: [],
     description: '',
     price: '',
-    userPhoto_url:'',
-    userPseudo:''
+    userPhoto_url: '',
+    userPseudo: ''
   }
 
 
   subscription: Subscription;
+
   listProducts = []
   loading = false
 
@@ -76,7 +77,7 @@ export class AddProductPage implements OnInit {
   }
 
   getUserInfo(userId) {
-    this.authService.myInfos(userId).subscribe(res => {
+    this.subscription = this.authService.myInfos(userId).subscribe(res => {
       // console.log(res)
       this.user = res['data'];
     }, error => {
@@ -118,7 +119,7 @@ export class AddProductPage implements OnInit {
   }
 
   getProducts(userId) {
-    this.authService.myInfos(userId).subscribe(res => {
+    this.subscription = this.authService.myInfos(userId).subscribe(res => {
       // console.log(res)
       this.listProducts = res['products']
       this.dataPass.sendProducts(this.listProducts);
@@ -134,7 +135,7 @@ export class AddProductPage implements OnInit {
   }
 
   addPost(post) {
-    this.contactService.addPost(post).subscribe(res => {
+    this.subscription = this.contactService.addPost(post).subscribe(res => {
       this.presentToast("Publié sur le fil d'actualité")
     }, error => {
       // this.presentToast(MESSAGES.ADD_FEED_ERROR)
@@ -157,7 +158,7 @@ export class AddProductPage implements OnInit {
       this.tags.length > 0 ? this.product.tags = this.tags : null;
       this.product.userPhoto_url = this.user.photo
       this.product.userPseudo = this.user.pseudoIntime
-      this.contactService.addProduct(this.product).subscribe(res => {
+      this.subscription = this.contactService.addProduct(this.product).subscribe(res => {
         // console.log(res);
         this.loading = false
         this.presentToast(MESSAGES.SHOP_CREATED_OK);
@@ -176,7 +177,7 @@ export class AddProductPage implements OnInit {
       this.tags.length > 0 ? this.product.tags = this.tags : null;
       this.product.userPhoto_url = this.user.photo
       this.product.userPseudo = this.user.pseudoIntime
-      this.contactService.addProduct(this.product).subscribe(res => {
+      this.subscription = this.contactService.addProduct(this.product).subscribe(res => {
         // console.log(res);
         this.loading = false
         this.presentToast(MESSAGES.SHOP_CREATED_OK);
@@ -276,9 +277,9 @@ export class AddProductPage implements OnInit {
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.dispImags[0] = (<any>window).Ionic.WebView.convertFileSrc(imageData)
-        this.filePath.resolveNativePath(imageData).then((nativepath) => {
-            this.photos[0] = nativepath
-        })
+      this.filePath.resolveNativePath(imageData).then((nativepath) => {
+        this.photos[0] = nativepath
+      })
     }, (err) => {
       // Handle error
       // alert(JSON.stringify(err))

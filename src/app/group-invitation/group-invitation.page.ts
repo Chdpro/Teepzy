@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import { NavParams, ModalController, ToastController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 //import { typeAccount } from '../constant/constant';
 //import { Socket } from 'ngx-socket-io';
 
@@ -19,6 +20,7 @@ export class GroupInvitationPage implements OnInit {
   search:any
   group:any
   previousUrl = ''
+  subscription: Subscription
   constructor(private contactService: ContactService, 
     private modalController: ModalController,
     private toastController: ToastController,
@@ -37,7 +39,7 @@ export class GroupInvitationPage implements OnInit {
   }
 
   getMembers(){
-    this.contactService.getRoomMembers(this.roomId).subscribe(res =>{
+   this.subscription = this.contactService.getRoomMembers(this.roomId).subscribe(res =>{
       console.log(res)
       this.members = res['data']
     }, error =>{
@@ -46,7 +48,7 @@ export class GroupInvitationPage implements OnInit {
   }
 
   getRoom(){
-    this.contactService.getChatRoom(this.roomId).subscribe(res =>{
+  this.subscription = this.contactService.getChatRoom(this.roomId).subscribe(res =>{
       console.log(res)
       this.group = res['data']
       //this.members = res['data']
@@ -70,7 +72,7 @@ export class GroupInvitationPage implements OnInit {
       connectedUsers: newConnectedUsers,
     }
     console.log(room)
-    this.contactService.removeUserFromChatRoom(this.roomId,  room).subscribe(res =>{
+    this.subscription = this.contactService.removeUserFromChatRoom(this.roomId,  room).subscribe(res =>{
       console.log(res)
       this.getMembers()
       this.dismiss()
@@ -86,6 +88,10 @@ export class GroupInvitationPage implements OnInit {
     this.modalController.dismiss({
       'dismissed': true
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
   }
 
   async presentToast(msg) {

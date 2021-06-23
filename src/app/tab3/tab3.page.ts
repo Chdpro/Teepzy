@@ -127,7 +127,7 @@ export class Tab3Page implements OnInit {
 
 
   getUsersOfCircle() {
-    this.contactService.getCircleMembers(this.userId).subscribe(res => {
+   this.subscription = this.contactService.getCircleMembers(this.userId).subscribe(res => {
       //console.log(res);
       this.members = res['data']
     }, error => {
@@ -138,7 +138,7 @@ export class Tab3Page implements OnInit {
   removeRoom(room) {
     console.log(room)
     if (this.userId === room['userId']) {
-    this.contactService.removeRoomByInitiator(room._id).subscribe(res => {
+   this.subscription = this.contactService.removeRoomByInitiator(room._id).subscribe(res => {
       //console.log(res);
       this.showToast("Conversation Supprimée")
       this.getChatRooms()
@@ -148,7 +148,7 @@ export class Tab3Page implements OnInit {
 
     })
     } else if (room['connectedUsers'].includes(this.userId)) {
-      this.contactService.removeRoomByConnectedUser(room._id).subscribe(res => {
+     this.subscription = this.contactService.removeRoomByConnectedUser(room._id).subscribe(res => {
         //console.log(res);
         this.showToast("Conversation Supprimée")
         this.getChatRooms()
@@ -163,7 +163,7 @@ export class Tab3Page implements OnInit {
   getChatRooms() {
     this.loading = true
     let conversations = []
-    this.contactService.mChatRooms(this.userId).subscribe(res => {
+   this.subscription = this.contactService.mChatRooms(this.userId).subscribe(res => {
       let r = res['data']
       this.contactService.setLocalData(CACHE_KEYS.ROOMS, res)
       for (const room of r) {
@@ -264,14 +264,10 @@ export class Tab3Page implements OnInit {
   }
 
   ionViewWillLeave() {
-    // this.socket.disconnect();
-    //console.log('disconnected')
     this.subscription ? this.subscription.unsubscribe() : null
 
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null
-    //this.socket.removeAllListeners('message');
-    //this.socket.removeAllListeners('users-changed');
   }
 }

@@ -8,6 +8,7 @@ import { AuthService } from '../providers/auth.service';
 import { typeAccount, CACHE_KEYS, MESSAGES, PERMISSION } from '../constant/constant';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -82,6 +83,8 @@ export class ContactsPage implements OnInit {
   selectedTab = 0
 
   previousRoute = ''
+
+  subscription: Subscription
   constructor(private contacts: Contacts,
     public toastController: ToastController,
     private socialSharing: SocialSharing,
@@ -158,7 +161,7 @@ export class ContactsPage implements OnInit {
   }
 
   getCachedContacts() {
-    this.contactService.getContactsCached(CACHE_KEYS.CONTACTS).subscribe(val => {
+   this.subscription = this.contactService.getContactsCached(CACHE_KEYS.CONTACTS).subscribe(val => {
       this.listContacts = JSON.parse(val)
       if (this.listContacts !== null) {
         this.getTeepzr()
@@ -279,7 +282,7 @@ export class ContactsPage implements OnInit {
       let inviteViaSms = {
         phone: mC.phoneNumbers[0].value,
       }
-      this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
+     this.subscription = this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
         if (res['status'] == 201) {
           let phones = this.getUniques(mC.phoneNumbers)
           this.listContacts.push(
@@ -371,7 +374,7 @@ export class ContactsPage implements OnInit {
       userId: this.userId,
       isContactAuthorized: n
     }
-    this.contactService.authorizeContacts(authorize).subscribe(res => {
+   this.subscription = this.contactService.authorizeContacts(authorize).subscribe(res => {
       console.log(res)
       this.userInfo = res['data']
       this.n = n
@@ -396,7 +399,7 @@ export class ContactsPage implements OnInit {
 
   getTeepzr() {
     let list = []
-    this.contactService.teepZrs(this.userId).subscribe(res => {
+   this.subscription = this.contactService.teepZrs(this.userId).subscribe(res => {
       console.log(res)
       this.listTeepZrs = res['data']
       this.contactService.setLocalData(CACHE_KEYS.CONTACTS, JSON.stringify(this.listContacts));
@@ -413,7 +416,7 @@ export class ContactsPage implements OnInit {
       this.listTeepZrs = this.getUniquesOnContacts(list)
       this.listTeepZrs.forEach(e => {
         let invitation = { idSender: this.userId, idReceiver: e['_id'] }
-        this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
+       this.subscription = this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
           if (res['status'] == 201) {
             this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], invited: true })
           } else {
@@ -445,7 +448,7 @@ export class ContactsPage implements OnInit {
 
   getUsersOfCircle() {
     this.loading = true
-    this.contactService.getCircleMembers(this.userId).subscribe(res => {
+   this.subscription = this.contactService.getCircleMembers(this.userId).subscribe(res => {
       let circleMembers = res['data']
       for (const cm of circleMembers) {
         this.circleMembersId.push(cm['_id'])
@@ -486,7 +489,7 @@ export class ContactsPage implements OnInit {
       senderId: this.userId,
       phone: phone
     }
-    this.contactService.inviteViaSms(inviteViaSms).subscribe(res => {
+   this.subscription = this.contactService.inviteViaSms(inviteViaSms).subscribe(res => {
       //  console.log(res)
       this.presentToast('Invitation envoyée')
       this.listContacts.find((c, index) => {
@@ -506,7 +509,7 @@ export class ContactsPage implements OnInit {
       senderId: this.userId,
       phone: phone
     }
-    this.contactService.deleteInviteViaSms(inviteViaSms).subscribe(res => {
+   this.subscription = this.contactService.deleteInviteViaSms(inviteViaSms).subscribe(res => {
       // console.log(res)
       this.presentToast('Invitation annulée')
       this.listContacts.find((c, index) => {
@@ -529,7 +532,7 @@ export class ContactsPage implements OnInit {
       idReceiver: idReceiver,
       typeLink: typeAccount.pseudoIntime
     }
-    this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
+   this.subscription = this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
       // console.log(res)
       for (const c of this.listTeepzrsToInvite) {
         if (c !== undefined) {
@@ -552,7 +555,7 @@ export class ContactsPage implements OnInit {
       idReceiver: u._id,
     }
 
-    this.contactService.cancelToJoinCircle(invitation).subscribe(res => {
+   this.subscription = this.contactService.cancelToJoinCircle(invitation).subscribe(res => {
       if (res['status'] == 400) {
         this.presentToast('Invitation non envoyée')
         this.loading = false
@@ -573,7 +576,7 @@ export class ContactsPage implements OnInit {
   }
 
   getUserInfo(userId) {
-    this.authService.myInfos(userId).subscribe(res => {
+   this.subscription = this.authService.myInfos(userId).subscribe(res => {
       // console.log(res)
       this.userInfo = res['data'];
       this.contactService.setLocalData(CACHE_KEYS.PROFILE, res['data'])
@@ -630,7 +633,7 @@ export class ContactsPage implements OnInit {
   }
 
   getTeepzrOutCircle() {
-    this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
+   this.subscription = this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
         console.log(res)
       this.listTeepZrs = res['data']
       this.listTeepZrs.forEach(e => {
@@ -650,7 +653,7 @@ export class ContactsPage implements OnInit {
   }
 
   checkInvitationOutCircle(invitation, e) {
-    this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
+   this.subscription = this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
       if (res['status'] == 201) {
         this.listTeepzrsToInviteOutCircle.push(
           {
@@ -676,6 +679,10 @@ export class ContactsPage implements OnInit {
         )
       }
     })
+  }
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
   }
 
 

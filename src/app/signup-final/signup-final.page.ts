@@ -9,6 +9,7 @@ import { base_url } from 'src/config';
 import { ContactService } from '../providers/contact.service';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { MESSAGES } from '../constant/constant';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-signup-final',
@@ -43,7 +44,7 @@ export class SignupFinalPage implements OnInit {
   loadingP = false
 
 
-
+  subscription: Subscription
   constructor(private authService: AuthService,
     public router: Router,
     public toastController: ToastController,
@@ -72,7 +73,7 @@ export class SignupFinalPage implements OnInit {
 
 
   getUserInfo(userId) {
-    this.authService.myInfos(userId).subscribe(res => {
+    this.subscription = this.authService.myInfos(userId).subscribe(res => {
       //  console.log(res)
       this.userInfo = res['data'];
       this.userInfo['photo'] ? this.dispImags[0] = this.userInfo['photo'] : null
@@ -84,7 +85,7 @@ export class SignupFinalPage implements OnInit {
   updateUser() {
     if ((this.user.pseudoIntime != '')) {
       this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase()
-      this.authService.update(this.user).subscribe(res => {
+      this.subscription = this.authService.update(this.user).subscribe(res => {
         //  console.log(res)
         if (res['status'] == 200) {
           this.retourUsr = true
@@ -94,7 +95,7 @@ export class SignupFinalPage implements OnInit {
             userId: this.user.userId,
             isOnline: true
           }
-          this.contactService.getConnected(user).subscribe(res => {
+          this.subscription = this.contactService.getConnected(user).subscribe(res => {
             //   console.log(res)
           })
           this.router.navigateByUrl('/tuto-video', {
@@ -127,8 +128,7 @@ export class SignupFinalPage implements OnInit {
   check() {
     this.loadingA = true
     this.user.pseudoIntime = this.user.pseudoIntime.toLowerCase().replace(/\s/g, '')
-    //console.log(this.user.pseudoIntime)
-    this.authService.check(this.user).subscribe(res => {
+    this.subscription = this.authService.check(this.user).subscribe(res => {
       //console.log(res)
       this.loadingA = false
 
@@ -148,7 +148,7 @@ export class SignupFinalPage implements OnInit {
 
   checkP() {
     this.loadingP = true
-    this.authService.check(this.user).subscribe(res => {
+    this.subscription = this.authService.check(this.user).subscribe(res => {
       // console.log(res)
       this.loadingP = false
       if (res['status'] == 201) {
@@ -273,4 +273,8 @@ export class SignupFinalPage implements OnInit {
     return await this.loadingCtrl.dismiss().then(() => console.log('dismissed'));
   }
 
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
+  }
 }

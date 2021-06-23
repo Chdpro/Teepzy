@@ -161,7 +161,7 @@ export class EditProfilePage implements OnInit {
     let userId = localStorage.getItem('teepzyUserId')
     // update profile 1
     this.tags.length > 0 ? this.profile1.hobbies = this.tags : null
-    this.authService.updateProfile(this.profile1).subscribe(res => {
+   this.subcription = this.authService.updateProfile(this.profile1).subscribe(res => {
       this.presentToast(MESSAGES.PROFILE_UPDATED_OK)
       this.getUserInfo(userId)
       this.loading = false

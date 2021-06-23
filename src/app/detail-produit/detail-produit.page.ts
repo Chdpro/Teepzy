@@ -6,6 +6,7 @@ import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
 import { MESSAGES } from '../constant/constant';
 import { Globals } from '../globals';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detail-produit',
@@ -32,6 +33,7 @@ export class DetailProduitPage implements OnInit {
     initialSlide: 1,
     speed: 400
   };
+  subscription: Subscription
   
   constructor(
     private menuCtrl: MenuController,
@@ -40,10 +42,8 @@ export class DetailProduitPage implements OnInit {
     private toastController: ToastController,
     private contactService: ContactService,
     private authService: AuthService,
-    private dataPasse: DatapasseService,
     public globals: Globals,
     private router: Router,
-    private navController: NavController
   ) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -64,8 +64,7 @@ export class DetailProduitPage implements OnInit {
     this.product.userId = product.userId
     this.userId = localStorage.getItem('teepzyUserId')
     this.userId === product.userId ? this.showDeleteBtn = true: this.showDeleteBtn = false
-   // console.log(tags)
-   // console.log(product)
+ 
   }
 
 
@@ -108,7 +107,7 @@ export class DetailProduitPage implements OnInit {
   }
 
   delete(id) {
-    this.contactService.deleteProduct(id).subscribe(res => {
+   this.subscription = this.contactService.deleteProduct(id).subscribe(res => {
      // console.log(res)
       this.presentToast(MESSAGES.SHOP_DELETED_OK)
       this.getUserInfo(this.userId)
@@ -118,7 +117,7 @@ export class DetailProduitPage implements OnInit {
   }
 
   getUserInfo(userId) {
-    this.authService.myInfos(userId).subscribe(res => {
+   this.subscription = this.authService.myInfos(userId).subscribe(res => {
       this.listProducts = res['products']
      // this.dataPasse.sendProducts(this.listProducts)
      let navigationExtras: NavigationExtras = {
@@ -131,6 +130,10 @@ export class DetailProduitPage implements OnInit {
     })
   }
 
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
+  }
 
   async presentToast(msg) {
     const toast = await this.toastController.create({

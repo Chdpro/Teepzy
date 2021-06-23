@@ -164,8 +164,6 @@ export class CommentsPage implements OnInit {
 
   ngOnDestroy() { 
     this.subscription?  this.subscription.unsubscribe() :  null
-  //  this.socket.removeAllListeners('message');
-    //this.socket.removeAllListeners('users-changed');
   }
   
   dismiss() {

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastController, LoadingController, MenuController } from '@ionic/angular';
 import { ContactService } from '../providers/contact.service';
 import { MESSAGES } from '../constant/constant';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ export class LoginPage implements OnInit {
   loading = false;
   retourUsr: any
   profileInfo: any
+  subscription: Subscription
   constructor(
     private authService: AuthService,
     public router: Router,
@@ -42,7 +44,7 @@ export class LoginPage implements OnInit {
 
   auth() {
     this.presentLoading()
-    this.authService.login(this.user).subscribe(res => {
+    this.subscription = this.authService.login(this.user).subscribe(res => {
      // console.log(res)
       this.retourUsr = res;
       this.profileInfo = res['data']
@@ -58,7 +60,7 @@ export class LoginPage implements OnInit {
           userId: id,
           isOnline: true
         }
-        this.contactService.getConnected(user).subscribe(res => {
+       this.subscription = this.contactService.getConnected(user).subscribe(res => {
        //   console.log(res)
         })
         localStorage.setItem('FinalStepCompleted', 'FinalStepCompleted')
@@ -110,6 +112,11 @@ export class LoginPage implements OnInit {
       });
     });
   }
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
+  }
+
 
   async dismissLoading() {
     this.loading = false;

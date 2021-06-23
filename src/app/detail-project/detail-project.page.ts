@@ -6,6 +6,7 @@ import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
 import { MESSAGES } from '../constant/constant';
 import { Globals } from '../globals';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detail-project',
@@ -34,6 +35,7 @@ export class DetailProjectPage implements OnInit {
     speed: 400
   };
   
+  subscription: Subscription
   constructor(
     private menuCtrl: MenuController,
     private route: ActivatedRoute,
@@ -97,7 +99,7 @@ export class DetailProjectPage implements OnInit {
   }
 
   delete(id){
-    this.contactService.deleteProject(id).subscribe(res =>{
+   this.subscription = this.contactService.deleteProject(id).subscribe(res =>{
     //  console.log(res)
       this.presentToast(MESSAGES.PROJECT_DELETED_OK)
       this.getUserInfo(this.userId)
@@ -117,7 +119,7 @@ export class DetailProjectPage implements OnInit {
 
 
   getUserInfo(userId) {
-    this.authService.myInfos(userId).subscribe(res => {
+    this.subscription = this.authService.myInfos(userId).subscribe(res => {
     //  console.log(res)
       this.listProjects = res['projects']
       let navigationExtras: NavigationExtras = {
@@ -131,6 +133,9 @@ export class DetailProjectPage implements OnInit {
     })
   }
 
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
+  }
 
   async presentToast(msg) {
     const toast = await this.toastController.create({

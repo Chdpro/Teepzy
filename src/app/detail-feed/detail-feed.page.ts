@@ -1,12 +1,11 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
-import { ToastController, AlertController, IonSlides, MenuController, ModalController, IonRouterOutlet } from '@ionic/angular';
+import { ToastController, AlertController, MenuController, ModalController, IonRouterOutlet } from '@ionic/angular';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { LinkSheetPage } from '../link-sheet/link-sheet.page';
 import { CommentsPage } from '../comments/comments.page';
-//import { Socket } from 'ngx-socket-io';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Globals } from '../globals';
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';

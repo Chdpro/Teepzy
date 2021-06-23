@@ -4,6 +4,7 @@ import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-autorisation',
@@ -16,6 +17,7 @@ export class AutorisationPage implements OnInit {
   nPhoto:Boolean = true
   userId = ''
   user:any
+  subscription: Subscription
   constructor(private menuCtrl: MenuController,
     private contactService: ContactService,
     private authService: AuthService,
@@ -38,7 +40,7 @@ export class AutorisationPage implements OnInit {
   
 
     getUserInfo(userId) {
-      this.authService.myInfos(userId).subscribe(res => {
+     this.subscription = this.authService.myInfos(userId).subscribe(res => {
         //  console.log(res)
         this.user = res['data'];
         this.n = this.user.isContactAuthorized
@@ -119,10 +121,6 @@ export class AutorisationPage implements OnInit {
     toast.present();
   }
 
-  test(){
-    console.log(this.n)
-  }
-
   requestNecessaryPermissions() {
     // Change this array to conform with the permissions you need
     const androidPermissionsList = [
@@ -145,7 +143,7 @@ export class AutorisationPage implements OnInit {
       userId: this.userId,
       isPhotoAuthorized: n
     }
-    this.contactService.authorizePhotos(authorize).subscribe(res =>{
+   this.subscription = this.contactService.authorizePhotos(authorize).subscribe(res =>{
       console.log(res)
       this.user =  res['data']
       this.nPhoto = n
@@ -177,7 +175,7 @@ export class AutorisationPage implements OnInit {
         userId: this.userId,
         isContactAuthorized: n
       }
-      this.contactService.authorizeContacts(authorize).subscribe(res =>{
+     this.subscription = this.contactService.authorizeContacts(authorize).subscribe(res =>{
         console.log(res)
         this.user =  res['data']
         this.n = n

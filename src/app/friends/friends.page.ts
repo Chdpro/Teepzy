@@ -3,7 +3,7 @@ import { ContactService } from '../providers/contact.service';
 import { ToastController, NavController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MESSAGES } from '../constant/constant';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-friends',
@@ -17,6 +17,7 @@ export class FriendsPage implements OnInit {
   loading = false
   previousUrl = ''
   search:any
+  subscription:Subscription
   constructor(
     private contactService: ContactService,
     private toastController:ToastController,
@@ -52,7 +53,7 @@ export class FriendsPage implements OnInit {
     let member = {
       idCreator: this.userId, idMember: idMember
     }
-    this.contactService.removeMemberFromCircle(member).subscribe(res =>{
+   this.subscription  = this.contactService.removeMemberFromCircle(member).subscribe(res =>{
      // console.log(res)
       this.presentToast(MESSAGES.CIRCLE_MEMBER_DELETED_OK)
       this.getUsersOfCircle()
@@ -63,7 +64,7 @@ export class FriendsPage implements OnInit {
 
   getUsersOfCircle() {
     this.loading = true
-    this.contactService.getCircleMembers(this.userId).subscribe(res => {
+    this.subscription = this.contactService.getCircleMembers(this.userId).subscribe(res => {
     //  console.log(res);
       this.members = res['data']
       this.loading = false
@@ -84,6 +85,10 @@ export class FriendsPage implements OnInit {
       duration: 4000
     });
     toast.present();
+  }
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
   }
 
 

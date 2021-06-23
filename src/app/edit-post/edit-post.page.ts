@@ -96,7 +96,7 @@ export class EditPostPage implements OnInit {
 
   
   getUserInfo(userId) {
-    this.authService.myInfos(userId).subscribe(res => {
+   this.subscription = this.authService.myInfos(userId).subscribe(res => {
      // console.log(res)
       this.user = res['data'];
     }, error => {
@@ -110,7 +110,7 @@ export class EditPostPage implements OnInit {
       idPost: idTeepz,
       userId: this.userId
     }
-    this.contactService.getPost(post).subscribe(res => {
+   this.subscription = this.contactService.getPost(post).subscribe(res => {
      // console.log(res)
       this.poste = res['data'];
       this.post.content = this.poste.content
@@ -129,7 +129,7 @@ export class EditPostPage implements OnInit {
   }
 
   getRepost(idTeepz) {
-    this.contactService.getRePost(idTeepz).subscribe(res => {
+   this.subscription = this.contactService.getRePost(idTeepz).subscribe(res => {
      // console.log(res)
       if (this.poste == null) {
         this.poste = res['data']
@@ -188,7 +188,7 @@ export class EditPostPage implements OnInit {
   }
 
   getMyFavoritePosts(userId) {
-    this.contactService.favorites(userId).subscribe(res => {
+   this.subscription = this.contactService.favorites(userId).subscribe(res => {
    //   console.log(res)
       let listFavorites = res['data'];
       this.dataPasse.sendFavorite(listFavorites)
@@ -211,7 +211,7 @@ export class EditPostPage implements OnInit {
       video_url: this.post.video_url,
       backgroundColor: this.post.backgroundColor,
     }
-    this.contactService.updatePost(post).subscribe(res => {
+    this.subscription = this.contactService.updatePost(post).subscribe(res => {
     //  console.log(res)
       this.loading = false
       this.presentToast('Post modifié')
@@ -237,7 +237,7 @@ export class EditPostPage implements OnInit {
       video_url: this.post.video_url,
       backgroundColor: this.post.backgroundColor,
     }
-    this.contactService.updateRePost(post).subscribe(res => {
+   this.subscription = this.contactService.updateRePost(post).subscribe(res => {
     //  console.log(res)
       this.loading = false
       this.presentToast('Post modifié')
@@ -464,6 +464,10 @@ export class EditPostPage implements OnInit {
       duration: 4000
     });
     toast.present();
+  }
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
   }
 
 

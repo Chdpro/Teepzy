@@ -7,7 +7,6 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { base_url } from 'src/config';
-//import { Socket } from 'ngx-socket-io';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MESSAGES } from '../constant/constant';
@@ -123,7 +122,7 @@ removeMedia(){
 }
 
 getUsersOfCircle() {
-  this.contactService.getCircleMembers(this.userId).subscribe(res => {
+ this.subscription = this.contactService.getCircleMembers(this.userId).subscribe(res => {
     //console.log(res);
     this.members = res['data']
     console.log(this.members);
@@ -135,7 +134,7 @@ getUsersOfCircle() {
 
 
   getUserInfo(userId) {
-    this.authService.myInfos(userId).subscribe(res => {
+   this.subscription = this.authService.myInfos(userId).subscribe(res => {
       console.log(res)
       this.user = res['data'];
       this.user['photo'] ? this.userPhoto[0] = this.user['photo'] : null
@@ -381,7 +380,7 @@ getUsersOfCircle() {
     this.loading = true
     this.post.userPhoto_url = this.user.photo
     this.post.userPseudo = this.user.pseudoIntime
-    this.contactService.addPost(this.post).subscribe(res => {
+   this.subscription = this.contactService.addPost(this.post).subscribe(res => {
       if (res['status'] == 200) {
         this.createdPost = res['data']
        this.dataPass.sendPosts(this.createdPost);
@@ -433,7 +432,7 @@ getUsersOfCircle() {
 
   uploadCroppedImage(){
     if (this.imageBase64.base64image) {
-      this.contactService.uploadBase64(this.imageBase64).subscribe(res =>{
+     this.subscription = this.contactService.uploadBase64(this.imageBase64).subscribe(res =>{
         console.log(res)
         var serverUrl = base_url + 'upload-avatar-base64'
         this.post.image_url = serverUrl + this.imageBase64.imageName
@@ -492,8 +491,6 @@ getUsersOfCircle() {
 
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null
-    //this.socket.removeAllListeners('message');
-    //this.socket.removeAllListeners('users-changed');
-  }
+}
 
 }

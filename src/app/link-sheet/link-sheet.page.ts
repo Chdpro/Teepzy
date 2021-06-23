@@ -4,6 +4,7 @@ import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
 import { Globals } from '../globals';
 import { MESSAGES } from '../constant/constant';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-link-sheet',
@@ -27,7 +28,7 @@ export class LinkSheetPage implements OnInit {
   loading = false
 
   message = ''
-
+  subscription: Subscription
   private swipeCoord?: [number, number];
   private swipeTime?: number;
 
@@ -70,7 +71,7 @@ export class LinkSheetPage implements OnInit {
   }
 
   getTeepzr() {
-    this.contactService.getCircleMembers(this.userId).subscribe(res => {
+   this.subscription = this.contactService.getCircleMembers(this.userId).subscribe(res => {
      // console.log(res)
       this.listTeepZrs = res['data']
     }, error => {
@@ -134,7 +135,7 @@ export class LinkSheetPage implements OnInit {
     if (this.userId == this.publication.userId) {
       this.presentToast(MESSAGES.AUTHO_FEED_NO_MATCH_OK)
     }else{
-      this.contactService.linkPeoples(invitation).subscribe(res => {
+     this.subscription = this.contactService.linkPeoples(invitation).subscribe(res => {
         //console.log(res)
         //this.presentToast('Vous avez linké ce post')
         this.dismiss()
@@ -201,7 +202,7 @@ export class LinkSheetPage implements OnInit {
   }
 
   getUsersToMatch() {
-    this.contactService.getUsersMatch(this.userId).subscribe(res => {
+   this.subscription = this.contactService.getUsersMatch(this.userId).subscribe(res => {
       //console.log(res)
       this.users = res['data'];
       for (const u of this.users) {
@@ -220,7 +221,7 @@ export class LinkSheetPage implements OnInit {
   }
 
   getUserInfo(userId) {
-    this.authService.myInfos(userId).subscribe(res => {
+   this.subscription = this.authService.myInfos(userId).subscribe(res => {
      // console.log(res)
       this.user = res['data'];
     }, error => {
@@ -244,6 +245,10 @@ export class LinkSheetPage implements OnInit {
       'dismissed': true
     });
     this.globals.showBackground = false;
+  }
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
   }
 
 

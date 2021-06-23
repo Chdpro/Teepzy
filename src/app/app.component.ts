@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as firebase from 'firebase';
 import { Router } from '@angular/router';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 import { ContactService } from './providers/contact.service';
 import { AuthService } from './providers/auth.service';
 import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal/ngx';
@@ -35,6 +35,7 @@ export class AppComponent {
   address: any
 
   appV = ""
+  subscription : Subscription
 
   androidPermissionsList = [
     PERMISSION.WRITE_EXTERNAL_STORAGE,
@@ -87,7 +88,7 @@ export class AppComponent {
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
     this.getPosition()
-   // this.getUserInfo(this.userId, token)
+    this.getUserInfo(this.userId, token)
   }
 
   initializeApp() {
@@ -168,7 +169,7 @@ export class AppComponent {
 
 
   getUserInfo(userId, token) {
-    this.authService.myInfos(userId).subscribe(res => {
+   this.subscription = this.authService.myInfos(userId).subscribe(res => {
       // console.log(res)
       this.userInfo = res['data'];
       if (token && this.userInfo['isCompleted'] && this.userInfo['isAllProfileCompleted']) {
@@ -339,6 +340,7 @@ export class AppComponent {
   }
 
   ngOnDestroy() {
+    this.subscription.unsubscribe()
     //  console.log('user has quit')
     let user = {
       userId: this.userId,

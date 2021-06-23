@@ -4,6 +4,7 @@ import { AddPostPage } from '../add-post/add-post.page';
 import { Router } from '@angular/router';
 import { ContactService } from '../providers/contact.service';
 import { Socket } from 'ng-socket-io';
+import { Subscription } from 'rxjs';
 //import { Socket } from 'ngx-socket-io';
 //import { Observable } from 'rxjs';
 
@@ -14,7 +15,7 @@ import { Socket } from 'ng-socket-io';
 })
 export class TabsPage {
   private activeTab?: HTMLElement;
-
+  subscription: Subscription
   userId = ''
   nrbrNotifications = 0
   nrbrMessages = 0
@@ -86,7 +87,7 @@ export class TabsPage {
     this.getOnline()
   }
   nbrUnreadNotifications() {
-    this.contactService.NbrUnreadNotifications(this.userId).subscribe(res => {
+  this.subscription = this.contactService.NbrUnreadNotifications(this.userId).subscribe(res => {
       this.nrbrNotifications = res['data']
     }, error => {
     //  console.log(error)
@@ -95,7 +96,7 @@ export class TabsPage {
 
   nbrUnreadMessages() {
     let user = {currentUserOnlineId: this.userId}
-    this.contactService.nrbrUnreadMessages(user).subscribe(res => {
+    this.subscription = this.contactService.nrbrUnreadMessages(user).subscribe(res => {
       this.nrbrMessages = res['data']
     }, error => {
       console.log(error)
@@ -103,7 +104,9 @@ export class TabsPage {
   }
 
 
-
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
+  }
   
   
 }

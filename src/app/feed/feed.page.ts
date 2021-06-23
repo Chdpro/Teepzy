@@ -154,7 +154,7 @@ export class FeedPage implements OnInit {
 
 
   tutosTexts() {
-    this.contactService.tutotxts().subscribe(res => {
+   this.subscription = this.contactService.tutotxts().subscribe(res => {
       this.tutos = res
       //  console.log(this.tutos)
     })
@@ -317,7 +317,7 @@ export class FeedPage implements OnInit {
   }
 
   getUserInfo(userId) {
-    this.authService.myInfos(userId).subscribe(res => {
+   this.subscription = this.authService.myInfos(userId).subscribe(res => {
       //  console.log(res)
       this.user = res['data'];
     }, error => {
@@ -347,7 +347,7 @@ export class FeedPage implements OnInit {
       postId: postId,
       type: 'POST'
     }
-    this.contactService.addFavorite(favoris).subscribe(res => {
+   this.subscription = this.contactService.addFavorite(favoris).subscribe(res => {
     //  this.socket.emit('notification', 'notification');
       //   console.log(res)
       this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = true : null)
@@ -364,7 +364,7 @@ export class FeedPage implements OnInit {
       userId: this.userId,
       postId: postId
     }
-    this.contactService.removeFavorite(favoris).subscribe(res => {
+    this.subscription = this.contactService.removeFavorite(favoris).subscribe(res => {
       //  console.log(res)
       this.listPosts.find((c, index) => c['_id'] == postId ? c['favorite'] = false : null)
       this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
@@ -442,7 +442,7 @@ export class FeedPage implements OnInit {
   getPosts(userId) {
     this.timeCall = 1
     this.loading = true
-    this.contactService.getPosts(userId).subscribe(res => {
+   this.subscription = this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
    //   console.log(res)
       if (res['data'] != null) {
@@ -460,9 +460,7 @@ export class FeedPage implements OnInit {
         this.tutosTexts()
       }
       this.loading = false
-
       this.timeCall = 0
-
     }, error => {
       this.loading = false
       // console.log(error)
@@ -477,7 +475,7 @@ export class FeedPage implements OnInit {
 
 
   checkFavorite(favorite, e) {
-    this.contactService.checkFavorite(favorite).subscribe(res => {
+   this.subscription = this.contactService.checkFavorite(favorite).subscribe(res => {
       if (res['status'] == 201) {
         let dateStamp = e['createdAt'].slice(0,10).split('-').join('')
         let timeStamp = e['createdAt'].slice(11,19).split(':').join('')

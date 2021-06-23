@@ -9,6 +9,7 @@ import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal/ngx';
 import { isCordovaAvailable } from '../../common/is-cordova-available'
 import { oneSignalAppId, sender_id } from 'src/config';
 import { MESSAGES } from '../constant/constant';
+import { Subscription } from 'rxjs';
 
 
 
@@ -40,8 +41,8 @@ export class SignupPage implements OnInit {
 
   profile: any
 
-  hide:any
-  hideC:any
+  hide: any
+  hideC: any
   showModal = 'hidden'
 
   public recaptchaVerifier: firebase.auth.RecaptchaVerifier;
@@ -56,6 +57,7 @@ export class SignupPage implements OnInit {
 
   profileInfo: any
 
+  subscription: Subscription
 
   constructor(private authService: AuthService,
     public router: Router,
@@ -78,7 +80,6 @@ export class SignupPage implements OnInit {
   ngOnInit() {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
-
     //this.windowRef = this.win.windowRef
     //console.log(this.win.windowRef)
     //this.windowRef.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container')
@@ -132,7 +133,7 @@ export class SignupPage implements OnInit {
   }
 
   shwModal() {
-   // console.log(this.showModal)
+    // console.log(this.showModal)
     if (this.showModal === 'hidden') {
       this.showModal = 'visible'
 
@@ -152,18 +153,18 @@ export class SignupPage implements OnInit {
     const appVerifier = this.windowRef.recaptchaVerifier;
     const phoneNumberString = this.selected + this.telephone;
     this.user.phone = this.selected + this.telephone;
-   // console.log(phoneNumberString)
+    // console.log(phoneNumberString)
     firebase.auth().signInWithPhoneNumber(phoneNumberString, appVerifier)
       .then(async result => {
         this.windowRef.confirmationResult = result;
-     //   console.log(this.windowRef.confirmationResult)
+        //   console.log(this.windowRef.confirmationResult)
         let alert = await this.alertCtrl.create({
           //  title: 'Enter the Confirmation code',
           inputs: [{ name: 'confirmationCode', placeholder: 'Confirmation de Code' }],
           buttons: [
             {
               text: 'Annuler',
-              handler: data => {  }
+              handler: data => { }
             },
             {
               text: 'Envoyer',
@@ -178,7 +179,7 @@ export class SignupPage implements OnInit {
 
       })
       .catch(error => {
-      //  console.log(error)
+        //  console.log(error)
       });
 
 
@@ -186,7 +187,7 @@ export class SignupPage implements OnInit {
 
 
   choseAvatr(url) {
-   // console.log(url)
+    // console.log(url)
     this.user.photo = url;
 
   }
@@ -199,7 +200,7 @@ export class SignupPage implements OnInit {
         this.signup()
       })
       .catch(error => {
-    //    console.log(error, "Incorrect code entered?");
+        //    console.log(error, "Incorrect code entered?");
         this.presentToast("Incorrect code ")
       });
 
@@ -207,13 +208,13 @@ export class SignupPage implements OnInit {
 
 
   signup() {
-  //  console.log(JSON.stringify(this.user));
+    //  console.log(JSON.stringify(this.user));
     this.presentLoading()
-  //  this.user.playerId = '971bc26a-e1fb-428c-8902-94d691f857eb'
+    //  this.user.playerId = '971bc26a-e1fb-428c-8902-94d691f857eb'
     this.user.phone = this.selected + this.telephone;
     if (this.user.password == this.user.conf) {
-      this.authService.signup(JSON.stringify(this.user)).subscribe(res => {
-     //   console.log(res)
+      this.subscription = this.authService.signup(JSON.stringify(this.user)).subscribe(res => {
+        //   console.log(res)
         this.retourUsr = res;
         this.profileInfo = res['data']
         this.dismissLoading()
@@ -231,15 +232,15 @@ export class SignupPage implements OnInit {
           // this.obj.user = result.user;
         }
       }, error => {
-    //    console.log(error)
-       // alert(JSON.stringify(error))
+        //    console.log(error)
+        // alert(JSON.stringify(error))
         this.loading = false;
         if (error['status'] == 403) {
           this.presentToast(MESSAGES.SIGNUP_EXIST_OK)
           this.dismissLoading()
         } else {
           this.presentToast(MESSAGES.SERVER_ERROR)
-       //   alert(JSON.stringify(error))
+          //   alert(JSON.stringify(error))
           this.dismissLoading()
 
         }
@@ -273,10 +274,10 @@ export class SignupPage implements OnInit {
       duration: 5000,
     }).then(a => {
       a.present().then(() => {
-      //  console.log('presented');
+        //  console.log('presented');
         if (!this.isLoading) {
           a.dismiss().then(() => {
-          //  console.log('abort presenting')
+            //  console.log('abort presenting')
           });
         }
       });
@@ -286,8 +287,12 @@ export class SignupPage implements OnInit {
   async dismissLoading() {
     this.isLoading = false;
     return await this.loadingCtrl.dismiss().then(() => {
-   //   console.log('dismissed')
+      //   console.log('dismissed')
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
   }
 }
 

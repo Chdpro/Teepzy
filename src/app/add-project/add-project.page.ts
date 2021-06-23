@@ -86,8 +86,6 @@ export class AddProjectPage implements OnInit {
 
 
   dismiss() {
-    // using the injected ModalController this page
-    // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
       'dismissed': true
     });
@@ -98,7 +96,6 @@ export class AddProjectPage implements OnInit {
   maxLengthDescription(ev:Event){
     let desc = this.project.description
     this.project.description.length > 100 ? this.project.description =  desc.slice(0,99): null 
-   // console.log(this.project.description.slice(0, 99))
   }
 
 
@@ -328,7 +325,7 @@ export class AddProjectPage implements OnInit {
   }
 
   addPost(post) {
-    this.contactService.addPost(post).subscribe(res => {
+   this.subscription = this.contactService.addPost(post).subscribe(res => {
       this.presentToast("Publié sur le fil d'actualité")
     }, error => {
      // this.presentToast(MESSAGES.ADD_FEED_ERROR)
@@ -351,7 +348,7 @@ export class AddProjectPage implements OnInit {
       this.project.userPhoto_url = this.user.photo
       this.project.userPseudo = this.user.pseudoIntime
       //this.photos.length > 0? this.uploadImage() : null
-      this.contactService.addProject(this.project).subscribe(res =>{
+      this.subscription = this.contactService.addProject(this.project).subscribe(res =>{
        // console.log(res);
         this.loading = false
         this.presentToast(MESSAGES.PROJECT_CREATED_OK)
@@ -370,7 +367,7 @@ export class AddProjectPage implements OnInit {
       //this.photos.length > 0? this.uploadImage() : null
       this.project.userPhoto_url = this.user.photo
       this.project.userPseudo = this.user.pseudoIntime
-      this.contactService.addProject(this.project).subscribe(res =>{
+      this.subscription = this.contactService.addProject(this.project).subscribe(res =>{
        // console.log(res);
         this.loading = false
         this.presentToast(MESSAGES.PROJECT_CREATED_OK)

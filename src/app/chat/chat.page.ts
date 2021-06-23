@@ -101,7 +101,6 @@ export class ChatPage implements OnInit, AfterViewChecked {
     this.stateO.userId = state.userId
     this.roomId = state.roomId
 
-    this.coonectSocket()
     this.getMessagesBySocket().subscribe(message => {
       // console.log(message)
       message['roomId'] == state.roomId ? this.messages.push(message) : null
@@ -119,7 +118,6 @@ export class ChatPage implements OnInit, AfterViewChecked {
     })
 
     this.deleteMessageFromSocket()
-    this.disconnectUserSocket()
   }
 
   ngOnInit() {
@@ -150,7 +148,7 @@ export class ChatPage implements OnInit, AfterViewChecked {
       roomId: roomId,
       currentUserOnlineId: userId
     }
-    this.contactService.markReadMessages(room).subscribe(res => {
+   this.subscription = this.contactService.markReadMessages(room).subscribe(res => {
         console.log(res)
     }, error => {
       console.log(error)
@@ -189,7 +187,7 @@ export class ChatPage implements OnInit, AfterViewChecked {
         userId: connectedUserId,
         connectedUserId: userId
       }
-      this.contactService.checkInMyCircle(check).subscribe(res => {
+      this.subscription = this.contactService.checkInMyCircle(check).subscribe(res => {
         //   console.log(res)
         res['data'] == false ? this.isInMyCircle = false : this.isInMyCircle = true
       }, error => {
@@ -245,7 +243,7 @@ export class ChatPage implements OnInit, AfterViewChecked {
       }
       // console.log(invitation)
 
-      this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
+      this.subscription = this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
         //   console.log(res)
         this.presentToast(MESSAGES.INVITATION_SEND_OK)
         this.isInMyCircle = true
@@ -352,7 +350,7 @@ export class ChatPage implements OnInit, AfterViewChecked {
       messageId: messageId,
       type: 'MESSAGE'
     }
-    this.contactService.addMessageFavorite(favoris).subscribe(res => {
+    this.subscription = this.contactService.addMessageFavorite(favoris).subscribe(res => {
       //  console.log(res)
       this.showToast('Ajouté aux favoris')
     }, error => {
@@ -368,22 +366,6 @@ export class ChatPage implements OnInit, AfterViewChecked {
     this.socket.emit('message-to-delete', message);
   }
 
-  coonectSocket() {
-    /* this.socket.fromEvent('user-online').subscribe(notif => {
-       console.log(notif)
-       notif['userId'] == this.stateO.connectedUserId ? this.stateO.online = true : null
-     });
-     */
-  }
-
-  disconnectUserSocket() {
-    /* this.socket.fromEvent('user-outline').subscribe(notif => {
-      // console.log(notif)
-      notif['userId'] == this.stateO.connectedUserId ? this.stateO.online = false : null
-    });*/
-    //this.socket.disconnect();
-
-  }
 
   deleteMessageFromSocket() {
     this.socket.fromEvent('delete-message').subscribe(messageId => {
@@ -410,10 +392,6 @@ export class ChatPage implements OnInit, AfterViewChecked {
   }
 
 
-  test(msg) {
-    //   console.log(msg)
-  }
-
   onLongPressing() {
     this.clickHoverMenuTrigger.openMenu();
   }
@@ -433,7 +411,6 @@ export class ChatPage implements OnInit, AfterViewChecked {
       this.messages = res['data']['messages']
       this.contactService.setLocalData(CACHE_KEYS.CHAT + id, res);
     }, error => {
-      //  console.log(error)
       this.loading = false
 
     })
@@ -453,9 +430,7 @@ export class ChatPage implements OnInit, AfterViewChecked {
     this.authService.myInfos(id).subscribe(res => {
       //  console.log(res)
       this.roomInitiator = res['data']
-      // console.log(this.roomInitiator)
-      //    this.message.pseudo = this.user.pseudoPro
-    }, error => {
+  }, error => {
       //  console.log(error)
     })
   }
@@ -470,14 +445,6 @@ export class ChatPage implements OnInit, AfterViewChecked {
     })
   }
 
-  getUsers() {
-    /* let observable = new Observable(observer => {
-       this.socket.on('users-changed', (data) => {
-         observer.next(data);
-       });
-     });
-     return observable;*/
-  }
 
   copyMessage(text) {
     this.clipboard.copy(text).then(res => {

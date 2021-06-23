@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import { ToastController, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-outcircle',
@@ -44,6 +45,7 @@ export class OutcirclePage implements OnInit {
   listTeepzrsToInvite = []
   userId = ''
 
+  subscription: Subscription
 
   pageIndex: number = 0;
   pageSize: number = 5;
@@ -97,7 +99,7 @@ export class OutcirclePage implements OnInit {
 
   getTeepzr() {
     this.loading = true
-    this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
+  this.subscription = this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
       //console.log(res)
       this.listTeepZrs = this.listSorter(res['data'])
       this.loading = false
@@ -118,7 +120,7 @@ export class OutcirclePage implements OnInit {
   }
 
   checkInvitation(invitation, e){
-    this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
+  this.subscription = this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
      // console.log(res)
       if (res['status'] == 201) {
         this.listTeepzrsToInvite.push(
@@ -154,7 +156,7 @@ export class OutcirclePage implements OnInit {
       idSender: this.userId,
       idReceiver: idReceiver
     }
-    this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
+   this.subscription = this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
       //console.log(res)
       this.listTeepzrsToInvite.find((c, index) => c['_id'] == idReceiver ? c['invited'] = true : null)
       this.presentToast('Invitation envoyée')
@@ -174,6 +176,9 @@ export class OutcirclePage implements OnInit {
     return array;
   }
 
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
+  }
 
 
   async presentToast(msg) {

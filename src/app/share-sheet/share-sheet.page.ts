@@ -5,6 +5,7 @@ import { ContactService } from '../providers/contact.service';
 import { DatapasseService } from '../providers/datapasse.service';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { MESSAGES } from '../constant/constant';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-share-sheet',
@@ -19,7 +20,7 @@ export class ShareSheetPage implements OnInit {
   posts = []
   timeCall = 0
   listPosts = []
-
+  subscription: Subscription
   constructor(private modalController: ModalController,
     public globals: Globals,
     private navParams: NavParams,
@@ -67,7 +68,7 @@ export class ShareSheetPage implements OnInit {
       backgroundColor: this.post['backgroundColor'],
       includedCircles: this.post['includedCircles']
     }
-    this.contactService.rePost(this.repost).subscribe(res => {
+    this.subscription = this.contactService.rePost(this.repost).subscribe(res => {
       this.getPosts(this.userId)
       this.presentToast(MESSAGES.SHARE_OK)
       this.dismiss()
@@ -79,7 +80,7 @@ export class ShareSheetPage implements OnInit {
 
   getPosts(userId) {
     this.timeCall = 1
-    this.contactService.getPosts(userId).subscribe(res => {
+   this.subscription = this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
       if (res['data'] != null) {
         this.posts = res['data']
@@ -152,7 +153,7 @@ export class ShareSheetPage implements OnInit {
       postId: pId,
       reason: reason
     }
-    this.contactService.spam(spam).subscribe(res => {
+   this.subscription = this.contactService.spam(spam).subscribe(res => {
       //  console.log(res)
       this.presentToast(MESSAGES.CENSURED_OK)
     }, error => {
@@ -162,7 +163,7 @@ export class ShareSheetPage implements OnInit {
   }
 
   checkFavorite(favorite, e) {
-    this.contactService.checkFavorite(favorite).subscribe(res => {
+   this.subscription = this.contactService.checkFavorite(favorite).subscribe(res => {
       if (res['status'] == 201) {
         this.listPosts.push(
           {
@@ -224,6 +225,9 @@ export class ShareSheetPage implements OnInit {
     this.globals.showBackground = false;
   }
 
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : null
+  }
 
 
 }

@@ -76,7 +76,7 @@ export class AddPeopleRoomPage implements OnInit {
     this.loading = true
     this.chatRoom.connectedUsers =  this.chatRoom.connectedUsers.concat(this.membersToChatWith)
     //console.log(this.chatRoom.connectedUsers)
-    this.contactService.updateChatRoom(this.chatRoom._id,this.chatRoom).subscribe(res => {
+   this.subscription = this.contactService.updateChatRoom(this.chatRoom._id,this.chatRoom).subscribe(res => {
      // console.log(res)
       if (res['status'] == 200) {
         this.loading = false
@@ -154,7 +154,5 @@ export class AddPeopleRoomPage implements OnInit {
 
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null
-    //this.socket.removeAllListeners('message');
-    //this.socket.removeAllListeners('users-changed');
-  }
+ }
 }
