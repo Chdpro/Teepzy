@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="bsd.teepzy.com" version="0.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="bsd.teepzy.com" version="0.0.8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>TeepZy</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -64,19 +64,38 @@
     </platform>
     <platform name="ios">
         <edit-config file="*-Info.plist" mode="merge" target="NSContactsUsageDescription">
-            <string> need to access to search contacts </string>
+            <string> 
+            Autorisez l'accès à vos contacts pour vous permettre d'ajouter des amis à votre cercle.
+            Nous n'enverrons pas de spams à votre cercle et n'ajouterons personne automatiquement
+            Nous ne sauvegardons pas vos contacts sur nos serveurs
+            </string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
-            <string>need camera access to take pictures</string>
+            <string>
+            Autorisez l'accès à votre caméra vous permettra de faire des publications plus accrocheuses dans votre cercle d'amis. 
+            Vos images que vous publierez ne seront visibles qu'aux amis de votre cercle
+           
+            </string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
-            <string>need photo library access to get pictures from there</string>
+            <string>
+            Autorisez l'accès à vos images/vidéos vous permettra de faire des publications plus accrocheuses dans votre cercle d'amis.
+            Vos images que vous publierez ne seront visibles qu'aux amis de votre cercle
+            </string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
-            <string>need photo library access to save pictures there</string>
+            <string>
+                  Autorisez l'accès à vos images/vidéos vous permettra de faire des publications plus accrocheuses dans votre cercle d'amis.
+            Vos images que vous publierez ne seront visibles qu'aux amis de votre cercle
+            </string>
         </edit-config>
         <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
-            <string>You can take photos</string>
+            <string>
+                Autorisez l'accès à votre caméra vous permettra de faire des publications plus accrocheuses dans votre cercle d'amis. 
+            Vos images que vous publierez ne seront visibles qu'aux amis de votre cercle
+           
+         
+            </string>
         </config-file>
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />

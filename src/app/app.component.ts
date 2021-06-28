@@ -89,6 +89,7 @@ export class AppComponent {
     this.userId = id
     this.getPosition()
     this.getUserInfo(this.userId, token)
+    
   }
 
   initializeApp() {

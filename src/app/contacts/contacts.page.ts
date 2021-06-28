@@ -325,6 +325,7 @@ export class ContactsPage implements OnInit {
     this.listContacts = []
     this.listTeepzrsToInvite = []
     this.contacts.find(['*'], options).then((contacts) => {
+      //alert(JSON.stringify(contacts))
       this.myContacts = this.getUniquesOnContacts(contacts)
       for (const mC of this.myContacts) {
         let inviteViaSms = {
@@ -361,6 +362,7 @@ export class ContactsPage implements OnInit {
 
       this.getTeepzr()
     }, error => {
+      this.getTeepzr()
       if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
         this.authorizeOrNot(this.n)
       }
@@ -432,6 +434,7 @@ export class ContactsPage implements OnInit {
         this.listTeepzrsToInvite.length = 1
         this.highValueT = this.highValueT - 1
         this.minus = 1
+
       }
 
     }, error => {
