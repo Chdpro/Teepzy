@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
 import { ContactService } from '../providers/contact.service';
-import { ToastController, ActionSheetController, MenuController, AlertController } from '@ionic/angular';
+import { ToastController, ActionSheetController, MenuController, AlertController, ModalController } from '@ionic/angular';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { FilePath } from '@ionic-native/file-path/ngx';
@@ -13,6 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DatapasseService } from '../providers/datapasse.service';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { MESSAGES } from '../constant/constant';
+import { RobotAlertPage } from '../robot-alert/robot-alert.page';
 
 @Component({
   selector: 'app-edit-profile',
@@ -105,6 +106,7 @@ export class EditProfilePage implements OnInit {
     private dataPasse: DatapasseService,
     public route: ActivatedRoute,
     private alertController: AlertController,
+    private modalController: ModalController,
     private toasterController: ToastController) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -116,6 +118,9 @@ export class EditProfilePage implements OnInit {
 
   }
 
+
+
+
   ionViewWillEnter() {
     this.getSocials();
     let userId = localStorage.getItem('teepzyUserId')
@@ -124,6 +129,13 @@ export class EditProfilePage implements OnInit {
   }
 
 
+  async presentRobotModal() {
+    const modal = await this.modalController.create({
+      component: RobotAlertPage,
+      cssClass: 'my-custom-class'
+    });
+    return await modal.present();
+  }
   swipe2(e: TouchEvent, when: string): void {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     const time = new Date().getTime();
@@ -242,6 +254,7 @@ export class EditProfilePage implements OnInit {
       this.user['photo'] ? this.dispImags[0] = this.user['photo'] : null
       this.user['photo'] ? this.profile1.photo = this.user['photo'] : null
       this.profile1['isAllProfileCompleted'] = this.user['isAllProfileCompleted']
+      this.profile1['isAllProfileCompleted'] === true ? this.presentRobotModal() : null 
     }, error => {
       // console.log(error)
     })

@@ -174,18 +174,11 @@
   </div>
 
 
-  <img *ngIf="!profile1?.isAllProfileCompleted" class="call_to_fill" src="../../assets/img/fill_profile.png" alt="">
-
-  <ion-button *ngIf="!profile1?.isAllProfileCompleted" (click)="done()" class="call_to_fill_btn" color="medium">
-    <span *ngIf="loading == false">Ok compris</span>
-    <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-  </ion-button>
 
 </ion-content>
 <!-- Footer without a border -->
-<ion-footer class="ion-no-border">
+<ion-footer  class="ion-no-border">
   <ion-toolbar>
-
     <ion-button (click)="uploadImage()"  [disabled]="tags?.length === 0 || metier.errors?.required || bio.errors?.required" expand="full">
       <span *ngIf="loading == false">ENREGISTRER</span>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>

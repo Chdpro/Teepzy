@@ -66,6 +66,7 @@ import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
 import { CacheModule } from "ionic-cache-observable";
 const config: SocketIoConfig = { url: base_url, options: { }};
 import { MentionModule } from 'angular-mentions';
+import { RobotAlertPageModule } from './robot-alert/robot-alert.module';
 
 @NgModule({
   declarations: [AppComponent,Autosize],
@@ -84,6 +85,7 @@ import { MentionModule } from 'angular-mentions';
     VgBufferingModule,
    // AddPostPageModule,
     EditPostPageModule,
+    RobotAlertPageModule,
     GroupInvitationPageModule,
     AddProductPageModule,
     AddProjectPageModule,

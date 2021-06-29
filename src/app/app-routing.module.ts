@@ -157,6 +157,10 @@ const routes: Routes = [
     path: 'permissions',
     loadChildren: () => import('./permissions/permissions.module').then( m => m.PermissionsPageModule)
   },
+  {
+    path: 'robot-alert',
+    loadChildren: () => import('./robot-alert/robot-alert.module').then( m => m.RobotAlertPageModule)
+  },
 
 
 ];
