@@ -254,7 +254,7 @@ export class EditProfilePage implements OnInit {
       this.user['photo'] ? this.dispImags[0] = this.user['photo'] : null
       this.user['photo'] ? this.profile1.photo = this.user['photo'] : null
       this.profile1['isAllProfileCompleted'] = this.user['isAllProfileCompleted']
-      this.profile1['isAllProfileCompleted'] === true ? this.presentRobotModal() : null 
+      this.profile1['isAllProfileCompleted'] !== true ? this.presentRobotModal() : null 
     }, error => {
       // console.log(error)
     })

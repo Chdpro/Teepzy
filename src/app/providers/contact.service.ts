@@ -138,14 +138,14 @@ export class ContactService {
 
 
   listNotification(id, page): Observable<any> {
-    let url = `users/notifications/` + id + `?page=${page}&limit=30`;
- // console.log(this.networkService.networkStatus())
+    let url = `users/notifications/` + id + `?page=${page}&limit=20`;
+    // console.log(this.networkService.networkStatus())
     if (this.networkService.networkStatus() === Offline) {
       // Return the cached data from Storage
      return from(this.getLocalData(CACHE_KEYS.NOTIFICATIONS))
     } else {
       // Return real API data and store it locally
-      return this.http.get(base_url + url, httpOptionsJson);
+      return this.http.get(local_url + url, httpOptionsJson);
       //  this.setLocalData('users', res);
     }
   }

@@ -49,8 +49,13 @@
         <ion-spinner *ngIf="loading && notifications.length ==  0 " color="primary" name="dots"></ion-spinner>
 
         <div>
-
-          <ion-item *ngFor="let n of notifications?.reverse();trackBy: trackByFn " (click)="goToElement(n?.toId, n?.icon_name, n?.roomId)">
+          <ion-item *ngIf="notifications?.length !== 0&&showNewListBtn">
+            <ion-button (click)="loadDataOld()" class="load_more"  expand="block" shape="round" size="small" fill="outline">
+              <span *ngIf="!loadingOld">Les plus récents</span>
+              <ion-spinner *ngIf="loadingOld" color="primary" name="dots"></ion-spinner>
+            </ion-button>
+          </ion-item>
+          <ion-item *ngFor="let n of notifications;trackBy: trackByFn " (click)="goToElement(n?.toId, n?.icon_name, n?.roomId)">
             <span style="margin-right: 24px;" class="material-icons">
               {{n?.icon_name}}
             </span>
@@ -114,8 +119,16 @@
                 <ion-icon name="eye-outline"></ion-icon>
               </button>
             </span>
-
-              </ion-item>
+            
+            </ion-item>
+            <ion-item *ngIf="notifications?.length !== 0 && showOldListBtn">
+              <ion-button (click)="loadData()" class="load_more" expand="block" shape="round" size="small" fill="outline">
+                
+              <span *ngIf="!loadingOld">Les plus anciens</span>
+                <ion-spinner *ngIf="loadingOld" color="primary" name="dots"></ion-spinner>
+            </ion-button>
+            </ion-item>
+            <ion-item *ngIf="notifications?.length !== 0"></ion-item>
 
 
           <div *ngIf="loading == false && notifications?.length == 0" class="empty-msg">
@@ -124,6 +137,7 @@
             </span><br>
             <span>Aucune notification ici</span>
           </div>
+
 
         </div>
       </mat-tab>

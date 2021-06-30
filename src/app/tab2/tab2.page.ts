@@ -24,6 +24,10 @@ export class Tab2Page implements OnInit {
   mentions = []
   links = []
   loading = false
+  loadingOld = false
+  showNewListBtn = true
+  showOldListBtn = true
+   
   search: any
 
   @ViewChild('tabGroup', { static: true }) tabGroup: MatTabGroup;
@@ -41,7 +45,7 @@ export class Tab2Page implements OnInit {
   selectedTab = 0
   subscription: Subscription
   page = 1
-  maximumPages = 4
+  maximumPages = 5
   constructor(
     private contactService: ContactService,
     private menuCtrl: MenuController,
@@ -208,19 +212,20 @@ export class Tab2Page implements OnInit {
     })
   }
 
-  listNotifications(event?) {
+  listNotifications() {
     this.loading = true
+    this.loadingOld = true
     this.subscription = this.contactService.listNotification(this.userId, this.page).subscribe(res => {
       this.notifications = [...res['data']]
+      this.page === 1 ? this.showNewListBtn = false : this.showNewListBtn = true
+      this.page === 4 ? this.showOldListBtn = false : this.showOldListBtn = true
       this.contactService.setLocalData(CACHE_KEYS.NOTIFICATIONS, res)
       this.loading = false
-      //console.log(this.notifications)
-      if (event) {
-        event.target.complete()
-      }
+      this.loadingOld = false
     }, error => {
       console.log(error)
       this.loading = false
+      this.loadingOld = false
 
     })
   }
@@ -242,14 +247,14 @@ export class Tab2Page implements OnInit {
 
 
   getNotificationsFromLocal() {
-   this.subscription = this.contactService.notificationsFromLocal().subscribe(listNotifications => {
-      this.listNotifications = listNotifications.data
+    this.subscription = this.contactService.notificationsFromLocal().subscribe(listNotifications => {
+      this.notifications = listNotifications.data
       //    console.log(listNotifications)
     })
   }
 
   getMentionsFromLocal() {
-  this.subscription =  this.contactService.mentionsFromLocal().subscribe(listNotifications => {
+    this.subscription = this.contactService.mentionsFromLocal().subscribe(listNotifications => {
       listNotifications ? this.mentions = listNotifications.data : null
     })
   }
@@ -264,7 +269,7 @@ export class Tab2Page implements OnInit {
   }
 
   gotoChatRoomBy(roomId) {
-   this.subscription = this.contactService.getChatRoom(roomId).subscribe(res => {
+    this.subscription = this.contactService.getChatRoom(roomId).subscribe(res => {
       console.log(res)
       let user = res['data']
       this.navCtrl.navigateForward("/chat",
@@ -300,7 +305,7 @@ export class Tab2Page implements OnInit {
       idSender: I['senderId']
     }
     this.loading = true
-   this.subscription = this.contactService.acceptInvitation(invitation).subscribe(res => {
+    this.subscription = this.contactService.acceptInvitation(invitation).subscribe(res => {
       //  console.log(res)
       this.loading = false
       this.listInvitations()
@@ -315,7 +320,7 @@ export class Tab2Page implements OnInit {
     let invitation = {
       idInvitation: p._id,
     }
-   this.subscription = this.contactService.closeLinkPeople(invitation).subscribe(res => {
+    this.subscription = this.contactService.closeLinkPeople(invitation).subscribe(res => {
       // console.log(res)
       this.presentToast(MESSAGES.LINK_DENIED_OK)
       this.listLinks()
@@ -329,7 +334,7 @@ export class Tab2Page implements OnInit {
     let invitation = {
       idInvitation: p._id,
     }
-   this.subscription = this.contactService.refuseLinkPeople(invitation).subscribe(res => {
+    this.subscription = this.contactService.refuseLinkPeople(invitation).subscribe(res => {
       // console.log(res)
       this.presentToast(MESSAGES.LINK_DENIED_OK)
       this.listLinks()
@@ -348,7 +353,7 @@ export class Tab2Page implements OnInit {
       postId: p.postId
     }
     console.log(invitation)
-   this.subscription = this.contactService.acceptLinkPeople(invitation).subscribe(res => {
+    this.subscription = this.contactService.acceptLinkPeople(invitation).subscribe(res => {
       // console.log(res)
       this.listLinks()
       this.createChatRoom(p)
@@ -372,7 +377,7 @@ export class Tab2Page implements OnInit {
     chatRoom.connectedUsers[0] = p.senderId
     chatRoom.userId = this.userId
     chatRoom.name != '' ? null : chatRoom.name = 'Entre nous deux'
-   this.subscription = this.contactService.initChatRoom(chatRoom).subscribe(res => {
+    this.subscription = this.contactService.initChatRoom(chatRoom).subscribe(res => {
       //console.log(res)
       let room = res['data']
       if (res['status'] == 200) {
@@ -382,7 +387,7 @@ export class Tab2Page implements OnInit {
       } else if (res['status'] == 403) {
         if (this.userId === room.connectedUsers[0]) {
           this.dataPasse.sendRoom(res['data'])
-         this.subscription = this.contactService.restoreRoomByConnectedUser(room._id).subscribe(() => {
+          this.subscription = this.contactService.restoreRoomByConnectedUser(room._id).subscribe(() => {
             this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
             this.loading = false
           }, error => {
@@ -391,7 +396,7 @@ export class Tab2Page implements OnInit {
         } else if (this.userId === room.userId) {
           console.log("init")
           this.dataPasse.sendRoom(res['data'])
-         this.subscription = this.contactService.restoreRoomByInitiator(room._id).subscribe(() => {
+          this.subscription = this.contactService.restoreRoomByInitiator(room._id).subscribe(() => {
             this.gotoChatRoom(room._id, room.connectedUsersInfo.pseudoIntime, room.connectedUsersInfo.photo, room.connectedUsers.length, room.name, room.connectedUsers[0], room.userId)
             this.loading = false
           }, error => {
@@ -475,12 +480,14 @@ export class Tab2Page implements OnInit {
   }
 
 
-  loadData(event) {
+  loadData() {
     this.page++
-    this.listNotifications(event)
-    if (this.page === this.maximumPages) {
-      event.target.disabled = true
-    }
+    this.page <= 4 ? this.listNotifications() : null
+  }
+  
+  loadDataOld() {
+    this.page--
+    this.listNotifications()
   }
 
   ionViewWillLeave() {
