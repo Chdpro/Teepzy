@@ -47,9 +47,13 @@
           <ion-icon name="create-outline" slot="start"></ion-icon>
           Modifier mes infos
         </ion-item>
-        <ion-item (click)="copyShare()">
+        <ion-item (click)="copyShare('ANDROID')">
           <ion-icon name="share-social-outline" slot="start"></ion-icon>
-          Partager TeepZy
+          Partager TeepZy pour Android
+        </ion-item>
+        <ion-item (click)="copyShare('IOS')">
+          <ion-icon name="share-social-outline" slot="start"></ion-icon>
+          Partager TeepZy pour Ios
         </ion-item>
         <ion-item (click)="logout()">
           <ion-icon name="log-out-outline" slot="start"></ion-icon>

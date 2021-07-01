@@ -446,6 +446,7 @@ export class Tab1Page implements OnInit {
       componentProps: { post: post, typeMatch: typeMatch },
       backdropDismiss: false,
       showBackdrop: true,
+      cssClass: "linkto-class",
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
     });

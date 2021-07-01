@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MESSAGES } from '../constant/constant';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
-import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Router } from '@angular/router';
 import { File } from '@ionic-native/file/ngx';
@@ -87,7 +86,6 @@ export class AddPostPage implements OnInit {
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController,
     private mediaCapture: MediaCapture,
-    private fileChooser: FileChooser,
     private webview: WebView,
     private router: Router,
     private file: File
@@ -159,7 +157,7 @@ getUsersOfCircle() {
         text: 'Choisir une image',
         icon: "images",
         handler: () => {
-          this.picImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+          this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
         }
       },
      /* {
@@ -351,7 +349,7 @@ getUsersOfCircle() {
 
 
 
-  chooseVideo() {
+ /* chooseVideo() {
     if (this.user.isPhotoAuthorized === true) {
         this.fileChooser
           .open({ mime: "video/mp4" })
@@ -368,7 +366,7 @@ getUsersOfCircle() {
       this.presentToast("Vous n'avez pas autorisé l'accès à la prise de photo")
     }
   }
-
+*/
 
   confirmBeforePosting() {
     this.showModal = true

@@ -478,8 +478,8 @@ export class ContactsPage implements OnInit {
   }
 
   sendShare(c) {
-    this.socialSharing.share("Bonjour,  je t'invite à me rejoindre sur Teepzy et partager les bons plans et conseils. Télécharge Teepzy via", null,
-    ' https://play.google.com/store/apps/details?id=bsd.teepzy.com').then(() => {
+    this.socialSharing.share("Bonjour,  je t'invite à me rejoindre sur Teepzy et partager les bons plans et conseils. Télécharge Teepzy sur Play Store via", null,
+    ' https://play.google.com/store/apps/details?id=bsd.teepzy.com' + ' Et sur Apple Store via :' + 'https://apps.apple.com/bj/app/teepzy/id1572629592?l=fr' ).then(() => {
       this.sendInvitationSmsToServer(c)
     }).catch((err) => {
       // alert(JSON.stringify(err))

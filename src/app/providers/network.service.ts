@@ -31,7 +31,6 @@ export class NetworkService {
     this.online$.subscribe(value => {
         this.isOnline = value
     })
-    console.log(this.isOnline)
     return this.isOnline
   }
 

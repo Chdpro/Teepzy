@@ -106,7 +106,23 @@ iframe{
 
 .share-custom-class {
     height: 30% !important;
-    top: 0;
+    top: 70%;
+    bottom: 0 !important;
+    border-radius: 39px 45px 1px 1px !important;
+    background: #F0EFEF;
+}
+
+.comment-class {
+    height: 60% !important;
+    top: 40%;
+    bottom: 0 !important;
+    border-radius: 39px 45px 1px 1px !important;
+    background: #F0EFEF;
+}
+
+.linkto-class{
+    height: 60% !important;
+    top: 40%;
     bottom: 0 !important;
     border-radius: 39px 45px 1px 1px !important;
     background: #F0EFEF;

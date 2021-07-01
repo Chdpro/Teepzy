@@ -88,7 +88,7 @@ export class AppComponent {
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
     this.getPosition()
-   // this.getUserInfo(this.userId, token)
+    //this.getUserInfo(this.userId, token)
     
   }
 
@@ -122,12 +122,19 @@ export class AppComponent {
   }
 
 
-  copyShare() {
-    let text = "https://play.google.com/store/apps/details?id=bsd.teepzy.com"
-    this.clipboard.copy(text).then(res => {
-      this.showToast("lien TeepZy copié")
-    });
-
+  copyShare(OS) {
+    if (OS === "ANDROID") {
+      let text = "https://play.google.com/store/apps/details?id=bsd.teepzy.com"
+      this.clipboard.copy(text).then(res => {
+        this.showToast("lien TeepZy copié")
+      });  
+    } else if (OS === "IOS") {
+      let text = "https://apps.apple.com/bj/app/teepzy/id1572629592?l=fr"
+      this.clipboard.copy(text).then(res => {
+        this.showToast("lien TeepZy copié")
+      }); 
+    }
+ 
   }
   getAppVersion() {
     this.appVersion.getVersionNumber().then((version) => {

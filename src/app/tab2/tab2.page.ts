@@ -217,8 +217,8 @@ export class Tab2Page implements OnInit {
     this.loadingOld = true
     this.subscription = this.contactService.listNotification(this.userId, this.page).subscribe(res => {
       this.notifications = [...res['data']]
-      this.page === 1 ? this.showNewListBtn = false : this.showNewListBtn = true
-      this.page === 4 ? this.showOldListBtn = false : this.showOldListBtn = true
+      this.notifications.length <= 20 && this.page === 1  ? this.showNewListBtn = false : this.showNewListBtn = true
+      this.notifications.length < 20 ? this.showOldListBtn = false : this.showOldListBtn = true
       this.contactService.setLocalData(CACHE_KEYS.NOTIFICATIONS, res)
       this.loading = false
       this.loadingOld = false
@@ -482,7 +482,7 @@ export class Tab2Page implements OnInit {
 
   loadData() {
     this.page++
-    this.page <= 4 ? this.listNotifications() : null
+    this.page <= 10 ? this.listNotifications() : null
   }
   
   loadDataOld() {

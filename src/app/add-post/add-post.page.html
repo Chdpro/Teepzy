@@ -5,18 +5,18 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <div class="example-button-container">
-      <!--ion-button *ngIf="!loading" color="secondary" style="margin-top: 1px;" (click)="uploadImage()"
+      <ion-button *ngIf="!loading" color="secondary" style="margin-top: 1px;" (click)="uploadImage()"
         [disabled]="contentMsg.errors?.required" expand="block" shape="round">
         <span >
           Publier
         </span>
-      </ion-button-->
-      <ion-button *ngIf="!loading" color="secondary" style="margin-top: 1px;" (click)="uploadCroppedImage()"
+      </ion-button>
+      <!--ion-button *ngIf="!loading" color="secondary" style="margin-top: 1px;" (click)="uploadCroppedImage()"
       [disabled]="contentMsg.errors?.required" expand="block" shape="round">
       <span >
         Publier
       </span>
-    </ion-button>
+    </ion-button-->
       <ion-button *ngIf="loading" color="secondary" style="margin-top: 1px;"
       [disabled]="contentMsg.errors?.required" expand="block" shape="round">
       <ion-spinner name="dots"></ion-spinner>
