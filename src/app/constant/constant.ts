@@ -9,6 +9,7 @@ export class Variable {
     }
 }
 
+export const messageShare = "Coucou, je t'invite à rejoindre mon cercle sur Teepzy l' l’application la plus évoluée de mise en relation de confiance quand tu recherches une aide, un service, un conseil, ou même la maison de tes rêves <br> Chacun de nos contacts a des informations , de bons plans ou de conseils à partager. Et quand tu poses une question dans ton réseau, notre algorithme va chercher les personnes susceptible de pouvoir te répondre. <br> - Télécharger l'Appli Android : "
 export enum typeAccount {
     pseudoPro = "PRO",
     pseudoIntime = "AMICAL"

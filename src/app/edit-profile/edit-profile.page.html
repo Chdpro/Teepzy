@@ -18,7 +18,7 @@
     <div>
 
       <div *ngIf="dispImags?.length > 0">
-        <img class="round-img-profile" *ngFor="let img of dispImags" [src]="img" alt="">
+        <ion-img  class="round-img-profile" *ngFor="let img of dispImags" [src]="img"></ion-img>
       </div>
 
       <div *ngIf="dispImags?.length == 0" class="round-img">

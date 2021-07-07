@@ -12,6 +12,7 @@ import { base_url } from 'src/config';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { MESSAGES } from '../constant/constant';
+import { UploadService } from '../providers/upload.service';
 
 @Component({
   selector: 'app-add-product',
@@ -53,6 +54,7 @@ export class AddProductPage implements OnInit {
   photos: any = [];
   filesName = new Array();
   dispImags = []
+  imageData
   showModal = 'hidden'
   user: any
   constructor(private modalController: ModalController,
@@ -60,10 +62,10 @@ export class AddProductPage implements OnInit {
     private authService: AuthService,
     private dataPass: DatapasseService,
     private camera: Camera,
-    private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
     private menuCtrl: MenuController,
+    private uploadService: UploadService,
     private androidPermissions: AndroidPermissions,
     private contactService: ContactService) {
     this.menuCtrl.close('first');
@@ -277,9 +279,9 @@ export class AddProductPage implements OnInit {
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.dispImags[0] = (<any>window).Ionic.WebView.convertFileSrc(imageData)
-      this.filePath.resolveNativePath(imageData).then((nativepath) => {
-        this.photos[0] = nativepath
-      })
+      if (imageData) {
+        this.imageData = imageData;
+        } 
     }, (err) => {
       // Handle error
       // alert(JSON.stringify(err))
@@ -287,32 +289,23 @@ export class AddProductPage implements OnInit {
     });
   }
 
+  upLoadImage() {
+    this.uploadService.uploadImage(this.imageData).then(res => {
+      this.product.photo.push(res)
+      this.addProduct()
+      this.loading = false
+      this.dispImags = []
+      this.imageData =""
+    }, err => {
+      this.presentToast("Oops une erreur lors de l'upload")
+      //this.dismiss();
+    });
+  }
 
   uploadImage() {
-    var ref = this;
     this.loading = true
-    if (ref.photos.length > 0) {
-      for (let index = 0; index < ref.photos.length; index++) {
-        const fileTransfer = ref.transfer.create()
-        let options: FileUploadOptions = {
-          fileKey: "avatar",
-          fileName: (Math.random() * 100000000000000000) + '.jpg',
-          chunkedMode: false,
-          mimeType: "image/jpeg",
-          headers: {},
-        }
-        var serverUrl = base_url + 'upload-avatar'
-        this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
-        fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-          this.loading = false
-          this.product.photo.push(base_url + options.fileName)
-          this.addProduct()
-          //this.photos = [],
-          this.dispImags = []
-        }, error => {
-          alert(JSON.stringify(error))
-        })
-      }
+    if (this.imageData.length > 0) {
+      this.upLoadImage()
     }
 
   }

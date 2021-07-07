@@ -18,7 +18,7 @@
           <div>
             <ion-row>
               <ion-col size="12" *ngIf="dispImags?.length > 0">
-                <img class="add-photo" *ngFor="let img of dispImags" [src]="img" alt="">
+                <ion-img  class="add-photo" *ngFor="let img of dispImags" [src]="img"></ion-img>
               </ion-col>
               <ion-col size="12" *ngIf="dispImags?.length == 0">
                 <img class="add-photo" src="../../assets/img/neutral.jpg" alt="">

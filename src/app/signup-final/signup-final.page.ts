@@ -7,9 +7,9 @@ import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { base_url } from 'src/config';
 import { ContactService } from '../providers/contact.service';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { MESSAGES } from '../constant/constant';
 import { Subscription } from 'rxjs';
+import { UploadService } from '../providers/upload.service';
 
 @Component({
   selector: 'app-signup-final',
@@ -32,7 +32,7 @@ export class SignupFinalPage implements OnInit {
   photos: any = [];
   filesName = new Array();
   dispImags = []
-
+  imageData
 
   retourUsr: any
   retourUsrP = 0
@@ -52,9 +52,8 @@ export class SignupFinalPage implements OnInit {
     private loadingCtrl: LoadingController,
     private menuCtrl: MenuController,
     private camera: Camera,
-    private filePath: FilePath,
+    private uploadService: UploadService,
     public actionSheetController: ActionSheetController,
-    private transfer: FileTransfer,
     private contactService: ContactService,
   ) {
 
@@ -202,47 +201,38 @@ export class SignupFinalPage implements OnInit {
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.dispImags[0] = (<any>window).Ionic.WebView.convertFileSrc(imageData)
-      this.filePath.resolveNativePath(imageData).then((nativepath) => {
-        this.photos[0] = nativepath
-      })
+      if (imageData) {
+        this.imageData = imageData;
+        } 
     }, (err) => {
       // Handle error
     });
 
   }
 
+  upLoadImage() {
+    this.uploadService.uploadImage(this.imageData).then(res => {
+      this.user.photo = res
+      this.updateUser()
+      this.loading = false
+      this.dispImags = []
+      this.imageData =""
+    }, err => {
+      this.presentToast("Oops une erreur lors de l'upload")
+      //this.dismiss();
+    });
+  }
 
   uploadImage() {
     this.presentLoading()
     var ref = this;
     this.loading = true
-    if (ref.photos.length > 0) {
-      for (let index = 0; index < ref.photos.length; index++) {
-        // interval++
-        const fileTransfer = ref.transfer.create()
-        let options: FileUploadOptions = {
-          fileKey: "avatar",
-          fileName: (Math.random() * 100000000000000000) + '.jpg',
-          chunkedMode: false,
-          mimeType: "image/jpeg",
-          headers: {},
-        }
-
-        var serverUrl = base_url + 'upload-avatar'
-        this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
-        fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-          this.user.photo = base_url + options.fileName;
-          this.loading = false;
-          this.updateUser()
-        }, error => {
-        })
-      }
+    if (ref.imageData.length > 0) {
+      this.upLoadImage()
     } else {
       this.loading = false;
       this.updateUser()
     }
-
-
   }
 
 

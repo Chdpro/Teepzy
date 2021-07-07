@@ -41,7 +41,7 @@
       <ion-row>
         <ion-col size="12">
             <ion-icon *ngIf="dispImags?.length > 0" (click)="clear()" class="close-btn" name="close-outline"></ion-icon>
-          <img *ngIf="dispImags?.length > 0" class="img-to-post" [src]="dispImags[0]" alt="">
+            <ion-img *ngIf="dispImags?.length > 0" class="img-to-post" [src]="dispImags[0]"></ion-img>
           <div *ngIf="dispVideos?.length > 0">
               <ion-icon (click)="removeMedia()" class="close-btn" name="close-outline"></ion-icon>
             <video #myVideo oncontextmenu="return false;" autoplay controls="false">

@@ -4,16 +4,13 @@ import { ContactService } from '../providers/contact.service';
 import { ToastController, ActionSheetController, MenuController, AlertController, ModalController } from '@ionic/angular';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
-import { FilePath } from '@ionic-native/file-path/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { base_url } from 'src/config';
-import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatapasseService } from '../providers/datapasse.service';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { MESSAGES } from '../constant/constant';
 import { RobotAlertPage } from '../robot-alert/robot-alert.page';
+import { UploadService } from '../providers/upload.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -82,6 +79,7 @@ export class EditProfilePage implements OnInit {
   photos: any = [];
   filesName = new Array();
   dispImags = []
+  imageData
   showModal = 'hidden'
 
   private swipeCoord?: [number, number];
@@ -98,15 +96,14 @@ export class EditProfilePage implements OnInit {
     private authService: AuthService,
     private contactService: ContactService,
     private camera: Camera,
-    private filePath: FilePath,
     public actionSheetController: ActionSheetController,
-    private transfer: FileTransfer,
     private menuCtrl: MenuController,
     private router: Router,
     private dataPasse: DatapasseService,
     public route: ActivatedRoute,
     private alertController: AlertController,
     private modalController: ModalController,
+    private uploadService: UploadService,
     private toasterController: ToastController) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -420,40 +417,31 @@ export class EditProfilePage implements OnInit {
       // If it's base64 (DATA_URL):
       // let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.dispImags[0] = (<any>window).Ionic.WebView.convertFileSrc(imageData)
-        this.filePath.resolveNativePath(imageData).then((nativepath) => {
-            this.photos[0] = nativepath
-        })
+      if (imageData) {
+        this.imageData = imageData;
+        } 
     }, (err) => {
     });
   }
 
+    upLoadImage() {
+    this.uploadService.uploadImage(this.imageData).then(res => {
+      this.profile1.photo = res;
+      this.updateProfile()
+      this.loading = false
+      this.dispImags = []
+      this.imageData =""
+    }, err => {
+      this.presentToast("Oops une erreur lors de l'upload")
+      //this.dismiss();
+    });
+  }
 
   uploadImage() {
     var ref = this;
     this.loading = true
-    if (ref.photos.length > 0) {
-      for (let index = 0; index < ref.photos.length; index++) {
-        // interval++
-        const fileTransfer = ref.transfer.create()
-        let options: FileUploadOptions = {
-          fileKey: "avatar",
-          fileName: (Math.random() * 100000000000000000) + '.jpg',
-          chunkedMode: false,
-          mimeType: "image/jpeg",
-          headers: {},
-        }
-        var serverUrl = base_url + 'upload-avatar'
-        this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
-        fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-          this.profile1.photo = base_url + options.fileName
-          this.updateProfile()
-          this.loading = false
-          this.dispImags = []
-        }, error => {
-
-        })
-      }
-
+    if (ref.imageData.length > 0) {
+      this.upLoadImage()
     } else {
       this.loading = false
       this.updateProfile()

@@ -5,7 +5,6 @@ import { AuthService } from '../providers/auth.service';
 import { DatapasseService } from '../providers/datapasse.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
 import { base_url } from 'src/config';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -15,6 +14,7 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Router } from '@angular/router';
 import { File } from '@ionic-native/file/ngx';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+import { UploadService } from '../providers/upload.service';
 
 
 @Component({
@@ -80,15 +80,16 @@ export class AddPostPage implements OnInit {
     private dataPass: DatapasseService,
     public alertController: AlertController,
     private camera: Camera,
-    private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
     public sanitizer: DomSanitizer,
     private menuCtrl: MenuController,
     private mediaCapture: MediaCapture,
-    private webview: WebView,
+    private uploadService: UploadService,
     private router: Router,
-    private file: File
+    private file: File,
+    private webView: WebView,
+    private DomSanitizer: DomSanitizer
 
   ) {
 
@@ -206,20 +207,14 @@ getUsersOfCircle() {
       this.camera.getPicture(options).then((imageData) => {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64 (DATA_URL):
-        // let base64Image = 'data:image/jpeg;base64,' + imageData;
-        this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-        this.filePath.resolveNativePath(imageData).then((nativepath) => {
-          if (this.photos.length == 0) {
-            this.photos.push(nativepath)
-          } else if (this.photos.length > 1) {
-            this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
-          }
-        }, error => {
-          alert(JSON.stringify(error))
-        })
-
+        //this.myImage = 'data:image/jpeg;base64,' + imageData;
+        this.dispImags.push(this.webView.convertFileSrc(imageData))
+        if (imageData) {
+        this.imageData = imageData;
+        } 
       }, (err) => {
         // Handle error
+       // alert(JSON.stringify(err))
 
       });
     } else {
@@ -240,17 +235,10 @@ getUsersOfCircle() {
       this.camera.getPicture(options).then((imageData) => {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64 (DATA_URL):
+        this.dispImags.push(this.webView.convertFileSrc(imageData))
+        if (imageData) {
         this.imageData = imageData;
-        this.dispImags.push((<any>window).Ionic.WebView.convertFileSrc(imageData))
-        this.filePath.resolveNativePath(imageData).then((nativepath) => {
-          if (this.photos.length == 0) {
-            this.photos.push(nativepath)
-          } else if (this.photos.length > 1) {
-            this.presentToast(MESSAGES.MEDIA_LIMIT_ERROR)
-          }
-        }, error => {
-         // alert(JSON.stringify(error))
-        })
+        } 
       }, (err) => {
         // Handle error
 
@@ -282,31 +270,22 @@ getUsersOfCircle() {
   }
 
 
+  upLoadImage() {
+    this.uploadService.uploadImage(this.imageData).then(res => {
+      this.post.image_url = res;
+      this.addPost()
+    }, err => {
+      this.presentToast("Oops une erreur lors de l'upload")
+      //this.dismiss();
+    });
+  }
+
 
   uploadImage() {
       var ref = this;
       this.loading = true
-      if (ref.photos.length > 0 && ref.videos.length == 0) {
-        for (let index = 0; index < ref.photos.length; index++) {
-          // interval++
-          const fileTransfer = ref.transfer.create()
-          let options: FileUploadOptions = {
-            fileKey: "avatar",
-            fileName: (Math.random() * 100000000000000000) + '.jpg',
-            chunkedMode: false,
-            mimeType: "image/jpeg",
-            headers: {},
-          }
-          var serverUrl = base_url + 'upload-avatar'
-          this.filesName.push({ fileUrl: base_url + options.fileName, type: 'image' })
-          fileTransfer.upload(ref.photos[index], serverUrl, options).then(() => {
-            this.post.image_url = base_url + options.fileName;
-            this.addPost()
-            this.loading = false
-          }, error => {
-            this.loading = false
-          })
-        }
+      if (ref.dispImags.length > 0 && ref.videos.length == 0) {
+        this.upLoadImage()
       } else if (ref.videos.length > 0 && ref.photos.length == 0) {
         if (this.videoPlayers.nativeElement.duration < 35) {
        //   alert("upload started")
@@ -409,7 +388,10 @@ getUsersOfCircle() {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64 (DATA_URL):
          this.myImage = 'data:image/jpeg;base64,' + imageData;
-      
+         this.dispImags.push(this.webView.convertFileSrc(imageData))
+         if (imageData) {
+         this.imageData = imageData;
+         }       
 
       }, (err) => {
         // Handle error
@@ -427,6 +409,8 @@ getUsersOfCircle() {
     this.imageBase64.base64image = this.croppedImage
     this.imageBase64.imageName =  (Math.random() * 100000000000000000) + '0'
   }
+
+  imageLoaded(){}
 
   uploadCroppedImage(){
     if (this.imageBase64.base64image) {
@@ -447,6 +431,8 @@ getUsersOfCircle() {
     this.angularCropper.imageBase64 = null
     this.myImage = null;
     this.croppedImage = null
+    this.dispImags = []
+    this.imageData = ""
   }
   save(){
     this.angularCropper.crop()

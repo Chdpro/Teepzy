@@ -5,7 +5,7 @@ import { ToastController, AlertController, MenuController } from '@ionic/angular
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../providers/auth.service';
-import { typeAccount, CACHE_KEYS, MESSAGES, PERMISSION } from '../constant/constant';
+import { typeAccount, CACHE_KEYS, MESSAGES, PERMISSION, messageShare } from '../constant/constant';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Subscription } from 'rxjs';
@@ -478,8 +478,8 @@ export class ContactsPage implements OnInit {
   }
 
   sendShare(c) {
-    this.socialSharing.share("Bonjour,  je t'invite à me rejoindre sur Teepzy et partager les bons plans et conseils. Télécharge Teepzy sur Play Store via", null,
-    ' https://play.google.com/store/apps/details?id=bsd.teepzy.com' + ' Et sur Apple Store via :' + 'https://apps.apple.com/bj/app/teepzy/id1572629592?l=fr' ).then(() => {
+    this.socialSharing.share(messageShare + ' https://play.google.com/store/apps/details?id=bsd.teepzy.com' + ' Et sur Apple Store via :' + 'https://apps.apple.com/bj/app/teepzy/id1572629592?l=fr', null,
+    '' ).then(() => {
       this.sendInvitationSmsToServer(c)
     }).catch((err) => {
       // alert(JSON.stringify(err))
