@@ -152,7 +152,6 @@ export class ProfilePage implements OnInit {
     let userId = localStorage.getItem('teepzyUserId')
     let idUser = this.route.snapshot.paramMap.get('userId')
     this.previousUrl = this.route.snapshot.paramMap.get('previousUrl')
-    console.log(this.previousUrl)
     if (!idUser) {
       this.getUserInfo(userId)
       this.getMyPosts(userId)

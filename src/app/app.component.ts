@@ -137,9 +137,12 @@ export class AppComponent {
  
   }
   getAppVersion() {
-    this.appVersion.getVersionNumber().then((version) => {
-      this.appV = version
-    });
+    this.platform.ready().then(()=>{
+      this.appVersion.getVersionNumber().then((version) => {
+        this.appV = version
+      });
+    }
+    )
   }
 
   async showToast(msg) {

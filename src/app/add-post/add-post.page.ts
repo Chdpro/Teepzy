@@ -428,9 +428,9 @@ getUsersOfCircle() {
   }
 
   clear(){
-    this.angularCropper.imageBase64 = null
-    this.myImage = null;
-    this.croppedImage = null
+   // this.angularCropper.imageBase64 = null
+   // this.myImage = null;
+   // this.croppedImage = null
     this.dispImags = []
     this.imageData = ""
   }

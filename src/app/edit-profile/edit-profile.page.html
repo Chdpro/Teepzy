@@ -17,9 +17,9 @@
   <div class="banner">
     <div>
 
-      <div *ngIf="dispImags?.length > 0">
-        <ion-img  class="round-img-profile" *ngFor="let img of dispImags" [src]="img"></ion-img>
-      </div>
+        <ion-avatar style="margin: auto 33%;" *ngIf="dispImags?.length > 0">
+          <ion-img  class="round-img-profile" *ngFor="let img of dispImags" [src]="img"></ion-img>
+        </ion-avatar>
 
       <div *ngIf="dispImags?.length == 0" class="round-img">
         {{user?.pseudoIntime | slice:0:1| uppercase}}
