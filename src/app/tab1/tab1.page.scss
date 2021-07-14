@@ -85,6 +85,117 @@
     border: none
 }
 
+/**
+ feed Re-design
+*/
+
+.feed-container{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    border-radius: 40px 40px;
+}
+.sideBar-btn{
+    position: absolute;
+    top: 13%;
+    right: 10px;
+    z-index: 1000;
+}
+
+.header-feed-txt{
+    text-align: center;
+}
+
+.header-feed-avatar{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-top: 24px;
+    margin-left: 49px;
+ 
+}
+.feed-content{
+    display: flex;
+    flex-direction: row;
+}
+.feed-content-txt{
+    height: 50%;
+    width: 70%;
+    top: 43%;
+    position: absolute;
+    left: 14%;
+}
+.sideBar-btn{
+    display: flex;
+    flex-direction: column;
+}
+.side-avatar{
+    margin-bottom: 24px;
+    max-width: 54px;
+    max-height: 54px;
+}
+ion-avatar{
+    max-width: 54px;
+    max-height: 54px; 
+    margin-right: 12px;
+}
+
+.footer-feed{
+    position: relative;
+    margin-left: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    top: 67%;
+    text-shadow: 2px 2px 8px #000;
+}
+.username{
+    display: flex;
+    flex-direction: row;
+}
+
+.mat-button-1{
+    margin-top: 2px !important;
+    margin-bottom: 10px !important;
+    width: 54px;
+    height: 54px;
+    background: #cfcfcf;
+}
+.mat-button-2{
+    margin-top: 2px !important;
+    margin-bottom: 10px !important;
+    width: 54px;
+    height: 54px;
+    background: #cfcfcf;
+}
+.mat-button-3{
+    margin-top: 2px !important;
+    margin-bottom: 10px !important;
+    width: 54px;
+    height: 54px;
+    background: #cfcfcf;
+}
+.mat-button-4{
+    margin-top: 2px !important;
+    margin-bottom: 10px !important;
+    width: 54px;
+    height: 54px;
+    background: #cfcfcf;
+}
+
+@media screen and (height: 360px), screen and (height: 640px) {
+    
+    .sideBar-btn{
+        top: 11% !important;
+    }
+ 
+ }
+
+
 //////
 .ion-grid-header{
     position: relative;
@@ -181,7 +292,6 @@ strong , small{
     text-align: left;
     font-size: 18px;
     float: right;
-    margin-right: 36px;
 }
 .header-slide{
     width: 300px;
@@ -207,13 +317,10 @@ img{
     display: block;
     margin-left: 8px;
     margin-right: 2px;
-
     border-radius: 100%;
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%;
     border: solid 1px #ea4e50;
-    width: 64px;
-    height: 64px;
     
 }
 
@@ -262,7 +369,8 @@ img{
 .userPseudo-bg{
     background: rgba(0, 0, 0, 0.18);
     border-radius: 60px;
-   
+    position: absolute;
+    left: -11px;
 }
 .menu{
     position: absolute;
@@ -287,14 +395,9 @@ img{
     height: 54px;
     background: #cfcfcf;
     margin-top: -5px;
+    margin-bottom: 12px;
 }
 
-.mat-button-i{
-    width: 54px;
-    height: 54px;
-    background: #cfcfcf;
-    margin-top: -5px;
-}
 
 
 .chatbubble{
@@ -317,12 +420,12 @@ img{
     color: #fff;
     height: 60px;
     width: 60px;
-    right: 23px;
-    padding-left: 11px;
-    padding-top: 20px;
-    top: 101%;
+    right: 12px;
+    padding-left: 8px;
+    padding-top: 19px;
+    top: 103%;
     border: 1px solid #ea4e50;
-    margin-right: -15px;
+    margin-right: -14px;
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
 }
 .match-txt{
@@ -387,7 +490,7 @@ mat-icon{
     font-size: 14px;
     position: absolute;
     left: 25px;
-    top: 27px;
+    top: 8px;
 }
 
 ion-icon {

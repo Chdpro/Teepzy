@@ -436,6 +436,7 @@ export class Tab1Page implements OnInit {
   }
 
   async presentLinkModal(post, typeMatch) {
+    console.log(post,typeMatch)
     if (this.globals.showBackground) {
       this.globals.showBackground = false;
     } else {
@@ -501,7 +502,7 @@ export class Tab1Page implements OnInit {
       this.listPosts = []
       if (res['data'] != null) {
         this.listPosts = res['data']
-        //    console.log(this.listPosts)
+    //    console.log(this.listPosts)
         this.listPosts = this.listPosts.sort((a, b) => {
           return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
         })

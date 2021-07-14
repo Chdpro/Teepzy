@@ -225,7 +225,6 @@ export class EditProfilePage implements OnInit {
 
   getSocials() {
     this.contactService.getSocials().subscribe(res => {
-      console.log(res)
       this.socials = res
     }, error => {
       // console.log(error)
@@ -440,7 +439,7 @@ export class EditProfilePage implements OnInit {
   uploadImage() {
     var ref = this;
     this.loading = true
-    if (ref.imageData.length > 0) {
+    if (ref.imageData) {
       this.upLoadImage()
     } else {
       this.loading = false
