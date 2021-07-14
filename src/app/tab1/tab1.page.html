@@ -289,7 +289,7 @@
 
     <div *ngIf="p?.image_url || p?.video_url" class="footer-feed">
       <div class="username">
-        <h6> @{{p?.userPseudo}}</h6>
+        <h6 style="font-weight: 900;"> @{{p?.userPseudo}} </h6>
         <div style="margin-top: 14px;margin-left: 5px;">
           <span *ngIf="time(p?.createdAt) != 'il y a un mois'">
             <span *ngIf="time(p?.createdAt) != 'il y a un jour'">
