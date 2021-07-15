@@ -174,7 +174,6 @@ export class SearchPage implements OnInit {
    this.subscription = this.contactService.teepZrs(this.search.userId).subscribe(res => {
       // console.log(res)
       this.listTeepZrs = res['data']
-      console.log(this.listTeepZrs)
     }, error => {
       // console.log(error)
 
