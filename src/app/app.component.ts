@@ -16,6 +16,7 @@ import { Socket } from 'ng-socket-io';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 
 export enum ConnectionStatus {
@@ -59,6 +60,7 @@ export class AppComponent {
     private nativeGeocoder: NativeGeocoder,
     private appVersion: AppVersion,
     private clipboard: Clipboard,
+    private backgroundMode: BackgroundMode
 
 
   ) {
@@ -96,6 +98,8 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.backgroundColorByHexString("#ea4d5075");
       this.splashScreen.hide();
+         // Enable Background
+         this.backgroundMode.enable();
     });
   }
 
@@ -174,6 +178,7 @@ export class AppComponent {
       this.oneSignal.endInit();
       // Then You Can Get Devices ID
       this.oneSignal.getIds().then(identity => {
+//        alert(identity.userId)
       })
     }
   }

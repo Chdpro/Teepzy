@@ -93,7 +93,7 @@
                   <input matInput name="metier2" #metier="ngModel"  maxlength="50" [(ngModel)]="profile1.metier" placeholder="MÉTIER" (ngModelChange)="profile1.metier = $event + ''" required>
                 </mat-form-field>
                 <div class="limitCounter">
-                    {{profile1?.metier.length}} / 50
+                    {{profile1?.metier?.length}} / 50
                   </div>
 
                 <mat-form-field class="example-full-width">
