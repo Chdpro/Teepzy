@@ -36,8 +36,9 @@ export class AppComponent {
   address: any
 
   appV = ""
-  subscription : Subscription
+  subscription: Subscription
 
+  playerId = ""
   androidPermissionsList = [
     PERMISSION.WRITE_EXTERNAL_STORAGE,
     PERMISSION.READ_EXTERNAL_STORAGE,
@@ -90,16 +91,16 @@ export class AppComponent {
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
     this.getPosition()
-    //this.getUserInfo(this.userId, token)
-    
+    this.getUserInfo(this.userId, token)
+
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.backgroundColorByHexString("#ea4d5075");
       this.splashScreen.hide();
-         // Enable Background
-         this.backgroundMode.enable();
+      // Enable Background
+      this.backgroundMode.enable();
     });
   }
 
@@ -128,20 +129,20 @@ export class AppComponent {
 
   copyShare(OS) {
     if (OS === "ANDROID") {
-      let text =  messageShare + "https://play.google.com/store/apps/details?id=bsd.teepzy.com"
+      let text = messageShare + "https://play.google.com/store/apps/details?id=bsd.teepzy.com"
       this.clipboard.copy(text).then(res => {
         this.showToast("lien TeepZy copié")
-      });  
+      });
     } else if (OS === "IOS") {
-      let text = messageShare +  "https://apps.apple.com/bj/app/teepzy/id1572629592?l=fr"
+      let text = messageShare + "https://apps.apple.com/bj/app/teepzy/id1572629592?l=fr"
       this.clipboard.copy(text).then(res => {
         this.showToast("lien TeepZy copié")
-      }); 
+      });
     }
- 
+
   }
   getAppVersion() {
-    this.platform.ready().then(()=>{
+    this.platform.ready().then(() => {
       this.appVersion.getVersionNumber().then((version) => {
         this.appV = version
       });
@@ -178,16 +179,23 @@ export class AppComponent {
       this.oneSignal.endInit();
       // Then You Can Get Devices ID
       this.oneSignal.getIds().then(identity => {
-//        alert(identity.userId)
+        //        alert(identity.userId)
+        this.playerId = identity.userId
       })
     }
   }
 
 
+  updateUserPlayerId(userId, playerId) {
+    let user = { userId: userId, playerId: playerId }
+    this.authService.updatePlayerId(user).subscribe(res => { }, error => console.log(error))
+  }
+
   getUserInfo(userId, token) {
-   this.subscription = this.authService.myInfos(userId).subscribe(res => {
+    this.subscription = this.authService.myInfos(userId).subscribe(res => {
       // console.log(res)
       this.userInfo = res['data'];
+      this.playerId ? this.updateUserPlayerId(this.userInfo._id, this.playerId) : null
       if (token && this.userInfo['isCompleted'] && this.userInfo['isAllProfileCompleted']) {
         // this.socket.emit('online', userId);
         let user = {

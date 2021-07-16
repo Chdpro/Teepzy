@@ -81,6 +81,12 @@ export class AuthService {
   }
 
 
+  updatePlayerId(user) {
+    let url = 'users/updatePlayerId';
+    return this.http.post(base_url + url, user, httpOptionsJson);
+  }
+
+
   myInfos(id) {
     let url = 'users/user/' + id
     return this.http.get(base_url + url, httpOptionsJson)
