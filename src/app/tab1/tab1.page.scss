@@ -501,7 +501,7 @@ ion-icon {
 // overlay background
 
 .modal {
-    position: absolute;
+    position: fixed;
     z-index: 1500;
     height: 100%;
     width: 100%;

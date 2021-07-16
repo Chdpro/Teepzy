@@ -90,7 +90,7 @@ export class AppComponent {
     let id = localStorage.getItem('teepzyUserId')
     this.userId = id
     this.getPosition()
-    this.getUserInfo(this.userId, token)
+    //this.getUserInfo(this.userId, token)
     
   }
 
