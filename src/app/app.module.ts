@@ -35,7 +35,6 @@ import { IonicSwipeAllModule } from 'ionic-swipe-all';
 import { WebView } from "@ionic-native/ionic-webview/ngx";
 import { Base64 } from '@ionic-native/base64/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
-import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 import { local_url, base_url, test_url } from 'src/config';
 import { Globals } from './globals';
@@ -109,7 +108,6 @@ import { RobotAlertPageModule } from './robot-alert/robot-alert.module';
     Camera,
     FileTransfer,
     FilePath,
-    BackgroundMode,
     File,
     WebView,
     Contacts,

@@ -227,7 +227,7 @@ export class SignupFinalPage implements OnInit {
     this.presentLoading()
     var ref = this;
     this.loading = true
-    if (ref.imageData.length > 0) {
+    if (ref.imageData) {
       this.upLoadImage()
     } else {
       this.loading = false;

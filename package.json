@@ -24,7 +24,6 @@
     "@angular/router": "~8.2.14",
     "@ionic-native/android-permissions": "^5.34.0",
     "@ionic-native/app-version": "^5.32.1",
-    "@ionic-native/background-mode": "^5.34.0",
     "@ionic-native/base64": "^5.29.0",
     "@ionic-native/camera": "^5.34.0",
     "@ionic-native/clipboard": "^5.28.0",
@@ -89,7 +88,6 @@
     "cordova-ios": "^6.2.0",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-app-version": "^0.1.12",
-    "cordova-plugin-background-mode": "^0.7.3",
     "cordova-plugin-camera": "^5.0.2",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-file-transfer": "^1.7.1",
@@ -157,8 +155,7 @@
       },
       "cordova-plugin-filepath": {},
       "cordova-plugin-file-transfer": {},
-      "onesignal-cordova-plugin": {},
-      "cordova-plugin-background-mode": {}
+      "onesignal-cordova-plugin": {}
     },
     "platforms": [
       "ios"
