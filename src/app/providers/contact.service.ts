@@ -150,8 +150,8 @@ export class ContactService {
     }
   }
 
-  listMentionNotifications(id, page): Observable<any> {
-    let url = `users/notifications_mentions/` + id + `?page=${page}&limit=30`;
+  listMentionNotifications(id): Observable<any> {
+    let url = `users/notifications_mentions/` + id ;
  // console.log(this.networkService.networkStatus())
     if (this.networkService.networkStatus() === Offline) {
       // Return the cached data from Storage

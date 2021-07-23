@@ -170,8 +170,6 @@
        
             <ion-label>
               <b *ngIf="userId != n?.fromId"> {{n?.pseudoIntime}} </b> 
-            
-
               <span *ngIf="time(n?.createdAt) != 'il y a un mois'">
                   <span *ngIf="time(n?.createdAt) != 'il y a un jour'">
                     <span *ngIf="time(n?.createdAt) != 'il y a une minute'">
@@ -192,8 +190,7 @@
                 </span>
                 <span class="time" *ngIf="time(n?.createdAt) == 'il y a un mois'">
                   il y a 1 mois
-                </span>
-       
+                </span><br>
               <strong>
                 <span>
                   {{n?.message}}

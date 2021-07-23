@@ -15,12 +15,21 @@ import { typeAccount, MESSAGES, CACHE_KEYS, Offline } from '../constant/constant
 import { ShareSheetPage } from '../share-sheet/share-sheet.page';
 import { VgApiService } from '@videogular/ngx-videogular/core';
 import { NetworkService } from '../providers/network.service';
+import { animate, query, stagger, state, style, transition, trigger } from '@angular/animations';
 
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  styleUrls: ['tab1.page.scss'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: '0' }),
+        animate('.5s ease-out', style({ opacity: '1' })),
+      ]),
+    ]),
+  ],
 })
 export class Tab1Page implements OnInit {
 
@@ -38,6 +47,8 @@ export class Tab1Page implements OnInit {
     commentId: '',
     comment: '',
   }
+  debutListPost = 0
+  endListPost = 1
   listComments = []
   listCommentsOfComment = []
   postId = ''
@@ -59,6 +70,7 @@ export class Tab1Page implements OnInit {
   showBackground = false
   global: Globals;
   subscription: Subscription;
+  isAnimating = false
 
   navigationSubscription;
   @ViewChild('videoPlayer', null) videoPlayers: ElementRef;
@@ -80,7 +92,8 @@ export class Tab1Page implements OnInit {
 
   videoMuted = ''
   videoUrl = ''
-
+  @ViewChild('feed', null) feed: ElementRef;
+  
   constructor(
     private authService: AuthService,
     private toasterController: ToastController,
@@ -117,7 +130,7 @@ export class Tab1Page implements OnInit {
 
 
 
-
+  
   ionViewWillEnter() {
     this.userId = localStorage.getItem('teepzyUserId');
     //   this.socket.emit('online', this.userId);
@@ -265,12 +278,13 @@ export class Tab1Page implements OnInit {
 
   }
 
-  swipeEvent(event?: Event, videoUrl?: any) {
-    if (videoUrl) {
-      this.videoPlayers.nativeElement = document.getElementById(videoUrl)
-      const nativeElement = this.videoPlayers.nativeElement
-      nativeElement.pause()
-    }
+  swipeEvent(event?: Event) {
+    console.log(event)
+    // if (videoUrl) {
+    //  this.videoPlayers.nativeElement = document.getElementById(videoUrl)
+    // const nativeElement = this.videoPlayers.nativeElement
+    // nativeElement.pause()
+    // }
   }
 
 
@@ -279,6 +293,16 @@ export class Tab1Page implements OnInit {
     const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
   }
+
+  swipeUp(event: any) {
+    this.debutListPost++
+    this.endListPost++
+  }
+  swipeDown(event: any) {
+    this.debutListPost--
+    this.endListPost--
+  }
+
 
   showShareSheet(post) {
     if (post) {
@@ -436,7 +460,6 @@ export class Tab1Page implements OnInit {
   }
 
   async presentLinkModal(post, typeMatch) {
-    console.log(post,typeMatch)
     if (this.globals.showBackground) {
       this.globals.showBackground = false;
     } else {
@@ -498,15 +521,16 @@ export class Tab1Page implements OnInit {
   getPosts(userId) {
     this.timeCall = 1
     this.loading = true
-   this.subscription = this.contactService.getPosts(userId).subscribe(res => {
+    this.subscription = this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
       if (res['data'] != null) {
         this.listPosts = res['data']
-    //    console.log(this.listPosts)
+        //    console.log(this.listPosts)
         this.listPosts = this.listPosts.sort((a, b) => {
           return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
         })
-
+        this.debutListPost = 0
+        this.endListPost = 1
         this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts)
       } else {
         this.listPosts = []
@@ -522,7 +546,7 @@ export class Tab1Page implements OnInit {
   }
 
   getFeedFromLocal() {
-  this.subscription = this.contactService.feedsFromLocal().subscribe(listPosts => {
+    this.subscription = this.contactService.feedsFromLocal().subscribe(listPosts => {
       this.listPosts = listPosts
       //    console.log(this.listPosts)
       return listPosts

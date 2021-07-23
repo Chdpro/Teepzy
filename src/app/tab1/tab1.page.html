@@ -46,7 +46,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" [scrollY]="true">
+<ion-content [fullscreen]="true" [scrollY]="true" >
   <ion-refresher slot="fixed" [disabled]="false" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -159,12 +159,16 @@
 
   </ion-slides>
 
-
-  <div class="feed-container" *ngFor="let p of listPosts; trackBy: trackByFn " [ngStyle]="{
+  
+  <div
+    *ngFor="let p of listPosts | slice:debutListPost:endListPost;let i=index; trackBy: trackByFn " 
+    class="feed-container my-animation"
+    swipeAll (swipeup)="swipeUp($event)" (swipedown)="swipeDown($event)"
+    [ngStyle]="{
     'color': p?.backgroundColor == '#fff' && p?.image_url == ''? 'black' : 'white', 
     'background-image': 'url(' + p?.image_url + ')',
     'background-size': 'cover',
-    'background-color': !p?.image_url && !p?.video_url ? p?.backgroundColor : '#ffffff00'}">
+    'background-color': !p?.image_url && !p?.video_url ? p?.backgroundColor : '#ffffff00'}"  @fadeIn>
     <div class="header-feed">
       <div class="header-feed-txt">
         <span *ngIf="p?.reposterId == userId"> Vous avez partagé le teepz de</span>
@@ -183,7 +187,7 @@
             </div>
           </div>
         </ion-avatar>
-        
+
 
         <div *ngIf="!p?.image_url && !p?.video_url" [ngStyle]="{'background': p?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
         'font-weight': p?.image_url ? '800': '100' }" style="display: flex;flex-direction: column;margin-left: 12px;">
@@ -219,7 +223,8 @@
     </div>
 
     <div class="feed-content">
-      <div class="feed-content-txt" *ngIf="!p?.image_url && !p?.video_url" [ngStyle]="{'font-size': p?.content?.length > 60 ? '17px' : '23px' }">
+      <div class="feed-content-txt" *ngIf="!p?.image_url && !p?.video_url"
+        [ngStyle]="{'font-size': p?.content?.length > 60 ? '17px' : '23px' }">
         {{ p?.content }}
       </div>
       <!--sideBar buttons-->
@@ -230,8 +235,7 @@
           </ion-avatar>
 
           <div (click)="goToProfile(p?.userId || p?.fromId, p?.reposterId)"
-            style="float: right; color: #fff !important;" class="userPseudo-bg"
-            *ngIf="p?.image_url || p?.video_url">
+            style="float: right; color: #fff !important;" class="userPseudo-bg" *ngIf="p?.image_url || p?.video_url">
             <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class=" pseudo-media"
               [ngStyle]="{'color':p?.image_url || p?.video_url ? '#00000' : '#ffff' }">
               {{p?.userPseudo | slice:0:1| uppercase}}
@@ -278,10 +282,10 @@
         </a>
 
         <div (click)="presentLinkModal(p, 'MATCHES')" class="filigrane" style="font-weight: 800;font-size: 7px;">
-          <span  class="match-txt">MATCHES</span>
+          <span class="match-txt">MATCHES</span>
           <span class="match-number" *ngIf="p?.matches?.length == 0"> <br> 0</span>
           <span class="match-number" *ngIf="p?.matches?.length < 3 && p?.matches?.length > 0"><br>
-            {{p.matches?.length}} 
+            {{p.matches?.length}}
           </span> <br>
         </div>
       </div>

@@ -232,15 +232,13 @@ export class Tab2Page implements OnInit {
 
   listMentionNotifications(event?) {
     this.loading = true
-    this.subscription = this.contactService.listMentionNotifications(this.userId, this.page).subscribe(res => {
+    this.subscription = this.contactService.listMentionNotifications(this.userId).subscribe(res => {
       this.mentions = [...res['data']]
-      console.log(this.mentions)
       this.contactService.setLocalData(CACHE_KEYS.NOTIFICATIONS_MENTION, res)
       this.loading = false
     }, error => {
       console.log(error)
       this.loading = false
-
     })
   }
 

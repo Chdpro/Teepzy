@@ -87,6 +87,7 @@ import { RobotAlertPageModule } from './robot-alert/robot-alert.module';
     VgOverlayPlayModule,
     VgBufferingModule,
     CacheModule,
+    IonicSwipeAllModule,
     //CircleMembersPageModule,
     CommentsPageModule,
     LinkSheetPageModule,
