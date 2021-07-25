@@ -174,7 +174,7 @@
                   <span *ngIf="time(n?.createdAt) != 'il y a un jour'">
                     <span *ngIf="time(n?.createdAt) != 'il y a une minute'">
                       <span class="time" *ngIf="time(n?.createdAt) != 'il y a une heure'">
-                        {{time(n?.createdAt) }}
+                        {{time(n?.createdAt)}}
                       </span>
                     </span>
                   </span>
@@ -192,7 +192,7 @@
                   il y a 1 mois
                 </span><br>
               <strong>
-                <span>
+                <span  class="mention-message-txt">
                   {{n?.message}}
                 </span>
               </strong>

@@ -148,7 +148,7 @@ export class ContactsPage implements OnInit {
         if (success.hasPermission) {
           localStorage.setItem(apl.key, apl.key)
           // permission granted
-        } else if (success.hasPermission === false && 
+        } else if (success.hasPermission === false &&
           (checkContactRefuse === "2" || checkStorageRefuse === "2" || checkCamRefuse === "2")) {
         } else {
           this.router.navigate(['/permissions'])
@@ -161,7 +161,7 @@ export class ContactsPage implements OnInit {
   }
 
   getCachedContacts() {
-   this.subscription = this.contactService.getContactsCached(CACHE_KEYS.CONTACTS).subscribe(val => {
+    this.subscription = this.contactService.getContactsCached(CACHE_KEYS.CONTACTS).subscribe(val => {
       this.listContacts = JSON.parse(val)
       if (this.listContacts !== null) {
         this.getTeepzr()
@@ -181,6 +181,14 @@ export class ContactsPage implements OnInit {
       this.getUserInfo(this.userId)
       event.target.complete();
     }, 400);
+  }
+
+
+  doRefreshOnContact(event) {
+    setTimeout(() => {
+      this.loadContacts()
+      event.target.complete();
+    },0);
   }
 
 
@@ -209,15 +217,12 @@ export class ContactsPage implements OnInit {
           if (this.selectedTab <= 3) {
             this.selectedTab = isFirst ? 1 : this.selectedTab + 1;
           }
-          //  console.log("Swipe left - INDEX: " + this.selectedTab);
         } else if (swipe === 'previous') {
           const isLast = this.selectedTab === 3;
           if (this.selectedTab >= 1) {
             this.selectedTab = this.selectedTab - 1;
           }
-          //  console.log("Swipe right — INDEX: " + this.selectedTab);
         }
-        // Do whatever you want with swipe
       }
     }
   }
@@ -282,7 +287,7 @@ export class ContactsPage implements OnInit {
       let inviteViaSms = {
         phone: mC.phoneNumbers[0].value,
       }
-     this.subscription = this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
+      this.subscription = this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
         if (res['status'] == 201) {
           let phones = this.getUniques(mC.phoneNumbers)
           this.listContacts.push(
@@ -325,7 +330,6 @@ export class ContactsPage implements OnInit {
     this.listContacts = []
     this.listTeepzrsToInvite = []
     this.contacts.find(['*'], options).then((contacts) => {
-      //alert(JSON.stringify(contacts))
       this.myContacts = this.getUniquesOnContacts(contacts)
       for (const mC of this.myContacts) {
         let inviteViaSms = {
@@ -359,7 +363,8 @@ export class ContactsPage implements OnInit {
 
 
       }
-
+     // let event = Event
+     // this.doRefreshOnContact(event)
       this.getTeepzr()
     }, error => {
       this.getTeepzr()
@@ -376,7 +381,7 @@ export class ContactsPage implements OnInit {
       userId: this.userId,
       isContactAuthorized: n
     }
-   this.subscription = this.contactService.authorizeContacts(authorize).subscribe(res => {
+    this.subscription = this.contactService.authorizeContacts(authorize).subscribe(res => {
       console.log(res)
       this.userInfo = res['data']
       this.n = n
@@ -401,7 +406,7 @@ export class ContactsPage implements OnInit {
 
   getTeepzr() {
     let list = []
-   this.subscription = this.contactService.teepZrs(this.userId).subscribe(res => {
+    this.subscription = this.contactService.teepZrs(this.userId).subscribe(res => {
       console.log(res)
       this.listTeepZrs = res['data']
       this.contactService.setLocalData(CACHE_KEYS.CONTACTS, JSON.stringify(this.listContacts));
@@ -418,7 +423,7 @@ export class ContactsPage implements OnInit {
       this.listTeepZrs = this.getUniquesOnContacts(list)
       this.listTeepZrs.forEach(e => {
         let invitation = { idSender: this.userId, idReceiver: e['_id'] }
-       this.subscription = this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
+        this.subscription = this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
           if (res['status'] == 201) {
             this.listTeepzrsToInvite.push({ _id: e['_id'], nom: e['nom'], prenom: e['prenom'], phone: e['phone'], photo: e['photo'], invited: true })
           } else {
@@ -427,14 +432,12 @@ export class ContactsPage implements OnInit {
             }
           }
         }, error => {
-
         })
       });
       if (this.listTeepzrsToInvite.length == 0) {
         this.listTeepzrsToInvite.length = 1
         this.highValueT = this.highValueT - 1
         this.minus = 1
-
       }
 
     }, error => {
@@ -451,7 +454,7 @@ export class ContactsPage implements OnInit {
 
   getUsersOfCircle() {
     this.loading = true
-   this.subscription = this.contactService.getCircleMembers(this.userId).subscribe(res => {
+    this.subscription = this.contactService.getCircleMembers(this.userId).subscribe(res => {
       let circleMembers = res['data']
       for (const cm of circleMembers) {
         this.circleMembersId.push(cm['_id'])
@@ -479,20 +482,20 @@ export class ContactsPage implements OnInit {
 
   sendShare(c) {
     this.socialSharing.share(messageShare + ' https://play.google.com/store/apps/details?id=bsd.teepzy.com' + ' Et sur Apple Store via :' + 'https://apps.apple.com/bj/app/teepzy/id1572629592?l=fr', null,
-    '' ).then(() => {
-      this.sendInvitationSmsToServer(c)
-    }).catch((err) => {
-      // alert(JSON.stringify(err))
-    });
+      '').then(() => {
+        this.sendInvitationSmsToServer(c)
+      }).catch((err) => {
+        // alert(JSON.stringify(err))
+      });
   }
 
-  
+
   sendInvitationSmsToServer(phone) {
     let inviteViaSms = {
       senderId: this.userId,
       phone: phone
     }
-   this.subscription = this.contactService.inviteViaSms(inviteViaSms).subscribe(res => {
+    this.subscription = this.contactService.inviteViaSms(inviteViaSms).subscribe(res => {
       //  console.log(res)
       this.presentToast('Invitation envoyée')
       this.listContacts.find((c, index) => {
@@ -512,7 +515,7 @@ export class ContactsPage implements OnInit {
       senderId: this.userId,
       phone: phone
     }
-   this.subscription = this.contactService.deleteInviteViaSms(inviteViaSms).subscribe(res => {
+    this.subscription = this.contactService.deleteInviteViaSms(inviteViaSms).subscribe(res => {
       // console.log(res)
       this.presentToast('Invitation annulée')
       this.listContacts.find((c, index) => {
@@ -535,7 +538,7 @@ export class ContactsPage implements OnInit {
       idReceiver: idReceiver,
       typeLink: typeAccount.pseudoIntime
     }
-   this.subscription = this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
+    this.subscription = this.contactService.inviteToJoinCircle(invitation).subscribe(res => {
       // console.log(res)
       for (const c of this.listTeepzrsToInvite) {
         if (c !== undefined) {
@@ -558,7 +561,7 @@ export class ContactsPage implements OnInit {
       idReceiver: u._id,
     }
 
-   this.subscription = this.contactService.cancelToJoinCircle(invitation).subscribe(res => {
+    this.subscription = this.contactService.cancelToJoinCircle(invitation).subscribe(res => {
       if (res['status'] == 400) {
         this.presentToast('Invitation non envoyée')
         this.loading = false
@@ -579,7 +582,7 @@ export class ContactsPage implements OnInit {
   }
 
   getUserInfo(userId) {
-   this.subscription = this.authService.myInfos(userId).subscribe(res => {
+    this.subscription = this.authService.myInfos(userId).subscribe(res => {
       // console.log(res)
       this.userInfo = res['data'];
       this.contactService.setLocalData(CACHE_KEYS.PROFILE, res['data'])
@@ -588,7 +591,7 @@ export class ContactsPage implements OnInit {
         this.loadContacts()
       }
     }, error => {
-     // console.log(error)
+      // console.log(error)
     })
   }
 
@@ -636,8 +639,8 @@ export class ContactsPage implements OnInit {
   }
 
   getTeepzrOutCircle() {
-   this.subscription = this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
-        console.log(res)
+    this.subscription = this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
+      console.log(res)
       this.listTeepZrs = res['data']
       this.listTeepZrs.forEach(e => {
         let invitation = {
@@ -656,7 +659,7 @@ export class ContactsPage implements OnInit {
   }
 
   checkInvitationOutCircle(invitation, e) {
-   this.subscription = this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
+    this.subscription = this.contactService.checkInvitationTeepzr(invitation).subscribe(res => {
       if (res['status'] == 201) {
         this.listTeepzrsToInviteOutCircle.push(
           {
