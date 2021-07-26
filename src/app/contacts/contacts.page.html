@@ -10,7 +10,8 @@
   </ion-refresher>
 
   <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
-  <div *ngIf="listTeepzrsToInvite?.length == 0 && listContacts?.length !== myContacts?.length" class="modal">
+  <!--div *ngIf="listTeepzrsToInvite?.length == 0 && listContacts?.length !== myContacts?.length" class="modal"-->
+  <div *ngIf="arrayIncrementLoading && listTeepzrsToInvite?.length ==  0 " class="modal">
     <label class="modal-label overlay">
       <input type="radio" name="modal" value="close" class="modal-radio" />
     </label>
@@ -32,7 +33,7 @@
     <mat-tab-group [(selectedIndex)]="selectedTab" color="warn">
       <mat-tab [label]=" 'TeepzR  (' + (listTeepzrsToInvite?.length - minus) + ')'">
 
-        <div *ngIf="listTeepzrsToInvite?.length ==  1" style="text-align: center;
+        <div *ngIf="listTeepzrsToInvite?.length ==  1 && !arrayIncrementLoading" style="text-align: center;
             font-size: 20px;">
           <img class="msg" src="../../assets/img/msg.jpg" alt="">
           <span>

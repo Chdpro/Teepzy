@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Contacts } from '@ionic-native/contacts/ngx';
 import { ContactService } from '../providers/contact.service';
 import { ToastController, AlertController, MenuController } from '@ionic/angular';
@@ -62,7 +62,7 @@ export class ContactsPage implements OnInit {
   isDragged = true
   loading = false
   userId = ''
-  arrayIncrementLoading = 0
+  arrayIncrementLoading = false
 
   pageIndex: number = 0;
   pageSize: number = 5;
@@ -85,6 +85,8 @@ export class ContactsPage implements OnInit {
   previousRoute = ''
 
   subscription: Subscription
+
+  
   constructor(private contacts: Contacts,
     public toastController: ToastController,
     private socialSharing: SocialSharing,
@@ -95,6 +97,7 @@ export class ContactsPage implements OnInit {
     private menuCtrl: MenuController,
     private diagnostic: Diagnostic,
     private androidPermissions: AndroidPermissions,
+    private zone: NgZone,
     private contactService: ContactService) {
     this.menuCtrl.close('first');
     this.menuCtrl.swipeGesture(false);
@@ -114,7 +117,7 @@ export class ContactsPage implements OnInit {
     this.getTeepzrOutCircle()
   }
 
-
+  
   CheckPermissions() {
     const androidPermissionsList = [
       {
@@ -329,50 +332,51 @@ export class ContactsPage implements OnInit {
     this.myContacts = []
     this.listContacts = []
     this.listTeepzrsToInvite = []
-    this.contacts.find(['*'], options).then((contacts) => {
-      this.myContacts = this.getUniquesOnContacts(contacts)
-      for (const mC of this.myContacts) {
-        let inviteViaSms = {
-          phone: mC.phoneNumbers[0].value,
-        }
-        this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
-          if (res['status'] == 201) {
-            let phones = this.getUniques(mC.phoneNumbers)
-            this.listContacts.push(
-              {
-                givenName: mC.name.givenName,
-                familyName: mC.name.familyName,
-                phone: phones,
-                invited: true
-              }
-            )
-          } else {
-            let phones = this.getUniques(mC.phoneNumbers)
-            this.listContacts.push(
-              {
-                givenName: mC.name.givenName,
-                familyName: mC.name.familyName,
-                phone: phones,
-                invited: false
-              }
-            )
+    this.zone.runOutsideAngular(()=>{
+      this.arrayIncrementLoading = true
+      this.contacts.find(['*'], options).then((contacts) => {
+        this.myContacts = this.getUniquesOnContacts(contacts)
+        for (const mC of this.myContacts) {
+          let inviteViaSms = {
+            phone: mC.phoneNumbers[0].value,
           }
-        }, error => {
-          this.loading = false
-        })
-
-
-      }
-     // let event = Event
-     // this.doRefreshOnContact(event)
-      this.getTeepzr()
-    }, error => {
-      this.getTeepzr()
-      if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
-        this.authorizeOrNot(this.n)
-      }
+          this.contactService.checkInviteViaSms(inviteViaSms).subscribe(res => {
+            if (res['status'] == 201) {
+              let phones = this.getUniques(mC.phoneNumbers)
+              this.listContacts.push(
+                {
+                  givenName: mC.name.givenName,
+                  familyName: mC.name.familyName,
+                  phone: phones,
+                  invited: true
+                }
+              )
+            } else {
+              let phones = this.getUniques(mC.phoneNumbers)
+              this.listContacts.push(
+                {
+                  givenName: mC.name.givenName,
+                  familyName: mC.name.familyName,
+                  phone: phones,
+                  invited: false
+                }
+              )
+            }
+          }, error => {
+            this.loading = false
+          })
+        }
+        
+        this.getTeepzr()
+        
+      }, error => {
+        this.getTeepzr()
+        if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
+          this.authorizeOrNot(this.n)
+        }
+      })
     })
-
+  
 
   }
 
@@ -434,6 +438,7 @@ export class ContactsPage implements OnInit {
         }, error => {
         })
       });
+      this.arrayIncrementLoading = false
       if (this.listTeepzrsToInvite.length == 0) {
         this.listTeepzrsToInvite.length = 1
         this.highValueT = this.highValueT - 1
