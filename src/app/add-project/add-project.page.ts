@@ -173,7 +173,7 @@ export class AddProjectPage implements OnInit {
 
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
-      header: "Select Image source",
+      header: "Ajouter une image",
       buttons: [{
         text: 'Choisir dans votre galerie',
         handler: () => {
