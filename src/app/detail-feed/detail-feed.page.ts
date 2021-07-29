@@ -74,7 +74,7 @@ export class DetailFeedPage implements OnInit {
 
   currentPlaying = true
   @ViewChild('videoPlayer', null) videoPlayers: ElementRef;
-  @ViewChild('slide-wrapper', null) wrapper: ElementRef;
+  @ViewChild('slideWrapper', null) wrapper: ElementRef;
 
 
 
@@ -126,13 +126,13 @@ export class DetailFeedPage implements OnInit {
   ngOnInit() {
     this.platform.ready().then(() => {
       if (this.platform.is('android')) {
-          // console.log(this.OS);
+        // console.log(this.OS);
       } else if (this.platform.is('ios')) {
-         // console.log(this.OS);
-        this.wrapper.nativeElement.style.position = ''
-
-      }  
-    })  
+        // console.log(this.OS);
+        let wrapper = document.getElementById('slideWrapper')
+        console.log(wrapper)
+      }
+    })
   }
 
   goToProfile(userId) {
@@ -214,7 +214,7 @@ export class DetailFeedPage implements OnInit {
   }
 
 
-  
+
 
 
   async presentAlertConfirm() {
@@ -308,15 +308,15 @@ export class DetailFeedPage implements OnInit {
       if (this.currentPlaying) {
         this.videoPlayers.nativeElement = document.getElementById(videoUrl)
         const nativeElement = this.videoPlayers.nativeElement
-        nativeElement.pause() 
+        nativeElement.pause()
         this.currentPlaying = false
       } else {
-      this.videoPlayers.nativeElement = document.getElementById(videoUrl)
-      const nativeElement = this.videoPlayers.nativeElement
-      nativeElement.play() 
-      this.currentPlaying = true
+        this.videoPlayers.nativeElement = document.getElementById(videoUrl)
+        const nativeElement = this.videoPlayers.nativeElement
+        nativeElement.play()
+        this.currentPlaying = true
       }
-      }
+    }
   }
 
 
@@ -387,7 +387,7 @@ export class DetailFeedPage implements OnInit {
       type: type.POST
     }
     this.contactService.addFavorite(favoris).subscribe(res => {
-    //  this.socket.emit('notification', 'notification');
+      //  this.socket.emit('notification', 'notification');
       //console.log(res)
       this.post = {
         _id: post['_id'],
@@ -504,7 +504,7 @@ export class DetailFeedPage implements OnInit {
           repostCounts: e['repostCounts'],
           matches: e['matches']
 
-      
+
         }
       } else {
         this.post = {
@@ -524,7 +524,7 @@ export class DetailFeedPage implements OnInit {
           favoriteCount: e['favoriteCount'],
           repostCounts: e['repostCounts'],
           matches: e['matches']
-      
+
         }
       }
     })
