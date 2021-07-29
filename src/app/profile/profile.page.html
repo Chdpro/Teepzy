@@ -278,7 +278,8 @@
             </ion-col>
     
             <ion-col size="6" *ngFor="let p of listProjects" (click)="goToDetailProject(p)"  >
-              <ion-card [ngStyle]="{'background-image':  p?.photo?.length > 0 ? 'url(' + p?.photo[0] + ')' : ''}">
+              <ion-card [ngStyle]="{'background-image':  p?.photo?.length > 0 ? 'url(' + p?.photo[0] + ')' : '', 'background-position': 'center center',
+                'background-repeat':'no-repeat no-repeat'}">
                 <ion-card-header>
                   <ion-card-subtitle *ngIf="p?.photo?.length > 1"> 1/{{p?.photo?.length}} </ion-card-subtitle>
                   <ion-card-title></ion-card-title>
@@ -312,7 +313,8 @@
               </h2>
             </ion-col>
             <ion-col size="6" *ngFor="let p of listProducts" (click)="goToDetailProduct(p)">
-              <ion-card [ngStyle]="{'background-image':  p?.photo[0] != '' ? 'url(' + p?.photo[0] + ')' : ''}">
+              <ion-card [ngStyle]="{'background-image':  p?.photo[0] != '' ? 'url(' + p?.photo[0] + ')' : '','background-position': 'center center',
+              'background-repeat':'no-repeat no-repeat'}">
                 <ion-card-header>
                   <ion-card-subtitle *ngIf="p?.photo?.length > 1"> 1/{{p?.photo?.length}} </ion-card-subtitle>
                   <ion-card-title class="price">{{p?.price}} € </ion-card-title>

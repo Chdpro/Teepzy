@@ -128,9 +128,6 @@ export class DetailFeedPage implements OnInit {
       if (this.platform.is('android')) {
         // console.log(this.OS);
       } else if (this.platform.is('ios')) {
-        // console.log(this.OS);
-        let wrapper = document.getElementById('slideWrapper')
-        console.log(wrapper)
       }
     })
   }

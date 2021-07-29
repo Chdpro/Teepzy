@@ -183,6 +183,7 @@ export class ContactsPage implements OnInit {
     setTimeout(() => {
       // console.log('Async operation has ended');
       this.getUserInfo(this.userId)
+      this.getTeepzrOutCircle()
       event.target.complete();
     }, 400);
   }
@@ -336,6 +337,9 @@ export class ContactsPage implements OnInit {
     this.zone.runOutsideAngular(()=>{
       this.arrayIncrementLoading = true
       this.contacts.find(["name", "phoneNumbers"], options).then((contacts) => {
+        alert(JSON.stringify(contacts))
+        alert(JSON.stringify(contacts.length))
+
         this.myContacts = this.getUniquesOnContacts(contacts)
         for (const mC of this.myContacts) {
           let inviteViaSms = {
@@ -363,14 +367,19 @@ export class ContactsPage implements OnInit {
                 }
               )
             }
+            
           }, error => {
+        alert("inside invite sms error")
+
             this.loading = false
           })
         }
-        
+        alert(JSON.stringify(this.listContacts))
         this.getTeepzr()
         
       }, error => {
+        alert("inside contact error")
+
         this.getTeepzr()
         if (this.diagnostic.permissionStatus.DENIED_ALWAYS || this.diagnostic.permissionStatus.DENIED || this.diagnostic.permissionStatus.DENIED_ONCE) {
           this.authorizeOrNot(this.n)
@@ -646,7 +655,6 @@ export class ContactsPage implements OnInit {
 
   getTeepzrOutCircle() {
     this.subscription = this.contactService.eventualKnownTeepZrs(this.userId).subscribe(res => {
-      console.log(res)
       this.listTeepZrs = res['data']
       this.listTeepZrs.forEach(e => {
         let invitation = {
