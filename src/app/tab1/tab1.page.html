@@ -47,17 +47,17 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" [scrollY]="true" >
-  <ion-refresher slot="fixed" [disabled]="false" (ionRefresh)="doRefresh($event)">
+  <ion-refresher *ngIf="debutListPost===0" slot="fixed" [disabled]="false" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-slides *ngIf="listPosts?.length == 0" pager="false" #slides (ionSlideWillChange)="doCheck()">
-    <ion-slide *ngIf="listPosts?.length == 0 && !loading && isTutoSkip == 'YES'">
+  <ion-slides  class="ion-slides" *ngIf="listPosts?.length === 0 || listPosts === null" pager="false" #slides (ionSlideWillChange)="doCheck()">
+    <ion-slide *ngIf="(listPosts?.length === 0 || listPosts === null) && !loading && isTutoSkip == 'YES'">
       <span style="color: #ea4e4f;">
         Aucune publication pour l'instant
       </span>
     </ion-slide>
-    <ion-slide *ngIf="loading && listPosts?.length == 0">
+    <ion-slide *ngIf="loading && (listPosts?.length === 0 || listPosts === null)">
       <ion-spinner color="primary" name="dots"></ion-spinner>
     </ion-slide>
     <ion-slide *ngFor="let t of tutos" [ngStyle]="{'color': 'black', 'background-color': t?.background}"
@@ -148,9 +148,8 @@
         </button>
 
         <div (click)="skipTuto()" class="example-button-row-tuto">
-          <button *ngIf="!disableNextBtn" mat-raised-button>Passer</button>
-          <button *ngIf="disableNextBtn" mat-raised-button>Terminer</button>
-
+          <button style="margin-top: 9%;" *ngIf="!disableNextBtn" mat-raised-button>Passer</button>
+          <button style="margin-top: 9%;" *ngIf="disableNextBtn" mat-raised-button>Terminer</button>
         </div>
       </div>
 
@@ -324,11 +323,6 @@
   </div>
 
 
-  <div class="arrow-click">
-    <span style="visibility: hidden;">
-      arrow-click
-    </span>
-  </div>
   <input type="radio" *ngIf="globals?.showBackground " name="modal" value="open" id="modal-open" class="modal-radio" />
   <div class="modal" (click)="dismiss()" *ngIf="globals?.showBackground "
     [ngStyle]="{'opacity': globals?.showBackground == true ? '1' : '0' }">

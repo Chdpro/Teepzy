@@ -1,4 +1,22 @@
 
+.mat-header-img{
+  position: absolute;
+  width: 100%;
+  height: 67%;
+  border-radius: 40px 40px 0 0;
+  display: block;
+  margin-top: -15px;
+}
+
+mat-card-content{
+  padding: 16px;
+  width: 164px;
+  margin-left: -17px;
+  margin-top: -16px;
+  border-radius: 29px 29px 1px 1px;
+  height: 200px;
+  position: relative;
+}
 video{
 
   min-width: 100%;
@@ -289,27 +307,9 @@ display: inline-flex;
   padding: 7px;
   
   }
-mat-card-content{
-background: bisque;
-padding: 16px;
-width: 155px;
-margin-left: -17px;
-margin-top: -16px;
-border-radius: 29px 29px 1px 1px;
-height: 99px;
 
-}
 
-.feed-card-content{
-  background: bisque;
-  padding: 16px;
-  width: 165px;
-  margin-left: -17px;
-  margin-top: -16px;
-  border-radius: 29px 29px 1px 1px;
-  height: 200px;
-  
-}
+
 
 // project start css
 

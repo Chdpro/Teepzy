@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ContactService } from '../providers/contact.service';
 import { AuthService } from '../providers/auth.service';
-import { ToastController, AlertController, MenuController, ModalController, IonRouterOutlet } from '@ionic/angular';
+import { ToastController, AlertController, MenuController, ModalController, IonRouterOutlet, Platform } from '@ionic/angular';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { LinkSheetPage } from '../link-sheet/link-sheet.page';
@@ -74,6 +74,8 @@ export class DetailFeedPage implements OnInit {
 
   currentPlaying = true
   @ViewChild('videoPlayer', null) videoPlayers: ElementRef;
+  @ViewChild('slide-wrapper', null) wrapper: ElementRef;
+
 
 
   previousRoute = ''
@@ -84,7 +86,6 @@ export class DetailFeedPage implements OnInit {
     initialSlide: 1,
     speed: 400
   };
-
 
   loading: Boolean
   constructor(private authService: AuthService,
@@ -97,6 +98,7 @@ export class DetailFeedPage implements OnInit {
     private router: Router,
     public globals: Globals,
     public route: ActivatedRoute,
+    private platform: Platform,
     private dataPasse: DatapasseService,
     private contactService: ContactService) {
     this.menuCtrl.close('first');
@@ -122,7 +124,15 @@ export class DetailFeedPage implements OnInit {
 
 
   ngOnInit() {
+    this.platform.ready().then(() => {
+      if (this.platform.is('android')) {
+          // console.log(this.OS);
+      } else if (this.platform.is('ios')) {
+         // console.log(this.OS);
+        this.wrapper.nativeElement.style.position = ''
 
+      }  
+    })  
   }
 
   goToProfile(userId) {

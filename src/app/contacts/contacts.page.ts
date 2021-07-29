@@ -105,6 +105,7 @@ export class ContactsPage implements OnInit {
   }
 
   ngOnInit() {
+ 
     this.userId = localStorage.getItem('teepzyUserId');
     this.userPhone = localStorage.getItem('teepzyPhone')
     this.CheckPermissions()
@@ -334,7 +335,7 @@ export class ContactsPage implements OnInit {
     this.listTeepzrsToInvite = []
     this.zone.runOutsideAngular(()=>{
       this.arrayIncrementLoading = true
-      this.contacts.find(['*'], options).then((contacts) => {
+      this.contacts.find(["name", "phoneNumbers"], options).then((contacts) => {
         this.myContacts = this.getUniquesOnContacts(contacts)
         for (const mC of this.myContacts) {
           let inviteViaSms = {

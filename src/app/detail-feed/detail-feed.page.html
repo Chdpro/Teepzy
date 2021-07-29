@@ -62,17 +62,16 @@
             </span>
           </ion-slide>
     </ion-slides>
-    <div class="ion-slide-wrapper" *ngIf="post" >
+    <div #slide-wrapper class="ion-slide-wrapper" *ngIf="post" >
       <div class="ion-slide"
-        [ngClass]="{'ion-slide-img': post?.image_url != '', 'ion-slide-no-img': post?.image_url == ''}" 
         [ngStyle]="{
           'color': post?.backgroundColor == '#fff' && post?.image_url == ''? 'black' : 'white', 
-          'background-image':  post?.image_url != '' ? 'url(' + post?.image_url + ')' : '',
+          'background-image':  post?.image_url !== '' ? 'url(' + post?.image_url + ')' : '',
           'background-color': post?.image_url == '' ? post?.backgroundColor : 'black',
           'background-position': 'center center', 
           'background-size': 'cover', 
           'background-repeat': 'no-repeat'
-        }">
+         }">
   
         <div  class="post-txt">
           <div *ngIf="post?.video_url">
@@ -162,9 +161,6 @@
             [ngStyle]="{'font-size': post?.content.length > 60 ? '17px' : '23px' }" >
             {{ post?.content }}
           </p>
-  
-  
-  
           <div class="fixed-wrap"
           [ngStyle]="{'margin-top': post?.image_url || post?.video_url ? '10em' : '10em' }">
           <div class="slidenav">

@@ -439,11 +439,16 @@ export class Tab2Page implements OnInit {
   }
 
   async presentActionSheet(link) {
-    //console.log(link)
     const actionSheet = await this.actionSheetController.create({
-      header: link.message,
+     // header: link.message,
       cssClass: 'my-link-sheet-class',
       buttons: [
+        {
+          text: link.message,
+          icon: 'chat',
+          handler: () => {
+          }
+        },
         {
           text: 'Accepter',
           icon: 'checkmark',

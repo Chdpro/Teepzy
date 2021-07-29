@@ -7,7 +7,7 @@
     <div class="example-button-container">
       <ion-button *ngIf="!loading" color="secondary" style="margin-top: 1px;" (click)="uploadImage()"
         [disabled]="contentMsg.errors?.required" expand="block" shape="round">
-        <span >
+        <span>
           Publier
         </span>
       </ion-button>
@@ -17,16 +17,16 @@
         Publier
       </span>
     </ion-button-->
-      <ion-button *ngIf="loading" color="secondary" style="margin-top: 1px;"
-      [disabled]="contentMsg.errors?.required" expand="block" shape="round">
-      <ion-spinner name="dots"></ion-spinner>
-    </ion-button>
+      <ion-button *ngIf="loading" color="secondary" style="margin-top: 1px;" [disabled]="contentMsg.errors?.required"
+        expand="block" shape="round">
+        <ion-spinner name="dots"></ion-spinner>
+      </ion-button>
     </div>
   </ion-toolbar>
 </ion-header>
 <ion-content [style.background-color]="post?.backgroundColor" style="    height: -webkit-fill-available;">
   <div [style.background-color]="post?.backgroundColor" style="    height: -webkit-fill-available;">
-   
+
     <div class="post-txt">
       <div *ngIf="user?.photo && user?.photo !== ''">
         <img class="img" [src]="user?.photo" alt="">
@@ -40,10 +40,10 @@
     <ion-grid>
       <ion-row>
         <ion-col size="12">
-            <ion-icon *ngIf="dispImags?.length > 0" (click)="clear()" class="close-btn" name="close-outline"></ion-icon>
-            <ion-img *ngIf="dispImags?.length > 0" class="img-to-post" [src]="dispImags[0]"></ion-img>
+          <ion-icon *ngIf="dispImags?.length > 0" (click)="clear()" class="close-btn" name="close-outline"></ion-icon>
+          <ion-img *ngIf="dispImags?.length > 0" class="img-to-post" [src]="dispImags[0]"></ion-img>
           <div *ngIf="dispVideos?.length > 0">
-              <ion-icon (click)="removeMedia()" class="close-btn" name="close-outline"></ion-icon>
+            <ion-icon (click)="removeMedia()" class="close-btn" name="close-outline"></ion-icon>
             <video #myVideo oncontextmenu="return false;" autoplay controls="false">
               <source [src]="dispVideos[0]" type="video/mp4">
             </video>
@@ -70,7 +70,7 @@
               <img alt="" [src]="croppedImage" />
             </ion-card-content>
           </ion-card-->
-          
+
         </ion-col>
 
         <ion-col>
@@ -78,11 +78,11 @@
             <mat-form-field class="">
               <mat-label [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">Tapez ce que vous
                 voulez</mat-label>
-              <textarea [mention]="members" [mentionConfig]="{triggerChar:'@',maxItems:10,labelKey:'pseudoIntime'}" [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }" matInput
+              <textarea [mention]="members" [mentionConfig]="{triggerChar:'@',maxItems:10,labelKey:'pseudoIntime'}"
+                [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }" matInput
                 [(ngModel)]="post.content" name="contentMsg" required #contentMsg="ngModel" maxlength="130" rows="15"
-                (ngModelChange)="post.content = $event + ''" cols="60"
-                placeholder="Ex. Je recherche un graphiste...">
-              </textarea> 
+                (ngModelChange)="post.content = $event + ''" cols="60" placeholder="Ex. Je recherche un graphiste...">
+              </textarea>
             </mat-form-field>
             <span>
               <div class="limit-chars" *ngIf="post?.content.length == 130">
@@ -98,41 +98,27 @@
 
 
           <div class=" color-btns">
-            <ion-col size="2">
-              <button (click)="setBackgroundColor('#000000')" class="btn-icon black-btn" mat-mini-fab
-                aria-label="Example icon button with a home icon">
+            <button (click)="setBackgroundColor('#000000')" class="btn-icon black-btn" mat-mini-fab
+              aria-label="Example icon button with a home icon">
+            </button>
+            <button (click)="setBackgroundColor('#E5858B')" class="btn-icon brown-btn" mat-mini-fab
+              aria-label="Example icon button with a home icon">
 
-              </button>
-            </ion-col>
-            <ion-col size="2">
-              <button (click)="setBackgroundColor('#E5858B')"  class="btn-icon brown-btn" mat-mini-fab
-                aria-label="Example icon button with a home icon">
+            </button>
+            <span (click)="selectImage()" class="add-btn">
+              <ion-icon name="add"></ion-icon>
+            </span>
 
-              </button>
-            </ion-col>
-            <ion-col size="4">
-              <span>
-                <ion-fab class="add" (click)="selectImage()" vertical="center" horizontal="center" slot="fixed">
-                  <ion-fab-button>
-                    <ion-icon name="add"></ion-icon>
-                  </ion-fab-button>
-                </ion-fab>
 
-              </span>
-            </ion-col>
-            <ion-col size="2">
+            <button (click)="setBackgroundColor('#6C9FF0')" class="btn-icon blue-btn" mat-mini-fab
+              aria-label="Example icon button with a home icon">
 
-              <button (click)="setBackgroundColor('#6C9FF0')" class="btn-icon blue-btn" mat-mini-fab
-                aria-label="Example icon button with a home icon">
+            </button>
 
-              </button>
-            </ion-col>
-            <ion-col size="2">
-              <button (click)="setBackgroundColor('#73D896')" class="btn-icon grey-btn" mat-mini-fab
-                aria-label="Example icon button with a home icon">
+            <button (click)="setBackgroundColor('#73D896')" class="btn-icon grey-btn" mat-mini-fab
+              aria-label="Example icon button with a home icon">
 
-              </button>
-            </ion-col>
+            </button>
 
 
           </div>

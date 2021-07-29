@@ -34,21 +34,13 @@
     width: 80%; 
 }
 
-.action-sheet-title.sc-ion-action-sheet-md{
-    height: 9em;
-}
+
 
 #myVideo{
     border-radius: 40px 40px 1px 0px !important;
 }
 
-// for iphone 5
-.swiper-wrapper{
-    color: white;
-    height: -webkit-fill-available;
-    border-radius: 40px 40px 1px 0px;
-    margin-top: 25px;
-}
+
 .mat-tab-header, .mat-tab-nav-bar {
     border-bottom: 0px solid rgba(0,0,0,.12);
 }
@@ -184,6 +176,4 @@ iframe{
     position: relative;
  }
 
- .carousel{
-     display: -webkit-inline-flex !important;
- }
+ 

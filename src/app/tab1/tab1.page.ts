@@ -93,7 +93,7 @@ export class Tab1Page implements OnInit {
   videoMuted = ''
   videoUrl = ''
   @ViewChild('feed', null) feed: ElementRef;
-  
+
   constructor(
     private authService: AuthService,
     private toasterController: ToastController,
@@ -130,7 +130,7 @@ export class Tab1Page implements OnInit {
 
 
 
-  
+
   ionViewWillEnter() {
     this.userId = localStorage.getItem('teepzyUserId');
     //   this.socket.emit('online', this.userId);
@@ -138,8 +138,7 @@ export class Tab1Page implements OnInit {
     if (this.networkService.networkStatus() === Offline) {
       this.getFeedFromLocal()
     } else {
-      this.getFeedFromLocal()
-      this.getPosts(this.userId)
+      this.getFeedFromLocalThenServer()
     }
     this.isTutoSkip = localStorage.getItem("isTutoSkip")
 
@@ -163,6 +162,7 @@ export class Tab1Page implements OnInit {
   }
 
   doCheck() {
+    console.log("slide change")
     let prom1 = this.ionSlides.isBeginning();
     let prom2 = this.ionSlides.isEnd();
 
@@ -299,8 +299,7 @@ export class Tab1Page implements OnInit {
     this.endListPost++
   }
   swipeDown(event: any) {
-    this.debutListPost--
-    this.endListPost--
+    if (this.debutListPost !== 0) this.debutListPost--; this.endListPost--
   }
 
 
@@ -332,7 +331,7 @@ export class Tab1Page implements OnInit {
     //console.log('Begin async operation');
     setTimeout(() => {
       // console.log('Async operation has ended');
-      this.getPosts(this.userId)
+      if (this.debutListPost === 0) this.getPosts(this.userId)
       event.target.complete();
     }, 400);
   }
@@ -525,7 +524,6 @@ export class Tab1Page implements OnInit {
       this.listPosts = []
       if (res['data'] != null) {
         this.listPosts = res['data']
-        //    console.log(this.listPosts)
         this.listPosts = this.listPosts.sort((a, b) => {
           return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
         })
@@ -539,16 +537,26 @@ export class Tab1Page implements OnInit {
       this.loading = false
       this.timeCall = 0
     }, error => {
+      if (this.isTutoSkip !== 'YES') this.listPosts = []; this.tutosTexts()
       this.loading = false
-      //    console.log(error)
+      console.log(error)
 
     })
   }
 
   getFeedFromLocal() {
     this.subscription = this.contactService.feedsFromLocal().subscribe(listPosts => {
-      this.listPosts = listPosts
-      //    console.log(this.listPosts)
+      listPosts ? this.listPosts = listPosts : this.listPosts = []
+      if (this.listPosts.length === 0 && this.isTutoSkip !== 'YES') console.log(this.listPosts); this.listPosts = []; this.tutosTexts()
+      return listPosts
+    })
+  }
+
+  getFeedFromLocalThenServer() {
+    this.subscription = this.contactService.feedsFromLocal().subscribe(listPosts => {
+      listPosts ? this.listPosts = listPosts : this.listPosts = []
+      if (this.listPosts.length === 0 && this.isTutoSkip !== 'YES') console.log(this.listPosts); this.listPosts = []; this.tutosTexts()
+       this.getPosts(this.userId)
       return listPosts
     })
   }

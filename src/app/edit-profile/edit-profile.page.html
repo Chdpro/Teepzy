@@ -114,6 +114,8 @@
                 <button mat-button [matMenuTriggerFor]="menu"> <span class="material-icons">
                     info
                   </span></button>
+                <span class="star">*</span>
+
                 <mat-menu style="padding-left: 12px;" #menu="matMenu">
                   <span>
                     Cliquer ici pour modifier le titre de la rubrique
@@ -121,7 +123,7 @@
                 </mat-menu>
 
                 <mat-form-field class="example-full-width">
-                  <input matInput name="bio" #bio="ngModel" [(ngModel)]="profile1.bio" required placeholder="Ecrivez ici le contenu de la rubrique">
+                  <input matInput name="bio" #bio="ngModel" [(ngModel)]="profile1.bio" placeholder="Ecrivez ici le contenu de la rubrique ">
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
@@ -140,6 +142,7 @@
                     info
                   </span>
                 </button>
+                <span class="star">*</span>
                 <mat-menu style="padding-left: 12px;" #menu="matMenu">
                   <span>
                     Cliquer ici pour modifier le titre de la rubrique
@@ -147,7 +150,6 @@
                 </mat-menu>
 
                 <mat-form-field class="example-chip-list">
-
                   <mat-chip-list #chipList aria-label="Fruit selection">
                     <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
                       (removed)="remove1(tag)">
@@ -159,7 +161,7 @@
                       <mat-icon (click)="add($event)" style="    width: 30px;
                     height: 18px;" matChipRemove>add_circle</mat-icon>
                     </mat-chip>
-                    <input [matChipInputFor]="chipList" required  placeholder="Ecrivez ici le contenu de la rubrique *" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    <input [matChipInputFor]="chipList" required  placeholder="Ecrivez ici le contenu de la rubrique" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                       [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
                   </mat-chip-list>
                 </mat-form-field>

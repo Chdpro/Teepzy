@@ -48,16 +48,43 @@ video{
       position: absolute;
   }
 .carousel{
-    height: 79px;
-    padding-top: 13px;
+    height: 79px !important;
 }
 .carousel-inner{
     height: 60px;
+    margin-left: 13px;
 }
 
+.carousel-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 95%;
+}
+
+.carousel-control-next {
+    right: -15px;
+}
+.carousel-control-prev {
+        left: -7px;
+}
 .mat-header-btn{
     float: right;
     font-size: 32px;
+}
+
+mat-card-header{
+    display: flex;
+    flex-direction: row;
+}
+
+.mat-header-img{
+    position: absolute;
+    width: 100%;
+    height: 67%;
+    border-radius: 40px 40px 0 0;
+    display: block;
+    margin-top: -15px;
 }
 
 .banner{
@@ -70,12 +97,7 @@ video{
     text-align: start;
     margin-left: 5px;
 }
-.rs-button{
-    margin-left: 31px;
 
-    margin-right: -33px;
-
-}
 
 ion-card-subtitle{
     color: #ea4d4f;
@@ -303,13 +325,13 @@ mat-card-actions{
     padding: 14px;
 }
 mat-card-content{
-        background: bisque;
     padding: 16px;
     width: 164px;
     margin-left: -17px;
     margin-top: -16px;
     border-radius: 29px 29px 1px 1px;
     height: 200px;
+    position: relative;
 }
 
 /// shop cart css

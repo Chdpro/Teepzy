@@ -124,7 +124,6 @@ getUsersOfCircle() {
  this.subscription = this.contactService.getCircleMembers(this.userId).subscribe(res => {
     //console.log(res);
     this.members = res['data']
-    console.log(this.members);
   }, error => {
     // console.log(error)
 
@@ -154,6 +153,7 @@ getUsersOfCircle() {
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
       header: "Selectionner un média",
+      cssClass: 'add-post-img',
       buttons: [{
         text: 'Choisir une image',
         icon: "images",
