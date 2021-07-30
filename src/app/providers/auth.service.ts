@@ -39,33 +39,33 @@ export class AuthService {
 
 
   check(user): Observable<any> {
-    let url = 'users/check';
+    let url = 'stats/check';
     return this.http.post(base_url + url, user, httpOptionsJson);
   }
 
 
   update(user): Observable<any> {
-    let url = 'users/update';
+    let url = 'stats/update';
     return this.http.post(base_url + url, user, httpOptionsJson);
   }
 
   changePassword(user): Observable<any> {
-    let url = 'users/updatePass';
+    let url = 'stats/updatePass';
     return this.http.post(base_url + url, user, httpOptionsJson);
   }
 
   updateInfo(user): Observable<any> {
-    let url = 'users/updateInfo';
+    let url = 'stats/updateInfo';
     return this.http.post(base_url + url, JSON.stringify(user), httpOptionsJson);
   }
 
   updateProfile(user): Observable<any> {
-    let url = 'users/updateProfile';
+    let url = 'stats/updateProfile';
     return this.http.post(base_url + url, JSON.stringify(user), httpOptionsJson);
   }
 
   updateProfile2(user): Observable<any> {
-    let url = 'users/updateProfile2';
+    let url = 'stats/updateProfile2';
     return this.http.post(base_url + url, JSON.stringify(user), httpOptionsJson);
   }
 
@@ -82,13 +82,13 @@ export class AuthService {
 
 
   updatePlayerId(user) {
-    let url = 'users/updatePlayerId';
+    let url = 'stats/updatePlayerId';
     return this.http.post(base_url + url, user, httpOptionsJson);
   }
 
 
   myInfos(id) {
-    let url = 'users/user/' + id
+    let url = 'stats/user/' + id
     return this.http.get(base_url + url, httpOptionsJson)
 
     // if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
@@ -97,7 +97,7 @@ export class AuthService {
     // } else {
     //   // Return real API data and store it locally
     //   return this.http.get(base_url + url, httpOptionsJson)
-    //   //  this.setLocalData('users', res);
+    //   //  this.setLocalData('stats', res);
     // }
   }
 

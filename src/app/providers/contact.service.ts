@@ -36,109 +36,109 @@ export class ContactService {
   
   }
   inviteViaSms(invitation): Observable<any> {
-    let url = 'users/SmsInvited';
+    let url = 'stats/SmsInvited';
     return this.http.post(base_url + url, invitation, httpOptionsJson);
   }
 
 
   inviteToJoinCircle(invitation): Observable<any> {
-    let url = 'users/inviteToJoinCircle';
+    let url = 'stats/inviteToJoinCircle';
     return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
 
   cancelToJoinCircle(invitation): Observable<any> {
-    let url = 'users/cancelToJoinCircle';
+    let url = 'stats/cancelToJoinCircle';
     return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
   linkPeoples(invitation): Observable<any> {
-    let url = 'users/linkPeople';
+    let url = 'stats/linkPeople';
     //console.log(JSON.stringify(invitation))
     return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
 
   listLinksPeople(invitation): Observable<any> {
-    let url = 'users/linksPeoples';
+    let url = 'stats/linksPeoples';
     if (this.networkService.networkStatus() === Offline) {
       // Return the cached data from Storage
      return from(this.getLocalData(CACHE_KEYS.LINKS))
     } else {
       // Return real API data and store it locally
       return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
-      //  this.setLocalData('users', res);
+      //  this.setLocalData('stats', res);
     }
   }
 
   refuseLinkPeople(invitation): Observable<any> {
-    let url = 'users/refuseLinkPeople';
+    let url = 'stats/refuseLinkPeople';
     return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
 
   authorizeConversationNotifications(authorize): Observable<any> {
-    let url = 'users/authorizeConversationNotifications';
+    let url = 'stats/authorizeConversationNotifications';
     return this.http.post(base_url + url,JSON.stringify(authorize), httpOptionsJson);
   }
 
   authorizeInvitationNotifications(authorize): Observable<any> {
-    let url = 'users/authorizeInvitationNotifications';
+    let url = 'stats/authorizeInvitationNotifications';
     return this.http.post(base_url + url,JSON.stringify(authorize), httpOptionsJson);
   }
 
   authorizeContacts(authorize): Observable<any> {
-    let url = 'users/authorizeContacts';
+    let url = 'stats/authorizeContacts';
     return this.http.post(base_url + url,JSON.stringify(authorize), httpOptionsJson);
   }
 
   authorizePhotos(authorize): Observable<any> {
-    let url = 'users/authorizePhotos';
+    let url = 'stats/authorizePhotos';
     return this.http.post(base_url + url,JSON.stringify(authorize), httpOptionsJson);
   }
 
   acceptLinkPeople(invitation): Observable<any> {
-    let url = 'users/acceptLinkPeople';
+    let url = 'stats/acceptLinkPeople';
     return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
   closeLinkPeople(invitation): Observable<any> {
-    let url = 'users/closeLinkPeople';
+    let url = 'stats/closeLinkPeople';
     return this.http.post(base_url + url, JSON.stringify(invitation), httpOptionsJson);
   }
 
   acceptInvitation(invitation): Observable<any> {
-    let url = 'users/acceptToJoinCircle';
+    let url = 'stats/acceptToJoinCircle';
     return this.http.post(base_url + url, invitation, httpOptionsJson);
   }
 
   listInivtation(invitation): Observable<any> {
-    let url = 'users/invitations';
+    let url = 'stats/invitations';
     if (this.networkService.networkStatus() === Offline) {
       // Return the cached data from Storage
      return from(this.getLocalData(CACHE_KEYS.INVITATIONS))
     } else {
       // Return real API data and store it locally
       return this.http.post(base_url + url, invitation, httpOptionsJson);
-      //  this.setLocalData('users', res);
+      //  this.setLocalData('stats', res);
     }
   }
 
   listInivtationViaSms(invitation): Observable<any> {
-    let url = 'users/invitationsSms';
+    let url = 'stats/invitationsSms';
     if (this.networkService.networkStatus() === Offline) {
       // Return the cached data from Storage
      return from(this.getLocalData(CACHE_KEYS.INVITATION_SMS))
     } else {
       // Return real API data and store it locally
       return this.http.post(base_url + url, invitation, httpOptionsJson);
-      //  this.setLocalData('users', res);
+      //  this.setLocalData('stats', res);
     }
   }
 
 
   listNotification(id, page): Observable<any> {
-    let url = `users/notifications/` + id + `?page=${page}&limit=20`;
+    let url = `stats/notifications/` + id + `?page=${page}&limit=20`;
     // console.log(this.networkService.networkStatus())
     if (this.networkService.networkStatus() === Offline) {
       // Return the cached data from Storage
@@ -146,12 +146,12 @@ export class ContactService {
     } else {
       // Return real API data and store it locally
       return this.http.get(base_url + url, httpOptionsJson);
-      //  this.setLocalData('users', res);
+      //  this.setLocalData('stats', res);
     }
   }
 
   listMentionNotifications(id): Observable<any> {
-    let url = `users/notifications_mentions/` + id ;
+    let url = `stats/notifications_mentions/` + id ;
  // console.log(this.networkService.networkStatus())
     if (this.networkService.networkStatus() === Offline) {
       // Return the cached data from Storage
@@ -159,97 +159,97 @@ export class ContactService {
     } else {
       // Return real API data and store it locally
       return this.http.get(base_url + url, httpOptionsJson);
-      //  this.setLocalData('users', res);
+      //  this.setLocalData('stats', res);
     }
   }
 
   
 
   NbrUnreadNotifications(userId): Observable<any> {
-    let url = 'users/notifications/unreads/'+ userId;
+    let url = 'stats/notifications/unreads/'+ userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
   markReadNotifications(userId): Observable<any> {
-    let url = 'users/notifications/mark/'+ userId;
+    let url = 'stats/notifications/mark/'+ userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
 
 
   checkInviteViaSms(check): Observable<any> {
-    let url = 'users/checkSmsInvitation';
+    let url = 'stats/checkSmsInvitation';
     return this.http.post(base_url + url, check, httpOptionsJson);
   }
 
 
   deleteInviteViaSms(check): Observable<any> {
-    let url = 'users/deleteSmsInvitation';
+    let url = 'stats/deleteSmsInvitation';
     return this.http.post(base_url + url, check, httpOptionsJson);
   }
 
 
   deletePost(postId): Observable<any> {
-    let url = 'users/post/' + postId;
+    let url = 'stats/post/' + postId;
     return this.http.put(base_url + url, httpOptionsJson);
   }
 
     
   deleteRePost(postId): Observable<any> {
-    let url = 'users/repost/' + postId;
+    let url = 'stats/repost/' + postId;
     return this.http.put(base_url + url, httpOptionsJson);
   }    
 
 
   updateRePost(post): Observable<any> {
-    let url = 'users/repost/update';
+    let url = 'stats/repost/update';
     return this.http.put(base_url + url, post, httpOptionsJson);
   }
 
   updatePost(post): Observable<any> {
-    let url = 'users/post/update';
+    let url = 'stats/post/update';
     return this.http.put(base_url + url, post, httpOptionsJson);
   }
 
 
   checkInvitationTeepzr(check): Observable<any> {
-    let url = 'users/checkInvitation';
+    let url = 'stats/checkInvitation';
     return this.http.post(base_url + url, check, httpOptionsJson);
   }
 
     teepZrs(userId): Observable<any> {
-    let url = 'users/teepzr/' + userId;
+    let url = 'stats/teepzr/' + userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
   AllTeepZrs(userId): Observable<any> {
-    let url = 'users/users/' + userId;
+    let url = 'stats/stats/' + userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
   searchTeepZrs(search): Observable<any> {
-    let url = 'users/teepzrto';
+    let url = 'stats/teepzrto';
     return this.http.post(base_url + url, search, httpOptionsJson);
   }
 
   teepZ(userId): Observable<any> {
-    let url = 'users/posts/my/' + userId;
+    let url = 'stats/posts/my/' + userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
   favorites(userId): Observable<any> {
-    let url = 'users/myFavorite/' + userId;
+    let url = 'stats/myFavorite/' + userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
   eventualKnownTeepZrs(userId): Observable<any> {
-    let url = 'users/teepzr/eventualsTeepzrs/' + userId;
+    let url = 'stats/teepzr/eventualsTeepzrs/' + userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
 
   addPost(post): Observable<any> {
-    let url = 'users/posts';
+    let url = 'stats/posts';
     return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
@@ -259,45 +259,45 @@ export class ContactService {
   }
 
   rePost(post): Observable<any> {
-    let url = 'users/reposts';
+    let url = 'stats/reposts';
     return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   addRePost(post): Observable<any> {
-    let url = 'users/reposts';
+    let url = 'stats/reposts';
     return this.http.post(base_url + url, JSON.stringify(post), httpOptionsJson);
   }
 
   addProject(project): Observable<any> {
-    let url = 'users/addProject';
+    let url = 'stats/addProject';
     return this.http.post(base_url + url, JSON.stringify(project), httpOptionsJson);
   }
 
   deleteProject(projectId): Observable<any> {
-    let url = 'users/deleteProject/' + projectId;
+    let url = 'stats/deleteProject/' + projectId;
     return this.http.delete(base_url + url, httpOptionsJson);
   }
 
   addProduct(product): Observable<any> {
-    let url = 'users/addProduct';
+    let url = 'stats/addProduct';
     return this.http.post(base_url + url, JSON.stringify(product), httpOptionsJson);
   }
 
   deleteProduct(productId): Observable<any> {
-    let url = 'users/deleteProduct/' + productId;
+    let url = 'stats/deleteProduct/' + productId;
     return this.http.delete(base_url + url, httpOptionsJson);
   }
 
 
   getPosts(userId): Observable<any> {
-    let url = 'users/posts/all/' + userId;
+    let url = 'stats/posts/all/' + userId;
     if (this.networkService.networkStatus() === Offline) {
       // Return the cached data from Storage
      return from(this.getLocalData(CACHE_KEYS.FEEDS))
     } else {
       // Return real API data and store it locally
       return this.http.get(base_url + url, httpOptionsJson);
-      //  this.setLocalData('users', res);
+      //  this.setLocalData('stats', res);
     }
   }
 
@@ -306,19 +306,19 @@ export class ContactService {
   }
 
   checkInMyCircle(check): Observable<any> {
-    let url = 'users/checkInMycircle';
+    let url = 'stats/checkInMycircle';
     return this.http.post(base_url + url,JSON.stringify(check), httpOptionsJson);
   }
 
   
   getPost(post): Observable<any> {
-    let url = 'users/posts/apost';
+    let url = 'stats/posts/apost';
     return this.http.post(base_url + url,post, httpOptionsJson);
   }
 
 
   getRePost(idTeepz): Observable<any> {
-    let url = 'users/repost/' + idTeepz;
+    let url = 'stats/repost/' + idTeepz;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
@@ -327,50 +327,50 @@ export class ContactService {
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
-  getUsersMatch(userId): Observable<any> {
-    let url = 'users/users/' + userId;
+  getstatsMatch(userId): Observable<any> {
+    let url = 'stats/stats/' + userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
   SearchOnMatch(search?: any) {
-    let url = 'users/searchMatch';
+    let url = 'stats/searchMatch';
     return this.http.post(base_url + url, JSON.stringify(search), httpOptionsJson);
   }
 
   SearchInCircleOnMatch(search?: any) {
-    let url = 'users/searchTeepzrsInCircle';
+    let url = 'stats/searchTeepzrsInCircle';
     return this.http.post(base_url + url, JSON.stringify(search), httpOptionsJson);
   }
 
 
   changeAccount(change?: any) {
-    let url = 'users/changeAccount';
+    let url = 'stats/changeAccount';
     return this.http.post(base_url + url, JSON.stringify(change), httpOptionsJson);
   }
 
 
   addCommentToPost(comment): Observable<any> {
-    let url = 'users/comments/all';
+    let url = 'stats/comments/all';
     return this.http.post(base_url + url, JSON.stringify(comment), httpOptionsJson);
   }
 
   getCommentsOfComment(postId): Observable<any> {
-    let url = 'users/comments/comment/all/' + postId;
+    let url = 'stats/comments/comment/all/' + postId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
   addCommentToComment(comment): Observable<any> {
-    let url = 'users/comments/comment/all';
+    let url = 'stats/comments/comment/all';
     return this.http.post(base_url + url, JSON.stringify(comment), httpOptionsJson);
   }
 
   getCommentsOfPost(postId): Observable<any> {
-    let url = 'users/comments/all/' + postId;
+    let url = 'stats/comments/all/' + postId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
   checkFavorite(check): Observable<any> {
-    let url = 'users/checkFavorite';
+    let url = 'stats/checkFavorite';
     return this.http.post(base_url + url, check, httpOptionsJson);
   }
 
@@ -388,25 +388,25 @@ export class ContactService {
    }
  
   addFavorite(favorite): Observable<any> {
-    let url = 'users/addFavorite';
+    let url = 'stats/addFavorite';
     return this.http.post(base_url + url, favorite, httpOptionsJson);
   }
 
   addMessageFavorite(favorite): Observable<any> {
-    let url = 'users/addMessageFavorite';
+    let url = 'stats/addMessageFavorite';
     return this.http.post(base_url + url, favorite, httpOptionsJson);
   }
 
 
 
   getCircleMembers(id): Observable<any> {
-    let url = 'users/circle/' + id;
+    let url = 'stats/circle/' + id;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 
 
   removeMemberFromCircle(member): Observable<any> {
-    let url = 'users/removeFromCircle';
+    let url = 'stats/removeFromCircle';
     return this.http.post(base_url + url, JSON.stringify(member), httpOptionsJson);
   }
   
@@ -469,7 +469,7 @@ export class ContactService {
     } else {
       // Return real API data and store it locally
       return this.http.get(base_url + url, httpOptionsJson);
-      //  this.setLocalData('users', res);
+      //  this.setLocalData('stats', res);
     }
   }
 
@@ -481,7 +481,7 @@ export class ContactService {
     } else {
       // Return real API data and store it locally
       return this.http.post(base_url + url, obj, httpOptionsJson);
-      //  this.setLocalData('users', res);
+      //  this.setLocalData('stats', res);
     }
   }
 
@@ -512,28 +512,28 @@ export class ContactService {
   }
 
   getConnected(user): Observable<any> {
-    let url = 'users/getOnline';
+    let url = 'stats/getOnline';
     return this.http.post(base_url + url, user, httpOptionsJson);
   }
 
   removeFavorite(favorite): Observable<any> {
-    let url = 'users/removeFavorite';
+    let url = 'stats/removeFavorite';
     return this.http.post(base_url + url, favorite, httpOptionsJson);
   }
 
 
   spam(sign): Observable<any> {
-    let url = 'users/reports';
+    let url = 'stats/reports';
     return this.http.post(base_url + url, JSON.stringify(sign), httpOptionsJson);
   }
 
   report(bug): Observable<any> {
-    let url = 'users/reports/bug';
+    let url = 'stats/reports/bug';
     return this.http.post(base_url + url, JSON.stringify(bug), httpOptionsJson);
   }
 
   suggest(suggestion): Observable<any> {
-    let url = 'users/suggestion';
+    let url = 'stats/suggestion';
     return this.http.post(base_url + url, JSON.stringify(suggestion), httpOptionsJson);
   }
 
@@ -546,7 +546,7 @@ export class ContactService {
   //   } else {
   //     // Return real API data and store it locally
   //     return this.http.post(base_url + url, agent, httpOptionsJson);
-  //     //  this.setLocalData('users', res);
+  //     //  this.setLocalData('stats', res);
   //   }
   // }
 

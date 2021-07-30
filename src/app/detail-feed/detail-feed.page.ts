@@ -150,7 +150,6 @@ export class DetailFeedPage implements OnInit {
     }
     this.loading = true
     this.contactService.getPost(post).subscribe(res => {
-      console.log(res)
       let post = res['data'];
       if (post) {
         let favorite = {

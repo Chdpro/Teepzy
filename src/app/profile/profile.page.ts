@@ -141,9 +141,8 @@ export class ProfilePage implements OnInit {
 
     this.subscriptionMyTeepz = this.dataPass.getPosts().subscribe(list => {
       //console.log(list)
-      if (list.length > 0) {
-        this.listTeepz = list
-      }
+      if (!list)  this.listTeepz = []; else this.listTeepz = list
+      
     });
   }
 

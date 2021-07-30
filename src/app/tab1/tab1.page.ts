@@ -295,8 +295,7 @@ export class Tab1Page implements OnInit {
   }
 
   swipeUp(event: any) {
-    this.debutListPost++
-    this.endListPost++
+   if(this.endListPost < this.listPosts.length) this.debutListPost++;this.endListPost++
   }
   swipeDown(event: any) {
     if (this.debutListPost !== 0) this.debutListPost--; this.endListPost--
@@ -517,9 +516,18 @@ export class Tab1Page implements OnInit {
     video.pause();
   }
 
+
+  getFeedFromLocalThenServer() {
+    this.subscription = this.contactService.feedsFromLocal().subscribe(listPosts => {
+      listPosts.length > 0 ? this.listPosts = listPosts : this.listPosts = []
+      if (this.listPosts.length === 0 && this.isTutoSkip !== 'YES') this.listPosts = []; this.tutosTexts()
+      this.getPosts(this.userId)
+    })
+  }
+
   getPosts(userId) {
     this.timeCall = 1
-    this.loading = true
+    this.listPosts.length ===0? this.loading = true : null
     this.subscription = this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
       if (res['data'] != null) {
@@ -552,14 +560,6 @@ export class Tab1Page implements OnInit {
     })
   }
 
-  getFeedFromLocalThenServer() {
-    this.subscription = this.contactService.feedsFromLocal().subscribe(listPosts => {
-      listPosts ? this.listPosts = listPosts : this.listPosts = []
-      if (this.listPosts.length === 0 && this.isTutoSkip !== 'YES') console.log(this.listPosts); this.listPosts = []; this.tutosTexts()
-       this.getPosts(this.userId)
-      return listPosts
-    })
-  }
 
   time(date) {
     moment.locale('fr');
