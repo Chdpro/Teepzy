@@ -4,6 +4,7 @@ import { base_url, test_url, local_url } from 'src/config';
 import { Observable, of, from } from 'rxjs';
 import { codes } from '../data/code';
 import { Storage } from '@ionic/storage';
+import { CACHE_KEYS } from '../constant/constant';
 
 
 const httpOptionsJson = {
@@ -102,10 +103,17 @@ export class AuthService {
   }
 
 
+  userFromLocal(userId): Observable<any> {
+    return from(this.getLocalData(CACHE_KEYS.PROFILE + userId))
+   }
+
+   setUserToLocal(userId,user) {
+      this.setLocalData(CACHE_KEYS.PROFILE + userId,user)
+   }
+ 
 
   // Save result of API requests
   setLocalData(key, data) {
-    alert("setting new contacts to storage")
     this.storage.set(`${API_STORAGE_KEY}-${key}`, data);
   }
 
