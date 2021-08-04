@@ -264,18 +264,18 @@ export class DetailFeedPage implements OnInit {
 
 
   delete() {
-    this.post.postId ? this.deleteRePost() : this.deletePost()
-    this.router.navigateByUrl('/tabs/profile')
+    this.post.postId ? this.deletePost():null
   }
 
 
 
   deletePost() {
-    this.contactService.deletePost(this.post._id).subscribe(res => {
+    this.contactService.deletePost(this.post._id,this.userId).subscribe(res => {
       // console.log(res)
       this.getMyPosts(this.userId)
       this.getMyFavoritePosts(this.userId)
       this.presentToast(MESSAGES.DELETE_FEED_OK)
+      this.router.navigateByUrl('/tabs/profile')
 
     }, error => {
       // console.log(error)
@@ -284,18 +284,6 @@ export class DetailFeedPage implements OnInit {
 
   }
 
-  deleteRePost() {
-    this.contactService.deleteRePost(this.post._id).subscribe(res => {
-      // console.log(res)
-      this.getMyPosts(this.userId)
-      this.getMyFavoritePosts(this.userId)
-      this.presentToast(MESSAGES.DELETE_FEED_OK)
-    }, error => {
-      // console.log(error)
-      this.presentToast(MESSAGES.DELETE_FEED_ERROR)
-    })
-
-  }
 
 
 

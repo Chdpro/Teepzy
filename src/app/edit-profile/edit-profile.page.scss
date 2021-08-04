@@ -4,7 +4,11 @@ ion-title{
 ion-icon{
   font-size: 34px;
 }
-
+.star-input{
+  display: flex;
+  flex-direction: row-reverse;
+  position: relative;
+}
 ion-avatar{
   display: block;
   margin-left: auto;
@@ -21,6 +25,9 @@ ion-avatar{
 .star{
   font-size: 21px;
   color: red;
+  float: right;
+  margin-right: 41%;
+  margin-top: -24px;
 }
 
 .tiktok-logo{

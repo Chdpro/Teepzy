@@ -295,7 +295,7 @@ export class Tab1Page implements OnInit {
   }
 
   swipeUp(event: any) {
-   if(this.endListPost < this.listPosts.length) this.debutListPost++;this.endListPost++
+    if (this.endListPost < this.listPosts.length) this.debutListPost++; this.endListPost++
   }
   swipeDown(event: any) {
     if (this.debutListPost !== 0) this.debutListPost--; this.endListPost--
@@ -527,7 +527,7 @@ export class Tab1Page implements OnInit {
 
   getPosts(userId) {
     this.timeCall = 1
-    this.listPosts.length ===0? this.loading = true : null
+    this.listPosts.length === 0 ? this.loading = true : null
     this.subscription = this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
       if (res['data'] != null) {

@@ -17,9 +17,9 @@
   <div class="banner">
     <div>
 
-        <ion-avatar *ngIf="dispImags?.length > 0">
-          <ion-img  class="round-img-profile" *ngFor="let img of dispImags" [src]="img"></ion-img>
-        </ion-avatar>
+      <ion-avatar *ngIf="dispImags?.length > 0">
+        <ion-img class="round-img-profile" *ngFor="let img of dispImags" [src]="img"></ion-img>
+      </ion-avatar>
 
       <div *ngIf="dispImags?.length == 0" class="round-img">
         {{user?.pseudoIntime | slice:0:1| uppercase}}
@@ -49,9 +49,9 @@
                 <span>
                   <mat-form-field class="rs-input-left">
                     <mat-label>MES APPLIS</mat-label>
-                    <mat-select [(ngModel)]="media2"  (ngModelChange)="media2" name="media2">
+                    <mat-select [(ngModel)]="media2" (ngModelChange)="media2" name="media2">
                       <mat-option *ngFor="let s of socials" [value]="s">
-                        <ion-icon  *ngIf="s.nom !== 'tiktok'" class="rs-btn" [name]="s.icon"></ion-icon>
+                        <ion-icon *ngIf="s.nom !== 'tiktok'" class="rs-btn" [name]="s.icon"></ion-icon>
                         <img class="tiktok-logo" *ngIf="s.nom === 'tiktok'" [src]="s.icon" alt="">
                         <span>
                           {{s.nom}}
@@ -61,14 +61,15 @@
                   </mat-form-field>
 
                   <mat-form-field class="rs-input-right">
-                    
-                    <mat-label *ngIf="media2?.icon !== 'logo-whatsapp'" >PSEUDO</mat-label>
-                    <mat-label *ngIf="media2?.icon === 'logo-whatsapp'" >NUMERO</mat-label>
-                    <input matInput [(ngModel)]="rs_url2" name="rs_url2" [placeholder]="media2?.icon !== 'logo-whatsapp'? 'PSEUDO': 'NUMERO'">
+
+                    <mat-label *ngIf="media2?.icon !== 'logo-whatsapp'">PSEUDO</mat-label>
+                    <mat-label *ngIf="media2?.icon === 'logo-whatsapp'">NUMERO</mat-label>
+                    <input matInput [(ngModel)]="rs_url2" name="rs_url2"
+                      [placeholder]="media2?.icon !== 'logo-whatsapp'? 'PSEUDO': 'NUMERO'">
                   </mat-form-field>
                   <span style="margin-bottom: 12px;">
                     <ion-chip class="social-chip-main" *ngFor="let so of socialsAdde2">
-                      <ion-label class="social-chip"color="primary">
+                      <ion-label class="social-chip" color="primary">
                         <ion-icon class="rs-btn" [name]="so?.icon"></ion-icon>
                         {{so?.nom}}
                       </ion-label>
@@ -86,35 +87,39 @@
 
                 <mat-form-field class="example-full-width">
                   <mat-label>PSEUDO</mat-label>
-                  <input matInput disabled name="nom2" [(ngModel)]="profile1.pseudoIntime" maxlength="10" placeholder="NOM">
+                  <input matInput disabled name="nom2" [(ngModel)]="profile1.pseudoIntime" maxlength="10"
+                    placeholder="NOM">
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
-                  <mat-label class="req-input">MÉTIER</mat-label>
-                  <input matInput name="metier2" #metier="ngModel"  maxlength="50" [(ngModel)]="profile1.metier" placeholder="MÉTIER" (ngModelChange)="profile1.metier = $event + ''" required>
+                  <mat-label class="req-input">MÉTIER
+                  </mat-label>
+                  <span style="margin-right: 84%;" class="star">*</span>
+                  <input matInput name="metier2" #metier="ngModel" type="text" maxlength="50"
+                    [(ngModel)]="profile1.metier" placeholder="MÉTIER" (ngModelChange)="profile1.metier = $event + ''">
                 </mat-form-field>
                 <div class="limitCounter">
-                    {{profile1?.metier?.length}} / 50
-                  </div>
+                  {{profile1?.metier?.length}} / 50
+                </div>
 
                 <mat-form-field class="example-full-width">
                   <mat-label>LOCALISATION</mat-label>
-                  <input matInput name="localisation2" #localisation="ngModel" [(ngModel)]="profile1.localisation" placeholder="LOCALISATION">
+                  <input matInput name="localisation2" #localisation="ngModel" [(ngModel)]="profile1.localisation"
+                    placeholder="LOCALISATION">
                 </mat-form-field>
 
-                <mat-form-field  class="example-form-field">
+                <mat-form-field class="example-form-field">
                   <mat-label></mat-label>
-                  <input matInput name="biolabel" placeholder="Cliquer ici pour modifier le titre de la rubrique" [disabled]="!isEditableB" class="input-label req-input"
-                    [(ngModel)]="profile1.bioLabel">
-                  <button mat-button (click)="presentAlertConfirm()"  matSuffix mat-icon-button aria-label="Clear">
+                  <input matInput name="biolabel" placeholder="Cliquer ici pour modifier le titre de la rubrique"
+                    [disabled]="!isEditableB" class="input-label req-input" [(ngModel)]="profile1.bioLabel">
+                  <button mat-button (click)="presentAlertConfirm()" matSuffix mat-icon-button aria-label="Clear">
                     <mat-icon class="mode_edit">mode_edit</mat-icon>
                   </button>
 
-              
+
                 </mat-form-field>
                 <button mat-button [matMenuTriggerFor]="menu"> <span class="material-icons">
                     info
                   </span></button>
-                <span class="star">*</span>
 
                 <mat-menu style="padding-left: 12px;" #menu="matMenu">
                   <span>
@@ -122,8 +127,10 @@
                   </span>
                 </mat-menu>
 
-                <mat-form-field class="example-full-width">
-                  <input matInput name="bio" #bio="ngModel" [(ngModel)]="profile1.bio" placeholder="Ecrivez ici le contenu de la rubrique ">
+                <mat-form-field class="example-full-width star-input">
+                  <span class="star">*</span>
+                  <input matInput name="bio" #bio="ngModel" type="text" [(ngModel)]="profile1.bio"
+                    placeholder="Ecrivez ici le contenu de la rubrique ">
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
@@ -131,10 +138,10 @@
                   <input matInput name="siteweb2" [(ngModel)]="profile1.siteweb" placeholder="SITE WEB">
                 </mat-form-field>
 
-                <mat-form-field >
-                  <input matInput name="label" [disabled]="!isEditableH" maxlength="15" placeholder="" class="input-label req-input"
-                    [(ngModel)]="profile1.tagsLabel">
-                  <button mat-button (click)="presentAlertConfirmH()"  matSuffix mat-icon-button aria-label="Clear">
+                <mat-form-field>
+                  <input matInput name="label" [disabled]="!isEditableH" maxlength="15" placeholder=""
+                    class="input-label req-input" [(ngModel)]="profile1.tagsLabel">
+                  <button mat-button (click)="presentAlertConfirmH()" matSuffix mat-icon-button aria-label="Clear">
                     <mat-icon class="mode_edit">mode_edit</mat-icon>
                   </button>
                 </mat-form-field>
@@ -142,7 +149,6 @@
                     info
                   </span>
                 </button>
-                <span class="star">*</span>
                 <mat-menu style="padding-left: 12px;" #menu="matMenu">
                   <span>
                     Cliquer ici pour modifier le titre de la rubrique
@@ -150,9 +156,10 @@
                 </mat-menu>
 
                 <mat-form-field class="example-chip-list">
+                  <span class="star">*</span>
                   <mat-chip-list #chipList aria-label="Fruit selection">
                     <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
-                      (removed)="remove1(tag)">
+                      (removed)="remove1(tag)" required>
                       {{tag}}
                       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
@@ -161,8 +168,10 @@
                       <mat-icon (click)="add($event)" style="    width: 30px;
                     height: 18px;" matChipRemove>add_circle</mat-icon>
                     </mat-chip>
-                    <input [matChipInputFor]="chipList" required  placeholder="Ecrivez ici le contenu de la rubrique" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                      [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                    <input [matChipInputFor]="chipList" type="text" required
+                      placeholder="Ecrivez ici le contenu de la rubrique"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                      (matChipInputTokenEnd)="add($event)">
                   </mat-chip-list>
                 </mat-form-field>
 
@@ -179,9 +188,10 @@
 
 </ion-content>
 <!-- Footer without a border -->
-<ion-footer  class="ion-no-border">
+<ion-footer class="ion-no-border">
   <ion-toolbar>
-    <ion-button (click)="uploadImage()"  [disabled]="tags?.length === 0 || metier.errors?.required || bio.errors?.required" expand="full">
+    <ion-button (click)="uploadImage()"
+      [disabled]="tags?.length === 0 || metier.errors?.required || bio.errors?.required" expand="full">
       <span *ngIf="loading == false">ENREGISTRER</span>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>
