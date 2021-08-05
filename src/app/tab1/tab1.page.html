@@ -47,6 +47,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" [scrollY]="true" >
+  <ion-progress-bar *ngIf="loading" style="position: absolute;" type="indeterminate"></ion-progress-bar>
+
   <ion-refresher *ngIf="debutListPost===0" slot="fixed" [disabled]="false" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -180,9 +182,9 @@
       </div>
       <div *ngIf="!p?.image_url && !p?.video_url" class="header-feed-avatar">
         <ion-avatar (click)="goToProfile(p?.userId  || p?.fromId, p?.reposterId)">
-          <img *ngIf="!p?.userPhoto_url" class="img" [src]="p?.userPhoto_url" alt="">
+          <img *ngIf="p?.userPhoto_url !== '' || p?.userPhoto_url !== null " class="img" [src]="p?.userPhoto_url" alt="">
           <div (click)="goToProfile(p?.userId || p?.fromId,p?.reposterId)">
-            <div *ngIf="!p?.userPhoto_url == '' || !p?.userPhoto_url == null " class="round-img"
+            <div *ngIf="p?.userPhoto_url == '' || p?.userPhoto_url == null " class="round-img"
               [ngStyle]='{"color": p?.backgroundColor == "#fff" ? "black" : "white" }'>
               {{p?.userPseudo | slice:0:1| uppercase}}
             </div>
@@ -330,5 +332,6 @@
     [ngStyle]="{'opacity': globals?.showBackground == true ? '1' : '0' }">
 
   </div>
+
 
 </ion-content>

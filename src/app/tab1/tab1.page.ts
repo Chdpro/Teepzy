@@ -4,7 +4,7 @@ import { ContactService } from '../providers/contact.service';
 import { ToastController, AlertController, IonSlides, MenuController, ModalController, IonRouterOutlet, ActionSheetController } from '@ionic/angular';
 import * as moment from 'moment';
 import { DatapasseService } from '../providers/datapasse.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { LinkSheetPage } from '../link-sheet/link-sheet.page';
 import { CommentsPage } from '../comments/comments.page';
 //import { Socket } from 'ngx-socket-io';
@@ -16,6 +16,7 @@ import { ShareSheetPage } from '../share-sheet/share-sheet.page';
 import { VgApiService } from '@videogular/ngx-videogular/core';
 import { NetworkService } from '../providers/network.service';
 import { animate, query, stagger, state, style, transition, trigger } from '@angular/animations';
+import { Socket } from 'ng-socket-io';
 
 
 @Component({
@@ -92,6 +93,8 @@ export class Tab1Page implements OnInit {
 
   videoMuted = ''
   videoUrl = ''
+  newPostInfo = false
+  
   @ViewChild('feed', null) feed: ElementRef;
 
   constructor(
@@ -107,7 +110,8 @@ export class Tab1Page implements OnInit {
     public globals: Globals,
     public sanitizer: DomSanitizer,
     public actionSheetController: ActionSheetController,
-    private contactService: ContactService
+    private contactService: ContactService,
+    private socket: Socket
   ) {
     this.menuCtrl.enable(true, 'first');
     this.menuCtrl.swipeGesture(false);
@@ -121,6 +125,12 @@ export class Tab1Page implements OnInit {
       this.listPosts = this.listPosts.sort((a, b) => {
         return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp)
       })
+    });
+
+
+    this.getFeedNewPost().subscribe(info => {
+      // console.log(message)
+      info['userConcernedId'] === this.userId ? this.newPostInfo = true : null
     });
   }
 
@@ -517,6 +527,15 @@ export class Tab1Page implements OnInit {
   }
 
 
+  getFeedNewPost(){
+    let observable = new Observable(observer => {
+      this.socket.on('user-new-post', (data) => {
+        observer.next(data);
+      });
+    })
+    return observable;
+  }
+
   getFeedFromLocalThenServer() {
     this.subscription = this.contactService.feedsFromLocal().subscribe(listPosts => {
       listPosts.length > 0 ? this.listPosts = listPosts : this.listPosts = []
@@ -528,6 +547,7 @@ export class Tab1Page implements OnInit {
   getPosts(userId) {
     this.timeCall = 1
     this.listPosts.length === 0 ? this.loading = true : null
+    this.loading = true
     this.subscription = this.contactService.getPosts(userId).subscribe(res => {
       this.listPosts = []
       if (res['data'] != null) {

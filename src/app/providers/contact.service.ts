@@ -191,7 +191,7 @@ export class ContactService {
 
   deletePost(postId,userId): Observable<any> {
     let url = 'users/post/' + postId;
-    return this.http.put(local_url + url,{userId:userId}, httpOptionsJson);
+    return this.http.put(base_url + url,{userId:userId}, httpOptionsJson);
   }
 
 
@@ -291,7 +291,7 @@ export class ContactService {
      return from(this.getLocalData(CACHE_KEYS.FEEDS))
     } else {
       // Return real API data and store it locally
-      return this.http.get(local_url + url, httpOptionsJson);
+      return this.http.get(base_url + url, httpOptionsJson);
       //  this.setLocalData('stats', res);
     }
   }
