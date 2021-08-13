@@ -77,6 +77,15 @@ ion-modal{
     border-radius: 39px 45px 1px 1px;
 }
 
+.my-appUpdate-class{
+    height: 100%;
+    border-radius: 1px 1px 1px 1px;
+    position: absolute;
+    top: 20%;
+    width: 100%;
+    left: 0%;
+    right: 0%;
+}
 .mat-chip-list-wrapper .mat-standard-chip, .mat-chip-list-wrapper input.mat-input-element{
     margin-left: 0 !important;
 }

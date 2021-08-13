@@ -1,5 +1,10 @@
 // side buttons
 
+.badges{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
 .fixed-wrap {
     position: absolute;
     left: 78%;

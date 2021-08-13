@@ -161,6 +161,10 @@ const routes: Routes = [
     path: 'robot-alert',
     loadChildren: () => import('./robot-alert/robot-alert.module').then( m => m.RobotAlertPageModule)
   },
+  {
+    path: 'app-update-modal',
+    loadChildren: () => import('./app-update-modal/app-update-modal.module').then( m => m.AppUpdateModalPageModule)
+  },
 
 
 ];

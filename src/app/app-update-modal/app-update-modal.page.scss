@@ -1,0 +1,33 @@
+.container-update{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.header{
+    padding: 44px;
+    text-align: center;
+    color: #e94e50;
+    font-weight: bolder;
+    width: 100%;
+    font-size: 22px;
+}
+p{
+    text-align: center;
+    padding: 29px;
+}
+
+img{
+    width: 74%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+ion-button{
+    width: 100%;
+}
+ion-icon{
+    float: right;
+    padding: 11px;
+}

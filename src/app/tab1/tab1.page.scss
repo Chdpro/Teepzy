@@ -12,6 +12,11 @@
     height: -webkit-fill-available;
 }
 
+.badges{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
 
 
 

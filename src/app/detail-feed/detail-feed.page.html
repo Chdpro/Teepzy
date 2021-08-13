@@ -1,22 +1,27 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
-        </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-grid>
       <ion-row>
-        <ion-col size="6">
-         
-        </ion-col>
-        <ion-col *ngIf="previousRoute == 'mesTeepz' && previousBackUrl =='null'"  >
+        <ion-col size="6"> </ion-col>
+        <ion-col
+          *ngIf="previousRoute == 'mesTeepz' && previousBackUrl =='null'"
+        >
           <div *ngIf="!showSearch" class="example-button-container">
             <!--button (click)="presentPostEditModal()" class="btn-icon" mat-mini-fab
               aria-label="Example icon button with a home icon">
               <mat-icon>create</mat-icon>
             </button-->
-           
-            <button (click)="presentAlertConfirm()" style="text-align: center;" mat-mini-fab aria-label="Example icon button with a home icon">
-                <mat-icon>delete</mat-icon>
+
+            <button
+              (click)="presentAlertConfirm()"
+              style="text-align: center"
+              mat-mini-fab
+              aria-label="Example icon button with a home icon"
+            >
+              <mat-icon>delete</mat-icon>
             </button>
           </div>
         </ion-col>
@@ -24,155 +29,219 @@
 
       <ion-row>
         <ion-col>
-          <span *ngIf="showSearch" style="display: flex;">
-            <button (click)="showSearch = false" style="font-size: 29px;" mat-button>
+          <span *ngIf="showSearch" style="display: flex">
+            <button
+              (click)="showSearch = false"
+              style="font-size: 29px"
+              mat-button
+            >
               <ion-icon name="arrow-back-outline"></ion-icon>
             </button>
-            <form style="margin-top: 72px; margin-bottom: -41px;" class="example-form">
-              <mat-form-field class="example-full-width search-input mat-form-field">
+            <form
+              style="margin-top: 72px; margin-bottom: -41px"
+              class="example-form"
+            >
+              <mat-form-field
+                class="example-full-width search-input mat-form-field"
+              >
                 <mat-label>Rechercher</mat-label>
-                <input [(ngModel)]="search" name="search" matInput placeholder="Taper pour filtrer">
+                <input
+                  [(ngModel)]="search"
+                  name="search"
+                  matInput
+                  placeholder="Taper pour filtrer"
+                />
               </mat-form-field>
             </form>
           </span>
         </ion-col>
       </ion-row>
     </ion-grid>
-
-
-
   </ion-toolbar>
 </ion-header>
-  
-  <ion-content [fullscreen]="true" [scrollY]="false">
-  
-  
-    <ion-refresher slot="fixed">
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-  
-    <ion-slides *ngIf="post == null"  pager="false" [options]="slideOpts">
-    <ion-slide *ngIf="!loading && post == null">
-        <ion-spinner color="primary" name="dots"></ion-spinner>
-      </ion-slide>
 
-        <ion-slide *ngIf="post == null" >
-            <span style="color: #ea4e4f;">
-               Publication supprimée
-            </span>
-          </ion-slide>
-    </ion-slides>
-    <div #slideWrapper class="ion-slide-wrapper" *ngIf="post" >
-      <div class="ion-slide"
-        [ngStyle]="{
+<ion-content [fullscreen]="true" [scrollY]="false">
+  <ion-refresher slot="fixed">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-slides *ngIf="post == null" pager="false" [options]="slideOpts">
+    <ion-slide *ngIf="!loading && post == null">
+      <ion-spinner color="primary" name="dots"></ion-spinner>
+    </ion-slide>
+
+    <ion-slide *ngIf="post == null">
+      <span style="color: #ea4e4f"> Publication supprimée </span>
+    </ion-slide>
+  </ion-slides>
+  <div #slideWrapper class="ion-slide-wrapper" *ngIf="post">
+    <div
+      class="ion-slide"
+      [ngStyle]="{
           'color': post?.backgroundColor == '#fff' && post?.image_url == ''? 'black' : 'white', 
           'background-image':  post?.image_url !== '' ? 'url(' + post?.image_url + ')' : '',
           'background-color': post?.image_url == '' ? post?.backgroundColor : 'black',
           'background-position': 'center center', 
           'background-size': 'cover', 
           'background-repeat': 'no-repeat'
-         }">
-  
-        <div  class="post-txt">
-          <div *ngIf="post?.video_url">
-            <div>
-              <video (click)="playVideo(post?.video_url)" [id]="post?.video_url" autoplay #videoPlayer playsinline preload="metadata">
-                <source [src]="sanitizer.bypassSecurityTrustResourceUrl(post?.video_url  + '#t=0.5')" type="video/mp4" />
-              </video>
-              <ion-grid>
-                <ion-row>
-                  <ion-col>
-  
-                  </ion-col>
-                  <ion-col>
-                    
-                    <ion-icon (click)="playVideo(post?.video_url)" *ngIf="currentPlaying === false" class="play-btn" name="play"></ion-icon>
-  
-                  </ion-col>
-                  <ion-col>
-  
-                  </ion-col>
-                </ion-row>
-              </ion-grid>
-            </div>
-          </div>
-          <div class="header-slide">
+         }"
+    >
+      <div class="post-txt">
+        <div *ngIf="post?.video_url">
+          <div>
+            <video
+              (click)="playVideo(post?.video_url)"
+              [id]="post?.video_url"
+              autoplay
+              #videoPlayer
+              playsinline
+              preload="metadata"
+            >
+              <source
+                [src]="sanitizer.bypassSecurityTrustResourceUrl(post?.video_url  + '#t=0.5')"
+                type="video/mp4"
+              />
+            </video>
             <ion-grid>
-              <ion-row class="infos">
-                <ion-col size="12">
-                  <span *ngIf="post?.reposterId == userId" style="font-size: small;">
-                    Vous avez partagé le teepz de
-                  </span>
+              <ion-row>
+                <ion-col> </ion-col>
+                <ion-col>
+                  <ion-icon
+                    (click)="playVideo(post?.video_url)"
+                    *ngIf="currentPlaying === false"
+                    class="play-btn"
+                    name="play"
+                  ></ion-icon>
                 </ion-col>
-                <ion-col  *ngIf="!post?.image_url && !post?.video_url" [ngStyle]="{'background': post?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
-                'font-weight': post?.image_url ? '800': '100' }">
-                  <div (click)="goToProfile(post?.userId)">
-                    <img *ngIf="post?.userPhoto_url && post?.userPhoto_url !==''" class="img" [src]="post?.userPhoto_url" alt="">
+                <ion-col> </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+        </div>
+        <div class="header-slide">
+          <ion-grid>
+            <ion-row class="infos">
+              <ion-col size="12">
+                <span
+                  *ngIf="post?.reposterId == userId"
+                  style="font-size: small"
+                >
+                  Vous avez partagé le teepz de
+                </span>
+              </ion-col>
+              <ion-col
+                *ngIf="!post?.image_url && !post?.video_url"
+                [ngStyle]="{'background': post?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
+                'font-weight': post?.image_url ? '800': '100' }"
+              >
+                <div (click)="goToProfile(post?.userId)">
+                  <img
+                    *ngIf="post?.userPhoto_url && post?.userPhoto_url !==''"
+                    class="img"
+                    [src]="post?.userPhoto_url"
+                    alt=""
+                  />
+                </div>
+
+                <div (click)="goToProfile(post?.userId)">
+                  <div
+                    *ngIf="post?.userPhoto_url == '' || post?.userPhoto_url == null "
+                    class="round-img"
+                    [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }"
+                  >
+                    {{post?.userPseudo | slice:0:1| uppercase}}
                   </div>
-  
-                  <div (click)="goToProfile(post?.userId)">
-                    <div  *ngIf="post?.userPhoto_url == '' || post?.userPhoto_url == null " class="round-img"
-                      [ngStyle]="{'color': post?.backgroundColor == '#fff' ? 'black' : 'white' }">
-                      {{post?.userPseudo | slice:0:1| uppercase}}
-                    </div>
-                  </div>
-  
-                </ion-col>
-                <ion-col *ngIf="!post?.image_url && !post?.video_url" [ngStyle]="{'background': post?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
-                 'font-weight': post?.image_url ? '800': '100' }" style="    text-align: left;">
-                  <strong>
-                    {{post?.userPseudo}}
-                  </strong><br>
-                  <small>
-                    {{post?.circle || '' }}
-                  </small>
-                  <span *ngIf="post?.createdAt">
-                    <span *ngIf="time(post?.createdAt) != 'il y a un mois'">
-                      <span *ngIf="time(post?.createdAt) != 'il y a un jour'">
-                        <span *ngIf="time(post?.createdAt) != 'il y a une minute'">
-                          <span class="time" *ngIf="time(post?.createdAt) != 'il y a une heure'">
-                            {{time(post?.createdAt) }}
-                          </span>
+                </div>
+              </ion-col>
+              <ion-col
+                *ngIf="!post?.image_url && !post?.video_url"
+                [ngStyle]="{'background': post?.image_url ? 'rgb(0 0 0 / 18%)' : '#ffffff00',
+                 'font-weight': post?.image_url ? '800': '100' }"
+                style="text-align: left"
+              >
+                <strong> {{post?.userPseudo}} </strong><br />
+                <small> {{post?.circle || '' }} </small>
+                <span *ngIf="post?.createdAt">
+                  <span *ngIf="time(post?.createdAt) != 'il y a un mois'">
+                    <span *ngIf="time(post?.createdAt) != 'il y a un jour'">
+                      <span
+                        *ngIf="time(post?.createdAt) != 'il y a une minute'"
+                      >
+                        <span
+                          class="time"
+                          *ngIf="time(post?.createdAt) != 'il y a une heure'"
+                        >
+                          {{time(post?.createdAt) }}
                         </span>
                       </span>
                     </span>
-                    <span class="time" *ngIf="time(post?.createdAt) == 'il y a une minute'">
-                      il y a 1 minute
-                    </span>
-                    <span class="time" *ngIf="time(post?.createdAt) == 'il y a une heure'">
-                      il y a 1 heure
-                    </span>
-                    <span class="time" *ngIf="time(post?.createdAt) == 'il y a un jour'">
-                      il y a 1 jour
-                    </span>
-                    <span class="time" *ngIf="time(post?.createdAt) == 'il y a un mois'">
-                      il y a 1 mois
-                    </span>
                   </span>
-            
-                </ion-col>
-  
-              </ion-row>
-            </ion-grid>
-  
-  
-          </div>
-          <p class="content" *ngIf="!post?.image_url && !post?.video_url"
-            [ngStyle]="{'font-size': post?.content.length > 60 ? '17px' : '23px' }" >
-            {{ post?.content }}
-          </p>
-          <div class="fixed-wrap"
-          [ngStyle]="{'margin-top': post?.image_url || post?.video_url ? '10em' : '10em' }">
+                  <span
+                    class="time"
+                    *ngIf="time(post?.createdAt) == 'il y a une minute'"
+                  >
+                    il y a 1 minute
+                  </span>
+                  <span
+                    class="time"
+                    *ngIf="time(post?.createdAt) == 'il y a une heure'"
+                  >
+                    il y a 1 heure
+                  </span>
+                  <span
+                    class="time"
+                    *ngIf="time(post?.createdAt) == 'il y a un jour'"
+                  >
+                    il y a 1 jour
+                  </span>
+                  <span
+                    class="time"
+                    *ngIf="time(post?.createdAt) == 'il y a un mois'"
+                  >
+                    il y a 1 mois
+                  </span>
+                </span>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        <p
+          class="content"
+          *ngIf="!post?.image_url && !post?.video_url"
+          [ngStyle]="{'font-size': post?.content.length > 60 ? '17px' : '23px' }"
+        >
+          {{ post?.content }}
+        </p>
+        <div
+          class="fixed-wrap"
+          [ngStyle]="{'margin-top': post?.image_url || post?.video_url ? '10em' : '10em' }"
+        >
           <div class="slidenav">
             <div *ngIf="post?.image_url|| post?.video_url">
-              <div (click)="goToProfile(post?.userId)" class="img-wrapper" style="float: right;">
-                <img *ngIf="post?.userPhoto_url" class="img img-media-detail" [src]="post?.userPhoto_url" alt="">
+              <div
+                (click)="goToProfile(post?.userId)"
+                class="img-wrapper"
+                style="float: right"
+              >
+                <img
+                  *ngIf="post?.userPhoto_url"
+                  class="img img-media-detail"
+                  [src]="post?.userPhoto_url"
+                  alt=""
+                />
               </div>
 
-              <div (click)="goToProfile(post?.userId)" style="float: right; color: #fff !important;" class="userPseudo-bg"
-                *ngIf="post?.image_url || post?.video_url">
-                <div *ngIf="post?.userPhoto_url == '' || post?.userPhoto_url == null " class=" pseudo-media"
-                  [ngStyle]='{"color":post?.image_url || post?.video_url ? "#00000" : "#ffff" }'>
+              <div
+                (click)="goToProfile(post?.userId)"
+                style="float: right; color: #fff !important"
+                class="userPseudo-bg"
+                *ngIf="post?.image_url || post?.video_url"
+              >
+                <div
+                  *ngIf="post?.userPhoto_url == '' || post?.userPhoto_url == null "
+                  class="pseudo-media"
+                  [ngStyle]='{"color":post?.image_url || post?.video_url ? "#00000" : "#ffff" }'
+                >
                   {{post?.userPseudo | slice:0:1| uppercase}}
                 </div>
               </div>
@@ -180,35 +249,64 @@
 
             <div class="menu">
               <a (click)="presentCommentModal(post)">
-                <button mat-fab class="mat-button" style="font-size: 28px !important" color="primary">
-                  <mat-icon *ngIf="post?.nbrComments !== 0" style="margin-top: -3px !important"  [matBadge]="post?.nbrComments" matBadgeColor="warn">
-                    <ion-icon class="chatbubble"    name="chatbubble-outline"></ion-icon>
+                <button
+                  mat-fab
+                  class="mat-button"
+                  style="font-size: 28px !important"
+                  color="primary"
+                >
+                  <mat-icon
+                    *ngIf="post?.nbrComments !== 0"
+                    style="margin-top: -3px !important"
+                    [matBadge]="post?.nbrComments"
+                    matBadgeColor="warn"
+                  >
+                    <ion-icon
+                      class="chatbubble"
+                      name="chatbubble-outline"
+                    ></ion-icon>
                   </mat-icon>
-                  <ion-icon *ngIf="post?.nbrComments == 0" name="chatbubble-outline"></ion-icon>
-
+                  <ion-icon
+                    *ngIf="post?.nbrComments == 0"
+                    name="chatbubble-outline"
+                  ></ion-icon>
                 </button>
               </a>
-              <a (click)="removeFavorite(post?._id)" *ngIf="post?.favorite == true">
+              <a
+                (click)="removeFavorite(post?._id)"
+                *ngIf="post?.favorite == true"
+              >
                 <button mat-fab class="mat-button-i" color="primary">
-                  <mat-icon *ngIf="post?.favoriteCount !== 0" [matBadge]="post?.favoriteCount" matBadgeColor="warn">
+                  <mat-icon
+                    *ngIf="post?.favoriteCount !== 0"
+                    [matBadge]="post?.favoriteCount"
+                    matBadgeColor="warn"
+                  >
                   </mat-icon>
-                  <span class="material-icons mat-icon-btn">
-                    star
-                  </span>
+                  <span class="material-icons mat-icon-btn"> star </span>
                 </button>
               </a>
-              <a (click)="addFavorite(post?._id)" *ngIf="post?.favorite !== true">
+              <a
+                (click)="addFavorite(post?._id)"
+                *ngIf="post?.favorite !== true"
+              >
                 <button mat-fab class="mat-button-i" color="primary">
-                  <mat-icon *ngIf="post?.favoriteCount !== 0" [matBadge]="post?.favoriteCount" matBadgeColor="warn">
+                  <mat-icon
+                    *ngIf="post?.favoriteCount !== 0"
+                    [matBadge]="post?.favoriteCount"
+                    matBadgeColor="warn"
+                  >
                   </mat-icon>
-                  <span class="material-icons mat-icon-btn">
-                    star_border
-                  </span>
+                  <span class="material-icons mat-icon-btn"> star_border </span>
                 </button>
               </a>
               <a (click)="presentShareModal(post)">
                 <button mat-fab class="mat-button-i" color="primary">
-                  <mat-icon *ngIf="post?.repostCounts !== 0" [matBadge]="post?.repostCounts" matBadgeColor="warn">
+                  <mat-icon
+                    *ngIf="post?.repostCounts !== 0"
+                    [matBadge]="post?.repostCounts"
+                    matBadgeColor="warn"
+                  >
                   </mat-icon>
                   <span class="material-icons mat-icon-btn">redo</span>
                 </button>
@@ -219,69 +317,117 @@
                 </button>
               </a>
 
-              <div (click)="presentLinkModal(post, 'MATCHES')" class="filigrane" style="font-weight: 800;font-size: 7px;">
+              <div
+                (click)="presentLinkModal(post, 'MATCHES')"
+                class="filigrane"
+                style="font-weight: 800; font-size: 7px"
+              >
                 <span class="match-txt">MATCHES</span>
-                <span class="match-number" *ngIf="post?.matches?.length == 0"> <br> 0</span>
-             
-                <span class="match-number"
-                  *ngIf="post?.matches?.length < 3 && post?.matches?.length > 0"><br>
-                  {{post.matches?.length}} </span> <br>
-        
+                <span class="match-number" *ngIf="post?.matches?.length == 0">
+                  <br />
+                  0</span
+                >
+
+                <span
+                  class="match-number"
+                  *ngIf="post?.matches?.length < 3 && post?.matches?.length > 0"
+                  ><br />
+                  {{post.matches?.length}}
+                </span>
+                <br />
               </div>
             </div>
           </div>
 
-
-          <div *ngIf="post?.image_url || post?.video_url" [ngClass]="{'userInfo-less-text': post?.content?.length > 97,'userInfo': post?.content?.length < 97}">
-              <span style="color: #ffff;margin-left: 4em !important;" *ngIf="post?.image_url || post?.video_url">
-                <strong>
-                  @{{post?.userPseudo}} -
-                </strong>
-                <span *ngIf="time(post?.createdAt) != 'il y a un mois'">
-                  <span *ngIf="time(post?.createdAt) != 'il y a un jour'">
-                    <span *ngIf="time(post?.createdAt) != 'il y a une minute'">
-                      <span class="time" *ngIf="time(post?.createdAt) != 'il y a une heure'">
-                        {{time(post?.createdAt) }}
-                      </span>
+          <div
+            *ngIf="post?.image_url || post?.video_url"
+            [ngClass]="{'userInfo-less-text': post?.content?.length > 97,'userInfo': post?.content?.length < 97}"
+          >
+            <span
+              style="color: #ffff; margin-left: 4em !important"
+              *ngIf="post?.image_url || post?.video_url"
+            >
+              <strong> @{{post?.userPseudo}} - </strong>
+              <span *ngIf="time(post?.createdAt) != 'il y a un mois'">
+                <span *ngIf="time(post?.createdAt) != 'il y a un jour'">
+                  <span *ngIf="time(post?.createdAt) != 'il y a une minute'">
+                    <span
+                      class="time"
+                      *ngIf="time(post?.createdAt) != 'il y a une heure'"
+                    >
+                      {{time(post?.createdAt) }}
                     </span>
                   </span>
                 </span>
-                <span class="time" *ngIf="time(post?.createdAt) == 'il y a une minute'">
-                  il y a 1 minute
-                </span>
-                <span class="time" *ngIf="time(post?.createdAt) == 'il y a une heure'">
-                  il y a 1 heure
-                </span>
-                <span class="time" *ngIf="time(post?.createdAt) == 'il y a un jour'">
-                  il y a 1 jour
-                </span>
-                <span class="time" *ngIf="time(post?.createdAt) == 'il y a un mois'">
-                  il y a 1 mois
-                </span>
-              </span><br>
-  
-              <div style="float: left;margin-left: 21px;">
-                {{ post?.content }}
+              </span>
+              <span
+                class="time"
+                *ngIf="time(post?.createdAt) == 'il y a une minute'"
+              >
+                il y a 1 minute
+              </span>
+              <span
+                class="time"
+                *ngIf="time(post?.createdAt) == 'il y a une heure'"
+              >
+                il y a 1 heure
+              </span>
+              <span
+                class="time"
+                *ngIf="time(post?.createdAt) == 'il y a un jour'"
+              >
+                il y a 1 jour
+              </span>
+              <span
+                class="time"
+                *ngIf="time(post?.createdAt) == 'il y a un mois'"
+              >
+                il y a 1 mois
+              </span> </span
+            ><br />
+
+            <div style="float: left; margin-left: 21px">
+              {{ post?.content }}
+
+              <div class="badges">
+                <ion-badge
+                  style="width: 40%; margin-right: 12px; margin-top: 9px"
+                  color="primary"
+                  >{{post?.commercialAction}}</ion-badge
+                >
+                <ion-badge
+                  style="width: 40%; margin-right: 12px; margin-top: 9px"
+                  color="secondary"
+                  >{{post?.price}}</ion-badge
+                >
               </div>
-  
             </div>
+          </div>
         </div>
-
-        </div>
-  
-  
       </div>
-  
+    </div>
+  </div>
 
-    </div>
-  
-    <input type="radio" *ngIf="shareLink" name="modal2" value="open" id="modal-open2" class="modal-radio" />
-    
-    <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
-    <div class="modal" (click)="dismiss()" *ngIf="globals?.showBackground "
-      [ngStyle]="{'opacity': globals?.showBackground == true ? '1' : '0' }">
-  
-    </div>
-  
-  
-  </ion-content>
+  <input
+    type="radio"
+    *ngIf="shareLink"
+    name="modal2"
+    value="open"
+    id="modal-open2"
+    class="modal-radio"
+  />
+
+  <input
+    type="radio"
+    name="modal"
+    value="open"
+    id="modal-open"
+    class="modal-radio"
+  />
+  <div
+    class="modal"
+    (click)="dismiss()"
+    *ngIf="globals?.showBackground "
+    [ngStyle]="{'opacity': globals?.showBackground == true ? '1' : '0' }"
+  ></div>
+</ion-content>

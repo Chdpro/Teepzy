@@ -1,0 +1,27 @@
+<ion-content>
+  <div class="container-update">
+    <div (click)="dismiss()" class="close">
+      <ion-icon name="close"></ion-icon>
+    </div>
+    <img src="../../assets/App installation-pana.png" alt="" />
+    <div class="header">Mise à jour Disponible</div>
+    <p>
+      Une nouvelle version de l'appli est disponible. Veuillez mettre à jour
+      pour une expérience optimale de Teepzy
+    </p>
+  </div>
+</ion-content>
+<ion-footer translucent="true" class="ion-no-border">
+  <ion-toolbar>
+    <div class="ion-btn">
+      <ion-button
+        color="primary"
+        style="margin-top: 1px"
+        (click)="uploadImage()"
+        expand="full"
+      >
+        <span> Mettre à jour maintenant </span>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

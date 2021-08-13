@@ -5,7 +5,6 @@
       <button class="cancel-btn" (click)="dismiss()" mat-button>
         <ion-icon name="close-outline"></ion-icon>
       </button>
-
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -18,21 +17,32 @@
           <div>
             <ion-row>
               <ion-col size="12" *ngIf="dispImags?.length > 0">
-                <ion-img  class="add-photo" *ngFor="let img of dispImags" [src]="img"></ion-img>
+                <ion-img
+                  class="add-photo"
+                  *ngFor="let img of dispImags"
+                  [src]="img"
+                ></ion-img>
               </ion-col>
               <ion-col size="12" *ngIf="dispImags?.length == 0">
-                <img class="add-photo" src="../../assets/img/neutral.jpg" alt="">
+                <img
+                  class="add-photo"
+                  src="../../assets/img/neutral.jpg"
+                  alt=""
+                />
               </ion-col>
             </ion-row>
 
-
             <!-- fab placed to the bottom end -->
-            <ion-fab (click)="selectImage()" vertical="center" horizontal="center" slot="fixed">
+            <ion-fab
+              (click)="selectImage()"
+              vertical="center"
+              horizontal="center"
+              slot="fixed"
+            >
               <ion-fab-button color="light">
                 <ion-icon name="add"></ion-icon>
               </ion-fab-button>
             </ion-fab>
-
           </div>
         </div>
       </ion-col>
@@ -42,74 +52,132 @@
         <form class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>TITRE</mat-label>
-            <input matInput #nom="ngModel" required name="nom" [(ngModel)]="product.nom" placeholder="Nom du produit">
+            <input
+              matInput
+              #nom="ngModel"
+              required
+              name="nom"
+              [(ngModel)]="product.nom"
+              placeholder="Nom du produit"
+            />
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <mat-label>PRIX</mat-label>
-            <input matInput name="price" type="number" #price="ngModel" required [(ngModel)]="product.price"
-              placeholder="Prix">
+            <input
+              matInput
+              name="price"
+              type="number"
+              #price="ngModel"
+              required
+              [(ngModel)]="product.price"
+              placeholder="Prix"
+              [disabled]="product.commercialAction === 'DON'"
+            />
           </mat-form-field>
           <mat-form-field class="example-full-width">
-            <textarea matInput name="description" #description="ngModel" maxlength="100" rows="5"
-              (ngModelChange)="maxLengthDescription($event)" required [(ngModel)]="product.description"
-              placeholder="DESCRIPTION"></textarea>
+            <textarea
+              matInput
+              name="description"
+              #description="ngModel"
+              maxlength="100"
+              rows="5"
+              (ngModelChange)="maxLengthDescription($event)"
+              required
+              [(ngModel)]="product.description"
+              placeholder="DESCRIPTION"
+            ></textarea>
           </mat-form-field>
           <span>
-
-
             <div class="limit-chars" *ngIf="product?.description.length == 100">
               limite maximale de caractère à 100
             </div>
             <div class="limitCounter">
               {{product?.description.length}} / 100
             </div>
-
           </span>
 
           <mat-form-field class="example-chip-list">
             <mat-chip-list #chipList aria-label="Fruit selection">
-              <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
-                (removed)="remove(tag)">
+              <mat-chip
+                *ngFor="let tag of tags"
+                [selectable]="selectable"
+                [removable]="removable"
+                (removed)="remove(tag)"
+              >
                 {{tag}}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
               <mat-chip class="add-mat-chip">
                 Ajouter
-                <mat-icon (click)="add($event)" style="    width: 30px;
-              height: 18px;" matChipRemove>add_circle</mat-icon>
+                <mat-icon
+                  (click)="add($event)"
+                  style="width: 30px; height: 18px"
+                  matChipRemove
+                  >add_circle</mat-icon
+                >
               </mat-chip>
-              <input placeholder="TAG" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+              <input
+                placeholder="TAG"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="add($event)"
+              />
             </mat-chip-list>
           </mat-form-field>
 
           <!-- Checkboxes in a List -->
           <ion-list>
-            <ion-item >
+            <ion-item>
               <ion-label> Publier sur mon fil d'actualité </ion-label>
-              <ion-checkbox slot="end" name="OnFeed" [(ngModel)]="postOnFeed"></ion-checkbox>
+              <ion-checkbox
+                slot="end"
+                name="OnFeed"
+                [(ngModel)]="postOnFeed"
+              ></ion-checkbox>
             </ion-item>
           </ion-list>
 
+          <ion-list (ionChange)="checkValue($event)">
+            <ion-radio-group
+              name="commercialAction"
+              [(ngModel)]="product.commercialAction"
+            >
+              <ion-item>
+                <ion-label>Don</ion-label>
+                <ion-radio slot="start" value="DON"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>Echange</ion-label>
+                <ion-radio slot="start" value="ECHANGE"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>Vente</ion-label>
+                <ion-radio slot="start" value="VENTE"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-list>
         </form>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
 </ion-content>
 
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <ion-button expand="block" class="save-btn" [disabled]="
+    <ion-button
+      expand="block"
+      class="save-btn"
+      [disabled]="
           nom.errors?.required 
           || price.errors?.required
           || description.errors?.required
-          || tags?.length == 0 " (click)="uploadImagePermission()" mat-button>
-      <span *ngIf="!loading">
-        ENREGISTRER
-      </span>
+          || tags?.length == 0 "
+      (click)="uploadImagePermission()"
+      mat-button
+    >
+      <span *ngIf="!loading"> ENREGISTRER </span>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>
   </ion-toolbar>

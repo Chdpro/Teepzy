@@ -5,79 +5,75 @@
     </ion-buttons>
     <ion-grid>
       <ion-row>
-        <ion-col size="6">
-
-        </ion-col>
-        <ion-col >
+        <ion-col size="6"> </ion-col>
+        <ion-col>
           <div class="example-button-container">
             <!--button (click)="presentPostEditModal()" class="btn-icon" mat-mini-fab
               aria-label="Example icon button with a home icon">
               <mat-icon>create</mat-icon>
             </button-->
 
-            <button *ngIf="showDeleteBtn" (click)="presentAlertConfirm()" style="text-align: center;" mat-mini-fab
-              aria-label="Example icon button with a home icon">
-                <mat-icon>delete</mat-icon>
+            <button
+              *ngIf="showDeleteBtn"
+              (click)="presentAlertConfirm()"
+              style="text-align: center"
+              mat-mini-fab
+              aria-label="Example icon button with a home icon"
+            >
+              <mat-icon>delete</mat-icon>
             </button>
           </div>
         </ion-col>
       </ion-row>
-
     </ion-grid>
-
-
-
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" [scrollY]="false">
-
-
   <ion-refresher slot="fixed">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <ion-slides pager="true" [options]="slideOpts">
-    <ion-slide 
- 
-    [ngStyle]="{
+    <ion-slide
+      [ngStyle]="{
           'background-image':  product?.photo? 'url(' + product?.photo + ')' : '',
           'background-color': 'black',
           'background-position': 'center center', 
           'background-size': 'cover', 
           'background-repeat': 'no-repeat'
-        }">
-
+        }"
+    >
       <div class="post-txt">
-
         <div class="header-slide">
           <ion-grid>
             <ion-row class="infos">
-
-              <ion-col>
-                <strong>
-                  {{product?.nom}}
-                </strong><br>
-
-              </ion-col>
-
+              <ion-col> <strong> {{product?.nom}} </strong><br /> </ion-col>
             </ion-row>
           </ion-grid>
-
-
         </div>
 
         <div class="fixed-wrap">
           <div class="slidenav">
             <div>
-              <div (click)="goToProfile(product?.userId)" class="img-wrapper" >
-                <img *ngIf="product?.userPhoto_url" class="img img-media-detail" [src]="product?.userPhoto_url" alt="">
+              <div (click)="goToProfile(product?.userId)" class="img-wrapper">
+                <img
+                  *ngIf="product?.userPhoto_url"
+                  class="img img-media-detail"
+                  [src]="product?.userPhoto_url"
+                  alt=""
+                />
               </div>
 
-              <div (click)="goToProfile(product?.userId)" style="float: right; color: #fff !important;" class="userPseudo-bg"
-               >
-                <div *ngIf="product?.userPhoto_url == '' || product?.userPhoto_url == null " class=" pseudo-media"
-                 >
+              <div
+                (click)="goToProfile(product?.userId)"
+                style="float: right; color: #fff !important"
+                class="userPseudo-bg"
+              >
+                <div
+                  *ngIf="product?.userPhoto_url == '' || product?.userPhoto_url == null "
+                  class="pseudo-media"
+                >
                   {{product?.userPseudo | slice:0:1| uppercase}}
                 </div>
               </div>
@@ -85,41 +81,42 @@
           </div>
         </div>
       </div>
-
-
     </ion-slide>
   </ion-slides>
 
-
   <div class="match-img">
-  
-<div class="description-text">
+    <div class="description-text">
+      <div class="desc-text" style="float: left">
+        <ion-badge style="width: 40%" color="primary"
+          >{{product?.commercialAction}}</ion-badge
+        >
+        <div>{{product?.price}} €</div>
+        {{product?.description}}
+      </div>
 
-  <div class="desc-text" style="float: left;">
-    <div>
-      {{product?.price}} €
+      <div
+        class="content-down"
+        style="font-size: 14px; color: white; font-weight: 800"
+      >
+        <span>
+          <ion-chip color="primary" *ngFor="let t of product?.tags">
+            <ion-label>{{t}}</ion-label>
+          </ion-chip>
+        </span>
+      </div>
     </div>
-    {{product?.description}}
   </div>
 
-  <div class="content-down" style="font-size: 14px;color: white;font-weight: 800;">
-    <span>
-      <ion-chip color="primary" *ngFor="let t of product?.tags">
-        <ion-label>{{t}}</ion-label>
-      </ion-chip>
-
-    </span>
-  </div>
-</div>
-
-
-</div>
-
-  <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
-  <div class="modal" *ngIf="globals?.showBackground "
-    [ngStyle]="{'opacity': globals?.showBackground == true ? '1' : '0' }">
-
-  </div>
-
-
+  <input
+    type="radio"
+    name="modal"
+    value="open"
+    id="modal-open"
+    class="modal-radio"
+  />
+  <div
+    class="modal"
+    *ngIf="globals?.showBackground "
+    [ngStyle]="{'opacity': globals?.showBackground == true ? '1' : '0' }"
+  ></div>
 </ion-content>

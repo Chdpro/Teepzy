@@ -5,92 +5,129 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher slot="fixed" [disabled]="false" (ionRefresh)="doRefresh($event)">
+  <ion-refresher
+    slot="fixed"
+    [disabled]="false"
+    (ionRefresh)="doRefresh($event)"
+  >
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio" />
+  <input
+    type="radio"
+    name="modal"
+    value="open"
+    id="modal-open"
+    class="modal-radio"
+  />
   <!--div *ngIf="listTeepzrsToInvite?.length == 0 && listContacts?.length !== myContacts?.length" class="modal"-->
-  <div *ngIf="arrayIncrementLoading && listTeepzrsToInvite?.length ==  0 " class="modal">
+  <div
+    *ngIf="arrayIncrementLoading && listTeepzrsToInvite?.length ==  0 "
+    class="modal"
+  >
     <label class="modal-label overlay">
       <input type="radio" name="modal" value="close" class="modal-radio" />
     </label>
     <div class="content">
       <div class="top">
-        <h2 style=" text-align: center;"> Synchronisation des contacts... </h2>
+        <h2 style="text-align: center">Synchronisation des contacts...</h2>
       </div>
       <span>
         <div>
-          <ion-progress-bar type="indeterminate" reversed="true"></ion-progress-bar>
+          <ion-progress-bar
+            type="indeterminate"
+            reversed="true"
+          ></ion-progress-bar>
         </div>
       </span>
     </div>
   </div>
 
-
-  <div class="mat-content" (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
+  <div
+    class="mat-content"
+    (touchstart)="swipe2($event, 'start')"
+    (touchend)="swipe2($event, 'end')"
+  >
     <!-- tabs here-->
     <mat-tab-group [(selectedIndex)]="selectedTab" color="warn">
-      <mat-tab [label]=" 'TeepzR  (' + (listTeepzrsToInvite?.length - minus) + ')'">
-
-        <div *ngIf="listTeepzrsToInvite?.length ==  1 && !arrayIncrementLoading" style="text-align: center;
-            font-size: 20px;">
-          <img class="msg" src="../../assets/img/msg.jpg" alt="">
-          <span>
-            Aucune personne à inviter
-          </span>
+      <mat-tab
+        [label]=" 'TeepzR  (' + (listTeepzrsToInvite?.length - minus) + ')'"
+      >
+        <div
+          *ngIf="listTeepzrsToInvite?.length ==  1 && !arrayIncrementLoading"
+          style="text-align: center; font-size: 20px"
+        >
+          <img class="msg" src="../../assets/img/msg.jpg" alt="" />
+          <span> Aucune personne à inviter </span>
         </div>
         <form *ngIf="listTeepzrsToInvite?.length > 1" class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Rechercher</mat-label>
-            <input [(ngModel)]="contact" name="contact" placeholder="Taper pour filtrer" matInput>
+            <input
+              [(ngModel)]="contact"
+              name="contact"
+              placeholder="Taper pour filtrer"
+              matInput
+            />
           </mat-form-field>
         </form>
 
-        <ion-spinner *ngIf="loading && listTeepzrsToInvite?.length ==  0 " color="primary" name="dots">
+        <ion-spinner
+          *ngIf="loading && listTeepzrsToInvite?.length ==  0 "
+          color="primary"
+          name="dots"
+        >
         </ion-spinner>
 
         <div
-          *ngFor="let c of listTeepzrsToInvite |filter:contact ;trackBy: trackByFn ">
+          *ngFor="let c of listTeepzrsToInvite |filter:contact ;trackBy: trackByFn "
+        >
           <div *ngIf="listTeepzrsToInvite?.length > 1 && c?.phone">
-
             <ion-item *ngIf="c?.phone !== userPhone">
               <div class="round-img-post">
-                {{c?.prenom | slice:0:1| uppercase}} {{c?.nom | slice:0:1 | uppercase}}
+                {{c?.prenom | slice:0:1| uppercase}} {{c?.nom | slice:0:1 |
+                uppercase}}
               </div>
-              <ion-label> {{ c?.prenom }} <b> {{c?.nom}} </b>
-                <p>
-                  {{ c?.phone }}
-                </p>
+              <ion-label>
+                {{ c?.prenom }} <b> {{c?.nom}} </b>
+                <p>{{ c?.phone }}</p>
               </ion-label>
-              <ion-button *ngIf="c?.invited == false" (click)="sendInvitationToJoinCircle(c?._id)" size="small">
-                <span>
-                  Inviter
-                </span>
+              <ion-button
+                *ngIf="c?.invited == false"
+                (click)="sendInvitationToJoinCircle(c?._id)"
+                size="small"
+              >
+                <span> Inviter </span>
               </ion-button>
-              <button *ngIf="c?.invited" class="cancel-btn" mat-button>Amis</button>
-
+              <button
+                (click)="presentCancelInvitationConfirm(c)"
+                *ngIf="c?.invited"
+                class="cancel-btn"
+                mat-button
+              >
+                En Attente
+              </button>
             </ion-item>
           </div>
         </div>
 
         <ion-row>
-          <ion-col size="2">
-          </ion-col>
+          <ion-col size="2"> </ion-col>
           <ion-col size="8">
-            <ion-button *ngIf="listTeepzrsToInvite?.length > 0" style="margin-top: 71px;" (click)="goToFeed()"
-              expand="block" shape="round">
-              <span *ngIf="previousRoute !== 'feeds'">
-                Mon profile
-              </span>
+            <ion-button
+              *ngIf="listTeepzrsToInvite?.length > 0"
+              style="margin-top: 71px"
+              (click)="goToFeed()"
+              expand="block"
+              shape="round"
+            >
+              <span *ngIf="previousRoute !== 'feeds'"> Mon profile </span>
               <span *ngIf="previousRoute == 'feeds'">
                 Retour sur mon actualité
               </span>
             </ion-button>
           </ion-col>
-          <ion-col size="2">
-
-          </ion-col>
+          <ion-col size="2"> </ion-col>
         </ion-row>
       </mat-tab>
 
@@ -98,72 +135,93 @@
         <form *ngIf="listContacts?.length > 0" class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Rechercher</mat-label>
-            <input [(ngModel)]="term" name="term" placeholder="Taper pour filtrer" matInput>
+            <input
+              [(ngModel)]="term"
+              name="term"
+              placeholder="Taper pour filtrer"
+              matInput
+            />
           </mat-form-field>
         </form>
         <ion-list>
-          <mat-paginator *ngIf="listContacts?.length > 0" [length]="listContacts?.length" [pageSize]="pageSize"
-            (page)="pageEvent = getPaginatorData($event)">
+          <mat-paginator
+            *ngIf="listContacts?.length > 0"
+            [length]="listContacts?.length"
+            [pageSize]="pageSize"
+            (page)="pageEvent = getPaginatorData($event)"
+          >
           </mat-paginator>
-          <ion-spinner *ngIf="loading && listContacts?.length ==  0 " color="primary" name="dots"></ion-spinner>
+          <ion-spinner
+            *ngIf="loading && listContacts?.length ==  0 "
+            color="primary"
+            name="dots"
+          ></ion-spinner>
 
-          <ion-item *ngFor="let c of listContacts | filter:term | slice: lowValue : highValue; trackBy: trackByFn ">
-            <div class="round-bg">
-              {{c?.givenName | slice:0:1 }}
-            </div>
-            <ion-label> {{ c?.givenName }} <b> {{c?.familyName}} </b>
-              <p *ngFor="let ph of c?.phone">
-                {{ ph }}
-              </p>
+          <ion-item
+            *ngFor="let c of listContacts | filter:term | slice: lowValue : highValue; trackBy: trackByFn "
+          >
+            <div class="round-bg">{{c?.givenName | slice:0:1 }}</div>
+            <ion-label>
+              {{ c?.givenName }} <b> {{c?.familyName}} </b>
+              <p *ngFor="let ph of c?.phone">{{ ph }}</p>
             </ion-label>
             <div *ngIf="c?.invited  == false" class="example-button-container">
-              <button mat-mini-fab [matMenuTriggerFor]="menu" color="warn"
-                aria-label="Example icon button with a home icon">
-                <span style=" margin-left: 6px;
-                        margin-bottom: 14px;" class="material-icons">
+              <button
+                mat-mini-fab
+                [matMenuTriggerFor]="menu"
+                color="warn"
+                aria-label="Example icon button with a home icon"
+              >
+                <span
+                  style="margin-left: 6px; margin-bottom: 14px"
+                  class="material-icons"
+                >
                   send
                 </span>
               </button>
               <mat-menu #menu="matMenu">
-                <button *ngFor="let ph of c?.phone" (click)="sendShare(ph)" mat-menu-item>
+                <button
+                  *ngFor="let ph of c?.phone"
+                  (click)="sendShare(ph)"
+                  mat-menu-item
+                >
                   {{ ph }}
                 </button>
                 <!--button mat-menu-item>Parametres</button-->
               </mat-menu>
             </div>
-            <div *ngIf="c?.invited" (click)="dleteInvitationSmsFromServer(c?.phone)" class="example-button-container">
-              <button mat-mini-fab style="background: green; color: white;"
-                aria-label="Example icon button with a home icon">
-                <span class="material-icons">
-                  check
-                </span>
-
+            <div
+              *ngIf="c?.invited"
+              (click)="dleteInvitationSmsFromServer(c?.phone)"
+              class="example-button-container"
+            >
+              <button
+                mat-mini-fab
+                style="background: green; color: white"
+                aria-label="Example icon button with a home icon"
+              >
+                <span class="material-icons"> check </span>
               </button>
             </div>
-
           </ion-item>
-
         </ion-list>
 
-
         <ion-row>
-          <ion-col size="2">
-
-          </ion-col>
+          <ion-col size="2"> </ion-col>
           <ion-col size="8">
-            <ion-button style="margin-top: 71px;" (click)="goToOutcircle()" expand="block" shape="round">
-              <span *ngIf="previousRoute !== 'feeds'">
-                Mon profile
-              </span>
+            <ion-button
+              style="margin-top: 71px"
+              (click)="goToOutcircle()"
+              expand="block"
+              shape="round"
+            >
+              <span *ngIf="previousRoute !== 'feeds'"> Mon profile </span>
               <span *ngIf="previousRoute == 'feeds'">
                 Retour sur mon actualité
               </span>
             </ion-button>
-
           </ion-col>
-          <ion-col size="2">
-
-          </ion-col>
+          <ion-col size="2"> </ion-col>
         </ion-row>
       </mat-tab>
       <ng-template [ngIf]="previousRoute == 'feeds'">
@@ -171,94 +229,117 @@
           <ion-grid>
             <ion-row>
               <ion-col>
-                <h3>
-                  Vous les connaissez peut-être :
-                </h3>
+                <h3>Vous les connaissez peut-être :</h3>
               </ion-col>
             </ion-row>
             <form class="example-form">
-
-              <div *ngIf="listTeepzrsToInviteOutCircle?.length ==  0" style="text-align: center;
-                      font-size: 20px;">
-                <img class="msg" src="../../assets/img/msg.jpg" alt="">
-                <span class="span">
-                  Aucune personne à Ajouter
-                </span>
+              <div
+                *ngIf="listTeepzrsToInviteOutCircle?.length ==  0"
+                style="text-align: center; font-size: 20px"
+              >
+                <img class="msg" src="../../assets/img/msg.jpg" alt="" />
+                <span class="span"> Aucune personne à Ajouter </span>
               </div>
-
-              <mat-form-field *ngIf="listTeepzrsToInviteOutCircle?.length > 0" class="example-full-width">
+              <mat-form-field
+                *ngIf="listTeepzrsToInviteOutCircle?.length > 0"
+                class="example-full-width"
+              >
                 <mat-label>Rechercher</mat-label>
-                <input [(ngModel)]="term" name="term" placeholder="Taper pour filtrer" matInput>
+                <input
+                  [(ngModel)]="invite"
+                  name="invite"
+                  placeholder="Taper pour filtrer"
+                  matInput
+                />
               </mat-form-field>
-
             </form>
-
-            <mat-paginator *ngIf="listTeepzrsToInviteOutCircle?.length > 0"
-              [length]="listTeepzrsToInviteOutCircle?.length" [pageSize]="pageSize"
-              (page)="pageEvent = getPaginatorData($event)">
+            <mat-paginator
+              *ngIf="listTeepzrsToInviteOutCircle?.length > 0"
+              [length]="listTeepzrsToInviteOutCircle?.length"
+              [pageSize]="pageSize"
+              (page)="pageEvent = getPaginatorData($event)"
+            >
             </mat-paginator>
-            <ion-spinner *ngIf="loading && listTeepzrsToInviteOutCircle.length ==  0 " color="primary" name="dots">
+            <ion-spinner
+              *ngIf="loading && listTeepzrsToInviteOutCircle.length ==  0 "
+              color="primary"
+              name="dots"
+            >
             </ion-spinner>
-
             <ion-row>
-              <ion-col size="6"
-                *ngFor="let c of listTeepzrsToInviteOutCircle |filter:term | slice: lowValue : highValue ;trackBy: trackByFn ">
-                <mat-card style="margin-top: 20px;max-height: 180px; height: 180px;">
-
-                  <div  class="avatar">
-                    <img *ngIf="c?.photo" class="img-cl" [src]="c?.photo" alt="">
+              <ion-col
+                size="6"
+                *ngFor="let c of listTeepzrsToInviteOutCircle |filter:invite | slice: lowValue : highValue ;trackBy: trackByFn "
+              >
+                <mat-card
+                  style="margin-top: 20px; max-height: 180px; height: 180px"
+                >
+                  <div class="avatar">
+                    <img
+                      *ngIf="c?.photo"
+                      class="img-cl"
+                      [src]="c?.photo"
+                      alt=""
+                    />
                   </div>
-      
-                  <div >
-                    <div *ngIf="c?.photo == '' || c?.photo == null " class="round-img"
-                     >
+                  <div>
+                    <div
+                      *ngIf="c?.photo == '' || c?.photo == null "
+                      class="round-img"
+                    >
                       {{c?.pseudoIntime | slice:0:1| uppercase}}
                     </div>
                   </div>
-                  <div class="cl-content"  [ngStyle]='{"position": !c?.photo  ? "absolute" : "relative","top": !c?.photo  ? "45px" : "0"}'>
-                    <strong>
-                      {{ c?.pseudoIntime }}
-                    </strong><br>
+                  <div
+                    class="cl-content"
+                    [ngStyle]='{"position": !c?.photo  ? "absolute" : "relative","top": !c?.photo  ? "45px" : "0"}'
+                  >
+                    <strong> {{ c?.pseudoIntime }} </strong><br />
                     <span>
-                      {{ c?.circleMembersCount || '0' }} contact   <span class="s" *ngIf="c?.circleMembersCount > 1">s</span>
-                    </span><br>
+                      {{ c?.circleMembersCount || '0' }} contact
+                      <span class="s" *ngIf="c?.circleMembersCount > 1"
+                        >s</span
+                      > </span
+                    ><br />
                     <!--div style="font-size: 12px;">
                       ({{c?.commonFriends || 0 }}) amis en commun
                     </div-->
-                    <ion-button (click)="sendInvitationToJoinCircle(c?._id)" *ngIf="!loading && c?.invited == false"
-                      size="small" shape="round">Ajouter</ion-button>
-                    <ion-button *ngIf="!loading && c?.invited == true" size="small" color="light" shape="round">
-                      Ajouté</ion-button>
-
+                    <ion-button
+                      (click)="sendInvitationToJoinCircle(c?._id)"
+                      *ngIf="!loading && c?.invited == false"
+                      size="small"
+                      shape="round"
+                      >Ajouter</ion-button
+                    >
+                    <ion-button
+                      *ngIf="!loading && c?.invited == true"
+                      size="small"
+                      color="light"
+                      shape="round"
+                    >
+                      Ajouté</ion-button
+                    >
                   </div>
                 </mat-card>
               </ion-col>
-
             </ion-row>
             <ion-row>
-              <ion-col size="2">
-
-              </ion-col>
+              <ion-col size="2"> </ion-col>
               <ion-col size="8">
-                <ion-button style="margin-top: 71px;" (click)="goToOutcircle()" expand="block" shape="round">
+                <ion-button
+                  style="margin-top: 71px"
+                  (click)="goToOutcircle()"
+                  expand="block"
+                  shape="round"
+                >
                   Valider
                 </ion-button>
-
               </ion-col>
-              <ion-col size="2">
-
-              </ion-col>
+              <ion-col size="2"> </ion-col>
             </ion-row>
           </ion-grid>
-
-
         </mat-tab>
       </ng-template>
-
     </mat-tab-group>
   </div>
-
-
-
-
 </ion-content>
