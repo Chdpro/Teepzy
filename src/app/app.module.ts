@@ -63,6 +63,7 @@ import { MentionModule } from "angular-mentions";
 import { RobotAlertPageModule } from "./robot-alert/robot-alert.module";
 import { AppUpdateModalPage } from "./app-update-modal/app-update-modal.page";
 import { AppUpdateModalPageModule } from "./app-update-modal/app-update-modal.module";
+import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
 
 @NgModule({
   declarations: [AppComponent, Autosize],
@@ -126,6 +127,7 @@ import { AppUpdateModalPageModule } from "./app-update-modal/app-update-modal.mo
     MediaCapture,
     UploadService,
     NativeGeocoder,
+    InAppBrowser,
     AppVersion,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: MAT_DATE_LOCALE, useValue: "fr-FR" },

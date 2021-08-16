@@ -92,20 +92,17 @@ export class AppComponent {
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     let token = localStorage.getItem("teepzyToken");
-    this.getAppVersion();
     let id = localStorage.getItem("teepzyUserId");
     this.userId = id;
     this.getPosition();
-    //this.getUserInfo(this.userId, token)
+    this.getUserInfo(this.userId, token);
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.backgroundColorByHexString("#ea4d5075");
       this.splashScreen.hide();
-      if (this.platform.is("android")) {
-        this.getAppVersionFromServer();
-      }
+      this.getAppVersion();
     });
   }
 
@@ -174,6 +171,9 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.appVersion.getVersionNumber().then((version) => {
         this.appV = version;
+        if (this.platform.is("android")) {
+          this.getAppVersionFromServer();
+        }
       });
     });
   }

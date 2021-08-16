@@ -133,7 +133,6 @@ export class DetailFeedPage implements OnInit {
   }
 
   goToProfile(userId) {
-    console.log(userId);
     if (this.userId === userId) {
       this.router.navigate(["/tabs/profile", { userId: userId }]);
     } else {
@@ -153,7 +152,6 @@ export class DetailFeedPage implements OnInit {
     this.contactService.getPost(post).subscribe(
       (res) => {
         let post = res["data"];
-        console.log(post);
         if (post) {
           let favorite = {
             userId: this.userId,
@@ -171,8 +169,6 @@ export class DetailFeedPage implements OnInit {
   }
 
   getRepost(idTeepz) {
-    console.log(idTeepz);
-
     let post = {
       idPost: idTeepz,
       userId: this.userId,
@@ -180,7 +176,6 @@ export class DetailFeedPage implements OnInit {
     this.loading = true;
     this.contactService.getRePost(post).subscribe(
       (res) => {
-        console.log(res);
         this.post == null ? (this.post = res["data"]) : null;
         if (this.post) {
           let favorite = {

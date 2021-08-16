@@ -33,6 +33,7 @@
     "@ionic-native/file": "^5.29.0",
     "@ionic-native/file-path": "^5.34.0",
     "@ionic-native/file-transfer": "^5.34.0",
+    "@ionic-native/in-app-browser": "^5.35.0",
     "@ionic-native/ionic-webview": "^5.29.0",
     "@ionic-native/keyboard": "^5.29.0",
     "@ionic-native/media-capture": "^5.28.0",
@@ -93,6 +94,7 @@
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-filepath": "^1.6.0",
+    "cordova-plugin-inappbrowser": "^5.0.0",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-ionic-webview": "^4.2.1",
     "cordova-plugin-media": "^5.0.3",
@@ -156,7 +158,8 @@
       },
       "cordova-plugin-filepath": {},
       "cordova-plugin-file-transfer": {},
-      "onesignal-cordova-plugin": {}
+      "onesignal-cordova-plugin": {},
+      "cordova-plugin-inappbrowser": {}
     },
     "platforms": [
       "ios"
