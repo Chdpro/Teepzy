@@ -62,21 +62,19 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" [scrollY]="true">
-  <ion-progress-bar
-    *ngIf="loading"
-    style="position: absolute"
-    type="indeterminate"
-  ></ion-progress-bar>
-
   <ion-refresher
     *ngIf="debutListPost===0"
     slot="fixed"
-    [disabled]="false"
     (ionRefresh)="doRefresh($event)"
     pullingIcon="chevron-down-outline"
   >
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <ion-progress-bar
+    *ngIf="loading"
+    style="position: absolute"
+    type="indeterminate"
+  ></ion-progress-bar>
 
   <ion-slides
     class="ion-slides"

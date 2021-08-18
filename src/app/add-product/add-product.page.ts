@@ -56,7 +56,7 @@ export class AddProductPage implements OnInit {
   photos: any = [];
   filesName = new Array();
   dispImags = [];
-  imageData;
+  imageData = "";
   showModal = "hidden";
   user: any;
   constructor(
@@ -154,9 +154,10 @@ export class AddProductPage implements OnInit {
     this.subscription = this.contactService.addPost(post).subscribe(
       (res) => {
         this.presentToast("Publié sur le fil d'actualité");
+        this.dismiss();
       },
       (error) => {
-        // this.presentToast(MESSAGES.ADD_FEED_ERROR)
+        this.presentToast(MESSAGES.ADD_FEED_ERROR);
       }
     );
   }
@@ -173,6 +174,7 @@ export class AddProductPage implements OnInit {
         userPseudo: this.user.pseudoIntime,
         commercialAction: this.product.commercialAction,
         price: this.product.price,
+        productId: "",
       };
       this.loading = true;
       this.tags.length > 0 ? (this.product.tags = this.tags) : null;
@@ -187,8 +189,8 @@ export class AddProductPage implements OnInit {
             this.presentToast(MESSAGES.SHOP_CREATED_OK);
             let userId = localStorage.getItem("teepzyUserId");
             this.getProducts(userId);
+            post.productId = res["data"]["_id"];
             this.addPost(post);
-            this.dismiss();
           },
           (error) => {
             // console.log(error)
@@ -275,7 +277,6 @@ export class AddProductPage implements OnInit {
           }
         },
         (err) => {
-          alert(err);
           this.androidPermissions.requestPermission(
             this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE
           );
@@ -312,7 +313,7 @@ export class AddProductPage implements OnInit {
 
   pickImage(sourceType) {
     const options: CameraOptions = {
-      quality: 20,
+      quality: 40,
       targetWidth: 600,
       targetHeight: 600,
       sourceType: sourceType,

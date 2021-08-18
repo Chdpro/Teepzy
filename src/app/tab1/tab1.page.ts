@@ -565,6 +565,7 @@ export class Tab1Page implements OnInit {
     this.subscription = this.contactService.getPosts(userId).subscribe(
       (res) => {
         this.listPosts = [];
+        console.log(res);
         if (res["data"] != null) {
           this.listPosts = res["data"];
           this.listPosts = this.listPosts.sort((a, b) => {

@@ -56,7 +56,6 @@ export class DetailProduitPage implements OnInit {
 
   ngOnInit() {
     let product = this.route.snapshot.paramMap["params"];
-    console.log(product);
     let tags = product.tags.split(",");
     this.product._id = product._id;
     this.product.nom = product.nom;
@@ -114,12 +113,12 @@ export class DetailProduitPage implements OnInit {
   delete(id) {
     this.subscription = this.contactService.deleteProduct(id).subscribe(
       (res) => {
-        // console.log(res)
+        console.log(res);
         this.presentToast(MESSAGES.SHOP_DELETED_OK);
         this.getUserInfo(this.userId);
       },
       (error) => {
-        // console.log(error)
+        console.log(error);
       }
     );
   }

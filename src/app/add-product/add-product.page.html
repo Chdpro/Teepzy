@@ -173,6 +173,7 @@
           nom.errors?.required 
           || price.errors?.required
           || description.errors?.required
+          || dispImags?.length === 0
           || tags?.length == 0 "
       (click)="uploadImagePermission()"
       mat-button

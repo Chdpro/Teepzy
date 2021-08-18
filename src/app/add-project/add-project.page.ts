@@ -219,7 +219,7 @@ export class AddProjectPage implements OnInit {
 
   pickImage(sourceType) {
     const options: CameraOptions = {
-      quality: 20,
+      quality: 40,
       targetWidth: 600,
       targetHeight: 600,
       sourceType: sourceType,
