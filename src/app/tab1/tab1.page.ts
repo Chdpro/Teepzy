@@ -45,6 +45,7 @@ import {
   trigger,
 } from "@angular/animations";
 import { Socket } from "ng-socket-io";
+import { LikersPage } from "../likers/likers.page";
 
 @Component({
   selector: "app-tab1",
@@ -142,6 +143,26 @@ export class Tab1Page implements OnInit {
     this.menuCtrl.enable(true, "first");
     this.menuCtrl.swipeGesture(false);
     this.global = globals;
+
+    this.subscription = this.dataPass.getLike().subscribe((like) => {
+      this.listPosts.find((c, index) => {
+        if (like.like === true && c["_id"] === like.postId) {
+          c["favorite"] = true;
+          c["favoriteCount"] = c["favoriteCount"] + 1;
+        }
+        return true;
+      });
+      this.listPosts.find((c, index) => {
+        if (like.like === false && c["_id"] === like.postId) {
+          c["favorite"] = false;
+          c["favoriteCount"] = c["favoriteCount"] - 1;
+        }
+        return true;
+      });
+
+      this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts);
+    });
+
     this.subscription = this.dataPass.getPosts().subscribe((post) => {
       // console.log(list)
       if (post) {
@@ -165,7 +186,6 @@ export class Tab1Page implements OnInit {
 
   ionViewWillEnter() {
     this.userId = localStorage.getItem("teepzyUserId");
-    //   this.socket.emit('online', this.userId);
     this.getUserInfo(this.userId);
     if (this.networkService.networkStatus() === Offline) {
       this.getFeedFromLocal();
@@ -174,6 +194,7 @@ export class Tab1Page implements OnInit {
     }
     this.isTutoSkip = localStorage.getItem("isTutoSkip");
   }
+
   ngAfterViewInit() {}
 
   ngOnDestroy() {
@@ -407,64 +428,6 @@ export class Tab1Page implements OnInit {
     this.router.navigateByUrl("/search");
   }
 
-  addFavorite(postId) {
-    //  console.log(postId)
-    let favoris = {
-      userId: this.userId,
-      postId: postId,
-      type: "POST",
-    };
-    this.contactService.addFavorite(favoris).subscribe(
-      (res) => {
-        this.listPosts.find((c, index) => {
-          if (c["_id"] === postId) {
-            c["favorite"] = true;
-            c["favoriteCount"] = c["favoriteCount"] + 1;
-          }
-          return true;
-        });
-        this.contactService.setLocalData(
-          CACHE_KEYS.FEEDS_CHECK,
-          this.listPosts
-        );
-        this.presentToast("Ajouté aux favoris");
-      },
-      (error) => {
-        this.presentToast("Oops! une erreur est survenue");
-        // console.log(error)
-      }
-    );
-  }
-
-  removeFavorite(postId) {
-    let favoris = {
-      userId: this.userId,
-      postId: postId,
-    };
-    this.contactService.removeFavorite(favoris).subscribe(
-      (res) => {
-        //  console.log(res)
-        this.listPosts.find((c, index) => {
-          if (c["_id"] === postId) {
-            c["favorite"] = false;
-            c["favoriteCount"] = c["favoriteCount"] - 1;
-          }
-          return true;
-        });
-
-        this.contactService.setLocalData(
-          CACHE_KEYS.FEEDS_CHECK,
-          this.listPosts
-        );
-        this.presentToast(MESSAGES.REMOVE_FAVORITE_OK);
-      },
-      (error) => {
-        this.presentToast(MESSAGES.SERVER_ERROR);
-        //  console.log(error)
-      }
-    );
-  }
-
   goToProfile(userId) {
     // console.log(userId, reposterId)
     if (this.userId === userId) {
@@ -504,7 +467,7 @@ export class Tab1Page implements OnInit {
     const modal = await this.modalController.create({
       component: ShareSheetPage,
       componentProps: post,
-      cssClass: "share-custom-class",
+      cssClass: "likers-class",
       backdropDismiss: false,
       showBackdrop: true,
       swipeToClose: true,
@@ -524,6 +487,24 @@ export class Tab1Page implements OnInit {
       componentProps: post,
       backdropDismiss: false,
       cssClass: "comment-class",
+      showBackdrop: true,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+    });
+    return await modal.present();
+  }
+
+  async presentLikersModal(post) {
+    if (this.globals.showBackground) {
+      this.globals.showBackground = false;
+    } else {
+      this.globals.showBackground = true;
+    }
+    const modal = await this.modalController.create({
+      component: LikersPage,
+      componentProps: post,
+      backdropDismiss: false,
+      cssClass: "likers-class",
       showBackdrop: true,
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,

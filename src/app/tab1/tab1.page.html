@@ -364,7 +364,7 @@
             ></ion-icon>
           </button>
         </a>
-        <a (click)="removeFavorite(p?._id)" *ngIf="p?.favorite == true">
+        <a (click)="presentLikersModal(p)" *ngIf="p?.favorite == true">
           <button mat-fab class="mat-button-1" color="primary">
             <mat-icon
               *ngIf="p?.favoriteCount !== 0"
@@ -375,7 +375,7 @@
             <span class="material-icons mat-icon-btn"> star </span>
           </button>
         </a>
-        <a (click)="addFavorite(p?._id)" *ngIf="p?.favorite !== true">
+        <a (click)="presentLikersModal(p)" *ngIf="p?.favorite !== true">
           <button mat-fab class="mat-button-2" color="primary">
             <mat-icon
               *ngIf="p?.favoriteCount !== 0"

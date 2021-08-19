@@ -1,61 +1,70 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-title>Partager</ion-title>
-    <ion-icon (click)="dismiss()" class="close-icone" name="close-outline"></ion-icon>
+    <ion-icon
+      (click)="dismiss()"
+      class="close-icone"
+      name="close-outline"
+    ></ion-icon>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content class="content">
-  <ion-refresher slot="fixed" (ionRefresh)="closeModalOnSwipeDown($event)">
-    <!--ion-refresher-content></ion-refresher-content-->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <span>
-  <!-- fab placed to the bottom end -->
-  <ion-fab (click)="presentAlertConfirm()" class="censure" vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button color="primary">
-      <ion-icon style="color:white" name="flag-outline"></ion-icon>
-    </ion-fab-button>
-    <div class="text-share">
-      signaler
-    </div>
-  </ion-fab>
 
-  <!-- fab placed to the bottom end -->
-  <!--ion-fab (click)="sendShare()" class="rs-btn" vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button color="primary">
-      <ion-icon style="color:white" name="share-social-outline"></ion-icon>
-    </ion-fab-button>
-    <div style="    margin-left: -18px;" class="text-share">
-      Réseaux sociaux
-    </div>
-  </ion-fab-->
+  <ion-spinner *ngIf="loading" color="primary" name="dots"></ion-spinner>
 
-  <!-- fab placed to the bottom end -->
-  <!--ion-fab vertical="bottom" class="sv-btn" horizontal="end" slot="fixed">
-    <ion-fab-button color="primary">
-      <span style="color: #ffff;" class="material-icons">
-        save_alt
-      </span>
-    </ion-fab-button>
-    <div class="text-share">
-      Enregistrer
-    </div>
-  </ion-fab-->
-
-  <!-- fab placed to the bottom end -->
-  <ion-fab (click)="rePost()" vertical="bottom" class="redo" horizontal="center" slot="fixed">
-    <ion-fab-button color="primary">
-      <span style="color:white" class="material-icons">
-        redo
-      </span>
-    </ion-fab-button>
-    <div class="text-share">
-      Mon cercle
-    </div>
-  </ion-fab>
-
-
-  </span>
-
+  <div
+    *ngIf="sharers?.length === 0&& !loading"
+    class=".container-txt"
+    style="text-align: center; margin-top: 37vh"
+  >
+    <span class="msg"> Aucun partage </span>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let S of sharers">
+      <ion-avatar slot="start">
+        <img *ngIf="S?.photo" [src]="S?.photo" />
+      </ion-avatar>
+      <ion-label>
+        <strong>{{S?.pseudoIntime}}</strong>
+        <h5 style="font-size: 10px">{{S?.metier}}</h5>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <span>
+      <!-- fab placed to the bottom end -->
+      <ion-fab
+        (click)="presentAlertConfirm()"
+        class="censure"
+        vertical="bottom"
+        horizontal="center"
+        slot="fixed"
+      >
+        <ion-fab-button color="primary">
+          <ion-icon style="color: white" name="flag-outline"></ion-icon>
+        </ion-fab-button>
+        <div class="text-share">signaler</div>
+      </ion-fab>
+      <!-- fab placed to the bottom end -->
+      <ion-fab
+        (click)="rePost()"
+        vertical="bottom"
+        class="redo"
+        horizontal="center"
+        slot="fixed"
+      >
+        <ion-fab-button color="primary">
+          <span style="color: white" class="material-icons"> redo </span>
+        </ion-fab-button>
+        <div class="text-share">Mon cercle</div>
+      </ion-fab>
+    </span>
+  </ion-toolbar>
+</ion-footer>

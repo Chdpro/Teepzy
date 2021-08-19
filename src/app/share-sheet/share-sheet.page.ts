@@ -26,6 +26,9 @@ export class ShareSheetPage implements OnInit {
   timeCall = 0;
   listPosts = [];
   subscription: Subscription;
+  sharers = [];
+  loading = false;
+
   constructor(
     private modalController: ModalController,
     public globals: Globals,
@@ -44,6 +47,7 @@ export class ShareSheetPage implements OnInit {
   ngOnInit() {
     this.userId = localStorage.getItem("teepzyUserId");
     this.post = this.navParams.data;
+    this.getSharers();
   }
 
   closeModalOnSwipeDown(event) {
@@ -62,6 +66,20 @@ export class ShareSheetPage implements OnInit {
       .catch((err) => {
         // alert(JSON.stringify(err))
       });
+  }
+
+  getSharers() {
+    this.loading = true;
+    this.contactService.sharers(this.post._id).subscribe(
+      (res) => {
+        this.sharers = res["data"];
+        this.loading = false;
+      },
+      (error) => {
+        console.log(error);
+        this.loading = false;
+      }
+    );
   }
 
   rePost() {

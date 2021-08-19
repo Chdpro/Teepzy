@@ -577,6 +577,16 @@ export class ContactService {
     return this.http.post(base_url + url, user, httpOptionsJson);
   }
 
+  likers(postId): Observable<any> {
+    let url = "stats/likers/" + postId;
+    return this.http.get(base_url + url, httpOptionsJson);
+  }
+
+  sharers(postId): Observable<any> {
+    let url = "stats/sharers/" + postId;
+    return this.http.get(base_url + url, httpOptionsJson);
+  }
+
   removeFavorite(favorite): Observable<any> {
     let url = "stats/removeFavorite";
     return this.http.post(base_url + url, favorite, httpOptionsJson);

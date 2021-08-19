@@ -64,6 +64,7 @@ import { RobotAlertPageModule } from "./robot-alert/robot-alert.module";
 import { AppUpdateModalPage } from "./app-update-modal/app-update-modal.page";
 import { AppUpdateModalPageModule } from "./app-update-modal/app-update-modal.module";
 import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
+import { LikersPageModule } from "./likers/likers.module";
 
 @NgModule({
   declarations: [AppComponent, Autosize],
@@ -102,6 +103,7 @@ import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
     IonicSwipeAllModule,
     SocketIoModule.forRoot(config),
     MentionModule,
+    LikersPageModule,
   ],
   providers: [
     StatusBar,

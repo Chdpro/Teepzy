@@ -1,7 +1,14 @@
 ion-toolbar{
     text-align: center;
+    height: 87px;
+    display: flex;
 }
 
+ion-spinner{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 .close-icone{
     float: right;
     margin-top: -18px;
@@ -15,7 +22,6 @@ ion-toolbar{
 .text-share
 {
       font-size: 11px;
-      margin-top: 19px;
   }
 
   .rs-btn{
@@ -28,9 +34,35 @@ ion-toolbar{
   .censure{
     position: absolute;
     left: 131px;
+    bottom: 5px;
   }
 
   .redo{
     position: absolute;
     left: 231px;
+    bottom: 5px;
   }
+
+  .close-icon{
+    float: right;
+    margin-top: -27px;
+    margin-right: 26px;
+    font-size: 29px;
+    color: #ea4e50;
+}
+
+.msg{
+    font-size: 16px;
+    font-weight: 200;
+    color: #ea4d4f;
+}
+
+.container-txt{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+strong{
+    color: #ea4d4f;
+}
