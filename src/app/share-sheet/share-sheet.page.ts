@@ -109,6 +109,15 @@ export class ShareSheetPage implements OnInit {
     );
   }
 
+  doRefresh(event) {
+    //  console.log('Begin async operation');
+    setTimeout(() => {
+      //  console.log('Async operation has ended');
+      this.getSharers();
+      event.target.complete();
+    }, 400);
+  }
+
   getPosts(userId) {
     this.timeCall = 1;
     this.subscription = this.contactService.getPosts(userId).subscribe(

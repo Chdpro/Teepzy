@@ -3,147 +3,223 @@
     <ion-grid>
       <ion-row>
         <ion-col size="8">
-          <h3 style="margin-top: 9px;color: #ea4e50;" *ngIf="!showSearch">NOTIFICATION</h3>
+          <h3 style="margin-top: 9px; color: #ea4e50" *ngIf="!showSearch">
+            NOTIFICATION
+          </h3>
         </ion-col>
         <ion-col>
           <div *ngIf="!showSearch" class="example-button-container">
-            <button (click)="showSearch = true" class="btn-icon" mat-mini-fab
-              aria-label="Example icon button with a home icon">
+            <button
+              (click)="showSearch = true"
+              class="btn-icon"
+              mat-mini-fab
+              aria-label="Example icon button with a home icon"
+            >
               <mat-icon>search</mat-icon>
             </button>
-          
           </div>
         </ion-col>
       </ion-row>
 
       <ion-row>
         <ion-col>
-          <span *ngIf="showSearch" style="display: flex;">
-            <button class="arrow-back-mat-button" (click)="showSearch = false" style="font-size: 29px;" mat-button>
+          <span *ngIf="showSearch" style="display: flex">
+            <button
+              class="arrow-back-mat-button"
+              (click)="showSearch = false"
+              style="font-size: 29px"
+              mat-button
+            >
               <ion-icon name="arrow-back-outline"></ion-icon>
             </button>
             <form class="example-form">
               <mat-form-field class="example-full-width search-input">
                 <mat-label>Rechercher</mat-label>
-                <input [(ngModel)]="search" name="search" matInput placeholder="Taper pour filtrer">
+                <input
+                  [(ngModel)]="search"
+                  name="search"
+                  matInput
+                  placeholder="Taper pour filtrer"
+                />
               </mat-form-field>
             </form>
           </span>
         </ion-col>
       </ion-row>
     </ion-grid>
-
-
-
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
-
-  <div class="mat-content" (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
-    <mat-tab-group [(selectedIndex)]="selectedTab" color="warn" mat-align-tabs="center">
+  <div
+    class="mat-content"
+    (touchstart)="swipe2($event, 'start')"
+    (touchend)="swipe2($event, 'end')"
+  >
+    <mat-tab-group
+      [(selectedIndex)]="selectedTab"
+      color="warn"
+      mat-align-tabs="center"
+    >
       <mat-tab label="TOUS">
-        <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
-          (ionRefresh)="doRefreshNotification($event)">
+        <ion-refresher
+          style="position: absolute; z-index: 2000"
+          slot="fixed"
+          (ionRefresh)="doRefreshNotification($event)"
+        >
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
-        <ion-spinner *ngIf="loading && notifications.length ==  0 " color="primary" name="dots"></ion-spinner>
+        <ion-spinner
+          *ngIf="loading && notifications.length ==  0 "
+          color="primary"
+          name="dots"
+        ></ion-spinner>
 
         <div>
           <ion-item *ngIf="notifications?.length !== 0&&showNewListBtn">
-            <ion-button (click)="loadDataOld()" class="load_more"  expand="block" shape="round" size="small" fill="outline">
+            <ion-button
+              (click)="loadDataOld()"
+              class="load_more"
+              expand="block"
+              shape="round"
+              size="small"
+              fill="outline"
+            >
               <span *ngIf="!loadingOld">Les plus récents</span>
-              <ion-spinner *ngIf="loadingOld" color="primary" name="dots"></ion-spinner>
+              <ion-spinner
+                *ngIf="loadingOld"
+                color="primary"
+                name="dots"
+              ></ion-spinner>
             </ion-button>
           </ion-item>
-          <ion-item *ngFor="let n of notifications;trackBy: trackByFn " (click)="goToElement(n?.toId, n?.icon_name, n?.roomId)">
-            <span style="margin-right: 24px;" class="material-icons">
+          <ion-item
+            *ngFor="let n of notifications;trackBy: trackByFn "
+            (click)="goToElement(n?.toId, n?.icon_name, n?.roomId)"
+          >
+            <span style="margin-right: 24px" class="material-icons">
               {{n?.icon_name}}
             </span>
 
-            <div class="round-img-post" *ngIf='userId != n?.fromId && n?.retourLink == false'>
+            <div
+              class="round-img-post"
+              *ngIf="userId != n?.fromId && n?.retourLink == false"
+            >
               {{n?.pseudoIntime | slice:0:1| uppercase}}
             </div>
 
-            <div class="round-img-post" *ngIf='userId != n?.fromId && n?.retourLink == true'>
+            <div
+              class="round-img-post"
+              *ngIf="userId != n?.fromId && n?.retourLink == true"
+            >
               {{n?.linkerUserPseudo | slice:0:1| uppercase}}
             </div>
             <ion-label>
-              <b *ngIf="userId != n?.fromId && n?.retourLink == false"> {{n?.pseudoIntime}} </b> 
+              <b *ngIf="userId != n?.fromId && n?.retourLink == false">
+                {{n?.pseudoIntime}}
+              </b>
               <b *ngIf="userId != n?.fromId && n?.retourLink == true">
                 {{n?.linkerUserPseudo}}
               </b>
 
               <span *ngIf="time(n?.createdAt) != 'il y a un mois'">
-                  <span *ngIf="time(n?.createdAt) != 'il y a un jour'">
-                    <span *ngIf="time(n?.createdAt) != 'il y a une minute'">
-                      <span class="time" *ngIf="time(n?.createdAt) != 'il y a une heure'">
-                        {{time(n?.createdAt) }}
-                      </span>
+                <span *ngIf="time(n?.createdAt) != 'il y a un jour'">
+                  <span *ngIf="time(n?.createdAt) != 'il y a une minute'">
+                    <span
+                      class="time"
+                      *ngIf="time(n?.createdAt) != 'il y a une heure'"
+                    >
+                      {{time(n?.createdAt) }}
                     </span>
                   </span>
                 </span>
-                <span class="time" *ngIf="time(n?.createdAt) == 'il y a une minute'">
-                  il y a 1 minute
-                </span>
-                <span class="time" *ngIf="time(n?.createdAt) == 'il y a une heure'">
-                  il y a 1 heure
-                </span>
-                <span class="time" *ngIf="time(n?.createdAt) == 'il y a un jour'">
-                  il y a 1 jour
-                </span>
-                <span class="time" *ngIf="time(n?.createdAt) == 'il y a un mois'">
-                  il y a 1 mois
-                </span>
-                
-              <b *ngIf="userId == n?.fromId">
-                Vous </b><br>
-              <strong>
-                <span *ngIf="userId != n?.fromId"></span> <span *ngIf="userId == n?.fromId">avez</span>
+              </span>
+              <span
+                class="time"
+                *ngIf="time(n?.createdAt) == 'il y a une minute'"
+              >
+                il y a 1 minute
+              </span>
+              <span
+                class="time"
+                *ngIf="time(n?.createdAt) == 'il y a une heure'"
+              >
+                il y a 1 heure
+              </span>
+              <span class="time" *ngIf="time(n?.createdAt) == 'il y a un jour'">
+                il y a 1 jour
+              </span>
+              <span class="time" *ngIf="time(n?.createdAt) == 'il y a un mois'">
+                il y a 1 mois
+              </span>
 
+              <b *ngIf="userId == n?.fromId"> Vous </b><br />
+              <strong>
+                <span *ngIf="userId != n?.fromId"></span>
+                <span *ngIf="userId == n?.fromId">avez</span>
 
                 <span *ngIf="n?.icon_name !== 'message'">
                   {{n?.message}}
-                  <br><span *ngIf="userId != n?.fromId" >@{{n?.pseudoIntime}}</span>
+                  <br /><span *ngIf="userId != n?.fromId"
+                    >@{{n?.pseudoIntime}}</span
+                  >
                 </span>
-                <span *ngIf="n?.icon_name === 'message' && n?.fromId !== userId">
+                <span
+                  *ngIf="n?.icon_name === 'message' && n?.fromId !== userId"
+                >
                   un nouveau message
                 </span>
 
-                <span *ngIf="n?.icon_name === 'message' && n?.fromId === userId">
+                <span
+                  *ngIf="n?.icon_name === 'message' && n?.fromId === userId"
+                >
                   répondu à votre message
                 </span>
               </strong>
             </ion-label>
-            <span class="see-icon" *ngIf="n?.icon_name == 'link'" (click)="goToDetailTeepz(n?.postId)">
+            <span
+              class="see-icon"
+              *ngIf="n?.icon_name == 'link'"
+              (click)="goToDetailTeepz(n?.postId)"
+            >
               <button mat-button>
                 <ion-icon name="eye-outline"></ion-icon>
               </button>
             </span>
-            
-            </ion-item>
-            <ion-item *ngIf="notifications?.length !== 0 && showOldListBtn">
-              <ion-button (click)="loadData()" class="load_more" expand="block" shape="round" size="small" fill="outline">
-                
+          </ion-item>
+          <ion-item *ngIf="notifications?.length !== 0 && showOldListBtn">
+            <ion-button
+              (click)="loadData()"
+              class="load_more"
+              expand="block"
+              shape="round"
+              size="small"
+              fill="outline"
+            >
               <span *ngIf="!loadingOld">Les plus anciens</span>
-                <ion-spinner *ngIf="loadingOld" color="primary" name="dots"></ion-spinner>
+              <ion-spinner
+                *ngIf="loadingOld"
+                color="primary"
+                name="dots"
+              ></ion-spinner>
             </ion-button>
-            </ion-item>
-            <ion-item *ngIf="notifications?.length !== 0"></ion-item>
+          </ion-item>
+          <ion-item *ngIf="notifications?.length !== 0"></ion-item>
 
-
-          <div *ngIf="loading == false && notifications?.length == 0" class="empty-msg">
-            <span class="material-icons drafts">
-              notifications
-            </span><br>
+          <div
+            *ngIf="loading == false && notifications?.length == 0"
+            class="empty-msg"
+          >
+            <span class="material-icons drafts"> notifications </span><br />
             <span>Aucune notification ici</span>
           </div>
-
-
         </div>
       </mat-tab>
       <mat-tab label="MENTION">
-        <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
-          (ionRefresh)="doRefreshNotification($event)">
+        <ion-refresher
+          style="position: absolute; z-index: 2000"
+          slot="fixed"
+          (ionRefresh)="doRefreshNotification($event)"
+        >
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
 
@@ -158,84 +234,97 @@
                 </ion-label>
               </ion-item-->
 
-
-          <ion-item *ngFor="let n of mentions?.reverse();trackBy: trackByFn " (click)="goToElement(n?.toId, n?.icon_name, n?.roomId)">
-            <span style="margin-right: 24px;" class="material-icons">
+          <ion-item
+            *ngFor="let n of mentions?.reverse();trackBy: trackByFn "
+            (click)="goToElement(n?.toId, n?.icon_name, n?.roomId)"
+          >
+            <!--span-- style="margin-right: 24px;" class="material-icons">
               {{n?.icon_name}}
-            </span>
-
-            <div class="round-img-post" *ngIf='userId !== n?.fromId'>
+            </!--span-->
+            <div class="round-img-post" *ngIf="userId !== n?.fromId">
               {{n?.pseudoIntime | slice:0:1| uppercase}}
             </div>
-       
+
             <ion-label>
-              <b *ngIf="userId != n?.fromId"> {{n?.pseudoIntime}} </b> 
+              <b *ngIf="userId != n?.fromId"> {{n?.pseudoIntime}} </b>
               <span *ngIf="time(n?.createdAt) != 'il y a un mois'">
-                  <span *ngIf="time(n?.createdAt) != 'il y a un jour'">
-                    <span *ngIf="time(n?.createdAt) != 'il y a une minute'">
-                      <span class="time" *ngIf="time(n?.createdAt) != 'il y a une heure'">
-                        {{time(n?.createdAt)}}
-                      </span>
+                <span *ngIf="time(n?.createdAt) != 'il y a un jour'">
+                  <span *ngIf="time(n?.createdAt) != 'il y a une minute'">
+                    <span
+                      class="time"
+                      *ngIf="time(n?.createdAt) != 'il y a une heure'"
+                    >
+                      {{time(n?.createdAt)}}
                     </span>
                   </span>
                 </span>
-                <span class="time" *ngIf="time(n?.createdAt) == 'il y a une minute'">
-                  il y a 1 minute
-                </span>
-                <span class="time" *ngIf="time(n?.createdAt) == 'il y a une heure'">
-                  il y a 1 heure
-                </span>
-                <span class="time" *ngIf="time(n?.createdAt) == 'il y a un jour'">
-                  il y a 1 jour
-                </span>
-                <span class="time" *ngIf="time(n?.createdAt) == 'il y a un mois'">
-                  il y a 1 mois
-                </span><br>
+              </span>
+              <span
+                class="time"
+                *ngIf="time(n?.createdAt) == 'il y a une minute'"
+              >
+                il y a 1 minute
+              </span>
+              <span
+                class="time"
+                *ngIf="time(n?.createdAt) == 'il y a une heure'"
+              >
+                il y a 1 heure
+              </span>
+              <span class="time" *ngIf="time(n?.createdAt) == 'il y a un jour'">
+                il y a 1 jour
+              </span>
+              <span class="time" *ngIf="time(n?.createdAt) == 'il y a un mois'">
+                il y a 1 mois </span
+              ><br />
               <strong>
-                <span  class="mention-message-txt">
-                  {{n?.message}}
-                </span>
+                <span class="mention-message-txt"> {{n?.message}} </span>
               </strong>
             </ion-label>
-            <span class="see-icon" *ngIf="n?.type == 'MENTION'" (click)="goToDetailTeepz(n?.toId)">
+            <span
+              class="see-icon"
+              *ngIf="n?.type == 'MENTION'"
+              (click)="goToDetailTeepz(n?.toId)"
+            >
               <button mat-button>
                 <ion-icon name="eye-outline"></ion-icon>
               </button>
             </span>
-
-              </ion-item>
+          </ion-item>
 
           <div *ngIf="mentions.length === 0" class="empty-msg">
-            <span class="material-icons drafts">
-              record_voice_over
-            </span><br>
+            <span class="material-icons drafts"> record_voice_over </span><br />
             <span>Aucune mention ici</span>
           </div>
-
         </div>
       </mat-tab>
       <mat-tab label="INVITATION">
-        <ion-refresher style="position: absolute;z-index: 2000;" slot="fixed"
-          (ionRefresh)="doRefreshInvitation($event)">
+        <ion-refresher
+          style="position: absolute; z-index: 2000"
+          slot="fixed"
+          (ionRefresh)="doRefreshInvitation($event)"
+        >
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
         <div>
           <ion-item *ngFor="let i of invitations;trackBy: trackByFn ">
-            <div class='round-img-post'>
+            <div class="round-img-post">
               {{i?.pseudo | slice:0:1| uppercase}}
             </div>
-            <ion-label><b> {{i?.pseudo}} </b><br> <span style="font-size: 11px;">
-                {{time(i?.createdAt) }} </span> <br>
+            <ion-label
+              ><b> {{i?.pseudo}} </b><br />
+              <span style="font-size: 11px"> {{time(i?.createdAt) }} </span>
+              <br />
               <div class="example-button-row">
-                <button class="btn-accent" (click)="acceptInvitation(i)" mat-raised-button color="accent">
-                  <span *ngIf="!loading">
-                    Accepter
-                  </span>
+                <button
+                  class="btn-accent"
+                  (click)="acceptInvitation(i)"
+                  mat-raised-button
+                  color="accent"
+                >
+                  <span *ngIf="!loading"> Accepter </span>
                   <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-
-
                 </button>
-                
               </div>
             </ion-label>
           </ion-item>
@@ -246,46 +335,57 @@
             <div class="round-img-post">
               {{i?.pseudo | slice:0:1| uppercase}}
             </div>
-            <ion-label><b> {{i?.pseudo}} </b><br> <span style="font-size: 11px;">
-                {{time(i?.createdAt) }} </span> <br>
+            <ion-label
+              ><b> {{i?.pseudo}} </b><br />
+              <span style="font-size: 11px"> {{time(i?.createdAt) }} </span>
+              <br />
               <div class="example-button-row">
-                <button class="btn-accent" (click)="acceptInvitation(i)" mat-raised-button color="accent">
-                  <span *ngIf="!loading">
-                    Accepter
-                  </span>
+                <button
+                  class="btn-accent"
+                  (click)="acceptInvitation(i)"
+                  mat-raised-button
+                  color="accent"
+                >
+                  <span *ngIf="!loading"> Accepter </span>
                   <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-
-
                 </button>
-
               </div>
             </ion-label>
           </ion-item>
         </div>
 
         <div>
-          <ion-item *ngFor="let i of links;trackBy: trackByFn " (click)="presentActionSheet(i)">
+          <ion-item
+            *ngFor="let i of links;trackBy: trackByFn "
+            (click)="presentActionSheet(i)"
+          >
             <div class="round-img-post">
               {{i?.pseudo | slice:0:1| uppercase}}
             </div>
-            <ion-label><b> {{i?.pseudo}} </b><br> <span style="font-size: 11px;">
-                {{time(i?.createdAt) }} </span> 
-                <button style="float: right;" color="accent" class="btn-accent-link" mat-raised-button>Mise en relation</button>
-               <br>
-              <div class="example-button-row">
-
-              </div>
+            <ion-label
+              ><b> {{i?.pseudo}} </b><br />
+              <span style="font-size: 11px"> {{time(i?.createdAt) }} </span>
+              <button
+                style="float: right"
+                color="accent"
+                class="btn-accent-link"
+                mat-raised-button
+              >
+                Mise en relation
+              </button>
+              <br />
+              <div class="example-button-row"></div>
             </ion-label>
           </ion-item>
         </div>
 
-        <div *ngIf="invitations?.length == 0 && links?.length == 0 && invitationsSms?.length == 0" class="empty-msg">
-          <span class="material-icons drafts">
-            drafts
-          </span><br>
+        <div
+          *ngIf="invitations?.length == 0 && links?.length == 0 && invitationsSms?.length == 0"
+          class="empty-msg"
+        >
+          <span class="material-icons drafts"> drafts </span><br />
           <span>Aucune invitation ici</span>
         </div>
-
       </mat-tab>
     </mat-tab-group>
   </div>

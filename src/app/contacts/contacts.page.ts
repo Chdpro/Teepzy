@@ -1,10 +1,12 @@
-import { Component, NgZone, OnInit } from "@angular/core";
+import { Component, Input, NgZone, OnInit } from "@angular/core";
 import { Contacts } from "@ionic-native/contacts/ngx";
 import { ContactService } from "../providers/contact.service";
 import {
   ToastController,
   AlertController,
   MenuController,
+  NavParams,
+  ModalController,
 } from "@ionic/angular";
 import { SocialSharing } from "@ionic-native/social-sharing/ngx";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -19,6 +21,7 @@ import {
 import { Diagnostic } from "@ionic-native/diagnostic/ngx";
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
 import { Subscription } from "rxjs";
+import { MatSnackBar } from "@angular/material";
 
 @Component({
   selector: "app-contacts",
@@ -105,11 +108,17 @@ export class ContactsPage implements OnInit {
     private diagnostic: Diagnostic,
     private androidPermissions: AndroidPermissions,
     private zone: NgZone,
-    private contactService: ContactService
+    private contactService: ContactService,
+    private _snackBar: MatSnackBar,
+    private navParams: NavParams,
+    private modalController: ModalController
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
     this.previousRoute = this.route.snapshot.paramMap.get("previousUrl");
+    this.previousRoute
+      ? null
+      : (this.previousRoute = this.navParams.data.previousUrl);
   }
 
   ngOnInit() {
@@ -119,10 +128,19 @@ export class ContactsPage implements OnInit {
     this.getUsersOfCircle();
     if (this.previousRoute) {
       this.getCachedContacts();
+      this.openSnackBar();
     } else {
       this.getUserInfo(this.userId);
     }
     this.getTeepzrOutCircle();
+  }
+
+  dismiss() {
+    // using the injected ModalController this page
+    // can "dismiss" itself and optionally pass back data
+    this.modalController.dismiss({
+      dismissed: true,
+    });
   }
 
   CheckPermissions() {
@@ -492,6 +510,11 @@ export class ContactsPage implements OnInit {
           this.listTeepzrsToInvite.length = 1;
           this.highValueT = this.highValueT - 1;
           this.minus = 1;
+        } else {
+          localStorage.setItem(
+            "TeepzrToInvite",
+            JSON.stringify(this.listTeepzrsToInvite)
+          );
         }
       },
       (error) => {
@@ -499,6 +522,11 @@ export class ContactsPage implements OnInit {
           this.listTeepzrsToInvite.length = 1;
           this.highValueT = this.highValueT - 1;
           this.minus = 1;
+        } else {
+          localStorage.setItem(
+            "TeepzrToInvite",
+            JSON.stringify(this.listTeepzrsToInvite)
+          );
         }
       }
     );
@@ -682,6 +710,14 @@ export class ContactsPage implements OnInit {
     );
   }
 
+  openSnackBar(
+    message: string = "Consulter Nouveaux contacts",
+    action: string = "Actualiser"
+  ) {
+    this._snackBar.open(message, action);
+    this.getUserInfo(this.userId);
+  }
+
   async presentCancelInvitationConfirm(u) {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
@@ -689,7 +725,7 @@ export class ContactsPage implements OnInit {
       message: "Voulez-vous vraiment annuler? ",
       buttons: [
         {
-          text: "Cancel",
+          text: "Fermer",
           role: "cancel",
           cssClass: "secondary",
           handler: (blah) => {
@@ -697,7 +733,7 @@ export class ContactsPage implements OnInit {
           },
         },
         {
-          text: "Annuler",
+          text: "Je confirme",
           handler: () => {
             this.cancelInvitationToJoinCircle(u);
           },
@@ -797,6 +833,7 @@ export class ContactsPage implements OnInit {
 
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null;
+    this._snackBar.dismiss();
   }
 
   listSorter(array: any) {

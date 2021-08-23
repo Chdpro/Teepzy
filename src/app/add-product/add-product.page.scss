@@ -75,6 +75,19 @@
     display: block;
 }
 
+.code{
+    width: 30%;
+    margin-left: 36px;
+}
+
+.price{
+    width: 42%;
+    margin-right: 34px;
+}
+.currency-container{
+    display: flex;
+    flex-direction: row;
+}
 ion-icon{
     color: #ea4d4f;
 }

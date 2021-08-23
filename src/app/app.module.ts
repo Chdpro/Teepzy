@@ -20,7 +20,7 @@ import { SocialSharing } from "@ionic-native/social-sharing/ngx";
 import { Camera } from "@ionic-native/camera/ngx";
 import { FileTransfer } from "@ionic-native/file-transfer/ngx";
 import { FilePath } from "@ionic-native/file-path/ngx";
-import { MAT_DATE_LOCALE } from "@angular/material";
+import { MatSnackBar, MAT_DATE_LOCALE } from "@angular/material";
 import { DatapasseService } from "./providers/datapasse.service";
 import { OneSignal } from "@ionic-native/onesignal/ngx";
 import { CommentsPageModule } from "./comments/comments.module";
@@ -61,10 +61,10 @@ import { CacheModule } from "ionic-cache-observable";
 const config: SocketIoConfig = { url: base_url, options: {} };
 import { MentionModule } from "angular-mentions";
 import { RobotAlertPageModule } from "./robot-alert/robot-alert.module";
-import { AppUpdateModalPage } from "./app-update-modal/app-update-modal.page";
 import { AppUpdateModalPageModule } from "./app-update-modal/app-update-modal.module";
 import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
 import { LikersPageModule } from "./likers/likers.module";
+import { ContactsPageModule } from "./contacts/contacts.module";
 
 @NgModule({
   declarations: [AppComponent, Autosize],
@@ -104,6 +104,7 @@ import { LikersPageModule } from "./likers/likers.module";
     SocketIoModule.forRoot(config),
     MentionModule,
     LikersPageModule,
+    ContactsPageModule,
   ],
   providers: [
     StatusBar,
@@ -131,6 +132,7 @@ import { LikersPageModule } from "./likers/likers.module";
     NativeGeocoder,
     InAppBrowser,
     AppVersion,
+    MatSnackBar,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: MAT_DATE_LOCALE, useValue: "fr-FR" },
     {

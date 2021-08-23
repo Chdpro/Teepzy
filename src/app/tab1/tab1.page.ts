@@ -46,6 +46,8 @@ import {
 } from "@angular/animations";
 import { Socket } from "ng-socket-io";
 import { LikersPage } from "../likers/likers.page";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ContactsPage } from "../contacts/contacts.page";
 
 @Component({
   selector: "app-tab1",
@@ -120,7 +122,6 @@ export class Tab1Page implements OnInit {
 
   videoMuted = "";
   videoUrl = "";
-  newPostInfo = false;
 
   @ViewChild("feed", null) feed: ElementRef;
 
@@ -138,6 +139,7 @@ export class Tab1Page implements OnInit {
     public sanitizer: DomSanitizer,
     public actionSheetController: ActionSheetController,
     private contactService: ContactService,
+    private _snackBar: MatSnackBar,
     private socket: Socket
   ) {
     this.menuCtrl.enable(true, "first");
@@ -176,9 +178,7 @@ export class Tab1Page implements OnInit {
 
     this.getFeedNewPost().subscribe((info) => {
       // console.log(message)
-      info["userConcernedId"] === this.userId
-        ? (this.newPostInfo = true)
-        : null;
+      info["userConcernedId"] === this.userId ? this.openSnackBar() : null;
     });
   }
 
@@ -187,12 +187,14 @@ export class Tab1Page implements OnInit {
   ionViewWillEnter() {
     this.userId = localStorage.getItem("teepzyUserId");
     this.getUserInfo(this.userId);
-    if (this.networkService.networkStatus() === Offline) {
+    /* if (this.networkService.networkStatus() === Offline) {
       this.getFeedFromLocal();
     } else {
       this.getFeedFromLocalThenServer();
-    }
+    }*/
+    this.tutosTexts();
     this.isTutoSkip = localStorage.getItem("isTutoSkip");
+    let TeepzrToInvite = JSON.parse(localStorage.getItem("TeepzrToInvite"));
   }
 
   ngAfterViewInit() {}
@@ -202,6 +204,14 @@ export class Tab1Page implements OnInit {
       this.navigationSubscription.unsubscribe();
     }
     this.subscription ? this.subscription.unsubscribe() : null;
+  }
+
+  openSnackBar(
+    message: string = "Voir les Nouvelles publications",
+    action: string = "Voir"
+  ) {
+    this._snackBar.open(message, action);
+    this.getPosts(this.userId);
   }
 
   skipTuto() {
@@ -230,7 +240,7 @@ export class Tab1Page implements OnInit {
   tutosTexts() {
     this.contactService.tutotxts().subscribe((res) => {
       this.tutos = res;
-      //  console.log(this.tutos)
+      console.log(this.tutos);
     });
   }
 
@@ -368,9 +378,7 @@ export class Tab1Page implements OnInit {
   }
 
   doRefresh(event) {
-    //console.log('Begin async operation');
     setTimeout(() => {
-      // console.log('Async operation has ended');
       if (this.debutListPost === 0) this.getPosts(this.userId);
       event.target.complete();
     }, 400);
@@ -420,8 +428,18 @@ export class Tab1Page implements OnInit {
     );
   }
 
-  goToContacts() {
-    this.router.navigate(["/contacts", { previousUrl: "feeds" }]);
+  async goToContacts() {
+    // this.router.navigate(["/contacts", { previousUrl: "feeds" }]);
+    const modal = await this.modalController.create({
+      component: ContactsPage,
+      componentProps: { previousUrl: "feeds" },
+      cssClass: "likers-class",
+      backdropDismiss: false,
+      showBackdrop: true,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+    });
+    return await modal.present();
   }
 
   goToSearch() {

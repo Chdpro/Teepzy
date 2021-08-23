@@ -1,6 +1,18 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        *ngIf="!previousRoute"
+        defaultHref="/tabs/tab1"
+      ></ion-back-button>
+    </ion-buttons>
     <ion-title>Contacts</ion-title>
+    <ion-icon
+      *ngIf="previousRoute === 'feeds'"
+      (click)="dismiss()"
+      class="close-icon"
+      name="close-outline"
+    ></ion-icon>
   </ion-toolbar>
 </ion-header>
 
@@ -121,10 +133,10 @@
               expand="block"
               shape="round"
             >
-              <span *ngIf="previousRoute !== 'feeds'"> Mon profile </span>
-              <span *ngIf="previousRoute == 'feeds'">
+              <!--span *ngIf="previousRoute !== 'feeds'"> Mon profile </!--span>
+              <span-- *ngIf="previousRoute == 'feeds'">
                 Retour sur mon actualité
-              </span>
+              </span-->
             </ion-button>
           </ion-col>
           <ion-col size="2"> </ion-col>
@@ -215,10 +227,10 @@
               expand="block"
               shape="round"
             >
-              <span *ngIf="previousRoute !== 'feeds'"> Mon profile </span>
-              <span *ngIf="previousRoute == 'feeds'">
+              <!--span *ngIf="previousRoute !== 'feeds'"> Mon profile </!--span>
+              <span-- *ngIf="previousRoute == 'feeds'">
                 Retour sur mon actualité
-              </span>
+              </span-->
             </ion-button>
           </ion-col>
           <ion-col size="2"> </ion-col>

@@ -50,6 +50,26 @@
     <ion-row>
       <ion-col>
         <form class="example-form">
+          <ion-list (ionChange)="checkValue($event)">
+            <ion-radio-group
+              name="commercialAction"
+              [(ngModel)]="product.commercialAction"
+            >
+              <ion-item>
+                <ion-label>Vente</ion-label>
+                <ion-radio slot="start" value="VENTE"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>Echange</ion-label>
+                <ion-radio slot="start" value="ECHANGE"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Don</ion-label>
+                <ion-radio slot="start" value="DON"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-list>
           <mat-form-field class="example-full-width">
             <mat-label>TITRE</mat-label>
             <input
@@ -61,19 +81,30 @@
               placeholder="Nom du produit"
             />
           </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>PRIX</mat-label>
-            <input
-              matInput
-              name="price"
-              type="number"
-              #price="ngModel"
-              required
-              [(ngModel)]="product.price"
-              placeholder="Prix"
-              [disabled]="product.commercialAction === 'DON'"
-            />
-          </mat-form-field>
+          <span class="currency-container">
+            <mat-form-field class="code">
+              <mat-select [(ngModel)]="selected" name="code" required>
+                <mat-option value="Euro"> Euro </mat-option>
+                <mat-option value="USD"> Dollars US </mat-option>
+                <mat-option value="Fcfa"> F CFA </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width price">
+              <mat-label>PRIX</mat-label>
+              <input
+                matInput
+                name="price"
+                type="number"
+                #price="ngModel"
+                required
+                [(ngModel)]="product.price"
+                placeholder="Prix"
+                [disabled]="product.commercialAction === 'DON'"
+              />
+            </mat-form-field>
+          </span>
+
           <mat-form-field class="example-full-width">
             <textarea
               matInput
@@ -136,26 +167,6 @@
                 [(ngModel)]="postOnFeed"
               ></ion-checkbox>
             </ion-item>
-          </ion-list>
-
-          <ion-list (ionChange)="checkValue($event)">
-            <ion-radio-group
-              name="commercialAction"
-              [(ngModel)]="product.commercialAction"
-            >
-              <ion-item>
-                <ion-label>Don</ion-label>
-                <ion-radio slot="start" value="DON"></ion-radio>
-              </ion-item>
-              <ion-item>
-                <ion-label>Echange</ion-label>
-                <ion-radio slot="start" value="ECHANGE"></ion-radio>
-              </ion-item>
-              <ion-item>
-                <ion-label>Vente</ion-label>
-                <ion-radio slot="start" value="VENTE"></ion-radio>
-              </ion-item>
-            </ion-radio-group>
           </ion-list>
         </form>
       </ion-col>

@@ -35,12 +35,13 @@ export class AddProductPage implements OnInit {
     photo: [],
     tags: [],
     description: "",
-    price: 0,
+    price: "0",
     userPhoto_url: "",
     userPseudo: "",
-    commercialAction: "DON",
+    commercialAction: "VENTE",
   };
 
+  selected = "Euro";
   subscription: Subscription;
 
   listProducts = [];
@@ -84,7 +85,7 @@ export class AddProductPage implements OnInit {
 
   checkValue(value) {
     this.product.commercialAction = value.detail.value;
-    if (this.product.commercialAction === "DON") this.product.price = 0;
+    if (this.product.commercialAction === "DON") this.product.price = "0";
   }
 
   getUserInfo(userId) {
@@ -173,13 +174,14 @@ export class AddProductPage implements OnInit {
         backgroundColor: "#fff",
         userPseudo: this.user.pseudoIntime,
         commercialAction: this.product.commercialAction,
-        price: this.product.price,
+        price: this.product.price + this.selected,
         productId: "",
       };
       this.loading = true;
       this.tags.length > 0 ? (this.product.tags = this.tags) : null;
       this.product.userPhoto_url = this.user.photo;
       this.product.userPseudo = this.user.pseudoIntime;
+      this.product.price = this.product.price + this.selected;
       this.subscription = this.contactService
         .addProduct(this.product)
         .subscribe(
