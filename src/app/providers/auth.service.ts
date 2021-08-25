@@ -64,6 +64,15 @@ export class AuthService {
     );
   }
 
+  updateUserPhoto(user): Observable<any> {
+    let url = "stats/updateUserPhoto";
+    return this.http.post(
+      base_url + url,
+      JSON.stringify(user),
+      httpOptionsJson
+    );
+  }
+
   updateProfile2(user): Observable<any> {
     let url = "stats/updateProfile2";
     return this.http.post(

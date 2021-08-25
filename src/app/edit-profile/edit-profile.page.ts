@@ -17,6 +17,7 @@ import { DatapasseService } from "../providers/datapasse.service";
 import { MESSAGES } from "../constant/constant";
 import { RobotAlertPage } from "../robot-alert/robot-alert.page";
 import { UploadService } from "../providers/upload.service";
+import { ImageCropPage } from "../image-crop/image-crop.page";
 
 @Component({
   selector: "app-edit-profile",
@@ -26,16 +27,16 @@ import { UploadService } from "../providers/upload.service";
 export class EditProfilePage implements OnInit {
   profile1 = {
     pseudoIntime: "",
-    localisation: "localisation",
+    localisation: "",
     metier: "metier",
     userId: "",
     siteweb: "siteweb",
     socialsAmical: [],
     hobbies: [],
-    bio: "bio",
+    bio: "",
     photo: "",
-    tagsLabel: "Hobbies",
-    bioLabel: "Biographie",
+    tagsLabel: "Décrivez ce que vous aimez",
+    bioLabel: "Présentez-vous",
     isAllProfileCompleted: false,
   };
 
@@ -78,6 +79,7 @@ export class EditProfilePage implements OnInit {
   imageData;
   showModal = "hidden";
 
+  myImage = "";
   private swipeCoord?: [number, number];
   private swipeTime?: number;
 
@@ -100,11 +102,17 @@ export class EditProfilePage implements OnInit {
     private alertController: AlertController,
     private modalController: ModalController,
     private uploadService: UploadService,
-    private toasterController: ToastController
+    private toasterController: ToastController,
+    private dataPass: DatapasseService
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
     this.previousRoute = this.route.snapshot.paramMap.get("previousUrl");
+    this.subcription = this.dataPass.getUserPhoto().subscribe((photo) => {
+      if (photo) {
+        this.dispImags[0] = photo;
+      }
+    });
   }
 
   ngOnInit() {}
@@ -168,6 +176,9 @@ export class EditProfilePage implements OnInit {
     this.loading = true;
     let userId = localStorage.getItem("teepzyUserId");
     // update profile 1
+    this.socialsAdde2.length > 0
+      ? this.profile1.socialsAmical.concat(this.socialsAdde2)
+      : null;
     this.tags.length > 0 ? (this.profile1.hobbies = this.tags) : null;
     this.subcription = this.authService.updateProfile(this.profile1).subscribe(
       (res) => {
@@ -388,13 +399,13 @@ export class EditProfilePage implements OnInit {
         {
           text: "Choisir dans votre galerie",
           handler: () => {
-            this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+            this.pickImageDataUrl(this.camera.PictureSourceType.PHOTOLIBRARY);
           },
         },
         {
           text: "Utiliser la Camera",
           handler: () => {
-            this.pickImage(this.camera.PictureSourceType.CAMERA);
+            this.pickImageDataUrl(this.camera.PictureSourceType.CAMERA);
           },
         },
         {
@@ -421,12 +432,45 @@ export class EditProfilePage implements OnInit {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64 (DATA_URL):
         // let base64Image = 'data:image/jpeg;base64,' + imageData;
+        //this.myImage = 'data:image/jpeg;base64,' + imageData;
+
         this.dispImags[0] = (<any>window).Ionic.WebView.convertFileSrc(
           imageData
         );
         if (imageData) {
           this.imageData = imageData;
         }
+      },
+      (err) => {}
+    );
+  }
+
+  async presentCroppageModal(imageSelected) {
+    const modal = await this.modalController.create({
+      component: ImageCropPage,
+      cssClass: "my-custom-class",
+      componentProps: { imageSelected: imageSelected },
+    });
+    return await modal.present();
+  }
+
+  pickImageDataUrl(sourceType) {
+    const options: CameraOptions = {
+      quality: 20,
+      targetWidth: 600,
+      targetHeight: 600,
+      sourceType: sourceType,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+    };
+    this.camera.getPicture(options).then(
+      (imageData) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):
+        // let base64Image = 'data:image/jpeg;base64,' + imageData;
+        this.myImage = "data:image/jpeg;base64," + imageData;
+        this.presentCroppageModal(this.myImage);
       },
       (err) => {}
     );

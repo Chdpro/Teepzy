@@ -103,6 +103,11 @@ export class ProfilePage implements OnInit {
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
+    this.subscription = this.dataPass.getUserPhoto().subscribe((photo) => {
+      if (photo) {
+        this.user.photo = photo;
+      }
+    });
     this.route.queryParams.subscribe((params) => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.listProducts =

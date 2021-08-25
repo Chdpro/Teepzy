@@ -79,6 +79,10 @@ export class Tab1Page implements OnInit {
   };
   debutListPost = 0;
   endListPost = 1;
+
+  debutListTuto = 0;
+  endListTuto = 1;
+
   listComments = [];
   listCommentsOfComment = [];
   postId = "";
@@ -187,12 +191,11 @@ export class Tab1Page implements OnInit {
   ionViewWillEnter() {
     this.userId = localStorage.getItem("teepzyUserId");
     this.getUserInfo(this.userId);
-    /* if (this.networkService.networkStatus() === Offline) {
+    if (this.networkService.networkStatus() === Offline) {
       this.getFeedFromLocal();
     } else {
       this.getFeedFromLocalThenServer();
-    }*/
-    this.tutosTexts();
+    }
     this.isTutoSkip = localStorage.getItem("isTutoSkip");
     let TeepzrToInvite = JSON.parse(localStorage.getItem("TeepzrToInvite"));
   }
@@ -244,16 +247,6 @@ export class Tab1Page implements OnInit {
     });
   }
 
-  swipeLeft(event: any): any {
-    // console.log('Swipe Left', event);
-    this.stopVideo();
-  }
-
-  swipeRight(event: any): any {
-    // console.log('Swipe Right', event);
-    this.stopVideo();
-  }
-
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
@@ -273,24 +266,6 @@ export class Tab1Page implements OnInit {
       this.currentIndex = index;
       //   console.log(this.currentIndex)
     });
-  }
-
-  public next() {
-    this.slides.slideNext();
-    this.stopVideo();
-  }
-
-  public swipeNext() {
-    this.slides.slideNext();
-  }
-
-  public swipePrev() {
-    this.slides.slidePrev();
-  }
-
-  public prev() {
-    this.slides.slidePrev();
-    this.stopVideo();
   }
 
   dismissShareSheet() {
@@ -322,15 +297,6 @@ export class Tab1Page implements OnInit {
     //  this.onPlayerPause(this.api)
   }
 
-  swipeEvent(event?: Event) {
-    console.log(event);
-    // if (videoUrl) {
-    //  this.videoPlayers.nativeElement = document.getElementById(videoUrl)
-    // const nativeElement = this.videoPlayers.nativeElement
-    // nativeElement.pause()
-    // }
-  }
-
   isElementInViewPort(el) {
     const rect = el.getBoundingClientRect();
     const viewHeight = Math.max(
@@ -341,17 +307,39 @@ export class Tab1Page implements OnInit {
   }
 
   swipeUp(event: any) {
-    if (this.endListPost < this.listPosts.length) {
-      this.debutListPost++;
-      this.endListPost++;
+    this.debutListPost++;
+    this.endListPost++;
+    if (this.endListPost > this.listPosts.length) {
+      this.debutListTuto = 0;
+      this.endListTuto = 1;
+      this.tutosTexts();
     }
   }
+
   swipeDown(event: any) {
     if (this.debutListPost > 0) {
       this.debutListPost--;
       this.endListPost--;
     } else if (this.debutListPost === 0) {
       this.debutListPost = 0;
+    }
+  }
+
+  swipeUPTuto() {
+    //tuto swipes
+    if (this.endListTuto < this.tutos.length) {
+      this.debutListTuto++;
+      this.endListTuto++;
+    }
+  }
+
+  swipeDownTuto() {
+    //tuto swipes
+    this.debutListTuto--;
+    this.endListTuto--;
+    if (this.debutListTuto === 0) {
+      this.debutListPost = this.listPosts.length - 1;
+      this.endListPost = this.listPosts.length;
     }
   }
 
@@ -550,9 +538,6 @@ export class Tab1Page implements OnInit {
         listPosts.length > 0
           ? (this.listPosts = listPosts)
           : (this.listPosts = []);
-        if (this.listPosts.length === 0 && this.isTutoSkip !== "YES")
-          this.listPosts = [];
-        this.tutosTexts();
         this.getPosts(this.userId);
       });
   }
@@ -564,7 +549,6 @@ export class Tab1Page implements OnInit {
     this.subscription = this.contactService.getPosts(userId).subscribe(
       (res) => {
         this.listPosts = [];
-        console.log(res);
         if (res["data"] != null) {
           this.listPosts = res["data"];
           this.listPosts = this.listPosts.sort((a, b) => {
@@ -584,7 +568,6 @@ export class Tab1Page implements OnInit {
         this.timeCall = 0;
       },
       (error) => {
-        if (this.isTutoSkip !== "YES") this.listPosts = [];
         this.tutosTexts();
         this.loading = false;
         console.log(error);
@@ -597,10 +580,6 @@ export class Tab1Page implements OnInit {
       .feedsFromLocal()
       .subscribe((listPosts) => {
         listPosts ? (this.listPosts = listPosts) : (this.listPosts = []);
-        if (this.listPosts.length === 0 && this.isTutoSkip !== "YES")
-          console.log(this.listPosts);
-        this.listPosts = [];
-        this.tutosTexts();
         return listPosts;
       });
   }

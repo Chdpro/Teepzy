@@ -21,10 +21,16 @@
 
 
 .example-button-row-tuto{
-    float: right;
     width: 100%;
     display: flex;
-    margin-top: 104%;
+    justify-content: center;
+}
+
+.container-tuto{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
 }
 
 .left-btn{
@@ -85,6 +91,12 @@
     font-size: 27px;
     font-weight: 500;
     display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    width: 100%;
+    height: -webkit-fill-available;
+    text-align: center;
+    border-radius: 40px 40px 40px 40px ;
 }
 .slide3-img{
     border: none;
@@ -318,7 +330,6 @@ strong , small{
     margin-right: auto;
     line-height: 27px;
     top: 37px;
-    position: fixed;
     margin-left: 19px;
 }
 

@@ -487,6 +487,7 @@ export class ContactsPage implements OnInit {
                     prenom: e["prenom"],
                     phone: e["phone"],
                     photo: e["photo"],
+                    accept: e["accept"],
                     invited: true,
                   });
                 } else {
@@ -497,6 +498,7 @@ export class ContactsPage implements OnInit {
                       prenom: e["prenom"],
                       phone: e["phone"],
                       photo: e["photo"],
+                      accept: e["accept"],
                       invited: false,
                     });
                   }
@@ -714,8 +716,10 @@ export class ContactsPage implements OnInit {
     message: string = "Consulter Nouveaux contacts",
     action: string = "Actualiser"
   ) {
-    this._snackBar.open(message, action);
-    this.getUserInfo(this.userId);
+    let snackBarRef = this._snackBar.open(message, action);
+    snackBarRef.onAction().subscribe(() => {
+      this.getUserInfo(this.userId);
+    });
   }
 
   async presentCancelInvitationConfirm(u) {

@@ -252,6 +252,10 @@ const routes: Routes = [
     loadChildren: () =>
       import("./likers/likers.module").then((m) => m.LikersPageModule),
   },
+  {
+    path: 'image-crop',
+    loadChildren: () => import('./image-crop/image-crop.module').then( m => m.ImageCropPageModule)
+  },
 ];
 @NgModule({
   imports: [

@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Recadrer</ion-title>
+    <ion-icon
+      (click)="dismiss()"
+      class="close-icon"
+      name="close-outline"
+    ></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <image-cropper
+    [imageBase64]="myImage"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="4 / 3"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    outputType="base64"
+  >
+  </image-cropper>
+
+  <ion-card *ngIf="croppedImage">
+    <ion-card-header>
+      <ion-card-title>Image recadrée</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <img alt="" [src]="croppedImage" />
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<!-- Footer without a border -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-button (click)="upLoadImage()" expand="full">
+      <span *ngIf="loading == false">Valider</span>
+      <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -6,6 +6,7 @@ import {
   LoadingController,
   MenuController,
   ActionSheetController,
+  ModalController,
 } from "@ionic/angular";
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
 import {
@@ -18,6 +19,8 @@ import { ContactService } from "../providers/contact.service";
 import { MESSAGES } from "../constant/constant";
 import { Subscription } from "rxjs";
 import { UploadService } from "../providers/upload.service";
+import { ImageCropPage } from "../image-crop/image-crop.page";
+import { DatapasseService } from "../providers/datapasse.service";
 
 @Component({
   selector: "app-signup-final",
@@ -51,6 +54,7 @@ export class SignupFinalPage implements OnInit {
   loadingP = false;
 
   subscription: Subscription;
+  myImage = "";
   constructor(
     private authService: AuthService,
     public router: Router,
@@ -61,8 +65,16 @@ export class SignupFinalPage implements OnInit {
     private camera: Camera,
     private uploadService: UploadService,
     public actionSheetController: ActionSheetController,
-    private contactService: ContactService
-  ) {}
+    private contactService: ContactService,
+    private modalController: ModalController,
+    private dataPass: DatapasseService
+  ) {
+    this.subscription = this.dataPass.getUserPhoto().subscribe((photo) => {
+      if (photo) {
+        this.dispImags[0] = photo;
+      }
+    });
+  }
 
   ngOnInit() {
     let usr = this.route.snapshot.queryParamMap;
@@ -182,13 +194,13 @@ export class SignupFinalPage implements OnInit {
         {
           text: "Choisir dans votre galerie",
           handler: () => {
-            this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+            this.pickImageDataUrl(this.camera.PictureSourceType.PHOTOLIBRARY);
           },
         },
         {
           text: "Utiliser la Camera",
           handler: () => {
-            this.pickImage(this.camera.PictureSourceType.CAMERA);
+            this.pickImageDataUrl(this.camera.PictureSourceType.CAMERA);
           },
         },
         {
@@ -225,6 +237,37 @@ export class SignupFinalPage implements OnInit {
       (err) => {
         // Handle error
       }
+    );
+  }
+
+  async presentCroppageModal(imageSelected) {
+    const modal = await this.modalController.create({
+      component: ImageCropPage,
+      cssClass: "my-custom-class",
+      componentProps: { imageSelected: imageSelected },
+    });
+    return await modal.present();
+  }
+
+  pickImageDataUrl(sourceType) {
+    const options: CameraOptions = {
+      quality: 20,
+      targetWidth: 600,
+      targetHeight: 600,
+      sourceType: sourceType,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+    };
+    this.camera.getPicture(options).then(
+      (imageData) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):
+        // let base64Image = 'data:image/jpeg;base64,' + imageData;
+        this.myImage = "data:image/jpeg;base64," + imageData;
+        this.presentCroppageModal(this.myImage);
+      },
+      (err) => {}
     );
   }
 

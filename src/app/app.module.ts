@@ -65,6 +65,8 @@ import { AppUpdateModalPageModule } from "./app-update-modal/app-update-modal.mo
 import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
 import { LikersPageModule } from "./likers/likers.module";
 import { ContactsPageModule } from "./contacts/contacts.module";
+import { ImageCropPageModule } from "./image-crop/image-crop.module";
+import { Base64ToGallery } from "@ionic-native/base64-to-gallery/ngx";
 
 @NgModule({
   declarations: [AppComponent, Autosize],
@@ -105,6 +107,7 @@ import { ContactsPageModule } from "./contacts/contacts.module";
     MentionModule,
     LikersPageModule,
     ContactsPageModule,
+    ImageCropPageModule,
   ],
   providers: [
     StatusBar,
@@ -133,6 +136,7 @@ import { ContactsPageModule } from "./contacts/contacts.module";
     InAppBrowser,
     AppVersion,
     MatSnackBar,
+    Base64ToGallery,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: MAT_DATE_LOCALE, useValue: "fr-FR" },
     {
