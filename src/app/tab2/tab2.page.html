@@ -34,13 +34,8 @@
             </button>
             <form class="example-form">
               <mat-form-field class="example-full-width search-input">
-                <mat-label>Rechercher</mat-label>
-                <input
-                  [(ngModel)]="search"
-                  name="search"
-                  matInput
-                  placeholder="Taper pour filtrer"
-                />
+                <mat-label> {{'SEARCH'|translate}}</mat-label>
+                <input [(ngModel)]="search" name="search" matInput />
               </mat-form-field>
             </form>
           </span>
@@ -60,7 +55,7 @@
       color="warn"
       mat-align-tabs="center"
     >
-      <mat-tab label="TOUS">
+      <mat-tab [label]="'ALL'|translate">
         <ion-refresher
           style="position: absolute; z-index: 2000"
           slot="fixed"
@@ -84,7 +79,7 @@
               size="small"
               fill="outline"
             >
-              <span *ngIf="!loadingOld">Les plus récents</span>
+              <span *ngIf="!loadingOld"> {{'RECENT'|translate}}</span>
               <ion-spinner
                 *ngIf="loadingOld"
                 color="primary"
@@ -166,13 +161,13 @@
                 <span
                   *ngIf="n?.icon_name === 'message' && n?.fromId !== userId"
                 >
-                  un nouveau message
+                  {{'NEW_MESSAGE'|translate}}
                 </span>
 
                 <span
                   *ngIf="n?.icon_name === 'message' && n?.fromId === userId"
                 >
-                  répondu à votre message
+                  {{'RESPONSE_MESSAGE'|translate}}
                 </span>
               </strong>
             </ion-label>
@@ -195,7 +190,7 @@
               size="small"
               fill="outline"
             >
-              <span *ngIf="!loadingOld">Les plus anciens</span>
+              <span *ngIf="!loadingOld"> {{'OLDEST'|translate}}</span>
               <ion-spinner
                 *ngIf="loadingOld"
                 color="primary"
@@ -210,11 +205,11 @@
             class="empty-msg"
           >
             <span class="material-icons drafts"> notifications </span><br />
-            <span>Aucune notification ici</span>
+            <span>{{'NO_NOTIFICATIONS'|translate}}</span>
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="MENTION">
+      <mat-tab [label]="'MENTION'|translate">
         <ion-refresher
           style="position: absolute; z-index: 2000"
           slot="fixed"
@@ -294,11 +289,11 @@
 
           <div *ngIf="mentions.length === 0" class="empty-msg">
             <span class="material-icons drafts"> record_voice_over </span><br />
-            <span>Aucune mention ici</span>
+            <span>{{'NO_MENTION'| translate}}</span>
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="INVITATION">
+      <mat-tab [label]="'INVITATION'| translate">
         <ion-refresher
           style="position: absolute; z-index: 2000"
           slot="fixed"
@@ -322,7 +317,7 @@
                   mat-raised-button
                   color="accent"
                 >
-                  <span *ngIf="!loading"> Accepter </span>
+                  <span *ngIf="!loading"> {{'ACCEPT'| translate}} </span>
                   <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
                 </button>
               </div>
@@ -346,7 +341,7 @@
                   mat-raised-button
                   color="accent"
                 >
-                  <span *ngIf="!loading"> Accepter </span>
+                  <span *ngIf="!loading"> {{'ACCEPT'| translate}} </span>
                   <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
                 </button>
               </div>
@@ -371,7 +366,7 @@
                 class="btn-accent-link"
                 mat-raised-button
               >
-                Mise en relation
+                {{'LINK_BTN'| translate}}
               </button>
               <br />
               <div class="example-button-row"></div>
@@ -384,7 +379,7 @@
           class="empty-msg"
         >
           <span class="material-icons drafts"> drafts </span><br />
-          <span>Aucune invitation ici</span>
+          <span> {{'NO_INVITATION'| translate}}</span>
         </div>
       </mat-tab>
     </mat-tab-group>

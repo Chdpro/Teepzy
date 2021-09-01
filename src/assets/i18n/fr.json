@@ -94,7 +94,26 @@
     "LINK_TITLE":"LINK TO",
     "NO_MATCH":"Aucun match pour ce post",
     "NO_USER_TO_MATCH":"Aucun utilisateur à matcher à cette offre",
-    "SEND":"Envoyer"
+    "SEND":"Envoyer",
+
+
+    "TAB_ALL":"TOUS",
+    "MENTION":"MENTION",
+    "INVITATION":"INVITATION",
+    "RECENT":"Recents",
+    "OLDEST":"Oldest ones",
+    "NEW_MESSAGE":"un nouveau message",
+    "RESPONSE_MESSAGE":"répondu à votre message",
+    "NO_NOTIFICATIONS":"Aucune notification ici",
+    "NO_MENTION":"Aucune mention ici",
+    "NO_INVITATION":"Aucune invitation ici",
+    "ACCEPT":"Accepter",
+    "LINK_BTN":"Mise en relation",
+
+    "POST_BTN":"Mise en relation",
+    "POST_TEXTAREA_LABEL":"Tapez ce que vous voulez",
+    "LIMIT_CHAR":"limite maximale de caractère à 130",
+    "PLACEHOLDER_INPUT":"Ex. Je recherche un graphiste..."
 
 
 }

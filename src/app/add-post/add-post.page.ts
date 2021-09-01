@@ -29,6 +29,7 @@ import { Router } from "@angular/router";
 import { File } from "@ionic-native/file/ngx";
 import { ImageCroppedEvent, ImageCropperComponent } from "ngx-image-cropper";
 import { UploadService } from "../providers/upload.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-add-post",
@@ -100,11 +101,16 @@ export class AddPostPage implements OnInit {
     private router: Router,
     private file: File,
     private webView: WebView,
-    private DomSanitizer: DomSanitizer
+    private DomSanitizer: DomSanitizer,
+    private translate: TranslateService
   ) {
     //this.menuCtrl.enable(false);
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
+
+    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(language);
   }
 
   ngOnInit() {}

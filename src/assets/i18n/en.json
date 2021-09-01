@@ -93,7 +93,27 @@
     "LINK_TITLE":"LINK TO",
     "NO_MATCH":"No match for this post",
     "NO_USER_TO_MATCH":"No user to be matched to this post",
-    "SEND":"Send"
+    "SEND":"Send",
+
+    "TAB_ALL":"ALL",
+    "MENTION":"MENTION",
+    "INVITATION":"INVITATION",
+    "RECENT":"Recents",
+    "OLDEST":"Oldest ones",
+    "NEW_MESSAGE":"a new message",
+    "RESPONSE_MESSAGE":"answered to your message",
+    "NO_NOTIFICATIONS":"No notification",
+    "NO_MENTION":"No mention",
+    "NO_INVITATION":"No invitation",
+    "ACCEPT":"Accept",
+    "LINK_BTN":"Link To",
+
+
+    "POST_BTN":"Post",
+    "POST_TEXTAREA_LABEL":"Type what you want",
+    "LIMIT_CHAR":"maximum character limit at 130",
+    "PLACEHOLDER_INPUT":"Ex. I am looking for a graphic designer..."
+
 
 
 
