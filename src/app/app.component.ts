@@ -26,6 +26,7 @@ import {
 import { AppVersion } from "@ionic-native/app-version/ngx";
 import { Clipboard } from "@ionic-native/clipboard/ngx";
 import { AppUpdateModalPage } from "./app-update-modal/app-update-modal.page";
+import { TranslateService } from "@ngx-translate/core";
 
 export enum ConnectionStatus {
   Online,
@@ -47,6 +48,15 @@ export class AppComponent {
   subscription: Subscription;
 
   playerId = "";
+  language = "en";
+  languages = [
+    {
+      code: "en",
+      language: "English",
+      flag: "../../assets/img/united-kingdom.png",
+    },
+    { code: "fr", language: "Français", flag: "../../assets/img/france.png" },
+  ];
   androidPermissionsList = [
     PERMISSION.WRITE_EXTERNAL_STORAGE,
     PERMISSION.READ_EXTERNAL_STORAGE,
@@ -69,12 +79,18 @@ export class AppComponent {
     private nativeGeocoder: NativeGeocoder,
     private appVersion: AppVersion,
     private clipboard: Clipboard,
+    private translate: TranslateService,
     private modalController: ModalController
   ) {
     this.initializeApp();
     this.sideMenu();
     this.oneSignale();
     const event = fromEvent(document, "backbutton");
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.translate.addLangs(["en", "fr"]);
+    // Set default language
+    this.translate.setDefaultLang(this.language);
+
     event.subscribe(async () => {
       this.navCtrl.pop(); // I have used for my case
     });
@@ -95,7 +111,7 @@ export class AppComponent {
     let id = localStorage.getItem("teepzyUserId");
     this.userId = id;
     this.getPosition();
-    this.getUserInfo(this.userId, token);
+    //this.getUserInfo(this.userId, token);
   }
 
   initializeApp() {
@@ -104,6 +120,13 @@ export class AppComponent {
       this.splashScreen.hide();
       this.getAppVersion();
     });
+  }
+
+  //Switch language
+  translateLanguageTo(lang: Event) {
+    this.translate.use(this.language);
+    console.log(lang);
+    localStorage.setItem("teepzyUserLang", this.language);
   }
 
   getAppVersionFromServer() {
@@ -169,6 +192,7 @@ export class AppComponent {
   }
   getAppVersion() {
     this.platform.ready().then(() => {
+      //this.presentAppUpdateModal();
       this.appVersion.getVersionNumber().then((version) => {
         this.appV = version;
         if (this.platform.is("android")) {

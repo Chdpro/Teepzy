@@ -22,6 +22,7 @@ import { Diagnostic } from "@ionic-native/diagnostic/ngx";
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
 import { Subscription } from "rxjs";
 import { MatSnackBar } from "@angular/material";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-contacts",
@@ -53,12 +54,16 @@ export class ContactsPage implements OnInit {
 
     {
       name: { givenName: "Ridy", familyName: "FRANCE" },
-      phoneNumbers: [{ value: "+330663534043" }],
+      phoneNumbers: [{ value: "+33663534043" }],
     },
 
     {
       name: { givenName: "Debor", familyName: "oueha" },
       phoneNumbers: [{ value: "+22990980000" }, { value: "+229 90 98 00 00" }],
+    },
+    {
+      name: { givenName: "Guy", familyName: "BSD" },
+      phoneNumbers: [{ value: "+229 96883041" }],
     },
     {
       name: { givenName: "Deborah", familyName: "Houeha" },
@@ -111,7 +116,8 @@ export class ContactsPage implements OnInit {
     private contactService: ContactService,
     private _snackBar: MatSnackBar,
     private navParams: NavParams,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private translate: TranslateService
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
@@ -119,6 +125,9 @@ export class ContactsPage implements OnInit {
     this.previousRoute
       ? null
       : (this.previousRoute = this.navParams.data.previousUrl);
+    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(language);
   }
 
   ngOnInit() {
@@ -704,6 +713,7 @@ export class ContactsPage implements OnInit {
         this.contactService.setLocalData(CACHE_KEYS.PROFILE, res["data"]);
         if (this.userInfo["isContactAuthorized"] == true) {
           this.loadContacts();
+          // this.loadContactsTest();
         }
       },
       (error) => {
@@ -713,7 +723,7 @@ export class ContactsPage implements OnInit {
   }
 
   openSnackBar(
-    message: string = "Consulter Nouveaux contacts",
+    message: string = "Nouveaux contacts",
     action: string = "Actualiser"
   ) {
     let snackBarRef = this._snackBar.open(message, action);

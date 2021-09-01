@@ -1,10 +1,11 @@
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouteReuseStrategy } from "@angular/router";
 
 import { IonicModule, IonicRouteStrategy } from "@ionic/angular";
 import { SplashScreen } from "@ionic-native/splash-screen/ngx";
 import { StatusBar } from "@ionic-native/status-bar/ngx";
+import { FormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -68,6 +69,16 @@ import { ContactsPageModule } from "./contacts/contacts.module";
 import { ImageCropPageModule } from "./image-crop/image-crop.module";
 import { Base64ToGallery } from "@ionic-native/base64-to-gallery/ngx";
 
+import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+
+import { Globalization } from "@ionic-native/globalization/ngx";
+import { MaterialModule } from "./material.module";
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+}
+
 @NgModule({
   declarations: [AppComponent, Autosize],
   entryComponents: [],
@@ -83,6 +94,7 @@ import { Base64ToGallery } from "@ionic-native/base64-to-gallery/ngx";
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
+    MaterialModule,
     // AddPostPageModule,
     EditPostPageModule,
     AppUpdateModalPageModule,
@@ -98,6 +110,7 @@ import { Base64ToGallery } from "@ionic-native/base64-to-gallery/ngx";
     VgBufferingModule,
     CacheModule,
     IonicSwipeAllModule,
+    FormsModule,
     //CircleMembersPageModule,
     CommentsPageModule,
     LinkSheetPageModule,
@@ -108,6 +121,13 @@ import { Base64ToGallery } from "@ionic-native/base64-to-gallery/ngx";
     LikersPageModule,
     ContactsPageModule,
     ImageCropPageModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [
     StatusBar,
@@ -137,6 +157,7 @@ import { Base64ToGallery } from "@ionic-native/base64-to-gallery/ngx";
     AppVersion,
     MatSnackBar,
     Base64ToGallery,
+    Globalization,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: MAT_DATE_LOCALE, useValue: "fr-FR" },
     {
@@ -144,6 +165,8 @@ import { Base64ToGallery } from "@ionic-native/base64-to-gallery/ngx";
       useClass: HammerGestureConfig,
     },
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
   //ionic cordova plugin remove cordova-plugin-file
   //ionic cordova plugin remove cordova-plugin-file-transfer
   //ionic cordova plugin remove cordova-plugin-filepath

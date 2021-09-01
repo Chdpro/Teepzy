@@ -1,74 +1,100 @@
-<ion-content color="success" class="content" style="background-color: #F0EFEF;">
+<ion-content color="success" class="content" style="background-color: #f0efef">
   <ion-refresher slot="fixed" (ionRefresh)="closeModalOnSwipeDown($event)">
   </ion-refresher>
   <div>
     <ion-header class="ion-no-border">
       <ion-toolbar color="success">
-        <ion-title> {{listComments?.length || '0' }} Commentaire <span style="margin-left: -5px;"
-            *ngIf="listComments?.length > 1">s</span> </ion-title>
-        <ion-icon (click)="dismiss()" class="close-icon" name="close-outline"></ion-icon>
+        <ion-title>
+          {{listComments?.length || '0' }} {{'COMMENT'|translate}}
+          <span style="margin-left: -5px" *ngIf="listComments?.length > 1"
+            >s</span
+          >
+        </ion-title>
+        <ion-icon
+          (click)="dismiss()"
+          class="close-icon"
+          name="close-outline"
+        ></ion-icon>
       </ion-toolbar>
     </ion-header>
 
     <ion-grid color="success">
       <ion-row>
         <ion-col size="12">
-
-          <mat-card *ngFor="let c of listComments?.reverse();trackBy: trackByFn " class="example-card cmt">
+          <mat-card
+            *ngFor="let c of listComments?.reverse();trackBy: trackByFn "
+            class="example-card cmt"
+          >
             <mat-card-header>
               <div mat-card-avatar>
-                <img *ngIf="c?.userPhoto" mat-card-image class="mat-img" [src]="c?.userPhoto" alt="">
-                <div *ngIf="c?.userPhoto == null || c?.userPhoto == '' " class="round-img">
+                <img
+                  *ngIf="c?.userPhoto"
+                  mat-card-image
+                  class="mat-img"
+                  [src]="c?.userPhoto"
+                  alt=""
+                />
+                <div
+                  *ngIf="c?.userPhoto == null || c?.userPhoto == '' "
+                  class="round-img"
+                >
                   {{c?.userPseudo | slice:0:1| uppercase}}
                 </div>
-
               </div>
-
 
               <mat-card-title>{{c?.userPseudo}}</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <p class="content-comment">
-                {{c?.comment}}
-              </p>
-
+              <p class="content-comment">{{c?.comment}}</p>
             </mat-card-content>
             <mat-card-actions>
-
-              <button (click)="getCommentsOfComment(c?._id)" class="btn-icon answers" mat-button
-                aria-label="Example icon button with a home icon">
+              <button
+                (click)="getCommentsOfComment(c?._id)"
+                class="btn-icon answers"
+                mat-button
+                aria-label="Example icon button with a home icon"
+              >
                 Voir les réponses( {{ c?.listCommentsOfComment || 0 }} )
               </button>
             </mat-card-actions>
             <div>
-              <div *ngFor="let cc of listCommentsOfComment?.reverse();let i = index;trackBy: trackByFn ">
-                <div *ngIf="cc?.commentId == c?._id" class="mat-res" >
+              <div
+                *ngFor="let cc of listCommentsOfComment?.reverse();let i = index;trackBy: trackByFn "
+              >
+                <div *ngIf="cc?.commentId == c?._id" class="mat-res">
                   <div mat-card-avatar>
-                    <img mat-card-image *ngIf="cc?.userPhoto" class="mat-img" [src]="cc?.userPhoto" alt="">
-                    <div *ngIf="cc?.userPhoto == null || cc?.userPhoto == '' " class="round-img">
+                    <img
+                      mat-card-image
+                      *ngIf="cc?.userPhoto"
+                      class="mat-img"
+                      [src]="cc?.userPhoto"
+                      alt=""
+                    />
+                    <div
+                      *ngIf="cc?.userPhoto == null || cc?.userPhoto == '' "
+                      class="round-img"
+                    >
                       {{cc?.userPseudo | slice:0:1| uppercase}}
                     </div>
                   </div>
-                  <mat-card-title class="res-cmt-pseudo">{{cc?.userPseudo}}</mat-card-title>
-                  <br>
-                  <div style="margin-left: 43px;">
-                    {{cc?.comment}}
-                  </div>
-
+                  <mat-card-title class="res-cmt-pseudo"
+                    >{{cc?.userPseudo}}</mat-card-title
+                  >
+                  <br />
+                  <div style="margin-left: 43px">{{cc?.comment}}</div>
                 </div>
               </div>
             </div>
-          
           </mat-card>
-
         </ion-col>
       </ion-row>
     </ion-grid>
 
-
-
-    <div *ngIf="listComments?.length == 0" style="margin-top: 112px;text-align: center;">
-      Aucun Commentaire pour ce post
+    <div
+      *ngIf="listComments?.length == 0"
+      style="margin-top: 112px; text-align: center"
+    >
+      {{'NO_COMMENT'|translate}}
     </div>
 
     <!--div class="fixContainer">
@@ -84,40 +110,63 @@
         </div>
       </mat-card>
     </div-->
-
-
-
   </div>
-
 </ion-content>
 <ion-footer>
   <ion-toolbar>
     <ion-row *ngIf="!showResponsePanel" class="message_row">
-
       <ion-col size="9">
         <ion-item no-lines>
-          <ion-textarea #myInput  cols="20" type="text" placeholder="Ajouter un commentaire" name="comment" required
-            #comment="ngModel" rows="15" cols="60" [(ngModel)]="commentT.comment" autosize>
+          <ion-textarea
+            #myInput
+            cols="20"
+            type="text"
+            [placeholder]="'ADD_COMMENT'|translate"
+            name="comment"
+            required
+            #comment="ngModel"
+            rows="15"
+            cols="60"
+            [(ngModel)]="commentT.comment"
+            autosize
+          >
           </ion-textarea>
         </ion-item>
       </ion-col>
       <ion-col size="3">
-        <button ion-button clear color="primary" class="send-btn" (click)="addCommentToPost()" size="small"
-          [disabled]="comment.errors?.required">
+        <button
+          ion-button
+          clear
+          color="primary"
+          class="send-btn"
+          (click)="addCommentToPost()"
+          size="small"
+          [disabled]="comment.errors?.required"
+        >
           <ion-icon name="send"></ion-icon>
         </button>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col *ngIf="showResponsePanel">
-        <span  style="display: flex;margin-top: 16px;">
+        <span style="display: flex; margin-top: 16px">
           <!-- Textarea in an item with a placeholder -->
           <ion-item class="ion-textarea2">
-            <ion-textarea matInput  name="commentCc" required #commentCc="ngModel" [(ngModel)]="commentC.comment"
-              placeholder="Répondre à ce commentaire..."></ion-textarea>
+            <ion-textarea
+              matInput
+              name="commentCc"
+              required
+              #commentCc="ngModel"
+              [(ngModel)]="commentC.comment"
+              placeholder="'ANSWER_COMMENT'|translate"
+            ></ion-textarea>
           </ion-item>
-          <button (click)="addCommentToComment()" [disabled]="commentCc.errors?.required"
-            style="font-size: 30px;margin-top: -36px;" mat-button>
+          <button
+            (click)="addCommentToComment()"
+            [disabled]="commentCc.errors?.required"
+            style="font-size: 30px; margin-top: -36px"
+            mat-button
+          >
             <ion-icon name="send-outline"></ion-icon>
           </button>
         </span>

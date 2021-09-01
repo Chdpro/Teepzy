@@ -1,7 +1,11 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="success">
-    <ion-title>LINK TO</ion-title>
-    <ion-icon (click)="dismiss()" class="close-icon" name="close-outline"></ion-icon>
+    <ion-title>{{'LINK_TITLE'|translate}}</ion-title>
+    <ion-icon
+      (click)="dismiss()"
+      class="close-icon"
+      name="close-outline"
+    ></ion-icon>
   </ion-toolbar>
 </ion-header>
 
@@ -9,86 +13,121 @@
   <ion-refresher slot="fixed" (ionRefresh)="closeModalOnSwipeDown($event)">
     <!--ion-refresher-content></ion-refresher-content-->
   </ion-refresher>
-  <div class="mat-content" (touchstart)="swipe2($event, 'start')" (touchend)="swipe2($event, 'end')">
-    <mat-tab-group [(selectedIndex)]="selectedTab" color="warn" mat-align-tabs="center">
+  <div
+    class="mat-content"
+    (touchstart)="swipe2($event, 'start')"
+    (touchend)="swipe2($event, 'end')"
+  >
+    <mat-tab-group
+      [(selectedIndex)]="selectedTab"
+      color="warn"
+      mat-align-tabs="center"
+    >
       <mat-tab *ngIf="typeMatch =='MATCHES'" label="Match">
         <div class="item-wrapper">
-
-          <ion-item *ngFor="let m of matches| filter:filtre ;trackBy: trackByFn " (click)="addLink(m)">
-            <div *ngIf="m?.photo =='' || m?.photo == null" class="round-img-post">
+          <ion-item
+            *ngFor="let m of matches| filter:filtre ;trackBy: trackByFn "
+            (click)="addLink(m)"
+          >
+            <div
+              *ngIf="m?.photo =='' || m?.photo == null"
+              class="round-img-post"
+            >
               {{m?.pseudoIntime | slice:0:1| uppercase}}
             </div>
-            <img mat-card-image class="" *ngIf="m?.photo" [src]="m?.photo" alt="">
-            <div>
-              {{m?.pseudoIntime}}
-            </div>
+            <img
+              mat-card-image
+              class=""
+              *ngIf="m?.photo"
+              [src]="m?.photo"
+              alt=""
+            />
+            <div>{{m?.pseudoIntime}}</div>
             <ion-label>
-
-              <ion-checkbox name="ckeck" [(ngModel)]="checkItems[m._id]" style="float: right;" color="primary">
+              <ion-checkbox
+                name="ckeck"
+                [(ngModel)]="checkItems[m._id]"
+                style="float: right"
+                color="primary"
+              >
               </ion-checkbox>
-
             </ion-label>
           </ion-item>
-   
-
-
-
         </div>
 
         <div *ngIf="!matches || matches.length == 0" class="match-txt">
-          Aucun match pour ce post
+          {{'NO_MATCH'|translate}}
         </div>
       </mat-tab>
-      <mat-tab *ngIf="typeMatch =='RECHERCHE'" label="Recherche">
-
+      <mat-tab *ngIf="typeMatch =='RECHERCHE'" [label]="'SEARCH'| translate">
         <div class="input-container">
-          <input class="input-s" type="text" [(ngModel)]='filtre' placeholder="filtrer...">
+          <input
+            class="input-s"
+            type="text"
+            [(ngModel)]="filtre"
+            [placeholder]="'SEARCH'|translate"
+          />
         </div>
 
         <div class="list-container">
-            <ion-item *ngFor="let u of listTeepZrs| filter:filtre ;trackBy: trackByFn " (click)="addLink(u)" >
-              <div *ngIf="u?.photo =='' || u?.photo == null" class="round-img-post">
-                {{u?.pseudoIntime | slice:0:1| uppercase}} 
-              </div>
-              <img mat-card-image *ngIf="u?.photo" [src]="u?.photo" alt="">
-              <div>
-                {{u?.pseudoIntime}}
-              </div>
-              <ion-label>
-  
-                <ion-checkbox name="ckeck" [(ngModel)]="checkItems[u?._id]" style="float: right;" color="primary">
-                </ion-checkbox>
-  
-              </ion-label>
-            </ion-item>
+          <ion-item
+            *ngFor="let u of listTeepZrs| filter:filtre ;trackBy: trackByFn "
+            (click)="addLink(u)"
+          >
+            <div
+              *ngIf="u?.photo =='' || u?.photo == null"
+              class="round-img-post"
+            >
+              {{u?.pseudoIntime | slice:0:1| uppercase}}
+            </div>
+            <img mat-card-image *ngIf="u?.photo" [src]="u?.photo" alt="" />
+            <div>{{u?.pseudoIntime}}</div>
+            <ion-label>
+              <ion-checkbox
+                name="ckeck"
+                [(ngModel)]="checkItems[u?._id]"
+                style="float: right"
+                color="primary"
+              >
+              </ion-checkbox>
+            </ion-label>
+          </ion-item>
         </div>
 
         <div class="not-found" *ngIf="listTeepZrs?.length == 0">
-          Aucun utilisateur à matcher à cette offre
+          {{'NO_USER_TO_MATCH'|translate}}
         </div>
       </mat-tab>
     </mat-tab-group>
   </div>
-
 </ion-content>
 <!-- Footer without a border -->
 <ion-footer *ngIf="usersSelected.length > 0" class="ion-no-border">
   <ion-toolbar>
-      <span class="limitCounter">
-          <div>
-            {{message?.length}} / 90
-          </div>
-        </span>
+    <span class="limitCounter">
+      <div>{{message?.length}} / 90</div>
+    </span>
 
     <form *ngIf="usersSelected.length > 0" class="example-form">
-
-      <ion-textarea class="input-m" type="text" name="msg" [placeholder]="placeholder + ' ' + placeholder_Link_userPseudo"  (ngModelChange)="message = $event + ''" [(ngModel)]="message" maxlength="90"  autosize>  
+      <ion-textarea
+        class="input-m"
+        type="text"
+        name="msg"
+        [placeholder]="placeholder + ' ' + placeholder_Link_userPseudo"
+        (ngModelChange)="message = $event + ''"
+        [(ngModel)]="message"
+        maxlength="90"
+        autosize
+      >
       </ion-textarea>
-  
-      </form>
-   
-    <ion-button *ngIf="usersSelected.length > 0" (click)="linkPeople()" expand="full">
-      <span *ngIf="loading == false ">ENVOYER</span>
+    </form>
+
+    <ion-button
+      *ngIf="usersSelected.length > 0"
+      (click)="linkPeople()"
+      expand="full"
+    >
+      <span *ngIf="loading == false ">{{'SEND'|translate}}</span>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>
     <!--ion-button *ngIf="usersSelected.length == 0" (click)="dismiss()" class="cancel-btn" expand="block" size="large"

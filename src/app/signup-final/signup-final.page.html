@@ -1,22 +1,24 @@
 <ion-content>
-
   <ion-grid>
     <ion-row>
       <ion-col size="12" (click)="selectImage()">
-        <ion-avatar style="margin: auto 33%;" *ngIf="dispImags?.length > 0">
-          <ion-img  class="add-photo" *ngFor="let img of dispImags" [src]="img"></ion-img>
+        <ion-avatar style="margin: auto 33%" *ngIf="dispImags?.length > 0">
+          <ion-img
+            class="add-photo"
+            *ngFor="let img of dispImags"
+            [src]="img"
+          ></ion-img>
         </ion-avatar>
         <div *ngIf="dispImags?.length == 0" class="round-img">
-          {{userInfo?.prenom | slice:0:1 | uppercase}} {{userInfo?.nom | slice:0:1| uppercase}}
+          {{userInfo?.prenom | slice:0:1 | uppercase}} {{userInfo?.nom |
+          slice:0:1| uppercase}}
         </div>
       </ion-col>
       <ion-col size="12">
         <button (click)="selectImage()" class="mat-btn" mat-button>
           <span>
             <ion-icon class="camera-icon" name="camera"></ion-icon>
-            <small>
-              Charger une photo
-            </small>
+            <small> {{'PHOTO_CHANGE' | translate}} </small>
           </span>
         </button>
       </ion-col>
@@ -25,27 +27,35 @@
       <ion-col>
         <form class="example-form">
           <mat-form-field class="example-full-width">
-            <mat-label>Pseudo</mat-label>
-            <input matInput type="text" name="pAmical" #pAmical="ngModel" maxlength="10" [(ngModel)]="user.pseudoIntime"
-              (ngModelChange)="check()" placeholder="Entrer un Pseudo">
+            <mat-label>{{'PSEUDO' | translate}}</mat-label>
+            <input
+              matInput
+              type="text"
+              name="pAmical"
+              #pAmical="ngModel"
+              maxlength="10"
+              [(ngModel)]="user.pseudoIntime"
+              (ngModelChange)="check()"
+            />
           </mat-form-field>
-          <div *ngIf="retourUsr == 404 && loadingA == false && user?.pseudoIntime != ''">
-            <span class="material-icons">
-              check
-            </span>
+          <div
+            *ngIf="retourUsr == 404 && loadingA == false && user?.pseudoIntime != ''"
+          >
+            <span class="material-icons"> check </span>
           </div>
+          <span> </span>
           <span>
-
+            <ion-spinner
+              *ngIf="loadingA"
+              style="margin-left: 35px"
+              name="lines-small"
+            ></ion-spinner>
           </span>
-          <span>
-            <ion-spinner *ngIf="loadingA" style="margin-left: 35px;" name="lines-small"></ion-spinner>
-          </span>
 
-          <div *ngIf="retourUsr == 201 && loadingA == false && user?.pseudoIntime != ''">
-            <span style="color: red;" class="material-icons">
-              close
-            </span>
-
+          <div
+            *ngIf="retourUsr == 201 && loadingA == false && user?.pseudoIntime != ''"
+          >
+            <span style="color: red" class="material-icons"> close </span>
           </div>
 
           <!--mat-form-field class="example-full-width">
@@ -70,39 +80,56 @@
           </div-->
 
           <mat-form-field class="example-full-width">
-            <mat-label>Date de naissance</mat-label>
-            <input matInput [matDatepicker]="pickerEx" (click)="pickerEx.open()" (keydown)="false"
-              (dateChange)="updateDOBDateDeNaissance($event)">
-            <mat-datepicker-toggle matSuffix [for]="pickerEx"></mat-datepicker-toggle>
+            <mat-label>{{'BIRTHDAY' | translate}}</mat-label>
+            <input
+              matInput
+              [matDatepicker]="pickerEx"
+              (click)="pickerEx.open()"
+              (keydown)="false"
+              (dateChange)="updateDOBDateDeNaissance($event)"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="pickerEx"
+            ></mat-datepicker-toggle>
             <mat-datepicker #pickerEx></mat-datepicker>
             <mat-hint>
-              <ion-datetime style="    margin-top: -5px;" [value]="user?.birthday" 
+              <ion-datetime
+                style="margin-top: -5px"
+                [value]="user?.birthday"
                 displayFormat="DD MMM YYYY"
-                monthShortNames="janvier, fevrier, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, decemebre">
+                monthShortNames="janvier, fevrier, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, decembre"
+              >
               </ion-datetime>
-
             </mat-hint>
-
           </mat-form-field>
 
-          <mat-radio-group [(ngModel)]="user.gender" name="gender"  style="display: flex;" aria-label="Select an option">
-            <mat-radio-button value="HOMME">Homme</mat-radio-button>
-            <mat-radio-button value="FEMME">Femme</mat-radio-button>
-            <mat-radio-button value="PERSONNALISE">Personnalisé</mat-radio-button>
+          <mat-radio-group
+            [(ngModel)]="user.gender"
+            name="gender"
+            style="display: flex"
+            aria-label="Select an option"
+          >
+            <mat-radio-button value="HOMME"
+              >{{'MALE' | translate}}</mat-radio-button
+            >
+            <mat-radio-button value="FEMME"
+              >{{'FEMALE' | translate}}</mat-radio-button
+            >
+            <mat-radio-button value="PERSONNALISE"
+              >{{'PERSONALIZED' | translate}}</mat-radio-button
+            >
           </mat-radio-group>
-
-      
         </form>
-
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
 </ion-content>
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <button style="float: right;" (click)="uploadImage()" mat-button>Suivant</button>
+    <button style="float: right" (click)="uploadImage()" mat-button>
+      {{'NEXT' | translate}}
+    </button>
   </ion-toolbar>
 </ion-footer>

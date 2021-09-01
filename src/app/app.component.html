@@ -1,6 +1,5 @@
 <ion-app>
   <ion-menu side="start" menuId="first" contentId="content1" type="overlay">
-
     <ion-content>
       <!--ion-list *ngFor="let pages of navigate">
       <ion-menu-toggle auto-hide="true">
@@ -12,57 +11,77 @@
       </ion-list-->
 
       <ion-item>
-        <img class="logo" src="../assets/Teepzy-06.png" alt="">
+        <img class="logo" src="../assets/Teepzy-06.png" alt="" />
       </ion-item>
       <ion-list>
+        <ion-item>
+          <mat-form-field style="width: 100%">
+            <mat-select
+              [(ngModel)]="language"
+              (ngModelChange)="translateLanguageTo($event)"
+              name="lang"
+              [placeholder]="'CHANGE_LANGUAGE' | translate"
+            >
+              <mat-option
+                *ngFor="let language of languages"
+                [value]="language.code"
+              >
+                <div class="lang-container">
+                  <span> {{ language?.language }} </span>
+                  <img [src]="language?.flag" class="flag" alt="" />
+                </div>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ion-item>
         <ion-item (click)="goToNotifications()">
           <ion-icon name="notifications-outline" slot="start"></ion-icon>
-          Notifications
+          {{ "NOTIFICATIONS" | translate }}
         </ion-item>
         <ion-item (click)="goToPrivacy()">
           <ion-icon name="shield-checkmark-outline" slot="start"></ion-icon>
-          Confidentialité
+          {{ "PRIVACY" | translate }}
         </ion-item>
         <ion-item (click)="goToConditions()">
           <ion-icon name="document-text-outline" slot="start"></ion-icon>
-          Conditions
+          {{ "CONDITIONS" | translate }}
         </ion-item>
         <ion-item (click)="goToAutorisations()">
           <ion-icon name="key-outline" slot="start"></ion-icon>
-          Autorisations
+          {{ "AUTHORIZATION" | translate }}
         </ion-item>
         <ion-item (click)="goToSuggest()">
           <ion-icon name="receipt-outline" slot="start"></ion-icon>
-          Suggérer
+          {{ "SUGGEST" | translate }}
         </ion-item>
         <ion-item (click)="goToReport()">
           <ion-icon name="megaphone-outline" slot="start"></ion-icon>
-          Signaler un bug
+          {{ "CENSURE" | translate }}
         </ion-item>
         <ion-item (click)="goToEditPass()">
           <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-          Changer mot de passe
+          {{ "CHANGE_PASS" | translate }}
         </ion-item>
         <ion-item (click)="goToEditInfo()">
           <ion-icon name="create-outline" slot="start"></ion-icon>
-          Modifier mes infos
+          {{ "EDIT_INFO" | translate }}
         </ion-item>
         <ion-item (click)="copyShare('ANDROID')">
           <ion-icon name="share-social-outline" slot="start"></ion-icon>
-          Partager TeepZy pour Android
+          {{ "LINK_ANDROID" | translate }}
         </ion-item>
         <ion-item (click)="copyShare('IOS')">
           <ion-icon name="share-social-outline" slot="start"></ion-icon>
-          Partager TeepZy pour iOS
+          {{ "LINK_IOS" | translate }}
         </ion-item>
         <ion-item (click)="logout()">
           <ion-icon name="log-out-outline" slot="start"></ion-icon>
-          Déconnexion
+          {{ "LOGOUT" | translate }}
         </ion-item>
       </ion-list>
 
       <div class="appVersion">
-        {{appV}}
+        {{ appV }}
       </div>
     </ion-content>
   </ion-menu>

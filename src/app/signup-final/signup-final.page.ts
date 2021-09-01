@@ -9,18 +9,13 @@ import {
   ModalController,
 } from "@ionic/angular";
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
-import {
-  FileTransfer,
-  FileUploadOptions,
-} from "@ionic-native/file-transfer/ngx";
-import { FilePath } from "@ionic-native/file-path/ngx";
-import { base_url } from "src/config";
 import { ContactService } from "../providers/contact.service";
 import { MESSAGES } from "../constant/constant";
 import { Subscription } from "rxjs";
 import { UploadService } from "../providers/upload.service";
 import { ImageCropPage } from "../image-crop/image-crop.page";
 import { DatapasseService } from "../providers/datapasse.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-signup-final",
@@ -67,13 +62,18 @@ export class SignupFinalPage implements OnInit {
     public actionSheetController: ActionSheetController,
     private contactService: ContactService,
     private modalController: ModalController,
-    private dataPass: DatapasseService
+    private dataPass: DatapasseService,
+    private translate: TranslateService
   ) {
     this.subscription = this.dataPass.getUserPhoto().subscribe((photo) => {
       if (photo) {
         this.dispImags[0] = photo;
       }
     });
+
+    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(language);
   }
 
   ngOnInit() {

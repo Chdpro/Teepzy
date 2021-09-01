@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>likers</ion-title>
+    <ion-title>{{'LIKE_TITLE'|translate}}</ion-title>
     <ion-icon
       (click)="dismiss()"
       class="close-icon"
@@ -20,7 +20,7 @@
     class=".container-txt"
     style="text-align: center; margin-top: 37vh"
   >
-    <span class="msg"> Aucun like </span>
+    <span class="msg"> {{'NO_LIKE'|translate}}</span>
   </div>
   <ion-list>
     <ion-item *ngFor="let L of likers">
@@ -39,10 +39,10 @@
     <div class="ion-btn">
       <ion-button color="primary" style="margin-top: 1px" expand="full">
         <span (click)="addFavorite()" *ngIf="!post?.favorite&& !likeLoading">
-          Ajouter aux favoris
+          {{'ADD_LIKE'|translate}}
         </span>
         <span (click)="removeFavorite()" *ngIf="post?.favorite&& !likeLoading">
-          Enlever des favoris
+          {{'REMOVE_LIKE'|translate}}
         </span>
         <ion-spinner *ngIf="likeLoading" name="dots"></ion-spinner>
       </ion-button>

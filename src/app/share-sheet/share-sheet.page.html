@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>Partager</ion-title>
+    <ion-title>{{'SHARE'|translate}}</ion-title>
     <ion-icon
       (click)="dismiss()"
       class="close-icone"
@@ -21,7 +21,7 @@
     class=".container-txt"
     style="text-align: center; margin-top: 37vh"
   >
-    <span class="msg"> Aucun partage </span>
+    <span class="msg"> {{'NO_SHARE'|translate}} </span>
   </div>
   <ion-list>
     <ion-item *ngFor="let S of sharers">
@@ -50,7 +50,7 @@
         <ion-fab-button color="primary">
           <ion-icon style="color: white" name="flag-outline"></ion-icon>
         </ion-fab-button>
-        <div class="text-share">signaler</div>
+        <div class="text-share">{{'REPORT'|translate}}</div>
       </ion-fab>
       <!-- fab placed to the bottom end -->
       <ion-fab
@@ -63,7 +63,7 @@
         <ion-fab-button color="primary">
           <span style="color: white" class="material-icons"> redo </span>
         </ion-fab-button>
-        <div class="text-share">Mon cercle</div>
+        <div class="text-share">{{'MY_CIRCLE'|translate}}</div>
       </ion-fab>
     </span>
   </ion-toolbar>

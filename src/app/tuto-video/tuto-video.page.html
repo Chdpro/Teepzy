@@ -1,29 +1,25 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-   
-    <ion-title>
-      Tutoriel
-    </ion-title>
-  
+    <ion-title> {{'TUTORIAL' | translate}} </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
   <video #videoPlayer autoplay preload="auto" crossorigin>
-    <source [src]="sanitizer.bypassSecurityTrustResourceUrl(video_url+ '#t=0.5')" type="video/mp4" />
+    <source
+      [src]="sanitizer.bypassSecurityTrustResourceUrl(video_url+ '#t=0.5')"
+      type="video/mp4"
+    />
   </video>
-
- 
 </ion-content>
 
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-      <ion-row>
-          <ion-col class="footer-btn">
-            <button (click)="done()" mat-button>OK COMPRIS</button>
-          </ion-col>
-        </ion-row>
+    <ion-row>
+      <ion-col class="footer-btn">
+        <button (click)="done()" mat-button>{{'OKAY' | translate}}</button>
+      </ion-col>
+    </ion-row>
   </ion-toolbar>
 </ion-footer>

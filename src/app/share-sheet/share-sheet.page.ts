@@ -12,6 +12,7 @@ import { DatapasseService } from "../providers/datapasse.service";
 import { SocialSharing } from "@ionic-native/social-sharing/ngx";
 import { MESSAGES } from "../constant/constant";
 import { Subscription } from "rxjs";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-share-sheet",
@@ -38,10 +39,15 @@ export class ShareSheetPage implements OnInit {
     private dataPasse: DatapasseService,
     private alertController: AlertController,
     private socialSharing: SocialSharing,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private translate: TranslateService
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
+
+    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(language);
   }
 
   ngOnInit() {

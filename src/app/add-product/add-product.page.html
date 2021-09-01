@@ -82,14 +82,6 @@
             />
           </mat-form-field>
           <span class="currency-container">
-            <mat-form-field class="code">
-              <mat-select [(ngModel)]="selected" name="code" required>
-                <mat-option value="Euro"> Euro </mat-option>
-                <mat-option value="USD"> Dollars US </mat-option>
-                <mat-option value="Fcfa"> F CFA </mat-option>
-              </mat-select>
-            </mat-form-field>
-
             <mat-form-field class="example-full-width price">
               <mat-label>PRIX</mat-label>
               <input
@@ -102,6 +94,14 @@
                 placeholder="Prix"
                 [disabled]="product.commercialAction === 'DON'"
               />
+            </mat-form-field>
+
+            <mat-form-field class="code">
+              <mat-select [(ngModel)]="selected" name="code" required>
+                <mat-option value="Euro"> Euro </mat-option>
+                <mat-option value="USD"> Dollars US </mat-option>
+                <mat-option value="Fcfa"> F CFA </mat-option>
+              </mat-select>
             </mat-form-field>
           </span>
 

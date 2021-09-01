@@ -35,7 +35,7 @@ export class EditProfilePage implements OnInit {
     hobbies: [],
     bio: "",
     photo: "",
-    tagsLabel: "Décrivez ce que vous aimez",
+    tagsLabel: "Vos centres d'interêt",
     bioLabel: "Présentez-vous",
     isAllProfileCompleted: false,
   };

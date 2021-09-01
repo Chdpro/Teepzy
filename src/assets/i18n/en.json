@@ -1,0 +1,103 @@
+{
+    "SELECT": "Select",
+    "TITLE": "Welcome, your profile details are",
+    "TEXT1":"  By clicking on << I register and accept>>, You acknowledge having read our",
+    "TEXT2": "and accept our",
+    "POLICY_TEXT":"Privacy policy",
+    "CONDITIONS_TEXT":"Terms of service",
+    "REGISTER_ACCEPT":"I register and accept",
+    "REQUIRED_8":"The password must contain at least 8 characters",
+    "USER_INFO":{
+        "LASTNAME":"Last name",
+        "FIRSTNAME":"First name",
+        "PHONE_NUMBER":"Phone Number",
+        "EMAIL_ADDRESS":"Email Address",
+        "PASSWORD":"Password",
+        "CONFIRM_PASSWORD":"Confirm password"
+
+    },
+
+    "PHOTO_CHANGE":"Upload a photo",
+    "PSEUDO":"Pseudo",
+    "BIRTHDAY":"Birthday",
+    "MALE":"Male",
+    "FEMALE":"Female",
+    "PERSONALIZED":"Customized",
+    "NEXT":"Next",
+
+    "TUTORIAL":"Tutorial",
+    "OKAY": "Okay, got it.",
+
+    "PERMISSION_TEXT1": "Add people you want in your circle",
+    "PERMISSION_TEXT2": "Teepzy uses the phone numbers in your address book to help you choose, add people to your circle",
+    "PERMISSION_TEXT3": " Allow access to your contacts and images/videos to take full advantage of all Teepzy features.",
+    "PERMISSION_TEXT4": "We do not save your contacts, images or videos on our servers",
+    "PERMISSION_TEXT5":"We will not send spam to your circle and will not add anyone automatically",
+    "PERMISSION_TEXT6":" There will be no tolerance for objectionable content or abusive users",
+    "PERMISSION_TEXT7":"Check out our ",
+    "PERMISSION_TEXT8":"to find out more",
+    "AND_OUR":"and our",
+    "CONTINUE":"Next",
+
+    "CONTACTS_SYNC":"Synchronizing contacts",
+    "NO_ONE_TO_INVITE":"No one to invite ",
+    "SEARCH":"Search",
+    "INVITE":"Invite",
+    "":"Invite",
+    "PENDING":"Pending",
+    "POSSIBLE_KNOW":"You may know them ",
+    "ADD":"Add",
+    "ADDED":"Added",
+
+    "REPOST_TEXT": "shared the teepz of",
+
+    "SEARCH_TEXT1":"What you probably missed",
+    "NO_RESULT":"No search results",
+    "ADD_FRIENDS":"Add friends",
+    "FRIENDS":"Friends",
+    "PEOPLE":"People",
+    "POSTS":"Posts",
+    "PROJECTS":"Projects",
+    "SHOPS":"Shops",
+    "CANCEL": "Cancel",
+
+    "PRIVACY": "Privacy",
+    "CONDITIONS": "Terms",
+    "AUTHORIZATION": "Authorizations",
+    "SUGGEST": "Suggest",
+    "CENSURE":" Report a bug",
+    "CHANGE_PASS": "Change password",
+    "EDIT_INFO": "Edit my info",
+    "LINK_ANDROID":"Share TeepZy for Android",
+    "LINK_IOS":"Share TeepZy for iOS",
+    "LOGOUT":"Log Out",
+    "NOTIFICATIONS":"Notifications",
+    "CHANGE_LANGUAGE":"Change language",
+
+    "COMMENT":"Comment",
+    "NO_COMMENT":"No comment for this post",
+    "ADD_COMMENT":"Add comment",
+    "ANSWER_COMMENT":"Reply to this comment...",
+
+    "SHARE_TITLE":"Share",
+    "NO_SHARE":"No sharing",
+    "REPORT":"Report",
+    "MY_CIRCLE":"My circle",
+
+
+    "LIKE_TITLE":"Likes",
+    "NO_LIKE":"No like",
+    "ADD_LIKE":"Like",
+    "REMOVE_LIKE": "Unlike",
+
+    "LINK_TITLE":"LINK TO",
+    "NO_MATCH":"No match for this post",
+    "NO_USER_TO_MATCH":"No user to be matched to this post",
+    "SEND":"Send"
+
+
+
+
+
+
+}

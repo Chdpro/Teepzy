@@ -20,23 +20,27 @@ export class AppUpdateModalPage implements OnInit {
   ngOnInit() {}
 
   goToStore() {
-    const options: InAppBrowserOptions = {
+    /* const options: InAppBrowserOptions = {
       zoom: "no",
       fullscreen: "yes",
       hidenavigationbuttons: "no",
       toolbar: "yes",
       hideurlbar: "no",
     };
-    this.presentLoading();
-    const URL_PLAYSTORE =
-      "https://play.google.com/store/apps/details?id=bsd.teepzy.com";
     this.iab.create(URL_PLAYSTORE, "_blank", {
       toolbar: "yes",
       hideurlbar: "no",
       fullscreen: "yes",
       location: "no",
       options,
-    });
+    });*/
+    this.presentLoading();
+    const URL_PLAYSTORE =
+      "https://play.google.com/store/apps/details?id=bsd.teepzy.com";
+    const URL_APPSTORE =
+      "https://apps.apple.com/bj/app/teepzy/id1572629592?l=fr";
+    //window.open(URL_PLAYSTORE, "_system");
+    this.iab.create(URL_PLAYSTORE, "_system");
   }
 
   async presentLoading() {

@@ -42,7 +42,7 @@
     </label>
     <div class="content">
       <div class="top">
-        <h2 style="text-align: center">Synchronisation des contacts...</h2>
+        <h2 style="text-align: center">{{'CONTACTS_SYNC'|translate}}...</h2>
       </div>
       <span>
         <div>
@@ -70,15 +70,15 @@
           style="text-align: center; font-size: 20px"
         >
           <img class="msg img" src="../../assets/img/msg.jpg" alt="" />
-          <span> Aucune personne à inviter </span>
+          <span> {{'NO_ONE_TO_INVITE'|translate}} </span>
         </div>
         <form *ngIf="listTeepzrsToInvite?.length > 1" class="example-form">
           <mat-form-field class="example-full-width">
-            <mat-label>Rechercher</mat-label>
+            <mat-label>{{'SEARCH'|translate}}</mat-label>
             <input
               [(ngModel)]="contact"
               name="contact"
-              placeholder="Taper pour filtrer"
+              placeholder=""
               matInput
             />
           </mat-form-field>
@@ -109,7 +109,7 @@
                 (click)="sendInvitationToJoinCircle(c?._id)"
                 size="small"
               >
-                <span> Inviter </span>
+                <span> {{'INVITE'|translate}} </span>
               </ion-button>
               <button
                 (click)="presentCancelInvitationConfirm(c)"
@@ -117,7 +117,7 @@
                 class="cancel-btn"
                 mat-button
               >
-                En Attente
+                {{'PENDING'|translate}}
               </button>
               <button
                 *ngIf="c?.invited&&c?.accept"
@@ -153,13 +153,8 @@
       <mat-tab [label]=" 'Inviter  (' + listContacts?.length + ')'">
         <form *ngIf="listContacts?.length > 0" class="example-form">
           <mat-form-field class="example-full-width">
-            <mat-label>Rechercher</mat-label>
-            <input
-              [(ngModel)]="term"
-              name="term"
-              placeholder="Taper pour filtrer"
-              matInput
-            />
+            <mat-label> {{'SEARCH'|translate}}</mat-label>
+            <input [(ngModel)]="term" name="term" placeholder="" matInput />
           </mat-form-field>
         </form>
         <ion-list>
@@ -248,7 +243,7 @@
           <ion-grid>
             <ion-row>
               <ion-col>
-                <h3>Vous les connaissez peut-être :</h3>
+                <h3>{{'POSSIBLE_KNOW'|translate}}:</h3>
               </ion-col>
             </ion-row>
             <form class="example-form">
@@ -257,17 +252,17 @@
                 style="text-align: center; font-size: 20px"
               >
                 <img class="msg img" src="../../assets/img/msg.jpg" alt="" />
-                <span class="span"> Aucune personne à Ajouter </span>
+                <span class="span">{{'NO_ONE_TO_INVITE'|translate}}</span>
               </div>
               <mat-form-field
                 *ngIf="listTeepzrsToInviteOutCircle?.length > 0"
                 class="example-full-width"
               >
-                <mat-label>Rechercher</mat-label>
+                <mat-label>{{'SEARCH'|translate}}</mat-label>
                 <input
                   [(ngModel)]="invite"
                   name="invite"
-                  placeholder="Taper pour filtrer"
+                  placeholder=""
                   matInput
                 />
               </mat-form-field>
@@ -323,7 +318,7 @@
                       *ngIf="!loading && c?.invited == false"
                       size="small"
                       shape="round"
-                      >Ajouter</ion-button
+                      >{{'ADD'|translate}}</ion-button
                     >
                     <ion-button
                       *ngIf="!loading && c?.invited == true"
@@ -331,7 +326,7 @@
                       color="light"
                       shape="round"
                     >
-                      Ajouté</ion-button
+                      {{'ADDED'|translate}}</ion-button
                     >
                   </div>
                 </mat-card>

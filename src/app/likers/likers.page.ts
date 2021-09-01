@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ModalController, NavParams, ToastController } from "@ionic/angular";
+import { TranslateService } from "@ngx-translate/core";
 import { CACHE_KEYS, MESSAGES } from "../constant/constant";
 import { Globals } from "../globals";
 import { ContactService } from "../providers/contact.service";
@@ -25,10 +26,14 @@ export class LikersPage implements OnInit {
     private dataPass: DatapasseService,
     private modalController: ModalController,
     public globals: Globals,
-    private navParams: NavParams
+    private navParams: NavParams,
+    private translate: TranslateService
   ) {
     this.post = this.navParams.data;
-    console.log(this.post);
+
+    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(language);
   }
 
   ngOnInit() {
