@@ -113,7 +113,11 @@
     "POST_BTN":"Mise en relation",
     "POST_TEXTAREA_LABEL":"Tapez ce que vous voulez",
     "LIMIT_CHAR":"limite maximale de caractère à 130",
-    "PLACEHOLDER_INPUT":"Ex. Je recherche un graphiste..."
+    "PLACEHOLDER_INPUT":"Ex. Je recherche un graphiste...",
+
+    "CHAT_TITLE":"MESSAGERIE",
+    "CHAT_DELETE":"Supprimer",
+    "NO_CHAT":"Aucune conversation"
 
 
 }

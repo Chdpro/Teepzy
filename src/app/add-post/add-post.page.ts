@@ -145,7 +145,6 @@ export class AddPostPage implements OnInit {
   getUserInfo(userId) {
     this.subscription = this.authService.myInfos(userId).subscribe(
       (res) => {
-        console.log(res);
         this.user = res["data"];
         this.user["photo"] ? (this.userPhoto[0] = this.user["photo"]) : null;
       },

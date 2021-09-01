@@ -112,9 +112,11 @@
     "POST_BTN":"Post",
     "POST_TEXTAREA_LABEL":"Type what you want",
     "LIMIT_CHAR":"maximum character limit at 130",
-    "PLACEHOLDER_INPUT":"Ex. I am looking for a graphic designer..."
+    "PLACEHOLDER_INPUT":"Ex. I am looking for a graphic designer...",
 
-
+    "CHAT_TITLE":"CHAT",
+    "CHAT_DELETE":"Delete",
+    "NO_CHAT":"No chat"
 
 
 
