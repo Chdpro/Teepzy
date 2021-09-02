@@ -17,6 +17,7 @@ import {
 import { ContactService } from "../providers/contact.service";
 import * as moment from "moment";
 import { DomSanitizer } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-profile",
@@ -99,10 +100,15 @@ export class ProfilePage implements OnInit {
     private menuCtrl: MenuController,
     public sanitizer: DomSanitizer,
     public route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
+    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(language);
+
     this.subscription = this.dataPass.getUserPhoto().subscribe((photo) => {
       if (photo) {
         this.user.photo = photo;

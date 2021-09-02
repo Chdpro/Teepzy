@@ -117,8 +117,27 @@
 
     "CHAT_TITLE":"MESSAGERIE",
     "CHAT_DELETE":"Supprimer",
-    "NO_CHAT":"Aucune conversation"
+    "NO_CHAT":"Aucune conversation",
 
+    "ADD_PEOPLE_CHAT_TITLE":"Ajout à la discussion",
+    "ADD_CHAT_GROUP_NAME":"Nom du groupe",
+    "ADD_NEW_CHAT_TITLE":"Nouvelle discussion",
+    "NO_FRIEND_TO_CHAT_WITH":"Aucun ami dans votre cercle",
+    "ADD_CHAT":"Initier une discussion",
+    "CHAT":"Ajouter",
+
+    "PROFILE_TAB_PRO":"PROFIL",
+    "NO_PROFILE":"Aucun profil média social ajouté",
+    "NO_FAVORITE":"Aucun post en favoris",
+    "PROFILE_TAB_PROJECT":"PROJETS",
+    "FAVORITES":"Favoris",
+    "PROJECT_TEXT":"Projets",
+    "NO_PROJECT":"Aucun projet ajouté",
+    "PROFILE_TAB_SHOP":"BOUTIQUE",
+    "NO_SHOP":"Aucun produit ajouté",
+    "PROFILE_TAB_TEEPZR": "MES TEEPZRS",
+    "NO_TEEPZ_ADDED":"Aucun teepz ajouté",
+    "EDIT_BTN":"Editer"
 
 }
 

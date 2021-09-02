@@ -224,7 +224,7 @@
             <strong (click)="goToProfile(p?.userId, p?.reposterId)">
               {{p?.reposterPseudo}}
             </strong>
-            a partagé le teepz de
+            {{'REPOST_TEXT' | translate}}
           </span>
         </div>
         <div *ngIf="!p?.image_url && !p?.video_url" class="header-feed-avatar">

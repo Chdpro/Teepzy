@@ -1,60 +1,76 @@
 <ion-header class="ion-no-border">
   <ion-toolbar style="color: #ea4e50">
-    <ion-title>Nouvelle discussion</ion-title> <ion-icon (click)="dismiss()" style="float: right;" name="close-outline"></ion-icon>
+    <ion-title> {{'ADD_NEW_CHAT_TITLE'|translate}} </ion-title>
+    <ion-icon
+      (click)="dismiss()"
+      style="float: right"
+      name="close-outline"
+    ></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
   <ion-grid>
-        <!--  tabs aprt -->
-        <ion-row>
-            <ion-col size="12">
-              <input class="input-s" type="text" name="searchValue" [(ngModel)]='search'
-                 placeholder="Rechercher...">
-            </ion-col>
-          </ion-row>
+    <!--  tabs aprt -->
+    <ion-row>
+      <ion-col size="12">
+        <input
+          class="input-s"
+          type="text"
+          name="searchValue"
+          [(ngModel)]="search"
+          [placeholder]="'SEARCH'|translate"
+        />
+      </ion-col>
+    </ion-row>
   </ion-grid>
 
-  <div class="item-wrapper" >
-
+  <div class="item-wrapper">
     <ion-spinner *ngIf="loading" color="primary" name="dots"></ion-spinner>
 
     <div *ngIf="!loading && members?.length == 0" class="empty-msg">
-      <span class="material-icons drafts">
-        people
-      </span><br>
-      <span>Aucun ami dans votre cercle</span>
+      <span class="material-icons drafts"> people </span><br />
+      <span>{{'NO_FRIEND_TO_CHAT_WITH'|translate}} </span>
     </div>
 
     <ion-item *ngFor="let m of members| filter:search ;trackBy: trackByFn ">
       <div *ngIf="m?.photo =='' || m?.photo == null" class="round-img-post">
-        {{m?.pseudoIntime | slice:0:1| uppercase}} 
+        {{m?.pseudoIntime | slice:0:1| uppercase}}
       </div>
-      <img *ngIf="m?.photo" [src]="m?.photo" alt="">
-      <ion-label><b> {{m?.pseudoIntime}} </b> <b style="float: right;" class="time">  </b><br>
-        <ion-checkbox [(ngModel)]="checkItems[m._id]" (ngModelChange)="addUserToCreateChatRoom(m._id)" style="float: right;" color="primary"></ion-checkbox>
+      <img *ngIf="m?.photo" [src]="m?.photo" alt="" />
+      <ion-label
+        ><b> {{m?.pseudoIntime}} </b> <b style="float: right" class="time"> </b
+        ><br />
+        <ion-checkbox
+          [(ngModel)]="checkItems[m._id]"
+          (ngModelChange)="addUserToCreateChatRoom(m._id)"
+          style="float: right"
+          color="primary"
+        ></ion-checkbox>
       </ion-label>
     </ion-item>
-
-
-
   </div>
 </ion-content>
 <ion-footer>
-    <ion-row class="message_row">
-      <ion-col  size="12">
-        <ion-item *ngIf="membersToChatWith.length >= 2" no-lines>
-          <ion-input type="text" placeholder="Nom du groupe" [(ngModel)]="chatRoom.name"></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col  size="12">
-        <ion-button *ngIf="membersToChatWith.length >= 1" (click)="createChatRoom()" expand="full">
-         <span *ngIf="loading == false">
-            INITIER UNE DISCUSSION
-         </span> 
-         <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-        </ion-button>
-      </ion-col>
-    </ion-row>
+  <ion-row class="message_row">
+    <ion-col size="12">
+      <ion-item *ngIf="membersToChatWith.length >= 2" no-lines>
+        <ion-input
+          type="text"
+          [placeholder]="'ADD_CHAT_GROUP_NAME'| translate"
+          [(ngModel)]="chatRoom.name"
+        ></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col size="12">
+      <ion-button
+        *ngIf="membersToChatWith.length >= 1"
+        (click)="createChatRoom()"
+        expand="full"
+      >
+        <span *ngIf="loading == false"> {{'ADD_CHAT'|translate}}</span>
+        <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-footer>

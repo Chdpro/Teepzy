@@ -9,7 +9,9 @@
       <ion-icon name="ellipsis-horizontal"></ion-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button (click)="goToEdit()" mat-menu-item>Editer</button>
+      <button (click)="goToEdit()" mat-menu-item>
+        {{'EDIT_BTN'|translate}}
+      </button>
       <!--button mat-menu-item>Parametres</button-->
     </mat-menu>
   </ion-toolbar>
@@ -62,7 +64,7 @@
     (touchend)="swipe2($event, 'end')"
   >
     <mat-tab-group [(selectedIndex)]="selectedTab" mat-align-tabs="center">
-      <mat-tab label="PROFIL">
+      <mat-tab [label]="'PROFILE_TAB_PRO'|translate">
         <ion-grid>
           <!--ion-row *ngIf="isProProfile">
             <ion-col size="12">
@@ -104,7 +106,7 @@
                 *ngIf="user?.socialsAmical?.length === 0 "
                 style="color: #ea4e4f; height: 9px; text-align: center"
               >
-                Aucun profile média social ajouté
+                {{'PROFILE_TAB_PRO'|translate}}
               </div>
               <div
                 id="carouselExampleControls"
@@ -193,7 +195,7 @@
               </span>
             </ion-col>
             <ion-col size="12">
-              <h2>Mes Favoris</h2>
+              <h2>{{'FAVORITES'|translate}}</h2>
             </ion-col>
             <ion-col size="12">
               <mat-paginator
@@ -311,17 +313,17 @@
               </mat-card>
             </ion-col>
             <ion-col size="12" *ngIf="listFavorites?.length == 0">
-              <div>Aucun post ajouté aux favoris</div>
+              <div>{{'NO_FAVORITE'|translate}}</div>
             </ion-col>
           </ion-row>
         </ion-grid>
       </mat-tab>
-      <mat-tab label="PROJETS">
+      <mat-tab [label]="'PROFILE_TAB_PROJECT'|translate">
         <ion-grid>
           <ion-row>
             <ion-col size="12">
               <h2>
-                Projets
+                {{'PROJECT_TEXT'|translate}}
                 <button
                   *ngIf="isMyProfile"
                   (click)="presentAddProjectModal()"
@@ -353,12 +355,12 @@
               </ion-card>
             </ion-col>
             <ion-col size="12" *ngIf="listProjects?.length == 0">
-              <span class="msg"> Aucun projet ajouté </span>
+              <span class="msg"> {{'NO_PROJECT'|translate}} </span>
             </ion-col>
           </ion-row>
         </ion-grid>
       </mat-tab>
-      <mat-tab label="BOUTIQUE">
+      <mat-tab [label]="'PROFILE_TAB_SHOP'|translate">
         <ion-grid>
           <ion-row>
             <ion-col size="12">
@@ -394,13 +396,13 @@
               </ion-card>
             </ion-col>
             <ion-col size="12" *ngIf="listProducts?.length == 0">
-              <span class="msg"> Aucun produit ajouté </span>
+              <span class="msg"> {{'NO_SHOP'|translate}} </span>
             </ion-col>
           </ion-row>
         </ion-grid>
       </mat-tab>
 
-      <mat-tab label="MES TEEPZ">
+      <mat-tab [label]="'PROFILE_TAB_TEEPZR'|translate">
         <ion-grid>
           <ion-row>
             <ion-col size="12">
@@ -514,7 +516,7 @@
             </ion-col>
 
             <ion-col size="12" *ngIf="listTeepz?.length == 0">
-              <span class="msg"> Aucun Teepz ajouté </span>
+              <span class="msg"> {{'NO_TEEPZ_ADDED'|translate}} </span>
             </ion-col>
           </ion-row>
         </ion-grid>

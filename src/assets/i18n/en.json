@@ -116,7 +116,29 @@
 
     "CHAT_TITLE":"CHAT",
     "CHAT_DELETE":"Delete",
-    "NO_CHAT":"No chat"
+    "NO_CHAT":"No chat",
+
+
+    "ADD_PEOPLE_CHAT_TITLE":"Add to chat",
+    "ADD_NEW_CHAT_TITLE":"New chat",
+    "ADD_CHAT":"START CHATTING",
+    "NO_FRIEND_TO_CHAT_WITH":"No friend to chat with",
+    "ADD_CHAT_GROUP_NAME":"Group name",
+    "CHAT":"Add",
+
+
+    "PROFILE_TAB_PRO":"PROFILE",
+    "NO_PROFILE":"No social media profile added",
+    "NO_FAVORITE":"No Favorite post",
+    "PROFILE_TAB_PROJECT":"PROJECTS",
+    "FAVORITES":"Favorites",
+    "PROJECT_TEXT":"Projects",
+    "NO_PROJECT":"No project added",
+    "PROFILE_TAB_SHOP":"SHOP",
+    "NO_SHOP":"No product added",
+    "PROFILE_TAB_TEEPZR": "MY TEEPZRS",
+    "NO_TEEPZ_ADDED":"No teepz added",
+    "EDIT_BTN":"Edit"
 
 
 
