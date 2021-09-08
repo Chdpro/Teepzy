@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Réglages de Notifications</ion-title>
+    <ion-title> {{'NOTIFICATIONS_TEXT_TITLE'| translate}} </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,59 +11,52 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <span class="txt">
-          Activer les Notifications
-        </span>
-
+        <span class="txt"> {{'ACTIVATE_NOTIFICATION'| translate}} </span>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <div>
-          <h5>Suggestions d'amis</h5>
-          <p>
-            Recevez de temps en temps des Notifications pour vous suggérer de nouveaux amis
-      
-          </p>
+          <h5>{{'FRIEND_SUGGEST'| translate}}</h5>
+          <p>{{'RECEIVE_TEXT1'| translate}}</p>
         </div>
         <mat-divider></mat-divider>
-
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <div>
-          <h5>Invitations</h5> <span>
-            <ion-toggle [(ngModel)]="n2" name="n2" (click)="authInvitationOrNot()" color="primary"></ion-toggle>
+          <h5>Invitations</h5>
+          <span>
+            <ion-toggle
+              [(ngModel)]="n2"
+              name="n2"
+              (click)="authInvitationOrNot()"
+              color="primary"
+            ></ion-toggle>
           </span>
-          <p>
-            Recevez des Notifications lorsque vous avez une Invitations à rejoindre un cercle d'amis
-
-          </p>
-
+          <p>{{'RECEIVE_TEXT2'| translate}}</p>
         </div>
 
         <mat-divider></mat-divider>
-
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <div>
-          <h5>Ajout à une conversation</h5>   
-            <span>
-            <ion-toggle [(ngModel)]="n" name="n" (click)="authConversationOrNot()" color="primary"></ion-toggle>
+          <h5>{{'ADD_TO_CHAT_TEXT'| translate}}</h5>
+          <span>
+            <ion-toggle
+              [(ngModel)]="n"
+              name="n"
+              (click)="authConversationOrNot()"
+              color="primary"
+            ></ion-toggle>
           </span>
-          <p>
-            Recevez des Notifications lorsque vous êtes ajoutés à une conversation
-
-          </p>
-     
+          <p>{{'RECEIVE_TEXT3'| translate}}</p>
         </div>
         <mat-divider></mat-divider>
-
       </ion-col>
     </ion-row>
   </ion-grid>
-
 </ion-content>

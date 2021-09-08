@@ -11,44 +11,44 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <div class="txt">
-          Teepzy utilise les autorisations suivantes lorsque vous utilisez l'application
-        </div>
+        <div class="txt">{{'AUTH_TEXT1'| translate}}</div>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <div>
-          <h5>Appareil photo</h5>
+          <h5>{{'AUTH_PHOTO_TEXT'| translate}}</h5>
           <span>
-            <ion-toggle name="nPhoto" [(ngModel)]="nPhoto" (click)="authPhotoOrNot()" color="primary"></ion-toggle>
+            <ion-toggle
+              name="nPhoto"
+              [(ngModel)]="nPhoto"
+              (click)="authPhotoOrNot()"
+              color="primary"
+            ></ion-toggle>
           </span>
-          <p>
-            Utilisez votre appareil photo pour prendre des photos, des vidéos
-          </p>
+          <p>{{'AUTH_PHOTO_CONTENT'| translate}}</p>
         </div>
         <mat-divider></mat-divider>
-
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <div>
-          <h5>Contacts</h5> <span>
-            <ion-toggle name="n" [(ngModel)]="n" (click)="authOrNot()" color="primary"></ion-toggle>
+          <h5>{{'AUTH_CONTACT_TEXT'| translate}}</h5>
+          <span>
+            <ion-toggle
+              name="n"
+              [(ngModel)]="n"
+              (click)="authOrNot()"
+              color="primary"
+            ></ion-toggle>
           </span>
           <p>
-            Vos Contacts ne seront pas importés dans les serveurs de Teepzy. Afin que vous et vos
-            amis puissiez vous retrouver facilement, et bénéficier ainsi d'une meilleure expérience, nous chargeons juste vos contacts dans teepzy depuis votre télephone.
-            Pour en savoir plus , consultez notre <a routerLink="/privacy">
-              Politique de confidentialité
-            </a>
-
+            {{'AUTH_CONTACT_CONTENT'| translate}}
+            <a routerLink="/privacy"> {{'POLICY_TEXT'| translate}} </a>
           </p>
-
         </div>
         <mat-divider></mat-divider>
-
       </ion-col>
     </ion-row>
     <!--ion-row>
@@ -64,5 +64,4 @@
       </ion-col>
     </ion-row-->
   </ion-grid>
-
 </ion-content>

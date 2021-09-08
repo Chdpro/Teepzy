@@ -1,38 +1,44 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
-        </ion-buttons>
-    <ion-title>Signaler un bug</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'REPORT_TITLE'| translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
   <ion-grid>
     <ion-row>
       <ion-col>
-          <form class="example-form">
-              <mat-form-field class="example-full-width">
-                <textarea matInput  cols="30"  rows="10" name="reason" required #reason="ngModel" [(ngModel)]="bug.reason" placeholder="Entrez un texte..."></textarea>
-              </mat-form-field>
-            </form>
-            
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <textarea
+              matInput
+              cols="30"
+              rows="10"
+              name="reason"
+              required
+              #reason="ngModel"
+              [(ngModel)]="bug.reason"
+              [placeholder]="'TYPE_TEXT'| translate"
+            ></textarea>
+          </mat-form-field>
+        </form>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
-    <ion-toolbar>
-  
-      <ion-button (click)="report()" 
+  <ion-toolbar>
+    <ion-button
+      (click)="report()"
       [disabled]="reason.errors?.required "
-      expand="full">
-        <span *ngIf="loading == false">Envoyer</span>
-        <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-      </ion-button>
-  
-  
-    </ion-toolbar>
-  </ion-footer>
+      expand="full"
+    >
+      <span *ngIf="loading == false">{{'SEND'| translate}}</span>
+      <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

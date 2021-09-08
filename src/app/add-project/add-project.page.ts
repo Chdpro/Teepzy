@@ -21,6 +21,7 @@ import {
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
 import { MESSAGES } from "../constant/constant";
 import { UploadService } from "../providers/upload.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-add-project",
@@ -62,16 +63,19 @@ export class AddProjectPage implements OnInit {
     private authService: AuthService,
     private dataPass: DatapasseService,
     private camera: Camera,
-    private filePath: FilePath,
     public actionSheetController: ActionSheetController,
     private transfer: FileTransfer,
     private menuCtrl: MenuController,
     private androidPermissions: AndroidPermissions,
     private uploadService: UploadService,
-    private contactService: ContactService
+    private contactService: ContactService,
+    private translate: TranslateService
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
+    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(language);
   }
 
   ngOnInit() {

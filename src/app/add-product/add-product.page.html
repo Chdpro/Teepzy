@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-title>
-      <span class="title-input">Boutique</span>
+      <span class="title-input">{{"ADD_PROJECT_TITLE"| translate}}</span>
       <button class="cancel-btn" (click)="dismiss()" mat-button>
         <ion-icon name="close-outline"></ion-icon>
       </button>
@@ -56,22 +56,22 @@
               [(ngModel)]="product.commercialAction"
             >
               <ion-item>
-                <ion-label>Vente</ion-label>
+                <ion-label>{{'SALE'| translate}}</ion-label>
                 <ion-radio slot="start" value="VENTE"></ion-radio>
               </ion-item>
               <ion-item>
-                <ion-label>Echange</ion-label>
+                <ion-label>{{'EXCHANGE'| translate}}</ion-label>
                 <ion-radio slot="start" value="ECHANGE"></ion-radio>
               </ion-item>
 
               <ion-item>
-                <ion-label>Don</ion-label>
+                <ion-label>{{'GIFT'| translate}}</ion-label>
                 <ion-radio slot="start" value="DON"></ion-radio>
               </ion-item>
             </ion-radio-group>
           </ion-list>
           <mat-form-field class="example-full-width">
-            <mat-label>TITRE</mat-label>
+            <mat-label>{{"INPUT_TITLE"| translate}}</mat-label>
             <input
               matInput
               #nom="ngModel"
@@ -83,7 +83,7 @@
           </mat-form-field>
           <span class="currency-container">
             <mat-form-field class="example-full-width price">
-              <mat-label>PRIX</mat-label>
+              <mat-label>{{'PRICE'| translate}}</mat-label>
               <input
                 matInput
                 name="price"
@@ -115,12 +115,12 @@
               (ngModelChange)="maxLengthDescription($event)"
               required
               [(ngModel)]="product.description"
-              placeholder="DESCRIPTION"
+              [placeholder]="'DESCRIPTION'|translate"
             ></textarea>
           </mat-form-field>
           <span>
             <div class="limit-chars" *ngIf="product?.description.length == 100">
-              limite maximale de caractère à 100
+              {{'LIMIT_CHAR_100'|translate}}
             </div>
             <div class="limitCounter">
               {{product?.description.length}} / 100
@@ -139,7 +139,7 @@
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
               <mat-chip class="add-mat-chip">
-                Ajouter
+                {{"ADD_BTN"| translate}}
                 <mat-icon
                   (click)="add($event)"
                   style="width: 30px; height: 18px"
@@ -160,7 +160,7 @@
           <!-- Checkboxes in a List -->
           <ion-list>
             <ion-item>
-              <ion-label> Publier sur mon fil d'actualité </ion-label>
+              <ion-label> {{"POST_ON_FEED_CHECK"| translate}} </ion-label>
               <ion-checkbox
                 slot="end"
                 name="OnFeed"
@@ -189,7 +189,7 @@
       (click)="uploadImagePermission()"
       mat-button
     >
-      <span *ngIf="!loading"> ENREGISTRER </span>
+      <span *ngIf="!loading"> {{"SAVE"| translate}} </span>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>
   </ion-toolbar>

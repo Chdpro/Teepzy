@@ -3,71 +3,106 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Modifier mes infos</ion-title>
+    <ion-title>{{'CHANGE_INFO_TITLE'| translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
   <ion-grid>
     <ion-row>
       <ion-col>
         <form class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label>Pseudo</mat-label>
-            <input matInput type="text" #pseudo="ngModel" name="pseudo" [(ngModel)]="user.pseudoIntime"
-              (ngModelChange)="check()" placeholder="Entrer un Pseudo">
+            <input
+              matInput
+              type="text"
+              #pseudo="ngModel"
+              name="pseudo"
+              [(ngModel)]="user.pseudoIntime"
+              (ngModelChange)="check()"
+              placeholder=""
+            />
           </mat-form-field>
-          <div *ngIf="retourUsr == 404 && loadingA == false && user?.pseudoIntime != ''">
-            <span class="material-icons">
-              check
-            </span>
+          <div
+            *ngIf="retourUsr == 404 && loadingA == false && user?.pseudoIntime != ''"
+          >
+            <span class="material-icons"> check </span>
           </div>
+          <span> </span>
           <span>
-
+            <ion-spinner
+              *ngIf="loadingA"
+              style="margin-left: 35px"
+              name="lines-small"
+            ></ion-spinner>
           </span>
-          <span>
-            <ion-spinner *ngIf="loadingA" style="margin-left: 35px;" name="lines-small"></ion-spinner>
 
-          </span>
-
-          <div *ngIf="retourUsr == 201 && loadingA == false && user?.pseudoIntime != ''">
-            <span style="color: red;" class="material-icons">
-              close
-            </span>
-
+          <div
+            *ngIf="retourUsr == 201 && loadingA == false && user?.pseudoIntime != ''"
+          >
+            <span style="color: red" class="material-icons"> close </span>
           </div>
           <mat-form-field class="example-full-width">
-            <mat-label>Prénoms</mat-label>
-            <input matInput type="text" #prenom="ngModel" name="prenom" [(ngModel)]="user.prenom" placeholder="">
+            <mat-label> {{'USER_INFO.FIRSTNAME' | translate}}</mat-label>
+            <input
+              matInput
+              type="text"
+              #prenom="ngModel"
+              name="prenom"
+              [(ngModel)]="user.prenom"
+              placeholder=""
+            />
           </mat-form-field>
           <mat-form-field class="example-full-width">
-            <mat-label>Nom</mat-label>
-            <input matInput type="text" #nom="ngModel" name="nom" [(ngModel)]="user.nom" placeholder="">
+            <mat-label> {{'USER_INFO.LASTNAME' | translate}}</mat-label>
+            <input
+              matInput
+              type="text"
+              #nom="ngModel"
+              name="nom"
+              [(ngModel)]="user.nom"
+              placeholder=""
+            />
           </mat-form-field>
           <mat-form-field class="example-full-width">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" name="email" #email="ngModel" required [(ngModel)]="user.email"
-              placeholder="Entrer votre email">
+            <mat-label> {{'USER_INFO.EMAIL_ADDRESS' | translate}}</mat-label>
+            <input
+              matInput
+              type="email"
+              name="email"
+              #email="ngModel"
+              required
+              [(ngModel)]="user.email"
+              placeholder=""
+            />
           </mat-form-field>
           <mat-form-field class="example-full-width">
-            <mat-label>Date de naissance</mat-label>
-            <input matInput [matDatepicker]="pickerEx" (click)="pickerEx.open()" (keydown)="false"
-              (dateChange)="updateDOBDateDeNaissance($event)">
-            <mat-datepicker-toggle matSuffix [for]="pickerEx"></mat-datepicker-toggle>
+            <mat-label>{{'BIRTHDAY'| translate}}</mat-label>
+            <input
+              matInput
+              [matDatepicker]="pickerEx"
+              (click)="pickerEx.open()"
+              (keydown)="false"
+              (dateChange)="updateDOBDateDeNaissance($event)"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="pickerEx"
+            ></mat-datepicker-toggle>
             <mat-datepicker #pickerEx></mat-datepicker>
             <mat-hint>
-              <ion-datetime style="    margin-top: -5px;" [value]="userInfo?.birthday"
-               displayFormat="DD MMM YYYY"
-                monthShortNames="janvier, fevrier, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, decemebre">
+              <ion-datetime
+                style="margin-top: -5px"
+                [value]="userInfo?.birthday"
+                displayFormat="DD MMM YYYY"
+                monthShortNames="janvier, fevrier, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, decemebre"
+              >
               </ion-datetime>
-
             </mat-hint>
-
           </mat-form-field>
           <span>
             <mat-form-field class="code">
-
               <mat-select [(ngModel)]="selected" name="code" required>
                 <mat-option *ngFor="let c of codes" [value]="c.dial_code">
                   {{c.dial_code}} - ({{ c?.name }})
@@ -75,37 +110,30 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field class="phone">
-              <mat-label>Téléphone</mat-label>
-              <input matInput type="tel" name="phone" #phone="ngModel" required [(ngModel)]="user.phone"
-                placeholder="Entrer votre numero">
+              <mat-label>{{'PHONE'| translate}}</mat-label>
+              <input
+                matInput
+                type="tel"
+                name="phone"
+                #phone="ngModel"
+                required
+                [(ngModel)]="user.phone"
+                placeholder=""
+              />
             </mat-form-field>
-
-
           </span>
-          <mat-hint class="phone-hint">
-
-            {{userPhone}}
-
-          </mat-hint>
-
-
-
+          <mat-hint class="phone-hint"> {{userPhone}} </mat-hint>
         </form>
-
       </ion-col>
-
     </ion-row>
   </ion-grid>
 </ion-content>
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-
     <ion-button (click)="updateInfo()" expand="full">
-      <span *ngIf="loading == false">Mettre à jour</span>
+      <span *ngIf="loading == false">{{'SAVE'| translate}}</span>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>
-
-
   </ion-toolbar>
 </ion-footer>

@@ -137,7 +137,67 @@
     "NO_SHOP":"Aucun produit ajouté",
     "PROFILE_TAB_TEEPZR": "MES TEEPZRS",
     "NO_TEEPZ_ADDED":"Aucun teepz ajouté",
-    "EDIT_BTN":"Editer"
+    "EDIT_BTN":"Editer",
+
+    "ADD_PROJECT_TITLE":"Projets",
+    "ADD_SHOP_TITLE":"Boutique",
+    "INPUT_TITLE":"TITRE",
+    "DESCRIPTION":"DESCRIPTION",
+    "TAG":"TAG",
+    "POST_ON_FEED_CHECK":"Pblier sur mon fil d'actualité",
+    "ADD_BTN":"Ajouter",
+    "SAVE": "ENREGISTRER",
+    "LIMIT_CHAR_100":"limite maximale de caractère à 100",
+    "SALE":"Vente",
+    "EXCHANGE":"Echange",
+    "GIFT":"Don",
+    "PRICE":"PRIX",
+
+    "EDIT_PROFILE":"EDITER LE PROFIL",
+    "REQUIRED_FIELDS":"Les champs avec * sont obligatoires",
+    "MY_MEDIA":"MES APPLIS",
+    "PHONE":"NUMERO",
+    "PROFESSION":"MÉTIER",
+    "YOUR_CITY":"VOTRE VILLE",
+    "EDIT_HERE_TEXT":" Cliquer ici pour modifier le titre de la rubrique",
+    "EDIT_HERE_CONTENT":"Ecrivez ici le contenu de la rubrique",
+    "WEBSITE":"SITE WEB",
+    "LOCATION":"LOCALISATION",
+
+    "NOTIFICATIONS_TEXT_TITLE":"Réglages de Notifications",
+    "ACTIVATE_NOTIFICATION":"Activer les Notifications",
+    "FRIEND_SUGGEST":"Suggestions d'amis",
+    "RECEIVE_TEXT1":"Recevez de temps en temps des Notifications pour vous suggérer de nouveaux amis",
+    "RECEIVE_TEXT2":"  Recevez des Notifications lorsque vous avez une Invitations à rejoindre un cercle d'amis",
+    "ADD_TO_CHAT_TEXT":"Ajout à une conversation",
+    "RECEIVE_TEXT3":"Recevez des Notifications lorsque vous êtes ajoutés à une conversation",
+
+    "AUTH_TEXT1":"  Teepzy utilise les autorisations suivantes lorsque vous utilisez l'application",
+    "AUTH_PHOTO_TEXT":"Appareil photo",
+    "AUTH_PHOTO_CONTENT":"Utilisez votre appareil photo pour prendre des photos, des vidéos",
+    "AUTH_CONTACT_TEXT":"Contacts",
+    "AUTH_CONTACT_CONTENT":"Vos Contacts ne seront pas importés dans les serveurs de Teepzy. Afin que vous et vos amis puissiez vous retrouver facilement, et bénéficier ainsi d'une meilleure expérience, nous chargeons juste vos contacts dans teepzy depuis votre télephone.Pour en savoir plus , consultez notre",
+    "PRIVACY_TEXT_TITLE":"Politiques de confidentialité",
+
+    "SUGGEST_TITLE":"Faites une suggestion",
+    "REPORT_TITLE":"Signaler un bug",
+    "TYPE_TEXT":"Entrez un texte",
+    
+
+    "CHANGE_PWD_TITLE":"Modifier mot de passe",
+    "OLD_PWD":"Ancien",
+    "NEW_PWD":"Nouveau",
+    "CONF_PWD":"Confirmer" ,
+    "LIMIT_TEXT_8":"Le mot de passe doit contenir au moins 8 caractères",
+    "UPDATE_BTN":"Mettre à jour",
+
+    "CHANGE_INFO_TITLE":"Modifier mes infos",
+    "FIRST_NAME":"Prénoms",
+    "LAST_NAME":"Nom"
+    
+
+
+
 
 }
 

@@ -6,7 +6,7 @@
     <span class="title-wrapper">
       <ion-icon (click)="goToFeed()" *ngIf="previousRoute" name="arrow-back">
       </ion-icon>
-      <ion-title>EDITER LE PROFIL</ion-title>
+      <ion-title>{{'EDIT_PROFILE'| translate}}</ion-title>
     </span>
   </ion-toolbar>
 </ion-header>
@@ -52,9 +52,7 @@
         <ion-grid>
           <ion-row>
             <ion-col>
-              <div class="required-text">
-                Les champs avec * sont obligatoires
-              </div>
+              <div class="required-text">{{'REQUIRED_FIELDS'| translate}}</div>
             </ion-col>
           </ion-row>
           <ion-row>
@@ -62,7 +60,7 @@
               <form class="example-form">
                 <span>
                   <mat-form-field class="rs-input-left">
-                    <mat-label>MES APPLIS</mat-label>
+                    <mat-label>{{'MY_MEDIA'| translate}}</mat-label>
                     <mat-select
                       [(ngModel)]="media2"
                       (ngModelChange)="media2"
@@ -90,7 +88,7 @@
                       >PSEUDO</mat-label
                     >
                     <mat-label *ngIf="media2?.icon === 'logo-whatsapp'"
-                      >NUMERO</mat-label
+                      >{{'PHONE'| translate}}</mat-label
                     >
                     <input
                       matInput
@@ -134,11 +132,13 @@
                     name="nom2"
                     [(ngModel)]="profile1.pseudoIntime"
                     maxlength="10"
-                    placeholder="NOM"
+                    placeholder=""
                   />
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
-                  <mat-label class="req-input">MÉTIER </mat-label>
+                  <mat-label class="req-input"
+                    >{{'PROFESSION'| translate}}
+                  </mat-label>
                   <span style="margin-right: 84%" class="star">*</span>
                   <input
                     matInput
@@ -147,7 +147,7 @@
                     type="text"
                     maxlength="50"
                     [(ngModel)]="profile1.metier"
-                    placeholder="MÉTIER"
+                    [placeholder]="'PROFESSION'| translate"
                     (ngModelChange)="profile1.metier = $event + ''"
                   />
                 </mat-form-field>
@@ -156,13 +156,13 @@
                 </div>
 
                 <mat-form-field class="example-full-width">
-                  <mat-label>VOTRE VILLE</mat-label>
+                  <mat-label> {{'YOUR_CITY'| translate}} </mat-label>
                   <input
                     matInput
                     name="localisation2"
                     #localisation="ngModel"
                     [(ngModel)]="profile1.localisation"
-                    placeholder="LOCALISATION"
+                    [placeholder]="'LOCATION'| translate"
                   />
                 </mat-form-field>
 
@@ -171,7 +171,7 @@
                   <input
                     matInput
                     name="biolabel"
-                    placeholder="Cliquer ici pour modifier le titre de la rubrique"
+                    [placeholder]="'EDIT_HERE_TEXT'| translate"
                     [disabled]="!isEditableB"
                     class="input-label req-input"
                     [(ngModel)]="profile1.bioLabel"
@@ -191,9 +191,7 @@
                 </button>
 
                 <mat-menu style="padding-left: 12px" #menu="matMenu">
-                  <span>
-                    Cliquer ici pour modifier le titre de la rubrique
-                  </span>
+                  <span> {{'EDIT_HERE_TEXT'| translate}} </span>
                 </mat-menu>
 
                 <mat-form-field class="example-full-width star-input">
@@ -204,17 +202,16 @@
                     #bio="ngModel"
                     type="text"
                     [(ngModel)]="profile1.bio"
-                    placeholder="Ecrivez ici le contenu de la rubrique "
+                    [placeholder]="'EDIT_HERE_CONTENT'| translate"
                   />
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                  <mat-label>SITE WEB</mat-label>
+                  <mat-label>{{'WEBSITE'| translate}}</mat-label>
                   <input
                     matInput
                     name="siteweb2"
                     [(ngModel)]="profile1.siteweb"
-                    placeholder="SITE WEB"
                   />
                 </mat-form-field>
 
@@ -242,9 +239,7 @@
                   <span class="material-icons"> info </span>
                 </button>
                 <mat-menu style="padding-left: 12px" #menu="matMenu">
-                  <span>
-                    Cliquer ici pour modifier le titre de la rubrique
-                  </span>
+                  <span> {{'EDIT_HERE_TEXT'| translate}} </span>
                 </mat-menu>
 
                 <mat-form-field class="example-chip-list">
@@ -263,7 +258,7 @@
                       >
                     </mat-chip>
                     <mat-chip class="add-mat-chip">
-                      Ajouter
+                      {{'ADD'| translate}}
                       <mat-icon
                         (click)="add($event)"
                         style="width: 30px; height: 18px"
@@ -275,7 +270,7 @@
                       [matChipInputFor]="chipList"
                       type="text"
                       required
-                      placeholder="Ecrivez ici le contenu de la rubrique"
+                      [placeholder]="'EDIT_HERE_CONTENT'| translate"
                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                       [matChipInputAddOnBlur]="addOnBlur"
                       (matChipInputTokenEnd)="add($event)"
@@ -298,7 +293,7 @@
       [disabled]="tags?.length === 0 || metier.errors?.required || bio.errors?.required"
       expand="full"
     >
-      <span *ngIf="loading == false">ENREGISTRER</span>
+      <span *ngIf="loading == false">{{'SAVE'| translate}}</span>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>
   </ion-toolbar>

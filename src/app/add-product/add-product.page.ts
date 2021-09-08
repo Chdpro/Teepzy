@@ -20,6 +20,7 @@ import {
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
 import { MESSAGES } from "../constant/constant";
 import { UploadService } from "../providers/upload.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-add-product",
@@ -71,10 +72,14 @@ export class AddProductPage implements OnInit {
     private menuCtrl: MenuController,
     private uploadService: UploadService,
     private androidPermissions: AndroidPermissions,
-    private contactService: ContactService
+    private contactService: ContactService,
+    private translate: TranslateService
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
+    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(language);
   }
 
   ngOnInit() {

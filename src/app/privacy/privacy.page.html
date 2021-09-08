@@ -1,23 +1,27 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
-        </ion-buttons>
-    <ion-title>Politiques de confidentialité</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'PRIVACY_TEXT_TITLE'| translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
-    <ion-grid>
-        <ion-row>
-          <ion-col>
-              <iframe width="345" height="600" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
-              [src]="sanitizer.bypassSecurityTrustResourceUrl(sanitizedURL)"></iframe>        
-              <div id="loadingMessage">Loading...</div>
-            
-            </ion-col>
-        </ion-row>
-      </ion-grid>
-
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <iframe
+          width="345"
+          height="600"
+          frameborder="0"
+          webkitallowfullscreen
+          mozallowfullscreen
+          allowfullscreen
+          [src]="sanitizer.bypassSecurityTrustResourceUrl(sanitizedURL)"
+        ></iframe>
+        <div id="loadingMessage">Loading...</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

@@ -1,75 +1,119 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
-        </ion-buttons>
-    <ion-title>Modifier mot de passe</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'CHANGE_PWD_TITLE'| translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
   <ion-grid>
     <ion-row>
       <ion-col>
         <form class="example-form">
           <mat-form-field class="example-full-width">
-            <mat-label>Ancien</mat-label>
-            <input matInput  [type]="hide ? 'text' : 'password'" name="old" #old="ngModel" minlength="8" required
-              [(ngModel)]="user.old" placeholder="">
-              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                  <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                  </button>
+            <mat-label>{{'OLD_PWD'| translate}}</mat-label>
+            <input
+              matInput
+              [type]="hide ? 'text' : 'password'"
+              name="old"
+              #old="ngModel"
+              minlength="8"
+              required
+              [(ngModel)]="user.old"
+              placeholder=""
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
           </mat-form-field>
-          <div style="font-size: 11px;margin-left: 1px; width: 272px;" *ngIf="old.errors?.minlength">
-            Le mot de passe doit contenir au moins 8 caractères
+          <div
+            style="font-size: 11px; margin-left: 1px; width: 272px"
+            *ngIf="old.errors?.minlength"
+          >
+            {{'LIMIT_TEXT_8'| translate}}
           </div>
           <mat-form-field class="example-full-width">
-            <mat-label>Nouveau</mat-label>
-            <input matInput  [type]="hide ? 'text' : 'password'" name="new" #new="ngModel" minlength="8" required
-              [(ngModel)]="user.new" placeholder="">
-              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                  <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                  </button>
+            <mat-label>{{'NEW_PWD'| translate}}</mat-label>
+            <input
+              matInput
+              [type]="hide ? 'text' : 'password'"
+              name="new"
+              #new="ngModel"
+              minlength="8"
+              required
+              [(ngModel)]="user.new"
+              placeholder=""
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
           </mat-form-field>
-          <div style="font-size: 11px;margin-left: 1px; width: 272px;" *ngIf="new.errors?.minlength">
-            Le mot de passe doit contenir au moins 8 caractères
+          <div
+            style="font-size: 11px; margin-left: 1px; width: 272px"
+            *ngIf="new.errors?.minlength"
+          >
+            {{'LIMIT_TEXT_8'| translate}}
           </div>
           <mat-form-field class="example-full-width">
-            <mat-label>Confirmer</mat-label>
-            <input matInput  [type]="hide ? 'text' : 'password'" name="conf" #conf="ngModel" minlength="8" required
-              [(ngModel)]="user.conf" placeholder="">
-              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                  <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                  </button>
+            <mat-label>{{'CONF_PWD'| translate}}</mat-label>
+            <input
+              matInput
+              [type]="hide ? 'text' : 'password'"
+              name="conf"
+              #conf="ngModel"
+              minlength="8"
+              required
+              [(ngModel)]="user.conf"
+              placeholder=""
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
           </mat-form-field>
-          <div style="font-size: 11px;margin-left: 1px; width: 272px;" *ngIf="conf.errors?.minlength">
-            Le mot de passe doit contenir au moins 8 caractères
+          <div
+            style="font-size: 11px; margin-left: 1px; width: 272px"
+            *ngIf="conf.errors?.minlength"
+          >
+            {{'LIMIT_TEXT_8'| translate}}
           </div>
-          <span>
-     
-          </span>
+          <span> </span>
         </form>
-
       </ion-col>
-
     </ion-row>
   </ion-grid>
 </ion-content>
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-
-    <ion-button (click)="checkUserAndUpdatePass()" 
-    [disabled]="old.errors?.required 
+    <ion-button
+      (click)="checkUserAndUpdatePass()"
+      [disabled]="old.errors?.required 
     || new.errors?.required
     || conf.errors?.required"
-    expand="full">
-      <span *ngIf="loading == false">Mettre à jour</span>
-      <ion-spinner *ngIf="loading"
-       name="dots"></ion-spinner>
+      expand="full"
+    >
+      <span *ngIf="loading == false"> {{'UPDATE_BTN'| translate}} </span>
+      <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>
-
-
   </ion-toolbar>
 </ion-footer>

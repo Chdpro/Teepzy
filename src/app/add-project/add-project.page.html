@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>
       <!--input class="title-input" type="text" [(ngModel)]="title" name="title"-->
-      <span class="title-input">Projets</span>
+      <span class="title-input">{{"ADD_PROJECT_TITLE"| translate}}</span>
       <button class="cancel-btn" (click)="dismiss()" mat-button>
         <ion-icon name="close-outline"></ion-icon>
       </button>
@@ -11,27 +11,36 @@
 </ion-header>
 
 <ion-content no-bounce>
-
   <ion-grid>
     <ion-row>
       <ion-col>
         <div class="banner">
           <div>
-
             <ion-row>
-
               <ion-col size="12" *ngIf="dispImags?.length > 0">
-              <ion-img  class="add-photo" *ngFor="let img of dispImags" [src]="img"></ion-img>
+                <ion-img
+                  class="add-photo"
+                  *ngFor="let img of dispImags"
+                  [src]="img"
+                ></ion-img>
               </ion-col>
               <ion-col size="12" *ngIf="dispImags?.length == 0">
-                <img class="add-photo" src="../../assets/img/neutral.jpg" alt="">
+                <img
+                  class="add-photo"
+                  src="../../assets/img/neutral.jpg"
+                  alt=""
+                />
               </ion-col>
             </ion-row>
 
-
             <!-- fab placed to the bottom end -->
-            <ion-fab *ngIf="dispImags?.length == 0" (click)="selectImage()" vertical="center" horizontal="center"
-              slot="fixed">
+            <ion-fab
+              *ngIf="dispImags?.length == 0"
+              (click)="selectImage()"
+              vertical="center"
+              horizontal="center"
+              slot="fixed"
+            >
               <ion-fab-button color="light">
                 <ion-icon name="add"></ion-icon>
               </ion-fab-button>
@@ -44,70 +53,99 @@
       <ion-col>
         <form class="example-form">
           <mat-form-field class="example-full-width">
-            <mat-label>TITRE</mat-label>
-            <input matInput #nom="ngModel" required name="nom" [(ngModel)]="project.nom" placeholder="Titre du projet">
+            <mat-label>{{"INPUT_TITLE"| translate}}</mat-label>
+            <input
+              matInput
+              #nom="ngModel"
+              required
+              name="nom"
+              [(ngModel)]="project.nom"
+              placeholder=""
+            />
           </mat-form-field>
-
 
           <mat-form-field class="example-full-width">
             <!--mat-label>DESCRIPTION</mat-label-->
-            <textarea matInput name="description" #description="ngModel" maxlength="100" rows="5" required
-              [(ngModel)]="project.description" (ngModelChange)="maxLengthDescription($event)"
-              placeholder="DESCRIPTION"></textarea>
+            <textarea
+              matInput
+              name="description"
+              #description="ngModel"
+              maxlength="100"
+              rows="5"
+              required
+              [(ngModel)]="project.description"
+              (ngModelChange)="maxLengthDescription($event)"
+              [placeholder]="'DESCRIPTION'|translate"
+            ></textarea>
           </mat-form-field>
           <span>
-
-
             <div class="limit-chars" *ngIf="project?.description.length == 100">
-              limite maximale de caractère à 100
+              {{'LIMIT_CHAR_100'|translate}}
             </div>
             <div class="limitCounter">
               {{project?.description.length}} / 100
             </div>
-
           </span>
 
           <mat-form-field class="example-chip-list">
             <mat-chip-list #chipList aria-label="Fruit selection">
-              <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
-                (removed)="remove(tag)">
+              <mat-chip
+                *ngFor="let tag of tags"
+                [selectable]="selectable"
+                [removable]="removable"
+                (removed)="remove(tag)"
+              >
                 {{tag}}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
               <mat-chip class="add-mat-chip">
-                Ajouter
-                <mat-icon (click)="add($event)" style="    width: 30px;
-              height: 18px;" matChipRemove>add_circle</mat-icon>
+                {{"ADD_BTN"| translate}}
+                <mat-icon
+                  (click)="add($event)"
+                  style="width: 30px; height: 18px"
+                  matChipRemove
+                  >add_circle</mat-icon
+                >
               </mat-chip>
-              <input placeholder="TAG" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+              <input
+                placeholder="TAG"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="add($event)"
+              />
             </mat-chip-list>
           </mat-form-field>
 
           <!-- Checkboxes in a List -->
           <ion-list>
             <ion-item>
-              <ion-label> Publier sur mon fil d'actualité </ion-label>
-              <ion-checkbox slot="end" name="OnFeed" [(ngModel)]="postOnFeed"></ion-checkbox>
+              <ion-label> {{"POST_ON_FEED_CHECK"| translate}} </ion-label>
+              <ion-checkbox
+                slot="end"
+                name="OnFeed"
+                [(ngModel)]="postOnFeed"
+              ></ion-checkbox>
             </ion-item>
           </ion-list>
-
         </form>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
 </ion-content>
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <ion-button expand="block" class="save-btn" [disabled]="nom.errors?.required 
+    <ion-button
+      expand="block"
+      class="save-btn"
+      [disabled]="nom.errors?.required 
         || description.errors?.required
-        || tags?.length == 0 " (click)="uploadImagePermission()" mat-button>
-      <span *ngIf="!loading">
-        ENREGISTRER
-      </span>
+        || tags?.length == 0 "
+      (click)="uploadImagePermission()"
+      mat-button
+    >
+      <span *ngIf="!loading"> {{"SAVE"| translate}} </span>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>
   </ion-toolbar>

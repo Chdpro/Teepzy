@@ -18,6 +18,7 @@ import { MESSAGES } from "../constant/constant";
 import { RobotAlertPage } from "../robot-alert/robot-alert.page";
 import { UploadService } from "../providers/upload.service";
 import { ImageCropPage } from "../image-crop/image-crop.page";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-edit-profile",
@@ -103,10 +104,15 @@ export class EditProfilePage implements OnInit {
     private modalController: ModalController,
     private uploadService: UploadService,
     private toasterController: ToastController,
-    private dataPass: DatapasseService
+    private dataPass: DatapasseService,
+    private translate: TranslateService
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
+    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(language);
+
     this.previousRoute = this.route.snapshot.paramMap.get("previousUrl");
     this.subcription = this.dataPass.getUserPhoto().subscribe((photo) => {
       if (photo) {

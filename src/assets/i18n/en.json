@@ -138,7 +138,65 @@
     "NO_SHOP":"No product added",
     "PROFILE_TAB_TEEPZR": "MY TEEPZRS",
     "NO_TEEPZ_ADDED":"No teepz added",
-    "EDIT_BTN":"Edit"
+    "EDIT_BTN":"Edit",
+
+    "ADD_PROJECT_TITLE":"Projects",
+    "ADD_SHOP_TITLE":"SHOP",
+    "INPUT_TITLE":"TITLE",
+    "DESCRIPTION":"DESCRIPTION",
+    "TAG":"TAG",
+    "POST_ON_FEED_CHECK":"Post on feed",
+    "ADD_BTN":"Add",
+    "SAVE": "SAVE",
+    "LIMIT_CHAR_100":"maximum character limit 100",
+    "SALE":"For sale",
+    "EXCHANGE":"Exchange",
+    "GIFT":"Gift",
+    "PRICE":"PRICE",
+    
+
+    "EDIT_PROFILE":"Edit Profile",
+    "REQUIRED_FIELDS":"Fields with * are required",
+    "MY_MEDIA":"MY APPS",
+    "PHONE":"PHONE",
+    "PROFESSION":"PROFESSION",
+    "YOUR_CITY":"YOUR CITY",
+    "EDIT_HERE_TEXT":" Click here to change the title of the section",
+    "EDIT_HERE_CONTENT":" Click here to change the content of the section",
+    "WEBSITE":"WEB SITE",
+    "LOCATION":"LOCATION",
+
+
+    "NOTIFICATIONS_TEXT_TITLE":"Notification Settings",
+    "ACTIVATE_NOTIFICATION":"Enable Notifications",
+    "FRIEND_SUGGEST":"Suggestions",
+    "RECEIVE_TEXT1":"Receive occasional Notifications to suggest new friends",
+    "RECEIVE_TEXT2":"Receive Notifications when you have an Invitation to join a circle of friends",
+    "ADD_TO_CHAT_TEXT":"Adding to a conversation",
+    "RECEIVE_TEXT3":"Receive Notifications when you are added to a conversation",
+    "PRIVACY_TEXT_TITLE":"Privacy Policy",
+
+    
+    "AUTH_TEXT1":"  Teepzy uses the following permissions when you use the application",
+    "AUTH_PHOTO_TEXT":"Camera",
+    "AUTH_PHOTO_CONTENT":"Use your camera to take photos, videos",
+    "AUTH_CONTACT_TEXT":"Contacts",
+    "AUTH_CONTACT_CONTENT":"Your Contacts will not be imported into Teepzy's servers. To make it easy for you and your friends to find each other and have a better experience, we just load your contacts into Teepzy from your phone.",
+
+
+    "SUGGEST_TITLE":"Make a suggestion",
+    "REPORT_TITLE":"Report a bug",
+    "TYPE_TEXT":"Type...",
+
+    "CHANGE_PWD_TITLE":"Change password",
+    "OLD_PWD":"Old",
+    "NEW_PWD":"New",
+    "CONF_PWD":"Confirm",
+    "UPDATE_BTN":"SAVE" ,
+
+    "CHANGE_INFO_TITLE":"Edit infos"    
+
+
 
 
 
