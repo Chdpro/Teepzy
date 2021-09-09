@@ -52,6 +52,8 @@ export class SearchPage implements OnInit {
 
   subscription: Subscription;
 
+  language = "";
+
   constructor(
     private contactService: ContactService,
     public toastController: ToastController,
@@ -63,9 +65,9 @@ export class SearchPage implements OnInit {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
 
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -79,7 +81,7 @@ export class SearchPage implements OnInit {
   }
 
   time(date) {
-    moment.locale("fr");
+    moment.locale(this.language);
     return moment(date).fromNow();
   }
 
@@ -318,12 +320,20 @@ export class SearchPage implements OnInit {
           this.listTeepzrsToInvite.find((c, index) =>
             c["_id"] == idReceiver ? (c["invited"] = true) : null
           );
-          this.presentToast(MESSAGES.INVITATION_SEND_OK);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.INVITATION_SEND_OK
+              : MESSAGES.INVITATION_SEND_OK_EN
+          );
           this.showModal = false;
           this.loading = false;
         },
         (error) => {
-          this.presentToast(MESSAGES.INVITATION_SEND_ERROR);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.INVITATION_SEND_ERROR
+              : MESSAGES.INVITATION_SEND_ERROR_EN
+          );
           this.loading = false;
           this.showModal = false;
         }
@@ -342,20 +352,32 @@ export class SearchPage implements OnInit {
       .subscribe(
         (res) => {
           if (res["status"] == 400) {
-            this.presentToast(MESSAGES.INVITATION_SEND_ERROR);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.INVITATION_SEND_ERROR
+                : MESSAGES.INVITATION_SEND_ERROR_EN
+            );
             this.loading = false;
           } else {
             this.listTeepzrsToInvite.find((c, index) =>
               c["_id"] == u._id ? (c["invited"] = false) : null
             );
             //console.log(this.listTeepzrsToInvite)
-            this.presentToast("Invitation annulée");
+            this.presentToast(
+              this.language === "fr"
+                ? "Invitation annulée"
+                : "Invitation canceled"
+            );
             this.loading = false;
           }
           //  this.getTeepzr()
         },
         (error) => {
-          this.presentToast(MESSAGES.INVITATION_SEND_ERROR);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.INVITATION_SEND_ERROR
+              : MESSAGES.INVITATION_SEND_ERROR_EN
+          );
           this.loading = false;
         }
       );

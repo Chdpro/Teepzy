@@ -84,6 +84,7 @@ export class AddPostPage implements OnInit {
 
   userId = "";
   members = [];
+  language = "";
   constructor(
     public modalController: ModalController,
     private toastController: ToastController,
@@ -164,11 +165,17 @@ export class AddPostPage implements OnInit {
 
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
-      header: "Selectionner un média",
+      header:
+        this.language === "fr"
+          ? MESSAGES.SELECT_MEDIA
+          : MESSAGES.SELECT_MEDIA_EN,
       cssClass: "add-post-img",
       buttons: [
         {
-          text: "Choisir une image",
+          text:
+            this.language === "fr"
+              ? MESSAGES.GALLERY_CHOICE
+              : MESSAGES.GALLERY_CHOICE_EN,
           icon: "images",
           handler: () => {
             this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
@@ -196,7 +203,7 @@ export class AddPostPage implements OnInit {
         }
       },*/
         {
-          text: "Annuler",
+          text: this.language === "fr" ? "Annuler" : "Cancel",
           icon: "close",
           role: "cancel",
         },
@@ -232,7 +239,11 @@ export class AddPostPage implements OnInit {
         }
       );
     } else {
-      this.presentToast("Vous n'avez pas autorisé l'accès à la prise de photo");
+      this.presentToast(
+        this.language === "fr"
+          ? MESSAGES.UNABLE_TAKE_PHOTO
+          : MESSAGES.UNABLE_TAKE_PHOTO_EN
+      );
     }
   }
 
@@ -287,7 +298,12 @@ export class AddPostPage implements OnInit {
         this.addPost();
       },
       (err) => {
-        this.presentToast("Oops une erreur lors de l'upload");
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.ERROR_UPLOAD
+            : MESSAGES.ERROR_UPLOAD_EN
+        );
+
         //this.dismiss();
       }
     );
@@ -330,7 +346,11 @@ export class AddPostPage implements OnInit {
           );
         }
       } else {
-        this.presentToast(MESSAGES.VIDEO_LIMIT_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.VIDEO_LIMIT_ERROR
+            : MESSAGES.VIDEO_LIMIT_ERROR_EN
+        );
         this.loading = false;
       }
     } else {
@@ -378,7 +398,11 @@ export class AddPostPage implements OnInit {
       },
       (error) => {
         this.loading = false;
-        this.presentToast(MESSAGES.ADD_FEED_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.ADD_FEED_ERROR
+            : MESSAGES.ADD_FEED_ERROR_EN
+        );
       }
     );
   }
@@ -408,7 +432,11 @@ export class AddPostPage implements OnInit {
         }
       );
     } else {
-      this.presentToast("Vous n'avez pas autorisé l'accès à la prise de photo");
+      this.presentToast(
+        this.language === "fr"
+          ? MESSAGES.UNABLE_TAKE_PHOTO
+          : MESSAGES.UNABLE_TAKE_PHOTO_EN
+      );
     }
   }
 
@@ -464,7 +492,11 @@ export class AddPostPage implements OnInit {
   setBackgroundColor(color: string) {
     console.log(color);
     this.post.backgroundColor = color;
-    this.presentToast("couleur sélectionnée");
+    this.presentToast(
+      this.language === "fr"
+        ? MESSAGES.COLOR_CHOSED_OK
+        : MESSAGES.COLOR_CHOSED_OK_EN
+    );
   }
 
   dismiss() {

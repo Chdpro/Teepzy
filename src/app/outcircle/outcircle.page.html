@@ -1,69 +1,85 @@
 <ion-content>
-
   <ion-grid>
-
     <ion-row>
       <ion-col>
-        <h3>
-          Vous les connaissez peut-être :
-        </h3>
+        <h3>{{'MAY_KNOW'| translate}}</h3>
       </ion-col>
     </ion-row>
     <form class="example-form">
+      <div
+        *ngIf="listTeepzrsToInvite?.length ==  0"
+        style="text-align: center; font-size: 20px"
+      >
+        <img class="msg" src="../../assets/img/msg.jpg" alt="" />
+        <span> {{'NO_ONE_TO_ADD'| translate}} </span>
+      </div>
 
-        <div  *ngIf="listTeepzrsToInvite?.length ==  0" style="text-align: center;
-        font-size: 20px;">
-          <img class="msg" src="../../assets/img/msg.jpg" alt="">
-          <span>
-            Aucune personne à Ajouter
-          </span>
-        </div>
-
-      <mat-form-field *ngIf="listTeepzrsToInvite?.length > 0" class="example-full-width">
-        <mat-label>Rechercher</mat-label>
-        <input [(ngModel)]="term" name="term" placeholder="Taper pour filtrer" matInput>
+      <mat-form-field
+        *ngIf="listTeepzrsToInvite?.length > 0"
+        class="example-full-width"
+      >
+        <mat-label>{{'SEARCH'| translate}}</mat-label>
+        <input
+          [(ngModel)]="term"
+          name="term"
+          placeholder="Taper pour filtrer"
+          matInput
+        />
       </mat-form-field>
-
     </form>
 
-    <mat-paginator *ngIf="listTeepzrsToInvite?.length > 0" [length]="listTeepzrsToInvite?.length" [pageSize]="pageSize" (page)="pageEvent = getPaginatorData($event)">
+    <mat-paginator
+      *ngIf="listTeepzrsToInvite?.length > 0"
+      [length]="listTeepzrsToInvite?.length"
+      [pageSize]="pageSize"
+      (page)="pageEvent = getPaginatorData($event)"
+    >
     </mat-paginator>
-    <ion-spinner *ngIf="loading && listTeepzrsToInvite.length ==  0 " color="primary" name="dots"></ion-spinner>
+    <ion-spinner
+      *ngIf="loading && listTeepzrsToInvite.length ==  0 "
+      color="primary"
+      name="dots"
+    ></ion-spinner>
 
     <ion-row>
-      <ion-col size="6" *ngFor="let c of listTeepzrsToInvite |filter:term | slice: lowValue : highValue ;trackBy: trackByFn ">
-        <mat-card style="margin-top: 20px;">
-          <img class="img-cl"
-            [src]="c?.photo" alt="">
+      <ion-col
+        size="6"
+        *ngFor="let c of listTeepzrsToInvite |filter:term | slice: lowValue : highValue ;trackBy: trackByFn "
+      >
+        <mat-card style="margin-top: 20px">
+          <img class="img-cl" [src]="c?.photo" alt="" />
 
           <div class="cl-content">
-
-            <strong>
-              {{ c?.nom }}
-              {{ c?.prenom }}
-            </strong><br>
-            <span>
-              {{ c?.circleMembersCount || '0' }} contact(s)
-            </span>
-            <div style="font-size: 12px;">
-              ({{c?.commonFriends || 0 }}) amis en commun
+            <strong> {{ c?.nom }} {{ c?.prenom }} </strong><br />
+            <span> {{ c?.circleMembersCount || '0' }} contact(s) </span>
+            <div style="font-size: 12px">
+              ({{c?.commonFriends || 0 }}) {{'COMMON_FRIENDS'| translate}}
             </div>
-            <ion-button (click)="sendInvitationToJoinCircle(c?._id)" *ngIf="!loading && c?.invited == false"  size="small" shape="round">Ajouter</ion-button>
-            <ion-button *ngIf="!loading && c?.invited == true"  size="small" color="light" shape="round">Ajouté</ion-button>
-
+            <ion-button
+              (click)="sendInvitationToJoinCircle(c?._id)"
+              *ngIf="!loading && c?.invited == false"
+              size="small"
+              shape="round"
+              >{{'ADD_BTN'| translate}}</ion-button
+            >
+            <ion-button
+              *ngIf="!loading && c?.invited == true"
+              size="small"
+              color="light"
+              shape="round"
+              >{{'ADDED'| translate}}</ion-button
+            >
           </div>
         </mat-card>
       </ion-col>
-
     </ion-row>
-
   </ion-grid>
-
-
 </ion-content>
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <button style="float: right;" (click)="goToFeed()" mat-button>Suivant</button>
+    <button style="float: right" (click)="goToFeed()" mat-button>
+      {{'NEXT'| translate}}
+    </button>
   </ion-toolbar>
 </ion-footer>

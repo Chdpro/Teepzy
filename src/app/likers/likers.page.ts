@@ -19,6 +19,7 @@ export class LikersPage implements OnInit {
   likers = [];
 
   likeLoading = false;
+  language = "";
 
   constructor(
     private toasterController: ToastController,
@@ -31,9 +32,9 @@ export class LikersPage implements OnInit {
   ) {
     this.post = this.navParams.data;
 
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -76,11 +77,19 @@ export class LikersPage implements OnInit {
       (res) => {
         this.dataPass.sendLike({ postId: this.post._id, like: true });
         this.likeLoading = false;
-        this.presentToast("Ajouté aux favoris");
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.FAVORITE_OK
+            : MESSAGES.FAVORITE_OK_EN
+        );
         this.dismiss();
       },
       (error) => {
-        this.presentToast("Oops! une erreur est survenue");
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.SERVER_ERROR
+            : MESSAGES.SERVER_ERROR_EN
+        );
         this.likeLoading = false;
 
         // console.log(error)
@@ -97,12 +106,20 @@ export class LikersPage implements OnInit {
     this.contactService.removeFavorite(favoris).subscribe(
       (res) => {
         this.dataPass.sendLike({ postId: this.post._id, like: false });
-        this.presentToast(MESSAGES.REMOVE_FAVORITE_OK);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.REMOVE_FAVORITE_OK
+            : MESSAGES.REMOVE_FAVORITE_OK_EN
+        );
         this.likeLoading = false;
         this.dismiss();
       },
       (error) => {
-        this.presentToast(MESSAGES.SERVER_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.SERVER_ERROR
+            : MESSAGES.SERVER_ERROR_EN
+        );
         this.likeLoading = false;
 
         //  console.log(error)

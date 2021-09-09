@@ -29,7 +29,7 @@ export class ShareSheetPage implements OnInit {
   subscription: Subscription;
   sharers = [];
   loading = false;
-
+  language = "";
   constructor(
     private modalController: ModalController,
     public globals: Globals,
@@ -45,9 +45,9 @@ export class ShareSheetPage implements OnInit {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
 
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -106,11 +106,17 @@ export class ShareSheetPage implements OnInit {
     this.subscription = this.contactService.rePost(this.repost).subscribe(
       (res) => {
         this.getPosts(this.userId);
-        this.presentToast(MESSAGES.SHARE_OK);
+        this.presentToast(
+          this.language === "fr" ? MESSAGES.SHARE_OK : MESSAGES.SHARE_OK_EN
+        );
         this.dismiss();
       },
       (error) => {
-        this.presentToast(MESSAGES.SHARE_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.SHARE_ERROR
+            : MESSAGES.SHARE_ERROR_EN
+        );
       }
     );
   }
@@ -151,7 +157,10 @@ export class ShareSheetPage implements OnInit {
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
-      header: "Pourquoi signlez-vous cette publication ?",
+      header:
+        this.language === "fr"
+          ? MESSAGES.WHY_REPORT_POST
+          : MESSAGES.WHY_REPORT_POST_EN,
       message: "",
       buttons: [
         {
@@ -159,7 +168,7 @@ export class ShareSheetPage implements OnInit {
           role: "cancel",
           cssClass: "secondary",
           handler: (blah) => {
-            this.presentToast("Annulé");
+            this.presentToast(this.language === "fr" ? "Annulé" : "Canceled");
           },
         },
         {
@@ -198,9 +207,19 @@ export class ShareSheetPage implements OnInit {
       (res) => {
         //  console.log(res)
         this.presentToast(MESSAGES.CENSURED_OK);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.CENSURED_OK
+            : MESSAGES.CENSURED_OK_EN
+        );
       },
       (error) => {
         this.presentToast(MESSAGES.CENSURED_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.CENSURED_ERROR
+            : MESSAGES.CENSURED_ERROR_EN
+        );
         //  console.log(error)
       }
     );

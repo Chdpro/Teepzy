@@ -44,12 +44,12 @@
               <mat-form-field
                 class="example-full-width search-input mat-form-field"
               >
-                <mat-label>Rechercher</mat-label>
+                <mat-label>{{'SEARCH'| translate}}</mat-label>
                 <input
                   [(ngModel)]="search"
                   name="search"
                   matInput
-                  placeholder="Taper pour filtrer"
+                  placeholder=""
                 />
               </mat-form-field>
             </form>
@@ -71,7 +71,7 @@
     </ion-slide>
 
     <ion-slide *ngIf="post == null">
-      <span style="color: #ea4e4f"> Publication supprimée </span>
+      <span style="color: #ea4e4f"> {{'POST_DELETE'| translate}} </span>
     </ion-slide>
   </ion-slides>
   <div #slideWrapper class="ion-slide-wrapper" *ngIf="post">
@@ -126,7 +126,7 @@
                   *ngIf="post?.reposterId == userId"
                   style="font-size: small"
                 >
-                  Vous avez partagé le teepz de
+                  {{'REPOST_TEXT'| translate}}
                 </span>
               </ion-col>
               <ion-col
@@ -162,7 +162,12 @@
                 <strong> {{post?.userPseudo}} </strong><br />
                 <small> {{post?.circle || '' }} </small>
                 <span *ngIf="post?.createdAt">
-                  <span *ngIf="time(post?.createdAt) != 'il y a un mois'">
+                  <span class="time" *ngIf="language==='en'">
+                    {{time(post?.createdAt) }}
+                  </span>
+                  <span
+                    *ngIf="time(post?.createdAt) != 'il y a un mois'&&language==='fr'"
+                  >
                     <span *ngIf="time(post?.createdAt) != 'il y a un jour'">
                       <span
                         *ngIf="time(post?.createdAt) != 'il y a une minute'"
@@ -178,25 +183,25 @@
                   </span>
                   <span
                     class="time"
-                    *ngIf="time(post?.createdAt) == 'il y a une minute'"
+                    *ngIf="time(post?.createdAt) == 'il y a une minute'&&language==='fr'"
                   >
                     il y a 1 minute
                   </span>
                   <span
                     class="time"
-                    *ngIf="time(post?.createdAt) == 'il y a une heure'"
+                    *ngIf="time(post?.createdAt) == 'il y a une heure'&&language==='fr'"
                   >
                     il y a 1 heure
                   </span>
                   <span
                     class="time"
-                    *ngIf="time(post?.createdAt) == 'il y a un jour'"
+                    *ngIf="time(post?.createdAt) == 'il y a un jour'&&language==='fr'"
                   >
                     il y a 1 jour
                   </span>
                   <span
                     class="time"
-                    *ngIf="time(post?.createdAt) == 'il y a un mois'"
+                    *ngIf="time(post?.createdAt) == 'il y a un mois'&&language==='fr'"
                   >
                     il y a 1 mois
                   </span>
@@ -348,7 +353,12 @@
               *ngIf="post?.image_url || post?.video_url"
             >
               <strong> @{{post?.userPseudo}} - </strong>
-              <span *ngIf="time(post?.createdAt) != 'il y a un mois'">
+              <span class="time" *ngIf="language==='en'">
+                {{time(post?.createdAt) }}
+              </span>
+              <span
+                *ngIf="time(post?.createdAt) != 'il y a un mois'&&language==='fr'"
+              >
                 <span *ngIf="time(post?.createdAt) != 'il y a un jour'">
                   <span *ngIf="time(post?.createdAt) != 'il y a une minute'">
                     <span
@@ -362,25 +372,25 @@
               </span>
               <span
                 class="time"
-                *ngIf="time(post?.createdAt) == 'il y a une minute'"
+                *ngIf="time(post?.createdAt) == 'il y a une minute'&&language==='fr'"
               >
                 il y a 1 minute
               </span>
               <span
                 class="time"
-                *ngIf="time(post?.createdAt) == 'il y a une heure'"
+                *ngIf="time(post?.createdAt) == 'il y a une heure'&&language==='fr'"
               >
                 il y a 1 heure
               </span>
               <span
                 class="time"
-                *ngIf="time(post?.createdAt) == 'il y a un jour'"
+                *ngIf="time(post?.createdAt) == 'il y a un jour'&&language==='fr'"
               >
                 il y a 1 jour
               </span>
               <span
                 class="time"
-                *ngIf="time(post?.createdAt) == 'il y a un mois'"
+                *ngIf="time(post?.createdAt) == 'il y a un mois'&&language==='fr'"
               >
                 il y a 1 mois
               </span> </span

@@ -50,6 +50,7 @@ export class Tab2Page implements OnInit {
   subscription: Subscription;
   page = 1;
   maximumPages = 5;
+  language = "";
   constructor(
     private contactService: ContactService,
     private menuCtrl: MenuController,
@@ -63,9 +64,9 @@ export class Tab2Page implements OnInit {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
 
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {}
@@ -341,7 +342,7 @@ export class Tab2Page implements OnInit {
   }
 
   time(date) {
-    moment.locale("fr");
+    moment.locale(this.language);
     return moment(date).fromNow();
   }
 
@@ -364,7 +365,11 @@ export class Tab2Page implements OnInit {
           //  console.log(res)
           this.loading = false;
           this.listInvitations();
-          this.presentToast("Vous êtes désormais en contact");
+          this.presentToast(
+            this.language === "fr"
+              ? "Vous êtes désormais en contact"
+              : "You are now in contact with"
+          );
         },
         (error) => {
           // console.log(error)
@@ -382,12 +387,20 @@ export class Tab2Page implements OnInit {
       .subscribe(
         (res) => {
           // console.log(res)
-          this.presentToast(MESSAGES.LINK_DENIED_OK);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.LINK_DENIED_OK
+              : MESSAGES.LINK_DENIED_OK_EN
+          );
           this.listLinks();
         },
         (error) => {
           // console.log(error)
-          this.presentToast(MESSAGES.SERVER_ERROR);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.SERVER_ERROR
+              : MESSAGES.SERVER_ERROR_EN
+          );
         }
       );
   }
@@ -401,12 +414,20 @@ export class Tab2Page implements OnInit {
       .subscribe(
         (res) => {
           // console.log(res)
-          this.presentToast(MESSAGES.LINK_DENIED_OK);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.LINK_DENIED_OK
+              : MESSAGES.LINK_DENIED_OK_EN
+          );
           this.listLinks();
         },
         (error) => {
           // console.log(error)
-          this.presentToast(MESSAGES.SERVER_ERROR);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.SERVER_ERROR
+              : MESSAGES.SERVER_ERROR_EN
+          );
         }
       );
   }
@@ -505,7 +526,11 @@ export class Tab2Page implements OnInit {
       },
       (error) => {
         this.loading = false;
-        this.presentToast(MESSAGES.SERVER_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.SERVER_ERROR
+            : MESSAGES.SERVER_ERROR_EN
+        );
         //console.log(error)
       }
     );
@@ -560,28 +585,28 @@ export class Tab2Page implements OnInit {
           handler: () => {},
         },
         {
-          text: "Accepter",
+          text: this.language === "fr" ? "Accepter" : "Accept",
           icon: "checkmark",
           handler: () => {
             this.acceptLink(link);
           },
         },
         {
-          text: "Consulter",
+          text: this.language === "fr" ? "Consulter" : "Check out",
           icon: "eye",
           handler: () => {
             this.goToDetailTeepz(link.postId);
           },
         },
         {
-          text: "Refuser",
+          text: this.language === "fr" ? "Refuser" : "Refuse",
           icon: "remove-circle",
           handler: () => {
             this.refuseLink(link);
           },
         },
         {
-          text: "Annuler",
+          text: this.language === "fr" ? "Annulé" : "Canceled",
           icon: "close",
           role: "cancel",
           handler: () => {

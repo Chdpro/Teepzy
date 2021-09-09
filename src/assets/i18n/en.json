@@ -50,6 +50,7 @@
     "ADDED":"Added",
 
     "REPOST_TEXT": "shared the teepz of",
+    "REPOST":" You shared the teepz of",
 
     "SEARCH_TEXT1":"What you probably missed",
     "NO_RESULT":"No search results",
@@ -125,6 +126,7 @@
     "NO_FRIEND_TO_CHAT_WITH":"No friend to chat with",
     "ADD_CHAT_GROUP_NAME":"Group name",
     "CHAT":"Add",
+    "MEMBER_REMOVED_CHAT": "Member deleted from the conversation",
 
 
     "PROFILE_TAB_PRO":"PROFILE",
@@ -136,7 +138,7 @@
     "NO_PROJECT":"No project added",
     "PROFILE_TAB_SHOP":"SHOP",
     "NO_SHOP":"No product added",
-    "PROFILE_TAB_TEEPZR": "MY TEEPZRS",
+    "PROFILE_TAB_TEEPZR": "MY TEEPZS",
     "NO_TEEPZ_ADDED":"No teepz added",
     "EDIT_BTN":"Edit",
 
@@ -194,8 +196,20 @@
     "CONF_PWD":"Confirm",
     "UPDATE_BTN":"SAVE" ,
 
-    "CHANGE_INFO_TITLE":"Edit infos"    
+    "CHANGE_INFO_TITLE":"Edit infos",
 
+    "YOU":"You",
+    "HAVE":"have",
+
+    "MAY_KNOW": "You may know them",
+    "NO_ONE_TO_ADD": "No one to add",
+    "COMMON_FRIENDS": "friends in common",
+
+    "SUCCESFUL_LOGGED": "1st step passed! You are registered"
+
+
+
+    
 
 
 

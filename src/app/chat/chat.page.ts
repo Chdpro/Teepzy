@@ -82,7 +82,7 @@ export class ChatPage implements OnInit, AfterViewChecked {
   @ViewChild("scrollMe", null) private myScrollContainer: ElementRef;
 
   @ViewChild("content", null) private content: any;
-
+  language = "";
   constructor(
     private router: Router,
     private contactService: ContactService,
@@ -99,9 +99,9 @@ export class ChatPage implements OnInit, AfterViewChecked {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
 
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
 
     this.subscription = this.dataPasse.getRoom().subscribe((room) => {
       if (room) {
@@ -269,13 +269,21 @@ export class ChatPage implements OnInit, AfterViewChecked {
         .subscribe(
           (res) => {
             //   console.log(res)
-            this.presentToast(MESSAGES.INVITATION_SEND_OK);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.INVITATION_SEND_OK
+                : MESSAGES.INVITATION_SEND_OK_EN
+            );
             this.isInMyCircle = true;
             //   this.socket.emit('notification', 'notification');
             this.loading = false;
           },
           (error) => {
-            this.presentToast(MESSAGES.INVITATION_SEND_ERROR);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.INVITATION_SEND_ERROR
+                : MESSAGES.INVITATION_SEND_ERROR_EN
+            );
             this.loading = false;
           }
         );
@@ -289,13 +297,21 @@ export class ChatPage implements OnInit, AfterViewChecked {
       this.contactService.inviteToJoinCircle(invitation).subscribe(
         (res) => {
           //   console.log(res)
-          this.presentToast(MESSAGES.INVITATION_SEND_OK);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.INVITATION_SEND_OK
+              : MESSAGES.INVITATION_SEND_OK_EN
+          );
           this.isInMyCircle = true;
           //   this.socket.emit('notification', 'notification');
           this.loading = false;
         },
         (error) => {
-          this.presentToast(MESSAGES.INVITATION_SEND_ERROR);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.INVITATION_SEND_ERROR
+              : MESSAGES.INVITATION_SEND_ERROR_EN
+          );
           this.loading = false;
         }
       );

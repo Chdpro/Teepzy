@@ -10,6 +10,7 @@ import { Diagnostic } from "@ionic-native/diagnostic/ngx";
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
 import { Subscription } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
+import { MESSAGES } from "../constant/constant";
 
 @Component({
   selector: "app-autorisation",
@@ -22,6 +23,8 @@ export class AutorisationPage implements OnInit {
   userId = "";
   user: any;
   subscription: Subscription;
+
+  language = "";
   constructor(
     private menuCtrl: MenuController,
     private contactService: ContactService,
@@ -34,9 +37,9 @@ export class AutorisationPage implements OnInit {
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -64,21 +67,21 @@ export class AutorisationPage implements OnInit {
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
-      header: "Etes-vous sûr ne pas vouloir autoriser?",
+      header: this.language === "fr" ? MESSAGES.NOT_AUTH : MESSAGES.NOT_AUTH_EN,
       message: "",
       buttons: [
         {
-          text: "Annuler",
+          text: this.language === "fr" ? "Annuler" : "Cancel",
           role: "cancel",
           cssClass: "secondary",
           handler: (blah) => {
             this.n = true;
-            this.presentToast("Annulé");
+            this.presentToast(this.language === "fr" ? "Annulé" : "Canceled");
           },
         },
 
         {
-          text: "Confirmer",
+          text: this.language === "fr" ? "Confirmer" : "Confirm",
           handler: () => {
             this.n = false;
             this.authorizeOrNot(this.n);
@@ -92,21 +95,21 @@ export class AutorisationPage implements OnInit {
   async presentPhotoAlertConfirm() {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
-      header: "Etes-vous sûr de ne pas vouloir autoriser?",
+      header: this.language === "fr" ? MESSAGES.NOT_AUTH : MESSAGES.NOT_AUTH_EN,
       message: "",
       buttons: [
         {
-          text: "Annuler",
+          text: this.language === "fr" ? "Annuler" : "Cancel",
           role: "cancel",
           cssClass: "secondary",
           handler: (blah) => {
             this.nPhoto = true;
-            this.presentToast("Annulé");
+            this.presentToast(this.language === "fr" ? "Annulé" : "Cancel");
           },
         },
 
         {
-          text: "Confirmer",
+          text: this.language === "fr" ? "Confirmer" : "Confirm",
           handler: () => {
             this.nPhoto = false;
             this.authorizePhotoOrNot(this.nPhoto);

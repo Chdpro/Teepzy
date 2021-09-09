@@ -57,6 +57,7 @@ export class AddProjectPage implements OnInit {
   filesName = new Array();
   dispImags = [];
   imageData;
+  language = "";
   constructor(
     private modalController: ModalController,
     private toasterController: ToastController,
@@ -73,9 +74,9 @@ export class AddProjectPage implements OnInit {
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -197,23 +198,32 @@ export class AddProjectPage implements OnInit {
 
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
-      header: "Ajouter une image",
+      header:
+        this.language === "fr"
+          ? MESSAGES.SELECT_MEDIA
+          : MESSAGES.SELECT_MEDIA_EN,
       buttons: [
         {
-          text: "Choisir dans votre galerie",
+          text:
+            this.language === "fr"
+              ? MESSAGES.GALLERY_CHOICE
+              : MESSAGES.GALLERY_CHOICE_EN,
           handler: () => {
             this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
           },
         },
 
         {
-          text: "Utiliser la Camera",
+          text:
+            this.language === "fr"
+              ? MESSAGES.CAMERA_CHOICE
+              : MESSAGES.CAMERA_CHOICE_EN,
           handler: () => {
             this.pickImage(this.camera.PictureSourceType.CAMERA);
           },
         },
         {
-          text: "Annuler",
+          text: this.language === "fr" ? "Annuler" : "Cancel",
           role: "cancel",
         },
       ],
@@ -260,7 +270,12 @@ export class AddProjectPage implements OnInit {
         this.imageData = "";
       },
       (err) => {
-        this.presentToast("Oops une erreur lors de l'upload");
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.ERROR_UPLOAD
+            : MESSAGES.ERROR_UPLOAD_EN
+        );
+
         //this.dismiss();
       }
     );
@@ -358,7 +373,11 @@ export class AddProjectPage implements OnInit {
   addPost(post) {
     this.subscription = this.contactService.addPost(post).subscribe(
       (res) => {
-        this.presentToast("Publié sur le fil d'actualité");
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.POST_ON_FEED
+            : MESSAGES.POST_ON_FEED_EN
+        );
       },
       (error) => {
         // this.presentToast(MESSAGES.ADD_FEED_ERROR)
@@ -388,7 +407,12 @@ export class AddProjectPage implements OnInit {
           (res) => {
             // console.log(res);
             this.loading = false;
-            this.presentToast(MESSAGES.PROJECT_CREATED_OK);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.PROJECT_CREATED_OK
+                : MESSAGES.PROJECT_CREATED_OK_EN
+            );
+
             let userId = localStorage.getItem("teepzyUserId");
             this.getProjects(userId);
             this.addPost(post);
@@ -397,7 +421,11 @@ export class AddProjectPage implements OnInit {
           (error) => {
             //console.log(error)
             this.loading = false;
-            this.presentToast(MESSAGES.PROJECT_CREATED_ERROR);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.PROJECT_CREATED_ERROR
+                : MESSAGES.PROJECT_CREATED_ERROR_EN
+            );
           }
         );
     } else {
@@ -412,7 +440,12 @@ export class AddProjectPage implements OnInit {
           (res) => {
             // console.log(res);
             this.loading = false;
-            this.presentToast(MESSAGES.PROJECT_CREATED_OK);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.PROJECT_CREATED_OK
+                : MESSAGES.PROJECT_CREATED_OK_EN
+            );
+
             let userId = localStorage.getItem("teepzyUserId");
             this.getProjects(userId);
             this.dismiss();
@@ -420,7 +453,11 @@ export class AddProjectPage implements OnInit {
           (error) => {
             //console.log(error)
             this.loading = false;
-            this.presentToast(MESSAGES.PROJECT_CREATED_ERROR);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.PROJECT_CREATED_ERROR
+                : MESSAGES.PROJECT_CREATED_ERROR_EN
+            );
           }
         );
     }

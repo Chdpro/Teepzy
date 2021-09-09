@@ -12,6 +12,7 @@ import { DatapasseService } from "../providers/datapasse.service";
 import { MESSAGES } from "../constant/constant";
 import { Globals } from "../globals";
 import { Subscription } from "rxjs";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-detail-produit",
@@ -39,7 +40,7 @@ export class DetailProduitPage implements OnInit {
     speed: 400,
   };
   subscription: Subscription;
-
+  language = "";
   constructor(
     private menuCtrl: MenuController,
     private route: ActivatedRoute,
@@ -48,10 +49,14 @@ export class DetailProduitPage implements OnInit {
     private contactService: ContactService,
     private authService: AuthService,
     public globals: Globals,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -76,19 +81,19 @@ export class DetailProduitPage implements OnInit {
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
-      header: "Supprimer ?",
+      header: this.language === "fr" ? "Supprimer?" : "Delete?",
       message: "",
       buttons: [
         {
-          text: "Non",
+          text: this.language === "fr" ? "Non" : "No",
           role: "cancel",
           cssClass: "secondary",
           handler: (blah) => {
-            this.presentToast("Annulé");
+            this.presentToast(this.language === "fr" ? "Annulé" : "Canceled");
           },
         },
         {
-          text: "Oui",
+          text: this.language === "fr" ? "Oui" : "Yes",
           handler: () => {
             this.delete(this.product._id);
           },
@@ -114,7 +119,11 @@ export class DetailProduitPage implements OnInit {
     this.subscription = this.contactService.deleteProduct(id).subscribe(
       (res) => {
         console.log(res);
-        this.presentToast(MESSAGES.SHOP_DELETED_OK);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.SHOP_DELETED_OK
+            : MESSAGES.SHOP_DELETED_OK_EN
+        );
         this.getUserInfo(this.userId);
       },
       (error) => {

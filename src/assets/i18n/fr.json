@@ -50,6 +50,7 @@
     "ADDED":"Ajouté",
 
     "REPOST_TEXT": "a partagé le teepz de",
+    "REPOST":" Vous avez partagé le teepz de",
 
     "SEARCH_TEXT1":"Ce que vous avez peut-etre manqué",
     "NO_RESULT":"Aucun résultat de recherche",
@@ -117,6 +118,7 @@
 
     "CHAT_TITLE":"MESSAGERIE",
     "CHAT_DELETE":"Supprimer",
+    "MEMBER_REMOVED_CHAT":"Membre supprimé de la conversation",
     "NO_CHAT":"Aucune conversation",
 
     "ADD_PEOPLE_CHAT_TITLE":"Ajout à la discussion",
@@ -135,7 +137,7 @@
     "NO_PROJECT":"Aucun projet ajouté",
     "PROFILE_TAB_SHOP":"BOUTIQUE",
     "NO_SHOP":"Aucun produit ajouté",
-    "PROFILE_TAB_TEEPZR": "MES TEEPZRS",
+    "PROFILE_TAB_TEEPZR": "MES TEEPZS",
     "NO_TEEPZ_ADDED":"Aucun teepz ajouté",
     "EDIT_BTN":"Editer",
 
@@ -193,7 +195,20 @@
 
     "CHANGE_INFO_TITLE":"Modifier mes infos",
     "FIRST_NAME":"Prénoms",
-    "LAST_NAME":"Nom"
+    "LAST_NAME":"Nom",
+
+    "YOU":"Vous",
+    "HAVE":"avez",
+
+    "ERROR":"Oops! une erreur est survenue",
+    "ERROR_EN": "Oops! an error has occurred",
+    "MAY_KNOW":" Vous les connaissez peut-être",
+    "NO_ONE_TO_ADD":" Aucune personne à Ajouter",
+    "COMMON_FRIENDS":"amis en commun",
+
+    "SUCCESFUL_LOGGED":"1ere étape passée ! Vous êtes inscrit"
+
+
     
 
 

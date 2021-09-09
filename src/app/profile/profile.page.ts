@@ -90,7 +90,7 @@ export class ProfilePage implements OnInit {
 
   previousUrl = "";
   isMyProfile = false;
-
+  language = "";
   constructor(
     private router: Router,
     private modalController: ModalController,
@@ -105,9 +105,9 @@ export class ProfilePage implements OnInit {
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
 
     this.subscription = this.dataPass.getUserPhoto().subscribe((photo) => {
       if (photo) {
@@ -189,7 +189,7 @@ export class ProfilePage implements OnInit {
   }
 
   time(date) {
-    moment.locale("fr");
+    moment.locale(this.language);
     return moment(date).fromNow();
   }
 

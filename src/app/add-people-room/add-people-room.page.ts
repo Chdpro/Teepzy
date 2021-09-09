@@ -36,6 +36,7 @@ export class AddPeopleRoomPage implements OnInit {
   search: any;
 
   subscription: Subscription;
+  language = "";
   constructor(
     public navCtrl: NavController,
     private contactService: ContactService,
@@ -48,9 +49,9 @@ export class AddPeopleRoomPage implements OnInit {
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -74,7 +75,11 @@ export class AddPeopleRoomPage implements OnInit {
       this.membersToChatWith.push(idUser);
     } else {
       this.deleteItemFromList(this.membersToChatWith, idUser);
-      this.presentToast("Cette personne appartient déjà à cette discussion");
+      this.presentToast(
+        this.language === "fr"
+          ? MESSAGES.PERSON_YET_EXIST_ROOM
+          : MESSAGES.PERSON_YET_EXIST_ROOM_EN
+      );
     }
     // console.log(this.membersToChatWith)
   }
@@ -92,18 +97,32 @@ export class AddPeopleRoomPage implements OnInit {
           // console.log(res)
           if (res["status"] == 200) {
             this.loading = false;
-            this.presentToast(MESSAGES.ROOM_UPDATE_OK);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.ROOM_UPDATE_OK
+                : MESSAGES.ROOM_UPDATE_OK_EN
+            );
+
             this.dataPasse.sendRoom(res["data"]);
             //this.getChatRooms()
             this.dismiss();
           } else {
-            this.presentToast(MESSAGES.ROOM_UPDATE_ERROR);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.ROOM_UPDATE_ERROR
+                : MESSAGES.ROOM_UPDATE_ERROR_EN
+            );
+
             this.loading = false;
           }
         },
         (error) => {
           this.loading = false;
-          this.presentToast(MESSAGES.ROOM_UPDATE_ERROR);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.ROOM_UPDATE_ERROR
+              : MESSAGES.ROOM_UPDATE_ERROR_EN
+          );
           // console.log(error)
         }
       );

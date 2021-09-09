@@ -93,10 +93,20 @@
             <mat-datepicker #pickerEx></mat-datepicker>
             <mat-hint>
               <ion-datetime
+                *ngIf="language==='fr'"
                 style="margin-top: -5px"
                 [value]="userInfo?.birthday"
                 displayFormat="DD MMM YYYY"
                 monthShortNames="janvier, fevrier, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, decemebre"
+              >
+              </ion-datetime>
+
+              <ion-datetime
+                *ngIf="language==='en'"
+                style="margin-top: -5px"
+                [value]="userInfo?.birthday"
+                displayFormat="MMM DD, YYYY"
+                monthShortNames="january, february, march, april, may, june, july, august, september, october, november, december"
               >
               </ion-datetime>
             </mat-hint>

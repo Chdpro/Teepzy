@@ -101,6 +101,7 @@ export class ContactsPage implements OnInit {
   subscription: Subscription;
   invite: any;
 
+  language = "";
   constructor(
     private contacts: Contacts,
     public toastController: ToastController,
@@ -125,9 +126,9 @@ export class ContactsPage implements OnInit {
     this.previousRoute
       ? null
       : (this.previousRoute = this.navParams.data.previousUrl);
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -605,7 +606,9 @@ export class ContactsPage implements OnInit {
       .subscribe(
         (res) => {
           //  console.log(res)
-          this.presentToast("Invitation envoyée");
+          this.presentToast(
+            this.language === "fr" ? "Invitation envoyée" : "Invitation sent"
+          );
           this.listContacts.find((c, index) => {
             let phones = c.phone;
             for (const p of phones) {
@@ -616,7 +619,11 @@ export class ContactsPage implements OnInit {
           });
         },
         (error) => {
-          this.presentToast("Invitation non envoyée");
+          this.presentToast(
+            this.language === "fr"
+              ? "Invitation non envoyée"
+              : "Invitation not sent"
+          );
         }
       );
   }
@@ -631,7 +638,9 @@ export class ContactsPage implements OnInit {
       .subscribe(
         (res) => {
           // console.log(res)
-          this.presentToast("Invitation annulée");
+          this.presentToast(
+            this.language === "fr" ? "Invitation annulée" : "Invitation cancel"
+          );
           this.listContacts.find((c, index) => {
             let phones = c.phone;
             for (const p of phones) {
@@ -642,7 +651,11 @@ export class ContactsPage implements OnInit {
           });
         },
         (error) => {
-          this.presentToast("Invitation non annulée");
+          this.presentToast(
+            this.language === "fr"
+              ? "Invitation non annulée"
+              : "Invitation not canceled"
+          );
         }
       );
   }
@@ -664,11 +677,19 @@ export class ContactsPage implements OnInit {
               c["_id"] == idReceiver ? (c["invited"] = true) : null;
             }
           }
-          this.presentToast(MESSAGES.INVITATION_SEND_OK);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.INVITATION_SEND_OK
+              : MESSAGES.INVITATION_SEND_OK_EN
+          );
           this.loading = false;
         },
         (error) => {
-          this.presentToast(MESSAGES.INVITATION_SEND_ERROR);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.INVITATION_SEND_ERROR
+              : MESSAGES.INVITATION_SEND_ERROR_EN
+          );
           this.loading = false;
         }
       );
@@ -686,7 +707,11 @@ export class ContactsPage implements OnInit {
       .subscribe(
         (res) => {
           if (res["status"] == 400) {
-            this.presentToast("Invitation non envoyée");
+            this.presentToast(
+              this.language === "fr"
+                ? "Invitation non envoyée"
+                : "Invitation not sent"
+            );
             this.loading = false;
           } else {
             for (const c of this.listTeepzrsToInvite) {
@@ -694,12 +719,20 @@ export class ContactsPage implements OnInit {
                 c["_id"] == u._id ? (c["invited"] = false) : null;
               }
             }
-            this.presentToast("Invitation annulée");
+            this.presentToast(
+              this.language === "fr"
+                ? "Invitation annulée"
+                : "Invitation cancel"
+            );
             this.loading = false;
           }
         },
         (error) => {
-          this.presentToast("Invitation non envoyée");
+          this.presentToast(
+            this.language === "fr"
+              ? "Invitation non envoyée"
+              : "Invitation not sent"
+          );
           this.loading = false;
         }
       );
@@ -761,20 +794,24 @@ export class ContactsPage implements OnInit {
   async presentAlertConfirm(IdR) {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
-      header: "Quel type d'invitation voulez-vous envoyer ?",
+      header:
+        this.language === "fr"
+          ? MESSAGES.INVITATION_TYPE
+          : MESSAGES.INVITATION_TYPE_EN,
+
       message: "",
       buttons: [
         {
-          text: "Annuler",
+          text: this.language === "fr" ? "Annuler" : "Cancel",
           role: "cancel",
           cssClass: "secondary",
           handler: (blah) => {
-            this.presentToast("Annulé");
+            this.presentToast(this.language === "fr" ? "Annulée" : "Canceled");
           },
         },
 
         {
-          text: "Confirmer",
+          text: this.language === "fr" ? "Confirmer" : "Confirm",
           handler: () => {
             this.sendInvitationToJoinCircle(IdR);
           },
@@ -814,7 +851,11 @@ export class ContactsPage implements OnInit {
         (error) => {
           //  console.log(error)
           this.loading = false;
-          this.presentToast("Oops! Une erreur est survenue sur le serveur");
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.ERROR_UPLOAD
+              : MESSAGES.ERROR_UPLOAD_EN
+          );
         }
       );
   }

@@ -61,6 +61,9 @@ export class AddProductPage implements OnInit {
   imageData = "";
   showModal = "hidden";
   user: any;
+
+  language = "";
+
   constructor(
     private modalController: ModalController,
     private toasterController: ToastController,
@@ -77,9 +80,9 @@ export class AddProductPage implements OnInit {
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -159,11 +162,20 @@ export class AddProductPage implements OnInit {
   addPost(post) {
     this.subscription = this.contactService.addPost(post).subscribe(
       (res) => {
-        this.presentToast("Publié sur le fil d'actualité");
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.POST_ON_FEED
+            : MESSAGES.POST_ON_FEED_EN
+        );
+
         this.dismiss();
       },
       (error) => {
-        this.presentToast(MESSAGES.ADD_FEED_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.ADD_FEED_ERROR
+            : MESSAGES.ADD_FEED_ERROR_EN
+        );
       }
     );
   }
@@ -193,7 +205,12 @@ export class AddProductPage implements OnInit {
           (res) => {
             // console.log(res);
             this.loading = false;
-            this.presentToast(MESSAGES.SHOP_CREATED_OK);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.SHOP_CREATED_OK
+                : MESSAGES.SHOP_CREATED_OK_EN
+            );
+
             let userId = localStorage.getItem("teepzyUserId");
             this.getProducts(userId);
             post.productId = res["data"]["_id"];
@@ -202,7 +219,11 @@ export class AddProductPage implements OnInit {
           (error) => {
             // console.log(error)
             this.loading = false;
-            this.presentToast(MESSAGES.SHOP_CREATED_ERROR);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.SHOP_CREATED_ERROR
+                : MESSAGES.SHOP_CREATED_ERROR_EN
+            );
           }
         );
     } else {
@@ -216,7 +237,12 @@ export class AddProductPage implements OnInit {
           (res) => {
             // console.log(res);
             this.loading = false;
-            this.presentToast(MESSAGES.SHOP_CREATED_OK);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.SHOP_CREATED_OK
+                : MESSAGES.SHOP_CREATED_OK_EN
+            );
+
             let userId = localStorage.getItem("teepzyUserId");
             this.getProducts(userId);
             this.dismiss();
@@ -224,7 +250,11 @@ export class AddProductPage implements OnInit {
           (error) => {
             // console.log(error)
             this.loading = false;
-            this.presentToast(MESSAGES.SHOP_CREATED_ERROR);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.SHOP_CREATED_ERROR
+                : MESSAGES.SHOP_CREATED_ERROR_EN
+            );
           }
         );
     }
@@ -293,10 +323,16 @@ export class AddProductPage implements OnInit {
 
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
-      header: "Ajouter une image",
+      header:
+        this.language === "fr"
+          ? MESSAGES.SELECT_MEDIA
+          : MESSAGES.SELECT_MEDIA_EN,
       buttons: [
         {
-          text: "Choisir dans votre galerie",
+          text:
+            this.language === "fr"
+              ? MESSAGES.GALLERY_CHOICE
+              : MESSAGES.GALLERY_CHOICE_EN,
           handler: () => {
             this.pickImagePermission(
               this.camera.PictureSourceType.PHOTOLIBRARY
@@ -304,13 +340,16 @@ export class AddProductPage implements OnInit {
           },
         },
         {
-          text: "Utiliser la Camera",
+          text:
+            this.language === "fr"
+              ? MESSAGES.CAMERA_CHOICE
+              : MESSAGES.CAMERA_CHOICE_EN,
           handler: () => {
             this.takeImagePermission(this.camera.PictureSourceType.CAMERA);
           },
         },
         {
-          text: "Annuler",
+          text: this.language === "fr" ? "Annuler" : "Cancel",
           role: "cancel",
         },
       ],
@@ -357,7 +396,12 @@ export class AddProductPage implements OnInit {
         this.imageData = "";
       },
       (err) => {
-        this.presentToast("Oops une erreur lors de l'upload");
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.ERROR_UPLOAD
+            : MESSAGES.ERROR_UPLOAD_EN
+        );
+
         //this.dismiss();
       }
     );

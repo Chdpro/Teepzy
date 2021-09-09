@@ -25,6 +25,7 @@ export class EditPassPage implements OnInit {
   hide: any;
 
   subscription: Subscription;
+  language = "";
   constructor(
     private menuCtrl: MenuController,
     private authService: AuthService,
@@ -33,9 +34,9 @@ export class EditPassPage implements OnInit {
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -72,16 +73,28 @@ export class EditPassPage implements OnInit {
             };
             this.updatePass(userPass);
           } else {
-            this.presentToast(MESSAGES.PASSWORD_NOT_MATCH);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.PASSWORD_NOT_MATCH
+                : MESSAGES.PASSWORD_NOT_MATCH_EN
+            );
           }
         }
       },
       (error) => {
         console.log(error);
         if (error["status"] === 404) {
-          this.presentToast(MESSAGES.PASSWORD_NOT_CORRECT);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.PASSWORD_NOT_CORRECT
+              : MESSAGES.PASSWORD_NOT_CORRECT_EN
+          );
         } else {
-          this.presentToast(MESSAGES.SERVER_ERROR);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.SERVER_ERROR
+              : MESSAGES.SERVER_ERROR_EN
+          );
         }
       }
     );
@@ -92,12 +105,20 @@ export class EditPassPage implements OnInit {
     this.subscription = this.authService.changePassword(user).subscribe(
       (res) => {
         console.log(res);
-        this.presentToast(MESSAGES.PASSWORD_UPDATED_OK);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.PASSWORD_UPDATED_OK
+            : MESSAGES.PASSWORD_UPDATED_OK_EN
+        );
         this.loading = false;
       },
       (error) => {
         console.log(error);
-        this.presentToast(MESSAGES.SERVER_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.SERVER_ERROR
+            : MESSAGES.SERVER_ERROR_EN
+        );
         this.loading = false;
       }
     );

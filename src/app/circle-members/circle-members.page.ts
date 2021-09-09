@@ -35,6 +35,8 @@ export class CircleMembersPage implements OnInit {
   search: any;
 
   subscription: Subscription;
+
+  language = "";
   constructor(
     public navCtrl: NavController,
     private router: Router,
@@ -43,14 +45,13 @@ export class CircleMembersPage implements OnInit {
     private toasterController: ToastController,
     private dataPasse: DatapasseService,
     private menuCtrl: MenuController,
-    private translate: TranslateService
-  ) //private socket: Socket
-  {
+    private translate: TranslateService //private socket: Socket
+  ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -81,7 +82,11 @@ export class CircleMembersPage implements OnInit {
           let room = res["data"];
           if (res["status"] == 200) {
             this.loading = false;
-            this.presentToast(MESSAGES.ROOM_INITIATED_OK);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.ROOM_INITIATED_OK
+                : MESSAGES.ROOM_INITIATED_OK_EN
+            );
             this.dataPasse.sendRoom(res["data"]);
             room["connectedUsers"].length > 1
               ? this.gotoChatWhenGroupRoom(
@@ -141,7 +146,11 @@ export class CircleMembersPage implements OnInit {
         },
         (error) => {
           this.loading = false;
-          this.presentToast(MESSAGES.ROOM_INITIATED_ERROR);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.ROOM_INITIATED_ERROR
+              : MESSAGES.ROOM_INITIATED_ERROR_EN
+          );
           // console.log(error)
         }
       );

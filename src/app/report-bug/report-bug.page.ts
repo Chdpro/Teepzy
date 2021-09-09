@@ -20,6 +20,7 @@ export class ReportBugPage implements OnInit {
 
   loading = false;
   subscription: Subscription;
+  language = "";
   constructor(
     private menuCtrl: MenuController,
     private contactService: ContactService,
@@ -28,9 +29,9 @@ export class ReportBugPage implements OnInit {
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -43,7 +44,9 @@ export class ReportBugPage implements OnInit {
       (res) => {
         console.log(res);
         this.loading = false;
-        this.presentToast(MESSAGES.REPORT_OK);
+        this.presentToast(
+          this.language === "fr" ? MESSAGES.REPORT_OK : MESSAGES.REPORT_OK_EN
+        );
       },
       (error) => {
         console.log(error);

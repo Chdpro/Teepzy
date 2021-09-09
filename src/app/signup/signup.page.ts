@@ -161,7 +161,9 @@ export class SignupPage implements OnInit {
     }
 
     if (this.user.photo != "") {
-      this.presentToast("Avatar choisi ");
+      this.presentToast(
+        this.language === "fr" ? "Avatar choisi" : "Chosen Avatar"
+      );
     }
   }
 
@@ -216,7 +218,9 @@ export class SignupPage implements OnInit {
       })
       .catch((error) => {
         //    console.log(error, "Incorrect code entered?");
-        this.presentToast("Incorrect code ");
+        this.presentToast(
+          this.language === "fr" ? "Code Incorrect" : "Incorrect code "
+        );
       });
   }
 
@@ -236,6 +240,7 @@ export class SignupPage implements OnInit {
             this.dismissLoading();
             if (this.retourUsr["status"] == 200) {
               this.presentToast("1ere étape passée ! Vous êtes inscrit ");
+
               this.loading = false;
               localStorage.setItem(
                 "teepzyUserId",
@@ -262,10 +267,18 @@ export class SignupPage implements OnInit {
             // alert(JSON.stringify(error))
             this.loading = false;
             if (error["status"] == 403) {
-              this.presentToast(MESSAGES.SIGNUP_EXIST_OK);
+              this.presentToast(
+                this.language === "fr"
+                  ? MESSAGES.SIGNUP_EXIST_OK
+                  : MESSAGES.SIGNUP_EXIST_OK_EN
+              );
               this.dismissLoading();
             } else {
-              this.presentToast(MESSAGES.SERVER_ERROR);
+              this.presentToast(
+                this.language === "fr"
+                  ? MESSAGES.SHARE_ERROR
+                  : MESSAGES.SHARE_ERROR_EN
+              );
               //   alert(JSON.stringify(error))
               this.dismissLoading();
             }
@@ -273,7 +286,11 @@ export class SignupPage implements OnInit {
         );
     } else {
       this.loading = false;
-      this.presentToast(MESSAGES.PASSWORD_NOT_MATCH);
+      this.presentToast(
+        this.language === "fr"
+          ? MESSAGES.PASSWORD_NOT_MATCH
+          : MESSAGES.PASSWORD_NOT_MATCH_EN
+      );
       this.dismissLoading();
     }
   }

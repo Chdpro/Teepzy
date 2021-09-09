@@ -43,7 +43,7 @@ export class LinkSheetPage implements OnInit {
   checkItems = {};
   filtre: any;
   typeMatch = "";
-
+  language = "";
   constructor(
     private modalController: ModalController,
     private contactService: ContactService,
@@ -57,9 +57,9 @@ export class LinkSheetPage implements OnInit {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
 
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {}
@@ -131,7 +131,11 @@ export class LinkSheetPage implements OnInit {
         count++;
         this.linker(us);
         count == this.usersSelected.length
-          ? this.presentToast("Vous avez linké ces personnes")
+          ? this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.LINK_THESE_PEOPLE
+                : MESSAGES.LINK_THESE_PEOPLE_EN
+            )
           : null;
       }
     }
@@ -146,7 +150,11 @@ export class LinkSheetPage implements OnInit {
       postId: this.publication._id,
     };
     if (this.userId == this.publication.userId) {
-      this.presentToast(MESSAGES.AUTHO_FEED_NO_MATCH_OK);
+      this.presentToast(
+        this.language === "fr"
+          ? MESSAGES.AUTHO_FEED_NO_MATCH_OK
+          : MESSAGES.AUTHO_FEED_NO_MATCH_OK_EN
+      );
     } else {
       this.subscription = this.contactService.linkPeoples(invitation).subscribe(
         (res) => {
@@ -155,7 +163,11 @@ export class LinkSheetPage implements OnInit {
           this.dismiss();
         },
         (error) => {
-          this.presentToast("Oops! une erreur est survenue");
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.SERVER_ERROR
+              : MESSAGES.SERVER_ERROR_EN
+          );
           //console.log(error)
         }
       );

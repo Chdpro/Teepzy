@@ -19,6 +19,7 @@ export class SuggestPage implements OnInit {
 
   loading = false;
   subscription: Subscription;
+  language = "";
   constructor(
     private menuCtrl: MenuController,
     private contactService: ContactService,
@@ -28,9 +29,9 @@ export class SuggestPage implements OnInit {
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
     const event = fromEvent(document, "backbutton");
     event.subscribe(async () => {
       this.navCtrl.pop(); // I have used for my case
@@ -48,12 +49,18 @@ export class SuggestPage implements OnInit {
       (res) => {
         console.log(res);
         this.loading = false;
-        this.presentToast(MESSAGES.SUGGEST_OK);
+        this.presentToast(
+          this.language === "fr" ? MESSAGES.SUGGEST_OK : MESSAGES.SUGGEST_OK_EN
+        );
       },
       (error) => {
         console.log(error);
         this.loading = false;
-        this.presentToast(MESSAGES.SERVER_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.SERVER_ERROR
+            : MESSAGES.SERVER_ERROR_EN
+        );
       }
     );
   }

@@ -79,6 +79,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }
 
+const language = localStorage.getItem("teepzyUserLang");
+
 @NgModule({
   declarations: [AppComponent, Autosize],
   entryComponents: [],
@@ -159,7 +161,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     Base64ToGallery,
     Globalization,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: MAT_DATE_LOCALE, useValue: "fr-FR" },
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: language === "fr" ? "fr-FR" : "en-EN",
+    },
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerGestureConfig,

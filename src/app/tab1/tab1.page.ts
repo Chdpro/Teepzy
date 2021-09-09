@@ -48,6 +48,7 @@ import { Socket } from "ng-socket-io";
 import { LikersPage } from "../likers/likers.page";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ContactsPage } from "../contacts/contacts.page";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-tab1",
@@ -129,6 +130,7 @@ export class Tab1Page implements OnInit {
 
   @ViewChild("feed", null) feed: ElementRef;
 
+  language = "";
   constructor(
     private authService: AuthService,
     private toasterController: ToastController,
@@ -144,11 +146,15 @@ export class Tab1Page implements OnInit {
     public actionSheetController: ActionSheetController,
     private contactService: ContactService,
     private _snackBar: MatSnackBar,
-    private socket: Socket
+    private socket: Socket,
+    private translate: TranslateService
   ) {
     this.menuCtrl.enable(true, "first");
     this.menuCtrl.swipeGesture(false);
     this.global = globals;
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(this.language);
 
     this.subscription = this.dataPass.getLike().subscribe((like) => {
       this.listPosts.find((c, index) => {
@@ -215,6 +221,10 @@ export class Tab1Page implements OnInit {
   ) {
     this._snackBar.open(message, action);
     this.getPosts(this.userId);
+  }
+  time(date) {
+    moment.locale(this.language);
+    return moment(date).fromNow();
   }
 
   skipTuto() {
@@ -584,11 +594,6 @@ export class Tab1Page implements OnInit {
       });
   }
 
-  time(date) {
-    moment.locale("fr");
-    return moment(date).fromNow();
-  }
-
   async changePseudo() {
     const actionSheet = await this.actionSheetController.create({
       header: "Changer de compte",
@@ -625,7 +630,9 @@ export class Tab1Page implements OnInit {
     this.contactService.changeAccount(change).subscribe(
       (res) => {
         //   console.log(res)
-        this.presentToast("compte changé");
+        this.presentToast(
+          this.language === "fr" ? "compte changé" : "account changed"
+        );
         this.getUserInfo(this.userId);
       },
       (error) => {

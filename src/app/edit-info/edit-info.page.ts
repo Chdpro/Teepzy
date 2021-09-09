@@ -31,6 +31,8 @@ export class EditInfoPage implements OnInit {
   loading = false;
   retourUsr = 0;
   subscription: Subscription;
+
+  language = "";
   constructor(
     private menuCtrl: MenuController,
     private authService: AuthService,
@@ -39,9 +41,9 @@ export class EditInfoPage implements OnInit {
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -77,8 +79,11 @@ export class EditInfoPage implements OnInit {
       : (this.user.phone = this.selected + this.user.phone);
     this.authService.updateInfo(this.user).subscribe(
       (res) => {
-        console.log(res);
-        this.presentToast(MESSAGES.PROFILE_UPDATED_OK);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.PROFILE_UPDATED_OK
+            : MESSAGES.PROFILE_UPDATED_OK_EN
+        );
         this.loading = false;
       },
       (error) => {
@@ -109,7 +114,11 @@ export class EditInfoPage implements OnInit {
         // console.log(error)
         this.loadingA = false;
 
-        this.presentToast("Oops! une erreur est survenue");
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.SERVER_ERROR
+            : MESSAGES.SERVER_ERROR_EN
+        );
       }
     );
   }

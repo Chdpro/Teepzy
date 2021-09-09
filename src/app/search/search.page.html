@@ -170,7 +170,12 @@
                 <ion-col class="pseudo-txt">
                   <strong> {{lt?.userPseudo}} </strong>
                   <small> {{lt?.circle || '' }} </small><br />
-                  <span *ngIf="time(lt?.createdAt) != 'il y a un mois'">
+                  <span class="time" *ngIf="language==='en'">
+                    {{time(lt?.createdAt) }}
+                  </span>
+                  <span
+                    *ngIf="time(lt?.createdAt) != 'il y a un mois'&&language==='fr'"
+                  >
                     <span *ngIf="time(lt?.createdAt) != 'il y a un jour'">
                       <span *ngIf="time(lt?.createdAt) != 'il y a une minute'">
                         <span
@@ -184,25 +189,25 @@
                   </span>
                   <span
                     class="time"
-                    *ngIf="time(lt?.createdAt) == 'il y a une minute'"
+                    *ngIf="time(lt?.createdAt) == 'il y a une minute'&&language==='fr'"
                   >
                     il y a 1 minute
                   </span>
                   <span
                     class="time"
-                    *ngIf="time(lt?.createdAt) == 'il y a une heure'"
+                    *ngIf="time(lt?.createdAt) == 'il y a une heure'&&language==='fr'"
                   >
                     il y a 1 heure
                   </span>
                   <span
                     class="time"
-                    *ngIf="time(lt?.createdAt) == 'il y a un jour'"
+                    *ngIf="time(lt?.createdAt) == 'il y a un jour'&&language==='fr'"
                   >
                     il y a 1 jour
                   </span>
                   <span
                     class="time"
-                    *ngIf="time(lt?.createdAt) == 'il y a un mois'"
+                    *ngIf="time(lt?.createdAt) == 'il y a un mois'&&language==='fr'"
                   >
                     il y a 1 mois
                   </span>
@@ -392,8 +397,11 @@
                             <ion-col class="pseudo-txt">
                               <strong> {{lt?.userPseudo}} </strong>
                               <small> {{lt?.circle || '' }} </small><br />
+                              <span class="time" *ngIf="language==='en'">
+                                {{time(lt?.createdAt) }}
+                              </span>
                               <span
-                                *ngIf="time(lt?.createdAt) != 'il y a un mois'"
+                                *ngIf="time(lt?.createdAt) != 'il y a un mois'&&language==='fr'"
                               >
                                 <span
                                   *ngIf="time(lt?.createdAt) != 'il y a un jour'"
@@ -412,25 +420,25 @@
                               </span>
                               <span
                                 class="time"
-                                *ngIf="time(lt?.createdAt) == 'il y a une minute'"
+                                *ngIf="time(lt?.createdAt) == 'il y a une minute'&&language==='fr'"
                               >
                                 il y a 1 minute
                               </span>
                               <span
                                 class="time"
-                                *ngIf="time(lt?.createdAt) == 'il y a une heure'"
+                                *ngIf="time(lt?.createdAt) == 'il y a une heure'&&language==='fr'"
                               >
                                 il y a 1 heure
                               </span>
                               <span
                                 class="time"
-                                *ngIf="time(lt?.createdAt) == 'il y a un jour'"
+                                *ngIf="time(lt?.createdAt) == 'il y a un jour'&&language==='fr'"
                               >
                                 il y a 1 jour
                               </span>
                               <span
                                 class="time"
-                                *ngIf="time(lt?.createdAt) == 'il y a un mois'"
+                                *ngIf="time(lt?.createdAt) == 'il y a un mois'&&language==='fr'"
                               >
                                 il y a 1 mois
                               </span>
@@ -492,23 +500,50 @@
                               <small> {{lt?.circle || '' }} </small>
                             </ion-col>
                             <ion-col size="12">
-                              <span
-                                class="time"
-                                *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(lt?.createdAt) == 'il y a un jour') "
-                              >
+                              <span class="time" *ngIf="language==='en'">
                                 {{time(lt?.createdAt) }}
                               </span>
                               <span
+                                *ngIf="time(lt?.createdAt) != 'il y a un mois'&&language==='fr'"
+                              >
+                                <span
+                                  *ngIf="time(lt?.createdAt) != 'il y a un jour'"
+                                >
+                                  <span
+                                    *ngIf="time(lt?.createdAt) != 'il y a une minute'"
+                                  >
+                                    <span
+                                      class="time"
+                                      *ngIf="time(lt?.createdAt) != 'il y a une heure'"
+                                    >
+                                      {{time(lt?.createdAt) }}
+                                    </span>
+                                  </span>
+                                </span>
+                              </span>
+                              <span
                                 class="time"
-                                *ngIf="time(lt?.createdAt) == 'il y a une heure'"
+                                *ngIf="time(lt?.createdAt) == 'il y a une minute'&&language==='fr'"
+                              >
+                                il y a 1 minute
+                              </span>
+                              <span
+                                class="time"
+                                *ngIf="time(lt?.createdAt) == 'il y a une heure'&&language==='fr'"
                               >
                                 il y a 1 heure
                               </span>
                               <span
                                 class="time"
-                                *ngIf="time(lt?.createdAt) == 'il y a un jour'"
+                                *ngIf="time(lt?.createdAt) == 'il y a un jour'&&language==='fr'"
                               >
                                 il y a 1 jour
+                              </span>
+                              <span
+                                class="time"
+                                *ngIf="time(lt?.createdAt) == 'il y a un mois'&&language==='fr'"
+                              >
+                                il y a 1 mois
                               </span>
                             </ion-col>
                           </ion-row>
@@ -567,23 +602,50 @@
                               <strong> {{lt?.nom}} </strong>
                             </ion-col>
                             <ion-col size="12">
-                              <span
-                                class="time"
-                                *ngIf="(time(lt?.createdAt) != 'il y a une heure') ||(time(lt?.createdAt) == 'il y a un an') || (time(lt?.createdAt) == 'il y a un mois') || (time(lt?.createdAt) == 'il y a une semaine') || (time(lt?.createdAt) == 'il y a un jour') "
-                              >
+                              <span class="time" *ngIf="language==='en'">
                                 {{time(lt?.createdAt) }}
                               </span>
                               <span
+                                *ngIf="time(lt?.createdAt) != 'il y a un mois'&&language==='fr'"
+                              >
+                                <span
+                                  *ngIf="time(lt?.createdAt) != 'il y a un jour'"
+                                >
+                                  <span
+                                    *ngIf="time(lt?.createdAt) != 'il y a une minute'"
+                                  >
+                                    <span
+                                      class="time"
+                                      *ngIf="time(lt?.createdAt) != 'il y a une heure'"
+                                    >
+                                      {{time(lt?.createdAt) }}
+                                    </span>
+                                  </span>
+                                </span>
+                              </span>
+                              <span
                                 class="time"
-                                *ngIf="time(lt?.createdAt) == 'il y a une heure'"
+                                *ngIf="time(lt?.createdAt) == 'il y a une minute'&&language==='fr'"
+                              >
+                                il y a 1 minute
+                              </span>
+                              <span
+                                class="time"
+                                *ngIf="time(lt?.createdAt) == 'il y a une heure'&&language==='fr'"
                               >
                                 il y a 1 heure
                               </span>
                               <span
                                 class="time"
-                                *ngIf="time(lt?.createdAt) == 'il y a un jour'"
+                                *ngIf="time(lt?.createdAt) == 'il y a un jour'&&language==='fr'"
                               >
                                 il y a 1 jour
+                              </span>
+                              <span
+                                class="time"
+                                *ngIf="time(lt?.createdAt) == 'il y a un mois'&&language==='fr'"
+                              >
+                                il y a 1 mois
                               </span>
                             </ion-col>
                           </ion-row>

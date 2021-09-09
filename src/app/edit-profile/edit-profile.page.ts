@@ -90,7 +90,7 @@ export class EditProfilePage implements OnInit {
   isEditableB = false;
   isEditableH = false;
   previousRoute = "";
-
+  language = "";
   constructor(
     private authService: AuthService,
     private contactService: ContactService,
@@ -109,9 +109,9 @@ export class EditProfilePage implements OnInit {
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
 
     this.previousRoute = this.route.snapshot.paramMap.get("previousUrl");
     this.subcription = this.dataPass.getUserPhoto().subscribe((photo) => {
@@ -188,7 +188,11 @@ export class EditProfilePage implements OnInit {
     this.tags.length > 0 ? (this.profile1.hobbies = this.tags) : null;
     this.subcription = this.authService.updateProfile(this.profile1).subscribe(
       (res) => {
-        this.presentToast(MESSAGES.PROFILE_UPDATED_OK);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.PROFILE_UPDATED_OK
+            : MESSAGES.PROFILE_UPDATED_OK_EN
+        );
         this.getUserInfo(userId);
         this.loading = false;
         this.router.navigateByUrl("/tabs/profile", {
@@ -196,7 +200,11 @@ export class EditProfilePage implements OnInit {
         });
       },
       (error) => {
-        this.presentToast(MESSAGES.PROFILE_UPDATED_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.PROFILE_UPDATED_ERROR
+            : MESSAGES.PROFILE_UPDATED_ERROR_EN
+        );
         this.loading = false;
       }
     );
@@ -223,7 +231,11 @@ export class EditProfilePage implements OnInit {
     };
 
     this.checkAvailability(this.socialsAdded, sociale["_id"])
-      ? this.presentToast("Ce média a été déjà ajouté")
+      ? this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.SERVER_ERROR
+            : MESSAGES.SERVER_ERROR_EN
+        )
       : this.socialsAdded.push(sociale);
   }
 
@@ -291,20 +303,23 @@ export class EditProfilePage implements OnInit {
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
-      header: "Etes vous sur de vouloir modifier le titre de la rubrique?",
+      header:
+        this.language === "fr"
+          ? MESSAGES.EDIT_SECTION_TITLE
+          : MESSAGES.EDIT_SECTION_TITLE_EN,
       message: "",
       buttons: [
         {
-          text: "Annuler",
+          text: this.language === "fr" ? "Annuler" : "Cancel",
           role: "cancel",
           cssClass: "secondary",
           handler: (blah) => {
-            this.presentToast("Annulé");
+            this.presentToast(this.language === "fr" ? "Annulé" : "Canceled");
           },
         },
 
         {
-          text: "Confirmer",
+          text: this.language === "fr" ? "Confirmer" : "Confirm",
           handler: () => {
             this.swithEditModeB();
           },
@@ -317,7 +332,10 @@ export class EditProfilePage implements OnInit {
   async presentAlertConfirmH() {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
-      header: "Etes vous sur de vouloir modifier le titre de la rubrique?",
+      header:
+        this.language === "fr"
+          ? MESSAGES.EDIT_SECTION_TITLE
+          : MESSAGES.EDIT_SECTION_TITLE_EN,
       message: "",
       buttons: [
         {
@@ -325,7 +343,7 @@ export class EditProfilePage implements OnInit {
           role: "cancel",
           cssClass: "secondary",
           handler: (blah) => {
-            this.presentToast("Annulé");
+            this.presentToast(this.language === "fr" ? "Annulé" : "Canceled");
           },
         },
 
@@ -400,22 +418,31 @@ export class EditProfilePage implements OnInit {
 
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
-      header: "Select Image source",
+      header:
+        this.language === "fr"
+          ? MESSAGES.SELECT_MEDIA
+          : MESSAGES.SELECT_MEDIA_EN,
       buttons: [
         {
-          text: "Choisir dans votre galerie",
+          text:
+            this.language === "fr"
+              ? MESSAGES.GALLERY_CHOICE
+              : MESSAGES.GALLERY_CHOICE_EN,
           handler: () => {
             this.pickImageDataUrl(this.camera.PictureSourceType.PHOTOLIBRARY);
           },
         },
         {
-          text: "Utiliser la Camera",
+          text:
+            this.language === "fr"
+              ? MESSAGES.CAMERA_CHOICE
+              : MESSAGES.CAMERA_CHOICE_EN,
           handler: () => {
             this.pickImageDataUrl(this.camera.PictureSourceType.CAMERA);
           },
         },
         {
-          text: "Annuler",
+          text: this.language === "fr" ? "Annulé" : "Canceled",
           role: "cancel",
         },
       ],
@@ -492,7 +519,11 @@ export class EditProfilePage implements OnInit {
         this.imageData = "";
       },
       (err) => {
-        this.presentToast("Oops une erreur lors de l'upload");
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.ERROR_UPLOAD
+            : MESSAGES.ERROR_UPLOAD_EN
+        );
         //this.dismiss();
       }
     );

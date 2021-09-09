@@ -20,6 +20,7 @@ import { EditPostPage } from "../edit-post/edit-post.page";
 import { DatapasseService } from "../providers/datapasse.service";
 import { type, MESSAGES } from "../constant/constant";
 import { DomSanitizer } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-detail-feed",
@@ -88,6 +89,8 @@ export class DetailFeedPage implements OnInit {
   };
 
   loading: Boolean;
+  language = "";
+
   constructor(
     private authService: AuthService,
     private toasterController: ToastController,
@@ -101,11 +104,16 @@ export class DetailFeedPage implements OnInit {
     public route: ActivatedRoute,
     private platform: Platform,
     private dataPasse: DatapasseService,
-    private contactService: ContactService
+    private contactService: ContactService,
+    private translate: TranslateService
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
     this.global = globals;
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(this.language);
+
     this.previousRoute = this.route.snapshot.paramMap.get("previousUrl");
     this.subscription = this.dataPasse.get().subscribe((p) => {
       if (p) {
@@ -212,20 +220,20 @@ export class DetailFeedPage implements OnInit {
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
-      header: "Supprimer ?",
+      header: this.language === "fr" ? "Supprimer?" : "Delete?",
       message: "",
       buttons: [
         {
-          text: "Non",
+          text: this.language === "fr" ? "Non" : "No",
           role: "cancel",
           cssClass: "secondary",
           handler: (blah) => {
-            this.presentToast("Annulé");
+            this.presentToast(this.language === "fr" ? "Annulé" : "Cancel");
           },
         },
 
         {
-          text: "Oui",
+          text: this.language === "fr" ? "Oui" : "Yes",
           handler: () => {
             this.deletePost();
           },
@@ -266,11 +274,19 @@ export class DetailFeedPage implements OnInit {
       (res) => {
         this.getMyPosts(this.userId);
         this.getMyFavoritePosts(this.userId);
-        this.presentToast(MESSAGES.DELETE_FEED_OK);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.DELETE_FEED_OK
+            : MESSAGES.DELETE_FEED_OK_EN
+        );
         this.router.navigateByUrl("/tabs/profile");
       },
       (error) => {
-        this.presentToast(MESSAGES.DELETE_FEED_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.DELETE_FEED_ERROR
+            : MESSAGES.DELETE_FEED_ERROR_EN
+        );
       }
     );
   }
@@ -369,11 +385,18 @@ export class DetailFeedPage implements OnInit {
           reposterId: post["reposterId"],
           favorite: false,
         };
-        this.presentToast(MESSAGES.FAVORITE_OK);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.FAVORITE_OK
+            : MESSAGES.FAVORITE_OK_EN
+        );
       },
       (error) => {
-        this.presentToast(MESSAGES.FAVORITE_ERROR);
-        //console.log(error)
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.FAVORITE_ERROR
+            : MESSAGES.FAVORITE_ERROR_EN
+        );
       }
     );
   }
@@ -400,10 +423,18 @@ export class DetailFeedPage implements OnInit {
           favorite: false,
         };
 
-        this.presentToast(MESSAGES.REMOVE_FAVORITE_OK);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.REMOVE_FAVORITE_OK
+            : MESSAGES.REMOVE_FAVORITE_OK_EN
+        );
       },
       (error) => {
-        this.presentToast(MESSAGES.REMOVE_FAVORITE_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.REMOVE_FAVORITE_ERROR
+            : MESSAGES.REMOVE_FAVORITE_ERROR_EN
+        );
         // console.log(error)
       }
     );
@@ -444,7 +475,7 @@ export class DetailFeedPage implements OnInit {
   }
 
   time(date) {
-    moment.locale("fr");
+    moment.locale(this.language);
     return moment(date).fromNow();
   }
 

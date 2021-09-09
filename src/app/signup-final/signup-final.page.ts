@@ -50,6 +50,7 @@ export class SignupFinalPage implements OnInit {
 
   subscription: Subscription;
   myImage = "";
+  language = "";
   constructor(
     private authService: AuthService,
     public router: Router,
@@ -71,9 +72,9 @@ export class SignupFinalPage implements OnInit {
       }
     });
 
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -108,7 +109,11 @@ export class SignupFinalPage implements OnInit {
           //  console.log(res)
           if (res["status"] == 200) {
             this.retourUsr = true;
-            this.presentToast(MESSAGES.LOGIN_OK);
+            this.presentToast(
+              this.language === "fr"
+                ? MESSAGES.PASSWORD_NOT_MATCH
+                : MESSAGES.PASSWORD_NOT_MATCH_EN
+            );
             localStorage.setItem("FinalStepCompleted", "FinalStepCompleted");
             let user = {
               userId: this.user.userId,
@@ -126,11 +131,19 @@ export class SignupFinalPage implements OnInit {
         },
         (error) => {
           // console.log(error)
-          this.presentToast(MESSAGES.SERVER_ERROR);
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.SERVER_ERROR
+              : MESSAGES.SERVER_ERROR_EN
+          );
         }
       );
     } else {
-      this.presentToast("Veuillez renseigner un pseudo");
+      this.presentToast(
+        this.language === "fr"
+          ? "Veuillez renseigner un pseudo"
+          : "Please enter a nickname"
+      );
     }
   }
 
@@ -162,7 +175,11 @@ export class SignupFinalPage implements OnInit {
         // console.log(error)
         this.loadingA = false;
 
-        this.presentToast("Oops! une erreur est survenue");
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.SERVER_ERROR
+            : MESSAGES.SERVER_ERROR_EN
+        );
       }
     );
   }
@@ -182,29 +199,42 @@ export class SignupFinalPage implements OnInit {
       (error) => {
         // console.log(error)
         this.loadingP = false;
-        this.presentToast(MESSAGES.SERVER_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.SERVER_ERROR
+            : MESSAGES.SERVER_ERROR_EN
+        );
       }
     );
   }
 
   async selectImage() {
     const actionSheet = await this.actionSheetController.create({
-      header: "Select Image source",
+      header:
+        this.language === "fr"
+          ? MESSAGES.SELECT_MEDIA
+          : MESSAGES.SELECT_MEDIA_EN,
       buttons: [
         {
-          text: "Choisir dans votre galerie",
+          text:
+            this.language === "fr"
+              ? MESSAGES.GALLERY_CHOICE
+              : MESSAGES.GALLERY_CHOICE_EN,
           handler: () => {
             this.pickImageDataUrl(this.camera.PictureSourceType.PHOTOLIBRARY);
           },
         },
         {
-          text: "Utiliser la Camera",
+          text:
+            this.language === "fr"
+              ? MESSAGES.CAMERA_CHOICE
+              : MESSAGES.CAMERA_CHOICE_EN,
           handler: () => {
             this.pickImageDataUrl(this.camera.PictureSourceType.CAMERA);
           },
         },
         {
-          text: "Annuler",
+          text: this.language === "fr" ? "Annulé" : "Canceled",
           role: "cancel",
         },
       ],
@@ -281,7 +311,11 @@ export class SignupFinalPage implements OnInit {
         this.imageData = "";
       },
       (err) => {
-        this.presentToast("Oops une erreur lors de l'upload");
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.ERROR_UPLOAD
+            : MESSAGES.ERROR_UPLOAD_EN
+        );
         //this.dismiss();
       }
     );

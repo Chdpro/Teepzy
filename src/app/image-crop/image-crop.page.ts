@@ -4,6 +4,7 @@ import {
   Base64ToGalleryOptions,
 } from "@ionic-native/base64-to-gallery/ngx";
 import { ModalController, NavParams, ToastController } from "@ionic/angular";
+import { TranslateService } from "@ngx-translate/core";
 import { ImageCroppedEvent, ImageCropperComponent } from "ngx-image-cropper";
 import { Subscription } from "rxjs";
 import { MESSAGES } from "../constant/constant";
@@ -33,7 +34,7 @@ export class ImageCropPage implements OnInit {
   };
 
   imageConverted = "";
-
+  language = "";
   constructor(
     private navParams: NavParams,
     private base64ToGallery: Base64ToGallery,
@@ -41,8 +42,13 @@ export class ImageCropPage implements OnInit {
     private uploadService: UploadService,
     private toasterController: ToastController,
     private authService: AuthService,
-    private dataPass: DatapasseService
-  ) {}
+    private dataPass: DatapasseService,
+    private translate: TranslateService
+  ) {
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(this.language);
+  }
 
   ngOnInit() {
     this.myImage = this.navParams.data["imageSelected"];
@@ -84,13 +90,21 @@ export class ImageCropPage implements OnInit {
     // update profile 1
     this.authService.updateUserPhoto(this.profile1).subscribe(
       (res) => {
-        this.presentToast(MESSAGES.PROFILE_UPDATED_OK);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.PROFILE_UPDATED_OK
+            : MESSAGES.PROFILE_UPDATED_OK_EN
+        );
         this.dataPass.sendUserPhoto(this.profile1.photo);
         this.loading = false;
         this.dismiss();
       },
       (error) => {
-        this.presentToast(MESSAGES.PROFILE_UPDATED_ERROR);
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.PROFILE_UPDATED_ERROR
+            : MESSAGES.PROFILE_UPDATED_ERROR_EN
+        );
         this.loading = false;
       }
     );
@@ -113,7 +127,11 @@ export class ImageCropPage implements OnInit {
         this.loading = false;
       },
       (err) => {
-        this.presentToast("Oops une erreur lors de l'upload");
+        this.presentToast(
+          this.language === "fr"
+            ? MESSAGES.ERROR_UPLOAD
+            : MESSAGES.ERROR_UPLOAD_EN
+        );
         //this.dismiss();
         this.loading = false;
       }

@@ -217,9 +217,7 @@
     >
       <div class="header-feed">
         <div class="header-feed-txt">
-          <span *ngIf="p?.reposterId == userId">
-            Vous avez partagé le teepz de</span
-          >
+          <span *ngIf="p?.reposterId == userId"> {{'REPOST'| translate}}</span>
           <span *ngIf="p?.reposterId && p?.reposterId !== userId">
             <strong (click)="goToProfile(p?.userId, p?.reposterId)">
               {{p?.reposterPseudo}}
@@ -255,7 +253,12 @@
             style="display: flex; flex-direction: column; margin-left: 12px"
           >
             <div style="font-weight: 800">{{p?.userPseudo}}</div>
-            <span *ngIf="time(p?.createdAt) != 'il y a un mois'">
+            <span class="time" *ngIf="language==='en'">
+              {{time(p?.createdAt) }}
+            </span>
+            <span
+              *ngIf="time(p?.createdAt) != 'il y a un mois'&&language==='fr'"
+            >
               <span *ngIf="time(p?.createdAt) != 'il y a un jour'">
                 <span *ngIf="time(p?.createdAt) != 'il y a une minute'">
                   <span
@@ -269,17 +272,26 @@
             </span>
             <span
               class="time"
-              *ngIf="time(p?.createdAt) == 'il y a une minute'"
+              *ngIf="time(p?.createdAt) == 'il y a une minute'&&language==='fr'"
             >
               il y a 1 minute
             </span>
-            <span class="time" *ngIf="time(p?.createdAt) == 'il y a une heure'">
+            <span
+              class="time"
+              *ngIf="time(p?.createdAt) == 'il y a une heure'&&language==='fr'"
+            >
               il y a 1 heure
             </span>
-            <span class="time" *ngIf="time(p?.createdAt) == 'il y a un jour'">
+            <span
+              class="time"
+              *ngIf="time(p?.createdAt) == 'il y a un jour'&&language==='fr'"
+            >
               il y a 1 jour
             </span>
-            <span class="time" *ngIf="time(p?.createdAt) == 'il y a un mois'">
+            <span
+              class="time"
+              *ngIf="time(p?.createdAt) == 'il y a un mois'&&language==='fr'"
+            >
               il y a 1 mois
             </span>
           </div>

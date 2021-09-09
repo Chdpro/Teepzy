@@ -16,7 +16,7 @@ import { AuthService } from "./providers/auth.service";
 import { OneSignal, OSNotificationPayload } from "@ionic-native/onesignal/ngx";
 import { isCordovaAvailable } from "../common/is-cordova-available";
 import { oneSignalAppId, sender_id } from "src/config";
-import { messageShare, PERMISSION } from "./constant/constant";
+import { MESSAGES, messageShare, PERMISSION } from "./constant/constant";
 import { Socket } from "ng-socket-io";
 import {
   NativeGeocoder,
@@ -384,7 +384,9 @@ export class AppComponent {
     localStorage.removeItem("teepzyToken");
     localStorage.removeItem("teepzyEmail");
     localStorage.removeItem("teepzyPhone");
-    this.presentToast("Vous êtes bien déconnectés");
+    this.presentToast(
+      this.language === "fr" ? MESSAGES.LOGOUT_OK : MESSAGES.LOGOUT_OK_EN
+    );
     this.router.navigateByUrl("/login", {
       replaceUrl: true,
     });

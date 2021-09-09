@@ -8,6 +8,7 @@ import { ContactService } from "../providers/contact.service";
 import { AuthService } from "../providers/auth.service";
 import { Subscription } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
+import { MESSAGES } from "../constant/constant";
 
 @Component({
   selector: "app-notifications",
@@ -20,6 +21,7 @@ export class NotificationsPage implements OnInit {
   userId = "";
   user: any;
   subscription: Subscription;
+  language = "";
   constructor(
     private menuCtrl: MenuController,
     private contactService: ContactService,
@@ -31,9 +33,9 @@ export class NotificationsPage implements OnInit {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
 
-    let language = localStorage.getItem("teepzyUserLang") || "fr";
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
-    this.translate.setDefaultLang(language);
+    this.translate.setDefaultLang(this.language);
   }
 
   ngOnInit() {
@@ -58,7 +60,7 @@ export class NotificationsPage implements OnInit {
   async presentConversationAlertConfirm() {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
-      header: "Etes-vous sûr ne pas vouloir autoriser?",
+      header: this.language === "fr" ? MESSAGES.NOT_AUTH : MESSAGES.NOT_AUTH_EN,
       message: "",
       buttons: [
         {
@@ -67,7 +69,7 @@ export class NotificationsPage implements OnInit {
           cssClass: "secondary",
           handler: (blah) => {
             this.n = true;
-            this.presentToast("Annulé");
+            this.presentToast(this.language === "fr" ? "Annulé" : "Canceled");
           },
         },
 
@@ -122,7 +124,7 @@ export class NotificationsPage implements OnInit {
   async presentInvitationAlertConfirm() {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
-      header: "Etes-vous sûr ne pas vouloir autoriser?",
+      header: this.language === "fr" ? MESSAGES.NOT_AUTH : MESSAGES.NOT_AUTH_EN,
       message: "",
       buttons: [
         {
@@ -131,7 +133,7 @@ export class NotificationsPage implements OnInit {
           cssClass: "secondary",
           handler: (blah) => {
             this.n2 = true;
-            this.presentToast("Annulé");
+            this.presentToast(this.language === "fr" ? "Annulé" : "Canceled");
           },
         },
 
