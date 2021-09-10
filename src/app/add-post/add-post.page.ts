@@ -30,6 +30,10 @@ import { File } from "@ionic-native/file/ngx";
 import { ImageCroppedEvent, ImageCropperComponent } from "ngx-image-cropper";
 import { UploadService } from "../providers/upload.service";
 import { TranslateService } from "@ngx-translate/core";
+import {
+  Base64ToGallery,
+  Base64ToGalleryOptions,
+} from "@ionic-native/base64-to-gallery/ngx";
 
 @Component({
   selector: "app-add-post",
@@ -79,6 +83,7 @@ export class AddPostPage implements OnInit {
     imageName: "",
     base64image: "",
   };
+  imageConverted = "";
 
   items: string[] = ["Noah", "Liam", "Mason", "Jacob"];
 
@@ -102,7 +107,7 @@ export class AddPostPage implements OnInit {
     private router: Router,
     private file: File,
     private webView: WebView,
-    private DomSanitizer: DomSanitizer,
+    private base64ToGallery: Base64ToGallery,
     private translate: TranslateService
   ) {
     //this.menuCtrl.enable(false);
@@ -212,6 +217,76 @@ export class AddPostPage implements OnInit {
     await actionSheet.present();
   }
 
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+    this.base64ToImage(this.croppedImage);
+  }
+
+  imageLoaded() {}
+
+  base64ToImage(base64Data) {
+    let options: Base64ToGalleryOptions = {
+      prefix: "_img",
+      mediaScanner: true,
+    };
+    this.base64ToGallery.base64ToGallery(base64Data, options).then(
+      (res) => {
+        this.imageConverted = res;
+      },
+      (err) => console.log("Error saving image to gallery ", err)
+    );
+  }
+
+  upLoadImage() {
+    this.loading = true;
+    if (this.imageConverted) {
+      this.uploadService.uploadImage(this.imageConverted).then(
+        (res) => {
+          this.post.image_url = base_url + res;
+          this.addPost();
+          this.loading = false;
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.ADD_FEED_OK
+              : MESSAGES.ADD_FEED_OK_EN
+          );
+        },
+        (err) => {
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.ERROR_UPLOAD
+              : MESSAGES.ERROR_UPLOAD_EN
+          );
+          //this.dismiss();
+          this.loading = false;
+        }
+      );
+    } else {
+      this.addPost();
+    }
+  }
+
+  clear() {
+    // this.angularCropper.imageBase64 = null
+    // this.myImage = null;
+    // this.croppedImage = null
+    this.dispImags = [];
+    this.imageData = "";
+  }
+  save() {
+    this.angularCropper.crop();
+  }
+
+  rotateLeft() {}
+  rotateRight() {}
+  flipVertical() {}
+  move(x, y) {
+    this.angularCropper.cropper.x1 += x;
+    this.angularCropper.cropper.x2 += x;
+    this.angularCropper.cropper.y1 += y;
+    this.angularCropper.cropper.y2 += y;
+  }
+
   pickImage(sourceType) {
     if (this.user.isPhotoAuthorized === true) {
       const options: CameraOptions = {
@@ -287,24 +362,6 @@ export class AddPostPage implements OnInit {
       (err: CaptureError) => {
         console.error(err);
         alert(JSON.stringify(err));
-      }
-    );
-  }
-
-  upLoadImage() {
-    this.uploadService.uploadImage(this.imageData).then(
-      (res) => {
-        this.post.image_url = res;
-        this.addPost();
-      },
-      (err) => {
-        this.presentToast(
-          this.language === "fr"
-            ? MESSAGES.ERROR_UPLOAD
-            : MESSAGES.ERROR_UPLOAD_EN
-        );
-
-        //this.dismiss();
       }
     );
   }
@@ -411,7 +468,9 @@ export class AddPostPage implements OnInit {
   picImage(sourceType) {
     if (this.user.isPhotoAuthorized === true) {
       const options: CameraOptions = {
-        quality: 100,
+        quality: 80,
+        targetWidth: 600,
+        targetHeight: 600,
         sourceType: sourceType,
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.JPEG,
@@ -438,55 +497,6 @@ export class AddPostPage implements OnInit {
           : MESSAGES.UNABLE_TAKE_PHOTO_EN
       );
     }
-  }
-
-  imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64;
-    this.imageBase64.base64image = this.croppedImage;
-    this.imageBase64.imageName = Math.random() * 100000000000000000 + "0";
-  }
-
-  imageLoaded() {}
-
-  uploadCroppedImage() {
-    if (this.imageBase64.base64image) {
-      this.subscription = this.contactService
-        .uploadBase64(this.imageBase64)
-        .subscribe(
-          (res) => {
-            console.log(res);
-            var serverUrl = base_url + "upload-avatar-base64";
-            this.post.image_url = serverUrl + this.imageBase64.imageName;
-            this.addPost();
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-    } else {
-      this.addPost();
-    }
-  }
-
-  clear() {
-    // this.angularCropper.imageBase64 = null
-    // this.myImage = null;
-    // this.croppedImage = null
-    this.dispImags = [];
-    this.imageData = "";
-  }
-  save() {
-    this.angularCropper.crop();
-  }
-
-  rotateLeft() {}
-  rotateRight() {}
-  flipVertical() {}
-  move(x, y) {
-    this.angularCropper.cropper.x1 += x;
-    this.angularCropper.cropper.x2 += x;
-    this.angularCropper.cropper.y1 += y;
-    this.angularCropper.cropper.y2 += y;
   }
 
   setBackgroundColor(color: string) {

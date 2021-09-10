@@ -17,6 +17,8 @@ export enum typeAccount {
 export enum type {
   POST = "POST",
   MESSAGE = "MESSAGE",
+  PRODUCT = "PRODUCT",
+  PROJECT = "PROJECT",
 }
 
 export enum CACHE_KEYS {

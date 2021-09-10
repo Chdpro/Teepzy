@@ -18,9 +18,10 @@ import {
   FileUploadOptions,
 } from "@ionic-native/file-transfer/ngx";
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
-import { MESSAGES } from "../constant/constant";
+import { MESSAGES, type } from "../constant/constant";
 import { UploadService } from "../providers/upload.service";
 import { TranslateService } from "@ngx-translate/core";
+import { ImageCropPage } from "../image-crop/image-crop.page";
 
 @Component({
   selector: "app-add-product",
@@ -83,6 +84,11 @@ export class AddProductPage implements OnInit {
     this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
     this.translate.setDefaultLang(this.language);
+    this.subscription = this.dataPass.get().subscribe((imageData) => {
+      if (imageData) {
+        this.dispImags[0] = imageData;
+      }
+    });
   }
 
   ngOnInit() {
@@ -359,11 +365,11 @@ export class AddProductPage implements OnInit {
 
   pickImage(sourceType) {
     const options: CameraOptions = {
-      quality: 40,
+      quality: 60,
       targetWidth: 600,
       targetHeight: 600,
       sourceType: sourceType,
-      destinationType: this.camera.DestinationType.FILE_URI,
+      destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
     };
@@ -372,11 +378,9 @@ export class AddProductPage implements OnInit {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64 (DATA_URL):
         // let base64Image = 'data:image/jpeg;base64,' + imageData;
-        this.dispImags[0] = (<any>window).Ionic.WebView.convertFileSrc(
-          imageData
-        );
-        if (imageData) {
-          this.imageData = imageData;
+        let base64Image = "data:image/jpeg;base64," + imageData;
+        if (base64Image) {
+          this.presentCroppageModal(base64Image);
         }
       },
       (err) => {
@@ -386,98 +390,38 @@ export class AddProductPage implements OnInit {
     );
   }
 
+  async presentCroppageModal(imageSelected) {
+    const modal = await this.modalController.create({
+      component: ImageCropPage,
+      cssClass: "my-custom-class",
+      componentProps: { imageSelected: imageSelected, page: type.PRODUCT },
+    });
+    return await modal.present();
+  }
+
   upLoadImage() {
-    this.uploadService.uploadImage(this.imageData).then(
-      (res) => {
-        this.product.photo.push(res);
-        this.addProduct();
-        this.loading = false;
-        this.dispImags = [];
-        this.imageData = "";
-      },
-      (err) => {
-        this.presentToast(
-          this.language === "fr"
-            ? MESSAGES.ERROR_UPLOAD
-            : MESSAGES.ERROR_UPLOAD_EN
-        );
-
-        //this.dismiss();
-      }
-    );
-  }
-
-  uploadImage() {
-    this.loading = true;
-    if (this.imageData.length > 0) {
-      this.upLoadImage();
-    }
-  }
-
-  uploadImages() {
-    var interval = 0;
-    var ref = this;
-
-    function InnerFunc() {
-      if (ref.photos.length > 0) {
-        const fileTransfer = ref.transfer.create();
-        let options: FileUploadOptions = {
-          fileKey: "photo",
-          fileName: Math.random() * 100000000000000000 + ".jpg",
-          chunkedMode: false,
-          mimeType: "image/jpeg",
-          headers: {},
-        };
-
-        var serverUrl = base_url + "upload-avatar";
-        fileTransfer
-          .upload(ref.photos[interval], serverUrl, options)
-          .then((data) => {
-            interval++;
-            if (interval < ref.photos.length) {
-              this.loading = false;
-              this.product.photo.push(base_url + options.fileName);
-              InnerFunc();
-            } else {
-              this.loading = false;
-              ref.addProduct();
-            }
-          });
-      } else {
-        ref.addProduct();
-      }
-    }
-    InnerFunc();
-  }
-
-  uploadImagePermission() {
-    this.androidPermissions
-      .checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
-      .then(
-        (result) => {
-          if (result.hasPermission) {
-            // code
-            this.uploadImage();
-          } else {
-            this.androidPermissions
-              .requestPermission(
-                this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE
-              )
-              .then((result) => {
-                if (result.hasPermission) {
-                  // code
-                  this.uploadImage();
-                }
-              });
-          }
+    if (this.dispImags[0]) {
+      this.uploadService.uploadImage(this.imageData).then(
+        (res) => {
+          this.product.photo.push(res);
+          this.addProduct();
+          this.loading = false;
+          this.dispImags = [];
+          this.imageData = "";
         },
         (err) => {
-          alert(err);
-          this.androidPermissions.requestPermission(
-            this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE
+          this.presentToast(
+            this.language === "fr"
+              ? MESSAGES.ERROR_UPLOAD
+              : MESSAGES.ERROR_UPLOAD_EN
           );
+
+          //this.dismiss();
         }
       );
+    } else {
+      this.addProduct();
+    }
   }
 
   async presentToast(msg) {

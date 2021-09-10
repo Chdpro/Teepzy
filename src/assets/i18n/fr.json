@@ -17,6 +17,10 @@
 
     },
 
+    "DEBUT_TEXT1":"Pas encore sur Teepzy ? Rejoins-nous en créant ton compte. C’est gratuit et tu accèdes à ton réseau de TeepZr !",
+    "REGISTER":"Créer un compte",
+    "LOGIN":"Connectez-vous",
+    "DEBUT_TEXT2":"Vous êtes déjà un teepZr?",
     "PHOTO_CHANGE":"Charger une photo",
     "PSEUDO":"Pseudo",
     "BIRTHDAY":"Date de naissance",
@@ -206,7 +210,18 @@
     "NO_ONE_TO_ADD":" Aucune personne à Ajouter",
     "COMMON_FRIENDS":"amis en commun",
 
-    "SUCCESFUL_LOGGED":"1ere étape passée ! Vous êtes inscrit"
+    "SUCCESFUL_LOGGED":"1ere étape passée ! Vous êtes inscrit",
+    "RESIZE":"Recadrer",
+    "VALIDATE":"Valider",
+
+    "RESET_PWD":"Réinitialiser le mot de passe",
+    "MY_FRIENDS":"Mes amis",
+    "HIS_FRIENDS":"Ses amis",
+
+    "SKIP":"Passer cette étape",
+    "DISCOVER_PEOPLE":"Découvrez les teepZr parmi vos contacts",
+    "GOT": "OK Compris"
+
 
 
     

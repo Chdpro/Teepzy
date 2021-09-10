@@ -459,7 +459,6 @@ export class ContactsPage implements OnInit {
     let list = [];
     this.subscription = this.contactService.teepZrs(this.userId).subscribe(
       (res) => {
-        console.log(res);
         this.listTeepZrs = res["data"];
         this.contactService.setLocalData(
           CACHE_KEYS.CONTACTS,
@@ -526,6 +525,10 @@ export class ContactsPage implements OnInit {
           localStorage.setItem(
             "TeepzrToInvite",
             JSON.stringify(this.listTeepzrsToInvite)
+          );
+          localStorage.setItem(
+            "NbrTeepzrToInvite",
+            JSON.stringify(this.listTeepzrsToInvite.length)
           );
         }
       },
@@ -756,8 +759,10 @@ export class ContactsPage implements OnInit {
   }
 
   openSnackBar(
-    message: string = "Nouveaux contacts",
-    action: string = "Actualiser"
+    message: string = this.language === "fr"
+      ? "Nouveaux contacts"
+      : "New contacts",
+    action: string = this.language === "fr" ? "Actualiser" : "Refresh"
   ) {
     let snackBarRef = this._snackBar.open(message, action);
     snackBarRef.onAction().subscribe(() => {

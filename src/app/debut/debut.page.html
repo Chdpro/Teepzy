@@ -1,46 +1,45 @@
 <ion-content>
-    <ion-grid>
-        <ion-row>
-            <ion-col>
-                <img src="../../assets/Teepzy-06.png" alt="">
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>
-                <img class="illustration" src="../../assets/img/Illustration 1_Plan de travail 1-01.png" alt="">
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col size="12">
-                <h3>
-                        Pas encore sur Teepzy ?
-  
-                        Rejoins-nous en créant ton compte. C’est gratuit et tu accèdes à ton réseau de TeepZr !
-                </h3>
-            </ion-col>
-            <ion-col size="2">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <img src="../../assets/Teepzy-06.png" alt="" />
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <img
+          class="illustration"
+          src="../../assets/img/Illustration 1_Plan de travail 1-01.png"
+          alt=""
+        />
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <h3>{{'DEBUT_TEXT1'| translate}}</h3>
+      </ion-col>
+      <ion-col size="2"> </ion-col>
+      <ion-col size="8">
+        <ion-button (click)="goToSign()" expand="block" shape="round"
+          >{{'REGISTER'| translate}}</ion-button
+        >
+      </ion-col>
+      <ion-col size="2"> </ion-col>
+    </ion-row>
 
-            </ion-col>
-            <ion-col size="8">
-                <ion-button (click)="goToSign()" expand="block" shape="round">Créer un compte</ion-button>
-
-            </ion-col>
-            <ion-col size="2">
-
-            </ion-col>
-        </ion-row>
-
-        <ion-row style="margin-top: 56px;" >
-            <ion-col size="12">
-                <span class="text-bottom">
-                    <span>
-                        Vous êtes déjà un teepZr?
-                    </span><br>
-                    <button  style="display: block; margin-left: auto; margin-right: auto;" (click)="goToLogin()"  mat-button>Connectez-vous</button>
-
-                </span>
-
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+    <ion-row style="margin-top: 56px">
+      <ion-col size="12">
+        <span class="text-bottom">
+          <span> {{'DEBUT_TEXT2'| translate}} </span><br />
+          <button
+            style="display: block; margin-left: auto; margin-right: auto"
+            (click)="goToLogin()"
+            mat-button
+          >
+            {{'LOGIN'| translate}}
+          </button>
+        </span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

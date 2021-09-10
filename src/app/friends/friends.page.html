@@ -3,53 +3,69 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title *ngIf="!previousUrl">Mes amis</ion-title>
-    <ion-title *ngIf="previousUrl">Ses amis</ion-title>
+    <ion-title *ngIf="!previousUrl"> {{'MY_FRIENDS'| translate}}</ion-title>
+    <ion-title *ngIf="previousUrl"> {{'HIS_FRIENDS'| translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
   <ion-grid>
-        <!--  tabs aprt -->
-        <ion-row>
-            <ion-col size="12">
-              <input class="input-s" type="text" name="searchValue" [(ngModel)]='search'
-                 placeholder="Rechercher...">
-            </ion-col>
-          </ion-row>
+    <!--  tabs aprt -->
+    <ion-row>
+      <ion-col size="12">
+        <input
+          class="input-s"
+          type="text"
+          name="searchValue"
+          [(ngModel)]="search"
+        />
+      </ion-col>
+    </ion-row>
   </ion-grid>
 
-  <div class="item-wrapper" >
-
+  <div class="item-wrapper">
     <span *ngIf="!loading && members?.length == 0">
-      Aucun ami pour le moment
+      {{'NO_FRIEND_TO_CHAT_WITH'| translate}}
     </span>
-      <ion-spinner *ngIf="loading && members?.length == 0" color="primary"  name="dots"></ion-spinner>
-    <ion-item *ngFor="let m of members| filter:search ;trackBy: trackByFn "
-  
-    >
-      <div *ngIf="m?.photo =='' || m?.photo == null"   (click)="gotoProfile(m?._id)" class="round-img-post">
-        {{m?.pseudoIntime | slice:0:1| uppercase}} 
+    <ion-spinner
+      *ngIf="loading && members?.length == 0"
+      color="primary"
+      name="dots"
+    ></ion-spinner>
+    <ion-item *ngFor="let m of members| filter:search ;trackBy: trackByFn ">
+      <div
+        *ngIf="m?.photo =='' || m?.photo == null"
+        (click)="gotoProfile(m?._id)"
+        class="round-img-post"
+      >
+        {{m?.pseudoIntime | slice:0:1| uppercase}}
       </div>
-      <img *ngIf="m?.photo"   (click)="gotoProfile(m?._id)" [src]="m?.photo" alt="">
-      <ion-label><b   (click)="gotoProfile(m?._id)"> {{m?.pseudoIntime}} </b> <br>
-        <strong   (click)="gotoProfile(m?._id)">
-        {{m?.circleMembersCount}} contacts
-      </strong> <b style="float: right;" class="time"> 
-     
-      </b><br>
-        <button *ngIf="!previousUrl" class="mat-header-btn" mat-button [matMenuTriggerFor]="menu">
+      <img
+        *ngIf="m?.photo"
+        (click)="gotoProfile(m?._id)"
+        [src]="m?.photo"
+        alt=""
+      />
+      <ion-label
+        ><b (click)="gotoProfile(m?._id)"> {{m?.pseudoIntime}} </b> <br />
+        <strong (click)="gotoProfile(m?._id)">
+          {{m?.circleMembersCount}} contacts
+        </strong>
+        <b style="float: right" class="time"> </b><br />
+        <button
+          *ngIf="!previousUrl"
+          class="mat-header-btn"
+          mat-button
+          [matMenuTriggerFor]="menu"
+        >
           <ion-icon name="ellipsis-horizontal"></ion-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button (click)="removeFromCircle(m?._id)" mat-menu-item>Supprimer</button>
-        </mat-menu>
-      </ion-label><br>
-     
+          <button (click)="removeFromCircle(m?._id)" mat-menu-item>
+            {{'DELETE'| translate}}
+          </button>
+        </mat-menu> </ion-label
+      ><br />
     </ion-item>
-
-
-
   </div>
 </ion-content>

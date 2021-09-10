@@ -2,46 +2,58 @@
   <ion-toolbar style="color: #ea4e50">
     <ion-title>
       <span> {{ group?.name }} </span>
-      <br>
-      <span class="participants" >
-        {{members?.length}} Participants
-      </span>
+      <br />
+      <span class="participants"> {{members?.length}} Participants </span>
     </ion-title>
-    <ion-icon (click)="dismiss()" class="close-btn" style="float: right;" name="close-outline"></ion-icon>
+    <ion-icon
+      (click)="dismiss()"
+      class="close-btn"
+      style="float: right"
+      name="close-outline"
+    ></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
   <ion-grid>
     <!--  tabs aprt -->
     <ion-row>
       <ion-col size="12">
-        <input class="input-s" type="text" name="searchValue" [(ngModel)]='search' placeholder="Rechercher...">
+        <input
+          class="input-s"
+          type="text"
+          name="searchValue"
+          [(ngModel)]="search"
+          [placeholder]="'SEARCH'| translate"
+        />
       </ion-col>
     </ion-row>
   </ion-grid>
 
   <div class="item-wrapper">
-
     <ion-item *ngFor="let m of members| filter:search ;trackBy: trackByFn ">
       <div *ngIf="m?.photo =='' || m?.photo == null" class="round-img-post">
         {{m?.pseudoIntime | slice:0:1| uppercase}}
       </div>
-      <img *ngIf="m?.photo" [src]="m?.photo" alt="">
-      <ion-label><b> {{m?.pseudoIntime}} </b> <b style="float: right;" class="time"> </b><br>
+      <img *ngIf="m?.photo" [src]="m?.photo" alt="" />
+      <ion-label
+        ><b> {{m?.pseudoIntime}} </b> <b style="float: right" class="time"> </b
+        ><br />
       </ion-label>
-      <button *ngIf="!previousUrl" class="mat-header-btn" mat-button [matMenuTriggerFor]="menu">
+      <button
+        *ngIf="!previousUrl"
+        class="mat-header-btn"
+        mat-button
+        [matMenuTriggerFor]="menu"
+      >
         <ion-icon name="ellipsis-horizontal"></ion-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button (click)="deleteUserFromRoom(m?._id)" mat-menu-item>Supprimer</button>
+        <button (click)="deleteUserFromRoom(m?._id)" mat-menu-item>
+          {{'DELETE'| translate}}
+        </button>
       </mat-menu>
-
     </ion-item>
-
-
-
   </div>
 </ion-content>
 <!--ion-footer>

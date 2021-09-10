@@ -150,7 +150,9 @@
         </ion-row-->
       </mat-tab>
 
-      <mat-tab [label]=" 'Inviter  (' + listContacts?.length + ')'">
+      <mat-tab
+        [label]="language==='fr' ?'Inviter  (' + listContacts?.length + ')':'Invite  (' + listContacts?.length + ')'"
+      >
         <form *ngIf="listContacts?.length > 0" class="example-form">
           <mat-form-field class="example-full-width">
             <mat-label> {{'SEARCH'|translate}}</mat-label>

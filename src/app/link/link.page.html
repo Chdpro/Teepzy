@@ -1,34 +1,41 @@
 <ion-content>
-    <ion-grid>
-
-        <ion-row>
-            <ion-col>
-                <img class="illustration" src="../../assets/img/background3-03.png" alt="">
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col style="margin-top: 51px;" size="12">
-                <h3>
-                    Découvrez les teepZr  parmi  vos contacts
-                </h3>
-            </ion-col>
-            <ion-col size="2">
-
-            </ion-col>
-            <ion-col size="8">
-                <ion-button style="margin-top: 71px;" (click)="goToContacts()" expand="block" shape="round">Valider</ion-button>
-            </ion-col>
-            <ion-col size="2">
-
-            </ion-col>
-        </ion-row>
-
-    </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <img
+          class="illustration"
+          src="../../assets/img/background3-03.png"
+          alt=""
+        />
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="margin-top: 51px" size="12">
+        <h3>{{'DISCOVER_PEOPLE'| translate}}</h3>
+      </ion-col>
+      <ion-col size="2"> </ion-col>
+      <ion-col size="8">
+        <ion-button
+          style="margin-top: 71px"
+          (click)="goToContacts()"
+          expand="block"
+          shape="round"
+          >{{'VALIDATE'| translate}}</ion-button
+        >
+      </ion-col>
+      <ion-col size="2"> </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
-  <!-- Footer without a border -->
-  <ion-footer class="ion-no-border">
-      <ion-toolbar>
-        <button  style="display: block; margin-left: auto; margin-right: auto;" routerLink="/contacts" mat-button>Passer cette étape</button>
-      </ion-toolbar>
-    </ion-footer>
-  
+<!-- Footer without a border -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <button
+      style="display: block; margin-left: auto; margin-right: auto"
+      routerLink="/contacts"
+      mat-button
+    >
+      {{'SKIP'| translate}}
+    </button>
+  </ion-toolbar>
+</ion-footer>

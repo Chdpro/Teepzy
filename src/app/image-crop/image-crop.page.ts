@@ -35,6 +35,7 @@ export class ImageCropPage implements OnInit {
 
   imageConverted = "";
   language = "";
+  page = "";
   constructor(
     private navParams: NavParams,
     private base64ToGallery: Base64ToGallery,
@@ -52,6 +53,8 @@ export class ImageCropPage implements OnInit {
 
   ngOnInit() {
     this.myImage = this.navParams.data["imageSelected"];
+    this.page = this.navParams.data["page"];
+
     console.log(this.navParams.data);
   }
 
@@ -123,7 +126,12 @@ export class ImageCropPage implements OnInit {
     this.uploadService.uploadImage(this.imageConverted).then(
       (res) => {
         this.profile1.photo = res;
-        this.updateProfile();
+        if (this.page === "PRODUCT" || this.page === "PROJECT") {
+          this.dataPass.send(this.imageConverted);
+          this.dismiss();
+        } else {
+          this.updateProfile();
+        }
         this.loading = false;
       },
       (err) => {

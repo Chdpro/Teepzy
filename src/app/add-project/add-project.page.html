@@ -142,7 +142,7 @@
       [disabled]="nom.errors?.required 
         || description.errors?.required
         || tags?.length == 0 "
-      (click)="uploadImagePermission()"
+      (click)="upLoadImage()"
       mat-button
     >
       <span *ngIf="!loading"> {{"SAVE"| translate}} </span>

@@ -131,6 +131,7 @@ export class Tab1Page implements OnInit {
   @ViewChild("feed", null) feed: ElementRef;
 
   language = "";
+  nbrTeepzrsToInvite = "";
   constructor(
     private authService: AuthService,
     private toasterController: ToastController,
@@ -192,7 +193,9 @@ export class Tab1Page implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.nbrTeepzrsToInvite = localStorage.getItem("NbrTeepzrToInvite");
+  }
 
   ionViewWillEnter() {
     this.userId = localStorage.getItem("teepzyUserId");
@@ -203,7 +206,6 @@ export class Tab1Page implements OnInit {
       this.getFeedFromLocalThenServer();
     }
     this.isTutoSkip = localStorage.getItem("isTutoSkip");
-    let TeepzrToInvite = JSON.parse(localStorage.getItem("TeepzrToInvite"));
   }
 
   ngAfterViewInit() {}

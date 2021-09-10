@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Réinitialiser le mot de passe</ion-title>
+    <ion-title> {{'RESET_PWD'| translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,8 +11,15 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-          <iframe width="350" height="600" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
-          [src]="sanitizer.bypassSecurityTrustResourceUrl(sanitizedURL)"></iframe>   
+        <iframe
+          width="350"
+          height="600"
+          frameborder="0"
+          webkitallowfullscreen
+          mozallowfullscreen
+          allowfullscreen
+          [src]="sanitizer.bypassSecurityTrustResourceUrl(sanitizedURL)"
+        ></iframe>
       </ion-col>
     </ion-row>
   </ion-grid>

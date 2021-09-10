@@ -274,7 +274,7 @@ export class SignupFinalPage implements OnInit {
     const modal = await this.modalController.create({
       component: ImageCropPage,
       cssClass: "my-custom-class",
-      componentProps: { imageSelected: imageSelected },
+      componentProps: { imageSelected: imageSelected, page: "" },
     });
     return await modal.present();
   }
@@ -299,38 +299,6 @@ export class SignupFinalPage implements OnInit {
       },
       (err) => {}
     );
-  }
-
-  upLoadImage() {
-    this.uploadService.uploadImage(this.imageData).then(
-      (res) => {
-        this.user.photo = res;
-        this.updateUser();
-        this.loading = false;
-        this.dispImags = [];
-        this.imageData = "";
-      },
-      (err) => {
-        this.presentToast(
-          this.language === "fr"
-            ? MESSAGES.ERROR_UPLOAD
-            : MESSAGES.ERROR_UPLOAD_EN
-        );
-        //this.dismiss();
-      }
-    );
-  }
-
-  uploadImage() {
-    this.presentLoading();
-    var ref = this;
-    this.loading = true;
-    if (ref.imageData) {
-      this.upLoadImage();
-    } else {
-      this.loading = false;
-      this.updateUser();
-    }
   }
 
   async presentToast(msg) {

@@ -12,7 +12,7 @@
         *ngIf="!loading"
         color="secondary"
         style="margin-top: 1px"
-        (click)="uploadImage()"
+        (click)="upLoadImage()"
         [disabled]="contentMsg.errors?.required"
         expand="block"
         shape="round"
@@ -89,16 +89,16 @@
             </video>
           </div>
 
-          <!--image-cropper
-              [imageBase64]="myImage"
-              [maintainAspectRatio]="true"
-              [aspectRatio]="4 / 3"
-              format="png"
-              (imageCropped)="imageCropped($event)"
-              (imageLoaded)="imageLoaded()"
-              outputType="base64"
+          <image-cropper
+            [imageBase64]="myImage"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 3"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+            (imageLoaded)="imageLoaded()"
+            outputType="base64"
           >
-        </image-cropper-->
+          </image-cropper>
 
           <!--ion-card *ngIf="croppedImage">
             <ion-card-header>

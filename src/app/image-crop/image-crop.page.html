@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Recadrer</ion-title>
+    <ion-title>{{'RESIZE'| translate}}</ion-title>
     <ion-icon
       (click)="dismiss()"
       class="close-icon"
@@ -21,7 +21,7 @@
   >
   </image-cropper>
 
-  <ion-card *ngIf="croppedImage">
+  <!--ion-card-- *ngIf="croppedImage">
     <ion-card-header>
       <ion-card-title>Image recadrée</ion-card-title>
     </ion-card-header>
@@ -29,14 +29,14 @@
     <ion-card-content>
       <img alt="" [src]="croppedImage" />
     </ion-card-content>
-  </ion-card>
+  </!--ion-card-->
 </ion-content>
 
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
     <ion-button (click)="upLoadImage()" expand="full">
-      <span *ngIf="loading == false">Valider</span>
+      <span *ngIf="loading == false">{{'VALIDATE'| translate}}</span>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>
   </ion-toolbar>
