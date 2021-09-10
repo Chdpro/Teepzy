@@ -27,6 +27,7 @@ import { AppVersion } from "@ionic-native/app-version/ngx";
 import { Clipboard } from "@ionic-native/clipboard/ngx";
 import { AppUpdateModalPage } from "./app-update-modal/app-update-modal.page";
 import { TranslateService } from "@ngx-translate/core";
+import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
 
 export enum ConnectionStatus {
   Online,
@@ -80,7 +81,8 @@ export class AppComponent {
     private appVersion: AppVersion,
     private clipboard: Clipboard,
     private translate: TranslateService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private iab: InAppBrowser
   ) {
     this.initializeApp();
     this.sideMenu();
@@ -390,6 +392,15 @@ export class AppComponent {
     this.router.navigateByUrl("/login", {
       replaceUrl: true,
     });
+  }
+
+  goToStore() {
+    const URL_PLAYSTORE =
+      "https://play.google.com/store/apps/details?id=bsd.teepzy.com";
+    const URL_APPSTORE =
+      "https://apps.apple.com/bj/app/teepzy/id1572629592?l=fr";
+    //window.open(URL_PLAYSTORE, "_system");
+    this.iab.create(URL_PLAYSTORE, "_system");
   }
 
   goToEditInfo() {

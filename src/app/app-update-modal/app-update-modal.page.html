@@ -4,11 +4,8 @@
       <ion-icon name="close"></ion-icon>
     </div>
     <img src="../../assets/App installation-pana.png" alt="" />
-    <div class="header">Mise à jour Disponible</div>
-    <p>
-      Une nouvelle version de l'appli est disponible. Veuillez mettre à jour
-      pour une expérience optimale de Teepzy
-    </p>
+    <div class="header">{{"UPDATE_TITLE"| translate}}</div>
+    <p>{{"UPDATE_TEXT1"| translate}}</p>
   </div>
 </ion-content>
 <ion-footer translucent="true" class="ion-no-border">
@@ -20,7 +17,7 @@
         (click)="goToStore()"
         expand="full"
       >
-        <span> Mettre à jour maintenant </span>
+        <span> {{"UPDATE_NOW"| translate}} </span>
       </ion-button>
     </div>
   </ion-toolbar>

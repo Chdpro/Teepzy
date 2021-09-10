@@ -220,8 +220,11 @@
 
     "SKIP":"Passer cette étape",
     "DISCOVER_PEOPLE":"Découvrez les teepZr parmi vos contacts",
-    "GOT": "OK Compris"
+    "GOT": "OK Compris",
 
+    "UPDATE_TITLE":"Mise à jour disponible",
+    "UPDATE_TEXT1":"Une nouvelle version de l'appli est disponible. Veuillez mettre à jour pour une expérience optimale de Teepzy",
+    "UPDATE_NOW":"Mettre à jour maintenant"
 
 
     

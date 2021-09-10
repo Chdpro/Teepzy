@@ -21,7 +21,7 @@
     "REGISTER": "Create an account",
     "LOGIN": "Login",
     "DEBUT_TEXT2": "Are you already a TeepZr?",
-    
+
     "PHOTO_CHANGE":"Upload a photo",
     "PSEUDO":"Pseudo",
     "BIRTHDAY":"Birthday",
@@ -220,7 +220,11 @@
 
     "SKIP": "Skip this step",
     "DISCOVER_PEOPLE": "Discover teepZrs among your contacts",
-    "GOT": "OK Understood"
+    "GOT": "OK Understood",
+
+    "UPDATE_TITLE": "Update available",
+    "UPDATE_TEXT1": "A new version of the app is available. Please update for the best Teepzy experience",
+    "UPDATE_NOW": "Update now"
 
 
 

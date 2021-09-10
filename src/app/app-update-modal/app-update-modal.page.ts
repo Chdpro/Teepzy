@@ -4,6 +4,7 @@ import {
   InAppBrowser,
   InAppBrowserOptions,
 } from "@ionic-native/in-app-browser/ngx";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-app-update-modal",
@@ -11,11 +12,17 @@ import {
   styleUrls: ["./app-update-modal.page.scss"],
 })
 export class AppUpdateModalPage implements OnInit {
+  language = "";
   constructor(
     private modalController: ModalController,
     private iab: InAppBrowser,
-    private loadingController: LoadingController
-  ) {}
+    private loadingController: LoadingController,
+    private translate: TranslateService
+  ) {
+    this.language = localStorage.getItem("teepzyUserLang") || "fr";
+    // Set default language
+    this.translate.setDefaultLang(this.language);
+  }
 
   ngOnInit() {}
 
