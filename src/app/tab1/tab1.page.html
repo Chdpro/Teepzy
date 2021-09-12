@@ -68,11 +68,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" [scrollY]="false">
-  <!--ion-progress-bar--
+  <ion-progress-bar
     *ngIf="loading"
     style="position: absolute"
     type="indeterminate"
-  ></!--ion-progress-bar-->
+  ></ion-progress-bar>
 
   <ion-refresher
     *ngIf="debutListPost===0  && debutListTuto ===0"

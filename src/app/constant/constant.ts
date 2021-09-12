@@ -149,7 +149,7 @@ export enum MESSAGES {
   SHARE_ERROR_EN = "Error sharing a post in your circle",
   CENSURED_OK_EN = "This post has been reported",
   CENSURED_ERROR_EN = "Error reporting",
-  ADD_FEED_OK_EN = "You have published",
+  ADD_FEED_OK_EN = "You posted successfully",
   DELETE_FEED_OK_EN = "You have deleted the post",
   DELETE_FEED_ERROR_EN = "Error while deleting",
   ADD_FEED_ERROR_EN = "Error publishing a post",

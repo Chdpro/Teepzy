@@ -183,7 +183,7 @@ export class AddPostPage implements OnInit {
               : MESSAGES.GALLERY_CHOICE_EN,
           icon: "images",
           handler: () => {
-            this.pickImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+            this.picImage(this.camera.PictureSourceType.PHOTOLIBRARY);
           },
         },
         /* {
@@ -242,7 +242,7 @@ export class AddPostPage implements OnInit {
     if (this.imageConverted) {
       this.uploadService.uploadImage(this.imageConverted).then(
         (res) => {
-          this.post.image_url = base_url + res;
+          this.post.image_url = res;
           this.addPost();
           this.loading = false;
           this.presentToast(
@@ -271,6 +271,7 @@ export class AddPostPage implements OnInit {
     // this.myImage = null;
     // this.croppedImage = null
     this.dispImags = [];
+    this.myImage = "";
     this.imageData = "";
   }
   save() {
@@ -285,41 +286,6 @@ export class AddPostPage implements OnInit {
     this.angularCropper.cropper.x2 += x;
     this.angularCropper.cropper.y1 += y;
     this.angularCropper.cropper.y2 += y;
-  }
-
-  pickImage(sourceType) {
-    if (this.user.isPhotoAuthorized === true) {
-      const options: CameraOptions = {
-        quality: 40,
-        targetWidth: 600,
-        targetHeight: 600,
-        sourceType: sourceType,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE,
-      };
-      this.camera.getPicture(options).then(
-        (imageData) => {
-          // imageData is either a base64 encoded string or a file URI
-          // If it's base64 (DATA_URL):
-          //this.myImage = 'data:image/jpeg;base64,' + imageData;
-          this.dispImags.push(this.webView.convertFileSrc(imageData));
-          if (imageData) {
-            this.imageData = imageData;
-          }
-        },
-        (err) => {
-          // Handle error
-          // alert(JSON.stringify(err))
-        }
-      );
-    } else {
-      this.presentToast(
-        this.language === "fr"
-          ? MESSAGES.UNABLE_TAKE_PHOTO
-          : MESSAGES.UNABLE_TAKE_PHOTO_EN
-      );
-    }
   }
 
   takeImage(sourceType) {
@@ -364,56 +330,6 @@ export class AddPostPage implements OnInit {
         alert(JSON.stringify(err));
       }
     );
-  }
-
-  uploadImage() {
-    var ref = this;
-    this.loading = true;
-    if (ref.dispImags.length > 0 && ref.videos.length == 0) {
-      this.upLoadImage();
-    } else if (ref.videos.length > 0 && ref.photos.length == 0) {
-      if (this.videoPlayers.nativeElement.duration < 35) {
-        //   alert("upload started")
-        for (let index = 0; index < ref.videos.length; index++) {
-          // interval++
-          const fileTransfer = ref.transfer.create();
-          let options: FileUploadOptions = {
-            fileKey: "avatar",
-            fileName: Math.random() * 100000000000000000 + ".mp4",
-            chunkedMode: false,
-            mimeType: "video/mp4",
-            headers: {},
-          };
-          var serverUrl = base_url + "upload-avatar";
-          this.filesName.push({
-            fileUrl: base_url + options.fileName,
-            type: "video",
-          });
-          fileTransfer.upload(ref.videos[index], serverUrl, options).then(
-            () => {
-              this.post.video_url = base_url + options.fileName;
-              //    alert("upload finished")
-              this.addPost();
-              this.loading = false;
-            },
-            (error) => {
-              this.loading = false;
-              //    alert("video upload did not work!" + JSON.stringify(error))
-            }
-          );
-        }
-      } else {
-        this.presentToast(
-          this.language === "fr"
-            ? MESSAGES.VIDEO_LIMIT_ERROR
-            : MESSAGES.VIDEO_LIMIT_ERROR_EN
-        );
-        this.loading = false;
-      }
-    } else {
-      this.addPost();
-      this.loading = false;
-    }
   }
 
   /* chooseVideo() {
@@ -468,7 +384,7 @@ export class AddPostPage implements OnInit {
   picImage(sourceType) {
     if (this.user.isPhotoAuthorized === true) {
       const options: CameraOptions = {
-        quality: 80,
+        quality: 70,
         targetWidth: 600,
         targetHeight: 600,
         sourceType: sourceType,
@@ -481,7 +397,7 @@ export class AddPostPage implements OnInit {
           // imageData is either a base64 encoded string or a file URI
           // If it's base64 (DATA_URL):
           this.myImage = "data:image/jpeg;base64," + imageData;
-          this.dispImags.push(this.webView.convertFileSrc(imageData));
+          // this.dispImags.push(this.webView.convertFileSrc(imageData));
           if (imageData) {
             this.imageData = imageData;
           }

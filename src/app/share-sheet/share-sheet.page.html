@@ -38,7 +38,7 @@
 
 <ion-footer>
   <ion-toolbar>
-    <span>
+    <div class="btn-container">
       <!-- fab placed to the bottom end -->
       <ion-fab
         (click)="presentAlertConfirm()"
@@ -60,11 +60,11 @@
         horizontal="center"
         slot="fixed"
       >
-        <ion-fab-button color="primary">
+        <ion-fab-button class="share-btn" color="primary">
           <span style="color: white" class="material-icons"> redo </span>
         </ion-fab-button>
         <div class="text-share">{{'MY_CIRCLE'|translate}}</div>
       </ion-fab>
-    </span>
+    </div>
   </ion-toolbar>
 </ion-footer>

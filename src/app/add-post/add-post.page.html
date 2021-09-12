@@ -68,11 +68,11 @@
             class="close-btn"
             name="close-outline"
           ></ion-icon>
-          <ion-img
+          <!--ion-img--
             *ngIf="dispImags?.length > 0"
             class="img-to-post"
             [src]="dispImags[0]"
-          ></ion-img>
+          ></!--ion-img-->
           <div *ngIf="dispVideos?.length > 0">
             <ion-icon
               (click)="removeMedia()"
@@ -100,15 +100,15 @@
           >
           </image-cropper>
 
-          <!--ion-card *ngIf="croppedImage">
+          <!--ion-card *ngIf="!croppedImage">
             <ion-card-header>
               <ion-card-title>Résultats</ion-card-title>
             </ion-card-header>
-          
+
             <ion-card-content>
               <img alt="" [src]="croppedImage" />
             </ion-card-content>
-          </ion-card-->
+          </--ion-card-->
         </ion-col>
 
         <ion-col>

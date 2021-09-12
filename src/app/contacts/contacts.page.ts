@@ -193,10 +193,12 @@ export class ContactsPage implements OnInit {
               checkCamRefuse === "2")
           ) {
           } else {
+            this.dismiss();
             this.router.navigate(["/permissions"]);
           }
         },
         (err) => {
+          this.dismiss();
           this.router.navigate(["/permissions"]);
         }
       );
