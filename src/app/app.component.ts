@@ -394,15 +394,6 @@ export class AppComponent {
     });
   }
 
-  goToStore() {
-    const URL_PLAYSTORE =
-      "https://play.google.com/store/apps/details?id=bsd.teepzy.com";
-    const URL_APPSTORE =
-      "https://apps.apple.com/bj/app/teepzy/id1572629592?l=fr";
-    //window.open(URL_PLAYSTORE, "_system");
-    this.iab.create(URL_PLAYSTORE, "_system");
-  }
-
   goToEditInfo() {
     this.router.navigateByUrl("/edit-info");
   }
