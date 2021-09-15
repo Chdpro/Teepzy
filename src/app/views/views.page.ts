@@ -51,7 +51,6 @@ export class ViewsPage implements OnInit {
   getScopeCount() {
     this.contactService.scopeCountOnPost(this.post._id).subscribe(
       (res) => {
-        console.log(res);
         this.scopeCount = res["data"];
       },
       (error) => {

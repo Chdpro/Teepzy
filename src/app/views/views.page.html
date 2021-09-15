@@ -38,6 +38,9 @@
       <ion-label>
         <strong>{{V?.userPseudo}}</strong>
       </ion-label>
+      <span *ngIf="userId===V?.userId">
+        <ion-badge color="primary">{{'ME'|translate}}</ion-badge>
+      </span>
     </ion-item>
   </ion-list>
 </ion-content>

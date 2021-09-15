@@ -234,7 +234,9 @@
 
     "VIEWS":"Vue",
     "SCOPE": "Personnes atteintes",
-    "NO_VIEW":"Pas de vue"
+    "NO_VIEW":"Pas de vue",
+    "ME":"Moi"
+
 
 
 
