@@ -20,6 +20,7 @@
     "DEBUT_TEXT1":"Pas encore sur Teepzy ? Rejoins-nous en créant ton compte. C’est gratuit et tu accèdes à ton réseau de TeepZr !",
     "REGISTER":"Créer un compte",
     "LOGIN":"Connectez-vous",
+    "LOGIN_TEXT1":"Connecte-toi à tes TeepZrs pour découvrir leurs TeepZs",
     "DEBUT_TEXT2":"Vous êtes déjà un teepZr?",
     "PHOTO_CHANGE":"Charger une photo",
     "PSEUDO":"Pseudo",
@@ -48,7 +49,7 @@
     "NO_ONE_TO_INVITE":"Aucune personne à inviter ",
     "SEARCH":"Rechercher",
     "INVITE":"Inviter",
-    "EN_ATTENTE":"En attente",
+    "PENDING":"En attente",
     "POSSIBLE_KNOW":"Vous les connaissez peut-être ",
     "ADD":"Ajouter",
     "ADDED":"Ajouté",
@@ -213,6 +214,11 @@
     "SUCCESFUL_LOGGED":"1ere étape passée ! Vous êtes inscrit",
     "RESIZE":"Recadrer",
     "VALIDATE":"Valider",
+    "LOG":"Valider",
+    "PWD_FORGOT":"Mot de passe oublié?",
+    "ENVY_TEEPR":" Envie de devenir un teepZr?",
+    "REGISTER_":" Inscrivez-vous",
+
 
     "RESET_PWD":"Réinitialiser le mot de passe",
     "MY_FRIENDS":"Mes amis",
@@ -224,7 +230,13 @@
 
     "UPDATE_TITLE":"Mise à jour disponible",
     "UPDATE_TEXT1":"Une nouvelle version de l'appli est disponible. Veuillez mettre à jour pour une expérience optimale de Teepzy",
-    "UPDATE_NOW":"Mettre à jour maintenant"
+    "UPDATE_NOW":"Mettre à jour maintenant",
+
+    "VIEWS":"Vue",
+    "SCOPE": "Personnes atteintes",
+    "NO_VIEW":"Pas de vue"
+
+
 
 
     

@@ -282,6 +282,24 @@ export class ContactService {
     );
   }
 
+  addViewOnPost(post): Observable<any> {
+    let url = "stats/post/view";
+    return this.http.post(
+      base_url + url,
+      JSON.stringify(post),
+      httpOptionsJson
+    );
+  }
+
+  scopeCountOnPost(postId): Observable<any> {
+    let url = "stats/post/scope";
+    return this.http.post(
+      base_url + url,
+      JSON.stringify({ postId: postId }),
+      httpOptionsJson
+    );
+  }
+
   uploadBase64(image): Observable<any> {
     let url = "upload-avatar-base64";
     return this.http.post(base_url + url, image, httpOptionsJson);

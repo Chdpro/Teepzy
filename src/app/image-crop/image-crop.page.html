@@ -12,8 +12,12 @@
 <ion-content>
   <image-cropper
     [imageBase64]="myImage"
-    [maintainAspectRatio]="true"
-    [aspectRatio]="4 / 3"
+    [maintainAspectRatio]="false"
+    [aspectRatio]="4 / 6"
+    [resizeToWidth]="300"
+    [cropperMinWidth]="300"
+    [onlyScaleDown]="true"
+    [roundCropper]="roundCropper"
     format="png"
     (imageCropped)="imageCropped($event)"
     (imageLoaded)="imageLoaded()"

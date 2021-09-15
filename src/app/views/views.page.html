@@ -1,0 +1,62 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <button
+      (click)="presentViewersModal(p)"
+      mat-button
+      class="filigrane views"
+      style="font-weight: 500; font-size: 15px"
+    >
+      <ion-icon name="eye"></ion-icon>
+      <span>
+        {{views?.length}} {{'VIEWS'|translate}}
+        <b *ngIf="views?.length > 1" style="margin-left: -4px">s</b></span
+      >
+    </button>
+    <span class="scope-txt"> {{scopeCount}} {{'SCOPE'|translate}}</span>
+    <ion-icon
+      (click)="dismiss()"
+      class="close-icon"
+      name="close-outline"
+    ></ion-icon>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-spinner *ngIf="loading" color="primary" name="dots"></ion-spinner>
+
+  <div
+    *ngIf="views?.length === 0&& !loading"
+    class=".container-txt"
+    style="text-align: center; margin-top: 37vh"
+  >
+    <span class="msg"> {{'NO_VIEW'|translate}}</span>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let V of views">
+      <ion-avatar slot="start">
+        <img *ngIf="V?.userPhoto" [src]="V?.userPhoto" />
+      </ion-avatar>
+      <ion-label>
+        <strong>{{V?.userPseudo}}</strong>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <div *ngIf="userId === post?.userId" class="btn-container">
+      <!-- fab placed to the bottom end -->
+      <ion-fab
+        (click)="presentActionSheet(post)"
+        class="censure"
+        vertical="bottom"
+        horizontal="center"
+        slot="fixed"
+      >
+        <ion-fab-button color="primary">
+          <ion-icon style="color: white" name="trash"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+      <!-- fab placed to the bottom end -->
+    </div>
+  </ion-toolbar>
+</ion-footer>

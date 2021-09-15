@@ -11,7 +11,15 @@
     overflow: auto;
     height: -webkit-fill-available;
 }
-
+.menu-footer-icon{
+    position: absolute;
+    bottom: 0;
+    left: 40%;
+    right: 40%;
+    background: #2f2f2b78 !important;
+    border-radius: 34px;
+    color: white;
+}
 .badges{
     display: flex;
     flex-direction: row;
@@ -456,6 +464,18 @@ img{
     border: 1px solid #ea4e50;
     margin-right: -14px;
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+.views{
+    top: -11%;
+    height: 28px;
+    padding: 1px;
+    right: 12px;
+    padding-top: -4px;
+    border: none;
+    right: 23px;
+    min-width: 8px !important;
+    max-width: 36px;
+    width: 36px;
 }
 .match-txt{
     font-size: 8px;

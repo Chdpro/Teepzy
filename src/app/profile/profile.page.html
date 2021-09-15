@@ -226,7 +226,7 @@
                    'background':  lt?.image_url != '' ? '' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' }"
                 >
                   <p
-                    [ngStyle]="{'margin-top': lt?.content.length < 90 ? '52px' : '0',
+                    [ngStyle]="{'margin-top': lt?.content.length < 90 ? '29px' : '0',
                     'background': lt?.image_url != ''? ' #00000042': '', 
                     'color': lt?.image_url != '' ? 'white' : '' }"
                     class="mat-p"
@@ -430,10 +430,10 @@
               <mat-card class="example-card">
                 <mat-card-header> </mat-card-header>
                 <mat-card-content
-                  [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': '100%', 'background-repeat': 'no-repeat' }"
+                  [ngStyle]="{'color': lt?.backgroundColor == '#fff' ? 'black' : 'white', 'background':  lt?.image_url != '' ? 'url(' + lt?.image_url + ')' : lt?.backgroundColor, 'background-position': 'center center', 'background-size': 'cover', 'background-repeat': 'no-repeat' }"
                 >
                   <p
-                    [ngStyle]="{'margin-top': lt?.content.length < 90 ? '52px' : '0',
+                    [ngStyle]="{'margin-top': lt?.content.length < 90 ? '29px' : '',
                   'background': lt?.image_url != ''? ' #00000042': '', 
                   'color': lt?.image_url != '' ? 'white' : '' }"
                     class="mat-p"

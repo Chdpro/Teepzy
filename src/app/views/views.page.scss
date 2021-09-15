@@ -1,0 +1,102 @@
+.close-icon{
+    float: right;
+    margin-top: -4px;
+    margin-right: 16px;
+    font-size: 29px;
+    color: #ea4e50;
+    margin-left: 54px;
+    position: absolute;
+    right: 0;
+    top: 23px;
+}
+ion-spinner{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+.scope-txt{
+    text-align: center;
+    display: block;
+    margin-left: 33px;
+    margin-right: 1px;
+    margin-top: -1px;
+}
+
+.filigrane{
+    position: absolute;
+    background:rgb(0 0 0 / 38%);
+    border-radius: 63px;
+    color: #fff;
+    height: 60px;
+    width: 60px;
+    right: 12px;
+    padding-left: 8px;
+    padding-top: 19px;
+    top: 103%;
+    border: 1px solid #ea4e50;
+    margin-right: -14px;
+}
+.views{
+    top: 17%;
+    height: 28px;
+    padding: 1px;
+    padding-top: -4px;
+    border: none;
+    left: 9px;
+    min-width: 17px !important;
+    max-width: 100px;
+    width: 100px;
+}
+
+
+.content{
+    background-color: #F0EFEF;
+  }
+  
+  .text-share
+  {
+        font-size: 11px;
+    }
+  
+    .rs-btn{
+      margin-left: 95px;text-align: center;
+    }
+    .sv-btn{
+      margin-right: 92px;text-align: center;
+    }
+  
+    .btn-container{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+    .censure{
+      bottom: 0px;
+    }
+  
+    .redo{
+      right: 27%;
+      bottom: 5px;
+    }
+  
+    .share-btn{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+ 
+  .msg{
+      font-size: 16px;
+      font-weight: 200;
+      color: #ea4d4f;
+  }
+  
+  .container-txt{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+  }
+  
+  strong{
+      color: #ea4d4f;
+  }

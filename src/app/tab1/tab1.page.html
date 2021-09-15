@@ -204,7 +204,7 @@
       *ngFor="let p of listPosts | slice:debutListPost:endListPost;let i=index; trackBy: trackByFn "
       class="feed-container my-animation lozad"
       swipeAll
-      (swipeup)="swipeUp($event)"
+      (swipeup)="swipeUp($event,p)"
       (swipedown)="swipeDown($event)"
       [ngStyle]="{
     'color': p?.backgroundColor == '#fff' && !p?.image_url? 'black' : 'white', 
@@ -309,6 +309,14 @@
         </div>
         <!--sideBar buttons-->
         <div class="sideBar-btn">
+          <button
+            (click)="presentViewersModal(p)"
+            mat-button
+            class="filigrane views"
+            style="font-weight: 800; font-size: 22px"
+          >
+            <span>°°°</span>
+          </button>
           <div class="side-avatar">
             <ion-avatar
               *ngIf="p?.image_url|| p?.video_url"
@@ -452,6 +460,12 @@
             >{{p?.price}}</ion-badge
           >
         </div>
+      </div>
+      <div class="menu-footer">
+        <!--button-- class="menu-footer-icon" style="height: 28px" mat-button>
+          views
+          <ion-icon name="more"></ion-icon>
+        </!--button-->
       </div>
     </div>
   </div>

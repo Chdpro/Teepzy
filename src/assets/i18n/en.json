@@ -20,6 +20,7 @@
     "DEBUT_TEXT1": "Not yet on Teepzy? Join us by creating your account. It's free and you get access to your TeepZr network!",
     "REGISTER": "Create an account",
     "LOGIN": "Login",
+    "LOGIN_TEXT1": "Connect to your TeepZrs to discover their TeepZs",
     "DEBUT_TEXT2": "Are you already a TeepZr?",
 
     "PHOTO_CHANGE":"Upload a photo",
@@ -48,7 +49,6 @@
     "NO_ONE_TO_INVITE":"No one to invite ",
     "SEARCH":"Search",
     "INVITE":"Invite",
-    "":"Invite",
     "PENDING":"Pending",
     "POSSIBLE_KNOW":"You may know them ",
     "ADD":"Add",
@@ -213,6 +213,11 @@
     "SUCCESFUL_LOGGED": "1st step passed! You are registered",
     "RESIZE":"Resize",
     "VALIDATE":"Done",
+    "LOG":"Login",
+    "PWD_FORGOT": "Forgot password?",
+    "ENVY_TEEPR": "Want to become a teepZr?",
+    "REGISTER_": "Register",
+
 
     "RESET_PWD": "Reset password",
     "MY_FRIENDS": "My friends",
@@ -224,7 +229,12 @@
 
     "UPDATE_TITLE": "Update available",
     "UPDATE_TEXT1": "A new version of the app is available. Please update for the best Teepzy experience",
-    "UPDATE_NOW": "Update now"
+    "UPDATE_NOW": "Update now",
+
+    "VIEWS":"View",
+    "SCOPE": "People reached",
+    "NO_VIEW":"No view"
+
 
 
 

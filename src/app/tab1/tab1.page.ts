@@ -49,6 +49,7 @@ import { LikersPage } from "../likers/likers.page";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ContactsPage } from "../contacts/contacts.page";
 import { TranslateService } from "@ngx-translate/core";
+import { ViewsPage } from "../views/views.page";
 
 @Component({
   selector: "app-tab1",
@@ -187,6 +188,20 @@ export class Tab1Page implements OnInit {
       });
     });
 
+    this.subscription = this.dataPass.get().subscribe((postId) => {
+      // console.log(list)
+      if (postId) {
+        this.listPosts = this.listPosts.filter((post) => {
+          return post._id !== postId;
+        });
+      }
+      //  console.log(this.listPosts)
+      this.listPosts = this.listPosts.sort((a, b) => {
+        return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp);
+      });
+      this.contactService.setLocalData(CACHE_KEYS.FEEDS_CHECK, this.listPosts);
+    });
+
     this.getFeedNewPost().subscribe((info) => {
       // console.log(message)
       info["userConcernedId"] === this.userId ? this.openSnackBar() : null;
@@ -217,13 +232,33 @@ export class Tab1Page implements OnInit {
     this.subscription ? this.subscription.unsubscribe() : null;
   }
 
+  setViewOnPost(post) {
+    let view = {
+      userId: this.userId,
+      userPhoto: this.user.photo,
+      userPseudo: this.user.pseudoIntime,
+      postId: post._id,
+    };
+    this.contactService.addViewOnPost(view).subscribe(
+      (res) => {
+        //  console.log(res);
+      },
+      (error) => {
+        //  console.log(error);
+      }
+    );
+  }
+
   openSnackBar(
-    message: string = "Voir les Nouvelles publications",
-    action: string = "Voir"
+    message: string = this.language === "fr"
+      ? "Voir les nouvelles publications"
+      : "View new posts",
+    action: string = this.language === "fr" ? "Voir" : "Check"
   ) {
     this._snackBar.open(message, action);
     this.getPosts(this.userId);
   }
+
   time(date) {
     moment.locale(this.language);
     return moment(date).fromNow();
@@ -318,7 +353,8 @@ export class Tab1Page implements OnInit {
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
   }
 
-  swipeUp(event: any) {
+  swipeUp(event: any, post) {
+    this.setViewOnPost(post);
     this.debutListPost++;
     this.endListPost++;
     if (this.endListPost > this.listPosts.length) {
@@ -520,6 +556,24 @@ export class Tab1Page implements OnInit {
     }
     const modal = await this.modalController.create({
       component: LikersPage,
+      componentProps: post,
+      backdropDismiss: false,
+      cssClass: "likers-class",
+      showBackdrop: true,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+    });
+    return await modal.present();
+  }
+
+  async presentViewersModal(post) {
+    if (this.globals.showBackground) {
+      this.globals.showBackground = false;
+    } else {
+      this.globals.showBackground = true;
+    }
+    const modal = await this.modalController.create({
+      component: ViewsPage,
       componentProps: post,
       backdropDismiss: false,
       cssClass: "likers-class",

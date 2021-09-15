@@ -4,10 +4,9 @@ import { FormsModule } from "@angular/forms";
 
 import { IonicModule } from "@ionic/angular";
 
-import { LoginPageRoutingModule } from "./login-routing.module";
-import { MaterialModule } from "../material.module";
+import { ViewsPageRoutingModule } from "./views-routing.module";
 
-import { LoginPage } from "./login.page";
+import { ViewsPage } from "./views.page";
 import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
@@ -20,7 +19,7 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
     CommonModule,
     FormsModule,
     IonicModule,
-    MaterialModule,
+    ViewsPageRoutingModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -28,8 +27,8 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
-    LoginPageRoutingModule,
   ],
-  declarations: [LoginPage],
+  entryComponents: [ViewsPage],
+  declarations: [ViewsPage],
 })
-export class LoginPageModule {}
+export class ViewsPageModule {}

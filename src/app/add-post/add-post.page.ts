@@ -384,9 +384,9 @@ export class AddPostPage implements OnInit {
   picImage(sourceType) {
     if (this.user.isPhotoAuthorized === true) {
       const options: CameraOptions = {
-        quality: 70,
-        targetWidth: 600,
-        targetHeight: 600,
+        quality: 90,
+        targetWidth: 900,
+        targetHeight: 900,
         sourceType: sourceType,
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.JPEG,

@@ -256,6 +256,10 @@ const routes: Routes = [
     path: 'image-crop',
     loadChildren: () => import('./image-crop/image-crop.module').then( m => m.ImageCropPageModule)
   },
+  {
+    path: 'views',
+    loadChildren: () => import('./views/views.module').then( m => m.ViewsPageModule)
+  },
 ];
 @NgModule({
   imports: [

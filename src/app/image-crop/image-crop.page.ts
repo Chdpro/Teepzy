@@ -36,6 +36,8 @@ export class ImageCropPage implements OnInit {
   imageConverted = "";
   language = "";
   page = "";
+  roundCropper = true;
+
   constructor(
     private navParams: NavParams,
     private base64ToGallery: Base64ToGallery,
@@ -54,7 +56,9 @@ export class ImageCropPage implements OnInit {
   ngOnInit() {
     this.myImage = this.navParams.data["imageSelected"];
     this.page = this.navParams.data["page"];
-
+    if (this.page === "PRODUCT" || this.page === "PROJECT") {
+      this.roundCropper = false;
+    }
     console.log(this.navParams.data);
   }
 

@@ -365,9 +365,9 @@ export class AddProductPage implements OnInit {
 
   pickImage(sourceType) {
     const options: CameraOptions = {
-      quality: 60,
-      targetWidth: 600,
-      targetHeight: 600,
+      quality: 90,
+      targetWidth: 900,
+      targetHeight: 900,
       sourceType: sourceType,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,

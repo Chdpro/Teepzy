@@ -8,6 +8,7 @@ import {
   ModalController,
   IonRouterOutlet,
   Platform,
+  ActionSheetController,
 } from "@ionic/angular";
 import * as moment from "moment";
 import { Subscription } from "rxjs";
@@ -105,7 +106,8 @@ export class DetailFeedPage implements OnInit {
     private platform: Platform,
     private dataPasse: DatapasseService,
     private contactService: ContactService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private actionSheetController: ActionSheetController
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
@@ -140,6 +142,23 @@ export class DetailFeedPage implements OnInit {
     });
   }
 
+  setViewOnPost(post) {
+    let view = {
+      userId: this.userId,
+      userPhoto: this.user.photo,
+      userPseudo: this.user.pseudoIntime,
+      postId: post._id,
+    };
+    this.contactService.addViewOnPost(view).subscribe(
+      (res) => {
+        //  console.log(res);
+      },
+      (error) => {
+        //  console.log(error);
+      }
+    );
+  }
+
   goToProfile(userId) {
     if (this.userId === userId) {
       this.router.navigate(["/tabs/profile", { userId: userId }]);
@@ -165,6 +184,7 @@ export class DetailFeedPage implements OnInit {
             userId: this.userId,
             postId: post._id,
           };
+          this.setViewOnPost(post);
           this.checkFavorite(favorite, post);
           this.loading = false;
         }
@@ -190,6 +210,7 @@ export class DetailFeedPage implements OnInit {
             userId: this.userId,
             postId: this.post._id,
           };
+          this.setViewOnPost(post);
           this.checkFavorite(favorite, this.post);
         }
         this.loading = false;
@@ -217,30 +238,32 @@ export class DetailFeedPage implements OnInit {
     }
   }
 
-  async presentAlertConfirm() {
-    const alert = await this.alertController.create({
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
       cssClass: "my-custom-class",
-      header: this.language === "fr" ? "Supprimer?" : "Delete?",
-      message: "",
       buttons: [
         {
-          text: this.language === "fr" ? "Non" : "No",
-          role: "cancel",
-          cssClass: "secondary",
-          handler: (blah) => {
-            this.presentToast(this.language === "fr" ? "Annulé" : "Cancel");
-          },
-        },
-
-        {
-          text: this.language === "fr" ? "Oui" : "Yes",
+          text: this.language === "fr" ? "Supprimer?" : "Delete?",
+          role: "destructive",
+          icon: "trash",
           handler: () => {
             this.deletePost();
           },
         },
+        {
+          text: this.language === "fr" ? "Terminé" : "Finished",
+          icon: "close",
+          role: "cancel",
+          handler: () => {
+            this.presentToast(this.language === "fr" ? "Annulé" : "Cancel");
+          },
+        },
       ],
     });
-    await alert.present();
+    await actionSheet.present();
+
+    const { role } = await actionSheet.onDidDismiss();
+    console.log("onDidDismiss resolved with role", role);
   }
 
   getMyPosts(userId) {
