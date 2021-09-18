@@ -49,14 +49,16 @@ export class ViewsPage implements OnInit {
   }
 
   getScopeCount() {
-    this.contactService.scopeCountOnPost(this.post._id).subscribe(
-      (res) => {
-        this.scopeCount = res["data"];
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.contactService
+      .scopeCountOnPost(this.post._id, this.post.userId || this.post.reposterId)
+      .subscribe(
+        (res) => {
+          this.scopeCount = res["data"];
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   async presentActionSheet(post) {

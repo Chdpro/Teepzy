@@ -12,6 +12,7 @@ import { MentionModule } from "angular-mentions";
 import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { LinkifyPipe } from "../pipes/linkify.pipe";
 // Factory function required during AOT compilation
 export function httpTranslateLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -34,6 +35,6 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
     }),
   ],
   entryComponents: [CommentsPage],
-  declarations: [CommentsPage],
+  declarations: [CommentsPage, LinkifyPipe],
 })
 export class CommentsPageModule {}

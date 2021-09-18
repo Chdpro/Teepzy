@@ -519,27 +519,25 @@ export class ContactsPage implements OnInit {
             );
         });
         this.arrayIncrementLoading = false;
-        if (this.listTeepzrsToInvite.length == 0) {
+
+        if (this.listTeepzrsToInvite.length === 0) {
           this.listTeepzrsToInvite.length = 1;
           this.highValueT = this.highValueT - 1;
           this.minus = 1;
-        } else {
+          // alert(JSON.stringify(this.listTeepzrsToInvite.length));
+        } else if (this.listTeepzrsToInvite.length > 0) {
           localStorage.setItem(
             "TeepzrToInvite",
             JSON.stringify(this.listTeepzrsToInvite)
           );
-          localStorage.setItem(
-            "NbrTeepzrToInvite",
-            JSON.stringify(this.listTeepzrsToInvite.length)
-          );
         }
       },
       (error) => {
-        if (this.listTeepzrsToInvite.length == 0) {
+        if (this.listTeepzrsToInvite.length === 0) {
           this.listTeepzrsToInvite.length = 1;
           this.highValueT = this.highValueT - 1;
           this.minus = 1;
-        } else {
+        } else if (this.listTeepzrsToInvite.length > 0) {
           localStorage.setItem(
             "TeepzrToInvite",
             JSON.stringify(this.listTeepzrsToInvite)
@@ -776,10 +774,13 @@ export class ContactsPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
       header: "Confirmation",
-      message: "Voulez-vous vraiment annuler? ",
+      message:
+        this.language === "fr"
+          ? "Voulez-vous vraiment annuler? "
+          : "Would you really want to cancel",
       buttons: [
         {
-          text: "Fermer",
+          text: this.language === "fr" ? "Fermer" : "Close",
           role: "cancel",
           cssClass: "secondary",
           handler: (blah) => {
@@ -787,7 +788,7 @@ export class ContactsPage implements OnInit {
           },
         },
         {
-          text: "Je confirme",
+          text: this.language === "fr" ? "Je confirme" : "I confirm",
           handler: () => {
             this.cancelInvitationToJoinCircle(u);
           },
@@ -895,6 +896,10 @@ export class ContactsPage implements OnInit {
 
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : null;
+    localStorage.setItem(
+      "TeepzrToInvite",
+      JSON.stringify(this.listTeepzrsToInvite)
+    );
     this._snackBar.dismiss();
   }
 

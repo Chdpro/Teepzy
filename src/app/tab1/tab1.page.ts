@@ -108,6 +108,7 @@ export class Tab1Page implements OnInit {
   subscription: Subscription;
   isAnimating = false;
 
+  page = 1;
   navigationSubscription;
   @ViewChild("videoPlayer", null) videoPlayers: ElementRef;
   @ViewChild("slides", null) ionSlides: IonSlides;
@@ -209,11 +210,18 @@ export class Tab1Page implements OnInit {
   }
 
   ngOnInit() {
-    this.nbrTeepzrsToInvite = localStorage.getItem("NbrTeepzrToInvite");
+    this.nbrTeepzrsToInvite = JSON.parse(
+      localStorage.getItem("TeepzrToInvite")
+    ).length;
   }
 
   ionViewWillEnter() {
     this.userId = localStorage.getItem("teepzyUserId");
+    this.nbrTeepzrsToInvite = JSON.parse(
+      localStorage.getItem("TeepzrToInvite")
+    ).length;
+    // alert(this.nbrTeepzrsToInvite);
+
     this.getUserInfo(this.userId);
     if (this.networkService.networkStatus() === Offline) {
       this.getFeedFromLocal();
@@ -230,6 +238,16 @@ export class Tab1Page implements OnInit {
       this.navigationSubscription.unsubscribe();
     }
     this.subscription ? this.subscription.unsubscribe() : null;
+  }
+
+  loadData() {
+    this.page++;
+    this.page <= 10 ? this.getPosts(this.userId) : null;
+  }
+
+  loadDataOld() {
+    this.page > 1 ? this.page-- : null;
+    this.getPosts(this.userId);
   }
 
   setViewOnPost(post) {
@@ -255,8 +273,39 @@ export class Tab1Page implements OnInit {
       : "View new posts",
     action: string = this.language === "fr" ? "Voir" : "Check"
   ) {
-    this._snackBar.open(message, action);
-    this.getPosts(this.userId);
+    let snack = this._snackBar.open(message, action);
+    snack.onAction().subscribe(() => {
+      this.getPosts(this.userId);
+    });
+  }
+
+  openNextDataSnackBar(
+    message: string = this.language === "fr"
+      ? "Voir les nouvelles publications"
+      : "View new posts",
+    action: string = this.language === "fr" ? "Voir" : "Check"
+  ) {
+    this.page = 1;
+    let snack = this._snackBar.open(message, action);
+    snack.onAction().subscribe(() => {
+      console.log("new");
+      this.getPosts(this.userId);
+    });
+  }
+
+  openOldDataSnackBar(
+    message: string = this.language === "fr"
+      ? "Voir les précédentes publications"
+      : "View previous posts",
+    action: string = this.language === "fr" ? "Voir" : "Check"
+  ) {
+    this.page++;
+    let snack = this._snackBar.open(message, action);
+    snack.onAction().subscribe(() => {
+      console.log("old");
+      console.log(this.page);
+      this.getPosts(this.userId);
+    });
   }
 
   time(date) {
@@ -357,14 +406,16 @@ export class Tab1Page implements OnInit {
     this.setViewOnPost(post);
     this.debutListPost++;
     this.endListPost++;
-    if (this.endListPost > this.listPosts.length) {
+    this.endListPost === 19 ? this.openOldDataSnackBar() : null;
+    if (this.endListPost > 19) {
       this.debutListTuto = 0;
       this.endListTuto = 1;
       this.tutosTexts();
     }
   }
 
-  swipeDown(event: any) {
+  swipeDown(event: any, post) {
+    this.debutListPost > 19 ? this.openNextDataSnackBar() : null;
     if (this.debutListPost > 0) {
       this.debutListPost--;
       this.endListPost--;
@@ -612,33 +663,36 @@ export class Tab1Page implements OnInit {
     this.timeCall = 1;
     this.listPosts.length === 0 ? (this.loading = true) : null;
     this.loading = true;
-    this.subscription = this.contactService.getPosts(userId).subscribe(
-      (res) => {
-        this.listPosts = [];
-        if (res["data"] != null) {
-          this.listPosts = res["data"];
-          this.listPosts = this.listPosts.sort((a, b) => {
-            return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp);
-          });
-          this.debutListPost = 0;
-          this.endListPost = 1;
-          this.contactService.setLocalData(
-            CACHE_KEYS.FEEDS_CHECK,
-            this.listPosts
-          );
-        } else {
+    this.subscription = this.contactService
+      .getPostsOnFeed(userId, this.page)
+      .subscribe(
+        (res) => {
           this.listPosts = [];
+          if (res["data"] != null) {
+            this.listPosts = res["data"];
+            console.log(this.listPosts);
+            this.listPosts = this.listPosts.sort((a, b) => {
+              return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp);
+            });
+            this.debutListPost = 0;
+            this.endListPost = 1;
+            this.contactService.setLocalData(
+              CACHE_KEYS.FEEDS_CHECK,
+              this.listPosts
+            );
+          } else {
+            this.listPosts = [];
+            this.tutosTexts();
+          }
+          this.loading = false;
+          this.timeCall = 0;
+        },
+        (error) => {
           this.tutosTexts();
+          this.loading = false;
+          console.log(error);
         }
-        this.loading = false;
-        this.timeCall = 0;
-      },
-      (error) => {
-        this.tutosTexts();
-        this.loading = false;
-        console.log(error);
-      }
-    );
+      );
   }
 
   getFeedFromLocal() {

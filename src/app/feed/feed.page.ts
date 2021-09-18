@@ -117,7 +117,6 @@ export class FeedPage implements OnInit {
     this.userId = localStorage.getItem("teepzyUserId");
     //   this.socket.emit('online', this.userId);
     this.getUserInfo(this.userId);
-    this.getPosts(this.userId);
     this.isTutoSkip = localStorage.getItem("isTutoSkip");
 
     //  console.log(this.dataPass.get())
@@ -145,11 +144,6 @@ export class FeedPage implements OnInit {
       data[0] ? (this.disablePrevBtn = true) : (this.disablePrevBtn = false);
       data[1] ? (this.disableNextBtn = true) : (this.disableNextBtn = false);
     });
-  }
-
-  swipeEvents(event) {
-    ///console.log('swipe');
-    this.listPosts.length == 0 ? this.getPosts(this.userId) : null;
   }
 
   connectSocket() {
@@ -296,15 +290,6 @@ export class FeedPage implements OnInit {
     }
   }
 
-  doRefresh(event) {
-    //console.log('Begin async operation');
-    setTimeout(() => {
-      // console.log('Async operation has ended');
-      this.getPosts(this.userId);
-      event.target.complete();
-    }, 400);
-  }
-
   trackByFn(index, item) {
     return index; // or item.id
   }
@@ -441,37 +426,6 @@ export class FeedPage implements OnInit {
       presentingElement: this.routerOutlet.nativeEl,
     });
     return await modal.present();
-  }
-
-  getPosts(userId) {
-    this.timeCall = 1;
-    this.loading = true;
-    this.subscription = this.contactService.getPosts(userId).subscribe(
-      (res) => {
-        this.listPosts = [];
-        //   console.log(res)
-        if (res["data"] != null) {
-          //this.tutos = []
-          this.posts = res["data"];
-          this.posts.forEach((e) => {
-            let favorite = {
-              userId: this.userId,
-              postId: e["_id"],
-            };
-            this.checkFavorite(favorite, e);
-          });
-        } else {
-          this.posts = [];
-          this.tutosTexts();
-        }
-        this.loading = false;
-        this.timeCall = 0;
-      },
-      (error) => {
-        this.loading = false;
-        // console.log(error)
-      }
-    );
   }
 
   time(date) {

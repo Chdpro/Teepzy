@@ -291,11 +291,11 @@ export class ContactService {
     );
   }
 
-  scopeCountOnPost(postId): Observable<any> {
+  scopeCountOnPost(postId, userId): Observable<any> {
     let url = "stats/post/scope";
     return this.http.post(
-      base_url + url,
-      JSON.stringify({ postId: postId }),
+      local_url + url,
+      JSON.stringify({ postId: postId, userId: userId }),
       httpOptionsJson
     );
   }
@@ -359,6 +359,18 @@ export class ContactService {
     } else {
       // Return real API data and store it locally
       return this.http.get(base_url + url, httpOptionsJson);
+      //  this.setLocalData('stats', res);
+    }
+  }
+
+  getPostsOnFeed(userId, page?): Observable<any> {
+    let url = "stats/posts/all/" + userId + `?page=${page}&limit=20`;
+    if (this.networkService.networkStatus() === Offline) {
+      // Return the cached data from Storage
+      return from(this.getLocalData(CACHE_KEYS.FEEDS));
+    } else {
+      // Return real API data and store it locally
+      return this.http.get(local_url + url, httpOptionsJson);
       //  this.setLocalData('stats', res);
     }
   }

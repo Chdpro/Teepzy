@@ -45,7 +45,7 @@
               <mat-card-title>{{c?.userPseudo}}</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <p class="content-comment">{{c?.comment}}</p>
+              <p [innerHTML]="c?.comment | linkify" class="content-comment"></p>
             </mat-card-content>
             <mat-card-actions>
               <button
@@ -81,7 +81,10 @@
                     >{{cc?.userPseudo}}</mat-card-title
                   >
                   <br />
-                  <div style="margin-left: 43px">{{cc?.comment}}</div>
+                  <div
+                    [innerHTML]="cc?.comment | linkify"
+                    style="margin-left: 43px"
+                  ></div>
                 </div>
               </div>
             </div>
