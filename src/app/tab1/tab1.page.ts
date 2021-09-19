@@ -133,7 +133,7 @@ export class Tab1Page implements OnInit {
   @ViewChild("feed", null) feed: ElementRef;
 
   language = "";
-  nbrTeepzrsToInvite = "";
+  nbrTeepzrsToInvite = [];
   constructor(
     private authService: AuthService,
     private toasterController: ToastController,
@@ -212,16 +212,14 @@ export class Tab1Page implements OnInit {
   ngOnInit() {
     this.nbrTeepzrsToInvite = JSON.parse(
       localStorage.getItem("TeepzrToInvite")
-    ).length;
+    );
   }
 
   ionViewWillEnter() {
     this.userId = localStorage.getItem("teepzyUserId");
     this.nbrTeepzrsToInvite = JSON.parse(
       localStorage.getItem("TeepzrToInvite")
-    ).length;
-    // alert(this.nbrTeepzrsToInvite);
-
+    );
     this.getUserInfo(this.userId);
     if (this.networkService.networkStatus() === Offline) {
       this.getFeedFromLocal();
@@ -238,16 +236,6 @@ export class Tab1Page implements OnInit {
       this.navigationSubscription.unsubscribe();
     }
     this.subscription ? this.subscription.unsubscribe() : null;
-  }
-
-  loadData() {
-    this.page++;
-    this.page <= 10 ? this.getPosts(this.userId) : null;
-  }
-
-  loadDataOld() {
-    this.page > 1 ? this.page-- : null;
-    this.getPosts(this.userId);
   }
 
   setViewOnPost(post) {
@@ -285,10 +273,9 @@ export class Tab1Page implements OnInit {
       : "View new posts",
     action: string = this.language === "fr" ? "Voir" : "Check"
   ) {
-    this.page = 1;
     let snack = this._snackBar.open(message, action);
     snack.onAction().subscribe(() => {
-      console.log("new");
+      this.page = 1;
       this.getPosts(this.userId);
     });
   }
@@ -299,11 +286,9 @@ export class Tab1Page implements OnInit {
       : "View previous posts",
     action: string = this.language === "fr" ? "Voir" : "Check"
   ) {
-    this.page++;
     let snack = this._snackBar.open(message, action);
     snack.onAction().subscribe(() => {
-      console.log("old");
-      console.log(this.page);
+      this.page++;
       this.getPosts(this.userId);
     });
   }
@@ -415,7 +400,7 @@ export class Tab1Page implements OnInit {
   }
 
   swipeDown(event: any, post) {
-    this.debutListPost > 19 ? this.openNextDataSnackBar() : null;
+    this.page > 1 ? this.openNextDataSnackBar() : null;
     if (this.debutListPost > 0) {
       this.debutListPost--;
       this.endListPost--;
@@ -670,7 +655,6 @@ export class Tab1Page implements OnInit {
           this.listPosts = [];
           if (res["data"] != null) {
             this.listPosts = res["data"];
-            console.log(this.listPosts);
             this.listPosts = this.listPosts.sort((a, b) => {
               return parseInt(b.dateTimeStamp) - parseInt(a.dateTimeStamp);
             });

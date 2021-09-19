@@ -294,7 +294,7 @@ export class ContactService {
   scopeCountOnPost(postId, userId): Observable<any> {
     let url = "stats/post/scope";
     return this.http.post(
-      local_url + url,
+      base_url + url,
       JSON.stringify({ postId: postId, userId: userId }),
       httpOptionsJson
     );
@@ -370,7 +370,7 @@ export class ContactService {
       return from(this.getLocalData(CACHE_KEYS.FEEDS));
     } else {
       // Return real API data and store it locally
-      return this.http.get(local_url + url, httpOptionsJson);
+      return this.http.get(base_url + url, httpOptionsJson);
       //  this.setLocalData('stats', res);
     }
   }

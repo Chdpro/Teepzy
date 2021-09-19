@@ -222,11 +222,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: "feed",
-    loadChildren: () =>
-      import("./feed/feed.module").then((m) => m.FeedPageModule),
-  },
-  {
     path: "permissions",
     loadChildren: () =>
       import("./permissions/permissions.module").then(
@@ -253,12 +248,16 @@ const routes: Routes = [
       import("./likers/likers.module").then((m) => m.LikersPageModule),
   },
   {
-    path: 'image-crop',
-    loadChildren: () => import('./image-crop/image-crop.module').then( m => m.ImageCropPageModule)
+    path: "image-crop",
+    loadChildren: () =>
+      import("./image-crop/image-crop.module").then(
+        (m) => m.ImageCropPageModule
+      ),
   },
   {
-    path: 'views',
-    loadChildren: () => import('./views/views.module').then( m => m.ViewsPageModule)
+    path: "views",
+    loadChildren: () =>
+      import("./views/views.module").then((m) => m.ViewsPageModule),
   },
 ];
 @NgModule({

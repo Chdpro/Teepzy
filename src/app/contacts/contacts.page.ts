@@ -90,13 +90,14 @@ export class ContactsPage implements OnInit {
   highValueT: number = 5;
 
   userPhone = "";
-  previousUrl: string;
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
   selectedTab = 0;
 
   previousRoute = "";
+
+  @Input() previousUrl: any;
 
   subscription: Subscription;
   invite: any;
@@ -116,16 +117,12 @@ export class ContactsPage implements OnInit {
     private zone: NgZone,
     private contactService: ContactService,
     private _snackBar: MatSnackBar,
-    private navParams: NavParams,
+    //private navParams: NavParams,
     private modalController: ModalController,
     private translate: TranslateService
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
-    this.previousRoute = this.route.snapshot.paramMap.get("previousUrl");
-    this.previousRoute
-      ? null
-      : (this.previousRoute = this.navParams.data.previousUrl);
     this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
     this.translate.setDefaultLang(this.language);
@@ -134,6 +131,8 @@ export class ContactsPage implements OnInit {
   ngOnInit() {
     this.userId = localStorage.getItem("teepzyUserId");
     this.userPhone = localStorage.getItem("teepzyPhone");
+    this.previousRoute = this.route.snapshot.paramMap.get("previousUrl");
+    this.previousRoute ? null : (this.previousRoute = this.previousUrl);
     this.CheckPermissions();
     this.getUsersOfCircle();
     if (this.previousRoute) {
@@ -193,7 +192,7 @@ export class ContactsPage implements OnInit {
               checkCamRefuse === "2")
           ) {
           } else {
-            this.dismiss();
+            // this.dismiss();
             this.router.navigate(["/permissions"]);
           }
         },
