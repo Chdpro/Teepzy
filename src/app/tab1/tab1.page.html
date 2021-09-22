@@ -18,8 +18,8 @@
               mat-mini-fab
             >
               <mat-icon
-                *ngIf="nbrTeepzrsToInvite?.length-1>0"
-                [matBadge]="nbrTeepzrsToInvite?.length-1"
+                *ngIf="listTeepzrsToInvite?.length>0"
+                [matBadge]="listTeepzrsToInvite?.length"
                 matBadgeColor="warn"
               ></mat-icon>
 
@@ -71,15 +71,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" [scrollY]="false">
+<ion-content [fullscreen]="true">
   <ion-refresher
     *ngIf="debutListPost===0  && debutListTuto ===0"
     slot="fixed"
-    [disabled]="false"
+    style="position: absolute; z-index: 2000; width: 100%"
     (ionRefresh)="doRefresh($event)"
-    pullingIcon="chevron-down-outline"
   >
-    <ion-refresher-content></ion-refresher-content>
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+    ></ion-refresher-content>
   </ion-refresher>
 
   <ion-progress-bar
@@ -88,9 +89,9 @@
     type="indeterminate"
   ></ion-progress-bar>
 
-  <div *ngIf="loading && (listPosts?.length === 0 || listPosts === null)">
-    <ion-spinner color="primary" name="dots"></ion-spinner>
-  </div>
+  <!--div-- *ngIf="loading && (listPosts?.length === 0 || listPosts === null)">
+    <ion-spinner style="display: ;" color="primary" name="dots"></ion-spinner>
+  </!--div-->
 
   <div *ngIf="endListPost > listPosts?.length " class="container-tuto">
     <div
@@ -407,13 +408,11 @@
             style="font-weight: 800; font-size: 7px"
           >
             <span class="match-txt">MATCHES</span>
-            <span class="match-number" *ngIf="p?.matches?.length == 0">
+            <span class="match-number" *ngIf="p?.matches?.length === 0">
               <br />
               0</span
             >
-            <span
-              class="match-number"
-              *ngIf="p?.matches?.length < 3 && p?.matches?.length > 0"
+            <span class="match-number" *ngIf="p?.matches?.length > 0"
               ><br />
               {{p.matches?.length}}
             </span>
@@ -455,7 +454,7 @@
             </span>
           </div>
         </div>
-        <p style="width: 78%">{{ p?.content }}</p>
+        <p style="width: 82%">{{ p?.content }}</p>
         <div class="badges">
           <ion-badge style="width: 25%; margin-right: 12px" color="primary"
             >{{p?.commercialAction}}</ion-badge

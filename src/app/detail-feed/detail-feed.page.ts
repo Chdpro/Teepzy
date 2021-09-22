@@ -22,6 +22,8 @@ import { DatapasseService } from "../providers/datapasse.service";
 import { type, MESSAGES } from "../constant/constant";
 import { DomSanitizer } from "@angular/platform-browser";
 import { TranslateService } from "@ngx-translate/core";
+import { ViewsPage } from "../views/views.page";
+import { LikersPage } from "../likers/likers.page";
 
 @Component({
   selector: "app-detail-feed",
@@ -107,7 +109,8 @@ export class DetailFeedPage implements OnInit {
     private dataPasse: DatapasseService,
     private contactService: ContactService,
     private translate: TranslateService,
-    private actionSheetController: ActionSheetController
+    private actionSheetController: ActionSheetController,
+    private dataPass: DatapasseService
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
@@ -116,12 +119,31 @@ export class DetailFeedPage implements OnInit {
     // Set default language
     this.translate.setDefaultLang(this.language);
 
+    this.subscription = this.dataPass.getLike().subscribe((like) => {
+      if (like.like === true && this.post["_id"] === like.postId) {
+        this.post["favorite"] = true;
+        this.post["favoriteCount"] = this.post["favoriteCount"] + 1;
+      }
+      if (like.like === false && this.post["_id"] === like.postId) {
+        this.post["favorite"] = false;
+        this.post["favoriteCount"] = this.post["favoriteCount"] - 1;
+      }
+      return true;
+    });
+
     this.previousRoute = this.route.snapshot.paramMap.get("previousUrl");
     this.subscription = this.dataPasse.get().subscribe((p) => {
       if (p) {
         this.post = p;
       }
     });
+
+    this.subscription = this.dataPass
+      .getPostDeletedId()
+      .subscribe((postIdDeleted) => {
+        console.log(postIdDeleted);
+        postIdDeleted ? this.router.navigateByUrl("/tabs/profile") : null;
+      });
   }
 
   ionViewWillEnter() {
@@ -367,24 +389,6 @@ export class DetailFeedPage implements OnInit {
     this.router.navigateByUrl("/search");
   }
 
-  async presentShareModal(post) {
-    if (this.globals.showBackground) {
-      this.globals.showBackground = false;
-    } else {
-      this.globals.showBackground = true;
-    }
-    const modal = await this.modalController.create({
-      component: ShareSheetPage,
-      componentProps: post,
-      cssClass: "share-custom-class",
-      backdropDismiss: false,
-      showBackdrop: true,
-      swipeToClose: true,
-      presentingElement: this.routerOutlet.nativeEl,
-    });
-    return await modal.present();
-  }
-
   addFavorite(post) {
     let favoris = {
       userId: this.userId,
@@ -497,6 +501,60 @@ export class DetailFeedPage implements OnInit {
     return await modal.present();
   }
 
+  async presentLikersModal(post) {
+    if (this.globals.showBackground) {
+      this.globals.showBackground = false;
+    } else {
+      this.globals.showBackground = true;
+    }
+    const modal = await this.modalController.create({
+      component: LikersPage,
+      componentProps: post,
+      backdropDismiss: false,
+      cssClass: "likers-class",
+      showBackdrop: true,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+    });
+    return await modal.present();
+  }
+
+  async presentViewersModal(post) {
+    if (this.globals.showBackground) {
+      this.globals.showBackground = false;
+    } else {
+      this.globals.showBackground = true;
+    }
+    const modal = await this.modalController.create({
+      component: ViewsPage,
+      componentProps: post,
+      backdropDismiss: false,
+      cssClass: "likers-class",
+      showBackdrop: true,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+    });
+    return await modal.present();
+  }
+
+  async presentShareModal(post) {
+    if (this.globals.showBackground) {
+      this.globals.showBackground = false;
+    } else {
+      this.globals.showBackground = true;
+    }
+    const modal = await this.modalController.create({
+      component: ShareSheetPage,
+      componentProps: post,
+      cssClass: "likers-class",
+      backdropDismiss: false,
+      showBackdrop: true,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+    });
+    return await modal.present();
+  }
+
   time(date) {
     moment.locale(this.language);
     return moment(date).fromNow();
@@ -524,6 +582,7 @@ export class DetailFeedPage implements OnInit {
           matches: e["matches"],
           commercialAction: e["commercialAction"],
           price: e["price"],
+          views: e["views"],
         };
       } else {
         this.post = {
@@ -545,6 +604,7 @@ export class DetailFeedPage implements OnInit {
           matches: e["matches"],
           commercialAction: e["commercialAction"],
           price: e["price"],
+          views: e["views"],
         };
       }
     });

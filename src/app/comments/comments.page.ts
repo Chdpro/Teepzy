@@ -11,6 +11,7 @@ import { DatapasseService } from "../providers/datapasse.service";
 import { Globals } from "../globals";
 import { Subscription } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
+import { AuthService } from "../providers/auth.service";
 
 @Component({
   selector: "app-comments",
@@ -24,12 +25,16 @@ export class CommentsPage implements OnInit {
     userId: "",
     postId: "",
     comment: "",
+    userPseudo: "",
+    userPhoto: "",
   };
 
   commentC = {
     userId: "",
     commentId: "",
     comment: "",
+    userPseudo: "",
+    userPhoto: "",
   };
 
   listCommentsOfComment = [];
@@ -43,6 +48,8 @@ export class CommentsPage implements OnInit {
   @ViewChild("myInput", null) myInput: ElementRef;
 
   members = [];
+  loading = false;
+  user: any;
   constructor(
     private modalController: ModalController,
     private contactService: ContactService,
@@ -51,7 +58,9 @@ export class CommentsPage implements OnInit {
     //    private socket: Socket,
     public globals: Globals,
     private menuCtrl: MenuController,
-    private navParams: NavParams
+    private dataPasse: DatapasseService,
+    private navParams: NavParams,
+    private authService: AuthService
   ) {
     this.menuCtrl.close("first");
     this.menuCtrl.swipeGesture(false);
@@ -65,6 +74,7 @@ export class CommentsPage implements OnInit {
     let post = this.navParams.data;
     this.getCommentsOfPost(post["_id"]);
     this.userId = localStorage.getItem("teepzyUserId");
+    this.getUser();
     this.getUsersOfCircle();
   }
 
@@ -85,19 +95,18 @@ export class CommentsPage implements OnInit {
       this.myInput.nativeElement.scrollHeight + "px";
   }
 
-  closeModalOnSwipeDown(event) {
-    this.dismiss();
-  }
-
   getCommentsOfPost(postId) {
+    this.loading = true;
     this.postId = postId;
     this.contactService.getCommentsOfPost(postId).subscribe(
       (res) => {
         // console.log(res);
+        this.loading = false;
         this.listComments = res["data"];
       },
       (error) => {
         //   console.log(error)
+        this.loading = false;
       }
     );
   }
@@ -105,31 +114,43 @@ export class CommentsPage implements OnInit {
   addCommentToPost() {
     this.commentT.userId = this.userId;
     this.commentT.postId = this.postId;
+    this.commentT.userPhoto = this.user.photo;
+    this.commentT.userPseudo = this.user.pseudoIntime;
+
     this.contactService.addCommentToPost(this.commentT).subscribe((res) => {
       if (res["status"] == 200) {
         this.commentT.comment = "";
-        this.getCommentsOfPost(this.postId);
+        this.listComments.unshift(this.commentT);
       }
     });
+  }
+  getUser() {
+    console.log(this.userId);
+    this.authService.myInfos(this.userId).subscribe(
+      (res) => {
+        this.user = res["data"];
+        console.log(this.user);
+        console.log(this.userId);
+      },
+      (error) => {
+        // console.log(error)
+      }
+    );
   }
 
   addCommentToComment() {
     this.commentC.userId = this.userId;
     this.commentC.commentId = this.commentId;
+    this.commentC.userPhoto = this.user.photo;
+    this.commentC.userPseudo = this.user.pseudoIntime;
     this.contactService.addCommentToComment(this.commentC).subscribe(
       (res) => {
-        //  console.log(res)
         if (res["status"] == 200) {
-          //this.presentToast('')
           this.commentC.comment = "";
-          // this.presentToast('Vous avez répondu')
-          this.getCommentsOfComment(this.commentId);
+          this.listCommentsOfComment.push(this.commentC);
         }
       },
-      (error) => {
-        // console.log(error)
-        //this.presentToast('Oops! une erreur est survenue')
-      }
+      (error) => {}
     );
   }
 

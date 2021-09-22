@@ -244,7 +244,7 @@ export class ContactService {
   }
 
   teepZrs(userId): Observable<any> {
-    let url = "stats/teepzr/" + userId;
+    let url = "stats/teepzrNot/" + userId;
     return this.http.get(base_url + url, httpOptionsJson);
   }
 

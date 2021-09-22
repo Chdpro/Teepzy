@@ -15,6 +15,7 @@ export class DatapasseService {
 
   private subjectVideo = new Subject<any>();
 
+  private subjectPostDeletedId = new Subject<any>();
   constructor() {}
 
   sendPosts(posts) {
@@ -64,6 +65,15 @@ export class DatapasseService {
 
   get(): Observable<any> {
     return this.subjectRoom.asObservable();
+  }
+
+  sendPostDeletedId(data) {
+    // console.log(data)
+    this.subjectPostDeletedId.next(data);
+  }
+
+  getPostDeletedId(): Observable<any> {
+    return this.subjectPostDeletedId.asObservable();
   }
 
   sendLike(data) {

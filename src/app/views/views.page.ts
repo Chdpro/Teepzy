@@ -7,6 +7,7 @@ import {
   ToastController,
 } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
+import { Subscription } from "rxjs";
 import { MESSAGES } from "../constant/constant";
 import { Globals } from "../globals";
 import { ContactService } from "../providers/contact.service";
@@ -24,6 +25,7 @@ export class ViewsPage implements OnInit {
   userId = "";
   post: any;
   loading = false;
+  subscription: Subscription;
 
   constructor(
     public globals: Globals,
@@ -34,7 +36,8 @@ export class ViewsPage implements OnInit {
     private toasterController: ToastController,
     private actionSheetController: ActionSheetController,
     private dataPasse: DatapasseService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private dataPass: DatapasseService
   ) {
     this.language = localStorage.getItem("teepzyUserLang") || "fr";
     // Set default language
@@ -116,6 +119,7 @@ export class ViewsPage implements OnInit {
     this.contactService.deletePost(post._id, this.userId).subscribe(
       (res) => {
         this.dataPasse.send(post._id);
+        this.dataPasse.sendPostDeletedId(post._id);
         this.dismissLoading();
         this.presentToast(
           this.language === "fr"

@@ -306,9 +306,11 @@ label{
 // mes teepz cards start
 
 .img-teepz{
-        width: 56px;
+    width: 53px;
+    height: 34px; 
+    min-width: 34px;
+    min-height: 34px;   
     border-radius: 213px;
-    height: 39px;
     border: solid 1px #ea4d4f;
 }
 .time{

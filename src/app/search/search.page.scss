@@ -16,6 +16,7 @@ mat-card-content{
   border-radius: 29px 29px 1px 1px;
   height: 200px;
   position: relative;
+  
 }
 video{
 
@@ -134,8 +135,10 @@ h4{
   }
 
   .round-img-post-miss{
-      height: 41px;
-      width: 47px;
+    height: 42px;
+    width: 38px;
+    min-width: 43px;
+    min-height: 36px;
       border-radius: 100%;
       max-width: 115% !important;
      /* -webkit-border-radius: 100%;*/

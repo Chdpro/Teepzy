@@ -5,6 +5,7 @@ import {
   ElementRef,
   QueryList,
   Inject,
+  NgZone,
 } from "@angular/core";
 import { AuthService } from "../providers/auth.service";
 import { ContactService } from "../providers/contact.service";
@@ -50,6 +51,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ContactsPage } from "../contacts/contacts.page";
 import { TranslateService } from "@ngx-translate/core";
 import { ViewsPage } from "../views/views.page";
+import { Contacts } from "@ionic-native/contacts/ngx";
 
 @Component({
   selector: "app-tab1",
@@ -133,7 +135,12 @@ export class Tab1Page implements OnInit {
   @ViewChild("feed", null) feed: ElementRef;
 
   language = "";
-  nbrTeepzrsToInvite = [];
+  listContacts = [];
+  listTeepzrsToInvite = [];
+  listTeepZrs = [];
+  circleMembersId = [];
+  myContacts = [];
+
   constructor(
     private authService: AuthService,
     private toasterController: ToastController,
@@ -150,7 +157,9 @@ export class Tab1Page implements OnInit {
     private contactService: ContactService,
     private _snackBar: MatSnackBar,
     private socket: Socket,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private zone: NgZone,
+    private contacts: Contacts
   ) {
     this.menuCtrl.enable(true, "first");
     this.menuCtrl.swipeGesture(false);
@@ -209,18 +218,12 @@ export class Tab1Page implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.nbrTeepzrsToInvite = JSON.parse(
-      localStorage.getItem("TeepzrToInvite")
-    );
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
     this.userId = localStorage.getItem("teepzyUserId");
-    this.nbrTeepzrsToInvite = JSON.parse(
-      localStorage.getItem("TeepzrToInvite")
-    );
     this.getUserInfo(this.userId);
+    this.loadContacts();
     if (this.networkService.networkStatus() === Offline) {
       this.getFeedFromLocal();
     } else {
@@ -282,8 +285,8 @@ export class Tab1Page implements OnInit {
 
   openOldDataSnackBar(
     message: string = this.language === "fr"
-      ? "Voir les précédentes publications"
-      : "View previous posts",
+      ? "Voir les plus anciennes publications"
+      : "View the oldest posts",
     action: string = this.language === "fr" ? "Voir" : "Check"
   ) {
     let snack = this._snackBar.open(message, action);
@@ -742,6 +745,151 @@ export class Tab1Page implements OnInit {
     } else {
       this.linkModal = true;
     }
+  }
+
+  getUniquesOnContacts(myArray) {
+    let hash = Object.create(null);
+    let uniqueChars = [];
+    myArray.forEach((c) => {
+      var key = JSON.stringify(c);
+      hash[key] = (hash[key] || 0) + 1;
+      hash[key] >= 2 ? null : uniqueChars.push(c);
+    });
+    return uniqueChars;
+  }
+
+  getUniques(myArray) {
+    let uniqueChars = [];
+    myArray.forEach((c) => {
+      if (!uniqueChars.includes(c.value.toString().replace(/\s/g, ""))) {
+        uniqueChars.push(c.value);
+      }
+    });
+
+    return uniqueChars;
+  }
+
+  loadContacts() {
+    this.loading = true;
+    let options = {
+      filter: "",
+      multiple: true,
+      hasPhoneNumber: true,
+    };
+    //  this.myContacts = this.contactsTest
+    this.myContacts = [];
+    this.listContacts = [];
+    this.listTeepzrsToInvite = [];
+    this.zone.runOutsideAngular(() => {
+      this.contacts.find(["name", "phoneNumbers"], options).then(
+        (contacts) => {
+          const contactsWithPhone = contacts.filter(
+            (contact) =>
+              contact.phoneNumbers && contact.phoneNumbers.length !== 0
+          );
+          this.myContacts = this.getUniquesOnContacts(contactsWithPhone);
+          for (const mC of this.myContacts) {
+            let inviteViaSms = {
+              phone: mC.phoneNumbers[0].value,
+            };
+            this.contactService.checkInviteViaSms(inviteViaSms).subscribe(
+              (res) => {
+                if (res["status"] == 201) {
+                  let phones = this.getUniques(mC.phoneNumbers);
+                  this.listContacts.push({
+                    givenName: mC.name.givenName,
+                    familyName: mC.name.familyName,
+                    phone: phones,
+                    invited: true,
+                  });
+                } else {
+                  let phones = this.getUniques(mC.phoneNumbers);
+                  this.listContacts.push({
+                    givenName: mC.name.givenName,
+                    familyName: mC.name.familyName,
+                    phone: phones,
+                    invited: false,
+                  });
+                }
+              },
+              (error) => {
+                this.loading = false;
+              }
+            );
+          }
+          this.getTeepzr();
+        },
+        (error) => {
+          this.getTeepzr();
+        }
+      );
+    });
+  }
+
+  getTeepzr() {
+    let list = [];
+    this.subscription = this.contactService.teepZrs(this.userId).subscribe(
+      (res) => {
+        this.listTeepZrs = res["data"];
+        this.contactService.setLocalData(
+          CACHE_KEYS.CONTACTS,
+          JSON.stringify(this.listContacts)
+        );
+        this.listContacts = this.getUniquesOnContacts(this.listContacts);
+        this.listContacts.forEach((um) => {
+          this.listTeepZrs.filter((x, index) => {
+            for (const p of um.phone) {
+              x["phone"].replace(/\s/g, "").slice(-7) ==
+              p.replace(/\s/g, "").slice(-7)
+                ? list.push({
+                    _id: x["_id"],
+                    prenom: um.givenName,
+                    nom: um.familyName,
+                    phone: x.phone,
+                    photo: x.photo,
+                  })
+                : null;
+            }
+          });
+        });
+
+        this.listTeepZrs = this.getUniquesOnContacts(list);
+        this.listTeepZrs.forEach((e) => {
+          let invitation = { idSender: this.userId, idReceiver: e["_id"] };
+          this.subscription = this.contactService
+            .checkInvitationNotAccepted(invitation)
+            .subscribe(
+              (res) => {
+                if (res["status"] == 201) {
+                  this.listTeepzrsToInvite.push({
+                    _id: e["_id"],
+                    nom: e["nom"],
+                    prenom: e["prenom"],
+                    phone: e["phone"],
+                    photo: e["photo"],
+                    accept: e["accept"],
+                    invited: true,
+                  });
+                } else {
+                  if (!this.circleMembersId.includes(e["_id"].toString())) {
+                    this.listTeepzrsToInvite.push({
+                      _id: e["_id"],
+                      nom: e["nom"],
+                      prenom: e["prenom"],
+                      phone: e["phone"],
+                      photo: e["photo"],
+                      accept: e["accept"],
+                      invited: false,
+                    });
+                  }
+                }
+              },
+              (error) => {}
+            );
+        });
+      },
+      (error) => {}
+    );
   }
 
   async presentToast(msg) {

@@ -1,17 +1,19 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <button
-      mat-button
-      class="filigrane views"
-      style="font-weight: 500; font-size: 15px"
-    >
-      <ion-icon name="eye"></ion-icon>
-      <span>
-        {{views?.length}} {{'VIEWS'|translate}}
-        <b *ngIf="views?.length > 1" style="margin-left: -4px">s</b></span
+    <div class="view-container">
+      <button
+        mat-button
+        class="filigrane views"
+        style="font-weight: 500; font-size: 15px"
       >
-    </button>
-    <span class="scope-txt"> {{scopeCount}} {{'SCOPE'|translate}}</span>
+        <ion-icon name="eye"></ion-icon>
+        <span>
+          {{views?.length}} {{'VIEWS'|translate}}
+          <b *ngIf="views?.length > 1" style="margin-left: -4px">s</b></span
+        ></button
+      ><br />
+      <span class="scope-txt"> {{scopeCount}} {{'SCOPE'|translate}}</span>
+    </div>
     <ion-icon
       (click)="dismiss()"
       class="close-icon"

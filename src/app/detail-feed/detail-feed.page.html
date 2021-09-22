@@ -221,6 +221,14 @@
           class="fixed-wrap"
           [ngStyle]="{'margin-top': post?.image_url || post?.video_url ? '10em' : '10em' }"
         >
+          <button
+            (click)="presentViewersModal(post)"
+            mat-button
+            class="filigrane-views views"
+            style="font-weight: 800; font-size: 22px"
+          >
+            <span>°°°</span>
+          </button>
           <div class="slidenav">
             <div *ngIf="post?.image_url|| post?.video_url">
               <div
@@ -278,7 +286,7 @@
                 </button>
               </a>
               <a
-                (click)="removeFavorite(post?._id)"
+                (click)="presentLikersModal(post)"
                 *ngIf="post?.favorite == true"
               >
                 <button mat-fab class="mat-button-i" color="primary">
@@ -292,7 +300,7 @@
                 </button>
               </a>
               <a
-                (click)="addFavorite(post?._id)"
+                (click)="presentLikersModal(post)"
                 *ngIf="post?.favorite !== true"
               >
                 <button mat-fab class="mat-button-i" color="primary">
@@ -328,14 +336,12 @@
                 style="font-weight: 800; font-size: 7px"
               >
                 <span class="match-txt">MATCHES</span>
-                <span class="match-number" *ngIf="post?.matches?.length == 0">
+                <span class="match-number" *ngIf="post?.matches?.length === 0">
                   <br />
                   0</span
                 >
 
-                <span
-                  class="match-number"
-                  *ngIf="post?.matches?.length < 3 && post?.matches?.length > 0"
+                <span class="match-number" *ngIf="post?.matches?.length > 0"
                   ><br />
                   {{post.matches?.length}}
                 </span>

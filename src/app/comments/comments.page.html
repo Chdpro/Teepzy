@@ -1,28 +1,32 @@
-<ion-content color="success" class="content" style="background-color: #f0efef">
-  <ion-refresher slot="fixed" (ionRefresh)="closeModalOnSwipeDown($event)">
-  </ion-refresher>
-  <div>
-    <ion-header class="ion-no-border">
-      <ion-toolbar color="success">
-        <ion-title>
-          {{listComments?.length || '0' }} {{'COMMENT'|translate}}
-          <span style="margin-left: -5px" *ngIf="listComments?.length > 1"
-            >s</span
-          >
-        </ion-title>
-        <ion-icon
-          (click)="dismiss()"
-          class="close-icon"
-          name="close-outline"
-        ></ion-icon>
-      </ion-toolbar>
-    </ion-header>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="success">
+    <ion-title>
+      {{listComments?.length || '0' }} {{'COMMENT'|translate}}
+      <span style="margin-left: -5px" *ngIf="listComments?.length > 1">s</span>
+    </ion-title>
+    <ion-icon
+      (click)="dismiss()"
+      class="close-icon"
+      name="close-outline"
+    ></ion-icon>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content color="success" class="content" style="background-color: #f0efef">
+  <div>
     <ion-grid color="success">
       <ion-row>
+        <ion-col>
+          <ion-spinner
+            *ngIf="loading && listComments?.length === 0"
+            color="primary"
+            name="dots"
+            style="display: block; margin-right: auto; margin-left: auto"
+          ></ion-spinner>
+        </ion-col>
         <ion-col size="12">
           <mat-card
-            *ngFor="let c of listComments?.reverse();trackBy: trackByFn "
+            *ngFor="let c of listComments;trackBy: trackByFn "
             class="example-card cmt"
           >
             <mat-card-header>
@@ -59,7 +63,7 @@
             </mat-card-actions>
             <div>
               <div
-                *ngFor="let cc of listCommentsOfComment?.reverse();let i = index;trackBy: trackByFn "
+                *ngFor="let cc of listCommentsOfComment;let i = index;trackBy: trackByFn "
               >
                 <div *ngIf="cc?.commentId == c?._id" class="mat-res">
                   <div mat-card-avatar>
@@ -94,7 +98,7 @@
     </ion-grid>
 
     <div
-      *ngIf="listComments?.length == 0"
+      *ngIf="listComments?.length == 0 && !loading"
       style="margin-top: 112px; text-align: center"
     >
       {{'NO_COMMENT'|translate}}

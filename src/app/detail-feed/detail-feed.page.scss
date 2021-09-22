@@ -1,5 +1,33 @@
 // side buttons
 
+.filigrane-views{
+    position: absolute;
+    background: rgba(0, 0, 0, 0.18) !important;
+    border-radius: 63px;
+    color: #fff;
+    height: 60px;
+    width: 60px;
+    right: 12px;
+    padding-left: 8px;
+    padding-top: 19px;
+    top: 103%;
+    border: 1px solid #ea4e50;
+    margin-right: -14px;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+.views{
+    top: 13%;
+    height: 28px !important;
+    padding: 1px;
+    position: fixed;
+    right: 11% !important;
+    padding-top: -4px;
+    border: none;
+    right: 23px;
+    min-width: 8px !important;
+    max-width: 36px;
+    width: 36px;
+}
 .badges{
     display: flex;
     flex-direction: row;
@@ -127,7 +155,6 @@
     line-height: 20px;
     text-shadow: 0 1px 6px black;
     width: 14em;
-    background: #00000070;
     border-radius: 30px;
     padding: 19px;
 }
@@ -400,6 +427,7 @@ ion-icon {
     z-index: 1000;
     position: absolute;
     top: 12em;
+    left: 12%;
 }
 
 .post-txt {

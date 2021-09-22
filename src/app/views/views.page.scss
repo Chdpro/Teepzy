@@ -9,17 +9,18 @@
     right: 0;
     top: 23px;
 }
+.view-container{
+  display: flex;
+  flex-direction: column;
+}
 ion-spinner{
     display: block;
     margin-left: auto;
     margin-right: auto;
   }
 .scope-txt{
-    text-align: center;
-    display: block;
-    margin-left: 33px;
-    margin-right: 1px;
-    margin-top: -1px;
+    margin-left: 7px;
+    margin-top: 32px;
 }
 
 .filigrane{
@@ -72,6 +73,7 @@ ion-spinner{
     }
     .censure{
       bottom: 0px;
+      top: 0;
     }
   
     .redo{
