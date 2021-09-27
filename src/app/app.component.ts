@@ -127,7 +127,6 @@ export class AppComponent {
   //Switch language
   translateLanguageTo(lang: Event) {
     this.translate.use(this.language);
-    console.log(lang);
     localStorage.setItem("teepzyUserLang", this.language);
   }
 
@@ -245,7 +244,7 @@ export class AppComponent {
   }
 
   updateUserPlayerId(userId, playerId) {
-    let user = { userId: userId, playerId: playerId };
+    let user = { userId: userId, playerId: playerId, language: this.language };
     this.authService.updatePlayerId(user).subscribe(
       (res) => {},
       (error) => console.log(error)
