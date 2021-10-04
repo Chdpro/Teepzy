@@ -259,6 +259,10 @@ const routes: Routes = [
     loadChildren: () =>
       import("./views/views.module").then((m) => m.ViewsPageModule),
   },
+  {
+    path: 'permission-modal',
+    loadChildren: () => import('./permission-modal/permission-modal.module').then( m => m.PermissionModalPageModule)
+  },
 ];
 @NgModule({
   imports: [

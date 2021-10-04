@@ -75,6 +75,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { Globalization } from "@ionic-native/globalization/ngx";
 import { MaterialModule } from "./material.module";
 import { ViewsPageModule } from "./views/views.module";
+import { PermissionModalPageModule } from "./permission-modal/permission-modal.module";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -98,6 +99,7 @@ const language = localStorage.getItem("teepzyUserLang");
     VgOverlayPlayModule,
     VgBufferingModule,
     MaterialModule,
+    PermissionModalPageModule,
     // AddPostPageModule,
     EditPostPageModule,
     AppUpdateModalPageModule,

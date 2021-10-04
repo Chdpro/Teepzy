@@ -32,6 +32,7 @@ import {
   MESSAGES,
   CACHE_KEYS,
   Offline,
+  PERMISSION,
 } from "../constant/constant";
 import { ShareSheetPage } from "../share-sheet/share-sheet.page";
 import { VgApiService } from "@videogular/ngx-videogular/core";
@@ -52,6 +53,8 @@ import { ContactsPage } from "../contacts/contacts.page";
 import { TranslateService } from "@ngx-translate/core";
 import { ViewsPage } from "../views/views.page";
 import { Contacts } from "@ionic-native/contacts/ngx";
+import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
+import { PermissionModalPage } from "../permission-modal/permission-modal.page";
 
 @Component({
   selector: "app-tab1",
@@ -159,6 +162,7 @@ export class Tab1Page implements OnInit {
     private socket: Socket,
     private translate: TranslateService,
     private zone: NgZone,
+    private androidPermissions: AndroidPermissions,
     private contacts: Contacts
   ) {
     this.menuCtrl.enable(true, "first");
@@ -223,7 +227,7 @@ export class Tab1Page implements OnInit {
   ionViewWillEnter() {
     this.userId = localStorage.getItem("teepzyUserId");
     this.getUserInfo(this.userId);
-    this.loadContacts();
+    this.CheckPermissions();
     if (this.networkService.networkStatus() === Offline) {
       this.getFeedFromLocal();
     } else {
@@ -256,6 +260,54 @@ export class Tab1Page implements OnInit {
         //  console.log(error);
       }
     );
+  }
+
+  CheckPermissions() {
+    const androidPermissionsList = [
+      {
+        key: PERMISSION.READ_CONTACTS,
+        value: this.androidPermissions.PERMISSION.READ_CONTACTS,
+      },
+      {
+        key: PERMISSION.WRITE_CONTACTS,
+        value: this.androidPermissions.PERMISSION.WRITE_CONTACTS,
+      },
+    ];
+    let checkContactRefuse = localStorage.getItem("ContactRefuseCounter");
+
+    for (const apl of androidPermissionsList) {
+      this.androidPermissions.checkPermission(apl.value).then(
+        (success) => {
+          if (success.hasPermission) {
+            localStorage.setItem(apl.key, apl.key);
+            this.loadContacts();
+            // permission granted
+          } else if (
+            success.hasPermission === false &&
+            checkContactRefuse === "2"
+          ) {
+          } else {
+            this.presentPermissionModal();
+            // this.router.navigate(["/permissions"]);
+          }
+        },
+        (err) => {
+          this.presentPermissionModal();
+        }
+      );
+    }
+  }
+
+  async presentPermissionModal() {
+    const modal = await this.modalController.create({
+      component: PermissionModalPage,
+      backdropDismiss: false,
+      cssClass: "my-appUpdate-class",
+      showBackdrop: true,
+      swipeToClose: true,
+      presentingElement: this.routerOutlet.nativeEl,
+    });
+    return await modal.present();
   }
 
   openSnackBar(

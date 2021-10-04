@@ -1,0 +1,36 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <h2>{{'PERMISSION_TEXT1' | translate}}</h2>
+      </ion-col>
+
+      <ion-col size="12">
+        <p>{{'PERMISSION_TEXT2' | translate}}</p>
+      </ion-col>
+      <ion-col size="12">
+        <img src="../../assets/information.png" alt="" />
+      </ion-col>
+      <ion-col size="12">
+        <p></p>
+        <p>{{'PERMISSION_TEXT3' | translate}}</p>
+        <p>{{'PERMISSION_TEXT4' | translate}}</p>
+        <p>{{'PERMISSION_TEXT5' | translate}}</p>
+        <p>{{'PERMISSION_TEXT6' | translate}}</p>
+        <p>
+          {{'PERMISSION_TEXT7' | translate}}
+          <a routerLink="/privacy"> {{'POLICY_TEXT' | translate}} </a>
+          {{'AND_OUR' | translate}}
+          <a routerLink="/conditions"> {{'CONDITIONS_TEXT' | translate}} </a>
+          {{'PERMISSION_TEXT8' | translate}}
+        </p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-button (click)="requestPermissions()" expand="full"
+    >{{'CONTINUE'|translate}}</ion-button
+  >
+</ion-footer>
