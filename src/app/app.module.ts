@@ -76,6 +76,7 @@ import { Globalization } from "@ionic-native/globalization/ngx";
 import { MaterialModule } from "./material.module";
 import { ViewsPageModule } from "./views/views.module";
 import { PermissionModalPageModule } from "./permission-modal/permission-modal.module";
+import { Geolocation } from "@ionic-native/geolocation/ngx";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -163,6 +164,7 @@ const language = localStorage.getItem("teepzyUserLang");
     AppVersion,
     MatSnackBar,
     Base64ToGallery,
+    Geolocation,
     Globalization,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
