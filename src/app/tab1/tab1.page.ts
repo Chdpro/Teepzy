@@ -227,7 +227,7 @@ export class Tab1Page implements OnInit {
   ionViewWillEnter() {
     this.userId = localStorage.getItem("teepzyUserId");
     this.getUserInfo(this.userId);
-    this.CheckPermissions();
+    //  this.CheckPermissions();
     if (this.networkService.networkStatus() === Offline) {
       this.getFeedFromLocal();
     } else {
