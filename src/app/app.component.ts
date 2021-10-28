@@ -23,6 +23,7 @@ import {
   NativeGeocoderResult,
   NativeGeocoderOptions,
 } from "@ionic-native/native-geocoder/ngx";
+import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { AppVersion } from "@ionic-native/app-version/ngx";
 import { Clipboard } from "@ionic-native/clipboard/ngx";
 import { AppUpdateModalPage } from "./app-update-modal/app-update-modal.page";
@@ -82,7 +83,7 @@ export class AppComponent {
     private clipboard: Clipboard,
     private translate: TranslateService,
     private modalController: ModalController,
-    private iab: InAppBrowser
+    private geolocation: Geolocation
   ) {
     this.initializeApp();
     this.sideMenu();
@@ -340,7 +341,6 @@ export class AppComponent {
       onlineDate: new Date(),
       adress: this.address,
     };
-    console.log(user);
     this.socket.emit("online", user);
   }
 
@@ -354,10 +354,17 @@ export class AppComponent {
   public pos: any;
 
   public getPosition() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.pos = position;
-      this.getAddress(this.pos.coords.latitude, this.pos.coords.longitude);
-    });
+    this.geolocation
+      .getCurrentPosition()
+      .then((resp) => {
+        // resp.coords.latitude
+        // resp.coords.longitude
+        this.pos = resp;
+        this.getAddress(this.pos.coords.latitude, this.pos.coords.longitude);
+      })
+      .catch((error) => {
+        console.log("Error getting location", error);
+      });
   }
 
   // geocoder options
