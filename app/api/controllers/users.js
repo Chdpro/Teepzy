@@ -18,7 +18,8 @@ const sendNotification = require('../../../middlewares/sendNotification');
 const { Socket } = require("../../../utils/socket");
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const translate = require("translate"); // Old school
+// const translate = require("translate"); // Old school
+// import translate from 'translate';SS
 
 var redis = require("redis");
 //var client = redis.createClient();
@@ -36,7 +37,8 @@ client.on("error", (err) => {
      console.log(err);
 });
 
-const { validationResult } = require('express-validator/check');
+// const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 const { DeleteRoomByConnectedUser } = require('./chat');
 const langText = require('../constants/langText');
 

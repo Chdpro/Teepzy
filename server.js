@@ -15,10 +15,14 @@ var path = require('path');     //used for file path
 const server = require('http').createServer(app);
 const fs = require('fs');
 const multer = require('multer');
-const mime = require('mime');
+// const mime = require('mime');
+const mime = require('mime-types');
+
 const redis = require('redis')
 const jwt = require('jsonwebtoken');
-const translate = require("translate"); // Old school
+// const translate = require("translate"); // Old school
+const translate = require("translate-google");
+
 
 redis.createClient()
 
@@ -93,7 +97,7 @@ app.get('/favicon.ico', function (req, res) {
 
 
 app.use(express.static('uploads'));
-app.use(express.static('/home/ubuntu/teepzyapi/uploads'))
+app.use(express.static('/home/ciao/Documents/project/Teepzy/uploads'))
 app.use(express.static(path.join(__dirname, 'uploads')));
 
 app.post('/translate', async (req, res) => {
@@ -157,7 +161,8 @@ app.post('/upload-avatar-base64', (req, res) => {
     let decodedImg = response;
     let imageBuffer = decodedImg.data;
     let type = decodedImg.type;
-    let extension = mime.getExtension(type);
+    // let extension = mime.getExtension(type);
+    let extension = mime.extension(type);
     let fileName = req.body.imageName + "." + extension;
     try {
       fs.writeFileSync("./uploads/" + fileName, imageBuffer, { encoding: 'base64' });

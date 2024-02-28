@@ -1,5 +1,7 @@
 const socialService = require('../services/social');
-const { validationResult } = require('express-validator/check');
+// const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
+
 
 exports.CreateSocial = async (req, res, next) => {
     const errors = validationResult(req);

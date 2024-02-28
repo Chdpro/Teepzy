@@ -7,7 +7,9 @@ const constant = require('../constants/constant');
 const sendNotification = require('../../../middlewares/sendNotification');
 const notificationService = require('../services/notification');
 
-const { validationResult } = require('express-validator/check');
+// const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
+
 
 
 exports.initiateChatRoom = async (req, res, next) => {
