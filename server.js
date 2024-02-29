@@ -9,7 +9,9 @@ const stat = require('./routes/stats');
 const socials = require('./routes/social');
 const chat = require('./routes/chat');
 const bodyParser = require('body-parser');
-const mongoose = require('./config/database'); //database configuration
+// const mongoose = require('./config/database'); //database configuration
+const mongoose = require('./config/db'); //database configuration
+
 const app = express();
 var path = require('path');     //used for file path
 const server = require('http').createServer(app);
@@ -17,7 +19,7 @@ const fs = require('fs');
 const multer = require('multer');
 // const mime = require('mime');
 const mime = require('mime-types');
-
+// const mongoose = require('mongoose');
 const redis = require('redis')
 const jwt = require('jsonwebtoken');
 // const translate = require("translate"); // Old school
@@ -39,10 +41,12 @@ io.attach(server, {
 
 
 app.set('secretKey', 'nodeRestApi'); // jwt secret token
+
 // connection to mongodb
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 app.use(logger('dev'));
-//app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: false}));
 
 // enable files upload
 app.use(fileUpload({
@@ -277,6 +281,7 @@ app.use(function (err, req, res, next) {
 
 var listen = app.listen(5001, function () {
   console.log('Node server listening on port 5001');
+  console.log('Your application is running at http://localhost:5001/');
 });
 
 

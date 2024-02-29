@@ -1,0 +1,18 @@
+[
+    {
+        "nom": "DIAO",
+        "prenom": "Saliou Samba",
+        "accountType": "ADMIN",
+        "email": "saliousambadiao@gmail.com",
+        "phone": "776951048",
+        "password": "saliousamba2024"
+    },
+    {
+        "nom": "KANE",
+        "prenom": "Farma",
+        "accountType": "PUBLIC",
+        "email": "afarmak@gmail.com",
+        "phone": "772095877",
+        "password": "farma2024"
+    }
+]
