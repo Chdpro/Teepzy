@@ -9,7 +9,7 @@ import { MaterialModule } from "../material.module";
 
 import { AddPostPage } from "./add-post.page";
 import { ImageCropperModule } from "ngx-image-cropper";
-import { MentionModule } from "angular-mentions";
+// import { MentionModule } from "angular-mentions";
 import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
@@ -33,7 +33,7 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
-    MentionModule,
+    // MentionModule,
   ],
   //  entryComponents: [AddPostPage],
   declarations: [AddPostPage],

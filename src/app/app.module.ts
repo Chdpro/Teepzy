@@ -60,7 +60,7 @@ import { VgOverlayPlayModule } from "@videogular/ngx-videogular/overlay-play";
 import { VgBufferingModule } from "@videogular/ngx-videogular/buffering";
 import { CacheModule } from "ionic-cache-observable";
 const config: SocketIoConfig = { url: base_url, options: {} };
-import { MentionModule } from "angular-mentions";
+// import { MentionModule } from "angular-mentions";
 import { RobotAlertPageModule } from "./robot-alert/robot-alert.module";
 import { AppUpdateModalPageModule } from "./app-update-modal/app-update-modal.module";
 import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
@@ -123,7 +123,7 @@ const language = localStorage.getItem("teepzyUserLang");
     Ng2SearchPipeModule,
     IonicSwipeAllModule,
     SocketIoModule.forRoot(config),
-    MentionModule,
+    // MentionModule,
     LikersPageModule,
     ViewsPageModule,
     ContactsPageModule,
