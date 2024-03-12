@@ -1,44 +1,30 @@
-<ion-content>
+<ion-content class="ion-padding">
   <ion-grid>
-    <ion-row>
-      <ion-col>
-        <img src="../../assets/Teepzy-06.png" alt="" />
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-col size-md="10" size-lg="8" size-xl="6" class="ion-text-center">
+        <img src="../../assets/Teepzy-06.png" alt="Logo Teepzy" class="logo-image" style="margin-bottom: 10px;" />
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="10" size-lg="8" size-xl="6" class="ion-text-center">
         <img
           class="illustration"
           src="../../assets/img/Illustration 1_Plan de travail 1-01.png"
-          alt=""
+          alt="Illustration"
+          style="margin-top: -80px; width: 90%;" 
         />
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col size="12">
-        <h3>{{'DEBUT_TEXT1'| translate}}</h3>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6" size-lg="5" size-xl="4" class="ion-text-center">
+        <ion-button (click)="goToSign()" expand="block" shape="round">
+          {{ 'REGISTER' | translate }}
+        </ion-button>
       </ion-col>
-      <ion-col size="2"> </ion-col>
-      <ion-col size="8">
-        <ion-button (click)="goToSign()" expand="block" shape="round"
-          >{{'REGISTER'| translate}}</ion-button
-        >
-      </ion-col>
-      <ion-col size="2"> </ion-col>
-    </ion-row>
-
-    <ion-row style="margin-top: 56px">
-      <ion-col size="12">
-        <span class="text-bottom">
-          <span> {{'DEBUT_TEXT2'| translate}} </span><br />
-          <button
-            style="display: block; margin-left: auto; margin-right: auto"
-            (click)="goToLogin()"
-            mat-button
-          >
-            {{'LOGIN'| translate}}
-          </button>
-        </span>
+      <ion-col size-md="6" size-lg="5" size-xl="4" class="ion-text-center">
+        <ion-button (click)="goToLogin()" expand="block" shape="round">
+          {{ 'LOGIN' | translate }}
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
