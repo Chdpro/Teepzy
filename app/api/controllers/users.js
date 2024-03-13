@@ -52,6 +52,7 @@ exports.signupUser = async function (req, res, next) {
           throw error;
      }
      let user = req.body
+     console.log(user);
      try {
           let usr = await userService.signup(user)
           if (usr['status'] == 403) {
@@ -85,7 +86,18 @@ exports.getUser = async (req, res, next) => {
           let products = await productService.GetAllProducts(userId)
           let projects = await projectService.GetAllProjects(userId)
           let relations = await circleService.FindMyCircle(userId)
-          let membersFriends = relations['membersFriends']
+          // let membersFriends = relations['membersFriends']
+          let membersFriends;
+
+          // Check if userI exists before accessing its properties:
+          if (usr) {
+               membersFriends = usr.relations['membersFriends']; // Assuming 'relations' is an object within userI
+          } else {
+               // Handle the scenario where userI is null
+               console.error('User not found. Cannot access membersFriends.');
+               membersFriends = []; // Or set membersFriends to an empty array or handle it differently based on your needs
+          }
+
 
           if (usr) {
                res.status(200).json({ status: 200, message: "user is found", data: usr, products: products, projects: projects, relationsCount: membersFriends.length });

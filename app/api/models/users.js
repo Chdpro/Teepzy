@@ -107,11 +107,11 @@ const UserSchema = new Schema({
         type: String,
         trim: true,
     },
-    playerId: {
-        type: String,
-        trim: true,
-        required: true
-    },
+    // playerId: {
+    //     type: String,
+    //     trim: true,
+    //     required: true
+    // },
     localisation: {
         type: String,
         trim: true,

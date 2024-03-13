@@ -7,12 +7,20 @@ const onlineService = require('../app/api/services/user_online');
 const constant = require('../app/api/constants/constant');
 const sendNotification = require('../middlewares/sendNotification');
 const notificationService = require('../app/api/services/notification');
+const http = require("http");
+const server = http.createServer();
+// const io = new Server(server, {
+//   cors: {
+//     origin: '*:*',
+//   },
+// });
 
-const server = createServer();
 const io = new Server(server, {
   cors: {
-    origin: '*:*',
-  },
+    origin: 'http://localhost:8100',
+    methods: ["GET", "POST"],
+    credentials: true 
+  }
 });
 
 const Socket = {

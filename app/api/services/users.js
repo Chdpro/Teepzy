@@ -3,7 +3,7 @@ const invitationModel = require('../models/invitationJoinCircle');
 const linkToModel = require('../models/linkTo');
 const invitationSmsModel = require('../models/inivtationViaSms');
 const circleModel = require('../models/circle');
-
+const mongoose = require('mongoose');
 const remove_stopwords = require('../functions/rm_stop_words');
 const constant = require('../constants/constant');
 
@@ -24,7 +24,7 @@ exports.signup = async (user) => {
                 phone: user.phone,
                 email: user.email,
                 password: user.password,
-                playerId: user.playerId
+                // playerId: user.playerId
             });
             return { status: 200, msg: 'User added successfully' }
         }
@@ -33,19 +33,37 @@ exports.signup = async (user) => {
     }
 }
 
+// exports.getAUser = async (userId) => {
+//     try {
+//         let userI = await userModel.findById(userId);
+//         if (!userI) {
+//             return null;
+//         } else {
+//             let userInfo = userI
+//             return userInfo;
+//         }
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
 exports.getAUser = async (userId) => {
     try {
-        let userI = await userModel.findById(userId);
-        if (!userI) {
-            return null;
-        } else {
-            let userInfo = userI
-            return userInfo;
-        }
+      // Validate the userId before querying:
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        console.warn(`Invalid ObjectId provided for user query: ${userId}`);
+        return null;
+      }
+  
+      const userI = await userModel.findById(userId);
+  
+      return userI ?? null; // Use nullish coalescing for concise return
     } catch (error) {
-        console.log(error);
+      console.error(`Error fetching user: ${error.message}`); // Log a descriptive error message
+      throw error; // Re-throw the error for further handling if needed
     }
-}
+  };
+  
 
 exports.getAUserByPseudo = async (pseudo) => {
     try {
@@ -76,23 +94,44 @@ exports.getNbrUsersOnSex = async () => {
 }
 
 
-exports.checkUser = async (user) => {
-    let userI
-    try {
-        let userIntime = {
-            pseudoIntime: user.pseudoIntime,
-        }
+// exports.checkUser = async (user) => {
+//     let userI
+//     try {
+//         let userIntime = {
+//             pseudoIntime: user.pseudoIntime,
+//         }
 
-        userIntime.pseudoIntime != '' ? userI = await userModel.findOne(userIntime) : null;
-        if (userI) {
-            return { status: 201, message: "username exists", data: null }
-        } else {
-            return { status: 404, message: "username does not exist", data: null }
-        }
+//         userIntime.pseudoIntime != '' ? userI = await userModel.findOne(userIntime) : null;
+//         if (userI) {
+//             return { status: 201, message: "username exists", data: null }
+//         } else {
+//             return { status: 404, message: "username does not exist", data: null }
+//         }
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
+exports.checkUser = async (user) => {
+    try {
+      const userIntime = { pseudoIntime: user.pseudoIntime };
+  
+      let userI = null;
+      if (userIntime.pseudoIntime !== '') {
+        userI = await userModel.findOne(userIntime);
+      }
+  
+      if (userI) {
+        return { status: 200, message: "username exists", data: null }; // Use 200 for success
+      } else {
+        return { status: 404, message: "username does not exist", data: null };
+      }
     } catch (error) {
-        console.log(error);
+      console.error(`Error checking for user: ${error.message}`);
+      throw error; // Re-throw for potential further handling
     }
-}
+  };
+  
 
 exports.getUserConnected = async (user) => {
     let userId = user.userId

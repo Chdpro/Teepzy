@@ -32,11 +32,12 @@ const { io } = require("./utils/socket");
 io.attach(server, {
   serveClient: false,
   // below are engine.IO options
-  origins: '*:*', // <== CORS
+  origins: 'http://localhost:8100', // <== CORS
   transports: ['polling'],
   pingInterval: 10000,
   pingTimeout: 5000,
-  cookie: false
+  cookie: false,
+  allowEIO3: true 
 });
 
 
@@ -60,11 +61,20 @@ app.use(cors());
 
 
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
+
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8100');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
+
 
 app.use(bodyParser.json({
   limit: '50mb',
