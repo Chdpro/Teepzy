@@ -9,7 +9,7 @@ import { Ng2SearchPipeModule } from "ng2-search-filter";
 
 import { Tab1PageRoutingModule } from "./tab1-routing.module";
 import { IonicSwipeAllModule } from "ionic-swipe-all";
-import { VgCoreModule } from "@videogular/ngx-videogular/core";
+//import { VgCoreModule } from "@videogular/ngx-videogular/core";
 import { VgControlsModule } from "@videogular/ngx-videogular/controls";
 import { VgOverlayPlayModule } from "@videogular/ngx-videogular/overlay-play";
 import { VgBufferingModule } from "@videogular/ngx-videogular/buffering";
@@ -31,7 +31,7 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
     Ng2SearchPipeModule,
     IonicSwipeAllModule,
     ExploreContainerComponentModule,
-    VgCoreModule,
+    //VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,

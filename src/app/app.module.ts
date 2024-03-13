@@ -54,7 +54,7 @@ import { Diagnostic } from "@ionic-native/diagnostic/ngx";
 import { NetworkService } from "./providers/network.service";
 import { IonicStorageModule } from "@ionic/storage";
 import { NativeGeocoder } from "@ionic-native/native-geocoder/ngx";
-import { VgCoreModule } from "@videogular/ngx-videogular/core";
+//import { VgCoreModule } from "@videogular/ngx-videogular/core";
 import { VgControlsModule } from "@videogular/ngx-videogular/controls";
 import { VgOverlayPlayModule } from "@videogular/ngx-videogular/overlay-play";
 import { VgBufferingModule } from "@videogular/ngx-videogular/buffering";
@@ -95,7 +95,7 @@ const language = localStorage.getItem("teepzyUserLang");
     HttpClientModule,
     // MatCarouselModule.forRoot(),
     IonicStorageModule.forRoot(),
-    VgCoreModule,
+    //VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
@@ -110,7 +110,7 @@ const language = localStorage.getItem("teepzyUserLang");
     AddProjectPageModule,
     AddPeopleRoomPageModule,
     ShareSheetPageModule,
-    VgCoreModule,
+   // VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,

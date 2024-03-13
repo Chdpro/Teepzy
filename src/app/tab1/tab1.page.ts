@@ -35,7 +35,7 @@ import {
   PERMISSION,
 } from "../constant/constant";
 import { ShareSheetPage } from "../share-sheet/share-sheet.page";
-import { VgApiService } from "@videogular/ngx-videogular/core";
+//import { VgApiService } from "@videogular/ngx-videogular/core";
 import { NetworkService } from "../providers/network.service";
 import {
   animate,
@@ -130,7 +130,7 @@ export class Tab1Page implements OnInit {
   activeIndex = 0;
   data;
 
-  api: VgApiService;
+  //api: VgApiService;
 
   videoMuted = "";
   videoUrl = "";
@@ -522,7 +522,7 @@ export class Tab1Page implements OnInit {
       .subscriptions.loadedMetadata.subscribe(this.initVdo.bind(this));
   }
 
-  onPlayerReady(api: VgApiService) {
+ /* onPlayerReady(api: VgApiService) {
     this.api = api;
     this.api.getDefaultMedia().subscriptions.ended.subscribe(() => {
       // Set the video to the beginning
@@ -537,7 +537,7 @@ export class Tab1Page implements OnInit {
       // Set the video to the beginning
       this.api.getDefaultMedia().currentTime = 0;
     });
-  }
+  }*/
 
   initVdo() {
     this.data.play();
