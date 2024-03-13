@@ -58,11 +58,21 @@ mat-form-field{
     width: 54%;
     float: right;
     margin-right: 6px;
-
-}
-
-button{
+  }
+  
+  button {
     font-size: large;
     color: #ea4e50;
-}
-
+  }
+  
+  .form-content {
+    display: flex;
+    justify-content: center; /* This line centers the form horizontally */
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .example-form {
+    width: 50%; /* Adjust the width as needed for your form content */
+  }
+  

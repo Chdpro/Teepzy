@@ -49,7 +49,7 @@ import { UploadService } from "./providers/upload.service";
 import { File } from "@ionic-native/file/ngx";
 import { GroupInvitationPageModule } from "./group-invitation/group-invitation.module";
 import { Autosize } from "./components/autosize";
-import { MatCarouselModule } from "@ngmodule/material-carousel";
+// import { MatCarouselModule } from "@ngmodule/material-carousel";
 import { Diagnostic } from "@ionic-native/diagnostic/ngx";
 import { NetworkService } from "./providers/network.service";
 import { IonicStorageModule } from "@ionic/storage";
@@ -93,7 +93,7 @@ const language = localStorage.getItem("teepzyUserLang");
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MatCarouselModule.forRoot(),
+    // MatCarouselModule.forRoot(),
     IonicStorageModule.forRoot(),
     VgCoreModule,
     VgControlsModule,

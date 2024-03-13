@@ -235,6 +235,11 @@ export class SignupPage implements OnInit {
         .subscribe(
           (res) => {
             //   console.log(res)
+            console.log(res)
+            console.log("💖💖😉😉")
+            console.log("Server Response:", res); // Log the entire response object
+            console.log("Status Code:", res["status"]); // Log the status code
+            console.log("Response Data:", res["data"]); // Log the data part of the response
             this.retourUsr = res;
             this.profileInfo = res["data"];
             this.dismissLoading();
