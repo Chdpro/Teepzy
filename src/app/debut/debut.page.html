@@ -1,31 +1,33 @@
-<ion-content class="ion-padding">
-  <ion-grid>
-    <ion-row class="ion-align-items-center ion-justify-content-center">
-      <ion-col size-md="10" size-lg="8" size-xl="6" class="ion-text-center">
-        <img src="../../assets/Teepzy-06.png" alt="Logo Teepzy" class="logo-image" style="margin-bottom: 10px;" />
-      </ion-col>
+<ion-content>
+  <ion-grid class="element">
+    <ion-row class="teepzy">
+      <img class="illustration1" src="../../assets/Teepzy-06.png" alt="" />
     </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size-md="10" size-lg="8" size-xl="6" class="ion-text-center">
-        <img
-          class="illustration"
-          src="../../assets/img/Illustration 1_Plan de travail 1-01.png"
-          alt="Illustration"
-          style="margin-top: -80px; width: 90%;" 
-        />
+    
+    <ion-row class="register">
+      <ion-col size="12">
+        <h3>{{'DEBUT_TEXT1'| translate}}</h3>
       </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size-md="6" size-lg="5" size-xl="4" class="ion-text-center">
-        <ion-button (click)="goToSign()" expand="block" shape="round">
-          {{ 'REGISTER' | translate }}
+      <ion-col size="2"> </ion-col>
+      <ion-col size="8">
+        <ion-button (click)="goToSign()" expand="block" shape="round"
+          >{{'REGISTER'| translate}}
         </ion-button>
       </ion-col>
-      <ion-col size-md="6" size-lg="5" size-xl="4" class="ion-text-center">
-        <ion-button (click)="goToLogin()" expand="block" shape="round">
-          {{ 'LOGIN' | translate }}
+      <ion-col size="2"> </ion-col>
+    </ion-row>
+
+    <ion-row class="login">
+      <ion-col size="12">
+        <h3>{{'DEBUT_TEXT2'| translate}}</h3>
+      </ion-col>
+      <ion-col size="2"> </ion-col>
+      <ion-col size="8">
+        <ion-button (click)="goToLogin()" expand="block" shape="round"
+          >{{'LOGIN'| translate}}
         </ion-button>
       </ion-col>
+      <ion-col size="2"> </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="bsd.teepzy.com" version="0.1.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.teepzy.com" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>TeepZy</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -12,13 +12,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <preference name="ScrollEnabled" value="false" />
-    <preference name="android-targetSdkVersion" value="30" />
-    <preference name="android-buildToolsVersion" value="30.0.3" />
-    <preference name="android-minSdkVersion" value="22" />
-    <preference name="android-compileSdkVersion" value="30" />
-    <preference name="android-targetSdkVersion" value="30" />
-    <preference name="android-supportLibVersion" value="28.0.0" />
-    <preference name="android-googlePlayServicesAuthVersion" value="16.0.1" />
+    <preference name="android-minSdkVersion" value="19" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="SplashMaintainAspectRatio" value="true" />
@@ -29,18 +23,9 @@
     <preference name="SplashScreenDelay" value="200" />
     <preference name="loadUrlTimeoutValue" value="60000" />
     <preference name="FadeSplashScreen" value="true" />
-    <preference name="KeyboardResizeMode" value="ionic" />
-    <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root" />
-    <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,assets,root" />
-    <preference name="deployment-target" value="12" />
-    <plugin name="cordova-plugin-media-capture" spec="^5.0.3" />
-    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <platform name="android">
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:networkSecurityConfig="@xml/network_security_config" />
-            <application android:allowBackup="false" />
-            <application android:fullBackupContent="false" />
-            <application android:requestLegacyExternalStorage="true" />
         </edit-config>
         <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
         <allow-intent href="market:*" />
@@ -64,46 +49,11 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
-        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
-            <string>We use your location for full functionality of certain TeepZy features such as choosing a default language according to your location.</string>
-        </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSContactsUsageDescription">
-            <string> 
-            Autorisez l'accès à vos contacts pour vous permettre d'ajouter des amis à votre cercle.
-            Nous n'enverrons pas de spams à votre cercle et n'ajouterons personne automatiquement
-            Nous ne sauvegardons pas vos contacts sur nos serveurs
-            </string>
+            <string> need to access to search contacts </string>
         </edit-config>
-        <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
-            <string>
-            Autorisez l'accès à votre caméra vous permettra de faire des publications plus accrocheuses dans votre cercle d'amis. 
-            Vos images que vous publierez ne seront visibles qu'aux amis de votre cercle
-           
-            </string>
-        </edit-config>
-        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
-            <string>
-            Autorisez l'accès à vos images/vidéos vous permettra de faire des publications plus accrocheuses dans votre cercle d'amis.
-            Vos images que vous publierez ne seront visibles qu'aux amis de votre cercle
-            </string>
-        </edit-config>
-        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
-            <string>
-                  Autorisez l'accès à vos images/vidéos vous permettra de faire des publications plus accrocheuses dans votre cercle d'amis.
-            Vos images que vous publierez ne seront visibles qu'aux amis de votre cercle
-            </string>
-        </edit-config>
-        <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
-            <string>
-                Autorisez l'accès à votre caméra vous permettra de faire des publications plus accrocheuses dans votre cercle d'amis. 
-            Vos images que vous publierez ne seront visibles qu'aux amis de votre cercle
-           
-         
-            </string>
-        </config-file>
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-        <allow-navigation href="https://*teepzy.com*" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="29" src="resources/ios/icon/icon-small.png" width="29" />
@@ -149,15 +99,11 @@
         <splash height="2208" src="resources/ios/splash/Default-736h.png" width="1242" />
         <splash height="2436" src="resources/ios/splash/Default-2436h.png" width="1125" />
         <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
-        <icon height="216" src="resources/ios/icon/icon-108@2x.png" width="216" />
-        <splash height="2688" src="resources/ios/splash/Default-2688h~iphone.png" width="1242" />
-        <splash height="1242" src="resources/ios/splash/Default-Landscape-2688h~iphone.png" width="2688" />
-        <splash height="1792" src="resources/ios/splash/Default-1792h~iphone.png" width="828" />
-        <splash height="828" src="resources/ios/splash/Default-Landscape-1792h~iphone.png" width="1792" />
     </platform>
     <plugin name="cordova-plugin-whitelist" spec="1.3.3" />
     <plugin name="cordova-plugin-statusbar" spec="2.4.2" />
     <plugin name="cordova-plugin-device" spec="2.0.2" />
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
+    <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
 </widget>
