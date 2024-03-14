@@ -55,9 +55,9 @@ import { NetworkService } from "./providers/network.service";
 import { IonicStorageModule } from "@ionic/storage";
 import { NativeGeocoder } from "@ionic-native/native-geocoder/ngx";
 //import { VgCoreModule } from "@videogular/ngx-videogular/core";
-import { VgControlsModule } from "@videogular/ngx-videogular/controls";
-import { VgOverlayPlayModule } from "@videogular/ngx-videogular/overlay-play";
-import { VgBufferingModule } from "@videogular/ngx-videogular/buffering";
+// import { VgControlsModule } from "@videogular/ngx-videogular/controls";
+// import { VgOverlayPlayModule } from "@videogular/ngx-videogular/overlay-play";
+// import { VgBufferingModule } from "@videogular/ngx-videogular/buffering";
 import { CacheModule } from "ionic-cache-observable";
 const config: SocketIoConfig = { url: base_url, options: {} };
 // import { MentionModule } from "angular-mentions";
@@ -96,9 +96,9 @@ const language = localStorage.getItem("teepzyUserLang");
     // MatCarouselModule.forRoot(),
     IonicStorageModule.forRoot(),
     //VgCoreModule,
-    VgControlsModule,
-    VgOverlayPlayModule,
-    VgBufferingModule,
+    // VgControlsModule,
+    // VgOverlayPlayModule,
+    // VgBufferingModule,
     MaterialModule,
     PermissionModalPageModule,
     // AddPostPageModule,
@@ -111,9 +111,9 @@ const language = localStorage.getItem("teepzyUserLang");
     AddPeopleRoomPageModule,
     ShareSheetPageModule,
    // VgCoreModule,
-    VgControlsModule,
-    VgOverlayPlayModule,
-    VgBufferingModule,
+    // VgControlsModule,
+    // VgOverlayPlayModule,
+    // VgBufferingModule,
     CacheModule,
     IonicSwipeAllModule,
     FormsModule,
