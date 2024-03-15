@@ -1,21 +1,18 @@
 ion-grid{
     max-width: 100%;
+    min-height: 100%;
     margin: 0 auto;
-    background-image: url('../../assets/img/plan.jpg');
-    
-    background-size: cover; 
-    background-position: center;
+   
 }
+
+
 .illustration1{
-    width: 65.5%;
     display: flex;
-    margin-left: -10px;
+    margin-left: auto;
     margin-right: auto;
-    margin-top: -10px ;
 }
 
 .illustration2{
-    width: 24.9%;
     display: flex;
     margin-left: auto;
     margin-right: auto;
@@ -23,7 +20,7 @@ ion-grid{
 
 h3{
     text-align: center;
-    color: #ea4e50;
+    color: #ffffff;
     line-height: 20px;
     font-size: 14px;
 }
@@ -31,8 +28,27 @@ h3{
 .text-bottom{
     text-align: center;
     display: block;
+    color: #f3f3f3;
+
 }
 
 button{
-    color: #ea4e4f;
+    color: #ffffff;
 }
+
+ion-grid{
+    background: url('../../assets/img/job.jpg');
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center;
+}
+// ion-grid::after {
+//     content: "";
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+    
+    
+//   }
