@@ -173,8 +173,8 @@
   <ion-toolbar>
     <ion-row>
       <ion-col class="footer-btn">
-        <button
-          style="float: right"
+        <ion-button
+          style="float: right" expand="block" shape="round"
           [disabled]="nom.errors?.required 
                 || passwordId.errors?.required
                 || conf.errors?.required
@@ -186,7 +186,7 @@
           mat-button
         >
           {{'REGISTER_ACCEPT' | translate}}
-        </button>
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-toolbar>

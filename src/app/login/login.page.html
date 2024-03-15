@@ -69,7 +69,7 @@
     </ion-row>
 
     <ion-row>
-      <ion-col size="12">
+      <ion-col size="30">
         <button
           style="display: block; margin-left: auto; margin-right: auto"
           routerLink="/forgot-pass"
@@ -84,20 +84,41 @@
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <span>
-      <ion-title> {{'ENVY_TEEPR' | translate}}</ion-title>
-      <button
-        style="
-          display: block;
-          margin-left: auto;
-          margin-right: auto;
-          margin-top: 59px;
-        "
-        routerLink="/signup"
-        mat-button
-      >
-        {{'REGISTER_'| translate}}
-      </button>
-    </span>
+    <ion-row>
+      <ion-col size="12">
+        <h3>{{'ENVY_TEEPR' | translate}}</h3>
+      </ion-col>
+      <ion-col size="0.5"> </ion-col>
+      <ion-col size="8" class="footer-btn">
+        <ion-button 
+        style="float: right" expand="block" shape="round"
+         (click)="goToLogin()" 
+         mat-button
+        >
+          {{'REGISTER'| translate}}
+        </ion-button>
+      </ion-col>
+      <ion-col size="2"> </ion-col>
+    </ion-row>
   </ion-toolbar>
 </ion-footer>
+
+
+<!-- <ion-col size="12">
+  <h3>{{'DEBUT_TEXT2'| translate}}</h3>
+</ion-col>
+<ion-col size="2"> </ion-col>
+<ion-col size="8">
+  <ion-button (click)="goToLogin()" expand="block" shape="round"
+    >{{'LOGIN'| translate}}
+  </ion-button>
+</ion-col>
+<ion-col size="2"> </ion-col> -->
+<!-- <ion-title> {{'ENVY_TEEPR' | translate}}</ion-title>
+      <ion-col size="2"> </ion-col>
+      <ion-col size="18">
+        <ion-button class="accountButton" (click)="goToLogin()" expand="block" shape="round"
+          >{{'REGISTER'| translate}}
+        </ion-button>
+      </ion-col>
+      <ion-col size="2"> </ion-col> -->
