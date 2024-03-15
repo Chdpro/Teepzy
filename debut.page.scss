@@ -1,0 +1,56 @@
+
+    assets {
+       /* Optionnel, définissez la couleur de fond si nécessaire */
+        //background-image: url('../../assets/img/msg.jpg');
+        background-color: #3e22a5;
+     
+      }
+  
+    /* Header/Logo Section */
+    .header-row {
+      margin-top: 25px; /* Adjust the margin as needed */
+  
+      ion-col {
+        text-align: center;
+      }
+    }
+  
+    .logo-image {
+      /* Adjust image size here based on your logo dimensions */
+      width: 200px; /* Example width */
+      height: auto;
+    }
+  
+    /* Title */
+    h3 {
+      color: #2f23d4; /* Text color */
+      font-size: 20px; /* Font size */
+      line-height: 1.5; /* Line spacing */
+      text-align: center;
+      margin-top: 20px; /* Adjust margin as needed */
+    }
+  
+    /* Illustration (Optional) */
+    .illustration {
+      width: 47%; /* Adjust width as needed */
+    }
+  
+    /* Buttons */
+    .button-row {
+      margin-top: 20px; /* Adjust margin as needed */
+  
+      ion-button {
+        font-size: 16px; /* Button font size */
+        margin-bottom: 10px; /* Margin between buttons */
+        color: #2d1192; /* Button text color */
+        background-color: #fff; /* Button background color */
+      }
+    }
+  
+    /* Text at Bottom */
+    .text-bottom {
+      color: #999; /* Text color */
+      font-size: 14px; /* Font size */
+      text-align: center;
+      margin-top: 20px;
+    }
