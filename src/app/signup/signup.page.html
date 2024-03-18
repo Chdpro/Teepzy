@@ -174,7 +174,7 @@
     <ion-row>
       <ion-col class="footer-btn">
         <ion-button
-          style="float: right" expand="block" shape="round"
+          style="float: right" expand="block" shape="round" color="white"
           [disabled]="nom.errors?.required 
                 || passwordId.errors?.required
                 || conf.errors?.required
@@ -182,6 +182,7 @@
                 || email.errors?.required
                 || phone.errors?.required
                 || selected == ''"
+
           (click)="signup()"
           mat-button
         >

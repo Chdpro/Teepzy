@@ -1,5 +1,5 @@
 ion-title{
-    color: #ea4e50;
+    color: #2c2728;
 }
 ion-toolbar{
     height: 68px;
@@ -17,7 +17,7 @@ ion-slide{
     right: 12px;
 }
 .material-icons{
-    color: #ea4e50;
+    color: #272222;
 }
 .mat-content{
     height: -webkit-fill-available;
@@ -26,7 +26,7 @@ ion-slide{
     height: 47px;
     width: 47px;
     border-radius: 177px;
-    border: solid 2px #ea4e50;
+    border: solid 2px #306dd8;
     display: block;
     margin-left: 8px;
     margin-right: 2px;
@@ -44,7 +44,7 @@ ion-slide{
     border-radius: 100%;
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%;
-    border: solid 1px #ea4d4f;
+    border: solid 1px #306dd8;
     padding-top: 8px;
     text-align: center;
     font-size: 13px;
@@ -107,7 +107,7 @@ mat-form-field{
 img{
     width: 49px;
     height: 49px;
-    border: solid 2px #ea4e50;
+    border: solid 2px #306dd8;
     margin-right: 15px;
     margin-bottom: 18px;
     border-radius: 100%;
@@ -120,7 +120,7 @@ ion-icon{
 }
 
 b{
-    color: #ea4e50;
+    color: #306dd8;
 }
 
 ion-item{
@@ -150,4 +150,11 @@ ion-spinner{
     margin-right: auto;
     width: 47px;
     height: 58px;
+}
+ion-grid{
+    
+    background: url('../../assets/img/neutral.jpg');
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center;
 }

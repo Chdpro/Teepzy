@@ -156,7 +156,6 @@
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly."
       },
       "cordova-plugin-filepath": {},
-      "cordova-plugin-file-transfer": {},
       "onesignal-cordova-plugin": {},
       "cordova-plugin-inappbrowser": {},
       "cordova-base64-to-gallery": {},
@@ -172,8 +171,8 @@
       "cordova-plugin-file": {}
     },
     "platforms": [
-      "android",
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }

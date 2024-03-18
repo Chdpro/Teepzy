@@ -55,6 +55,7 @@ export enum PERMISSION {
 }
 
 export enum MESSAGES {
+  WELCONE_TEXT = "Bienvenue sur ",
   LOGIN_OK = "Connexion réussie",
   LOGIN_INVALID = "Mot de passe ou email incorrect",
   LOGIN_ERROR = "Erreur lors de la connexion",

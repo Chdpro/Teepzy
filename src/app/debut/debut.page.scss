@@ -1,54 +1,51 @@
-ion-grid{
+ion-grid {
     max-width: 100%;
     min-height: 100%;
-    margin: 0 auto;
+    // margin: 0 auto;
+    background-color: #306dd8;
+    flex: 1; /* Allow grid to fill remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically within grid */
+    align-items: center; 
+  }
+  h3{
+    color: white;
+  }
+  .logo img {
+    
+    width: 650px;
+    height: 350px;
+    margin: 30px;
+    align-items: center;
+    
+  }
+  
+  .buttons  {
    
-}
-
-
-.illustration1{
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.illustration2{
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-h3{
+    justify-content: center;
+    // padding: 50px;
     text-align: center;
-    color: #ffffff;
-    line-height: 20px;
-    font-size: 14px;
-}
-
-.text-bottom{
-    text-align: center;
-    display: block;
-    color: #f3f3f3;
-
-}
-
-button{
-    color: #ffffff;
-}
-
-ion-grid{
-    background: url('../../assets/img/job.jpg');
-    background-repeat: no-repeat;
-    background-size: cover; 
-    background-position: center;
-}
-// ion-grid::after {
-//     content: "";
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     right: 0;
-//     bottom: 0;
+    color: white;
+    opacity: calc();
     
-    
-//   }
+  }
+  
+  .register-link {
+    border-bottom: none; /* Remove default underline */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+    background-color: aliceblue;
+    color: white;
+  }
+  
+  .register-link:hover {
+    border-bottom: 2px solid white; /* Add white border-bottom on hover */
+    background-color: #000;
+  }
+  .register-link:hover::after {
+    width: 300%;
+    transition: width 0.3s ease;
+  }
+  
+  

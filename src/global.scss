@@ -49,10 +49,10 @@
 }
 
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle, .mat-radio-inner-circle{
-    border-color: #ea4d4f;
+    border-color: #306dd8;
 }
 .mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple{
-    background-color: #ea4d4f;
+    background-color: #306dd8;
 }
 ::ng-deep .mat-tab-label {
     pointer-events: none;
@@ -164,7 +164,7 @@ iframe{
  
 
   .carousel-control-next-icon, .carousel-control-prev-icon{
-    background-color: #ea4d4f;
+    background-color: #306dd8;
     border-radius: 81px;
     padding: 11px;
   }

@@ -8,22 +8,62 @@
 mat-form-field {
   @extend .img !optional;
   width: 100%;
+  
+}
+mat-option{
+  color: #149731;
+}
+
+mat-label {
+  color: #e0e0e0;
+  
 }
 
 ion-grid {
-  background: url('../../assets/img/form.png');
-  background-color: rgba(95, 90, 90, 0.5); /* Fond semi-transparent noir */
+  
   background-repeat: no-repeat;
   background-size: cover;
 }
 
+
 .text-bottom{
   text-align: center;
   display: block;
-  color: #f3f3f3;
+  color: #ffffff;
 
 }
 
 button{
-  color: #f02323;
+  color: #ffffff;
+}
+ion-col {
+  
+  color: rgb(255, 255, 255);
+}
+example-full-width-phone{
+color: #ffffff;
+}
+.phone{
+  color: #fcfcfc;
+}
+#lang-container{
+  color: #d6d6d6;
+}
+.lang-name{
+  color: #d1d1d1;
+}
+ion-button{
+  color: #0e349b;
+  font-weight: bold;
+}
+ion-grid {
+  max-width: 100%;
+  min-height: 100%;
+  margin: 0 auto;
+  background-color: #306dd8;
+  /* If the image has a background image: */
+  /* background-image: url('../../assets/your-background-image.png'); */
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+  /* background-position: center; */
 }

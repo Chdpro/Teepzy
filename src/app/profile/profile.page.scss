@@ -100,7 +100,7 @@ mat-card-header{
 
 
 ion-card-subtitle{
-    color: #ea4d4f;
+    color: #306dd8;
     width: 40%;
 }
 
@@ -115,7 +115,7 @@ ion-card {
 .msg{
     font-size: 22px;
     font-weight: 200;
-    color: #ea4d4f;
+    color: #306dd8;
 }
 
 .ion-card-content{
@@ -192,7 +192,7 @@ ion-card {
     border-radius: 100%;
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%; 
-    border: solid 1px #ea4d4f;
+    border: solid 1px #306dd8;
     padding-top: 5px;
     text-align: center;
     font-size: 18px;
@@ -224,7 +224,7 @@ ion-card {
     border-radius: 28px;
     text-align: center;
     font-weight: 600;
-    color: #ea4d4f;
+    color: #306dd8;
 }
 
 mat-tab-group{
@@ -240,11 +240,11 @@ mat-tab-group{
     border-radius: 21px;
     width: 57px;
     height: 55px;
-    color: #ea4d4f;
+    color: #306dd8;
 }
 
 h2{
-    color: #ea4d4f;
+    color: #306dd8;
 }
 
 .site-link{
@@ -311,7 +311,7 @@ label{
     min-width: 34px;
     min-height: 34px;   
     border-radius: 213px;
-    border: solid 1px #ea4d4f;
+    border: solid 1px #306dd8;
 }
 .time{
     font-size: 10px;
@@ -405,9 +405,14 @@ ion-slides {
       width: 135px;
       max-width: 135px;
     }
-  
-  
+    ion-grid{
+    
+        background: url('../../assets/img/neutral.jpg');
+        background-repeat: no-repeat;
+        background-size: cover; 
+        background-position: center;
+    }
+      
   }
-  
   
   

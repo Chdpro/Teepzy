@@ -1,33 +1,24 @@
 <ion-content>
   <ion-grid class="element">
-    <ion-row class="teepzy">
-      <img class="illustration1" src="../../assets/Teepzy-06.png" alt="" />
-    </ion-row>
-    
-    <ion-row class="register">
+    <ion-row><h3>Welcome to</h3></ion-row>
+    <ion-row class="logo">
       <ion-col size="12">
-        <h3>{{'DEBUT_TEXT1'| translate}}</h3>
+        <img src="../../assets/img/canva.png" alt="" />
       </ion-col>
-      <ion-col size="2"> </ion-col>
-      <ion-col size="8">
-        <ion-button (click)="goToSign()" expand="block" shape="round"
-          >{{'REGISTER'| translate}}
-        </ion-button>
-      </ion-col>
-      <ion-col size="2"> </ion-col>
     </ion-row>
+    <ion-row class="buttons">
+      <ion-col size="6">
+        <ion-button (click)="goToSign()" class="register-link">SIGN-UP</ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button (click)="goToLogin()"class="register-link" >LOGIN</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row id="signup-section">
+      </ion-row>
 
-    <ion-row class="login">
-      <ion-col size="12">
-        <h3>{{'DEBUT_TEXT2'| translate}}</h3>
-      </ion-col>
-      <ion-col size="2"> </ion-col>
-      <ion-col size="8">
-        <ion-button (click)="goToLogin()" expand="block" shape="round"
-          >{{'LOGIN'| translate}}
-        </ion-button>
-      </ion-col>
-      <ion-col size="2"> </ion-col>
-    </ion-row>
+    <ion-row id="login-section">
+      </ion-row>
+
   </ion-grid>
 </ion-content>

@@ -12,6 +12,8 @@ import { TranslateService } from "@ngx-translate/core";
 export class DebutPage implements OnInit {
   subscription: Subscription;
   language = "";
+  showSignInForm = false; // Initialize the variable for form visibility
+
   constructor(
     private menuCtrl: MenuController,
     private router: Router,
@@ -27,15 +29,15 @@ export class DebutPage implements OnInit {
     this.menuCtrl.swipeGesture(false);
   }
 
+  showSignIn() {
+    this.showSignInForm = true; // Set to true to display the form
+  }
+
   goToSign() {
-    this.router.navigateByUrl("/signup", {
-      replaceUrl: true,
-    });
+    this.router.navigateByUrl("/signup", { replaceUrl: true });
   }
 
   goToLogin() {
-    this.router.navigateByUrl("/login", {
-      replaceUrl: true,
-    });
+    this.router.navigateByUrl("/login", { replaceUrl: true });
   }
 }
