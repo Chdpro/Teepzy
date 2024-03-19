@@ -21,9 +21,10 @@
         </mat-form-field>
         <mat-form-field class="example-full-width">
           <mat-label>
-            <ion-icon name="lock-closed-outline" class="login__icon"></ion-icon
-            >{{'USER_INFO.PASSWORD' | translate}}</mat-label
-          >
+            <mat-icon> favori </mat-icon> <strong> Fantaisie </strong>
+            <em> label </em>
+          </mat-label>
+          <!-- <mat-label> <ion-icon name="lock-closed-outline"  class="login__icon"></ion-icon>{{'USER_INFO.PASSWORD' | translate}}</mat-label> -->
           <input
             matInput
             [type]="hideC ? 'text':  'password' "
@@ -57,13 +58,8 @@
           ></ion-icon>
         </button>
       </form>
-      <button routerLink="/forgot-pass" mat-button class="forgot-pass">
-        <span class="button__text" style="color: #7875b5"
-          >{{ 'PWD_FORGOT1' | translate }}</span
-        >
-        <span class="button__text" style="color: white"
-          >{{ 'PWD_FORGOT2' | translate }}</span
-        >
+      <button routerLink="/forgot-pass" mat-button>
+        <span class="button__text">{{ 'PWD_FORGOT' | translate }}</span>
       </button>
       <div class="social-login">
         <h4>{{ 'ENVY_TEEPR' | translate }}</h4>
@@ -72,7 +68,7 @@
             class="registerButton"
             expand="block"
             shape="round"
-            routerLink="/signup"
+            (click)="goToLogin()"
             mat-button
           >
             <span class="button__text"> {{ 'REGISTER' | translate }}</span>
