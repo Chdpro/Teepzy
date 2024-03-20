@@ -20,6 +20,7 @@
             (ngModelChange)="searchOn()"
             name="autoComplete"
             [matAutocomplete]="auto"
+            class="search-input"
           />
         </div>
 
@@ -233,7 +234,7 @@
         >
           <mat-tab-group
             [(selectedIndex)]="selectedTab"
-            color="warn"
+            color="primary"
             mat-align-tabs="center"
           >
             <mat-tab [label]="'PEOPLE'| translate">

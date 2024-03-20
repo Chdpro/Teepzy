@@ -1,36 +1,55 @@
-<ion-content>
+<ion-content class="permission-content">
   <ion-grid>
-    <ion-row>
-      <ion-col size="12">
-        <h2>{{'PERMISSION_TEXT1' | translate}}</h2>
-      </ion-col>
+    <ion-col class="permission-header">
+      <ion-row colSize="12" class="text-center">
+        <h2>{{ 'PERMISSION_TEXT1' | translate }}</h2>
+      </ion-row>
 
-      <ion-col size="12">
-        <p>{{'PERMISSION_TEXT2' | translate}}</p>
-      </ion-col>
-      <ion-col size="12">
-        <img src="../../assets/information.png" alt="" />
-      </ion-col>
-      <ion-col size="12">
-        <p></p>
-        <p>{{'PERMISSION_TEXT3' | translate}}</p>
-        <p>{{'PERMISSION_TEXT4' | translate}}</p>
-        <p>{{'PERMISSION_TEXT5' | translate}}</p>
-        <p>{{'PERMISSION_TEXT6' | translate}}</p>
+      <ion-row colSize="12" class="description">
+        <p>{{ 'PERMISSION_TEXT2' | translate }}</p>
+      </ion-row>
+    </ion-col>
+
+    <ion-col class="permission-info">
+      <ion-row colSize="12" class="info-image">
+        <img
+          src="../../assets/img/undraw_app_data_re_vg5c.svg"
+          alt="Permissions Information"
+        />
+      </ion-row>
+
+      <ion-row colSize="12" class="permission-details">
+        <ul>
+          <li>{{ 'PERMISSION_TEXT3' | translate }}</li>
+          <li>{{ 'PERMISSION_TEXT4' | translate }}</li>
+          <li>{{ 'PERMISSION_TEXT5' | translate }}</li>
+          <li>{{ 'PERMISSION_TEXT6' | translate }}</li>
+        </ul>
+      </ion-row>
+    </ion-col>
+
+    <ion-col class="permission-disclaimer">
+      <ion-row colSize="12" class="disclaimer-text">
         <p>
-          {{'PERMISSION_TEXT7' | translate}}
-          <a routerLink="/privacy"> {{'POLICY_TEXT' | translate}} </a>
-          {{'AND_OUR' | translate}}
-          <a routerLink="/conditions"> {{'CONDITIONS_TEXT' | translate}} </a>
-          {{'PERMISSION_TEXT8' | translate}}
+          {{ 'PERMISSION_TEXT7' | translate }}
+          <a routerLink="/privacy"> {{ 'POLICY_TEXT' | translate }} </a>
+          {{ 'AND_OUR' | translate }}
+          <a routerLink="/conditions"> {{ 'CONDITIONS_TEXT' | translate }} </a>
+          {{ 'PERMISSION_TEXT8' | translate }}
         </p>
-      </ion-col>
-    </ion-row>
+      </ion-row>
+    </ion-col>
   </ion-grid>
 </ion-content>
 
 <ion-footer>
-  <ion-button (click)="requestPermissions()" expand="full"
-    >{{'CONTINUE'|translate}}</ion-button
+  <button
+    (click)="requestPermissions()"
+    expand="block"
+    class="button login__submit"
+    style="width: 100%"
   >
+    <span class="button__text"> {{ 'CONTINUE' | translate }}</span>
+    <ion-icon name="chevron-forward-outline" class="button__icon"></ion-icon>
+  </button>
 </ion-footer>
