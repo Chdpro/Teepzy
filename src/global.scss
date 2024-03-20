@@ -16,8 +16,8 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~@ionic/angular/css/display.css";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -25,170 +25,167 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
-@import '~pretty-checkbox/src/pretty-checkbox.scss';
+@import "~pretty-checkbox/src/pretty-checkbox.scss";
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
 //@import "@videogular/ngx-videogular/fonts/videogular.css";
 
-  
-.example-full-width{
-    width: 80%; 
+.example-full-width {
+  width: 80%;
 }
 
-
-
-#myVideo{
-    border-radius: 40px 40px 1px 0px !important;
+#myVideo {
+  border-radius: 40px 40px 1px 0px !important;
 }
 
+.mat-tab-header,
+.mat-tab-nav-bar {
+  border-bottom: 0px solid rgba(0, 0, 0, 0.12);
+}
+.mat-mini-fab.mat-accent {
+  background-color: #cfcfcf;
+}
 
-.mat-tab-header, .mat-tab-nav-bar {
-    border-bottom: 0px solid rgba(0,0,0,.12);
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle,
+.mat-radio-inner-circle {
+  border-color: #5d54a4;
 }
-.mat-mini-fab.mat-accent{
-    background-color: #cfcfcf;;
-}
-
-.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle, .mat-radio-inner-circle{
-    border-color: #306dd8;
-}
-.mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple{
-    background-color: #306dd8;
+.mat-radio-button.mat-accent .mat-radio-inner-circle,
+.mat-radio-button.mat-accent
+  .mat-radio-ripple
+  .mat-ripple-element:not(.mat-radio-persistent-ripple),
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple,
+.mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+  background-color: #5d54a4;
 }
 ::ng-deep .mat-tab-label {
-    pointer-events: none;
- }
-
- .mat-menu-panel{
-    min-width: 200px !important;
-    margin-left: 10px !important;
- }
- .mat-tab-label{
-    padding: 0 9px !important;
-   }
-
-
-
- .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination{
-     display: none !important;
- }
-ion-modal{
-    height: 404px;
-    bottom: 0 !important;
-    border-radius: 39px 45px 1px 1px;
+  pointer-events: none;
 }
 
-.my-appUpdate-class{
-    height: 100%;
-    border-radius: 1px 1px 1px 1px;
-    position: absolute;
-    top: 20%;
-    width: 100%;
-    left: 0%;
-    right: 0%;
+.mat-menu-panel {
+  min-width: 200px !important;
+  margin-left: 10px !important;
 }
-.mat-chip-list-wrapper .mat-standard-chip, .mat-chip-list-wrapper input.mat-input-element{
-    margin-left: 0 !important;
+.mat-tab-label {
+  padding: 0 9px !important;
 }
 
-iframe{
-    overflow:hidden;
-    z-index: 10000;
-    position: absolute;
+.mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
+  display: none !important;
+}
+ion-modal {
+  height: 404px;
+  bottom: 0 !important;
+  border-radius: 39px 45px 1px 1px;
+}
+
+.my-appUpdate-class {
+  height: 100%;
+  border-radius: 1px 1px 1px 1px;
+  position: absolute;
+  top: 20%;
+  width: 100%;
+  left: 0%;
+  right: 0%;
+}
+.mat-chip-list-wrapper .mat-standard-chip,
+.mat-chip-list-wrapper input.mat-input-element {
+  margin-left: 0 !important;
+}
+
+iframe {
+  overflow: hidden;
+  z-index: 10000;
+  position: absolute;
 }
 
 .my-custom-class {
-    height: 100%;
-    top: 0;
-    bottom: 0 !important;
-    border-radius: 0;
-
+  height: 100%;
+  top: 0;
+  bottom: 0 !important;
+  border-radius: 0;
 }
 
-
 .share-custom-class {
-    height: 30% !important;
-    top: 70%;
-    bottom: 0 !important;
-    border-radius: 39px 45px 1px 1px !important;
-    background: #F0EFEF;
+  height: 30% !important;
+  top: 70%;
+  bottom: 0 !important;
+  border-radius: 39px 45px 1px 1px !important;
+  background: #f0efef;
 }
 
 .comment-class {
-    height: 60% !important;
-    top: 40%;
-    bottom: 0 !important;
-    border-radius: 39px 45px 1px 1px !important;
-    background: #F0EFEF;
+  height: 60% !important;
+  top: 40%;
+  bottom: 0 !important;
+  border-radius: 39px 45px 1px 1px !important;
+  background: #f0efef;
 }
 
-.linkto-class{
-    height: 60% !important;
-    top: 40%;
-    bottom: 0 !important;
-    border-radius: 39px 45px 1px 1px !important;
-    background: #F0EFEF;
+.linkto-class {
+  height: 60% !important;
+  top: 40%;
+  bottom: 0 !important;
+  border-radius: 39px 45px 1px 1px !important;
+  background: #f0efef;
 }
 
-
-.edit-post-custom-class{
-    height: 100% !important;
-    top: 0;
-    bottom: 0 !important;
-    background: #F0EFEF;
-    border-radius: 0;
-
+.edit-post-custom-class {
+  height: 100% !important;
+  top: 0;
+  bottom: 0 !important;
+  background: #f0efef;
+  border-radius: 0;
 }
 
-
-.add-project-class{
-    height: 100%;
-    top: 0;
-    bottom: 0 !important;
-    border-radius: 0;
+.add-project-class {
+  height: 100%;
+  top: 0;
+  bottom: 0 !important;
+  border-radius: 0;
 }
 
-.likers-class{
-    height: 100%;
-    bottom: 0 !important;
-    border-radius: 2px 3px 1px 1px;
+.likers-class {
+  height: 100%;
+  bottom: 0 !important;
+  border-radius: 2px 3px 1px 1px;
 }
-.sc-ion-modal-md-h{
-    top: unset ;
-
-}
-
-.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
-    background-color: #ea4e4f;
+.sc-ion-modal-md-h {
+  top: unset;
 }
 
- 
-
-  .carousel-control-next-icon, .carousel-control-prev-icon{
-    background-color: #306dd8;
-    border-radius: 81px;
-    padding: 11px;
-  }
-
-
-  button:focus, button:active {
-    outline: none !important;
-    box-shadow: none !important;
-  }
-  input:focus, textarea:focus, select:focus{
-    outline: none;
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #5c5696;
 }
-  
-  .modal, .modal2, .modal3{
-    display: block !important;
-      
-  }
 
-  .scroll-content {
-    padding-bottom: 0 !important;
- }
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  background-color: #5d54a4;
+  border-radius: 81px;
+  padding: 11px;
+}
 
- ion-content{
-    position: relative;
- }
+button:focus,
+button:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
 
- 
+.modal,
+.modal2,
+.modal3 {
+  display: block !important;
+}
+
+.scroll-content {
+  padding-bottom: 0 !important;
+}
+
+ion-content {
+  position: relative;
+}

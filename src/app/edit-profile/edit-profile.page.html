@@ -22,7 +22,7 @@
         ></ion-img>
       </ion-avatar>
 
-      <div *ngIf="dispImags?.length == 0" class="round-img" >
+      <div *ngIf="dispImags?.length == 0" class="round-img">
         {{user?.pseudoIntime | slice:0:1| uppercase}}
       </div>
       <!-- fab placed to the bottom end -->
@@ -167,7 +167,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="example-form-field">
-                  <mat-label></mat-label>
+                  <mat-label> {{'PRESENT_YOURSELF'| translate}}</mat-label>
                   <input
                     matInput
                     name="biolabel"
@@ -175,6 +175,7 @@
                     [disabled]="!isEditableB"
                     class="input-label req-input"
                     [(ngModel)]="profile1.bioLabel"
+                    [placeholder]="'LOCATION'| translate"
                   />
                   <button
                     mat-button

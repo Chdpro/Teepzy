@@ -1,106 +1,103 @@
-.title-input{
-    border-radius: 30px;
-    width: 34%;
-    background: #E0DFDF;
-    border: aquamarine;
-    color: #306dd8;
-    padding-top: 4px;
-    padding-right: 16px;
-    padding-bottom: 7px;
-    padding-left: 16px;
+.title-input {
+  border-radius: 30px;
+  width: 34%;
+  background: #e0dfdf;
+  border: aquamarine;
+  color: #5d54a4;
+  padding-top: 4px;
+  padding-right: 16px;
+  padding-bottom: 7px;
+  padding-left: 16px;
 }
 
-
-
-.add-mat-chip{
-    margin-left: 186px !important;
-      margin-bottom: -21px !important;
-  }
-  
-.limit-chars{
-    margin-bottom: 16px;
-    text-align: center;
-}
-.limitCounter{
-    float: right;
-    margin-top: -8px;
-    margin-bottom: 18px;
+.add-mat-chip {
+  margin-left: 186px !important;
+  margin-bottom: -21px !important;
 }
 
-.text-btn{
-    color: #C4C1C1;
+.limit-chars {
+  margin-bottom: 16px;
+  text-align: center;
 }
-.cancel-btn{
-    color: #306dd8;
-    font-size: 27px;
-    float: right;
-}
-
-.card-banner{
-    width: 50%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 17px;
-    position: relative;
-    border-radius: 28px;
-    text-align: center;
-    font-weight: 600;
-    color: #306dd8;
+.limitCounter {
+  float: right;
+  margin-top: -8px;
+  margin-bottom: 18px;
 }
 
-.add-photo{
-    border-radius: 14px;
-    max-width:230px;
-    max-height:230px;
-    width:230px;
-    height:230px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 1px 1px 4px 0px;
-    margin-top: 22px;
-    display: block;
+.text-btn {
+  color: #c4c1c1;
+}
+.cancel-btn {
+  color: #5d54a4;
+  font-size: 27px;
+  float: right;
 }
 
-ion-icon{
-    color: #306dd8;
+.card-banner {
+  width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 17px;
+  position: relative;
+  border-radius: 28px;
+  text-align: center;
+  font-weight: 600;
+  color: #5d54a4;
 }
 
-.banner{
-    height: 34%;
-    border-radius: 1px 1px 35px 35px;
-    position: relative;
-    padding-top: 0px;
-
+.add-photo {
+  border-radius: 14px;
+  max-width: 230px;
+  max-height: 230px;
+  width: 230px;
+  height: 230px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 1px 1px 4px 0px;
+  margin-top: 22px;
+  display: block;
 }
 
-mat-form-field{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+ion-icon {
+  color: #5d54a4;
 }
 
-.example-chip-list{
-    width: 80%;
+.banner {
+  height: 34%;
+  border-radius: 1px 1px 35px 35px;
+  position: relative;
+  padding-top: 0px;
 }
 
-.mat-add-circle{
-    font-size: 37px;
-    color: #306dd8;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+mat-form-field {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.example-form{
-    position: sticky;
+.example-chip-list {
+  width: 80%;
 }
 
-ion-fab{
-    position: absolute;
-    margin-top: 45px;
+.mat-add-circle {
+  font-size: 37px;
+  color: #5d54a4;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.example-form {
+  position: sticky;
+}
+
+ion-fab {
+  position: absolute;
+  margin-top: 45px;
 }

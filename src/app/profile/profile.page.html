@@ -63,7 +63,11 @@
     (touchstart)="swipe2($event, 'start')"
     (touchend)="swipe2($event, 'end')"
   >
-    <mat-tab-group [(selectedIndex)]="selectedTab" mat-align-tabs="center">
+    <mat-tab-group
+      [(selectedIndex)]="selectedTab"
+      mat-align-tabs="center"
+      class="editprofile-tab"
+    >
       <mat-tab [label]="'PROFILE_TAB_PRO'|translate">
         <ion-grid>
           <!--ion-row *ngIf="isProProfile">
@@ -406,7 +410,6 @@
           </ion-row>
         </ion-grid>
       </mat-tab>
-
       <mat-tab [label]="'PROFILE_TAB_TEEPZR'|translate">
         <ion-grid>
           <ion-row>

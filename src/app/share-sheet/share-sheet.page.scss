@@ -1,78 +1,79 @@
-ion-toolbar{
-    text-align: center;
-    height: 87px;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
+ion-toolbar {
+  text-align: center;
+  height: 87px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
 }
 
-ion-spinner{
+ion-spinner {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
-.close-icone{
-    float: right;
-    margin-top: -18px;
-    margin-right: 30px;
+.close-icone {
+  float: right;
+  margin-top: -18px;
+  margin-right: 30px;
 }
 
-.content{
-  background-color: #F0EFEF;
+.content {
+  background-color: #f0efef;
 }
 
-.text-share
-{
-      font-size: 11px;
-  }
-
-  .rs-btn{
-    margin-left: 95px;text-align: center;
-  }
-  .sv-btn{
-    margin-right: 92px;text-align: center;
-  }
-
-  .btn-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-  .censure{
-    left: 40%;
-    bottom: 5px;
-  }
-
-  .redo{
-    right: 27%;
-    bottom: 5px;
-  }
-
-  .share-btn{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .close-icon{
-    float: right;
-    margin-top: -27px;
-    margin-right: 26px;
-    font-size: 29px;
-    color: #306dd8;
+.text-share {
+  font-size: 11px;
 }
 
-.msg{
-    font-size: 16px;
-    font-weight: 200;
-    color: #306dd8;
+.rs-btn {
+  margin-left: 95px;
+  text-align: center;
+}
+.sv-btn {
+  margin-right: 92px;
+  text-align: center;
 }
 
-.container-txt{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.btn-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.censure {
+  left: 40%;
+  bottom: 5px;
 }
 
-strong{
-    color: #306dd8;
+.redo {
+  right: 27%;
+  bottom: 5px;
+}
+
+.share-btn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.close-icon {
+  float: right;
+  margin-top: -27px;
+  margin-right: 26px;
+  font-size: 29px;
+  color: #5d54a4;
+}
+
+.msg {
+  font-size: 16px;
+  font-weight: 200;
+  color: #5d54a4;
+}
+
+.container-txt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+strong {
+  color: #5d54a4;
 }

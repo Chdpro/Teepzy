@@ -1,69 +1,64 @@
-.img {
-  display: block;
-  margin: 0 auto;
-  width: 100%;
-  border-radius: border-radius; // Assurez-vous que $border-radius est défini quelque part
-}
-
 mat-form-field {
   @extend .img !optional;
   width: 100%;
-  
-}
-mat-option{
-  color: #149731;
 }
 
-mat-label {
-  color: #e0e0e0;
-  
+mat-option {
+  color: black;
 }
 
 ion-grid {
-  
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-
-.text-bottom{
-  text-align: center;
-  display: block;
-  color: #ffffff;
-
+button {
+  color: black;
 }
 
-button{
-  color: #ffffff;
-}
 ion-col {
-  
-  color: rgb(255, 255, 255);
+  color: black;
 }
-example-full-width-phone{
-color: #ffffff;
+
+.phone {
+  color: black;
 }
-.phone{
-  color: #fcfcfc;
+
+.lang-container {
+  background-color: white;
 }
-#lang-container{
-  color: #d6d6d6;
+
+ion-button {
+  border-radius: 8px;
+  color: blueviolet;
 }
-.lang-name{
-  color: #d1d1d1;
-}
-ion-button{
-  color: #0e349b;
-  font-weight: bold;
-}
+
 ion-grid {
   max-width: 100%;
   min-height: 100%;
   margin: 0 auto;
-  background-color: #306dd8;
-  /* If the image has a background image: */
-  /* background-image: url('../../assets/your-background-image.png'); */
-  /* background-repeat: no-repeat; */
-  /* background-size: cover; */
-  /* background-position: center; */
+  background-color: #5c5696;
+}
+
+a {
+  color: red;
+}
+
+mat-label {
+  color: black;
+}
+
+.example-full-width {
+  height: 55px;
+  background: #d1d1d1;
+  justify-content: center;
+  display: flex;
+  margin: 12px auto;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+}
+.condition {
+  color: aliceblue;
 }
