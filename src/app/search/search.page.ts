@@ -46,7 +46,7 @@ export class SearchPage implements OnInit {
   highValueT: number = 5;
 
   options: string[] = ["One", "Two", "Three"];
-  testVideos = ["http://192.168.1.115:5001/43107192329982330.mp4"];
+  testVideos = ["http://192.168.1.105:5001/43107192329982330.mp4"];
   // testVideos = ["https://api.teepzy.com/43107192329982330.mp4"];
 
   showAutocomplete = false;

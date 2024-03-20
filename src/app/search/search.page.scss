@@ -79,7 +79,7 @@ body {
   width: 334px;
   height: 48px;
   border-radius: 40px;
-  border: 1px solid#4c8dff;
+  border: 1px solid#4c489d;
   color: #a0d18c;
   display: block;
   margin-left: auto;
@@ -95,6 +95,8 @@ body {
 
 .search input {
   text-indent: 32px;
+  background-color: transparent;
+  color: #000000;
 }
 .search .fa-search {
   position: absolute;
@@ -108,7 +110,7 @@ body {
 
 h4 {
   text-align: center;
-  color: #4c8dff;
+  color: #4c489d;
 }
 
 .pseudo-txt {
@@ -127,7 +129,7 @@ h4 {
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
-  border: solid 1px #5d54a4;
+  border: solid 1px #ea4d4f;
   text-align: center;
   font-size: 13px;
   display: block;
@@ -144,7 +146,7 @@ h4 {
   max-width: 115% !important;
   /* -webkit-border-radius: 100%;*/
   -moz-border-radius: 100%;
-  border: solid 1px #5d54a4;
+  border: solid 1px #ea4d4f;
   text-align: center;
   font-size: 13px;
   display: block;
@@ -157,7 +159,7 @@ h4 {
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
-  border: solid 1px #5d54a4;
+  border: solid 1px #ea4d4f;
   text-align: center;
   font-size: 13px;
   display: block;
@@ -172,7 +174,7 @@ h4 {
   border-radius: 100%;
   -webkit-border-radius: 100%;
   -moz-border-radius: 100%;
-  border: solid 1px #5d54a4;
+  border: solid 1px #ea4d4f;
   padding-top: 11px;
   text-align: center;
   font-size: 13px;
@@ -184,7 +186,7 @@ h4 {
 
 .n-found {
   text-align: center;
-  color: #4c8dff;
+  color: #4c489d;
   font-weight: 400;
   margin-top: 45px;
   margin-bottom: 44px;
@@ -203,7 +205,7 @@ label {
 }
 
 ion-title {
-  color: #5d54a4;
+  color: #ea4e50;
 }
 
 .p-img {
@@ -211,10 +213,10 @@ ion-title {
   margin-right: 11px;
   border-radius: 26px;
   margin-top: -1px;
-  border: solid 1px #5d54a4;
+  border: solid 1px #ea4e50;
 }
 ion-content {
-  color: #5d54a4 !important;
+  color: #ea4e50 !important;
 }
 
 .cancel-btn {
@@ -229,7 +231,7 @@ ion-spinner {
 }
 mat-list-item {
   margin-top: 21px;
-  color: #5d54a4;
+  color: #ea4e50;
 }
 
 mat-divider {
@@ -246,7 +248,7 @@ ion-button {
   margin-right: auto;
 }
 .p-seudo {
-  color: #5d54a4;
+  color: #ea4e50;
   font-size: 20px;
   font-weight: 600;
   margin-left: 24px;
@@ -263,7 +265,7 @@ ion-button {
 }
 
 .round-bg {
-  background: #5d54a4;
+  background: #ea4e50;
   padding: 17px;
   border-radius: 25px;
   width: 46px;
@@ -284,7 +286,7 @@ ion-button {
   width: 56px;
   border-radius: 213px;
   height: 36px;
-  border: solid 1px #5d54a4;
+  border: solid 1px #ea4d4f;
 }
 .time {
   font-size: 10px;

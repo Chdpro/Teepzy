@@ -32,7 +32,7 @@
 
   "TUTORIAL": "Tutorial",
   "OKAY": "Okay, got it.",
-
+  "LIMIT_TEXT_8": "Password must contains at least 8 characters!",
   "PERMISSION_TEXT1": "Add people you want in your circle",
   "PERMISSION_TEXT2": "Teepzy uses the phone numbers in your address book to help you choose, add people to your circle",
   "PERMISSION_TEXT3": " Allow access to your contacts and images/videos to take full advantage of all Teepzy features.",
@@ -166,7 +166,6 @@
   "EDIT_HERE_CONTENT": " Click here to change the content of the section",
   "WEBSITE": "WEB SITE",
   "LOCATION": "LOCATION",
-  "PRESENT_YOURSELF": "INTRODUCE YOURSELF",
 
   "NOTIFICATIONS_TEXT_TITLE": "Notification Settings",
   "ACTIVATE_NOTIFICATION": "Enable Notifications",
@@ -206,8 +205,7 @@
   "RESIZE": "Resize",
   "VALIDATE": "Done",
   "LOG": "Login",
-  "PWD_FORGOT1": "Forgot ",
-  "PWD_FORGOT2": "password?",
+  "PWD_FORGOT": "Forgot password?",
   "ENVY_TEEPR": "Want to become a teepZr?",
   "REGISTER_": "Register",
 
