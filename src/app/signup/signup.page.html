@@ -1,25 +1,31 @@
 <ion-content [scrollY]="true">
-  <div class="form-container">
-    <div class="form-box">
   <ion-grid>
     <ion-row>
       <ion-col>
         <mat-form-field style="width: 24%; float: right; margin-bottom: -18px">
-          <mat-select [(ngModel)]="language" (ngModelChange)="translateLanguageTo($event)" name="lang">
-              <mat-option *ngFor="let language of languages" [value]="language.code">
-                  <div class="lang-container">
-                      <span class="lang-name">{{ language?.language }}</span>
-                  </div>
-              </mat-option>
+          <mat-select
+            [(ngModel)]="language"
+            (ngModelChange)="translateLanguageTo($event)"
+            name="lang"
+          >
+            <mat-option
+              class="lang-container"
+              *ngFor="let language of languages"
+              [value]="language.code"
+            >
+              <div>
+                <span>{{ language?.language }}</span>
+              </div>
+            </mat-option>
           </mat-select>
-      </mat-form-field>           
+        </mat-form-field>
       </ion-col>
       <ion-col>
-        <form class="example-form">
+        <form>
           <ion-grid>
             <ion-row>
-              <ion-col size="12">
-                <mat-form-field class="example-full-width">
+              <ion-col class="example-full-width" size="12">
+                <mat-form-field>
                   <mat-label>{{'USER_INFO.LASTNAME' | translate}}</mat-label>
                   <input
                     matInput
@@ -31,8 +37,8 @@
                   />
                 </mat-form-field>
               </ion-col>
-              <ion-col size="12">
-                <mat-form-field class="example-full-width">
+              <ion-col class="example-full-width" size="12">
+                <mat-form-field>
                   <mat-label> {{'USER_INFO.FIRSTNAME' | translate}}</mat-label>
                   <input
                     matInput
@@ -44,8 +50,8 @@
                   />
                 </mat-form-field>
               </ion-col>
-              <ion-col size="12">
-                <mat-form-field class="example-full-width">
+              <ion-col class="example-full-width" size="12">
+                <mat-form-field>
                   <mat-label>
                     {{'USER_INFO.EMAIL_ADDRESS' | translate}}</mat-label
                   >
@@ -59,8 +65,7 @@
                   />
                 </mat-form-field>
               </ion-col>
-
-              <span>
+              <ion-col class="example-full-width" size="12">
                 <mat-form-field class="code">
                   <mat-select [(ngModel)]="selected" name="code" required>
                     <mat-option *ngFor="let c of codes" [value]="c.dial_code">
@@ -68,7 +73,9 @@
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
-                <mat-form-field class="example-full-width phone">
+              </ion-col>
+              <ion-col class="example-full-width" size="12">
+                <mat-form-field class="phone">
                   <mat-label>
                     {{'USER_INFO.PHONE_NUMBER' | translate}}</mat-label
                   >
@@ -81,10 +88,9 @@
                     [(ngModel)]="telephone"
                   />
                 </mat-form-field>
-              </span>
-              <ion-col size="12"> </ion-col>
-              <ion-col size="12">
-                <mat-form-field class="example-full-width">
+              </ion-col>
+              <ion-col class="example-full-width" size="12">
+                <mat-form-field>
                   <mat-label> {{'USER_INFO.PASSWORD' | translate}}</mat-label>
                   <input
                     matInput
@@ -108,15 +114,15 @@
                     >
                   </button>
                 </mat-form-field>
-                <div
-                  style="font-size: 11px; margin-left: 1px; width: 272px"
-                  *ngIf="passwordId.errors?.minlength"
-                >
-                  {{'REQUIRED_8' | translate}}
-                </div>
               </ion-col>
-              <ion-col size="12">
-                <mat-form-field class="example-full-width">
+              <ion-col
+                style="font-size: 16px; width: 272px; color: red"
+                *ngIf="passwordId.errors?.minlength"
+              >
+                {{'REQUIRED_8' | translate}}</ion-col
+              >
+              <ion-col class="example-full-width" size="12">
+                <mat-form-field>
                   <mat-label
                     >{{'USER_INFO.CONFIRM_PASSWORD' | translate}}</mat-label
                   >
@@ -162,17 +168,14 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-    </div>
-  </div>
 </ion-content>
 <!-- Footer without a border -->
 <ion-footer class="ion-no-border">
   <ion-toolbar>
     <ion-row>
       <ion-col class="footer-btn">
-        <button
-          style="float: right"
+        <ion-button
+          expand="block"
           [disabled]="nom.errors?.required 
                 || passwordId.errors?.required
                 || conf.errors?.required
@@ -184,7 +187,7 @@
           mat-button
         >
           {{'REGISTER_ACCEPT' | translate}}
-        </button>
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-toolbar>

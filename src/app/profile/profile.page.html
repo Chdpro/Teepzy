@@ -63,7 +63,11 @@
     (touchstart)="swipe2($event, 'start')"
     (touchend)="swipe2($event, 'end')"
   >
-    <mat-tab-group [(selectedIndex)]="selectedTab" mat-align-tabs="center">
+    <mat-tab-group
+      [(selectedIndex)]="selectedTab"
+      mat-align-tabs="center"
+      class="editprofile-tab"
+    >
       <mat-tab [label]="'PROFILE_TAB_PRO'|translate">
         <ion-grid>
           <!--ion-row *ngIf="isProProfile">
@@ -104,7 +108,7 @@
             <ion-col size="12">
               <div
                 *ngIf="user?.socialsAmical?.length === 0 "
-                style="color: #ea4e4f; height: 9px; text-align: center"
+                style="color: #ebebeb; height: 9px; text-align: center"
               >
                 {{'PROFILE_TAB_PRO'|translate}}
               </div>
@@ -406,7 +410,6 @@
           </ion-row>
         </ion-grid>
       </mat-tab>
-
       <mat-tab [label]="'PROFILE_TAB_TEEPZR'|translate">
         <ion-grid>
           <ion-row>

@@ -1,107 +1,102 @@
-ion-img{
-    max-width: 123px;
-    max-height: 123px;
-    min-width: 123px;
-    min-height: 123px;
-    width: 123px;
-    height: 123px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 177px;
-    border: solid 3px #ea4e50;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-
+ion-img {
+  max-width: 123px;
+  max-height: 123px;
+  min-width: 123px;
+  min-height: 123px;
+  width: 123px;
+  height: 123px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 177px;
+  border: solid 3px #5d54a4;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.condition{
-    padding: 12px;
-    font-size: 9px;
+.condition {
+  padding: 12px;
+  font-size: 9px;
 }
 
-mat-form-field{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+mat-form-field {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.example-form{
-    margin-top: -54px;
+.example-form {
+  margin-top: -54px;
 }
-mat-radio-button{
-   /* border: solid 1px black;*/
-    border-radius: 7px;
-    padding: 9px;
-    width: 42%;
-    padding-bottom: 0px;
-}
-
-mat-radio-group{
-    font-size: 15px;
-}
-span{
-    color: green;
-    font-size: 31px;
-    margin-left: 26px;
-    margin-bottom: 24px;
-    float: right; margin-top: -55px;
+mat-radio-button {
+  /* border: solid 1px black;*/
+  border-radius: 7px;
+  padding: 9px;
+  width: 42%;
+  padding-bottom: 0px;
 }
 
-
-
-label{
-    color: green;
+mat-radio-group {
+  font-size: 15px;
+}
+span {
+  color: green;
+  font-size: 31px;
+  margin-left: 26px;
+  margin-bottom: 24px;
+  float: right;
+  margin-top: -55px;
 }
 
-.code{
-    width: 25%;
-    float: left;
-    margin-left: 34px;
+label {
+  color: green;
 }
 
-.phone{
-    width: 52%;
-    float: right;
-    margin-right: 32px;
-
+.code {
+  width: 25%;
+  float: left;
+  margin-left: 34px;
 }
 
-.mat-btn{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 37%;
-    height: 56px;
-    
-    font-weight: 500;
+.phone {
+  width: 52%;
+  float: right;
+  margin-right: 32px;
 }
 
-small{
-    font-size: 18px !important;
-    color: #ea4e50;
+.mat-btn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 37%;
+  height: 56px;
 
+  font-weight: 500;
 }
-.camera-icon{
-    margin-bottom: -7px;
-    color: #ea4e50;
 
+small {
+  font-size: 18px !important;
+  color: #5d54a4;
+}
+.camera-icon {
+  margin-bottom: -7px;
+  color: #5d54a4;
 }
 
-.round-img{
-    height: 123px;
-    width: 123px;
-    border-radius: 100%;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%; 
-    border: solid 1px #ea4e50;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 36px;
-    padding-top: 45px;
-    text-align: center;
-    color: #ea4e50;
-    font-size: 27px;
+.round-img {
+  height: 123px;
+  width: 123px;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border: solid 1px #5d54a4;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 36px;
+  padding-top: 45px;
+  text-align: center;
+  color: #5d54a4;
+  font-size: 27px;
 }

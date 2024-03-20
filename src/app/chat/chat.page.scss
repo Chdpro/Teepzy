@@ -1,115 +1,114 @@
+.user_name {
+  color: #fff;
+}
 
-    .user_name {
-        color: #fff;
-    }
+.invitation-add {
+  float: right;
+  font-size: 28px;
+  margin-top: 7px;
+  margin-right: 18px;
+}
+.message-wrapper {
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.message {
+  padding: 10px !important;
+  transition: all 250ms ease-in-out !important;
+  border-radius: 10px !important;
+  margin-bottom: 4px !important;
+  margin-left: -13px;
+}
+.my_message {
+  background: #e86a70 !important;
+  color: #000 !important;
+}
+.other_message {
+  background: #c4c1c1 !important;
+  color: #000 !important;
+  margin-left: 9px;
+}
 
-    .invitation-add{
-        float: right;
-        font-size: 28px;
-        margin-top: 7px;
-        margin-right: 18px;
-    }
-    .message-wrapper{
-        min-height: 100%;
-    width: 100%;
-    position: relative;
-    display: block;
-    overflow: hidden;
-    margin: 0 auto;
-    }
-    .message {
-        padding: 10px !important;
-        transition: all 250ms ease-in-out !important;
-        border-radius: 10px !important;
-        margin-bottom: 4px !important;
-        margin-left: -13px;
-    }
-    .my_message {
-        background: #E86A70  !important;
-        color: #000 !important;
-    }
-    .other_message {
-        background: #C4C1C1 !important;
-        color: #000 !important;
-    margin-left: 9px;
-    }
+ion-spinner {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 47px;
+  height: 58px;
+}
+.time {
+  color: #000000;
+  float: right;
+  font-size: small;
+}
+.message_row {
+  background-color: #fff;
+}
 
-    ion-spinner{
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 47px;
-        height: 58px;
-    }
-    .time {
-        color: #000000;
-        float: right;
-        font-size: small;
-    }
-    .message_row {
-        background-color: #fff;
-    }
+.send-btn {
+  border-radius: 87px;
+  padding: 29px;
+  float: right;
+}
 
-    .send-btn{
-        border-radius: 87px;
-    padding: 29px;
-    float: right;
-    }
+img {
+  width: 49px;
+  height: 49px;
+  border: solid 2px #5d54a4;
+  margin-right: 15px;
+  margin-bottom: 18px;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+}
 
-    img{
-        width: 49px;
-        height: 49px;
-        border: solid 2px #ea4e50;
-        margin-right: 15px;
-        margin-bottom: 18px;
-        border-radius: 100%;
-        -webkit-border-radius: 100%;
-        -moz-border-radius: 100%;
-    }
-    
-    .round-img-post{
-        height: 47px;
-        width: 47px;
-        border-radius: 100%;
-        -webkit-border-radius: 100%;
-        -moz-border-radius: 100%;
-        border: solid 1px #ea4d4f;
-        padding-top: 14px;
-        text-align: center;
-        font-size: 13px;
-        display: block;
-        margin-right: 12px;
-        color: #000000;
-    }
-    
-    mat-menu{
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
+.round-img-post {
+  height: 47px;
+  width: 47px;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border: solid 1px #5d54a4;
+  padding-top: 14px;
+  text-align: center;
+  font-size: 13px;
+  display: block;
+  margin-right: 12px;
+  color: #000000;
+}
 
-    .replied-msg{
-        background: #e6dede;
-    border-radius: 10px;
-    padding: 14px;
-    }
+mat-menu {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-    .people-add{
-        font-size: 21px;
-        position: absolute;
-        right: 16px;
-        top: 14px;
-    }
+.replied-msg {
+  background: #e6dede;
+  border-radius: 10px;
+  padding: 14px;
+}
 
-    .read-icon{
-        font-size: 24px;
-        color: white;
-        float: right;
-    }
+.people-add {
+  font-size: 21px;
+  position: absolute;
+  right: 16px;
+  top: 14px;
+}
 
-    .peoples{
-    font-size: 26px;
-    position: absolute;
-    right: 49px;
-    top: 17px;
-    }
+.read-icon {
+  font-size: 24px;
+  color: white;
+  float: right;
+}
+
+.peoples {
+  font-size: 26px;
+  position: absolute;
+  right: 49px;
+  top: 17px;
+}

@@ -1,120 +1,116 @@
-.title-input{
-    border-radius: 30px;
-    width: 34%;
-    background: #E0DFDF;
-    border: aquamarine;
-    color: #ea4d4f;
-    padding-top: 4px;
-    padding-right: 16px;
-    padding-bottom: 7px;
-    padding-left: 16px;
+.title-input {
+  border-radius: 30px;
+  width: 34%;
+  background: #e0dfdf;
+  border: aquamarine;
+  color: #5d54a4;
+  padding-top: 4px;
+  padding-right: 16px;
+  padding-bottom: 7px;
+  padding-left: 16px;
 }
 
-
-
-.add-mat-chip{
-    margin-left: 186px !important;
-      margin-bottom: -21px !important;
-  }
-  
-.limit-chars{
-    margin-bottom: 16px;
-    text-align: center;
-}
-.limitCounter{
-    float: right;
-    margin-top: -8px;
-    margin-bottom: 18px;
+.add-mat-chip {
+  margin-left: 186px !important;
+  margin-bottom: -21px !important;
 }
 
-.mat-add-circle{
-    font-size: 37px;
-    color: #ea4d4f;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.limit-chars {
+  margin-bottom: 16px;
+  text-align: center;
+}
+.limitCounter {
+  float: right;
+  margin-top: -8px;
+  margin-bottom: 18px;
 }
 
-.text-btn{
-    color: #C4C1C1;
+.mat-add-circle {
+  font-size: 37px;
+  color: #5d54a4;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.cancel-btn{
-    color: #ea4d4f;
-    font-size: 27px;
-    float: right;
+.text-btn {
+  color: #c4c1c1;
 }
 
-.card-banner{
-    width: 50%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 17px;
-    position: relative;
-    border-radius: 28px;
-    text-align: center;
-    font-weight: 600;
-    color: #ea4d4f;
+.cancel-btn {
+  color: #5d54a4;
+  font-size: 27px;
+  float: right;
 }
 
-.add-photo{
-    border-radius: 14px;
-    max-width:230px;
-    max-height:230px;
-    width:230px;
-    height:230px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 1px 1px 4px 0px;
-    margin-top: 22px;
-    display: block;
+.card-banner {
+  width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 17px;
+  position: relative;
+  border-radius: 28px;
+  text-align: center;
+  font-weight: 600;
+  color: #5d54a4;
 }
 
-.code{
-    width: 30%;
-    margin-left: 8px;
+.add-photo {
+  border-radius: 14px;
+  max-width: 230px;
+  max-height: 230px;
+  width: 230px;
+  height: 230px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 1px 1px 4px 0px;
+  margin-top: 22px;
+  display: block;
 }
 
-.price{
-    width: 42%;
-}
-.currency-container{
-    display: flex;
-    flex-direction: row;
-}
-ion-icon{
-    color: #ea4d4f;
+.code {
+  width: 30%;
+  margin-left: 8px;
 }
 
-.banner{
-    height: 34%;
-    border-radius: 1px 1px 35px 35px;
-    position: relative;
-    padding-top: 0px;
-
+.price {
+  width: 42%;
+}
+.currency-container {
+  display: flex;
+  flex-direction: row;
+}
+ion-icon {
+  color: #5d54a4;
 }
 
-mat-form-field{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.banner {
+  height: 34%;
+  border-radius: 1px 1px 35px 35px;
+  position: relative;
+  padding-top: 0px;
 }
 
-.example-chip-list{
-    width: 80%;
+mat-form-field {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-
-.example-form{
-    position: sticky;
+.example-chip-list {
+  width: 80%;
 }
 
-ion-fab{
-    position: absolute;
-    margin-top: 45px;
+.example-form {
+  position: sticky;
+}
+
+ion-fab {
+  position: absolute;
+  margin-top: 45px;
 }

@@ -1,4 +1,4 @@
-video{
+video {
   /*  position: fixed;
     top: 50%;
     left: 50%;
@@ -10,27 +10,26 @@ video{
     transform: translateX(-50%) translateY(-50%);
     vertical-align: middle;
     */
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    z-index: 6;
-    height: 532px;
-    width: 361px;
-
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: 6;
+  height: 532px;
+  width: 361px;
 }
 
-.btn-wrapper{
-    position: fixed;
-    top: 93%;
-    display: block;
-    left: 229px;
+.btn-wrapper {
+  position: fixed;
+  top: 93%;
+  display: block;
+  left: 229px;
 }
 
-ion-title{
-    text-align: center;
+ion-title {
+  text-align: center;
 }
-button{
-    float: right;
-    color: #ea4e50;
+button {
+  float: right;
+  color: #5d54a4;
 }

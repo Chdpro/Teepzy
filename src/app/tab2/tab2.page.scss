@@ -1,153 +1,157 @@
-ion-title{
-    color: #ea4e50;
+ion-title {
+  color: #2c2728;
 }
-ion-toolbar{
-    height: 68px;
-    margin-bottom: -22px;
+ion-toolbar {
+  height: 68px;
+  margin-bottom: -22px;
 }
-ion-slide{
-    border-radius: 40px 40px 1px 0px;
+ion-slide {
+  border-radius: 40px 40px 1px 0px;
 }
-.mention-message-txt{
-    font-size: 7px;
+.mention-message-txt {
+  font-size: 7px;
 }
-.time{
-        float: right;
-        position: absolute;
-    right: 12px;
+.time {
+  float: right;
+  position: absolute;
+  right: 12px;
 }
-.material-icons{
-    color: #ea4e50;
+.material-icons {
+  color: #272222;
 }
-.mat-content{
-    height: -webkit-fill-available;
-  }
-  .img{
-    height: 47px;
-    width: 47px;
-    border-radius: 177px;
-    border: solid 2px #ea4e50;
-    display: block;
-    margin-left: 8px;
-    margin-right: 2px;
+.mat-content {
+  height: -webkit-fill-available;
 }
-
-.load_more{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.img {
+  height: 47px;
+  width: 47px;
+  border-radius: 177px;
+  border: solid 2px #5d54a4;
+  display: block;
+  margin-left: 8px;
+  margin-right: 2px;
 }
 
-.round-img-post{
-    height: 47px;
-    width: 47px;
-    border-radius: 100%;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-    border: solid 1px #ea4d4f;
-    padding-top: 8px;
-    text-align: center;
-    font-size: 13px;
-    display: block;
-    margin-left: 8px;
-    margin-right: 12px;
-    color: #000000;
+.load_more {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.see-icon{
-    margin-right: -35px;
-    margin-top: 32px;
-}
-.example-button-container{
-    float: right;
-    margin-right: -3px;
-    display: flex;
-}
-
-.example-button-row{
-    margin-top: -44px;
-    float: right;
-}
-.btn-icon{
-    margin-right: 22px;
-
+.round-img-post {
+  height: 47px;
+  width: 47px;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border: solid 1px #5d54a4;
+  padding-top: 8px;
+  text-align: center;
+  font-size: 13px;
+  display: block;
+  margin-left: 8px;
+  margin-right: 12px;
+  color: #000000;
 }
 
-.btn-accent{
-    background: #ea4e4f;
-    color: white;
-    margin-left: 17px;
+.see-icon {
+  margin-right: -35px;
+  margin-top: 32px;
+}
+.example-button-container {
+  float: right;
+  margin-right: -3px;
+  display: flex;
 }
 
-.btn-accent-link{
-    background: #ea4e4f;
-    color: white;
+.example-button-row {
+  margin-top: -44px;
+  float: right;
+}
+.btn-icon {
+  margin-right: 22px;
 }
 
-mat-tab{
-font-weight: bold;
+.btn-accent {
+  background: #5c5696;
+  color: white;
+  margin-left: 17px;
 }
 
-mat-tab-group{
-    margin-top: 59px;
+.btn-accent-link {
+  background: #5c5696;
+  color: white;
 }
 
-.arrow-back-mat-button{
-    margin-top: -27px;
+mat-tab {
+  font-weight: bold;
 }
 
-.example-form{
-    width: 100%;
+mat-tab-group {
+  margin-top: 59px;
 }
 
-mat-form-field{
-    width: 100%;
+.arrow-back-mat-button {
+  margin-top: -27px;
 }
 
-img{
-    width: 49px;
-    height: 49px;
-    border: solid 2px #ea4e50;
-    margin-right: 15px;
-    margin-bottom: 18px;
-    border-radius: 100%;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-}
-ion-icon{
-    margin-right: 27px;
-    margin-top: -11px;
+.example-form {
+  width: 100%;
 }
 
-b{
-    color: #ea4e50;
+mat-form-field {
+  width: 100%;
 }
 
-ion-item{
-    padding-top: 12px;
-    line-height: 29px;
+img {
+  width: 49px;
+  height: 49px;
+  border: solid 2px #5d54a4;
+  margin-right: 15px;
+  margin-bottom: 18px;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+}
+ion-icon {
+  margin-right: 27px;
+  margin-top: -11px;
 }
 
-strong{
-    font-size: small;
+b {
+  color: #5d54a4;
 }
 
-.empty-msg{
-    text-align: center;
-    background: aliceblue;
-    margin-top: 71px;
-    padding: 68px;
+ion-item {
+  padding-top: 12px;
+  line-height: 29px;
 }
 
-.drafts{
-    font-size: 93px;
-    
+strong {
+  font-size: small;
 }
 
-ion-spinner{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 47px;
-    height: 58px;
+.empty-msg {
+  text-align: center;
+  background: aliceblue;
+  margin-top: 71px;
+  padding: 68px;
+}
+
+.drafts {
+  font-size: 93px;
+}
+
+ion-spinner {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 47px;
+  height: 58px;
+}
+ion-grid {
+  background: url("../../assets/img/neutral.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }

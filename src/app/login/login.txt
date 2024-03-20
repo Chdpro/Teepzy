@@ -1,0 +1,86 @@
+<ion-content class="container">
+  <div class="screen">
+    <div class="screen__content">
+      <form class="example-form">
+        <mat-form-field class="login__field">
+          <mat-label>
+            <ion-icon name="person" class="login__icon"></ion-icon
+            >{{'USER_INFO.EMAIL_ADDRESS' | translate}}</mat-label
+          >
+
+          <input
+            matInput
+            class="login__input"
+            type="email"
+            name="email"
+            #email="ngModel"
+            required
+            [(ngModel)]="user.email"
+            placeholder=""
+          />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>
+            <mat-icon> favori </mat-icon> <strong> Fantaisie </strong>
+            <em> label </em>
+          </mat-label>
+          <!-- <mat-label> <ion-icon name="lock-closed-outline"  class="login__icon"></ion-icon>{{'USER_INFO.PASSWORD' | translate}}</mat-label> -->
+          <input
+            matInput
+            [type]="hideC ? 'text':  'password' "
+            name="password"
+            #password="ngModel"
+            required
+            [(ngModel)]="user.password"
+            placeholder=""
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hideC = !hideC"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hideC"
+          >
+            <mat-icon>{{hideC ? 'visibility' : 'visibility_off'}}</mat-icon>
+          </button>
+        </mat-form-field>
+        <button
+          class="button login__submit"
+          (click)="auth()"
+          expand="block"
+          shape="round"
+          style="width: 100%"
+        >
+          <span class="button__text"> {{'LOG' | translate}}</span>
+          <ion-icon
+            name="chevron-forward-outline"
+            class="button__icon"
+          ></ion-icon>
+        </button>
+      </form>
+      <button routerLink="/forgot-pass" mat-button>
+        <span class="button__text">{{ 'PWD_FORGOT' | translate }}</span>
+      </button>
+      <div class="social-login">
+        <h4>{{ 'ENVY_TEEPR' | translate }}</h4>
+        <div class="social-icons">
+          <button
+            class="registerButton"
+            expand="block"
+            shape="round"
+            (click)="goToLogin()"
+            mat-button
+          >
+            <span class="button__text"> {{ 'REGISTER' | translate }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="screen__background">
+      <span class="screen__background__shape screen__background__shape4"></span>
+      <span class="screen__background__shape screen__background__shape3"></span>
+      <span class="screen__background__shape screen__background__shape2"></span>
+      <span class="screen__background__shape screen__background__shape1"></span>
+    </div>
+  </div>
+</ion-content>

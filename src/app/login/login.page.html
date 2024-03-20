@@ -1,103 +1,90 @@
-<ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <img
-          class="illustration"
-          src="../../assets/img/Illustration 8 _Plan de travail 1-08.png"
-          alt=""
-        />
-      </ion-col>
-    </ion-row>
+<ion-content class="container">
+  <div class="screen">
+    <div class="screen__content">
+      <form class="example-form">
+        <mat-form-field class="login__field">
+          <mat-label>
+            <ion-icon name="person" class="login__icon"></ion-icon
+            >{{'USER_INFO.EMAIL_ADDRESS' | translate}}</mat-label
+          >
 
-    <ion-row>
-      <ion-col style="margin-top: 21px" size="12">
-        <h3>{{'LOGIN_TEXT1' | translate}}</h3>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="12">
-        <form class="example-form">
-          <mat-form-field class="example-full-width">
-            <mat-label> {{'USER_INFO.EMAIL_ADDRESS' | translate}}</mat-label>
-            <input
-              matInput
-              type="email"
-              name="email"
-              #email="ngModel"
-              required
-              [(ngModel)]="user.email"
-              placeholder=""
-            />
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <mat-label>{{'USER_INFO.PASSWORD' | translate}}</mat-label>
-            <input
-              matInput
-              [type]="hideC ? 'text':  'password' "
-              name="password"
-              #password="ngModel"
-              required
-              [(ngModel)]="user.password"
-              placeholder=""
-            />
-            <button
-              mat-icon-button
-              matSuffix
-              (click)="hideC = !hideC"
-              [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hideC"
-            >
-              <mat-icon>{{hideC ? 'visibility' : 'visibility_off'}}</mat-icon>
-            </button>
-          </mat-form-field>
-        </form>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="3"></ion-col>
-      <ion-col size="6">
-        <ion-button
-          style="margin-top: 31px"
+          <input
+            matInput
+            class="login__input"
+            type="email"
+            name="email"
+            #email="ngModel"
+            required
+            [(ngModel)]="user.email"
+            placeholder=""
+          />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>
+            <ion-icon name="lock-closed-outline" class="login__icon"></ion-icon
+            >{{'USER_INFO.PASSWORD' | translate}}</mat-label
+          >
+          <input
+            matInput
+            [type]="hideC ? 'text':  'password' "
+            name="password"
+            #password="ngModel"
+            required
+            [(ngModel)]="user.password"
+            placeholder=""
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hideC = !hideC"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hideC"
+          >
+            <mat-icon>{{hideC ? 'visibility' : 'visibility_off'}}</mat-icon>
+          </button>
+        </mat-form-field>
+        <button
+          class="button login__submit"
           (click)="auth()"
           expand="block"
           shape="round"
-          >{{'LOG' | translate}}</ion-button
+          style="width: 100%"
         >
-      </ion-col>
-      <ion-col size="3"></ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col size="12">
-        <button
-          style="display: block; margin-left: auto; margin-right: auto"
-          routerLink="/forgot-pass"
-          mat-button
-        >
-          {{'PWD_FORGOT' | translate}}
+          <span class="button__text"> {{'LOG' | translate}}</span>
+          <ion-icon
+            name="chevron-forward-outline"
+            class="button__icon"
+          ></ion-icon>
         </button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
-<!-- Footer without a border -->
-<ion-footer class="ion-no-border">
-  <ion-toolbar>
-    <span>
-      <ion-title> {{'ENVY_TEEPR' | translate}}</ion-title>
-      <button
-        style="
-          display: block;
-          margin-left: auto;
-          margin-right: auto;
-          margin-top: 59px;
-        "
-        routerLink="/signup"
-        mat-button
-      >
-        {{'REGISTER_'| translate}}
+      </form>
+      <button routerLink="/forgot-pass" mat-button class="forgot-pass">
+        <span class="button__text" style="color: #7875b5"
+          >{{ 'PWD_FORGOT1' | translate }}</span
+        >
+        <span class="button__text" style="color: white"
+          >{{ 'PWD_FORGOT2' | translate }}</span
+        >
       </button>
-    </span>
-  </ion-toolbar>
-</ion-footer>
+      <div class="social-login">
+        <h4>{{ 'ENVY_TEEPR' | translate }}</h4>
+        <div class="social-icons">
+          <button
+            class="registerButton"
+            expand="block"
+            shape="round"
+            routerLink="/signup"
+            mat-button
+          >
+            <span class="button__text"> {{ 'REGISTER' | translate }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="screen__background">
+      <span class="screen__background__shape screen__background__shape4"></span>
+      <span class="screen__background__shape screen__background__shape3"></span>
+      <span class="screen__background__shape screen__background__shape2"></span>
+      <span class="screen__background__shape screen__background__shape1"></span>
+    </div>
+  </div>
+</ion-content>

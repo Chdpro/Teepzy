@@ -29,7 +29,7 @@ export class EditProfilePage implements OnInit {
   profile1 = {
     pseudoIntime: "",
     localisation: "",
-    metier: "metier",
+    metier: "",
     userId: "",
     siteweb: "siteweb",
     socialsAmical: [],
@@ -37,7 +37,7 @@ export class EditProfilePage implements OnInit {
     bio: "",
     photo: "",
     tagsLabel: "Vos centres d'interêt",
-    bioLabel: "Présentez-vous",
+    bioLabel: "",
     isAllProfileCompleted: false,
   };
 

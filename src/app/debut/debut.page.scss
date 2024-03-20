@@ -1,45 +1,45 @@
-
 ion-grid {
-
-  margin: 0 auto;
-  background-image: url('../../assets/img/plan.jpg');
-
-  background-size: cover;
-  background-position: center;
-}
-
-.illustration1 {
-  width: 70.5%;
+  max-width: 100%;
+  min-height: 100%;
+  // margin: 0 auto;
+  border-color: #5856c4;
+  flex: 1; /* Allow grid to fill remaining space */
   display: flex;
-  margin-left: -150px;
-  margin-right: auto;
-  margin-top: 115px;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically within grid */
+  align-items: center;
 }
-
-.illustration2 {
-  width: 24.9%;
-  display: flex;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 h3 {
-  text-align: center;
-  color: #ea4e50;
-  line-height: 20px;
-  font-size: 14px;
+  color: white;
+}
+.logo img {
+  width: 650px;
+  height: 350px;
+  margin: 30px;
+  align-items: center;
 }
 
-.text-bottom {
+.buttons {
+  display: flex;
+  justify-content: center;
+  // padding: 50px;
   text-align: center;
-  display: block;
+  color: white;
+  opacity: calc();
 }
 
-button {
-  width: 2px; /* Adjust width as desired */
-  height: 10px; /* Adjust height as desired */
-  margin: 10px; /* Add spacing around buttons */
-  display: inline-block; /* Allow buttons to sit side-by-side */
- 
-  color: #ea4e4f;
+.register-link {
+  border-bottom: none; /* Remove default underline */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+  background-color: aliceblue;
+  color: white;
+}
+
+.register-link:hover {
+  border-bottom: 2px solid white; /* Add white border-bottom on hover */
+  background-color: #000;
+}
+.register-link:hover::after {
+  width: 300%;
+  transition: width 0.3s ease;
 }

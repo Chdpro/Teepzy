@@ -1,149 +1,147 @@
-.badge{
-    right: 63px;
-    bottom: -32px;
+.badge {
+  right: 63px;
+  bottom: -32px;
 }
-.isReadMessage{
-    font-weight: lighter;
+.isReadMessage {
+  font-weight: lighter;
 }
-.isNotReadMessage{
-    font-weight: bold;
+.isNotReadMessage {
+  font-weight: bold;
 }
-ion-title{
-    color: #ea4e50;
+ion-title {
+  color: #5d54a4;
 }
-ion-toolbar{
-    height: 68px;
-    margin-bottom: 8px;
+ion-toolbar {
+  height: 68px;
+  margin-bottom: 8px;
 }
-ion-slide{
-    border-radius: 40px 40px 1px 0px;
+ion-slide {
+  border-radius: 40px 40px 1px 0px;
 }
-.material-icons{
-    color: #ea4e50;
+.material-icons {
+  color: #5d54a4;
 }
-.mat-content{
-    height: -webkit-fill-available;
-  }
-.mat-header-btn{
-    margin-top: 46px;
-    position: absolute;
-    font-size: 27px;
-    right: -30px;
-    float: right;
+.mat-content {
+  height: -webkit-fill-available;
 }
-
-.example-button-container{
-    float: right;
-    margin-right: -3px;
-    display: flex;
+.mat-header-btn {
+  margin-top: 46px;
+  position: absolute;
+  font-size: 27px;
+  right: -30px;
+  float: right;
 }
 
-.example-button-row{
-    margin-top: 12px;
-}
-.btn-icon{
-    margin-right: 22px;
-
+.example-button-container {
+  float: right;
+  margin-right: -3px;
+  display: flex;
 }
 
-.btn-accent{
-    background: #ea4e4f;
-    color: white;
-    margin-left: 17px;
+.example-button-row {
+  margin-top: 12px;
+}
+.btn-icon {
+  margin-right: 22px;
 }
 
-ion-icon{
-    margin-right: 27px;
-    margin-top: -11px;
+.btn-accent {
+  background: #5c5696;
+  color: white;
+  margin-left: 17px;
 }
 
-b{
-    color: #ea4e50;
+ion-icon {
+  margin-right: 27px;
+  margin-top: -11px;
 }
 
-ion-item{
-    padding-top: 12px;
-    line-height: 29px;
+b {
+  color: #5d54a4;
 }
 
-strong{
-    font-size: small;
+ion-item {
+  padding-top: 12px;
+  line-height: 29px;
 }
 
-.empty-msg{
-    text-align: center;
-    background: aliceblue;
-    margin-top: 71px;
-    padding: 68px;
+strong {
+  font-size: small;
 }
 
-.drafts{
-    font-size: 93px;
-    
-}
-img{
-    width: 49px;
-    height: 49px;
-    border: solid 2px #ea4e50;
-    margin-right: 15px;
-    margin-bottom: 18px;
-    border-radius: 100%;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
+.empty-msg {
+  text-align: center;
+  background: aliceblue;
+  margin-top: 71px;
+  padding: 68px;
 }
 
-ion-spinner{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 47px;
-    height: 58px;
+.drafts {
+  font-size: 93px;
+}
+img {
+  width: 49px;
+  height: 49px;
+  border: solid 2px #5d54a4;
+  margin-right: 15px;
+  margin-bottom: 18px;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
 }
 
-.item-wrapper{
-    margin-bottom: 7em;
-}
-.time{
-    float: right;
-    color: #ea4e50;
-    position: absolute;
-    right: 14px;
+ion-spinner {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 47px;
+  height: 58px;
 }
 
-.round-img-post{
-    height: 47px;
-    width: 47px;
-    border-radius: 100%;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-    border: solid 1px #ea4d4f;
-    padding-top: 8px;
-    text-align: center;
-    font-size: 13px;
-    display: block;
-    margin-right: 12px;
-    color: #000000;
+.item-wrapper {
+  margin-bottom: 7em;
+}
+.time {
+  float: right;
+  color: #5d54a4;
+  position: absolute;
+  right: 14px;
+}
+
+.round-img-post {
+  height: 47px;
+  width: 47px;
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border: solid 1px #5d54a4;
+  padding-top: 8px;
+  text-align: center;
+  font-size: 13px;
+  display: block;
+  margin-right: 12px;
+  color: #000000;
 }
 
 // search input css
 
-.input-s[type=text]{
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;
-    border: 1px solid #e9565c;
-    color: #a0d18c;
-    width: 315px;
-    height: 48px;
-    padding-left: 10px;
-    margin-top: 17px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    }
-   
-.input-s[type=text]:focus {
-     outline: none;
-     border: 1px solid #a0d18c;
-     color: #e9565c;
+.input-s[type="text"] {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border: 1px solid#4c8dff;
+  color: #a0d18c;
+  width: 315px;
+  height: 48px;
+  padding-left: 10px;
+  margin-top: 17px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.input-s[type="text"]:focus {
+  outline: none;
+  border: 1px solid #a0d18c;
+  color: #4c8dff;
 }
