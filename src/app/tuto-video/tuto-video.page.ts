@@ -9,7 +9,7 @@ import { TranslateService } from "@ngx-translate/core";
   styleUrls: ["./tuto-video.page.scss"],
 })
 export class TutoVideoPage implements OnInit {
-  video_url = "http://192.168.1.105:5001/intro.mp4";
+  video_url = "http://192.168.1.115:5001/intro.mp4";
   // video_url = "https://api.teepzy.com/intro.mp4";
   //"../../assets/video/VID-20200802-WA0032.mp4"
 
