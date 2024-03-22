@@ -1,7 +1,7 @@
 .call_to_fill {
   position: fixed;
   z-index: 10000;
-  top: -16px;
+  top: 96px;
 }
 
 .call_to_fill_btn {
@@ -9,10 +9,13 @@
   z-index: 100106;
   top: 92%;
   left: 42px;
-  right: 42px;
+  right: 52px;
   bottom: 0;
 }
 
 span {
-  color: black !important;
+  color: rgb(20, 70, 24) !important;
+}
+body {
+  background-color: aqua;
 }
