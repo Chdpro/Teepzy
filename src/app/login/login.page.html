@@ -24,8 +24,8 @@
             <ion-icon name="lock-closed-outline" class="login__icon"></ion-icon
             >{{'USER_INFO.PASSWORD' | translate}}</mat-label
           >
-          <input
-            class="hide_pass_word"
+            <input
+            class="login__input"
             matInput
             [type]="hideC ? 'text':  'password' "
             name="password"
@@ -41,7 +41,7 @@
             [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hideC"
           >
-            <mat-icon>{{hideC ? 'visibility' : 'visibility_off'}}</mat-icon>
+            <ion-icon name="{{ hideC ? 'eye-outline' : 'eye-off-outline' }}"></ion-icon>
           </button>
         </mat-form-field>
         <button
