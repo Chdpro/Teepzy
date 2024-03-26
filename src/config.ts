@@ -10,6 +10,6 @@ export const server_key =
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
-export const base_url = "http://192.168.1.115:5001/";
+export const base_url = "https://teepzy-api-myapp.onrender.com/";
 export const local_url = "https://api.teepzy.com/ ";
 export const test_url = "http://127.0.0.1:5000/";
