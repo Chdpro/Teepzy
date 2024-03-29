@@ -1,7 +1,31 @@
 <ion-content>
   <ion-grid class="element">
-    <ion-row class="buttons">
-      <ion-col size="12" class="button-col">
+    <!-- #7c78b8, 9.16%, #5643cc 43.89%, #42369c 64.72% -->
+    <ion-col
+      ><ion-row size="12">
+        <svg viewBox="0 0 500 200">
+          <path
+            d="M 0 50 C 150 150 300 0 500 80 L 500 0 L 0 0"
+            fill="#4c489d "
+          ></path>
+          <path
+            d="M 0 50 C 150 150 330 -30 500 50 L 500 0 L 0 0"
+            fill="#42369c"
+            opacity="0.8"
+          ></path>
+          <path
+            d="M 0 50 C 215 150 250 0 500 100 L 500 0 L 0 0"
+            fill="#42369c"
+            opacity="0.5"
+          ></path></svg></ion-row
+    ></ion-col>
+    <ion-row class="haut-title">
+      <ion-col size="12">
+        <h1>TeepZy</h1>
+      </ion-col>
+    </ion-row>
+    <ion-col class="buttons">
+      <!-- <ion-col size="12" class="button-col">
         <ion-button (click)="goToSign()" class="register-link"
           >SIGN-UP</ion-button
         >
@@ -9,21 +33,37 @@
       <ion-col size="12" class="button-col">
         <ion-button (click)="goToLogin()" class="register-link"
           >LOGIN</ion-button
+        > 
+      </ion-col>-->
+      <ion-row>
+        <button
+          class="button-36 register-link"
+          role="button"
+          (click)="goToSign()"
         >
-      </ion-col>
-    </ion-row>
-    <ion-row id="signup-section"> </ion-row>
-    <ion-row id="login-section"> </ion-row>
+          SIGN-UP
+        </button></ion-row
+      >
 
-    <ion-row class="bottom-title">
+      <ion-row>
+        <button
+          class="button-36 register-link"
+          role="button"
+          (click)="goToLogin()"
+        >
+          LOGIN
+        </button></ion-row
+      >
+    </ion-col>
+    <!-- <ion-row id="signup-section"> </ion-row>
+    <ion-row id="login-section"> </ion-row> -->
+
+    <!-- <ion-row class="bottom-title">
       <ion-col size="12">
         <h1>TeepZy</h1>
       </ion-col>
-    </ion-row>
-    <ion-row class="haut-title">
-      <ion-col size="12">
-        <h1>TeepZy</h1>
-      </ion-col>
-    </ion-row>
+    </ion-row> -->
+
+    <!-- HTML !-->
   </ion-grid>
 </ion-content>

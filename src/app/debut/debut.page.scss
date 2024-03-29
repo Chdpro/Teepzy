@@ -8,7 +8,7 @@ ion-grid {
   flex-direction: column;
   justify-content: center; /* Center content vertically within grid */
   align-items: center;
-  background-color: blueviolet;
+  background-color: transparent;
 }
 
 .logo img {
@@ -21,33 +21,32 @@ ion-grid {
 .buttons {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
   // padding: 50px;
   text-align: center;
   color: white;
   opacity: calc();
 }
-.buttons ion-button {
-  --background: rgb(
-    255,
-    255,
-    255
-  ); /* Changer la couleur de fond des boutons en vert */
-  --color: rgb(
-    174,
-    26,
-    204
-  ); /* Changer la couleur du texte à l'intérieur des boutons en blanc */
-}
+// .buttons ion-button {
+//   box-shadow: linear-gradient(
+//       92.88deg,
+//       #455eb5 9.16%,
+//       #5643cc 43.89%,
+//       #673fd7 64.72%
+//     )
+//     1px;
+// }
 
-.element {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Aligner les éléments horizontalement au centre */
-  height: 100%; /* Pour que le contenu prenne toute la hauteur de l'écran */
-}
+// .element {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center; /* Aligner les éléments horizontalement au centre */
+//   height: 100%; /* Pour que le contenu prenne toute la hauteur de l'écran */
+// }
 
 .buttons {
-  margin-top: 20px; /* Ajouter un espace entre le texte et les boutons */
+  margin-top: 10px; /* Ajouter un espace entre le texte et les boutons */
 }
 
 .button-col {
@@ -69,16 +68,60 @@ ion-button {
 
 .bottom-title h1 {
   font-size: 84px; /* Ajuster la taille du titre selon vos préférences */
-  color: rgb(255, 255, 255);
+  color: #4c489d;
+  // color: rgb(255, 255, 255);
 }
 .haut-title {
   position: absolute;
-  top: -15px; /* Mettre le titre tout en bas de la page */
+  top: 45px; /* Mettre le titre tout en bas de la page */
   width: 100%; /* Pour que le titre prenne toute la largeur */
   text-align: center; /* Centrer le texte horizontalement */
 }
 
 .haut-title h1 {
   font-size: 84px; /* Ajuster la taille du titre selon vos préférences */
-  color: rgb(255, 255, 255);
+  color: #4c489d;
+}
+/********/
+/* CSS */
+.button-36 {
+  background-image: linear-gradient(
+    92.88deg,
+    #7c78b8,
+    9.16%,
+    #5643cc 43.89%,
+    #42369c 64.72%
+  );
+  // background: linear-gradient(90deg, #5d54a4, #7c78b8);
+  margin-top: 10px;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: "Inter UI", "SF Pro Display", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  height: 2rem;
+  padding: 0 1.6rem;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+  transition: all 0.5s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-36:hover {
+  box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+  transition-duration: 0.1s;
+}
+
+@media (min-width: 768px) {
+  .button-36 {
+    padding: 0 2.6rem;
+  }
 }

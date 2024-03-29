@@ -255,13 +255,13 @@ export class AppComponent {
   getUserInfo(userId, token) {
     this.subscription = this.authService.myInfos(userId).subscribe(
       (res) => {
-        console.log(res)
+        // console.log(res)
         this.userInfo = res["data"];
         this.playerId
           ? this.updateUserPlayerId(this.userInfo._id, this.playerId)
-          : null
-          console.log('token is ss'+token)
-          console.log('token is ss'+this.userInfo)
+          : null;
+        // console.log('token is ss'+token)
+        // console.log('token is ss'+this.userInfo)
         if (
           token &&
           this.userInfo["isCompleted"] &&

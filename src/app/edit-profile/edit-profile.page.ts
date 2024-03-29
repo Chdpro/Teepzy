@@ -266,7 +266,7 @@ export class EditProfilePage implements OnInit {
   getUserInfo(userId) {
     this.authService.myInfos(userId).subscribe(
       (res) => {
-        //  console.log(res)
+        console.log(res);
         this.user = res["data"];
         this.dataPasse.send(this.user);
         this.profile1.pseudoIntime = this.user["pseudoIntime"];
@@ -291,7 +291,7 @@ export class EditProfilePage implements OnInit {
           : null;
       },
       (error) => {
-        // console.log(error)
+        console.log(error);
       }
     );
   }

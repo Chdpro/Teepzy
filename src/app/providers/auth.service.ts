@@ -99,16 +99,8 @@ export class AuthService {
   myInfos(id) {
     let url = "stats/userinfo/" + id;
     console.log(id);
+    console.log("here");
     return this.http.get(base_url + url, httpOptionsJson);
-
-    // if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
-    //   // Return the cached data from Storage
-    //   return from(this.getLocalData(CACHE_KEYS.PROFILE))
-    // } else {
-    //   // Return real API data and store it locally
-    //   return this.http.get(base_url + url, httpOptionsJson)
-    //   //  this.setLocalData('stats', res);
-    // }
   }
 
   userFromLocal(userId): Observable<any> {

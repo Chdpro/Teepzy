@@ -522,7 +522,7 @@ export class Tab1Page implements OnInit {
       .subscriptions.loadedMetadata.subscribe(this.initVdo.bind(this));
   }
 
- /* onPlayerReady(api: VgApiService) {
+  /* onPlayerReady(api: VgApiService) {
     this.api = api;
     this.api.getDefaultMedia().subscriptions.ended.subscribe(() => {
       // Set the video to the beginning
@@ -544,13 +544,16 @@ export class Tab1Page implements OnInit {
   }
 
   getUserInfo(userId) {
+    console.log("lets go");
     this.authService.myInfos(userId).subscribe(
       (res) => {
-        //  console.log(res)
+        console.log(res);
+        console.log(res["data"].pseudoIntime + "****************");
         this.user = res["data"];
       },
       (error) => {
-        // console.log(error)
+        console.log("error");
+        console.log(error);
       }
     );
   }
