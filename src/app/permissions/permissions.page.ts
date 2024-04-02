@@ -108,7 +108,7 @@ export class PermissionsPage implements OnInit {
                             ? localStorage.setItem("StorageRefuseCounter", "2")
                             : null;
                           checkStorageRefuse === "2"
-                            ? this.router.navigateByUrl("/contacts")
+                            ? this.router.navigateByUrl("/tabs/tab1")
                             : null;
                         }
                       },
@@ -127,7 +127,7 @@ export class PermissionsPage implements OnInit {
                       ? localStorage.setItem("ContactRefuseCounter", "2")
                       : null;
                     checkContactRefuse === "2"
-                      ? this.router.navigateByUrl("/contacts")
+                      ? this.router.navigateByUrl("/tabs/tab1")
                       : null;
                   }
                 },
@@ -144,7 +144,7 @@ export class PermissionsPage implements OnInit {
                 ? localStorage.setItem("CamRefuseCounter", "2")
                 : null;
               checkCamRefuse === "2"
-                ? this.router.navigateByUrl("/contacts")
+                ? this.router.navigateByUrl("/tabs/tab1")
                 : null;
             }
           },
@@ -206,7 +206,7 @@ export class PermissionsPage implements OnInit {
                         ? localStorage.setItem("StorageRefuseCounter", "2")
                         : null;
                       checkStorageRefuse === "2"
-                        ? this.router.navigateByUrl("/contacts")
+                        ? this.router.navigateByUrl("/tabs/tab1")
                         : null;
                     }
                   },
@@ -225,7 +225,7 @@ export class PermissionsPage implements OnInit {
                   ? localStorage.setItem("ContactRefuseCounter", "2")
                   : null;
                 checkContactRefuse === "2"
-                  ? this.router.navigateByUrl("/contacts")
+                  ? this.router.navigateByUrl("/tabs/tab1")
                   : null;
               }
             },
@@ -267,7 +267,7 @@ export class PermissionsPage implements OnInit {
                   ? localStorage.setItem("StorageRefuseCounter", "2")
                   : null;
                 checkStorageRefuse === "2"
-                  ? this.router.navigateByUrl("/contacts")
+                  ? this.router.navigateByUrl("/tabs/tab1")
                   : null;
               }
             },
